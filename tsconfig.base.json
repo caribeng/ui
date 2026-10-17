@@ -106,7 +106,9 @@
       "@caribeng/ui/blockui": ["./packages/ui/blockui/src/public-api.ts"],
       "@caribeng/ui/inlinemessage": ["./packages/ui/inlinemessage/src/public-api.ts"],
       "@caribeng/ui/terminal": ["./packages/ui/terminal/src/public-api.ts"],
-      "@caribeng/ui/ripple": ["./packages/ui/ripple/src/public-api.ts"]
+      "@caribeng/ui/ripple": ["./packages/ui/ripple/src/public-api.ts"],
+      "@caribeng/ui/organizationchart": ["./packages/ui/organizationchart/src/public-api.ts"],
+      "@caribeng/ui/speeddial": ["./packages/ui/speeddial/src/public-api.ts"]
     }
   },
   "exclude": ["node_modules", "tmp", "dist"]

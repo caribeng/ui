@@ -104,6 +104,7 @@ export const NAV: NavGroup[] = [
       { label: 'VirtualScroller', route: '/components/virtualscroller' },
       { label: 'OrderList', route: '/components/orderlist' },
       { label: 'PickList', route: '/components/picklist' },
+      { label: 'OrganizationChart', route: '/components/organizationchart' },
     ],
   },
   {
@@ -142,6 +143,7 @@ export const NAV: NavGroup[] = [
       { label: 'MegaMenu', route: '/components/megamenu' },
       { label: 'Dock', route: '/components/dock' },
       { label: 'Steps', route: '/components/steps' },
+      { label: 'SpeedDial', route: '/components/speeddial' },
       { label: 'Breadcrumb', route: '/components/breadcrumb' },
     ],
   },
