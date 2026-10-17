@@ -1,0 +1,115 @@
+:host {
+  display: block;
+}
+
+.cb-input__label {
+  display: block;
+  margin-bottom: var(--cb-space-1);
+  font-family: var(--cb-font-sans);
+  font-size: var(--cb-text-sm);
+  font-weight: var(--cb-font-weight-medium);
+  color: var(--cb-color-text);
+}
+
+.cb-input__required {
+  color: var(--cb-color-danger);
+  margin-left: 2px;
+}
+
+.cb-input__field {
+  box-sizing: border-box;
+  width: 100%;
+  font-family: var(--cb-font-sans);
+  color: var(--cb-color-text);
+  background-color: var(--cb-color-bg);
+  border: var(--cb-border-width) solid var(--cb-color-border-strong);
+  border-radius: var(--cb-radius-md);
+  transition:
+    border-color var(--cb-duration-fast) var(--cb-ease),
+    box-shadow var(--cb-duration-fast) var(--cb-ease);
+}
+
+.cb-input__field::placeholder {
+  color: var(--cb-color-text-muted);
+}
+
+/* Autofill: Chrome/Safari pintan un fondo propio que ignora background-color.
+   Forzamos el fondo (vía box-shadow inset) y el color del texto a los tokens,
+   para que el autocompletado respete el tema (incl. dark mode). */
+.cb-input__field:-webkit-autofill,
+.cb-input__field:-webkit-autofill:hover,
+.cb-input__field:-webkit-autofill:focus,
+.cb-input__field:-webkit-autofill:active {
+  -webkit-text-fill-color: var(--cb-color-text);
+  caret-color: var(--cb-color-text);
+  -webkit-box-shadow: 0 0 0 100px var(--cb-color-bg) inset;
+  box-shadow: 0 0 0 100px var(--cb-color-bg) inset;
+  /* Evita el "flash" del color de autofill durante la transición. */
+  transition: background-color 100000s ease-in-out 0s;
+}
+
+/* Conserva el anillo de foco sobre un campo autocompletado (el inset tapa el fondo). */
+.cb-input__field:-webkit-autofill:focus-visible {
+  -webkit-box-shadow:
+    0 0 0 3px color-mix(in srgb, var(--cb-color-primary-500) 25%, transparent),
+    0 0 0 100px var(--cb-color-bg) inset;
+  box-shadow:
+    0 0 0 3px color-mix(in srgb, var(--cb-color-primary-500) 25%, transparent),
+    0 0 0 100px var(--cb-color-bg) inset;
+}
+
+.cb-input__field:hover:not(:disabled):not(:focus) {
+  border-color: var(--cb-color-text-muted);
+}
+
+.cb-input__field:focus-visible {
+  outline: none;
+  border-color: var(--cb-color-primary-500);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--cb-color-primary-500) 25%, transparent);
+}
+
+.cb-input__field:disabled,
+.cb-input__field.cb-is-disabled {
+  cursor: not-allowed;
+  background-color: var(--cb-color-surface);
+  color: var(--cb-color-text-muted);
+  opacity: 0.8;
+}
+
+.cb-input__field.cb-is-invalid {
+  border-color: var(--cb-color-danger);
+}
+
+.cb-input__field.cb-is-invalid:focus-visible {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--cb-color-danger) 25%, transparent);
+}
+
+/* Tamaños */
+.cb-input__field--sm {
+  min-height: 2rem;
+  padding: var(--cb-space-1) var(--cb-space-2);
+  font-size: var(--cb-text-sm);
+}
+.cb-input__field--md {
+  min-height: 2.5rem;
+  padding: var(--cb-space-2) var(--cb-space-3);
+  font-size: var(--cb-text-base);
+}
+.cb-input__field--lg {
+  min-height: 3rem;
+  padding: var(--cb-space-3) var(--cb-space-4);
+  font-size: var(--cb-text-lg);
+}
+
+/* Mensajes */
+.cb-input__message {
+  margin: var(--cb-space-1) 0 0;
+  font-size: var(--cb-text-sm);
+  line-height: var(--cb-line-height-normal);
+}
+.cb-input__message--hint {
+  color: var(--cb-color-text-muted);
+}
+.cb-input__message--error {
+  color: var(--cb-color-danger);
+}

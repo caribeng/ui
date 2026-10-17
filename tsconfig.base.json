@@ -1,0 +1,39 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "bundler",
+    "emitDecoratorMetadata": false,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "ES2022",
+    "module": "ESNext",
+    "lib": ["ES2022", "dom", "dom.iterable"],
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noPropertyAccessFromIndexSignature": false,
+    "useDefineForClassFields": false,
+    "paths": {
+      "@caribeng/core": ["./packages/core/src/public-api.ts"],
+      "@caribeng/button": ["./packages/button/src/public-api.ts"],
+      "@caribeng/input": ["./packages/input/src/public-api.ts"],
+      "@caribeng/select": ["./packages/select/src/public-api.ts"],
+      "@caribeng/dialog": ["./packages/dialog/src/public-api.ts"],
+      "@caribeng/toast": ["./packages/toast/src/public-api.ts"],
+      "@caribeng/textarea": ["./packages/textarea/src/public-api.ts"],
+      "@caribeng/checkbox": ["./packages/checkbox/src/public-api.ts"],
+      "@caribeng/radio": ["./packages/radio/src/public-api.ts"],
+      "@caribeng/toggle": ["./packages/toggle/src/public-api.ts"],
+      "@caribeng/input-number": ["./packages/input-number/src/public-api.ts"],
+      "@caribeng/autocomplete": ["./packages/autocomplete/src/public-api.ts"],
+      "@caribeng/datepicker": ["./packages/datepicker/src/public-api.ts"]
+    }
+  },
+  "exclude": ["node_modules", "tmp", "dist"]
+}

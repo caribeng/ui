@@ -1,0 +1,41 @@
+{
+  "name": "input",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "packages/input/src",
+  "tags": [
+    "type:lib",
+    "scope:input"
+  ],
+  "targets": {
+    "build": {
+      "executor": "@nx/angular:package",
+      "outputs": [
+        "{workspaceRoot}/dist/packages/input"
+      ],
+      "options": {
+        "project": "packages/input/ng-package.json",
+        "tsConfig": "packages/input/tsconfig.lib.json"
+      }
+    },
+    "build-test": {
+      "executor": "@angular/build:ng-packagr",
+      "options": {
+        "project": "packages/input/ng-package.json",
+        "tsConfig": "packages/input/tsconfig.lib.json"
+      }
+    },
+    "test": {
+      "executor": "@angular/build:unit-test",
+      "outputs": [
+        "{workspaceRoot}/coverage/packages/input"
+      ],
+      "options": {
+        "buildTarget": "input:build-test",
+        "tsConfig": "packages/input/tsconfig.spec.json",
+        "runner": "vitest",
+        "watch": false
+      }
+    }
+  }
+}

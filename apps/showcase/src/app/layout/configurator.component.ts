@@ -1,0 +1,101 @@
+import { ChangeDetectionStrategy, Component, inject, input, output } from '@angular/core';
+import { CbThemeService } from '@caribeng/core';
+import { ConfiguratorService } from '../services/configurator.service';
+import {
+  PRIMARY_NAMES,
+  PRIMARY_PALETTES,
+  SURFACE_NAMES,
+  SURFACE_PALETTES,
+} from '../data/palettes';
+
+@Component({
+  selector: 'doc-configurator',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `
+    @if (open()) {
+      <div class="cfg__backdrop" (click)="close.emit()"></div>
+    }
+    <aside class="cfg" [class.cfg--open]="open()" aria-label="Configurador de tema">
+      <header class="cfg__header">
+        <h2 class="cfg__title">Tema</h2>
+        <button type="button" class="cfg__close" (click)="close.emit()" aria-label="Cerrar">
+          ✕
+        </button>
+      </header>
+
+      <section class="cfg__section">
+        <p class="cfg__label">Modo</p>
+        <div class="cfg__modes">
+          <button
+            type="button"
+            class="cfg__mode"
+            [class.cfg__mode--active]="!theme.isDark()"
+            (click)="theme.setTheme('light')"
+          >
+            ☀ Claro
+          </button>
+          <button
+            type="button"
+            class="cfg__mode"
+            [class.cfg__mode--active]="theme.isDark()"
+            (click)="theme.setTheme('dark')"
+          >
+            🌙 Oscuro
+          </button>
+        </div>
+      </section>
+
+      <section class="cfg__section">
+        <p class="cfg__label">Primary</p>
+        <div class="cfg__swatches">
+          @for (name of primaryNames; track name) {
+            <button
+              type="button"
+              class="cfg__swatch"
+              [class.cfg__swatch--active]="config.primary() === name"
+              [style.background]="primary(name)"
+              [attr.aria-label]="name"
+              [attr.title]="name"
+              (click)="config.setPrimary(name)"
+            ></button>
+          }
+        </div>
+      </section>
+
+      <section class="cfg__section">
+        <p class="cfg__label">Surface</p>
+        <div class="cfg__swatches">
+          @for (name of surfaceNames; track name) {
+            <button
+              type="button"
+              class="cfg__swatch"
+              [class.cfg__swatch--active]="config.surface() === name"
+              [style.background]="surface(name)"
+              [attr.aria-label]="name"
+              [attr.title]="name"
+              (click)="config.setSurface(name)"
+            ></button>
+          }
+        </div>
+      </section>
+    </aside>
+  `,
+  styleUrl: './configurator.component.css',
+})
+export class ConfiguratorComponent {
+  protected readonly config = inject(ConfiguratorService);
+  protected readonly theme = inject(CbThemeService);
+
+  readonly open = input<boolean>(false);
+  readonly close = output<void>();
+
+  protected readonly primaryNames = PRIMARY_NAMES;
+  protected readonly surfaceNames = SURFACE_NAMES;
+
+  protected primary(name: string): string {
+    return PRIMARY_PALETTES[name][5]; // tono 500
+  }
+  protected surface(name: string): string {
+    return SURFACE_PALETTES[name][8]; // tono 700
+  }
+}

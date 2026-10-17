@@ -1,0 +1,16 @@
+// =============================================================================
+// CaribeNG · Entry point SCSS principal
+//
+// Para consumidores SCSS:
+//   @use "@caribeng/tokens/scss" as cb;   // mixins + variables + CSS base
+//
+// Para consumidores CSS (sin SCSS), importa el compilado:
+//   @import "@caribeng/tokens/css/caribeng.css";
+// =============================================================================
+
+@forward "mixins";
+@forward "variables";
+
+@use "tokens";
+@use "utilities";
+@use "overlay";

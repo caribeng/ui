@@ -1,0 +1,15 @@
+// =============================================================================
+// CaribeNG · Estilos globales de overlay
+// El backdrop de CDK Overlay se añade al contenedor global (fuera del
+// componente), por lo que su color debe declararse globalmente.
+// Requiere también: @angular/cdk/overlay-prebuilt.css
+// =============================================================================
+
+.cb-dialog-backdrop {
+  background-color: var(--cb-color-overlay);
+}
+
+// Animación de aparición del backdrop (respeta reduce-motion).
+.cb-dialog-backdrop.cdk-overlay-backdrop-showing {
+  opacity: 1;
+}

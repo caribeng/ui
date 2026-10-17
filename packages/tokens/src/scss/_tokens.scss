@@ -1,0 +1,261 @@
+// =============================================================================
+// CaribeNG · Design Tokens
+// Variables CSS con prefijo --cb-*. No dependas de SCSS: la versión CSS
+// compilada (caribeng-tokens.css) contiene exactamente estas declaraciones.
+//
+// Paleta alineada con PrimeNG "Aura" (MIT): primary = emerald, surface = slate,
+// success = green, info = sky, warning = orange, danger = red, help = purple.
+// =============================================================================
+
+:root {
+  // ---------------------------------------------------------------------------
+  // Escala primaria (marca) · emerald
+  // ---------------------------------------------------------------------------
+  --cb-color-primary-50: #ecfdf5;
+  --cb-color-primary-100: #d1fae5;
+  --cb-color-primary-200: #a7f3d0;
+  --cb-color-primary-300: #6ee7b7;
+  --cb-color-primary-400: #34d399;
+  --cb-color-primary-500: #10b981;
+  --cb-color-primary-600: #059669;
+  --cb-color-primary-700: #047857;
+  --cb-color-primary-800: #065f46;
+  --cb-color-primary-900: #064e3b;
+  --cb-color-primary-950: #022c22;
+
+  // ---------------------------------------------------------------------------
+  // Escala neutra · surface (slate + surface-0 blanco)
+  // Usada por fondos, textos, bordes y por las severidades secondary/contrast.
+  // ---------------------------------------------------------------------------
+  --cb-color-surface-0: #ffffff;
+  --cb-color-surface-50: #f8fafc;
+  --cb-color-surface-100: #f1f5f9;
+  --cb-color-surface-200: #e2e8f0;
+  --cb-color-surface-300: #cbd5e1;
+  --cb-color-surface-400: #94a3b8;
+  --cb-color-surface-500: #64748b;
+  --cb-color-surface-600: #475569;
+  --cb-color-surface-700: #334155;
+  --cb-color-surface-800: #1e293b;
+  --cb-color-surface-900: #0f172a;
+  --cb-color-surface-950: #020617;
+
+  // ---------------------------------------------------------------------------
+  // Escalas de severidad
+  // ---------------------------------------------------------------------------
+  // success · green
+  --cb-color-success-50: #f0fdf4;
+  --cb-color-success-100: #dcfce7;
+  --cb-color-success-200: #bbf7d0;
+  --cb-color-success-300: #86efac;
+  --cb-color-success-400: #4ade80;
+  --cb-color-success-500: #22c55e;
+  --cb-color-success-600: #16a34a;
+  --cb-color-success-700: #15803d;
+  --cb-color-success-800: #166534;
+  --cb-color-success-900: #14532d;
+  --cb-color-success-950: #052e16;
+
+  // info · sky
+  --cb-color-info-50: #f0f9ff;
+  --cb-color-info-100: #e0f2fe;
+  --cb-color-info-200: #bae6fd;
+  --cb-color-info-300: #7dd3fc;
+  --cb-color-info-400: #38bdf8;
+  --cb-color-info-500: #0ea5e9;
+  --cb-color-info-600: #0284c7;
+  --cb-color-info-700: #0369a1;
+  --cb-color-info-800: #075985;
+  --cb-color-info-900: #0c4a6e;
+  --cb-color-info-950: #082f49;
+
+  // warning · orange
+  --cb-color-warning-50: #fff7ed;
+  --cb-color-warning-100: #ffedd5;
+  --cb-color-warning-200: #fed7aa;
+  --cb-color-warning-300: #fdba74;
+  --cb-color-warning-400: #fb923c;
+  --cb-color-warning-500: #f97316;
+  --cb-color-warning-600: #ea580c;
+  --cb-color-warning-700: #c2410c;
+  --cb-color-warning-800: #9a3412;
+  --cb-color-warning-900: #7c2d12;
+  --cb-color-warning-950: #431407;
+
+  // danger · red
+  --cb-color-danger-50: #fef2f2;
+  --cb-color-danger-100: #fee2e2;
+  --cb-color-danger-200: #fecaca;
+  --cb-color-danger-300: #fca5a5;
+  --cb-color-danger-400: #f87171;
+  --cb-color-danger-500: #ef4444;
+  --cb-color-danger-600: #dc2626;
+  --cb-color-danger-700: #b91c1c;
+  --cb-color-danger-800: #991b1b;
+  --cb-color-danger-900: #7f1d1d;
+  --cb-color-danger-950: #450a0a;
+
+  // help · purple
+  --cb-color-help-50: #faf5ff;
+  --cb-color-help-100: #f3e8ff;
+  --cb-color-help-200: #e9d5ff;
+  --cb-color-help-300: #d8b4fe;
+  --cb-color-help-400: #c084fc;
+  --cb-color-help-500: #a855f7;
+  --cb-color-help-600: #9333ea;
+  --cb-color-help-700: #7e22ce;
+  --cb-color-help-800: #6b21a8;
+  --cb-color-help-900: #581c87;
+  --cb-color-help-950: #3b0764;
+
+  // ---------------------------------------------------------------------------
+  // Tokens semánticos de color (tema claro)
+  // ---------------------------------------------------------------------------
+  // Severidades — atajo al tono base + contraste de texto.
+  --cb-color-primary: var(--cb-color-primary-500);
+  --cb-color-primary-contrast: #ffffff;
+  --cb-color-success: var(--cb-color-success-500);
+  --cb-color-success-contrast: #ffffff;
+  --cb-color-info: var(--cb-color-info-500);
+  --cb-color-info-contrast: #ffffff;
+  --cb-color-warning: var(--cb-color-warning-500);
+  --cb-color-warning-contrast: #ffffff;
+  --cb-color-danger: var(--cb-color-danger-500);
+  --cb-color-danger-contrast: #ffffff;
+  --cb-color-help: var(--cb-color-help-500);
+  --cb-color-help-contrast: #ffffff;
+
+  // Superficie y texto
+  --cb-color-bg: var(--cb-color-surface-0);
+  --cb-color-surface: var(--cb-color-surface-50);
+  --cb-color-surface-raised: var(--cb-color-surface-0);
+  --cb-color-border: var(--cb-color-surface-200);
+  --cb-color-border-strong: var(--cb-color-surface-300);
+  --cb-color-text: var(--cb-color-surface-700);
+  --cb-color-text-strong: var(--cb-color-surface-900);
+  --cb-color-text-muted: var(--cb-color-surface-500);
+  --cb-color-overlay: rgb(2 6 23 / 0.5);
+  --cb-color-focus-ring: var(--cb-color-primary-500);
+
+  // ---------------------------------------------------------------------------
+  // Tipografía
+  // ---------------------------------------------------------------------------
+  --cb-font-sans: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  --cb-font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+    "Liberation Mono", monospace;
+
+  --cb-text-xs: 0.75rem;
+  --cb-text-sm: 0.875rem;
+  --cb-text-base: 1rem;
+  --cb-text-lg: 1.125rem;
+  --cb-text-xl: 1.25rem;
+  --cb-text-2xl: 1.5rem;
+
+  --cb-font-weight-regular: 400;
+  --cb-font-weight-medium: 500;
+  --cb-font-weight-semibold: 600;
+  --cb-font-weight-bold: 700;
+
+  --cb-line-height-tight: 1.25;
+  --cb-line-height-normal: 1.5;
+  --cb-line-height-relaxed: 1.75;
+
+  // ---------------------------------------------------------------------------
+  // Espaciado · escala base 4px
+  // ---------------------------------------------------------------------------
+  --cb-space-1: 0.25rem;
+  --cb-space-2: 0.5rem;
+  --cb-space-3: 0.75rem;
+  --cb-space-4: 1rem;
+  --cb-space-5: 1.25rem;
+  --cb-space-6: 1.5rem;
+  --cb-space-7: 1.75rem;
+  --cb-space-8: 2rem;
+  --cb-space-10: 2.5rem;
+  --cb-space-12: 3rem;
+  --cb-space-16: 4rem;
+
+  // ---------------------------------------------------------------------------
+  // Bordes / radios
+  // ---------------------------------------------------------------------------
+  --cb-radius-sm: 0.25rem;
+  --cb-radius-md: 0.5rem;
+  --cb-radius-lg: 0.75rem;
+  --cb-radius-full: 9999px;
+
+  --cb-border-width: 1px;
+
+  // ---------------------------------------------------------------------------
+  // Sombras
+  // ---------------------------------------------------------------------------
+  --cb-shadow-sm: 0 1px 2px 0 rgb(18 18 23 / 0.08);
+  --cb-shadow-md: 0 4px 6px -1px rgb(18 18 23 / 0.1),
+    0 2px 4px -2px rgb(18 18 23 / 0.1);
+  --cb-shadow-lg: 0 10px 15px -3px rgb(18 18 23 / 0.1),
+    0 4px 6px -4px rgb(18 18 23 / 0.1);
+
+  // ---------------------------------------------------------------------------
+  // Movimiento
+  // ---------------------------------------------------------------------------
+  --cb-duration-fast: 120ms;
+  --cb-duration-normal: 200ms;
+  --cb-duration-slow: 320ms;
+  --cb-ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --cb-ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --cb-ease-in: cubic-bezier(0.4, 0, 1, 1);
+
+  // ---------------------------------------------------------------------------
+  // Z-index
+  // ---------------------------------------------------------------------------
+  --cb-z-dropdown: 1000;
+  --cb-z-overlay: 1100;
+  --cb-z-modal: 1200;
+  --cb-z-popover: 1300;
+  --cb-z-toast: 1400;
+  --cb-z-tooltip: 1500;
+
+  // ---------------------------------------------------------------------------
+  // Breakpoints de referencia
+  // ---------------------------------------------------------------------------
+  --cb-breakpoint-sm: 576px;
+  --cb-breakpoint-md: 768px;
+  --cb-breakpoint-lg: 992px;
+  --cb-breakpoint-xl: 1200px;
+  --cb-breakpoint-2xl: 1400px;
+}
+
+// =============================================================================
+// Dark mode · [data-theme="dark"] en el elemento raíz
+// Las escalas de color son absolutas; solo cambian los tokens semánticos.
+// =============================================================================
+:root[data-theme="dark"] {
+  --cb-color-bg: var(--cb-color-surface-950);
+  --cb-color-surface: var(--cb-color-surface-900);
+  --cb-color-surface-raised: var(--cb-color-surface-900);
+  --cb-color-border: var(--cb-color-surface-700);
+  --cb-color-border-strong: var(--cb-color-surface-600);
+  --cb-color-text: var(--cb-color-surface-0);
+  --cb-color-text-strong: var(--cb-color-surface-0);
+  --cb-color-text-muted: var(--cb-color-surface-400);
+  --cb-color-overlay: rgb(0 0 0 / 0.6);
+
+  // En dark, el primary efectivo usa el tono 400 (igual que Aura).
+  --cb-color-primary: var(--cb-color-primary-400);
+  --cb-color-primary-contrast: var(--cb-color-surface-950);
+  --cb-color-focus-ring: var(--cb-color-primary-400);
+
+  --cb-shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.4);
+  --cb-shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.5), 0 2px 4px -2px rgb(0 0 0 / 0.5);
+  --cb-shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.5),
+    0 4px 6px -4px rgb(0 0 0 / 0.5);
+}
+
+// Respeto de prefers-reduced-motion
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --cb-duration-fast: 0ms;
+    --cb-duration-normal: 0ms;
+    --cb-duration-slow: 0ms;
+  }
+}

@@ -1,0 +1,33 @@
+// =============================================================================
+// CaribeNG · Variables SCSS (opcionales)
+// Espejo en tiempo de compilación de los tokens para consumidores que
+// necesiten valores Sass. La fuente de verdad en runtime son las variables CSS.
+// =============================================================================
+
+// Espaciado (escala 4px)
+$cb-space-1: 0.25rem;
+$cb-space-2: 0.5rem;
+$cb-space-3: 0.75rem;
+$cb-space-4: 1rem;
+$cb-space-6: 1.5rem;
+$cb-space-8: 2rem;
+
+// Radios
+$cb-radius-sm: 0.25rem;
+$cb-radius-md: 0.5rem;
+$cb-radius-lg: 0.75rem;
+$cb-radius-full: 9999px;
+
+// Tipografía
+$cb-text-sm: 0.875rem;
+$cb-text-base: 1rem;
+$cb-text-lg: 1.125rem;
+
+// Helpers de acceso a variables CSS en SCSS
+@function cb-color($token) {
+  @return var(--cb-color-#{$token});
+}
+
+@function cb-space($step) {
+  @return var(--cb-space-#{$step});
+}

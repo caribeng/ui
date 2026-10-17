@@ -1,0 +1,43 @@
+{
+  "name": "showcase",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/showcase/src",
+  "tags": ["type:app", "scope:showcase"],
+  "targets": {
+    "build": {
+      "executor": "@angular/build:application",
+      "outputs": ["{workspaceRoot}/dist/apps/showcase"],
+      "options": {
+        "outputPath": "dist/apps/showcase",
+        "index": "apps/showcase/src/index.html",
+        "browser": "apps/showcase/src/main.ts",
+        "tsConfig": "apps/showcase/tsconfig.app.json",
+        "assets": [],
+        "styles": [
+          "node_modules/@angular/cdk/overlay-prebuilt.css",
+          "apps/showcase/src/styles.scss"
+        ],
+        "allowedCommonJsDependencies": ["prismjs"]
+      },
+      "configurations": {
+        "production": {
+          "optimization": true,
+          "outputHashing": "all"
+        },
+        "development": {
+          "optimization": false,
+          "sourceMap": true
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@angular/build:dev-server",
+      "options": {
+        "buildTarget": "showcase:build:development",
+        "port": 4200
+      }
+    }
+  }
+}

@@ -1,0 +1,111 @@
+:host {
+  display: block;
+}
+
+.cb-textarea__label {
+  display: block;
+  margin-bottom: var(--cb-space-1);
+  font-family: var(--cb-font-sans);
+  font-size: var(--cb-text-sm);
+  font-weight: var(--cb-font-weight-medium);
+  color: var(--cb-color-text);
+}
+
+.cb-textarea__required {
+  color: var(--cb-color-danger);
+  margin-left: 2px;
+}
+
+.cb-textarea__field {
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+  font-family: var(--cb-font-sans);
+  line-height: var(--cb-line-height-normal);
+  color: var(--cb-color-text);
+  background-color: var(--cb-color-bg);
+  border: var(--cb-border-width) solid var(--cb-color-border-strong);
+  border-radius: var(--cb-radius-md);
+  resize: vertical;
+  transition:
+    border-color var(--cb-duration-fast) var(--cb-ease),
+    box-shadow var(--cb-duration-fast) var(--cb-ease);
+}
+
+.cb-textarea__field--auto {
+  resize: none;
+  overflow: hidden;
+}
+
+.cb-textarea__field::placeholder {
+  color: var(--cb-color-text-muted);
+}
+
+.cb-textarea__field:hover:not(:disabled):not(:focus) {
+  border-color: var(--cb-color-text-muted);
+}
+
+.cb-textarea__field:focus-visible {
+  outline: none;
+  border-color: var(--cb-color-primary-500);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--cb-color-primary-500) 25%, transparent);
+}
+
+.cb-textarea__field:disabled,
+.cb-textarea__field.cb-is-disabled {
+  cursor: not-allowed;
+  background-color: var(--cb-color-surface);
+  color: var(--cb-color-text-muted);
+  opacity: 0.8;
+}
+
+.cb-textarea__field.cb-is-invalid {
+  border-color: var(--cb-color-danger);
+}
+
+.cb-textarea__field.cb-is-invalid:focus-visible {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--cb-color-danger) 25%, transparent);
+}
+
+/* Tamaños */
+.cb-textarea__field--sm {
+  padding: var(--cb-space-1) var(--cb-space-2);
+  font-size: var(--cb-text-sm);
+}
+.cb-textarea__field--md {
+  padding: var(--cb-space-2) var(--cb-space-3);
+  font-size: var(--cb-text-base);
+}
+.cb-textarea__field--lg {
+  padding: var(--cb-space-3) var(--cb-space-4);
+  font-size: var(--cb-text-lg);
+}
+
+/* Pie: mensaje + contador */
+.cb-textarea__footer {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--cb-space-2);
+  margin-top: var(--cb-space-1);
+}
+
+.cb-textarea__message {
+  margin: 0;
+  font-size: var(--cb-text-sm);
+  line-height: var(--cb-line-height-normal);
+}
+.cb-textarea__message--hint {
+  color: var(--cb-color-text-muted);
+}
+.cb-textarea__message--error {
+  color: var(--cb-color-danger);
+}
+
+.cb-textarea__count {
+  flex: none;
+  margin-left: auto;
+  font-size: var(--cb-text-xs);
+  color: var(--cb-color-text-muted);
+  font-variant-numeric: tabular-nums;
+}

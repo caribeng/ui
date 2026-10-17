@@ -1,0 +1,118 @@
+:host {
+  display: block;
+  position: sticky;
+  top: 0;
+  z-index: var(--cb-z-dropdown);
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: var(--cb-space-4);
+  height: 4rem;
+  padding: 0 var(--cb-space-6);
+  background: color-mix(in srgb, var(--cb-color-bg) 85%, transparent);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--cb-color-border);
+}
+
+.topbar__brand {
+  display: flex;
+  align-items: center;
+  gap: var(--cb-space-2);
+  text-decoration: none;
+  color: var(--cb-color-text-strong);
+}
+
+.topbar__logo {
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: var(--cb-radius-md);
+  background: linear-gradient(
+    135deg,
+    var(--cb-color-primary-500),
+    var(--cb-color-primary-700)
+  );
+  color: #fff;
+  font-weight: var(--cb-font-weight-bold);
+  font-size: var(--cb-text-sm);
+}
+
+.topbar__name {
+  font-weight: var(--cb-font-weight-bold);
+  font-size: var(--cb-text-lg);
+}
+
+.topbar__version {
+  font-size: var(--cb-text-xs);
+  color: var(--cb-color-text-muted);
+  border: 1px solid var(--cb-color-border);
+  border-radius: var(--cb-radius-full);
+  padding: 0 var(--cb-space-2);
+}
+
+.topbar__nav {
+  display: flex;
+  gap: var(--cb-space-1);
+  margin-left: var(--cb-space-4);
+}
+
+.topbar__link {
+  color: var(--cb-color-text-muted);
+  text-decoration: none;
+  font-size: var(--cb-text-sm);
+  font-weight: var(--cb-font-weight-medium);
+  padding: var(--cb-space-2) var(--cb-space-3);
+  border-radius: var(--cb-radius-md);
+}
+.topbar__link:hover {
+  color: var(--cb-color-text);
+  background: var(--cb-color-surface);
+}
+
+.topbar__actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: var(--cb-space-1);
+}
+
+.topbar__icon-btn {
+  display: grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: var(--cb-radius-md);
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--cb-color-text);
+  font-size: var(--cb-text-base);
+  text-decoration: none;
+  cursor: pointer;
+  transition: background var(--cb-duration-fast) var(--cb-ease);
+}
+.topbar__icon-btn:hover {
+  background: var(--cb-color-surface);
+  border-color: var(--cb-color-border);
+}
+
+.topbar__menu-btn {
+  display: none;
+  background: transparent;
+  border: none;
+  color: var(--cb-color-text);
+  font-size: var(--cb-text-xl);
+  cursor: pointer;
+}
+
+@media (max-width: 992px) {
+  .topbar__nav {
+    display: none;
+  }
+  .topbar__menu-btn {
+    display: block;
+    order: -1;
+  }
+}

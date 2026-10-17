@@ -1,0 +1,41 @@
+{
+  "name": "dialog",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "packages/dialog/src",
+  "tags": [
+    "type:lib",
+    "scope:dialog"
+  ],
+  "targets": {
+    "build": {
+      "executor": "@nx/angular:package",
+      "outputs": [
+        "{workspaceRoot}/dist/packages/dialog"
+      ],
+      "options": {
+        "project": "packages/dialog/ng-package.json",
+        "tsConfig": "packages/dialog/tsconfig.lib.json"
+      }
+    },
+    "build-test": {
+      "executor": "@angular/build:ng-packagr",
+      "options": {
+        "project": "packages/dialog/ng-package.json",
+        "tsConfig": "packages/dialog/tsconfig.lib.json"
+      }
+    },
+    "test": {
+      "executor": "@angular/build:unit-test",
+      "outputs": [
+        "{workspaceRoot}/coverage/packages/dialog"
+      ],
+      "options": {
+        "buildTarget": "dialog:build-test",
+        "tsConfig": "packages/dialog/tsconfig.spec.json",
+        "runner": "vitest",
+        "watch": false
+      }
+    }
+  }
+}

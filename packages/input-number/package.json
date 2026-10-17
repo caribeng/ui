@@ -1,0 +1,19 @@
+{
+  "name": "@caribeng/input-number",
+  "version": "0.1.0",
+  "description": "Campo numérico de CaribeNG con spinner, formato de locale y ControlValueAccessor.",
+  "license": "MIT",
+  "sideEffects": false,
+  "peerDependencies": {
+    "@angular/common": "^22.0.0",
+    "@angular/core": "^22.0.0",
+    "@angular/forms": "^22.0.0",
+    "@caribeng/core": "^0.1.0"
+  },
+  "dependencies": {
+    "tslib": "^2.8.1"
+  },
+  "devDependencies": {
+    "@caribeng/core": "workspace:*"
+  }
+}

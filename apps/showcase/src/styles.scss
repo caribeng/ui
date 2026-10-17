@@ -1,0 +1,101 @@
+// Tokens de CaribeNG (fuente SCSS durante el desarrollo del monorepo).
+@use '../../../packages/tokens/src/scss' as cb;
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--cb-font-sans);
+  background-color: var(--cb-color-bg);
+  color: var(--cb-color-text);
+  line-height: var(--cb-line-height-normal);
+  transition:
+    background-color var(--cb-duration-normal) var(--cb-ease),
+    color var(--cb-duration-normal) var(--cb-ease);
+}
+
+// Scrollbar discreto
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--cb-color-surface-300) transparent;
+}
+
+// =============================================================================
+// Prism · tema de resaltado para los bloques de código (fondo oscuro)
+// =============================================================================
+code[class*='language-'],
+pre[class*='language-'] {
+  color: #e2e8f0;
+  background: none;
+  text-shadow: none;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+  color: #64748b;
+  font-style: italic;
+}
+
+.token.punctuation {
+  color: #94a3b8;
+}
+
+.token.property,
+.token.tag,
+.token.constant,
+.token.symbol,
+.token.deleted {
+  color: #f472b6;
+}
+
+.token.boolean,
+.token.number {
+  color: #fbbf24;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+  color: #86efac;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string {
+  color: #7dd3fc;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+  color: #c4b5fd;
+}
+
+.token.function,
+.token.class-name {
+  color: #60a5fa;
+}
+
+.token.regex,
+.token.important,
+.token.variable {
+  color: #fdba74;
+}

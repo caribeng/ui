@@ -1,0 +1,41 @@
+{
+  "name": "datepicker",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "packages/datepicker/src",
+  "tags": [
+    "type:lib",
+    "scope:datepicker"
+  ],
+  "targets": {
+    "build": {
+      "executor": "@nx/angular:package",
+      "outputs": [
+        "{workspaceRoot}/dist/packages/datepicker"
+      ],
+      "options": {
+        "project": "packages/datepicker/ng-package.json",
+        "tsConfig": "packages/datepicker/tsconfig.lib.json"
+      }
+    },
+    "build-test": {
+      "executor": "@angular/build:ng-packagr",
+      "options": {
+        "project": "packages/datepicker/ng-package.json",
+        "tsConfig": "packages/datepicker/tsconfig.lib.json"
+      }
+    },
+    "test": {
+      "executor": "@angular/build:unit-test",
+      "outputs": [
+        "{workspaceRoot}/coverage/packages/datepicker"
+      ],
+      "options": {
+        "buildTarget": "datepicker:build-test",
+        "tsConfig": "packages/datepicker/tsconfig.spec.json",
+        "runner": "vitest",
+        "watch": false
+      }
+    }
+  }
+}

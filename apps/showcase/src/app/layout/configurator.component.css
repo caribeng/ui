@@ -1,0 +1,117 @@
+:host {
+  display: contents;
+}
+
+.cfg__backdrop {
+  position: fixed;
+  inset: 0;
+  background: var(--cb-color-overlay);
+  z-index: var(--cb-z-modal);
+}
+
+.cfg {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100dvh;
+  width: 320px;
+  max-width: 90vw;
+  z-index: var(--cb-z-modal);
+  background: var(--cb-color-surface-raised);
+  border-left: 1px solid var(--cb-color-border);
+  box-shadow: var(--cb-shadow-lg);
+  transform: translateX(100%);
+  transition: transform var(--cb-duration-normal) var(--cb-ease);
+  overflow-y: auto;
+  padding: var(--cb-space-5);
+}
+
+.cfg--open {
+  transform: translateX(0);
+}
+
+.cfg__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--cb-space-5);
+}
+
+.cfg__title {
+  font-size: var(--cb-text-lg);
+  font-weight: var(--cb-font-weight-bold);
+  color: var(--cb-color-text-strong);
+  margin: 0;
+}
+
+.cfg__close {
+  width: 2rem;
+  height: 2rem;
+  border-radius: var(--cb-radius-md);
+  border: 1px solid var(--cb-color-border);
+  background: transparent;
+  color: var(--cb-color-text);
+  cursor: pointer;
+}
+.cfg__close:hover {
+  background: var(--cb-color-surface);
+}
+
+.cfg__section {
+  margin-bottom: var(--cb-space-6);
+}
+
+.cfg__label {
+  font-size: var(--cb-text-xs);
+  font-weight: var(--cb-font-weight-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--cb-color-text-muted);
+  margin: 0 0 var(--cb-space-3);
+}
+
+.cfg__modes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--cb-space-2);
+}
+
+.cfg__mode {
+  padding: var(--cb-space-2);
+  font-family: var(--cb-font-sans);
+  font-size: var(--cb-text-sm);
+  color: var(--cb-color-text);
+  background: var(--cb-color-surface);
+  border: 1px solid var(--cb-color-border);
+  border-radius: var(--cb-radius-md);
+  cursor: pointer;
+}
+.cfg__mode--active {
+  border-color: var(--cb-color-primary-500);
+  color: var(--cb-color-primary-600);
+  background: color-mix(in srgb, var(--cb-color-primary-500) 12%, transparent);
+}
+
+.cfg__swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--cb-space-2);
+}
+
+.cfg__swatch {
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: var(--cb-radius-full);
+  border: 2px solid var(--cb-color-border);
+  cursor: pointer;
+  padding: 0;
+  transition: transform var(--cb-duration-fast) var(--cb-ease);
+}
+.cfg__swatch:hover {
+  transform: scale(1.1);
+}
+.cfg__swatch--active {
+  border-color: var(--cb-color-text);
+  box-shadow: 0 0 0 2px var(--cb-color-surface-raised),
+    0 0 0 4px var(--cb-color-text);
+}

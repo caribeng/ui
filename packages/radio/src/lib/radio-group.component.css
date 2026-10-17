@@ -1,0 +1,11 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cb-space-2);
+}
+
+:host(.cb-radio-group--horizontal) {
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: var(--cb-space-4);
+}

@@ -1,0 +1,73 @@
+// =============================================================================
+// CaribeNG · Utilidades CSS propias (sección 14 del SPEC)
+// Opcionales e independientes de Tailwind. Prefijo cb-.
+// =============================================================================
+
+// Layout
+.cb-flex { display: flex; }
+.cb-inline-flex { display: inline-flex; }
+.cb-grid { display: grid; }
+.cb-block { display: block; }
+.cb-inline-block { display: inline-block; }
+.cb-hidden { display: none; }
+
+.cb-flex-col { flex-direction: column; }
+.cb-flex-row { flex-direction: row; }
+.cb-flex-wrap { flex-wrap: wrap; }
+.cb-flex-1 { flex: 1 1 0%; }
+
+// Alineación
+.cb-items-center { align-items: center; }
+.cb-items-start { align-items: flex-start; }
+.cb-items-end { align-items: flex-end; }
+.cb-items-stretch { align-items: stretch; }
+.cb-justify-center { justify-content: center; }
+.cb-justify-between { justify-content: space-between; }
+.cb-justify-start { justify-content: flex-start; }
+.cb-justify-end { justify-content: flex-end; }
+
+// Espaciado · gap
+.cb-gap-1 { gap: var(--cb-space-1); }
+.cb-gap-2 { gap: var(--cb-space-2); }
+.cb-gap-3 { gap: var(--cb-space-3); }
+.cb-gap-4 { gap: var(--cb-space-4); }
+.cb-gap-5 { gap: var(--cb-space-5); }
+.cb-gap-6 { gap: var(--cb-space-6); }
+.cb-gap-8 { gap: var(--cb-space-8); }
+
+// Espaciado · padding
+.cb-p-1 { padding: var(--cb-space-1); }
+.cb-p-2 { padding: var(--cb-space-2); }
+.cb-p-3 { padding: var(--cb-space-3); }
+.cb-p-4 { padding: var(--cb-space-4); }
+.cb-p-5 { padding: var(--cb-space-5); }
+.cb-p-6 { padding: var(--cb-space-6); }
+.cb-p-8 { padding: var(--cb-space-8); }
+
+// Espaciado · margin
+.cb-m-1 { margin: var(--cb-space-1); }
+.cb-m-2 { margin: var(--cb-space-2); }
+.cb-m-3 { margin: var(--cb-space-3); }
+.cb-m-4 { margin: var(--cb-space-4); }
+.cb-m-5 { margin: var(--cb-space-5); }
+.cb-m-6 { margin: var(--cb-space-6); }
+.cb-m-8 { margin: var(--cb-space-8); }
+
+// Tamaño
+.cb-w-full { width: 100%; }
+.cb-h-full { height: 100%; }
+.cb-max-w-full { max-width: 100%; }
+.cb-min-w-0 { min-width: 0; }
+
+// Accesibilidad
+.cb-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

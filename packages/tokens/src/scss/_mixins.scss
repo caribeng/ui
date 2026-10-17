@@ -1,0 +1,46 @@
+// =============================================================================
+// CaribeNG · Mixins SCSS (opcionales)
+// El consumidor NO necesita SCSS si usa la versión CSS compilada.
+// =============================================================================
+
+// Breakpoints mobile-first (coinciden con --cb-breakpoint-*)
+$cb-breakpoints: (
+  "sm": 576px,
+  "md": 768px,
+  "lg": 992px,
+  "xl": 1200px,
+  "2xl": 1400px,
+);
+
+/// Aplica estilos a partir del breakpoint indicado (mobile-first, min-width).
+/// @example scss
+///   .foo { @include cb-media("md") { display: flex; } }
+@mixin cb-media($name) {
+  @if map-has-key($cb-breakpoints, $name) {
+    $min: map-get($cb-breakpoints, $name);
+    @media (min-width: $min) {
+      @content;
+    }
+  } @else {
+    @error "cb-media: breakpoint `#{$name}` no existe. Usa: #{map-keys($cb-breakpoints)}.";
+  }
+}
+
+/// Anillo de foco accesible y consistente.
+@mixin cb-focus-ring($color: var(--cb-color-focus-ring), $offset: 2px) {
+  outline: 2px solid $color;
+  outline-offset: $offset;
+}
+
+/// Oculta visualmente pero mantiene accesible para lectores de pantalla.
+@mixin cb-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

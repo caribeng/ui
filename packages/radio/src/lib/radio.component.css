@@ -1,0 +1,106 @@
+:host {
+  display: inline-block;
+}
+
+.cb-radio {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--cb-space-2);
+  font-family: var(--cb-font-sans);
+  color: var(--cb-color-text);
+  cursor: pointer;
+  user-select: none;
+}
+
+/* Input nativo oculto pero accesible (teclado/flechas). */
+.cb-radio__input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  opacity: 0;
+  clip: rect(0 0 0 0);
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.cb-radio__circle {
+  box-sizing: border-box;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--cb-color-bg);
+  border: var(--cb-border-width) solid var(--cb-color-border-strong);
+  border-radius: var(--cb-radius-full);
+  transition:
+    border-color var(--cb-duration-fast) var(--cb-ease),
+    box-shadow var(--cb-duration-fast) var(--cb-ease);
+}
+
+/* Punto interior */
+.cb-radio__circle::after {
+  content: '';
+  display: block;
+  width: 50%;
+  height: 50%;
+  border-radius: var(--cb-radius-full);
+  background-color: var(--cb-color-primary-contrast);
+  transform: scale(0);
+  transition: transform var(--cb-duration-fast) var(--cb-ease);
+}
+
+/* Tamaños */
+.cb-radio--sm {
+  font-size: var(--cb-text-sm);
+}
+.cb-radio--sm .cb-radio__circle {
+  width: 1rem;
+  height: 1rem;
+}
+.cb-radio--md {
+  font-size: var(--cb-text-base);
+}
+.cb-radio--md .cb-radio__circle {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+.cb-radio--lg {
+  font-size: var(--cb-text-lg);
+}
+.cb-radio--lg .cb-radio__circle {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+/* Hover */
+.cb-radio:hover .cb-radio__input:not(:disabled) ~ .cb-radio__circle {
+  border-color: var(--cb-color-primary-500);
+}
+
+/* Seleccionado */
+.cb-radio__input:checked ~ .cb-radio__circle {
+  border-color: var(--cb-color-primary-500);
+  background-color: var(--cb-color-primary-500);
+}
+.cb-radio__input:checked ~ .cb-radio__circle::after {
+  transform: scale(1);
+}
+
+/* Foco por teclado */
+.cb-radio__input:focus-visible ~ .cb-radio__circle {
+  outline: none;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--cb-color-primary-500) 25%, transparent);
+}
+
+/* Deshabilitado */
+.cb-radio.cb-is-disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.cb-radio__label {
+  line-height: var(--cb-line-height-normal);
+}

@@ -1,0 +1,113 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+.sidebar {
+  padding: var(--cb-space-5) var(--cb-space-3) var(--cb-space-8);
+}
+
+.sidebar__search {
+  position: relative;
+  margin-bottom: var(--cb-space-5);
+}
+
+.sidebar__search-icon {
+  position: absolute;
+  left: var(--cb-space-3);
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: var(--cb-text-sm);
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.sidebar__search-input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: var(--cb-space-2) var(--cb-space-3) var(--cb-space-2) var(--cb-space-8);
+  font-family: var(--cb-font-sans);
+  font-size: var(--cb-text-sm);
+  color: var(--cb-color-text);
+  background: var(--cb-color-surface);
+  border: 1px solid var(--cb-color-border);
+  border-radius: var(--cb-radius-md);
+}
+.sidebar__search-input:focus-visible {
+  outline: none;
+  border-color: var(--cb-color-primary-500);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--cb-color-primary-500) 20%, transparent);
+}
+
+.sidebar__group {
+  margin-bottom: var(--cb-space-5);
+}
+
+.sidebar__group-label {
+  font-size: var(--cb-text-xs);
+  font-weight: var(--cb-font-weight-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--cb-color-text-muted);
+  margin: 0 0 var(--cb-space-2);
+  padding: 0 var(--cb-space-3);
+}
+
+.sidebar__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.sidebar__link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--cb-space-2) var(--cb-space-3);
+  border-radius: var(--cb-radius-md);
+  font-size: var(--cb-text-sm);
+  color: var(--cb-color-text);
+  text-decoration: none;
+  cursor: pointer;
+}
+.sidebar__link:hover {
+  background: var(--cb-color-surface);
+}
+
+.sidebar__link--active {
+  color: var(--cb-color-primary-600);
+  background: color-mix(in srgb, var(--cb-color-primary-500) 12%, transparent);
+  font-weight: var(--cb-font-weight-semibold);
+}
+
+:host-context([data-theme="dark"]) .sidebar__link--active {
+  color: var(--cb-color-primary-400);
+}
+
+.sidebar__link--disabled {
+  color: var(--cb-color-text-muted);
+  cursor: default;
+  opacity: 0.7;
+}
+.sidebar__link--disabled:hover {
+  background: transparent;
+}
+
+.sidebar__badge {
+  font-size: 0.625rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 1px var(--cb-space-2);
+  border-radius: var(--cb-radius-full);
+  background: var(--cb-color-surface-200);
+  color: var(--cb-color-text-muted);
+}
+
+.sidebar__empty {
+  padding: var(--cb-space-3);
+  color: var(--cb-color-text-muted);
+  font-size: var(--cb-text-sm);
+}

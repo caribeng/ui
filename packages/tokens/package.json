@@ -1,0 +1,17 @@
+{
+  "name": "@caribeng/tokens",
+  "version": "0.1.0",
+  "description": "Design tokens de CaribeNG: variables CSS (--cb-*), utilidades y mixins SCSS.",
+  "license": "MIT",
+  "sideEffects": ["*.css", "*.scss"],
+  "exports": {
+    ".": {
+      "sass": "./scss/index.scss",
+      "style": "./css/caribeng.css",
+      "default": "./css/caribeng.css"
+    },
+    "./css/caribeng.css": "./css/caribeng.css",
+    "./scss": "./scss/index.scss",
+    "./scss/*": "./scss/*"
+  }
+}

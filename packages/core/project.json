@@ -1,0 +1,41 @@
+{
+  "name": "core",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "packages/core/src",
+  "tags": [
+    "type:lib",
+    "scope:core"
+  ],
+  "targets": {
+    "build": {
+      "executor": "@nx/angular:package",
+      "outputs": [
+        "{workspaceRoot}/dist/packages/core"
+      ],
+      "options": {
+        "project": "packages/core/ng-package.json",
+        "tsConfig": "packages/core/tsconfig.lib.json"
+      }
+    },
+    "build-test": {
+      "executor": "@angular/build:ng-packagr",
+      "options": {
+        "project": "packages/core/ng-package.json",
+        "tsConfig": "packages/core/tsconfig.lib.json"
+      }
+    },
+    "test": {
+      "executor": "@angular/build:unit-test",
+      "outputs": [
+        "{workspaceRoot}/coverage/packages/core"
+      ],
+      "options": {
+        "buildTarget": "core:build-test",
+        "tsConfig": "packages/core/tsconfig.spec.json",
+        "runner": "vitest",
+        "watch": false
+      }
+    }
+  }
+}

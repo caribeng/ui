@@ -1,0 +1,92 @@
+.cb-dialog__mask {
+  display: contents;
+}
+
+.cb-dialog {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  max-width: calc(100vw - 2 * var(--cb-space-4));
+  max-height: calc(100vh - 2 * var(--cb-space-6));
+  background: var(--cb-color-surface-raised);
+  color: var(--cb-color-text);
+  border: 1px solid var(--cb-color-border);
+  border-radius: var(--cb-radius-lg);
+  box-shadow: var(--cb-shadow-lg);
+  font-family: var(--cb-font-sans);
+  overflow: hidden;
+  animation: cb-dialog-in var(--cb-duration-normal) var(--cb-ease-out);
+}
+
+.cb-dialog__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--cb-space-4);
+  padding: var(--cb-space-5) var(--cb-space-6);
+  border-bottom: 1px solid var(--cb-color-border);
+}
+
+.cb-dialog__title {
+  margin: 0;
+  font-size: var(--cb-text-lg);
+  font-weight: var(--cb-font-weight-semibold);
+  color: var(--cb-color-text-strong);
+}
+
+.cb-dialog__close {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: var(--cb-radius-md);
+  border: none;
+  background: transparent;
+  color: var(--cb-color-text-muted);
+  font-size: var(--cb-text-base);
+  cursor: pointer;
+  transition: background var(--cb-duration-fast) var(--cb-ease);
+}
+.cb-dialog__close:hover {
+  background: var(--cb-color-surface-100);
+  color: var(--cb-color-text);
+}
+.cb-dialog__close:focus-visible {
+  outline: 2px solid var(--cb-color-focus-ring);
+  outline-offset: 2px;
+}
+
+.cb-dialog__body {
+  padding: var(--cb-space-6);
+  overflow-y: auto;
+}
+
+.cb-dialog__footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--cb-space-3);
+  padding: var(--cb-space-4) var(--cb-space-6);
+  border-top: 1px solid var(--cb-color-border);
+}
+.cb-dialog__footer:empty {
+  display: none;
+}
+
+@keyframes cb-dialog-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cb-dialog {
+    animation: none;
+  }
+}
