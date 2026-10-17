@@ -1,0 +1,36 @@
+.cb-icon-field {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  width: 100%;
+}
+
+.cb-icon-field .cb-input-icon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--cb-color-text-muted);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.cb-icon-field--left .cb-input-icon {
+  left: 0.75rem;
+}
+
+.cb-icon-field--right .cb-input-icon {
+  right: 0.75rem;
+}
+
+.cb-icon-field--left input,
+.cb-icon-field--left .cb-input__field {
+  padding-left: 2.25rem !important;
+}
+
+.cb-icon-field--right input,
+.cb-icon-field--right .cb-input__field {
+  padding-right: 2.25rem !important;
+}

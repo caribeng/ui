@@ -44,6 +44,14 @@ export const NAV: NavGroup[] = [
       { label: 'Rating', route: '/components/rating' },
       { label: 'Chips', route: '/components/chips' },
       { label: 'ColorPicker', route: '/components/colorpicker' },
+      { label: 'InputMask', route: '/components/inputmask' },
+      { label: 'InputOTP', route: '/components/inputotp' },
+      { label: 'FloatLabel', route: '/components/floatlabel' },
+      { label: 'IconField', route: '/components/iconfield' },
+      { label: 'TreeSelect', route: '/components/treeselect' },
+      { label: 'CascadeSelect', route: '/components/cascadeselect' },
+      { label: 'FileUpload', route: '/components/fileupload' },
+      { label: 'Editor', route: '/components/editor' },
     ],
   },
   {
@@ -63,6 +71,7 @@ export const NAV: NavGroup[] = [
     items: [
       { label: 'Toast', route: '/components/toast' },
       { label: 'Message', route: '/components/message' },
+      { label: 'InlineMessage', route: '/components/inlinemessage' },
       { label: 'Badge', route: '/components/badge' },
       { label: 'Tag', route: '/components/tag' },
     ],
@@ -99,7 +108,13 @@ export const NAV: NavGroup[] = [
   },
   {
     label: 'Media',
-    items: [{ label: 'Avatar', route: '/components/avatar' }],
+    items: [
+      { label: 'Avatar', route: '/components/avatar' },
+      { label: 'AvatarGroup', route: '/components/avatargroup' },
+      { label: 'Carousel', route: '/components/carousel' },
+      { label: 'Image', route: '/components/image' },
+      { label: 'Galleria', route: '/components/galleria' },
+    ],
   },
   {
     label: 'Misc',
@@ -107,6 +122,12 @@ export const NAV: NavGroup[] = [
       { label: 'ProgressBar', route: '/components/progressbar' },
       { label: 'Spinner', route: '/components/spinner' },
       { label: 'Skeleton', route: '/components/skeleton' },
+      { label: 'Chip', route: '/components/chip' },
+      { label: 'MeterGroup', route: '/components/metergroup' },
+      { label: 'Inplace', route: '/components/inplace' },
+      { label: 'BlockUI', route: '/components/blockui' },
+      { label: 'Terminal', route: '/components/terminal' },
+      { label: 'Ripple', route: '/components/ripple' },
     ],
   },
   {

@@ -1,0 +1,91 @@
+:host {
+  display: block;
+  width: 100%;
+  font-family: var(--cb-font-sans);
+}
+
+.cb-file-upload__native {
+  display: none;
+}
+
+.cb-file-upload__dropzone {
+  padding: var(--cb-space-4);
+  border: 1px dashed var(--cb-color-border);
+  border-radius: var(--cb-radius-lg);
+  background: var(--cb-color-surface);
+  color: var(--cb-color-text);
+  transition: border-color 140ms ease, background-color 140ms ease;
+}
+
+:host(.cb-is-dragover) .cb-file-upload__dropzone {
+  border-color: var(--cb-color-primary-500);
+  background: color-mix(in srgb, var(--cb-color-primary-500) 8%, transparent);
+}
+
+.cb-file-upload__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--cb-space-2);
+  margin-bottom: var(--cb-space-3);
+}
+
+.cb-file-upload__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.4rem 0.75rem;
+  border: var(--cb-border-width) solid var(--cb-color-border);
+  border-radius: var(--cb-radius-md);
+  background: var(--cb-color-surface);
+  color: var(--cb-color-text);
+  font-family: inherit;
+  font-size: var(--cb-text-sm);
+  font-weight: var(--cb-font-medium);
+  cursor: pointer;
+}
+
+.cb-file-upload__btn--primary {
+  background: var(--cb-color-primary-500);
+  border-color: var(--cb-color-primary-500);
+  color: var(--cb-color-primary-contrast, #fff);
+}
+
+.cb-file-upload__empty {
+  margin: 0;
+  font-size: var(--cb-text-sm);
+  color: var(--cb-color-text-muted);
+}
+
+.cb-file-upload__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.cb-file-upload__item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--cb-space-2);
+  padding: 0.375rem 0.625rem;
+  border: var(--cb-border-width) solid var(--cb-color-border);
+  border-radius: var(--cb-radius-md);
+  font-size: var(--cb-text-sm);
+}
+
+.cb-file-upload__size {
+  margin-left: auto;
+  color: var(--cb-color-text-muted);
+  font-size: 0.75rem;
+}
+
+.cb-file-upload__remove {
+  border: none;
+  background: transparent;
+  color: var(--cb-color-text-muted);
+  cursor: pointer;
+  padding: 0.125rem;
+}

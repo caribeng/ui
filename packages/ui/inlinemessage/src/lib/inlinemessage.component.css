@@ -1,0 +1,30 @@
+:host {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.25rem 0.625rem;
+  border-radius: var(--cb-radius-md);
+  font-family: var(--cb-font-sans);
+  font-size: var(--cb-text-sm);
+  font-weight: var(--cb-font-medium);
+}
+
+:host(.cb-inline-message--info) {
+  background: color-mix(in srgb, var(--cb-color-info-500) 14%, transparent);
+  color: var(--cb-color-info-500);
+}
+
+:host(.cb-inline-message--success) {
+  background: color-mix(in srgb, var(--cb-color-success-500) 14%, transparent);
+  color: var(--cb-color-success-500);
+}
+
+:host(.cb-inline-message--warn) {
+  background: color-mix(in srgb, var(--cb-color-warning-500) 14%, transparent);
+  color: var(--cb-color-warning-500);
+}
+
+:host(.cb-inline-message--danger) {
+  background: color-mix(in srgb, var(--cb-color-danger-500) 14%, transparent);
+  color: var(--cb-color-danger-500);
+}

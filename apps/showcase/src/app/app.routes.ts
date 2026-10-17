@@ -68,6 +68,25 @@ import { PicklistDocComponent } from './pages/picklist-doc.component';
 import { ConfirmdialogDocComponent } from './pages/confirmdialog-doc.component';
 import { ConfirmpopupDocComponent } from './pages/confirmpopup-doc.component';
 import { DynamicdialogDocComponent } from './pages/dynamicdialog-doc.component';
+import { InputmaskDocComponent } from './pages/inputmask-doc.component';
+import { InputotpDocComponent } from './pages/inputotp-doc.component';
+import { FloatlabelDocComponent } from './pages/floatlabel-doc.component';
+import { IconfieldDocComponent } from './pages/iconfield-doc.component';
+import { TreeselectDocComponent } from './pages/treeselect-doc.component';
+import { CascadeselectDocComponent } from './pages/cascadeselect-doc.component';
+import { FileuploadDocComponent } from './pages/fileupload-doc.component';
+import { EditorDocComponent } from './pages/editor-doc.component';
+import { CarouselDocComponent } from './pages/carousel-doc.component';
+import { ImageDocComponent } from './pages/image-doc.component';
+import { GalleriaDocComponent } from './pages/galleria-doc.component';
+import { AvatargroupDocComponent } from './pages/avatargroup-doc.component';
+import { ChipDocComponent } from './pages/chip-doc.component';
+import { MetergroupDocComponent } from './pages/metergroup-doc.component';
+import { InplaceDocComponent } from './pages/inplace-doc.component';
+import { BlockuiDocComponent } from './pages/blockui-doc.component';
+import { InlinemessageDocComponent } from './pages/inlinemessage-doc.component';
+import { TerminalDocComponent } from './pages/terminal-doc.component';
+import { RippleDocComponent } from './pages/ripple-doc.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'introduction', pathMatch: 'full' },
@@ -95,6 +114,14 @@ export const routes: Routes = [
   { path: 'components/togglebutton', component: TogglebuttonDocComponent, title: 'ToggleButton · CaribeNG' },
   { path: 'components/listbox', component: ListboxDocComponent, title: 'ListBox · CaribeNG' },
   { path: 'components/knob', component: KnobDocComponent, title: 'Knob · CaribeNG' },
+  { path: 'components/inputmask', component: InputmaskDocComponent, title: 'InputMask · CaribeNG' },
+  { path: 'components/inputotp', component: InputotpDocComponent, title: 'InputOTP · CaribeNG' },
+  { path: 'components/floatlabel', component: FloatlabelDocComponent, title: 'FloatLabel · CaribeNG' },
+  { path: 'components/iconfield', component: IconfieldDocComponent, title: 'IconField · CaribeNG' },
+  { path: 'components/treeselect', component: TreeselectDocComponent, title: 'TreeSelect · CaribeNG' },
+  { path: 'components/cascadeselect', component: CascadeselectDocComponent, title: 'CascadeSelect · CaribeNG' },
+  { path: 'components/fileupload', component: FileuploadDocComponent, title: 'FileUpload · CaribeNG' },
+  { path: 'components/editor', component: EditorDocComponent, title: 'Editor · CaribeNG' },
   { path: 'components/table', component: TableDocComponent, title: 'Table · CaribeNG' },
   { path: 'components/paginator', component: PaginatorDocComponent, title: 'Paginator · CaribeNG' },
   { path: 'components/menu', component: MenuDocComponent, title: 'Menu · CaribeNG' },
@@ -114,6 +141,7 @@ export const routes: Routes = [
   { path: 'components/badge', component: BadgeDocComponent, title: 'Badge · CaribeNG' },
   { path: 'components/tag', component: TagDocComponent, title: 'Tag · CaribeNG' },
   { path: 'components/message', component: MessageDocComponent, title: 'Message · CaribeNG' },
+  { path: 'components/inlinemessage', component: InlinemessageDocComponent, title: 'InlineMessage · CaribeNG' },
   { path: 'components/card', component: CardDocComponent, title: 'Card · CaribeNG' },
   { path: 'components/panel', component: PanelDocComponent, title: 'Panel · CaribeNG' },
   { path: 'components/fieldset', component: FieldsetDocComponent, title: 'Fieldset · CaribeNG' },
@@ -126,9 +154,19 @@ export const routes: Routes = [
   { path: 'components/tabs', component: TabsDocComponent, title: 'Tabs · CaribeNG' },
   { path: 'components/stepper', component: StepperDocComponent, title: 'Stepper · CaribeNG' },
   { path: 'components/avatar', component: AvatarDocComponent, title: 'Avatar · CaribeNG' },
+  { path: 'components/avatargroup', component: AvatargroupDocComponent, title: 'AvatarGroup · CaribeNG' },
+  { path: 'components/carousel', component: CarouselDocComponent, title: 'Carousel · CaribeNG' },
+  { path: 'components/image', component: ImageDocComponent, title: 'Image · CaribeNG' },
+  { path: 'components/galleria', component: GalleriaDocComponent, title: 'Galleria · CaribeNG' },
   { path: 'components/progressbar', component: ProgressbarDocComponent, title: 'ProgressBar · CaribeNG' },
   { path: 'components/spinner', component: SpinnerDocComponent, title: 'Spinner · CaribeNG' },
   { path: 'components/skeleton', component: SkeletonDocComponent, title: 'Skeleton · CaribeNG' },
+  { path: 'components/chip', component: ChipDocComponent, title: 'Chip · CaribeNG' },
+  { path: 'components/metergroup', component: MetergroupDocComponent, title: 'MeterGroup · CaribeNG' },
+  { path: 'components/inplace', component: InplaceDocComponent, title: 'Inplace · CaribeNG' },
+  { path: 'components/blockui', component: BlockuiDocComponent, title: 'BlockUI · CaribeNG' },
+  { path: 'components/terminal', component: TerminalDocComponent, title: 'Terminal · CaribeNG' },
+  { path: 'components/ripple', component: RippleDocComponent, title: 'Ripple · CaribeNG' },
   { path: 'components/breadcrumb', component: BreadcrumbDocComponent, title: 'Breadcrumb · CaribeNG' },
   { path: 'components/dataview', component: DataviewDocComponent, title: 'DataView · CaribeNG' },
   { path: 'components/tree', component: TreeDocComponent, title: 'Tree · CaribeNG' },

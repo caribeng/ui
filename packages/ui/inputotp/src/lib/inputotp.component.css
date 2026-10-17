@@ -1,0 +1,26 @@
+:host {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--cb-space-2);
+  font-family: var(--cb-font-sans);
+}
+
+.cb-input-otp__slot {
+  width: 2.5rem;
+  height: 2.75rem;
+  text-align: center;
+  border: var(--cb-border-width) solid var(--cb-color-border);
+  border-radius: var(--cb-radius-md);
+  background: var(--cb-color-surface);
+  color: var(--cb-color-text);
+  font-family: inherit;
+  font-size: var(--cb-text-base);
+  font-weight: var(--cb-font-semibold);
+  transition: border-color 120ms ease, box-shadow 120ms ease;
+}
+
+.cb-input-otp__slot:focus {
+  outline: none;
+  border-color: var(--cb-color-primary-500);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--cb-color-primary-500) 20%, transparent);
+}
