@@ -63,7 +63,8 @@
       "@caribeng/ui/knob": ["./packages/ui/knob/src/public-api.ts"],
       "@caribeng/ui/paginator": ["./packages/ui/paginator/src/public-api.ts"],
       "@caribeng/ui/table": ["./packages/ui/table/src/public-api.ts"],
-      "@caribeng/ui/menu": ["./packages/ui/menu/src/public-api.ts"]
+      "@caribeng/ui/menu": ["./packages/ui/menu/src/public-api.ts"],
+      "@caribeng/ui/menubar": ["./packages/ui/menubar/src/public-api.ts"]
     }
   },
   "exclude": ["node_modules", "tmp", "dist"]

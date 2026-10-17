@@ -1,0 +1,51 @@
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { CbMenubarComponent, type CbMenubarItem } from '@caribeng/ui/menubar';
+import { DocSectionComponent } from '../shared/doc-section.component';
+import { CodeBlockComponent } from '../shared/code-block.component';
+import { DocPageHeaderComponent } from '../shared/page-header.component';
+import { TocService } from '../services/toc.service';
+
+@Component({
+  selector: 'doc-menubar-page',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [CbMenubarComponent, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
+  template: `
+    <doc-page-header eyebrow="Menu" title="Menubar" lead="Barra horizontal de navegación con submenús y soporte de teclado." />
+
+    <doc-section id="import" title="Import">
+      <doc-code-block [code]="installCode" lang="bash" />
+      <br />
+      <doc-code-block [code]="importCode" lang="typescript" />
+    </doc-section>
+
+    <doc-section id="basic" title="Basic" description="Usa las flechas para recorrer la barra y abrir un submenú." [code]="basicCode" [codeTs]="itemsCode">
+      <cb-menubar [items]="items" ariaLabel="Navegación de la tienda" (itemSelect)="selected.set($event.label)" />
+      <p style="margin: 0.75rem 0 0; color: var(--cb-color-text-muted); font-size: 0.875rem">Selección: {{ selected() || 'ninguna' }}</p>
+    </doc-section>
+  `,
+})
+export class MenubarDocComponent {
+  constructor() { inject(TocService).reset(); }
+
+  protected readonly selected = signal('');
+  protected readonly items: CbMenubarItem[] = [
+    { label: 'Inicio', url: '#inicio', icon: 'house' },
+    { label: 'Productos', icon: 'store', items: [
+      { label: 'Todos los productos', url: '#productos' },
+      { label: 'Novedades', url: '#novedades' },
+      { label: 'Añadir producto' },
+    ] },
+    { label: 'Ayuda', url: '#ayuda' },
+  ];
+
+  protected readonly installCode = `npm install @caribeng/ui @angular/cdk`;
+  protected readonly importCode = `import { CbMenubarComponent, CbMenubarItem } from '@caribeng/ui/menubar';`;
+  protected readonly basicCode = `<cb-menubar [items]="items" ariaLabel="Navegación principal" />`;
+  protected readonly itemsCode = `items: CbMenubarItem[] = [
+  { label: 'Inicio', url: '/' },
+  { label: 'Productos', items: [
+    { label: 'Todos', url: '/products' },
+    { label: 'Añadir producto' },
+  ] },
+];`;
+}
