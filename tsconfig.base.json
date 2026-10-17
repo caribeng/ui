@@ -108,7 +108,13 @@
       "@caribeng/ui/terminal": ["./packages/ui/terminal/src/public-api.ts"],
       "@caribeng/ui/ripple": ["./packages/ui/ripple/src/public-api.ts"],
       "@caribeng/ui/organizationchart": ["./packages/ui/organizationchart/src/public-api.ts"],
-      "@caribeng/ui/speeddial": ["./packages/ui/speeddial/src/public-api.ts"]
+      "@caribeng/ui/speeddial": ["./packages/ui/speeddial/src/public-api.ts"],
+      "@caribeng/ui/password": ["./packages/ui/password/src/public-api.ts"],
+      "@caribeng/ui/chart": ["./packages/ui/chart/src/public-api.ts"],
+      "@caribeng/ui/focustrap": ["./packages/ui/focustrap/src/public-api.ts"],
+      "@caribeng/ui/animateonscroll": ["./packages/ui/animateonscroll/src/public-api.ts"],
+      "@caribeng/ui/styleclass": ["./packages/ui/styleclass/src/public-api.ts"],
+      "@caribeng/ui/autofocus": ["./packages/ui/autofocus/src/public-api.ts"]
     }
   },
   "exclude": ["node_modules", "tmp", "dist"]

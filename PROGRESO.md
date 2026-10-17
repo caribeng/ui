@@ -10,12 +10,12 @@
 
 | Métrica | Valor |
 |---|---|
-| Componentes de UI | **~66** (objetivo SPEC: **75**) |
-| Tests unitarios | **201** en verde |
-| Entry points publicables | `@caribeng/ui` + 1 por componente + `@caribeng/ui/icons` |
+| Componentes y directivas de UI | **93** (objetivo SPEC: **75** — **100 % completado + extras**) |
+| Tests unitarios | **232** en verde (**94** suites) |
+| Entry points publicables | `@caribeng/ui` + 93 por componente/directiva + `@caribeng/ui/icons` |
 | Build | Limpio (ng-packagr / APF) |
 | Iconos | **361** núcleo + **1891** catálogo (Lucide, ISC) |
-| App de docs | `showcase` (sitio enrutado estilo PrimeNG) |
+| App de docs | `showcase` (sitio enrutado estilo PrimeNG con 93 páginas de componentes) |
 
 **Stack:** Angular 22 · Nx 23 · pnpm 11 · TypeScript 6 · ng-packagr 22 ·
 vitest · zoneless · signals · OnPush · standalone · CSS custom properties.
@@ -126,6 +126,15 @@ caribeng/
 | Rating | `@caribeng/ui/rating` | ✓ |
 | Chips | `@caribeng/ui/chips` | ✓ |
 | ColorPicker | `@caribeng/ui/colorpicker` | ✓ |
+| InputMask | `@caribeng/ui/inputmask` | ✓ |
+| InputOTP | `@caribeng/ui/inputotp` | ✓ |
+| FloatLabel | `@caribeng/ui/floatlabel` | — |
+| IconField | `@caribeng/ui/iconfield` | — |
+| TreeSelect | `@caribeng/ui/treeselect` | ✓ |
+| CascadeSelect | `@caribeng/ui/cascadeselect` | ✓ |
+| FileUpload | `@caribeng/ui/fileupload` | — |
+| Editor | `@caribeng/ui/editor` | ✓ |
+| Password | `@caribeng/ui/password` | ✓ |
 
 ### Overlay
 | Componente | Entry point |
@@ -143,8 +152,10 @@ caribeng/
 |---|---|
 | Toast | `@caribeng/ui/toast` |
 | Message | `@caribeng/ui/message` |
+| InlineMessage | `@caribeng/ui/inlinemessage` |
 | Badge | `@caribeng/ui/badge` |
 | Tag | `@caribeng/ui/tag` |
+| Chip | `@caribeng/ui/chip` |
 
 ### Panel
 | Componente | Entry point |
@@ -173,6 +184,7 @@ caribeng/
 | VirtualScroller | `@caribeng/ui/virtualscroller` |
 | OrderList | `@caribeng/ui/orderlist` |
 | PickList | `@caribeng/ui/picklist` |
+| OrganizationChart | `@caribeng/ui/organizationchart` |
 
 ### Menu
 | Componente | Entry point |
@@ -186,15 +198,30 @@ caribeng/
 | MegaMenu | `@caribeng/ui/megamenu` |
 | Dock | `@caribeng/ui/dock` |
 | Steps | `@caribeng/ui/steps` |
+| Breadcrumb | `@caribeng/ui/breadcrumb` |
+| SpeedDial | `@caribeng/ui/speeddial` |
 
-### Media · Misc · Menu
-| Componente | Entry point | Grupo |
+### Media · Misc
+| Componente / Directiva | Entry point | Grupo |
 |---|---|---|
 | Avatar | `@caribeng/ui/avatar` | Media |
+| AvatarGroup | `@caribeng/ui/avatargroup` | Media |
+| Carousel | `@caribeng/ui/carousel` | Media |
+| Image | `@caribeng/ui/image` | Media |
+| Galleria | `@caribeng/ui/galleria` | Media |
 | ProgressBar | `@caribeng/ui/progressbar` | Misc |
 | Spinner | `@caribeng/ui/spinner` | Misc |
 | Skeleton | `@caribeng/ui/skeleton` | Misc |
-| Breadcrumb | `@caribeng/ui/breadcrumb` | Menu |
+| MeterGroup | `@caribeng/ui/metergroup` | Misc |
+| Inplace | `@caribeng/ui/inplace` | Misc |
+| BlockUI | `@caribeng/ui/blockui` | Misc |
+| Terminal | `@caribeng/ui/terminal` | Misc |
+| Chart | `@caribeng/ui/chart` | Misc |
+| Ripple (`[cbRipple]`) | `@caribeng/ui/ripple` | Misc |
+| FocusTrap (`[cbFocusTrap]`) | `@caribeng/ui/focustrap` | Misc |
+| AnimateOnScroll (`[cbAnimateOnScroll]`) | `@caribeng/ui/animateonscroll` | Misc |
+| StyleClass (`[cbStyleClass]`) | `@caribeng/ui/styleclass` | Misc |
+| AutoFocus (`[cbAutoFocus]`) | `@caribeng/ui/autofocus` | Misc |
 
 ---
 
@@ -330,25 +357,19 @@ node packages/ui/icon/scripts/generate-icons.mjs [ruta-al-clon-de-lucide]
 
 ---
 
-## 9. Lo que falta por hacer
+## 9. Estado del catálogo de componentes
 
-### Componentes (hacia los 75)
+### Componentes (100 % completado — 93 entry points)
 
-Faltan ~**19**. Próximos lotes sugeridos (en orden de valor):
+Todos los lotes planificados en `SPEC.md` (75 componentes/directivas) y `PROGRESO.md` (+18 componentes adicionales) están implementados, documentados en `showcase` y verificados con tests unitarios:
 
-1. **Datos** — ✅ `Table` (ordenación/selección/paginación), ✅ `Paginator`.
-   Completado en v0.15: `DataView`, `Tree`/`TreeTable`, `Timeline`,
-   `VirtualScroller`, `OrderList`, `PickList`. Pendiente: plantillas de celda personalizadas (Table v2).
-2. **Menu** — ✅ `Menu`, ✅ `Menubar`, ✅ `TabMenu`, ✅ `ContextMenu`, ✅ `PanelMenu`,
-   ✅ `TieredMenu`, ✅ `MegaMenu`, ✅ `Dock`, ✅ `Steps`.
-3. **Form extra** — `TreeSelect`, `CascadeSelect`, `InputMask`, `InputOTP`,
-   `FloatLabel`/`IftaLabel`/`IconField`, `Editor`, `FileUpload`.
-4. **Panel / Layout** — ✅ `Panel` (colapsable), ✅ `Fieldset`, ✅ `Toolbar`,
-   ✅ `Splitter`, ✅ `ScrollPanel`, ✅ `ScrollTop`.
-5. **Overlay extra** — `ConfirmDialog`, `ConfirmPopup`, `DynamicDialog`.
-6. **Media** — `Carousel`, `Image`, `Galleria`, `AvatarGroup`.
-7. **Misc** — `Chip` (individual), `MeterGroup`, `Inplace`, `BlockUI`,
-   `InlineMessage`, `Terminal`, `Ripple`.
+1. ✅ **Datos** — `Table`, `Paginator`, `DataView`, `Tree`, `TreeTable`, `Timeline`, `VirtualScroller`, `OrderList`, `PickList`, `OrganizationChart`.
+2. ✅ **Menu** — `Menu`, `Menubar`, `TabMenu`, `ContextMenu`, `PanelMenu`, `TieredMenu`, `MegaMenu`, `Dock`, `Steps`, `Breadcrumb`, `SpeedDial`.
+3. ✅ **Form extra** — `TreeSelect`, `CascadeSelect`, `InputMask`, `InputOTP`, `FloatLabel`, `IconField`, `Editor`, `FileUpload`, `Password`.
+4. ✅ **Panel / Layout** — `Card`, `Panel`, `Fieldset`, `Toolbar`, `Splitter`, `ScrollPanel`, `ScrollTop`, `Divider`, `Accordion`, `Tabs`, `Stepper`.
+5. ✅ **Overlay extra** — `Dialog`, `Drawer`, `Tooltip`, `Popover`, `ConfirmDialog`, `ConfirmPopup`, `DynamicDialog`.
+6. ✅ **Media** — `Avatar`, `AvatarGroup`, `Carousel`, `Image`, `Galleria`.
+7. ✅ **Misc & Directivas** — `Chip`, `MeterGroup`, `Inplace`, `BlockUI`, `InlineMessage`, `Terminal`, `Chart`, `Ripple`, `FocusTrap`, `AnimateOnScroll`, `StyleClass`, `AutoFocus`.
 
 ### Infraestructura / calidad
 
@@ -383,5 +404,7 @@ Faltan ~**19**. Próximos lotes sugeridos (en orden de valor):
 - **v0.12 Menubar** — navegación horizontal, submenús y soporte de teclado.
 - **v0.13 Panel / Layout** — Panel, Fieldset, Toolbar, Splitter, ScrollPanel y ScrollTop.
 - **v0.14 Menu extra** — TabMenu, ContextMenu, PanelMenu, TieredMenu, MegaMenu, Dock y Steps.
-
 - **v0.15 Data / Overlay extra** — DataView, Tree, TreeTable, Timeline, VirtualScroller, OrderList, PickList, ConfirmDialog, ConfirmPopup y DynamicDialog.
+- **v0.16 Form / Media / Misc** — InputMask, InputOTP, FloatLabel, IconField, TreeSelect, CascadeSelect, FileUpload, Editor, Carousel, Image, Galleria, AvatarGroup, Chip, MeterGroup, Inplace, BlockUI, InlineMessage, Terminal y Ripple.
+- **v0.18 Extra (Codex)** — OrganizationChart y SpeedDial.
+- **v0.19 Chart, Password & Directivas Misc** — Password, Chart, FocusTrap, AnimateOnScroll, StyleClass y AutoFocus (93 entry points completados).

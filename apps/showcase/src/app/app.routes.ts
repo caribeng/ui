@@ -89,6 +89,12 @@ import { BlockuiDocComponent } from './pages/blockui-doc.component';
 import { InlinemessageDocComponent } from './pages/inlinemessage-doc.component';
 import { TerminalDocComponent } from './pages/terminal-doc.component';
 import { RippleDocComponent } from './pages/ripple-doc.component';
+import { PasswordDocComponent } from './pages/password-doc.component';
+import { ChartDocComponent } from './pages/chart-doc.component';
+import { FocustrapDocComponent } from './pages/focustrap-doc.component';
+import { AnimateonscrollDocComponent } from './pages/animateonscroll-doc.component';
+import { StyleclassDocComponent } from './pages/styleclass-doc.component';
+import { AutofocusDocComponent } from './pages/autofocus-doc.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'introduction', pathMatch: 'full' },
@@ -124,6 +130,7 @@ export const routes: Routes = [
   { path: 'components/cascadeselect', component: CascadeselectDocComponent, title: 'CascadeSelect · CaribeNG' },
   { path: 'components/fileupload', component: FileuploadDocComponent, title: 'FileUpload · CaribeNG' },
   { path: 'components/editor', component: EditorDocComponent, title: 'Editor · CaribeNG' },
+  { path: 'components/password', component: PasswordDocComponent, title: 'Password · CaribeNG' },
   { path: 'components/table', component: TableDocComponent, title: 'Table · CaribeNG' },
   { path: 'components/paginator', component: PaginatorDocComponent, title: 'Paginator · CaribeNG' },
   { path: 'components/menu', component: MenuDocComponent, title: 'Menu · CaribeNG' },
@@ -169,6 +176,11 @@ export const routes: Routes = [
   { path: 'components/blockui', component: BlockuiDocComponent, title: 'BlockUI · CaribeNG' },
   { path: 'components/terminal', component: TerminalDocComponent, title: 'Terminal · CaribeNG' },
   { path: 'components/ripple', component: RippleDocComponent, title: 'Ripple · CaribeNG' },
+  { path: 'components/chart', component: ChartDocComponent, title: 'Chart · CaribeNG' },
+  { path: 'components/focustrap', component: FocustrapDocComponent, title: 'FocusTrap · CaribeNG' },
+  { path: 'components/animateonscroll', component: AnimateonscrollDocComponent, title: 'AnimateOnScroll · CaribeNG' },
+  { path: 'components/styleclass', component: StyleclassDocComponent, title: 'StyleClass · CaribeNG' },
+  { path: 'components/autofocus', component: AutofocusDocComponent, title: 'AutoFocus · CaribeNG' },
   { path: 'components/breadcrumb', component: BreadcrumbDocComponent, title: 'Breadcrumb · CaribeNG' },
   { path: 'components/dataview', component: DataviewDocComponent, title: 'DataView · CaribeNG' },
   { path: 'components/tree', component: TreeDocComponent, title: 'Tree · CaribeNG' },

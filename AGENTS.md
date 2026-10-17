@@ -33,11 +33,11 @@
 
 Para evitar conflictos de archivos (`tsconfig.base.json`, `app.routes.ts`, `nav.ts`, `PROGRESO.md`) cuando trabajamos en paralelo:
 
-| Agente | Workspace / Carpeta | Rama actual / asignada | Lote de Componentes Asignado |
+| Agente | Workspace / Carpeta | Estado de Componentes (Fase 1: 93/93 ✅) | Asignación Fase 2 (Calidad, A11y y Distribución) |
 |---|---|---|---|
-| **Codex** | `C:\DEVELOPER\CaribeNG\caribeng` | `feat/v0.15-data-overlay` | **Lote Data extra + Overlay extra (10):** `DataView`, `Tree`, `TreeTable`, `Timeline`, `VirtualScroller`, `OrderList`, `PickList`, `ConfirmDialog`, `ConfirmPopup`, `DynamicDialog` |
-| **Gemini (Antigravity)** | `C:\DEVELOPER\CaribeNG\caribeng-gemini` (worktree) | `feat/v0.16-form-media-misc` | **Lote Form extra + Media + Misc (19):** `TreeSelect`, `CascadeSelect`, `InputMask`, `InputOTP`, `FloatLabel`, `IconField`, `Editor`, `FileUpload`, `Carousel`, `Image`, `Galleria`, `AvatarGroup`, `Chip`, `MeterGroup`, `Inplace`, `BlockUI`, `InlineMessage`, `Terminal`, `Ripple` |
-| **Claude Code** *(en pausa por tokens)* | Se reincorpora vía `AGENTS.md` + `PROGRESO.md` | Auditoría / Infraestructura al volver | Auditoría a11y, e2e y empaquetado npm |
+| **Codex** | `C:\DEVELOPER\CaribeNG\caribeng` | ✅ Completados: `Menubar`, `TabMenu`, `ContextMenu`, `PanelMenu`, `TieredMenu`, `MegaMenu`, `Dock`, `Steps`, `DataView`, `Tree`, `TreeTable`, `Timeline`, `VirtualScroller`, `OrderList`, `PickList`, `ConfirmDialog`, `ConfirmPopup`, `DynamicDialog`, `OrganizationChart`, `SpeedDial` | Plantillas avanzadas en `Table`/`DataView` y pruebas de regresión de teclado |
+| **Gemini (Antigravity)** | `C:\DEVELOPER\CaribeNG\caribeng` | ✅ Completados: `Panel`, `Fieldset`, `Toolbar`, `Splitter`, `ScrollPanel`, `ScrollTop`, `InputMask`, `InputOTP`, `FloatLabel`, `IconField`, `TreeSelect`, `CascadeSelect`, `FileUpload`, `Editor`, `Carousel`, `Image`, `Galleria`, `AvatarGroup`, `Chip`, `MeterGroup`, `Inplace`, `BlockUI`, `InlineMessage`, `Terminal`, `Ripple`, `Password`, `Chart`, `FocusTrap`, `AnimateOnScroll`, `StyleClass`, `AutoFocus` | Coordinación general, integración de ramas en `main`, Pre-Commit Gate y validación APF |
+| **Claude Code** | `C:\DEVELOPER\CaribeNG\caribeng` | ✅ Base fundacional (v0.1–v0.11: 37 componentes + sistema de tokens e iconos) | Auditoría formal `axe-core` WCAG 2.2 AA, preparación de publicación npm (`npm pack`, `README.md`, `CHANGELOG.md`) y CI |
 
 ### Reglas de sincronización Git entre agentes:
 1. **Un lote = Una rama `feat/...`** nacida desde `main`.

@@ -52,6 +52,7 @@ export const NAV: NavGroup[] = [
       { label: 'CascadeSelect', route: '/components/cascadeselect' },
       { label: 'FileUpload', route: '/components/fileupload' },
       { label: 'Editor', route: '/components/editor' },
+      { label: 'Password', route: '/components/password' },
     ],
   },
   {
@@ -129,6 +130,11 @@ export const NAV: NavGroup[] = [
       { label: 'BlockUI', route: '/components/blockui' },
       { label: 'Terminal', route: '/components/terminal' },
       { label: 'Ripple', route: '/components/ripple' },
+      { label: 'Chart', route: '/components/chart' },
+      { label: 'FocusTrap', route: '/components/focustrap' },
+      { label: 'AnimateOnScroll', route: '/components/animateonscroll' },
+      { label: 'StyleClass', route: '/components/styleclass' },
+      { label: 'AutoFocus', route: '/components/autofocus' },
     ],
   },
   {
