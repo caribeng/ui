@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, input, output } from '@angular/core';
-import { CbThemeService } from '@caribeng/core';
+import { CbThemeService } from '@caribeng/ui';
 import { ConfiguratorService } from '../services/configurator.service';
 import {
   PRIMARY_NAMES,

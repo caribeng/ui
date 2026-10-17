@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CbTextareaComponent } from '@caribeng/textarea';
+import { CbTextareaComponent } from '@caribeng/ui/textarea';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
@@ -111,9 +111,9 @@ export class TextareaDocComponent {
     validators: [Validators.required, Validators.minLength(10)],
   });
 
-  protected readonly installCode = `npm install @caribeng/core @caribeng/textarea`;
+  protected readonly installCode = `npm install @caribeng/ui`;
 
-  protected readonly importCode = `import { CbTextareaComponent } from '@caribeng/textarea';
+  protected readonly importCode = `import { CbTextareaComponent } from '@caribeng/ui/textarea';
 
 @Component({
   imports: [CbTextareaComponent],

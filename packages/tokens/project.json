@@ -7,7 +7,8 @@
   "targets": {
     "build": {
       "executor": "nx:run-commands",
-      "outputs": ["{workspaceRoot}/dist/packages/tokens"],
+      "outputs": ["{workspaceRoot}/dist/packages/ui/styles"],
+      "dependsOn": ["ui:build"],
       "options": {
         "command": "node packages/tokens/scripts/build.mjs"
       }

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { CbButtonComponent } from '@caribeng/button';
+import { CbButtonComponent } from '@caribeng/ui/button';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
 import { TocService } from '../services/toc.service';
@@ -107,10 +107,10 @@ export class IntroductionComponent {
     { icon: '🔌', title: 'Zoneless', text: 'Compatible con zoneless y Zone.js sin configuración global.' },
   ];
 
-  protected readonly installCode = `npm install @caribeng/core @caribeng/button @caribeng/input`;
+  protected readonly installCode = `npm install @caribeng/ui`;
 
   protected readonly setupCode = `import { bootstrapApplication } from '@angular/platform-browser';
-import { provideCaribeNG } from '@caribeng/core';
+import { provideCaribeNG } from '@caribeng/ui';
 
 bootstrapApplication(AppComponent, {
   providers: [provideCaribeNG({ theme: 'light' })],

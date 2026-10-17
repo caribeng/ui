@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { CbAutocompleteComponent } from '@caribeng/autocomplete';
+import { CbAutocompleteComponent } from '@caribeng/ui/autocomplete';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
@@ -126,9 +126,9 @@ export class AutocompleteDocComponent {
     this.sugeridos3.set(this.filtrar(q));
   }
 
-  protected readonly installCode = `npm install @caribeng/core @caribeng/autocomplete`;
+  protected readonly installCode = `npm install @caribeng/ui`;
 
-  protected readonly importCode = `import { CbAutocompleteComponent } from '@caribeng/autocomplete';
+  protected readonly importCode = `import { CbAutocompleteComponent } from '@caribeng/ui/autocomplete';
 
 @Component({
   imports: [CbAutocompleteComponent],

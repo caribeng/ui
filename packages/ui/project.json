@@ -1,0 +1,34 @@
+{
+  "name": "ui",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "packages/ui",
+  "tags": ["type:lib", "scope:ui"],
+  "targets": {
+    "build": {
+      "executor": "@nx/angular:package",
+      "outputs": ["{workspaceRoot}/dist/packages/ui"],
+      "options": {
+        "project": "packages/ui/ng-package.json",
+        "tsConfig": "packages/ui/tsconfig.lib.json"
+      }
+    },
+    "build-test": {
+      "executor": "@angular/build:ng-packagr",
+      "options": {
+        "project": "packages/ui/ng-package.json",
+        "tsConfig": "packages/ui/tsconfig.lib.json"
+      }
+    },
+    "test": {
+      "executor": "@angular/build:unit-test",
+      "outputs": ["{workspaceRoot}/coverage/packages/ui"],
+      "options": {
+        "buildTarget": "ui:build-test",
+        "tsConfig": "packages/ui/tsconfig.spec.json",
+        "runner": "vitest",
+        "watch": false
+      }
+    }
+  }
+}

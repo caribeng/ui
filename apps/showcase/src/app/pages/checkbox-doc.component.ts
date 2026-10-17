@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { CbCheckboxComponent } from '@caribeng/checkbox';
+import { CbCheckboxComponent } from '@caribeng/ui/checkbox';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
@@ -101,9 +101,9 @@ export class CheckboxDocComponent {
   protected readonly acepto = new FormControl(false, { nonNullable: true });
   protected readonly gustos = new FormControl<string[]>(['cafe'], { nonNullable: true });
 
-  protected readonly installCode = `npm install @caribeng/core @caribeng/checkbox`;
+  protected readonly installCode = `npm install @caribeng/ui`;
 
-  protected readonly importCode = `import { CbCheckboxComponent } from '@caribeng/checkbox';
+  protected readonly importCode = `import { CbCheckboxComponent } from '@caribeng/ui/checkbox';
 
 @Component({
   imports: [CbCheckboxComponent],

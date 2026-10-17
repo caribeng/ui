@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CbInputComponent } from '@caribeng/input';
+import { CbInputComponent } from '@caribeng/ui/input';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
@@ -111,9 +111,9 @@ export class InputDocComponent {
     validators: [Validators.required, Validators.email],
   });
 
-  protected readonly installCode = `npm install @caribeng/core @caribeng/input`;
+  protected readonly installCode = `npm install @caribeng/ui`;
 
-  protected readonly importCode = `import { CbInputComponent } from '@caribeng/input';
+  protected readonly importCode = `import { CbInputComponent } from '@caribeng/ui/input';
 
 @Component({
   imports: [CbInputComponent],

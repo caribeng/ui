@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { CbButtonComponent } from '@caribeng/button';
-import { CbDialogComponent } from '@caribeng/dialog';
+import { CbButtonComponent } from '@caribeng/ui/button';
+import { CbDialogComponent } from '@caribeng/ui/dialog';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
@@ -96,9 +96,9 @@ export class DialogDocComponent {
   protected readonly confirm = signal(false);
   protected readonly strict = signal(false);
 
-  protected readonly installCode = `npm install @caribeng/core @caribeng/dialog @angular/cdk`;
+  protected readonly installCode = `npm install @caribeng/ui`;
 
-  protected readonly importCode = `import { CbDialogComponent } from '@caribeng/dialog';
+  protected readonly importCode = `import { CbDialogComponent } from '@caribeng/ui/dialog';
 
 @Component({
   imports: [CbDialogComponent],

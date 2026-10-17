@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CbSelectComponent } from '@caribeng/select';
+import { CbSelectComponent } from '@caribeng/ui/select';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
@@ -134,9 +134,9 @@ export class SelectDocComponent {
     validators: [Validators.required],
   });
 
-  protected readonly installCode = `npm install @caribeng/core @caribeng/select @angular/cdk`;
+  protected readonly installCode = `npm install @caribeng/ui`;
 
-  protected readonly importCode = `import { CbSelectComponent } from '@caribeng/select';
+  protected readonly importCode = `import { CbSelectComponent } from '@caribeng/ui/select';
 
 @Component({
   imports: [CbSelectComponent],

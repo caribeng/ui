@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { CbRadioComponent, CbRadioGroupComponent } from '@caribeng/radio';
+import { CbRadioComponent, CbRadioGroupComponent } from '@caribeng/ui/radio';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
@@ -104,9 +104,9 @@ export class RadioDocComponent {
     { nonNullable: true },
   );
 
-  protected readonly installCode = `npm install @caribeng/core @caribeng/radio`;
+  protected readonly installCode = `npm install @caribeng/ui`;
 
-  protected readonly importCode = `import { CbRadioGroupComponent, CbRadioComponent } from '@caribeng/radio';
+  protected readonly importCode = `import { CbRadioGroupComponent, CbRadioComponent } from '@caribeng/ui/radio';
 
 @Component({
   imports: [CbRadioGroupComponent, CbRadioComponent],

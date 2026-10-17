@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, output } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { CbThemeService } from '@caribeng/core';
+import { CbThemeService } from '@caribeng/ui';
 
 @Component({
   selector: 'doc-topbar',

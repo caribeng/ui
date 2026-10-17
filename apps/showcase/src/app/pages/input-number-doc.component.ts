@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CbInputNumberComponent } from '@caribeng/input-number';
+import { CbInputNumberComponent } from '@caribeng/ui/input-number';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
@@ -121,9 +121,9 @@ export class InputNumberDocComponent {
     Validators.min(18),
   ]);
 
-  protected readonly installCode = `npm install @caribeng/core @caribeng/input-number`;
+  protected readonly installCode = `npm install @caribeng/ui`;
 
-  protected readonly importCode = `import { CbInputNumberComponent } from '@caribeng/input-number';
+  protected readonly importCode = `import { CbInputNumberComponent } from '@caribeng/ui/input-number';
 
 @Component({
   imports: [CbInputNumberComponent],

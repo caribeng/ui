@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { CbButtonComponent } from '@caribeng/button';
+import { CbButtonComponent } from '@caribeng/ui/button';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
@@ -110,9 +110,9 @@ export class ButtonDocComponent {
     'contrast',
   ] as const;
 
-  protected readonly installCode = `npm install @caribeng/core @caribeng/button`;
+  protected readonly installCode = `npm install @caribeng/ui`;
 
-  protected readonly importCode = `import { CbButtonComponent } from '@caribeng/button';
+  protected readonly importCode = `import { CbButtonComponent } from '@caribeng/ui/button';
 
 @Component({
   imports: [CbButtonComponent],

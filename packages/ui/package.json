@@ -1,0 +1,16 @@
+{
+  "name": "@caribeng/ui",
+  "version": "0.1.0",
+  "description": "CaribeNG — biblioteca de componentes Angular (standalone, signals, OnPush). Instala una vez e importa por componente: @caribeng/ui/button, @caribeng/ui/select, …",
+  "license": "MIT",
+  "sideEffects": false,
+  "peerDependencies": {
+    "@angular/common": "^22.0.0",
+    "@angular/core": "^22.0.0",
+    "@angular/forms": "^22.0.0",
+    "@angular/cdk": "^22.0.0"
+  },
+  "dependencies": {
+    "tslib": "^2.8.1"
+  }
+}

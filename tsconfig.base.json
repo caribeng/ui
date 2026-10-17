@@ -20,19 +20,19 @@
     "noPropertyAccessFromIndexSignature": false,
     "useDefineForClassFields": false,
     "paths": {
-      "@caribeng/core": ["./packages/core/src/public-api.ts"],
-      "@caribeng/button": ["./packages/button/src/public-api.ts"],
-      "@caribeng/input": ["./packages/input/src/public-api.ts"],
-      "@caribeng/select": ["./packages/select/src/public-api.ts"],
-      "@caribeng/dialog": ["./packages/dialog/src/public-api.ts"],
-      "@caribeng/toast": ["./packages/toast/src/public-api.ts"],
-      "@caribeng/textarea": ["./packages/textarea/src/public-api.ts"],
-      "@caribeng/checkbox": ["./packages/checkbox/src/public-api.ts"],
-      "@caribeng/radio": ["./packages/radio/src/public-api.ts"],
-      "@caribeng/toggle": ["./packages/toggle/src/public-api.ts"],
-      "@caribeng/input-number": ["./packages/input-number/src/public-api.ts"],
-      "@caribeng/autocomplete": ["./packages/autocomplete/src/public-api.ts"],
-      "@caribeng/datepicker": ["./packages/datepicker/src/public-api.ts"]
+      "@caribeng/ui": ["./packages/ui/src/public-api.ts"],
+      "@caribeng/ui/button": ["./packages/ui/button/src/public-api.ts"],
+      "@caribeng/ui/input": ["./packages/ui/input/src/public-api.ts"],
+      "@caribeng/ui/select": ["./packages/ui/select/src/public-api.ts"],
+      "@caribeng/ui/dialog": ["./packages/ui/dialog/src/public-api.ts"],
+      "@caribeng/ui/toast": ["./packages/ui/toast/src/public-api.ts"],
+      "@caribeng/ui/textarea": ["./packages/ui/textarea/src/public-api.ts"],
+      "@caribeng/ui/checkbox": ["./packages/ui/checkbox/src/public-api.ts"],
+      "@caribeng/ui/radio": ["./packages/ui/radio/src/public-api.ts"],
+      "@caribeng/ui/toggle": ["./packages/ui/toggle/src/public-api.ts"],
+      "@caribeng/ui/input-number": ["./packages/ui/input-number/src/public-api.ts"],
+      "@caribeng/ui/autocomplete": ["./packages/ui/autocomplete/src/public-api.ts"],
+      "@caribeng/ui/datepicker": ["./packages/ui/datepicker/src/public-api.ts"]
     }
   },
   "exclude": ["node_modules", "tmp", "dist"]

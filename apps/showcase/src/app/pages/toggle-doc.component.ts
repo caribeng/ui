@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { CbToggleComponent } from '@caribeng/toggle';
+import { CbToggleComponent } from '@caribeng/ui/toggle';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
@@ -79,9 +79,9 @@ export class ToggleDocComponent {
     { nonNullable: true },
   );
 
-  protected readonly installCode = `npm install @caribeng/core @caribeng/toggle`;
+  protected readonly installCode = `npm install @caribeng/ui`;
 
-  protected readonly importCode = `import { CbToggleComponent } from '@caribeng/toggle';
+  protected readonly importCode = `import { CbToggleComponent } from '@caribeng/ui/toggle';
 
 @Component({
   imports: [CbToggleComponent],
