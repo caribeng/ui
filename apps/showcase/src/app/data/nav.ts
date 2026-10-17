@@ -68,6 +68,12 @@ export const NAV: NavGroup[] = [
     label: 'Panel',
     items: [
       { label: 'Card', route: '/components/card' },
+      { label: 'Panel', route: '/components/panel' },
+      { label: 'Fieldset', route: '/components/fieldset' },
+      { label: 'Toolbar', route: '/components/toolbar' },
+      { label: 'Splitter', route: '/components/splitter' },
+      { label: 'ScrollPanel', route: '/components/scrollpanel' },
+      { label: 'ScrollTop', route: '/components/scrolltop' },
       { label: 'Divider', route: '/components/divider' },
       { label: 'Accordion', route: '/components/accordion' },
       { label: 'Tabs', route: '/components/tabs' },

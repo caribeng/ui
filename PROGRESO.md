@@ -10,8 +10,8 @@
 
 | Métrica | Valor |
 |---|---|
-| Componentes de UI | **~50** (objetivo SPEC: **75**) |
-| Tests unitarios | **180** en verde |
+| Componentes de UI | **~56** (objetivo SPEC: **75**) |
+| Tests unitarios | **190** en verde |
 | Entry points publicables | `@caribeng/ui` + 1 por componente + `@caribeng/ui/icons` |
 | Build | Limpio (ng-packagr / APF) |
 | Iconos | **361** núcleo + **1891** catálogo (Lucide, ISC) |
@@ -147,6 +147,12 @@ caribeng/
 | Componente | Entry point |
 |---|---|
 | Card | `@caribeng/ui/card` |
+| Panel | `@caribeng/ui/panel` |
+| Fieldset | `@caribeng/ui/fieldset` |
+| Toolbar | `@caribeng/ui/toolbar` |
+| Splitter | `@caribeng/ui/splitter` |
+| ScrollPanel | `@caribeng/ui/scrollpanel` |
+| ScrollTop | `@caribeng/ui/scrolltop` |
 | Divider | `@caribeng/ui/divider` |
 | Accordion | `@caribeng/ui/accordion` |
 | Tabs | `@caribeng/ui/tabs` |
@@ -318,17 +324,17 @@ node packages/ui/icon/scripts/generate-icons.mjs [ruta-al-clon-de-lucide]
 
 ### Componentes (hacia los 75)
 
-Faltan ~**25**. Próximos lotes sugeridos (en orden de valor):
+Faltan ~**19**. Próximos lotes sugeridos (en orden de valor):
 
 1. **Datos** — ✅ `Table` (ordenación/selección/paginación), ✅ `Paginator`.
    Pendiente: plantillas de celda personalizadas (Table v2), `DataView`,
-   `Tree`/`TreeTable`, `Timeline`, `VirtualScroller`.
+   `Tree`/`TreeTable`, `Timeline`, `VirtualScroller`, `OrderList`, `PickList`.
 2. **Menu** — ✅ `Menu`, ✅ `Menubar`, ✅ `TabMenu`, ✅ `ContextMenu`, ✅ `PanelMenu`,
    ✅ `TieredMenu`, ✅ `MegaMenu`, ✅ `Dock`, ✅ `Steps`.
 3. **Form extra** — `TreeSelect`, `CascadeSelect`, `InputMask`, `InputOTP`,
    `FloatLabel`/`IftaLabel`/`IconField`, `Editor`, `FileUpload`.
-4. **Panel / Layout** — `Panel` (colapsable), `Fieldset`, `Toolbar`,
-   `Splitter`, `ScrollPanel`, `ScrollTop`.
+4. **Panel / Layout** — ✅ `Panel` (colapsable), ✅ `Fieldset`, ✅ `Toolbar`,
+   ✅ `Splitter`, ✅ `ScrollPanel`, ✅ `ScrollTop`.
 5. **Overlay extra** — `ConfirmDialog`, `ConfirmPopup`, `DynamicDialog`.
 6. **Media** — `Carousel`, `Image`, `Galleria`, `AvatarGroup`.
 7. **Misc** — `Chip` (individual), `MeterGroup`, `Inplace`, `BlockUI`,
@@ -365,4 +371,5 @@ Faltan ~**25**. Próximos lotes sugeridos (en orden de valor):
 - **Form controls** — selectbutton, togglebutton, listbox, knob.
 - **v0.11 Menu** — popup con acciones, enlaces, separadores y teclado.
 - **v0.12 Menubar** — navegación horizontal, submenús y soporte de teclado.
+- **v0.13 Panel / Layout** — Panel, Fieldset, Toolbar, Splitter, ScrollPanel y ScrollTop.
 - **v0.14 Menu extra** — TabMenu, ContextMenu, PanelMenu, TieredMenu, MegaMenu, Dock y Steps.

@@ -1,0 +1,49 @@
+:host {
+  display: block;
+  position: relative;
+  border: var(--cb-border-width) solid var(--cb-color-border);
+  border-radius: var(--cb-radius-lg);
+  background: var(--cb-color-surface);
+  color: var(--cb-color-text);
+  font-family: var(--cb-font-sans);
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.cb-scroll-panel__viewport {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  padding: var(--cb-space-4);
+  box-sizing: border-box;
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--cb-color-primary-500) 45%, var(--cb-color-border)) transparent;
+}
+
+.cb-scroll-panel__viewport:focus-visible {
+  outline: 2px solid var(--cb-color-focus, var(--cb-color-primary-500));
+  outline-offset: -2px;
+}
+
+.cb-scroll-panel__viewport::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.cb-scroll-panel__viewport::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.cb-scroll-panel__viewport::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--cb-color-primary-500) 45%, var(--cb-color-border));
+  border-radius: 999px;
+}
+
+.cb-scroll-panel__viewport::-webkit-scrollbar-thumb:hover {
+  background: var(--cb-color-primary-500);
+}
+
+.cb-scroll-panel__content {
+  font-size: var(--cb-text-sm);
+  line-height: 1.6;
+}

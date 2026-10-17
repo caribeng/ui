@@ -35,9 +35,9 @@ Para evitar conflictos de archivos (`tsconfig.base.json`, `app.routes.ts`, `nav.
 
 | Agente | Workspace / Carpeta | Rama actual / asignada | Lote de Componentes Asignado |
 |---|---|---|---|
-| **Codex** | `C:\DEVELOPER\CaribeNG\caribeng` | `feat/v0.12-menubar` → siguientes lotes de **Menu** | **Lote Menu:** `Menubar` (en curso), `TabMenu`, `ContextMenu`, `PanelMenu`, `TieredMenu`, `MegaMenu`, `Dock`, `Steps` |
-| **Gemini (Antigravity)** | `C:\DEVELOPER\CaribeNG\caribeng-gemini` (worktree) | `feat/v0.13-panel-layout` | **Lote Panel / Layout:** `Panel`, `Fieldset`, `Toolbar`, `Splitter`, `ScrollPanel`, `ScrollTop` |
-| **Claude Code** *(en pausa por tokens)* | Se reincorpora vía `AGENTS.md` + `PROGRESO.md` | Próximo lote libre al volver | **Lote Overlay extra / Form extra:** `ConfirmDialog`, `ConfirmPopup`, `DynamicDialog` / `InputMask`, `InputOTP`, `FloatLabel`, `IconField` |
+| **Codex** | `C:\DEVELOPER\CaribeNG\caribeng` | `feat/v0.15-data-overlay` | **Lote Data extra + Overlay extra (10):** `DataView`, `Tree`, `TreeTable`, `Timeline`, `VirtualScroller`, `OrderList`, `PickList`, `ConfirmDialog`, `ConfirmPopup`, `DynamicDialog` |
+| **Gemini (Antigravity)** | `C:\DEVELOPER\CaribeNG\caribeng-gemini` (worktree) | `feat/v0.16-form-media-misc` | **Lote Form extra + Media + Misc (19):** `TreeSelect`, `CascadeSelect`, `InputMask`, `InputOTP`, `FloatLabel`, `IconField`, `Editor`, `FileUpload`, `Carousel`, `Image`, `Galleria`, `AvatarGroup`, `Chip`, `MeterGroup`, `Inplace`, `BlockUI`, `InlineMessage`, `Terminal`, `Ripple` |
+| **Claude Code** *(en pausa por tokens)* | Se reincorpora vía `AGENTS.md` + `PROGRESO.md` | Auditoría / Infraestructura al volver | Auditoría a11y, e2e y empaquetado npm |
 
 ### Reglas de sincronización Git entre agentes:
 1. **Un lote = Una rama `feat/...`** nacida desde `main`.
