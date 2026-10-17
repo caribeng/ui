@@ -2,9 +2,12 @@
  * Public API Surface de @caribeng/ui (entry point primario: núcleo + tema)
  */
 export {
+  CB_COLOR_PRESETS,
   CB_CONFIG,
   CB_DEFAULT_CONFIG,
   type CaribeNgConfig,
+  type CbColorPreset,
+  type CbPrimaryScale,
   type CbTheme,
   type CbThemePreference,
 } from './lib/caribeng.config';

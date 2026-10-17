@@ -1,6 +1,6 @@
 {
   "name": "@caribeng/source",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "CaribeNG — Sistema de diseño y librería de componentes Angular, independiente de terceros.",
   "license": "MIT",
   "private": true,
@@ -12,6 +12,9 @@
     "build": "nx run-many -t build",
     "build:libs": "nx run-many -t build --projects=tag:type:lib",
     "test": "nx run-many -t test",
+    "test:coverage": "nx test ui --coverage",
+    "typecheck": "node ./node_modules/typescript/bin/tsc -p packages/ui/tsconfig.lib.json --noEmit && node ./node_modules/typescript/bin/tsc -p packages/ui/tsconfig.spec.json --noEmit && node ./node_modules/typescript/bin/tsc -p apps/showcase/tsconfig.app.json --noEmit",
+    "pack:verify": "npm pack --dry-run ./dist/packages/ui",
     "lint": "nx run-many -t lint",
     "showcase": "nx serve showcase",
     "showcase:build": "nx build showcase"
