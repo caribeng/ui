@@ -39,6 +39,7 @@ export const NAV: NavGroup[] = [
       { label: 'Slider', route: '/components/slider' },
       { label: 'Rating', route: '/components/rating' },
       { label: 'Chips', route: '/components/chips' },
+      { label: 'ColorPicker', route: '/components/colorpicker' },
     ],
   },
   {
