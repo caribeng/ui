@@ -14,6 +14,7 @@ import {
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
 import { OverlayModule, type ConnectedPosition } from '@angular/cdk/overlay';
 import type { CbSize } from '@caribeng/ui';
+import { CbIconComponent } from '@caribeng/ui/icon';
 
 let nextUid = 0;
 
@@ -42,7 +43,7 @@ interface DayCell {
   selector: 'cb-datepicker',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
-  imports: [OverlayModule],
+  imports: [OverlayModule, CbIconComponent],
   host: { class: 'cb-datepicker-host' },
   providers: [
     {
@@ -96,7 +97,7 @@ interface DayCell {
         [disabled]="isDisabled()"
         (click)="toggle()"
       >
-        <span class="cb-datepicker__icon" aria-hidden="true"></span>
+        <cb-icon name="calendar" [size]="18" aria-hidden="true" />
       </button>
     </div>
 
@@ -125,7 +126,7 @@ interface DayCell {
             aria-label="Mes anterior"
             (click)="shiftMonth(-1)"
           >
-            <span class="cb-datepicker__nav-arrow cb-datepicker__nav-arrow--prev" aria-hidden="true"></span>
+            <cb-icon name="chevron-left" [size]="18" aria-hidden="true" />
           </button>
           <span class="cb-datepicker__title" aria-live="polite">{{ monthYearLabel() }}</span>
           <button
@@ -134,7 +135,7 @@ interface DayCell {
             aria-label="Mes siguiente"
             (click)="shiftMonth(1)"
           >
-            <span class="cb-datepicker__nav-arrow cb-datepicker__nav-arrow--next" aria-hidden="true"></span>
+            <cb-icon name="chevron-right" [size]="18" aria-hidden="true" />
           </button>
         </div>
 

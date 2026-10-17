@@ -6,6 +6,7 @@ import {
   input,
 } from '@angular/core';
 import type { CbSeverity, CbSize } from '@caribeng/ui';
+import { CbIconComponent } from '@caribeng/ui/icon';
 
 export type CbButtonVariant = 'solid' | 'outlined' | 'text';
 export type CbButtonType = 'button' | 'submit' | 'reset';
@@ -27,6 +28,7 @@ export type CbButtonType = 'button' | 'submit' | 'reset';
   selector: 'cb-button',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
+  imports: [CbIconComponent],
   host: {
     class: 'cb-button-host',
     '[class.cb-button-host--block]': 'fullWidth()',
@@ -42,7 +44,7 @@ export type CbButtonType = 'button' | 'submit' | 'reset';
       [attr.aria-busy]="loading() ? 'true' : null"
     >
       @if (loading()) {
-        <span class="cb-button__spinner" aria-hidden="true"></span>
+        <cb-icon class="cb-button__spinner" name="loader" spin [size]="16" aria-hidden="true" />
       }
       <span class="cb-button__content">
         <ng-content />

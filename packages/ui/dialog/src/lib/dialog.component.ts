@@ -15,6 +15,7 @@ import {
 import { A11yModule } from '@angular/cdk/a11y';
 import { Overlay, type OverlayRef } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
+import { CbIconComponent } from '@caribeng/ui/icon';
 
 let nextUid = 0;
 
@@ -38,7 +39,7 @@ let nextUid = 0;
   selector: 'cb-dialog',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
-  imports: [A11yModule],
+  imports: [A11yModule, CbIconComponent],
   template: `
     <ng-template #tpl>
       <div class="cb-dialog__mask">
@@ -64,7 +65,7 @@ let nextUid = 0;
                   aria-label="Cerrar"
                   (click)="close()"
                 >
-                  ✕
+                  <cb-icon name="x" size="sm" />
                 </button>
               }
             </header>

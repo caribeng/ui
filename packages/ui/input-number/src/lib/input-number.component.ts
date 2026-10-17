@@ -10,6 +10,7 @@ import {
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
 import type { CbSize } from '@caribeng/ui';
+import { CbIconComponent } from '@caribeng/ui/icon';
 
 let nextUid = 0;
 
@@ -29,6 +30,7 @@ let nextUid = 0;
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
   host: { class: 'cb-input-number-host' },
+  imports: [CbIconComponent],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -86,7 +88,7 @@ let nextUid = 0;
             [disabled]="isDisabled() || readonly() || isAtMax()"
             (click)="increment()"
           >
-            <span class="cb-input-number__arrow cb-input-number__arrow--up" aria-hidden="true"></span>
+            <cb-icon name="chevron-up" [size]="14" aria-hidden="true" />
           </button>
           <button
             type="button"
@@ -96,7 +98,7 @@ let nextUid = 0;
             [disabled]="isDisabled() || readonly() || isAtMin()"
             (click)="decrement()"
           >
-            <span class="cb-input-number__arrow cb-input-number__arrow--down" aria-hidden="true"></span>
+            <cb-icon name="chevron-down" [size]="14" aria-hidden="true" />
           </button>
         </div>
       }

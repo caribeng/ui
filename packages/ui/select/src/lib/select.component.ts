@@ -14,6 +14,7 @@ import {
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
 import { OverlayModule, type ConnectedPosition } from '@angular/cdk/overlay';
 import type { CbSize } from '@caribeng/ui';
+import { CbIconComponent } from '@caribeng/ui/icon';
 
 let nextUid = 0;
 
@@ -32,7 +33,7 @@ let nextUid = 0;
   selector: 'cb-select',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
-  imports: [OverlayModule],
+  imports: [OverlayModule, CbIconComponent],
   host: { class: 'cb-select-host' },
   providers: [
     {
@@ -67,7 +68,7 @@ let nextUid = 0;
       >
         {{ displayLabel() }}
       </span>
-      <span class="cb-select__chevron" aria-hidden="true"></span>
+      <cb-icon class="cb-select__chevron" name="chevron-down" [size]="16" aria-hidden="true" />
     </div>
 
     <ng-template

@@ -10,8 +10,11 @@ import {
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
 import type { CbSize } from '@caribeng/ui';
+import { CbIconComponent } from '@caribeng/ui/icon';
 
 let nextUid = 0;
+
+const ICON_PX: Record<string, number> = { sm: 12, md: 14, lg: 16 };
 
 /**
  * Checkbox de CaribeNG integrado con Angular Forms vía `ControlValueAccessor`.
@@ -36,6 +39,7 @@ let nextUid = 0;
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
   host: { class: 'cb-checkbox-host' },
+  imports: [CbIconComponent],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -65,19 +69,9 @@ let nextUid = 0;
       />
       <span class="cb-checkbox__box" aria-hidden="true">
         @if (indeterminate()) {
-          <svg class="cb-checkbox__icon" viewBox="0 0 16 16" fill="none">
-            <path d="M3.5 8h9" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-          </svg>
+          <cb-icon class="cb-checkbox__icon" name="minus" [size]="iconPx()" aria-hidden="true" />
         } @else if (checked()) {
-          <svg class="cb-checkbox__icon" viewBox="0 0 16 16" fill="none">
-            <path
-              d="M3.5 8.5l3 3 6-6.5"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
+          <cb-icon class="cb-checkbox__icon" name="check" [size]="iconPx()" aria-hidden="true" />
         }
       </span>
       @if (label()) {
@@ -116,6 +110,9 @@ export class CbCheckboxComponent implements ControlValueAccessor {
     const v = this.modelValue();
     return Array.isArray(v) ? v.includes(this.value()) : !!v;
   });
+
+  /** Tamaño del icono (check/dash) según el tamaño del checkbox. */
+  protected readonly iconPx = computed(() => ICON_PX[this.size()] ?? 14);
 
   private readonly cvaDisabled = signal(false);
   protected readonly isDisabled = computed(

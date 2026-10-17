@@ -14,6 +14,7 @@ import {
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
 import { OverlayModule, type ConnectedPosition } from '@angular/cdk/overlay';
 import type { CbSize } from '@caribeng/ui';
+import { CbIconComponent } from '@caribeng/ui/icon';
 
 let nextUid = 0;
 
@@ -36,7 +37,7 @@ let nextUid = 0;
   selector: 'cb-autocomplete',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
-  imports: [OverlayModule],
+  imports: [OverlayModule, CbIconComponent],
   host: { class: 'cb-autocomplete-host' },
   providers: [
     {
@@ -95,7 +96,7 @@ let nextUid = 0;
           [disabled]="isDisabled()"
           (click)="onDropdownClick()"
         >
-          <span class="cb-autocomplete__chevron" aria-hidden="true"></span>
+          <cb-icon name="chevron-down" [size]="16" aria-hidden="true" />
         </button>
       }
     </div>

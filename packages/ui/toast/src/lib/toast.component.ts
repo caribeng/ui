@@ -6,6 +6,7 @@ import {
   input,
 } from '@angular/core';
 import type { CbSeverity } from '@caribeng/ui';
+import { CbIconComponent } from '@caribeng/ui/icon';
 import { CbToastService } from './toast.service';
 
 export type CbToastPosition =
@@ -17,14 +18,14 @@ export type CbToastPosition =
   | 'bottom-center';
 
 const ICONS: Record<string, string> = {
-  success: '✓',
-  info: 'ℹ',
-  warning: '⚠',
-  danger: '✕',
-  help: '?',
-  primary: '●',
-  secondary: '●',
-  contrast: '●',
+  success: 'circle-check',
+  info: 'info',
+  warning: 'triangle-alert',
+  danger: 'circle-x',
+  help: 'info',
+  primary: 'info',
+  secondary: 'info',
+  contrast: 'info',
 };
 
 /**
@@ -40,6 +41,7 @@ const ICONS: Record<string, string> = {
   selector: 'cb-toast',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
+  imports: [CbIconComponent],
   template: `
     <div
       class="cb-toast-wrap"
@@ -50,7 +52,9 @@ const ICONS: Record<string, string> = {
     >
       @for (toast of service.toasts(); track toast.id) {
         <div class="cb-toast" [class]="'cb-toast--' + toast.severity" role="alert">
-          <span class="cb-toast__icon" aria-hidden="true">{{ iconFor(toast.severity) }}</span>
+          <span class="cb-toast__icon" aria-hidden="true">
+            <cb-icon [name]="iconFor(toast.severity)" size="sm" />
+          </span>
           <div class="cb-toast__content">
             <p class="cb-toast__summary">{{ toast.summary }}</p>
             @if (toast.detail) {
@@ -64,7 +68,7 @@ const ICONS: Record<string, string> = {
               aria-label="Cerrar"
               (click)="service.remove(toast.id)"
             >
-              ✕
+              <cb-icon name="x" size="sm" />
             </button>
           }
         </div>

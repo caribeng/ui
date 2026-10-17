@@ -75,15 +75,11 @@
 
 .cb-select__chevron {
   flex: none;
-  width: 0.6em;
-  height: 0.6em;
-  border-right: 2px solid var(--cb-color-text-muted);
-  border-bottom: 2px solid var(--cb-color-text-muted);
-  transform: rotate(45deg) translate(-2px, -2px);
+  color: var(--cb-color-text-muted);
   transition: transform var(--cb-duration-fast) var(--cb-ease);
 }
 .cb-select__trigger.cb-is-open .cb-select__chevron {
-  transform: rotate(-135deg) translate(-2px, -2px);
+  transform: rotate(180deg);
 }
 
 /* Panel ----------------------------------------------------------------------*/

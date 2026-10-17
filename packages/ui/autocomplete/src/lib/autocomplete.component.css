@@ -110,12 +110,8 @@
   opacity: 0.5;
 }
 
-.cb-autocomplete__chevron {
-  width: 0.55em;
-  height: 0.55em;
-  border-right: 2px solid currentColor;
-  border-bottom: 2px solid currentColor;
-  transform: rotate(45deg) translate(-2px, -2px);
+.cb-autocomplete__dropdown-btn cb-icon {
+  color: currentColor;
 }
 
 /* Panel */

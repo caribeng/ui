@@ -128,17 +128,8 @@
   border-bottom-right-radius: var(--cb-radius-md);
 }
 
-.cb-input-number__arrow {
-  width: 0.5em;
-  height: 0.5em;
-  border-right: 2px solid currentColor;
-  border-bottom: 2px solid currentColor;
-}
-.cb-input-number__arrow--up {
-  transform: rotate(-135deg) translate(-1px, -1px);
-}
-.cb-input-number__arrow--down {
-  transform: rotate(45deg) translate(-1px, -1px);
+.cb-input-number__btn cb-icon {
+  color: currentColor;
 }
 
 /* Mensajes */

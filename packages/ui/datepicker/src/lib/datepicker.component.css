@@ -110,32 +110,8 @@
 }
 
 /* Icono de calendario dibujado con bordes */
-.cb-datepicker__icon {
-  position: relative;
-  width: 1rem;
-  height: 1rem;
-  border: 2px solid currentColor;
-  border-radius: 3px;
-  margin-top: 2px;
-}
-.cb-datepicker__icon::before {
-  content: '';
-  position: absolute;
-  top: -4px;
-  left: 1px;
-  right: 1px;
-  height: 3px;
-  border-left: 2px solid currentColor;
-  border-right: 2px solid currentColor;
-}
-.cb-datepicker__icon::after {
-  content: '';
-  position: absolute;
-  top: 2px;
-  left: 1px;
-  right: 1px;
-  height: 2px;
-  background-color: currentColor;
+.cb-datepicker__btn cb-icon {
+  color: currentColor;
 }
 
 /* Panel / calendario -------------------------------------------------------- */
@@ -184,17 +160,8 @@
   outline: none;
   box-shadow: 0 0 0 2px color-mix(in srgb, var(--cb-color-primary-500) 35%, transparent);
 }
-.cb-datepicker__nav-arrow {
-  width: 0.5em;
-  height: 0.5em;
-  border-left: 2px solid currentColor;
-  border-bottom: 2px solid currentColor;
-}
-.cb-datepicker__nav-arrow--prev {
-  transform: rotate(45deg) translate(1px, -1px);
-}
-.cb-datepicker__nav-arrow--next {
-  transform: rotate(-135deg) translate(1px, -1px);
+.cb-datepicker__nav cb-icon {
+  color: currentColor;
 }
 
 .cb-datepicker__grid {

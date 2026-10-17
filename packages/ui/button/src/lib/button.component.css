@@ -354,22 +354,5 @@
 }
 
 .cb-button__spinner {
-  width: 1em;
-  height: 1em;
-  border: 2px solid currentColor;
-  border-right-color: transparent;
-  border-radius: var(--cb-radius-full);
-  animation: cb-button-spin var(--cb-duration-slow) linear infinite;
-}
-
-@keyframes cb-button-spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .cb-button__spinner {
-    animation-duration: 1.2s;
-  }
+  color: currentColor;
 }
