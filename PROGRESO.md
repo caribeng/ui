@@ -10,8 +10,8 @@
 
 | Métrica | Valor |
 |---|---|
-| Componentes de UI | **~42** (objetivo SPEC: **75**) |
-| Tests unitarios | **162** en verde |
+| Componentes de UI | **~43** (objetivo SPEC: **75**) |
+| Tests unitarios | **166** en verde |
 | Entry points publicables | `@caribeng/ui` + 1 por componente + `@caribeng/ui/icons` |
 | Build | Limpio (ng-packagr / APF) |
 | Iconos | **361** núcleo + **1891** catálogo (Lucide, ISC) |
@@ -162,6 +162,7 @@ caribeng/
 | Componente | Entry point |
 |---|---|
 | Menu | `@caribeng/ui/menu` |
+| Menubar | `@caribeng/ui/menubar` |
 
 ### Media · Misc · Menu
 | Componente | Entry point | Grupo |
@@ -310,12 +311,12 @@ node packages/ui/icon/scripts/generate-icons.mjs [ruta-al-clon-de-lucide]
 
 ### Componentes (hacia los 75)
 
-Faltan ~**33**. Próximos lotes sugeridos (en orden de valor):
+Faltan ~**32**. Próximos lotes sugeridos (en orden de valor):
 
 1. **Datos** — ✅ `Table` (ordenación/selección/paginación), ✅ `Paginator`.
    Pendiente: plantillas de celda personalizadas (Table v2), `DataView`,
    `Tree`/`TreeTable`, `Timeline`, `VirtualScroller`.
-2. **Menu** — ✅ `Menu`. Pendiente: `Menubar`, `TabMenu`, `ContextMenu`, `PanelMenu`,
+2. **Menu** — ✅ `Menu`, ✅ `Menubar`. Pendiente: `TabMenu`, `ContextMenu`, `PanelMenu`,
    `TieredMenu`, `MegaMenu`, `Dock`, `Steps`.
 3. **Form extra** — `TreeSelect`, `CascadeSelect`, `InputMask`, `InputOTP`,
    `FloatLabel`/`IftaLabel`/`IconField`, `Editor`, `FileUpload`.
@@ -356,3 +357,4 @@ Faltan ~**33**. Próximos lotes sugeridos (en orden de valor):
 - **Feedback** — avatar, progressbar, spinner, skeleton, breadcrumb.
 - **Form controls** — selectbutton, togglebutton, listbox, knob.
 - **v0.11 Menu** — popup con acciones, enlaces, separadores y teclado.
+- **v0.12 Menubar** — navegación horizontal, submenús y soporte de teclado.

@@ -97,6 +97,7 @@ export const NAV: NavGroup[] = [
     label: 'Menu',
     items: [
       { label: 'Menu', route: '/components/menu' },
+      { label: 'Menubar', route: '/components/menubar' },
       { label: 'Breadcrumb', route: '/components/breadcrumb' },
     ],
   },
