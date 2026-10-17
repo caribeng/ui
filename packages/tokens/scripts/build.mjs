@@ -53,6 +53,12 @@ pkg.sideEffects = Array.isArray(pkg.sideEffects)
   : ['./styles/caribeng.css'];
 writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + '\n', 'utf8');
 
+// 3b) Copiar el aviso de terceros (atribución de iconos Lucide/Feather) al dist.
+const noticeSrc = resolve(workspaceRoot, 'packages', 'ui', 'THIRD-PARTY-NOTICES.md');
+if (existsSync(noticeSrc)) {
+  cpSync(noticeSrc, resolve(uiDist, 'THIRD-PARTY-NOTICES.md'));
+}
+
 // 4) Verificación mínima.
 const out = readFileSync(resolve(dest, 'caribeng.css'), 'utf8');
 if (!out.includes('--cb-color-primary-500')) {

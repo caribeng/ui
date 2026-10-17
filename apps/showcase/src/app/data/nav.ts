@@ -18,6 +18,7 @@ export const NAV: NavGroup[] = [
       { label: 'Get Started', route: '/introduction' },
       { label: 'Colors', route: '/foundations/colors' },
       { label: 'Theming', route: '/foundations/theming' },
+      { label: 'Icons', route: '/foundations/icons' },
     ],
   },
   {
