@@ -56,7 +56,11 @@
       "@caribeng/ui/progressbar": ["./packages/ui/progressbar/src/public-api.ts"],
       "@caribeng/ui/spinner": ["./packages/ui/spinner/src/public-api.ts"],
       "@caribeng/ui/skeleton": ["./packages/ui/skeleton/src/public-api.ts"],
-      "@caribeng/ui/breadcrumb": ["./packages/ui/breadcrumb/src/public-api.ts"]
+      "@caribeng/ui/breadcrumb": ["./packages/ui/breadcrumb/src/public-api.ts"],
+      "@caribeng/ui/selectbutton": ["./packages/ui/selectbutton/src/public-api.ts"],
+      "@caribeng/ui/togglebutton": ["./packages/ui/togglebutton/src/public-api.ts"],
+      "@caribeng/ui/listbox": ["./packages/ui/listbox/src/public-api.ts"],
+      "@caribeng/ui/knob": ["./packages/ui/knob/src/public-api.ts"]
     }
   },
   "exclude": ["node_modules", "tmp", "dist"]
