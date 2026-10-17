@@ -4,7 +4,7 @@ import { beforeEach, describe, expect, it } from 'vitest';
 import { CbDockComponent, type CbDockItem } from './dock.component';
 
 @Component({ imports: [CbDockComponent], template: `<cb-dock [items]="items" position="left" (itemSelect)="selected=$event.label" />` })
-class HostComponent { items: CbDockItem[] = [{ label: 'Inicio', icon: 'house' }, { label: 'Ayuda', icon: 'circle-help', disabled: true }]; selected = ''; }
+class HostComponent { items: CbDockItem[] = [{ label: 'Inicio', icon: 'house' }, { label: 'Ayuda', icon: 'info', disabled: true }]; selected = ''; }
 
 describe('CbDockComponent', () => {
   beforeEach(() => TestBed.configureTestingModule({ imports: [HostComponent] }));

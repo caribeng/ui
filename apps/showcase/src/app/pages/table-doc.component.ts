@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { CbTableComponent, type CbTableColumn } from '@caribeng/ui/table';
+import { CbTableCellDirective, CbTableComponent, type CbTableColumn } from '@caribeng/ui/table';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
@@ -16,7 +16,7 @@ interface Producto {
 @Component({
   selector: 'doc-table-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbTableComponent, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
+  imports: [CbTableComponent, CbTableCellDirective, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
     <doc-page-header eyebrow="Data" title="Table" lead="Tabla de datos con columnas declarativas, ordenación, paginación y selección." />
 
@@ -47,6 +47,15 @@ interface Producto {
       <p style="margin: 0.75rem 0 0; color: var(--cb-color-text-muted); font-size: 0.875rem">
         Seleccionados: {{ seleccion().length }}
       </p>
+    </doc-section>
+
+    <doc-section id="templates" title="Plantillas de celda" description="Usa cbTableCell con el nombre del field. La plantilla recibe la fila, su valor y la columna." [code]="templateCode">
+      <cb-table style="width: 100%" [value]="productos" [columns]="columns" striped>
+        <ng-template cbTableCell="nombre" let-row let-value="value" let-col="col">
+          <strong>{{ value }}</strong>
+          <small style="display:block;color:var(--cb-color-text-muted)">{{ row.categoria }} · {{ col.header }}</small>
+        </ng-template>
+      </cb-table>
     </doc-section>
   `,
 })
@@ -84,4 +93,10 @@ export class TableDocComponent {
   [paginator]="true" [rows]="3" [rowsPerPageOptions]="[3, 5, 10]" />`;
   protected readonly selCode = `<cb-table [value]="productos" [columns]="columns"
   selectionMode="multiple" dataKey="id" [(selection)]="seleccion" />`;
+  protected readonly templateCode = `<cb-table [value]="productos" [columns]="columns">
+  <ng-template cbTableCell="nombre" let-row let-value="value" let-col="col">
+    <strong>{{ value }}</strong>
+    <small>{{ row.categoria }} · {{ col.header }}</small>
+  </ng-template>
+</cb-table>`;
 }

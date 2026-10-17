@@ -25,9 +25,9 @@ const BASIC_CODE = `<cb-chart [type]="chartType()" [data]="salesData" />`;
       >
         <div style="display: flex; flex-direction: column; gap: 1rem; width: 100%; max-width: 560px">
           <div style="display: flex; gap: 0.5rem; flex-wrap: wrap">
-            <cb-button size="sm" [variant]="chartType() === 'bar' ? 'primary' : 'outline'" (click)="chartType.set('bar')">Barras</cb-button>
-            <cb-button size="sm" [variant]="chartType() === 'line' ? 'primary' : 'outline'" (click)="chartType.set('line')">Líneas</cb-button>
-            <cb-button size="sm" [variant]="chartType() === 'doughnut' ? 'primary' : 'outline'" (click)="chartType.set('doughnut')">Anillo</cb-button>
+            <cb-button size="sm" [variant]="chartType() === 'bar' ? 'solid' : 'outlined'" (click)="chartType.set('bar')">Barras</cb-button>
+            <cb-button size="sm" [variant]="chartType() === 'line' ? 'solid' : 'outlined'" (click)="chartType.set('line')">Líneas</cb-button>
+            <cb-button size="sm" [variant]="chartType() === 'doughnut' ? 'solid' : 'outlined'" (click)="chartType.set('doughnut')">Anillo</cb-button>
           </div>
           <cb-chart [type]="chartType()" [data]="salesData" />
         </div>
