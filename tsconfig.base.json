@@ -39,7 +39,8 @@
       "@caribeng/ui/rating": ["./packages/ui/rating/src/public-api.ts"],
       "@caribeng/ui/slider": ["./packages/ui/slider/src/public-api.ts"],
       "@caribeng/ui/chips": ["./packages/ui/chips/src/public-api.ts"],
-      "@caribeng/ui/multiselect": ["./packages/ui/multiselect/src/public-api.ts"]
+      "@caribeng/ui/multiselect": ["./packages/ui/multiselect/src/public-api.ts"],
+      "@caribeng/ui/colorpicker": ["./packages/ui/colorpicker/src/public-api.ts"]
     }
   },
   "exclude": ["node_modules", "tmp", "dist"]

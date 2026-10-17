@@ -20,6 +20,7 @@ import { RatingDocComponent } from './pages/rating-doc.component';
 import { SliderDocComponent } from './pages/slider-doc.component';
 import { ChipsDocComponent } from './pages/chips-doc.component';
 import { MultiselectDocComponent } from './pages/multiselect-doc.component';
+import { ColorpickerDocComponent } from './pages/colorpicker-doc.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'introduction', pathMatch: 'full' },
@@ -42,6 +43,7 @@ export const routes: Routes = [
   { path: 'components/slider', component: SliderDocComponent, title: 'Slider · CaribeNG' },
   { path: 'components/chips', component: ChipsDocComponent, title: 'Chips · CaribeNG' },
   { path: 'components/multiselect', component: MultiselectDocComponent, title: 'MultiSelect · CaribeNG' },
+  { path: 'components/colorpicker', component: ColorpickerDocComponent, title: 'ColorPicker · CaribeNG' },
   { path: 'components/dialog', component: DialogDocComponent, title: 'Dialog · CaribeNG' },
   { path: 'components/toast', component: ToastDocComponent, title: 'Toast · CaribeNG' },
   { path: '**', redirectTo: 'introduction' },
