@@ -40,7 +40,12 @@
       "@caribeng/ui/slider": ["./packages/ui/slider/src/public-api.ts"],
       "@caribeng/ui/chips": ["./packages/ui/chips/src/public-api.ts"],
       "@caribeng/ui/multiselect": ["./packages/ui/multiselect/src/public-api.ts"],
-      "@caribeng/ui/colorpicker": ["./packages/ui/colorpicker/src/public-api.ts"]
+      "@caribeng/ui/colorpicker": ["./packages/ui/colorpicker/src/public-api.ts"],
+      "@caribeng/ui/badge": ["./packages/ui/badge/src/public-api.ts"],
+      "@caribeng/ui/tag": ["./packages/ui/tag/src/public-api.ts"],
+      "@caribeng/ui/message": ["./packages/ui/message/src/public-api.ts"],
+      "@caribeng/ui/card": ["./packages/ui/card/src/public-api.ts"],
+      "@caribeng/ui/divider": ["./packages/ui/divider/src/public-api.ts"]
     }
   },
   "exclude": ["node_modules", "tmp", "dist"]

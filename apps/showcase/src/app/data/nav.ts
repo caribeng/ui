@@ -55,15 +55,16 @@ export const NAV: NavGroup[] = [
     label: 'Messages',
     items: [
       { label: 'Toast', route: '/components/toast' },
-      { label: 'Message', badge: 'soon' },
-      { label: 'Badge', badge: 'soon' },
-      { label: 'Tag', badge: 'soon' },
+      { label: 'Message', route: '/components/message' },
+      { label: 'Badge', route: '/components/badge' },
+      { label: 'Tag', route: '/components/tag' },
     ],
   },
   {
     label: 'Panel',
     items: [
-      { label: 'Card', badge: 'soon' },
+      { label: 'Card', route: '/components/card' },
+      { label: 'Divider', route: '/components/divider' },
       { label: 'Accordion', badge: 'soon' },
       { label: 'Tabs', badge: 'soon' },
     ],

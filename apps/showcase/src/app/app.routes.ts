@@ -21,6 +21,11 @@ import { SliderDocComponent } from './pages/slider-doc.component';
 import { ChipsDocComponent } from './pages/chips-doc.component';
 import { MultiselectDocComponent } from './pages/multiselect-doc.component';
 import { ColorpickerDocComponent } from './pages/colorpicker-doc.component';
+import { BadgeDocComponent } from './pages/badge-doc.component';
+import { TagDocComponent } from './pages/tag-doc.component';
+import { MessageDocComponent } from './pages/message-doc.component';
+import { CardDocComponent } from './pages/card-doc.component';
+import { DividerDocComponent } from './pages/divider-doc.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'introduction', pathMatch: 'full' },
@@ -46,5 +51,10 @@ export const routes: Routes = [
   { path: 'components/colorpicker', component: ColorpickerDocComponent, title: 'ColorPicker · CaribeNG' },
   { path: 'components/dialog', component: DialogDocComponent, title: 'Dialog · CaribeNG' },
   { path: 'components/toast', component: ToastDocComponent, title: 'Toast · CaribeNG' },
+  { path: 'components/badge', component: BadgeDocComponent, title: 'Badge · CaribeNG' },
+  { path: 'components/tag', component: TagDocComponent, title: 'Tag · CaribeNG' },
+  { path: 'components/message', component: MessageDocComponent, title: 'Message · CaribeNG' },
+  { path: 'components/card', component: CardDocComponent, title: 'Card · CaribeNG' },
+  { path: 'components/divider', component: DividerDocComponent, title: 'Divider · CaribeNG' },
   { path: '**', redirectTo: 'introduction' },
 ];
