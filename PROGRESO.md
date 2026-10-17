@@ -10,8 +10,8 @@
 
 | Métrica | Valor |
 |---|---|
-| Componentes de UI | **~56** (objetivo SPEC: **75**) |
-| Tests unitarios | **190** en verde |
+| Componentes de UI | **~66** (objetivo SPEC: **75**) |
+| Tests unitarios | **201** en verde |
 | Entry points publicables | `@caribeng/ui` + 1 por componente + `@caribeng/ui/icons` |
 | Build | Limpio (ng-packagr / APF) |
 | Iconos | **361** núcleo + **1891** catálogo (Lucide, ISC) |
@@ -134,6 +134,9 @@ caribeng/
 | Drawer | `@caribeng/ui/drawer` |
 | Tooltip (directiva `[cbTooltip]`) | `@caribeng/ui/tooltip` |
 | Popover | `@caribeng/ui/popover` |
+| ConfirmDialog | `@caribeng/ui/confirmdialog` |
+| ConfirmPopup | `@caribeng/ui/confirmpopup` |
+| DynamicDialog | `@caribeng/ui/dynamicdialog` |
 
 ### Messages
 | Componente | Entry point |
@@ -163,6 +166,13 @@ caribeng/
 |---|---|
 | Table | `@caribeng/ui/table` |
 | Paginator | `@caribeng/ui/paginator` |
+| DataView | `@caribeng/ui/dataview` |
+| Tree | `@caribeng/ui/tree` |
+| TreeTable | `@caribeng/ui/treetable` |
+| Timeline | `@caribeng/ui/timeline` |
+| VirtualScroller | `@caribeng/ui/virtualscroller` |
+| OrderList | `@caribeng/ui/orderlist` |
+| PickList | `@caribeng/ui/picklist` |
 
 ### Menu
 | Componente | Entry point |
@@ -327,8 +337,8 @@ node packages/ui/icon/scripts/generate-icons.mjs [ruta-al-clon-de-lucide]
 Faltan ~**19**. Próximos lotes sugeridos (en orden de valor):
 
 1. **Datos** — ✅ `Table` (ordenación/selección/paginación), ✅ `Paginator`.
-   Pendiente: plantillas de celda personalizadas (Table v2), `DataView`,
-   `Tree`/`TreeTable`, `Timeline`, `VirtualScroller`, `OrderList`, `PickList`.
+   Completado en v0.15: `DataView`, `Tree`/`TreeTable`, `Timeline`,
+   `VirtualScroller`, `OrderList`, `PickList`. Pendiente: plantillas de celda personalizadas (Table v2).
 2. **Menu** — ✅ `Menu`, ✅ `Menubar`, ✅ `TabMenu`, ✅ `ContextMenu`, ✅ `PanelMenu`,
    ✅ `TieredMenu`, ✅ `MegaMenu`, ✅ `Dock`, ✅ `Steps`.
 3. **Form extra** — `TreeSelect`, `CascadeSelect`, `InputMask`, `InputOTP`,
@@ -373,3 +383,5 @@ Faltan ~**19**. Próximos lotes sugeridos (en orden de valor):
 - **v0.12 Menubar** — navegación horizontal, submenús y soporte de teclado.
 - **v0.13 Panel / Layout** — Panel, Fieldset, Toolbar, Splitter, ScrollPanel y ScrollTop.
 - **v0.14 Menu extra** — TabMenu, ContextMenu, PanelMenu, TieredMenu, MegaMenu, Dock y Steps.
+
+- **v0.15 Data / Overlay extra** — DataView, Tree, TreeTable, Timeline, VirtualScroller, OrderList, PickList, ConfirmDialog, ConfirmPopup y DynamicDialog.

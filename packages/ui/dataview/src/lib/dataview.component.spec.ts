@@ -1,0 +1,4 @@
+import { TestBed } from '@angular/core/testing';
+import { describe, expect, it } from 'vitest';
+import { CbDataViewComponent } from './dataview.component';
+describe('CbDataViewComponent',()=>{it('renders records and updates selection',()=>{TestBed.configureTestingModule({imports:[CbDataViewComponent]});const f=TestBed.createComponent(CbDataViewComponent);f.componentRef.setInput('value',[{id:1,title:'Alpha'}]);f.detectChanges();expect(f.nativeElement.textContent).toContain('Alpha');f.nativeElement.querySelector('button').click();expect(f.componentInstance.selection()?.id).toBe(1);});it('shows empty message',()=>{TestBed.configureTestingModule({imports:[CbDataViewComponent]});const f=TestBed.createComponent(CbDataViewComponent);f.detectChanges();expect(f.nativeElement.textContent).toContain('Sin resultados');});});

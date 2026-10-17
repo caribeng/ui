@@ -58,6 +58,16 @@ import { ToolbarDocComponent } from './pages/toolbar-doc.component';
 import { SplitterDocComponent } from './pages/splitter-doc.component';
 import { ScrollpanelDocComponent } from './pages/scrollpanel-doc.component';
 import { ScrolltopDocComponent } from './pages/scrolltop-doc.component';
+import { DataviewDocComponent } from './pages/dataview-doc.component';
+import { TreeDocComponent } from './pages/tree-doc.component';
+import { TreetableDocComponent } from './pages/treetable-doc.component';
+import { TimelineDocComponent } from './pages/timeline-doc.component';
+import { VirtualscrollerDocComponent } from './pages/virtualscroller-doc.component';
+import { OrderlistDocComponent } from './pages/orderlist-doc.component';
+import { PicklistDocComponent } from './pages/picklist-doc.component';
+import { ConfirmdialogDocComponent } from './pages/confirmdialog-doc.component';
+import { ConfirmpopupDocComponent } from './pages/confirmpopup-doc.component';
+import { DynamicdialogDocComponent } from './pages/dynamicdialog-doc.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'introduction', pathMatch: 'full' },
@@ -120,5 +130,15 @@ export const routes: Routes = [
   { path: 'components/spinner', component: SpinnerDocComponent, title: 'Spinner · CaribeNG' },
   { path: 'components/skeleton', component: SkeletonDocComponent, title: 'Skeleton · CaribeNG' },
   { path: 'components/breadcrumb', component: BreadcrumbDocComponent, title: 'Breadcrumb · CaribeNG' },
+  { path: 'components/dataview', component: DataviewDocComponent, title: 'DataView · CaribeNG' },
+  { path: 'components/tree', component: TreeDocComponent, title: 'Tree · CaribeNG' },
+  { path: 'components/treetable', component: TreetableDocComponent, title: 'TreeTable · CaribeNG' },
+  { path: 'components/timeline', component: TimelineDocComponent, title: 'Timeline · CaribeNG' },
+  { path: 'components/virtualscroller', component: VirtualscrollerDocComponent, title: 'VirtualScroller · CaribeNG' },
+  { path: 'components/orderlist', component: OrderlistDocComponent, title: 'OrderList · CaribeNG' },
+  { path: 'components/picklist', component: PicklistDocComponent, title: 'PickList · CaribeNG' },
+  { path: 'components/confirmdialog', component: ConfirmdialogDocComponent, title: 'ConfirmDialog · CaribeNG' },
+  { path: 'components/confirmpopup', component: ConfirmpopupDocComponent, title: 'ConfirmPopup · CaribeNG' },
+  { path: 'components/dynamicdialog', component: DynamicdialogDocComponent, title: 'DynamicDialog · CaribeNG' },
   { path: '**', redirectTo: 'introduction' },
 ];

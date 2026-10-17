@@ -53,6 +53,9 @@ export const NAV: NavGroup[] = [
       { label: 'Drawer', route: '/components/drawer' },
       { label: 'Tooltip', route: '/components/tooltip' },
       { label: 'Popover', route: '/components/popover' },
+      { label: 'ConfirmDialog', route: '/components/confirmdialog' },
+      { label: 'ConfirmPopup', route: '/components/confirmpopup' },
+      { label: 'DynamicDialog', route: '/components/dynamicdialog' },
     ],
   },
   {
@@ -85,6 +88,13 @@ export const NAV: NavGroup[] = [
     items: [
       { label: 'Table', route: '/components/table' },
       { label: 'Paginator', route: '/components/paginator' },
+      { label: 'DataView', route: '/components/dataview' },
+      { label: 'Tree', route: '/components/tree' },
+      { label: 'TreeTable', route: '/components/treetable' },
+      { label: 'Timeline', route: '/components/timeline' },
+      { label: 'VirtualScroller', route: '/components/virtualscroller' },
+      { label: 'OrderList', route: '/components/orderlist' },
+      { label: 'PickList', route: '/components/picklist' },
     ],
   },
   {
