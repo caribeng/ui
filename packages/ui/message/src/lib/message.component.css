@@ -1,0 +1,58 @@
+:host {
+  display: block;
+}
+
+.cb-message {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--cb-space-2);
+  padding: var(--cb-space-3) var(--cb-space-4);
+  border-radius: var(--cb-radius-md);
+  border: var(--cb-border-width) solid transparent;
+  font-family: var(--cb-font-sans);
+  font-size: var(--cb-text-sm);
+  line-height: var(--cb-line-height-normal);
+  color: var(--_fg);
+  background-color: var(--_bg);
+  border-color: var(--_border);
+}
+
+.cb-message__icon {
+  flex: none;
+  margin-top: 1px;
+  color: var(--_accent);
+}
+.cb-message__content {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.cb-message__close {
+  flex: none;
+  display: inline-flex;
+  padding: 2px;
+  margin: -2px -2px 0 0;
+  border: none;
+  background: transparent;
+  color: inherit;
+  border-radius: var(--cb-radius-sm);
+  cursor: pointer;
+  opacity: 0.7;
+}
+.cb-message__close:hover {
+  opacity: 1;
+}
+
+.cb-message--primary { --_accent: var(--cb-color-primary-500); --_bg: var(--cb-color-primary-50); --_fg: var(--cb-color-primary-500); --_border: var(--cb-color-primary-100); }
+.cb-message--secondary { --_accent: var(--cb-color-text-muted); --_bg: var(--cb-color-surface-100); --_fg: var(--cb-color-text); --_border: var(--cb-color-border); }
+.cb-message--success { --_accent: var(--cb-color-success-500); --_bg: var(--cb-color-success-50); --_fg: var(--cb-color-success-500); --_border: var(--cb-color-success-100); }
+.cb-message--info { --_accent: var(--cb-color-info-500); --_bg: var(--cb-color-info-50); --_fg: var(--cb-color-info-500); --_border: var(--cb-color-info-100); }
+.cb-message--warning { --_accent: var(--cb-color-warning-500); --_bg: var(--cb-color-warning-50); --_fg: var(--cb-color-warning-500); --_border: var(--cb-color-warning-100); }
+.cb-message--danger { --_accent: var(--cb-color-danger-500); --_bg: var(--cb-color-danger-50); --_fg: var(--cb-color-danger-500); --_border: var(--cb-color-danger-100); }
+.cb-message--help { --_accent: var(--cb-color-help-500); --_bg: var(--cb-color-help-50); --_fg: var(--cb-color-help-500); --_border: var(--cb-color-help-100); }
+.cb-message--contrast { --_accent: var(--cb-color-text); --_bg: var(--cb-color-surface-100); --_fg: var(--cb-color-text); --_border: var(--cb-color-border-strong); }
+
+:host-context([data-theme='dark']) .cb-message {
+  --_bg: color-mix(in srgb, var(--_accent) 16%, transparent);
+  --_fg: var(--cb-color-text);
+  --_border: color-mix(in srgb, var(--_accent) 35%, transparent);
+}
