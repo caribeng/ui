@@ -1,0 +1,30 @@
+:host {
+  display: inline-block;
+  width: 100%;
+  font-family: var(--cb-font-sans);
+}
+
+.cb-input-mask__field {
+  width: 100%;
+  box-sizing: border-box;
+  padding: var(--cb-space-2) var(--cb-space-3);
+  border: var(--cb-border-width) solid var(--cb-color-border);
+  border-radius: var(--cb-radius-md);
+  background: var(--cb-color-surface);
+  color: var(--cb-color-text);
+  font-family: inherit;
+  font-size: var(--cb-text-sm);
+  line-height: 1.5;
+  transition: border-color 120ms ease, box-shadow 120ms ease;
+}
+
+.cb-input-mask__field:focus {
+  outline: none;
+  border-color: var(--cb-color-primary-500);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--cb-color-primary-500) 20%, transparent);
+}
+
+.cb-input-mask__field:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

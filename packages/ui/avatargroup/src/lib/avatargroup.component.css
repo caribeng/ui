@@ -1,0 +1,13 @@
+.cb-avatar-group {
+  display: inline-flex;
+  align-items: center;
+}
+
+.cb-avatar-group > cb-avatar {
+  border: 2px solid var(--cb-color-surface);
+  border-radius: 999px;
+}
+
+.cb-avatar-group > cb-avatar + cb-avatar {
+  margin-left: -0.65rem;
+}
