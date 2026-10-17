@@ -48,7 +48,10 @@
       "@caribeng/ui/divider": ["./packages/ui/divider/src/public-api.ts"],
       "@caribeng/ui/tooltip": ["./packages/ui/tooltip/src/public-api.ts"],
       "@caribeng/ui/popover": ["./packages/ui/popover/src/public-api.ts"],
-      "@caribeng/ui/drawer": ["./packages/ui/drawer/src/public-api.ts"]
+      "@caribeng/ui/drawer": ["./packages/ui/drawer/src/public-api.ts"],
+      "@caribeng/ui/accordion": ["./packages/ui/accordion/src/public-api.ts"],
+      "@caribeng/ui/tabs": ["./packages/ui/tabs/src/public-api.ts"],
+      "@caribeng/ui/stepper": ["./packages/ui/stepper/src/public-api.ts"]
     }
   },
   "exclude": ["node_modules", "tmp", "dist"]

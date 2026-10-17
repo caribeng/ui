@@ -1,0 +1,95 @@
+:host {
+  display: block;
+  font-family: var(--cb-font-sans);
+  color: var(--cb-color-text);
+}
+
+.cb-stepper__header {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.cb-stepper__item {
+  display: flex;
+  align-items: center;
+  gap: var(--cb-space-2);
+  flex: 1 1 auto;
+}
+.cb-stepper__item:last-child {
+  flex: 0 0 auto;
+}
+
+.cb-stepper__indicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 2rem;
+  height: 2rem;
+  border-radius: var(--cb-radius-full);
+  border: 2px solid var(--cb-color-border-strong);
+  background-color: var(--cb-color-bg);
+  color: var(--cb-color-text-muted);
+  font-size: var(--cb-text-sm);
+  font-weight: var(--cb-font-weight-bold);
+  cursor: pointer;
+  transition: all var(--cb-duration-fast) var(--cb-ease);
+}
+.cb-stepper__indicator:focus-visible {
+  outline: 2px solid var(--cb-color-focus-ring);
+  outline-offset: 2px;
+}
+.cb-stepper__indicator:disabled {
+  cursor: default;
+}
+
+.cb-is-active .cb-stepper__indicator {
+  border-color: var(--cb-color-primary-500);
+  color: var(--cb-color-primary-500);
+}
+.cb-is-complete .cb-stepper__indicator {
+  border-color: var(--cb-color-primary-500);
+  background-color: var(--cb-color-primary-500);
+  color: var(--cb-color-primary-contrast);
+}
+
+.cb-stepper__label {
+  font-size: var(--cb-text-sm);
+  font-weight: var(--cb-font-weight-medium);
+  color: var(--cb-color-text-muted);
+  white-space: nowrap;
+}
+.cb-is-active .cb-stepper__label {
+  color: var(--cb-color-text);
+}
+
+.cb-stepper__connector {
+  flex: 1 1 auto;
+  height: 2px;
+  min-width: var(--cb-space-4);
+  margin: 0 var(--cb-space-2);
+  background-color: var(--cb-color-border);
+}
+.cb-is-complete .cb-stepper__connector {
+  background-color: var(--cb-color-primary-500);
+}
+
+.cb-stepper__content {
+  padding: var(--cb-space-5) 0;
+  font-size: var(--cb-text-sm);
+  line-height: var(--cb-line-height-normal);
+}
+
+.cb-stepper__nav {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--cb-space-3);
+}
+
+@media (max-width: 480px) {
+  .cb-stepper__label {
+    display: none;
+  }
+}

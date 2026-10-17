@@ -65,8 +65,9 @@ export const NAV: NavGroup[] = [
     items: [
       { label: 'Card', route: '/components/card' },
       { label: 'Divider', route: '/components/divider' },
-      { label: 'Accordion', badge: 'soon' },
-      { label: 'Tabs', badge: 'soon' },
+      { label: 'Accordion', route: '/components/accordion' },
+      { label: 'Tabs', route: '/components/tabs' },
+      { label: 'Stepper', route: '/components/stepper' },
     ],
   },
 ];
