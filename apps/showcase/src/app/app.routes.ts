@@ -15,6 +15,11 @@ import { AutocompleteDocComponent } from './pages/autocomplete-doc.component';
 import { DatepickerDocComponent } from './pages/datepicker-doc.component';
 import { DialogDocComponent } from './pages/dialog-doc.component';
 import { ToastDocComponent } from './pages/toast-doc.component';
+import { InputgroupDocComponent } from './pages/inputgroup-doc.component';
+import { RatingDocComponent } from './pages/rating-doc.component';
+import { SliderDocComponent } from './pages/slider-doc.component';
+import { ChipsDocComponent } from './pages/chips-doc.component';
+import { MultiselectDocComponent } from './pages/multiselect-doc.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'introduction', pathMatch: 'full' },
@@ -32,6 +37,11 @@ export const routes: Routes = [
   { path: 'components/input-number', component: InputNumberDocComponent, title: 'InputNumber · CaribeNG' },
   { path: 'components/autocomplete', component: AutocompleteDocComponent, title: 'Autocomplete · CaribeNG' },
   { path: 'components/datepicker', component: DatepickerDocComponent, title: 'DatePicker · CaribeNG' },
+  { path: 'components/inputgroup', component: InputgroupDocComponent, title: 'InputGroup · CaribeNG' },
+  { path: 'components/rating', component: RatingDocComponent, title: 'Rating · CaribeNG' },
+  { path: 'components/slider', component: SliderDocComponent, title: 'Slider · CaribeNG' },
+  { path: 'components/chips', component: ChipsDocComponent, title: 'Chips · CaribeNG' },
+  { path: 'components/multiselect', component: MultiselectDocComponent, title: 'MultiSelect · CaribeNG' },
   { path: 'components/dialog', component: DialogDocComponent, title: 'Dialog · CaribeNG' },
   { path: 'components/toast', component: ToastDocComponent, title: 'Toast · CaribeNG' },
   { path: '**', redirectTo: 'introduction' },
