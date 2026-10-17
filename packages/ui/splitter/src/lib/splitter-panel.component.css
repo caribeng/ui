@@ -1,0 +1,10 @@
+:host {
+  display: flex;
+  flex-grow: 1;
+  flex-shrink: 1;
+  min-width: 0;
+  min-height: 0;
+  overflow: auto;
+  padding: var(--cb-space-4);
+  box-sizing: border-box;
+}

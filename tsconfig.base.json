@@ -64,7 +64,13 @@
       "@caribeng/ui/paginator": ["./packages/ui/paginator/src/public-api.ts"],
       "@caribeng/ui/table": ["./packages/ui/table/src/public-api.ts"],
       "@caribeng/ui/menu": ["./packages/ui/menu/src/public-api.ts"],
-      "@caribeng/ui/menubar": ["./packages/ui/menubar/src/public-api.ts"]
+      "@caribeng/ui/menubar": ["./packages/ui/menubar/src/public-api.ts"],
+      "@caribeng/ui/panel": ["./packages/ui/panel/src/public-api.ts"],
+      "@caribeng/ui/fieldset": ["./packages/ui/fieldset/src/public-api.ts"],
+      "@caribeng/ui/toolbar": ["./packages/ui/toolbar/src/public-api.ts"],
+      "@caribeng/ui/splitter": ["./packages/ui/splitter/src/public-api.ts"],
+      "@caribeng/ui/scrollpanel": ["./packages/ui/scrollpanel/src/public-api.ts"],
+      "@caribeng/ui/scrolltop": ["./packages/ui/scrolltop/src/public-api.ts"]
     }
   },
   "exclude": ["node_modules", "tmp", "dist"]

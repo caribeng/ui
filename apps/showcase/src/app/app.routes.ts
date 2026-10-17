@@ -45,6 +45,12 @@ import { TableDocComponent } from './pages/table-doc.component';
 import { PaginatorDocComponent } from './pages/paginator-doc.component';
 import { MenuDocComponent } from './pages/menu-doc.component';
 import { MenubarDocComponent } from './pages/menubar-doc.component';
+import { PanelDocComponent } from './pages/panel-doc.component';
+import { FieldsetDocComponent } from './pages/fieldset-doc.component';
+import { ToolbarDocComponent } from './pages/toolbar-doc.component';
+import { SplitterDocComponent } from './pages/splitter-doc.component';
+import { ScrollpanelDocComponent } from './pages/scrollpanel-doc.component';
+import { ScrolltopDocComponent } from './pages/scrolltop-doc.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'introduction', pathMatch: 'full' },
@@ -85,6 +91,12 @@ export const routes: Routes = [
   { path: 'components/tag', component: TagDocComponent, title: 'Tag · CaribeNG' },
   { path: 'components/message', component: MessageDocComponent, title: 'Message · CaribeNG' },
   { path: 'components/card', component: CardDocComponent, title: 'Card · CaribeNG' },
+  { path: 'components/panel', component: PanelDocComponent, title: 'Panel · CaribeNG' },
+  { path: 'components/fieldset', component: FieldsetDocComponent, title: 'Fieldset · CaribeNG' },
+  { path: 'components/toolbar', component: ToolbarDocComponent, title: 'Toolbar · CaribeNG' },
+  { path: 'components/splitter', component: SplitterDocComponent, title: 'Splitter · CaribeNG' },
+  { path: 'components/scrollpanel', component: ScrollpanelDocComponent, title: 'ScrollPanel · CaribeNG' },
+  { path: 'components/scrolltop', component: ScrolltopDocComponent, title: 'ScrollTop · CaribeNG' },
   { path: 'components/divider', component: DividerDocComponent, title: 'Divider · CaribeNG' },
   { path: 'components/accordion', component: AccordionDocComponent, title: 'Accordion · CaribeNG' },
   { path: 'components/tabs', component: TabsDocComponent, title: 'Tabs · CaribeNG' },

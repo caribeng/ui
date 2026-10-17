@@ -1,0 +1,89 @@
+:host {
+  display: block;
+  background: var(--cb-color-surface);
+  color: var(--cb-color-text);
+  border: var(--cb-border-width) solid var(--cb-color-border);
+  border-radius: var(--cb-radius-lg);
+  font-family: var(--cb-font-sans);
+  overflow: hidden;
+}
+
+.cb-panel__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--cb-space-3);
+  padding: var(--cb-space-3) var(--cb-space-4);
+  background: var(--cb-color-surface-subtle, var(--cb-color-surface));
+  border-bottom: var(--cb-border-width) solid var(--cb-color-border);
+}
+
+:host(.cb-is-collapsed) .cb-panel__header {
+  border-bottom-color: transparent;
+}
+
+.cb-panel__title {
+  font-size: var(--cb-text-base);
+  font-weight: var(--cb-font-semibold);
+  color: var(--cb-color-text);
+  line-height: 1.4;
+}
+
+.cb-panel__actions {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--cb-space-1);
+}
+
+.cb-panel__toggler {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  padding: 0;
+  border: none;
+  border-radius: var(--cb-radius-sm);
+  background: transparent;
+  color: var(--cb-color-text-muted);
+  cursor: pointer;
+  transition: background-color 120ms ease, color 120ms ease;
+}
+
+.cb-panel__toggler:hover {
+  background: var(--cb-color-surface-hover, rgba(0, 0, 0, 0.05));
+  color: var(--cb-color-text);
+}
+
+:host-context([data-theme="dark"]) .cb-panel__toggler:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.cb-panel__toggler:focus-visible {
+  outline: 2px solid var(--cb-color-focus, var(--cb-color-primary-500));
+  outline-offset: 2px;
+}
+
+.cb-panel__chevron {
+  transition: transform 160ms ease;
+}
+
+.cb-panel__chevron.cb-is-collapsed {
+  transform: rotate(-90deg);
+}
+
+.cb-panel__body {
+  padding: var(--cb-space-4);
+  font-size: var(--cb-text-sm);
+  line-height: 1.6;
+}
+
+.cb-panel__footer {
+  padding: var(--cb-space-3) var(--cb-space-4);
+  border-top: var(--cb-border-width) solid var(--cb-color-border);
+  background: var(--cb-color-surface-subtle, var(--cb-color-surface));
+}
+
+.cb-panel__footer:empty {
+  display: none;
+}

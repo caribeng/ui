@@ -1,0 +1,43 @@
+:host(.cb-scroll-top--window) {
+  position: fixed;
+  right: 1.5rem;
+  bottom: 1.5rem;
+  z-index: 40;
+}
+
+:host(.cb-scroll-top--parent) {
+  position: sticky;
+  display: flex;
+  justify-content: flex-end;
+  bottom: 0.75rem;
+  right: 0.75rem;
+  margin-left: auto;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.cb-scroll-top__button {
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: none;
+  border-radius: 999px;
+  background: var(--cb-color-primary-500);
+  color: var(--cb-color-primary-contrast, #ffffff);
+  box-shadow: var(--cb-shadow-md, 0 4px 12px rgba(0, 0, 0, 0.16));
+  cursor: pointer;
+  transition: transform 140ms ease, background-color 140ms ease, box-shadow 140ms ease;
+}
+
+.cb-scroll-top__button:hover {
+  background: var(--cb-color-primary-600, var(--cb-color-primary-500));
+  transform: translateY(-2px);
+}
+
+.cb-scroll-top__button:focus-visible {
+  outline: 2px solid var(--cb-color-focus, var(--cb-color-primary-500));
+  outline-offset: 2px;
+}
