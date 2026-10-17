@@ -29,6 +29,9 @@ import { DividerDocComponent } from './pages/divider-doc.component';
 import { TooltipDocComponent } from './pages/tooltip-doc.component';
 import { PopoverDocComponent } from './pages/popover-doc.component';
 import { DrawerDocComponent } from './pages/drawer-doc.component';
+import { AccordionDocComponent } from './pages/accordion-doc.component';
+import { TabsDocComponent } from './pages/tabs-doc.component';
+import { StepperDocComponent } from './pages/stepper-doc.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'introduction', pathMatch: 'full' },
@@ -62,5 +65,8 @@ export const routes: Routes = [
   { path: 'components/message', component: MessageDocComponent, title: 'Message · CaribeNG' },
   { path: 'components/card', component: CardDocComponent, title: 'Card · CaribeNG' },
   { path: 'components/divider', component: DividerDocComponent, title: 'Divider · CaribeNG' },
+  { path: 'components/accordion', component: AccordionDocComponent, title: 'Accordion · CaribeNG' },
+  { path: 'components/tabs', component: TabsDocComponent, title: 'Tabs · CaribeNG' },
+  { path: 'components/stepper', component: StepperDocComponent, title: 'Stepper · CaribeNG' },
   { path: '**', redirectTo: 'introduction' },
 ];
