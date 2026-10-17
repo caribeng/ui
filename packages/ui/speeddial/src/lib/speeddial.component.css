@@ -1,0 +1,13 @@
+:host { display: inline-flex; position: relative; align-items: center; justify-content: center; color: var(--cb-color-text); }
+.cb-speed-dial__trigger, .cb-speed-dial__action { display: grid; place-items: center; border: 0; border-radius: 50%; color: var(--cb-color-primary-contrast, #fff); background: var(--cb-color-primary); box-shadow: var(--cb-shadow-md); cursor: pointer; transition: transform var(--cb-duration-fast, 120ms) ease, opacity var(--cb-duration-fast, 120ms) ease; }
+.cb-speed-dial__trigger { z-index: 1; width: 3rem; height: 3rem; }
+.cb-speed-dial__actions { position: absolute; display: flex; align-items: center; gap: .5rem; }
+.cb-speed-dial__action { width: 2.5rem; height: 2.5rem; background: var(--cb-color-surface-raised); color: var(--cb-color-text); border: 1px solid var(--cb-color-border); }
+.cb-speed-dial__action:disabled { opacity: .5; cursor: default; }
+.cb-speed-dial__trigger:hover, .cb-speed-dial__action:hover:not(:disabled), .cb-speed-dial__trigger:focus-visible, .cb-speed-dial__action:focus-visible { outline: 2px solid var(--cb-color-primary); outline-offset: 2px; transform: scale(1.06); }
+:host(.cb-speed-dial--up) .cb-speed-dial__actions { bottom: calc(100% + .5rem); flex-direction: column-reverse; }
+:host(.cb-speed-dial--down) .cb-speed-dial__actions { top: calc(100% + .5rem); flex-direction: column; }
+:host(.cb-speed-dial--left) .cb-speed-dial__actions { right: calc(100% + .5rem); flex-direction: row-reverse; }
+:host(.cb-speed-dial--right) .cb-speed-dial__actions { left: calc(100% + .5rem); flex-direction: row; }
+@media (prefers-reduced-motion: reduce) { .cb-speed-dial__trigger, .cb-speed-dial__action { transition: none; } }
+:host-context([data-theme="dark"]) .cb-speed-dial__action { color: var(--cb-color-text); }

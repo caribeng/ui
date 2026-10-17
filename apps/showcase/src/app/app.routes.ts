@@ -68,6 +68,8 @@ import { PicklistDocComponent } from './pages/picklist-doc.component';
 import { ConfirmdialogDocComponent } from './pages/confirmdialog-doc.component';
 import { ConfirmpopupDocComponent } from './pages/confirmpopup-doc.component';
 import { DynamicdialogDocComponent } from './pages/dynamicdialog-doc.component';
+import { OrganizationChartDocComponent } from './pages/organizationchart-doc.component';
+import { SpeedDialDocComponent } from './pages/speeddial-doc.component';
 import { InputmaskDocComponent } from './pages/inputmask-doc.component';
 import { InputotpDocComponent } from './pages/inputotp-doc.component';
 import { FloatlabelDocComponent } from './pages/floatlabel-doc.component';
@@ -178,5 +180,7 @@ export const routes: Routes = [
   { path: 'components/confirmdialog', component: ConfirmdialogDocComponent, title: 'ConfirmDialog · CaribeNG' },
   { path: 'components/confirmpopup', component: ConfirmpopupDocComponent, title: 'ConfirmPopup · CaribeNG' },
   { path: 'components/dynamicdialog', component: DynamicdialogDocComponent, title: 'DynamicDialog · CaribeNG' },
+  { path: 'components/organizationchart', component: OrganizationChartDocComponent, title: 'OrganizationChart · CaribeNG' },
+  { path: 'components/speeddial', component: SpeedDialDocComponent, title: 'SpeedDial · CaribeNG' },
   { path: '**', redirectTo: 'introduction' },
 ];
