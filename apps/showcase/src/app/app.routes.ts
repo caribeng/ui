@@ -26,6 +26,9 @@ import { TagDocComponent } from './pages/tag-doc.component';
 import { MessageDocComponent } from './pages/message-doc.component';
 import { CardDocComponent } from './pages/card-doc.component';
 import { DividerDocComponent } from './pages/divider-doc.component';
+import { TooltipDocComponent } from './pages/tooltip-doc.component';
+import { PopoverDocComponent } from './pages/popover-doc.component';
+import { DrawerDocComponent } from './pages/drawer-doc.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'introduction', pathMatch: 'full' },
@@ -50,6 +53,9 @@ export const routes: Routes = [
   { path: 'components/multiselect', component: MultiselectDocComponent, title: 'MultiSelect · CaribeNG' },
   { path: 'components/colorpicker', component: ColorpickerDocComponent, title: 'ColorPicker · CaribeNG' },
   { path: 'components/dialog', component: DialogDocComponent, title: 'Dialog · CaribeNG' },
+  { path: 'components/drawer', component: DrawerDocComponent, title: 'Drawer · CaribeNG' },
+  { path: 'components/tooltip', component: TooltipDocComponent, title: 'Tooltip · CaribeNG' },
+  { path: 'components/popover', component: PopoverDocComponent, title: 'Popover · CaribeNG' },
   { path: 'components/toast', component: ToastDocComponent, title: 'Toast · CaribeNG' },
   { path: 'components/badge', component: BadgeDocComponent, title: 'Badge · CaribeNG' },
   { path: 'components/tag', component: TagDocComponent, title: 'Tag · CaribeNG' },

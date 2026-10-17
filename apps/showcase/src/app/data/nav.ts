@@ -46,9 +46,9 @@ export const NAV: NavGroup[] = [
     label: 'Overlay',
     items: [
       { label: 'Dialog', route: '/components/dialog' },
-      { label: 'Drawer', badge: 'soon' },
-      { label: 'Tooltip', badge: 'soon' },
-      { label: 'Popover', badge: 'soon' },
+      { label: 'Drawer', route: '/components/drawer' },
+      { label: 'Tooltip', route: '/components/tooltip' },
+      { label: 'Popover', route: '/components/popover' },
     ],
   },
   {
