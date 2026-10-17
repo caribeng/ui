@@ -1,0 +1,12 @@
+:host { display: inline-block; color: var(--cb-color-text); font-family: var(--cb-font-sans); }
+.cb-tieredmenu__trigger { min-height: 2.5rem; padding: 0.5rem 0.875rem; border: 1px solid var(--cb-color-border); border-radius: var(--cb-radius-md); background: var(--cb-color-surface-raised); color: inherit; font: inherit; cursor: pointer; }
+.cb-tieredmenu__trigger:hover, .cb-tieredmenu__trigger:focus-visible { outline: none; border-color: var(--cb-color-primary); }
+.cb-tieredmenu__list, .cb-tieredmenu__submenu { min-width: 13rem; margin: 0; padding: 0.375rem; list-style: none; background: var(--cb-color-surface-raised); border: 1px solid var(--cb-color-border); border-radius: var(--cb-radius-md); box-shadow: var(--cb-shadow-lg); }
+.cb-tieredmenu__entry { position: relative; }
+.cb-tieredmenu__item { display: flex; align-items: center; gap: 0.625rem; width: 100%; min-height: 2.25rem; padding: 0.5rem 0.625rem; border: 0; border-radius: var(--cb-radius-sm); background: transparent; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+.cb-tieredmenu__item span { flex: 1; }
+.cb-tieredmenu__item:hover:not(:disabled), .cb-tieredmenu__item:focus-visible, .cb-tieredmenu__entry--open > .cb-tieredmenu__item { outline: none; background: var(--cb-color-surface); }
+.cb-tieredmenu__item:disabled { opacity: 0.5; cursor: default; }
+.cb-tieredmenu__submenu { position: absolute; z-index: 2; top: -0.375rem; left: calc(100% + 0.25rem); }
+.cb-tieredmenu__submenu--third { z-index: 3; }
+.cb-tieredmenu__separator { height: 1px; margin: 0.375rem 0.25rem; background: var(--cb-color-border); }

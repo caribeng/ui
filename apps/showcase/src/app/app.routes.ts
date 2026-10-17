@@ -45,6 +45,13 @@ import { TableDocComponent } from './pages/table-doc.component';
 import { PaginatorDocComponent } from './pages/paginator-doc.component';
 import { MenuDocComponent } from './pages/menu-doc.component';
 import { MenubarDocComponent } from './pages/menubar-doc.component';
+import { TabmenuDocComponent } from './pages/tabmenu-doc.component';
+import { ContextmenuDocComponent } from './pages/contextmenu-doc.component';
+import { PanelmenuDocComponent } from './pages/panelmenu-doc.component';
+import { TieredmenuDocComponent } from './pages/tieredmenu-doc.component';
+import { MegamenuDocComponent } from './pages/megamenu-doc.component';
+import { DockDocComponent } from './pages/dock-doc.component';
+import { StepsDocComponent } from './pages/steps-doc.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'introduction', pathMatch: 'full' },
@@ -76,6 +83,13 @@ export const routes: Routes = [
   { path: 'components/paginator', component: PaginatorDocComponent, title: 'Paginator · CaribeNG' },
   { path: 'components/menu', component: MenuDocComponent, title: 'Menu · CaribeNG' },
   { path: 'components/menubar', component: MenubarDocComponent, title: 'Menubar · CaribeNG' },
+  { path: 'components/tabmenu', component: TabmenuDocComponent, title: 'TabMenu · CaribeNG' },
+  { path: 'components/contextmenu', component: ContextmenuDocComponent, title: 'ContextMenu · CaribeNG' },
+  { path: 'components/panelmenu', component: PanelmenuDocComponent, title: 'PanelMenu · CaribeNG' },
+  { path: 'components/tieredmenu', component: TieredmenuDocComponent, title: 'TieredMenu · CaribeNG' },
+  { path: 'components/megamenu', component: MegamenuDocComponent, title: 'MegaMenu · CaribeNG' },
+  { path: 'components/dock', component: DockDocComponent, title: 'Dock · CaribeNG' },
+  { path: 'components/steps', component: StepsDocComponent, title: 'Steps · CaribeNG' },
   { path: 'components/dialog', component: DialogDocComponent, title: 'Dialog · CaribeNG' },
   { path: 'components/drawer', component: DrawerDocComponent, title: 'Drawer · CaribeNG' },
   { path: 'components/tooltip', component: TooltipDocComponent, title: 'Tooltip · CaribeNG' },
