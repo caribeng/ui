@@ -43,6 +43,7 @@ import { ListboxDocComponent } from './pages/listbox-doc.component';
 import { KnobDocComponent } from './pages/knob-doc.component';
 import { TableDocComponent } from './pages/table-doc.component';
 import { PaginatorDocComponent } from './pages/paginator-doc.component';
+import { MenuDocComponent } from './pages/menu-doc.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'introduction', pathMatch: 'full' },
@@ -72,6 +73,7 @@ export const routes: Routes = [
   { path: 'components/knob', component: KnobDocComponent, title: 'Knob · CaribeNG' },
   { path: 'components/table', component: TableDocComponent, title: 'Table · CaribeNG' },
   { path: 'components/paginator', component: PaginatorDocComponent, title: 'Paginator · CaribeNG' },
+  { path: 'components/menu', component: MenuDocComponent, title: 'Menu · CaribeNG' },
   { path: 'components/dialog', component: DialogDocComponent, title: 'Dialog · CaribeNG' },
   { path: 'components/drawer', component: DrawerDocComponent, title: 'Drawer · CaribeNG' },
   { path: 'components/tooltip', component: TooltipDocComponent, title: 'Tooltip · CaribeNG' },
