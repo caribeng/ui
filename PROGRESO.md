@@ -10,8 +10,8 @@
 
 | Métrica | Valor |
 |---|---|
-| Componentes de UI | **~43** (objetivo SPEC: **75**) |
-| Tests unitarios | **166** en verde |
+| Componentes de UI | **~50** (objetivo SPEC: **75**) |
+| Tests unitarios | **180** en verde |
 | Entry points publicables | `@caribeng/ui` + 1 por componente + `@caribeng/ui/icons` |
 | Build | Limpio (ng-packagr / APF) |
 | Iconos | **361** núcleo + **1891** catálogo (Lucide, ISC) |
@@ -163,6 +163,13 @@ caribeng/
 |---|---|
 | Menu | `@caribeng/ui/menu` |
 | Menubar | `@caribeng/ui/menubar` |
+| TabMenu | `@caribeng/ui/tabmenu` |
+| ContextMenu | `@caribeng/ui/contextmenu` |
+| PanelMenu | `@caribeng/ui/panelmenu` |
+| TieredMenu | `@caribeng/ui/tieredmenu` |
+| MegaMenu | `@caribeng/ui/megamenu` |
+| Dock | `@caribeng/ui/dock` |
+| Steps | `@caribeng/ui/steps` |
 
 ### Media · Misc · Menu
 | Componente | Entry point | Grupo |
@@ -311,13 +318,13 @@ node packages/ui/icon/scripts/generate-icons.mjs [ruta-al-clon-de-lucide]
 
 ### Componentes (hacia los 75)
 
-Faltan ~**32**. Próximos lotes sugeridos (en orden de valor):
+Faltan ~**25**. Próximos lotes sugeridos (en orden de valor):
 
 1. **Datos** — ✅ `Table` (ordenación/selección/paginación), ✅ `Paginator`.
    Pendiente: plantillas de celda personalizadas (Table v2), `DataView`,
    `Tree`/`TreeTable`, `Timeline`, `VirtualScroller`.
-2. **Menu** — ✅ `Menu`, ✅ `Menubar`. Pendiente: `TabMenu`, `ContextMenu`, `PanelMenu`,
-   `TieredMenu`, `MegaMenu`, `Dock`, `Steps`.
+2. **Menu** — ✅ `Menu`, ✅ `Menubar`, ✅ `TabMenu`, ✅ `ContextMenu`, ✅ `PanelMenu`,
+   ✅ `TieredMenu`, ✅ `MegaMenu`, ✅ `Dock`, ✅ `Steps`.
 3. **Form extra** — `TreeSelect`, `CascadeSelect`, `InputMask`, `InputOTP`,
    `FloatLabel`/`IftaLabel`/`IconField`, `Editor`, `FileUpload`.
 4. **Panel / Layout** — `Panel` (colapsable), `Fieldset`, `Toolbar`,
@@ -358,3 +365,4 @@ Faltan ~**32**. Próximos lotes sugeridos (en orden de valor):
 - **Form controls** — selectbutton, togglebutton, listbox, knob.
 - **v0.11 Menu** — popup con acciones, enlaces, separadores y teclado.
 - **v0.12 Menubar** — navegación horizontal, submenús y soporte de teclado.
+- **v0.14 Menu extra** — TabMenu, ContextMenu, PanelMenu, TieredMenu, MegaMenu, Dock y Steps.

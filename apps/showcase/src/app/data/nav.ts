@@ -98,6 +98,13 @@ export const NAV: NavGroup[] = [
     items: [
       { label: 'Menu', route: '/components/menu' },
       { label: 'Menubar', route: '/components/menubar' },
+      { label: 'TabMenu', route: '/components/tabmenu' },
+      { label: 'ContextMenu', route: '/components/contextmenu' },
+      { label: 'PanelMenu', route: '/components/panelmenu' },
+      { label: 'TieredMenu', route: '/components/tieredmenu' },
+      { label: 'MegaMenu', route: '/components/megamenu' },
+      { label: 'Dock', route: '/components/dock' },
+      { label: 'Steps', route: '/components/steps' },
       { label: 'Breadcrumb', route: '/components/breadcrumb' },
     ],
   },

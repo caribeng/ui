@@ -1,0 +1,6 @@
+:host { display: block; color: var(--cb-color-text); font-family: var(--cb-font-sans); }
+.cb-tabmenu__list { display: flex; gap: 0.25rem; margin: 0; padding: 0; list-style: none; border-bottom: 1px solid var(--cb-color-border); }
+.cb-tabmenu__link { display: flex; align-items: center; gap: 0.5rem; min-height: 2.75rem; padding: 0.625rem 0.875rem; border: 0; border-bottom: 2px solid transparent; background: transparent; color: inherit; font: inherit; text-decoration: none; cursor: pointer; }
+.cb-tabmenu__link:hover:not(:disabled), .cb-tabmenu__link:focus-visible { background: var(--cb-color-surface); outline: none; }
+.cb-tabmenu__link[aria-current='page'] { border-bottom-color: var(--cb-color-primary); color: var(--cb-color-primary); font-weight: 600; }
+.cb-tabmenu__link:disabled { opacity: 0.5; cursor: default; }
