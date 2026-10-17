@@ -51,7 +51,12 @@
       "@caribeng/ui/drawer": ["./packages/ui/drawer/src/public-api.ts"],
       "@caribeng/ui/accordion": ["./packages/ui/accordion/src/public-api.ts"],
       "@caribeng/ui/tabs": ["./packages/ui/tabs/src/public-api.ts"],
-      "@caribeng/ui/stepper": ["./packages/ui/stepper/src/public-api.ts"]
+      "@caribeng/ui/stepper": ["./packages/ui/stepper/src/public-api.ts"],
+      "@caribeng/ui/avatar": ["./packages/ui/avatar/src/public-api.ts"],
+      "@caribeng/ui/progressbar": ["./packages/ui/progressbar/src/public-api.ts"],
+      "@caribeng/ui/spinner": ["./packages/ui/spinner/src/public-api.ts"],
+      "@caribeng/ui/skeleton": ["./packages/ui/skeleton/src/public-api.ts"],
+      "@caribeng/ui/breadcrumb": ["./packages/ui/breadcrumb/src/public-api.ts"]
     }
   },
   "exclude": ["node_modules", "tmp", "dist"]

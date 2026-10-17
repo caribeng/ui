@@ -32,6 +32,11 @@ import { DrawerDocComponent } from './pages/drawer-doc.component';
 import { AccordionDocComponent } from './pages/accordion-doc.component';
 import { TabsDocComponent } from './pages/tabs-doc.component';
 import { StepperDocComponent } from './pages/stepper-doc.component';
+import { AvatarDocComponent } from './pages/avatar-doc.component';
+import { ProgressbarDocComponent } from './pages/progressbar-doc.component';
+import { SpinnerDocComponent } from './pages/spinner-doc.component';
+import { SkeletonDocComponent } from './pages/skeleton-doc.component';
+import { BreadcrumbDocComponent } from './pages/breadcrumb-doc.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'introduction', pathMatch: 'full' },
@@ -68,5 +73,10 @@ export const routes: Routes = [
   { path: 'components/accordion', component: AccordionDocComponent, title: 'Accordion · CaribeNG' },
   { path: 'components/tabs', component: TabsDocComponent, title: 'Tabs · CaribeNG' },
   { path: 'components/stepper', component: StepperDocComponent, title: 'Stepper · CaribeNG' },
+  { path: 'components/avatar', component: AvatarDocComponent, title: 'Avatar · CaribeNG' },
+  { path: 'components/progressbar', component: ProgressbarDocComponent, title: 'ProgressBar · CaribeNG' },
+  { path: 'components/spinner', component: SpinnerDocComponent, title: 'Spinner · CaribeNG' },
+  { path: 'components/skeleton', component: SkeletonDocComponent, title: 'Skeleton · CaribeNG' },
+  { path: 'components/breadcrumb', component: BreadcrumbDocComponent, title: 'Breadcrumb · CaribeNG' },
   { path: '**', redirectTo: 'introduction' },
 ];
