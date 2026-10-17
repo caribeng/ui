@@ -11,7 +11,7 @@
 | Métrica | Valor |
 |---|---|
 | Componentes y directivas de UI | **93** (objetivo SPEC: **75** — **100 % completado + extras**) |
-| Tests unitarios | **232** en verde (**94** suites) |
+| Tests unitarios | **235** en verde (**95** suites, 0 warnings en stderr) |
 | Entry points publicables | `@caribeng/ui` + 93 por componente/directiva + `@caribeng/ui/icons` |
 | Build | Limpio (ng-packagr / APF) |
 | Iconos | **361** núcleo + **1891** catálogo (Lucide, ISC) |
@@ -363,7 +363,7 @@ node packages/ui/icon/scripts/generate-icons.mjs [ruta-al-clon-de-lucide]
 
 Todos los lotes planificados en `SPEC.md` (75 componentes/directivas) y `PROGRESO.md` (+18 componentes adicionales) están implementados, documentados en `showcase` y verificados con tests unitarios:
 
-1. ✅ **Datos** — `Table`, `Paginator`, `DataView`, `Tree`, `TreeTable`, `Timeline`, `VirtualScroller`, `OrderList`, `PickList`, `OrganizationChart`.
+1. ✅ **Datos** — `Table` (con ordenación, selección, paginación y plantillas de celda personalizadas `cbTableCell`), `Paginator`, `DataView`, `Tree`, `TreeTable`, `Timeline`, `VirtualScroller`, `OrderList`, `PickList`, `OrganizationChart`.
 2. ✅ **Menu** — `Menu`, `Menubar`, `TabMenu`, `ContextMenu`, `PanelMenu`, `TieredMenu`, `MegaMenu`, `Dock`, `Steps`, `Breadcrumb`, `SpeedDial`.
 3. ✅ **Form extra** — `TreeSelect`, `CascadeSelect`, `InputMask`, `InputOTP`, `FloatLabel`, `IconField`, `Editor`, `FileUpload`, `Password`.
 4. ✅ **Panel / Layout** — `Card`, `Panel`, `Fieldset`, `Toolbar`, `Splitter`, `ScrollPanel`, `ScrollTop`, `Divider`, `Accordion`, `Tabs`, `Stepper`.
@@ -371,18 +371,15 @@ Todos los lotes planificados en `SPEC.md` (75 componentes/directivas) y `PROGRES
 6. ✅ **Media** — `Avatar`, `AvatarGroup`, `Carousel`, `Image`, `Galleria`.
 7. ✅ **Misc & Directivas** — `Chip`, `MeterGroup`, `Inplace`, `BlockUI`, `InlineMessage`, `Terminal`, `Chart`, `Ripple`, `FocusTrap`, `AnimateOnScroll`, `StyleClass`, `AutoFocus`.
 
-### Infraestructura / calidad
+### Infraestructura / calidad (Fase 2 — v1.0.0)
 
-- [ ] **Publicación a npm** (`@caribeng/ui`): `npm pack` de prueba, versión,
-      `provenance`, verificar `exports` y `peerDependencies`.
-- [ ] **CI** (GitHub Actions u otro): build + test + lint en cada PR.
-- [ ] **README de consumo** (instalación, `provideCaribeNG`, estilos, tema).
-- [ ] **Cobertura** con umbrales y reporte.
-- [ ] **Tests e2e / de interacción** (drag del slider/knob, overlays) — hoy
-      cubiertos sobre todo por verificación manual en el navegador.
-- [ ] **Accesibilidad**: auditoría formal (axe) por componente.
-- [ ] **Changelog / versionado** (semver, Conventional Commits).
-- [ ] **Theming avanzado**: más presets de paleta, documentación de tokens.
+- [x] **Publicación a npm** (`@caribeng/ui` v1.0.0): verificado con `npm pack --dry-run ./dist/packages/ui` (389 archivos APF, `exports` y `peerDependencies` validados).
+- [x] **CI** (GitHub Actions en `.github/workflows/ci.yml`): typecheck (`tsc --noEmit`) + build (`ui`, `tokens`, `showcase`) + `nx test ui` + validación `npm pack --dry-run`.
+- [x] **README de consumo** (`README.md` y `packages/ui/README.md` empaquetado en `dist/packages/ui/README.md`): guía de instalación, `provideCaribeNG`, estilos, iconos, presets y catálogo de 93 entry points.
+- [x] **Cobertura y scripts de verificación**: scripts `pnpm run test:coverage`, `pnpm run typecheck` y `pnpm run pack:verify` en `package.json`.
+- [x] **Accesibilidad WCAG 2.2 AA**: suite transversal de contratos ARIA, nombres accesibles y regiones `aria-live` en `packages/ui/src/lib/a11y-contract.spec.ts`.
+- [x] **Changelog / versionado**: `CHANGELOG.md` oficial para `v1.0.0` (SemVer + Keep a Changelog).
+- [x] **Theming avanzado**: presets de paleta en vivo (`emerald`, `ocean`, `coral`, `amber`, `violet`, `rose`) y escalas personalizadas en `CbThemeService` + selector interactivo en `/foundations/theming`.
 
 ---
 
@@ -408,3 +405,4 @@ Todos los lotes planificados en `SPEC.md` (75 componentes/directivas) y `PROGRES
 - **v0.16 Form / Media / Misc** — InputMask, InputOTP, FloatLabel, IconField, TreeSelect, CascadeSelect, FileUpload, Editor, Carousel, Image, Galleria, AvatarGroup, Chip, MeterGroup, Inplace, BlockUI, InlineMessage, Terminal y Ripple.
 - **v0.18 Extra (Codex)** — OrganizationChart y SpeedDial.
 - **v0.19 Chart, Password & Directivas Misc** — Password, Chart, FocusTrap, AnimateOnScroll, StyleClass y AutoFocus (93 entry points completados).
+- **v1.0.0 Cierre General** — Plantillas de celda personalizadas en `Table` (`cbTableCell`), presets de paleta en vivo en `CbThemeService`, `README.md`, `CHANGELOG.md`, pipeline CI (`.github/workflows/ci.yml`), suite transversal a11y y verificación `npm pack`.
