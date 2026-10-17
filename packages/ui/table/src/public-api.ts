@@ -3,5 +3,7 @@
  */
 export {
   CbTableComponent,
+  CbTableCellDirective,
+  type CbTableCellContext,
   type CbTableColumn,
 } from './lib/table.component';

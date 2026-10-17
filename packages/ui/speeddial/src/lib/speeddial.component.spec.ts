@@ -10,7 +10,7 @@ import { CbSpeedDialComponent, type CbSpeedDialItem } from './speeddial.componen
 class HostComponent {
   items: CbSpeedDialItem[] = [
     { label: 'Crear', icon: 'plus' },
-    { label: 'Eliminar', icon: 'trash-2', disabled: true },
+    { label: 'Eliminar', icon: 'x', disabled: true },
   ];
   selected = '';
 }

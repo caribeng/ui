@@ -1,7 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { CbTableComponent, type CbTableColumn } from './table.component';
+import { CbTableCellDirective, CbTableComponent, type CbTableColumn } from './table.component';
 
 interface Row {
   id: number;
@@ -42,9 +42,24 @@ class HostComponent {
   selection = signal<unknown>(null);
 }
 
+@Component({
+  imports: [CbTableComponent, CbTableCellDirective],
+  template: `
+    <cb-table [value]="data" [columns]="cols">
+      <ng-template cbTableCell="nombre" let-row let-value="value" let-col="col">
+        <span class="custom-cell">{{ row.nombre }} · {{ value }} · {{ col.header }}</span>
+      </ng-template>
+    </cb-table>
+  `,
+})
+class TemplateHostComponent {
+  data = DATA;
+  cols = COLS;
+}
+
 describe('CbTableComponent', () => {
   beforeEach(() => {
-    TestBed.configureTestingModule({ imports: [HostComponent] });
+    TestBed.configureTestingModule({ imports: [HostComponent, TemplateHostComponent] });
   });
 
   function setup() {
@@ -62,6 +77,13 @@ describe('CbTableComponent', () => {
     const { headers, rows } = setup();
     expect(headers().map((h) => h.textContent!.trim())).toContain('Nombre');
     expect(rows().length).toBe(3);
+  });
+
+  it('renders a custom cell template with row, value and column context', () => {
+    const fixture = TestBed.createComponent(TemplateHostComponent);
+    fixture.detectChanges();
+    const customCell = fixture.nativeElement.querySelector('.custom-cell') as HTMLElement;
+    expect(customCell.textContent).toContain('Teclado · Teclado · Nombre');
   });
 
   it('ordena al hacer clic en un encabezado sortable (asc/desc)', () => {

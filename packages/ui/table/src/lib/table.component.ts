@@ -1,13 +1,18 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  Directive,
+  TemplateRef,
   ViewEncapsulation,
   computed,
+  contentChildren,
+  inject,
   input,
   model,
   output,
   signal,
 } from '@angular/core';
+import { NgTemplateOutlet } from '@angular/common';
 import { CbIconComponent } from '@caribeng/ui/icon';
 import { CbPaginatorComponent, type CbPaginatorState } from '@caribeng/ui/paginator';
 
@@ -24,6 +29,22 @@ export interface CbTableColumn {
   width?: string;
 }
 
+export interface CbTableCellContext {
+  $implicit: unknown;
+  row: unknown;
+  value: unknown;
+  col: CbTableColumn;
+}
+
+@Directive({
+  selector: 'ng-template[cbTableCell]',
+  standalone: true,
+})
+export class CbTableCellDirective {
+  readonly cbTableCell = input.required<string>();
+  readonly template = inject<TemplateRef<CbTableCellContext>>(TemplateRef);
+}
+
 /**
  * Table de CaribeNG: tabla de datos con columnas declarativas, ordenación,
  * paginación y selección (simple/múltiple).
@@ -38,7 +59,7 @@ export interface CbTableColumn {
   selector: 'cb-table',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
-  imports: [CbIconComponent, CbPaginatorComponent],
+  imports: [CbIconComponent, CbPaginatorComponent, NgTemplateOutlet],
   host: { class: 'cb-table-host' },
   template: `
     <div class="cb-table__wrap">
@@ -98,7 +119,16 @@ export interface CbTableColumn {
                 </td>
               }
               @for (col of columns(); track col.field) {
-                <td class="cb-table__td" [style.text-align]="col.align || null">{{ cellValue(row, col) }}</td>
+                <td class="cb-table__td" [style.text-align]="col.align || null">
+                  @if (cellTemplate(col.field); as cell) {
+                    <ng-container
+                      [ngTemplateOutlet]="cell.template"
+                      [ngTemplateOutletContext]="cellContext(row, col)"
+                    />
+                  } @else {
+                    {{ cellValue(row, col) }}
+                  }
+                </td>
               }
             </tr>
           } @empty {
@@ -124,6 +154,7 @@ export interface CbTableColumn {
   styleUrl: './table.component.css',
 })
 export class CbTableComponent {
+  private readonly cellTemplates = contentChildren(CbTableCellDirective);
   readonly value = input<readonly unknown[]>([]);
   readonly columns = input<readonly CbTableColumn[]>([]);
   readonly paginator = input<boolean, unknown>(false, { transform: toBoolean });
@@ -225,6 +256,12 @@ export class CbTableComponent {
     return row != null && typeof row === 'object'
       ? (row as Record<string, unknown>)[col.field]
       : row;
+  }
+  protected cellTemplate(field: string): CbTableCellDirective | undefined {
+    return this.cellTemplates().find((cell) => cell.cbTableCell() === field);
+  }
+  protected cellContext(row: unknown, col: CbTableColumn): CbTableCellContext {
+    return { $implicit: row, row, value: this.cellValue(row, col), col };
   }
   protected rowKey(row: unknown, index: number): unknown {
     const key = this.dataKey();
