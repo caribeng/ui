@@ -70,4 +70,20 @@ export const NAV: NavGroup[] = [
       { label: 'Stepper', route: '/components/stepper' },
     ],
   },
+  {
+    label: 'Media',
+    items: [{ label: 'Avatar', route: '/components/avatar' }],
+  },
+  {
+    label: 'Misc',
+    items: [
+      { label: 'ProgressBar', route: '/components/progressbar' },
+      { label: 'Spinner', route: '/components/spinner' },
+      { label: 'Skeleton', route: '/components/skeleton' },
+    ],
+  },
+  {
+    label: 'Menu',
+    items: [{ label: 'Breadcrumb', route: '/components/breadcrumb' }],
+  },
 ];
