@@ -6,21 +6,25 @@ import {
   input,
   signal,
 } from '@angular/core';
+import { CbIconComponent } from '@caribeng/ui/icon';
 import { HighlightService, type CodeLang } from './highlight.service';
 
 /** Bloque de código resaltado con botón de copiar. */
 @Component({
   selector: 'doc-code-block',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [CbIconComponent],
   template: `
     <div class="doc-code">
       <button
         type="button"
         class="doc-code__copy"
+        style="display: inline-flex; align-items: center; gap: 0.35rem"
         (click)="copy()"
         [attr.aria-label]="copied() ? 'Copiado' : 'Copiar código'"
       >
-        {{ copied() ? '✓ Copiado' : 'Copiar' }}
+        <cb-icon [name]="copied() ? 'check' : 'copy'" [size]="14" aria-hidden="true" />
+        {{ copied() ? 'Copiado' : 'Copiar' }}
       </button>
       <pre class="doc-code__pre"><code
         class="doc-code__code"

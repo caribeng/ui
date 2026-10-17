@@ -5,16 +5,17 @@ import {
   signal,
 } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { CbIconComponent } from '@caribeng/ui/icon';
 import { NAV, type NavGroup } from '../data/nav';
 
 @Component({
   selector: 'doc-sidebar',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, RouterLinkActive],
+  imports: [RouterLink, RouterLinkActive, CbIconComponent],
   template: `
     <div class="sidebar">
       <div class="sidebar__search">
-        <span class="sidebar__search-icon" aria-hidden="true">🔎</span>
+        <cb-icon class="sidebar__search-icon" name="search" [size]="16" aria-hidden="true" />
         <input
           type="search"
           class="sidebar__search-input"

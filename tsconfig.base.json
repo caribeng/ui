@@ -22,6 +22,7 @@
     "paths": {
       "@caribeng/ui": ["./packages/ui/src/public-api.ts"],
       "@caribeng/ui/icon": ["./packages/ui/icon/src/public-api.ts"],
+      "@caribeng/ui/icons": ["./packages/ui/icons/src/public-api.ts"],
       "@caribeng/ui/button": ["./packages/ui/button/src/public-api.ts"],
       "@caribeng/ui/input": ["./packages/ui/input/src/public-api.ts"],
       "@caribeng/ui/select": ["./packages/ui/select/src/public-api.ts"],

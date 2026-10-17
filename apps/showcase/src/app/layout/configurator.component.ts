@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, input, output } from '@angular/core';
 import { CbThemeService } from '@caribeng/ui';
+import { CbIconComponent } from '@caribeng/ui/icon';
 import { ConfiguratorService } from '../services/configurator.service';
 import {
   PRIMARY_NAMES,
@@ -11,6 +12,7 @@ import {
 @Component({
   selector: 'doc-configurator',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [CbIconComponent],
   template: `
     @if (open()) {
       <div class="cfg__backdrop" (click)="close.emit()"></div>
@@ -19,7 +21,7 @@ import {
       <header class="cfg__header">
         <h2 class="cfg__title">Tema</h2>
         <button type="button" class="cfg__close" (click)="close.emit()" aria-label="Cerrar">
-          ✕
+          <cb-icon name="x" [size]="18" aria-hidden="true" />
         </button>
       </header>
 
@@ -32,7 +34,7 @@ import {
             [class.cfg__mode--active]="!theme.isDark()"
             (click)="theme.setTheme('light')"
           >
-            ☀ Claro
+            <cb-icon name="sun" [size]="16" aria-hidden="true" /> Claro
           </button>
           <button
             type="button"
@@ -40,7 +42,7 @@ import {
             [class.cfg__mode--active]="theme.isDark()"
             (click)="theme.setTheme('dark')"
           >
-            🌙 Oscuro
+            <cb-icon name="moon" [size]="16" aria-hidden="true" /> Oscuro
           </button>
         </div>
       </section>

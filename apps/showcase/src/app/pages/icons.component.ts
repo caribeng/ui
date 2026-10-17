@@ -18,7 +18,7 @@ import { TocService } from '../services/toc.service';
     <doc-page-header
       eyebrow="Foundations"
       title="Icons"
-      lead="Iconos propios de CaribeNG, en SVG inline. Heredan el color del texto (currentColor) y escalan con el tamaño. Sin dependencias externas."
+      lead="Iconos de CaribeNG (derivados de Lucide, ISC) en SVG inline. Heredan el color del texto (currentColor) y escalan con el tamaño. Sin dependencia en runtime."
     />
 
     <doc-section id="import" title="Import">
@@ -83,6 +83,13 @@ import { TocService } from '../services/toc.service';
     </doc-section>
 
     <doc-section
+      id="catalog"
+      title="Catálogo completo (1891)"
+      description="¿Falta uno? Importa cualquiera de los 1891 iconos desde @caribeng/ui/icons (tree-shakeable: solo entra al bundle lo que importas) y regístralo."
+      [code]="catalogCode"
+    />
+
+    <doc-section
       id="custom"
       title="Añadir iconos propios"
       description="El registro es extensible: registra tus SVG con provideCbIcons."
@@ -143,7 +150,19 @@ export class IconsComponent {
   }
 
   protected readonly iconNames = Object.keys(cbCoreIcons).sort();
-  protected readonly galleryDescription = `${this.iconNames.length} iconos en el set núcleo. Usa cualquiera por su nombre.`;
+  protected readonly galleryDescription = `${this.iconNames.length} iconos en el set núcleo (auto-registrados) · 1891 disponibles en el catálogo. Usa cualquiera del núcleo por su nombre.`;
+
+  protected readonly catalogCode = `import { heartPulse, wifi } from '@caribeng/ui/icons';
+import { provideCbIcons } from '@caribeng/ui/icon';
+
+bootstrapApplication(App, {
+  providers: [
+    provideCaribeNG(),
+    provideCbIcons({ 'heart-pulse': heartPulse, wifi }),
+  ],
+});
+
+// luego:  <cb-icon name="heart-pulse" />  ·  <cb-icon name="wifi" />`;
 
   protected readonly installCode = `npm install @caribeng/ui`;
 
