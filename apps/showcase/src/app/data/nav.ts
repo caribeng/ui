@@ -26,7 +26,9 @@ export const NAV: NavGroup[] = [
     items: [
       { label: 'Button', route: '/components/button' },
       { label: 'Input', route: '/components/input' },
+      { label: 'InputGroup', route: '/components/inputgroup' },
       { label: 'Select', route: '/components/select' },
+      { label: 'MultiSelect', route: '/components/multiselect' },
       { label: 'Autocomplete', route: '/components/autocomplete' },
       { label: 'Textarea', route: '/components/textarea' },
       { label: 'InputNumber', route: '/components/input-number' },
@@ -34,6 +36,9 @@ export const NAV: NavGroup[] = [
       { label: 'Checkbox', route: '/components/checkbox' },
       { label: 'Radio', route: '/components/radio' },
       { label: 'Toggle', route: '/components/toggle' },
+      { label: 'Slider', route: '/components/slider' },
+      { label: 'Rating', route: '/components/rating' },
+      { label: 'Chips', route: '/components/chips' },
     ],
   },
   {

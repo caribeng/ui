@@ -1,0 +1,23 @@
+:host {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--cb-space-2);
+  padding: 0 var(--cb-space-3);
+  white-space: nowrap;
+  color: var(--cb-color-text-muted);
+  background-color: var(--cb-color-surface-100);
+  border: var(--cb-border-width) solid var(--cb-color-border-strong);
+  font-size: var(--cb-text-sm);
+  font-family: var(--cb-font-sans);
+}
+
+:host(.cb-input-group-addon--button) {
+  padding: 0;
+  background-color: transparent;
+  border: none;
+}
+
+:host-context([data-theme='dark']) {
+  background-color: var(--cb-color-surface-200);
+}

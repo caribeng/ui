@@ -1,0 +1,56 @@
+.cb-input-group {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+}
+
+/* Elementos hijos del grupo: cb-input, cb-button, cb-select, addons… */
+.cb-input-group > * {
+  flex: none;
+}
+/* El campo de entrada ocupa el espacio disponible. */
+.cb-input-group > cb-input,
+.cb-input-group > cb-select,
+.cb-input-group > cb-autocomplete {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* Aplana el radio de todos los controles internos y colapsa bordes dobles. */
+.cb-input-group .cb-input__field,
+.cb-input-group .cb-button,
+.cb-input-group .cb-select__trigger,
+.cb-input-group > .cb-input-group-addon {
+  border-radius: 0;
+}
+.cb-input-group > * + * .cb-input__field,
+.cb-input-group > * + * .cb-button,
+.cb-input-group > * + * .cb-select__trigger,
+.cb-input-group > .cb-input-group-addon + .cb-input-group-addon,
+.cb-input-group > * + .cb-input-group-addon {
+  margin-left: calc(var(--cb-border-width, 1px) * -1);
+}
+
+/* Redondea solo las esquinas exteriores (primer y último elemento). */
+.cb-input-group > :first-child .cb-input__field,
+.cb-input-group > :first-child .cb-button,
+.cb-input-group > :first-child .cb-select__trigger,
+.cb-input-group > .cb-input-group-addon:first-child {
+  border-top-left-radius: var(--cb-radius-md);
+  border-bottom-left-radius: var(--cb-radius-md);
+}
+.cb-input-group > :last-child .cb-input__field,
+.cb-input-group > :last-child .cb-button,
+.cb-input-group > :last-child .cb-select__trigger,
+.cb-input-group > .cb-input-group-addon:last-child {
+  border-top-right-radius: var(--cb-radius-md);
+  border-bottom-right-radius: var(--cb-radius-md);
+}
+
+/* El control enfocado se superpone para que su borde/anillo quede encima. */
+.cb-input-group .cb-input__field:focus,
+.cb-input-group .cb-button:focus-visible,
+.cb-input-group .cb-select__trigger:focus-visible {
+  position: relative;
+  z-index: 1;
+}

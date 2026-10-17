@@ -1,0 +1,83 @@
+:host {
+  display: block;
+}
+
+.cb-chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--cb-space-2);
+  width: 100%;
+  min-height: 2.5rem;
+  padding: var(--cb-space-1) var(--cb-space-2);
+  background-color: var(--cb-color-bg);
+  border: var(--cb-border-width) solid var(--cb-color-border-strong);
+  border-radius: var(--cb-radius-md);
+  cursor: text;
+  transition:
+    border-color var(--cb-duration-fast) var(--cb-ease),
+    box-shadow var(--cb-duration-fast) var(--cb-ease);
+}
+.cb-chips:focus-within {
+  border-color: var(--cb-color-primary-500);
+  box-shadow: 0 0 0 3px var(--cb-color-focus-ring);
+}
+.cb-chips--sm {
+  min-height: 2.125rem;
+  font-size: var(--cb-text-sm);
+}
+.cb-chips--lg {
+  min-height: 2.875rem;
+  font-size: var(--cb-text-lg);
+}
+
+.cb-chips__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--cb-space-1);
+  padding: 0.125rem 0.25rem 0.125rem 0.5rem;
+  background-color: var(--cb-color-primary-50);
+  color: var(--cb-color-primary-700);
+  border-radius: var(--cb-radius-sm);
+  font-size: 0.875em;
+}
+
+.cb-chips__remove {
+  display: inline-flex;
+  padding: 1px;
+  border: none;
+  background: transparent;
+  color: inherit;
+  border-radius: var(--cb-radius-full);
+  cursor: pointer;
+  opacity: 0.7;
+}
+.cb-chips__remove:hover {
+  opacity: 1;
+  background-color: color-mix(in srgb, var(--cb-color-primary-500) 20%, transparent);
+}
+
+.cb-chips__input {
+  flex: 1 1 60px;
+  min-width: 60px;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: var(--cb-color-text);
+  font: inherit;
+  padding: var(--cb-space-1) 0;
+}
+
+.cb-chips.cb-is-invalid {
+  border-color: var(--cb-color-danger);
+}
+.cb-chips.cb-is-disabled {
+  opacity: var(--cb-opacity-disabled, 0.55);
+  cursor: default;
+  background-color: var(--cb-color-surface-100);
+}
+
+:host-context([data-theme='dark']) .cb-chips__chip {
+  background-color: color-mix(in srgb, var(--cb-color-primary-500) 22%, transparent);
+  color: var(--cb-color-primary-200);
+}
