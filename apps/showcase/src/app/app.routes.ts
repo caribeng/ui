@@ -37,6 +37,10 @@ import { ProgressbarDocComponent } from './pages/progressbar-doc.component';
 import { SpinnerDocComponent } from './pages/spinner-doc.component';
 import { SkeletonDocComponent } from './pages/skeleton-doc.component';
 import { BreadcrumbDocComponent } from './pages/breadcrumb-doc.component';
+import { SelectbuttonDocComponent } from './pages/selectbutton-doc.component';
+import { TogglebuttonDocComponent } from './pages/togglebutton-doc.component';
+import { ListboxDocComponent } from './pages/listbox-doc.component';
+import { KnobDocComponent } from './pages/knob-doc.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'introduction', pathMatch: 'full' },
@@ -60,6 +64,10 @@ export const routes: Routes = [
   { path: 'components/chips', component: ChipsDocComponent, title: 'Chips · CaribeNG' },
   { path: 'components/multiselect', component: MultiselectDocComponent, title: 'MultiSelect · CaribeNG' },
   { path: 'components/colorpicker', component: ColorpickerDocComponent, title: 'ColorPicker · CaribeNG' },
+  { path: 'components/selectbutton', component: SelectbuttonDocComponent, title: 'SelectButton · CaribeNG' },
+  { path: 'components/togglebutton', component: TogglebuttonDocComponent, title: 'ToggleButton · CaribeNG' },
+  { path: 'components/listbox', component: ListboxDocComponent, title: 'ListBox · CaribeNG' },
+  { path: 'components/knob', component: KnobDocComponent, title: 'Knob · CaribeNG' },
   { path: 'components/dialog', component: DialogDocComponent, title: 'Dialog · CaribeNG' },
   { path: 'components/drawer', component: DrawerDocComponent, title: 'Drawer · CaribeNG' },
   { path: 'components/tooltip', component: TooltipDocComponent, title: 'Tooltip · CaribeNG' },

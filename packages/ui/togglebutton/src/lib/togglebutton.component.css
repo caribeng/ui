@@ -1,0 +1,50 @@
+:host {
+  display: inline-flex;
+}
+
+.cb-togglebutton {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--cb-space-2);
+  height: 2.5rem;
+  padding: 0 var(--cb-space-4);
+  border: var(--cb-border-width) solid var(--cb-color-border-strong);
+  border-radius: var(--cb-radius-md);
+  background-color: var(--cb-color-bg);
+  color: var(--cb-color-text);
+  font-family: var(--cb-font-sans);
+  font-weight: var(--cb-font-weight-medium);
+  cursor: pointer;
+  transition:
+    background-color var(--cb-duration-fast) var(--cb-ease),
+    border-color var(--cb-duration-fast) var(--cb-ease),
+    color var(--cb-duration-fast) var(--cb-ease);
+}
+.cb-togglebutton--sm {
+  height: 2.125rem;
+  padding: 0 var(--cb-space-3);
+  font-size: var(--cb-text-sm);
+}
+.cb-togglebutton--lg {
+  height: 2.875rem;
+  padding: 0 var(--cb-space-5);
+  font-size: var(--cb-text-lg);
+}
+
+.cb-togglebutton:hover:not(:disabled):not(.cb-is-on) {
+  background-color: var(--cb-color-surface-100);
+}
+.cb-togglebutton:focus-visible {
+  outline: none;
+  border-color: var(--cb-color-primary-500);
+  box-shadow: 0 0 0 3px var(--cb-color-focus-ring);
+}
+.cb-togglebutton.cb-is-on {
+  background-color: var(--cb-color-primary-500);
+  border-color: var(--cb-color-primary-500);
+  color: var(--cb-color-primary-contrast);
+}
+.cb-togglebutton:disabled {
+  opacity: var(--cb-opacity-disabled, 0.55);
+  cursor: default;
+}
