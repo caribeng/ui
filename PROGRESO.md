@@ -10,8 +10,8 @@
 
 | Métrica | Valor |
 |---|---|
-| Componentes de UI | **~39** (objetivo SPEC: **75**) |
-| Tests unitarios | **152** en verde |
+| Componentes de UI | **~41** (objetivo SPEC: **75**) |
+| Tests unitarios | **159** en verde |
 | Entry points publicables | `@caribeng/ui` + 1 por componente + `@caribeng/ui/icons` |
 | Build | Limpio (ng-packagr / APF) |
 | Iconos | **361** núcleo + **1891** catálogo (Lucide, ISC) |
@@ -151,6 +151,12 @@ caribeng/
 | Accordion | `@caribeng/ui/accordion` |
 | Tabs | `@caribeng/ui/tabs` |
 | Stepper | `@caribeng/ui/stepper` |
+
+### Data
+| Componente | Entry point |
+|---|---|
+| Table | `@caribeng/ui/table` |
+| Paginator | `@caribeng/ui/paginator` |
 
 ### Media · Misc · Menu
 | Componente | Entry point | Grupo |
@@ -299,10 +305,11 @@ node packages/ui/icon/scripts/generate-icons.mjs [ruta-al-clon-de-lucide]
 
 ### Componentes (hacia los 75)
 
-Faltan ~**36**. Próximos lotes sugeridos (en orden de valor):
+Faltan ~**34**. Próximos lotes sugeridos (en orden de valor):
 
-1. **Datos** — `Table` (ordenación, selección, plantillas), `Paginator`,
-   `DataView`, `Tree`/`TreeTable`, `Timeline`, `VirtualScroller`.
+1. **Datos** — ✅ `Table` (ordenación/selección/paginación), ✅ `Paginator`.
+   Pendiente: plantillas de celda personalizadas (Table v2), `DataView`,
+   `Tree`/`TreeTable`, `Timeline`, `VirtualScroller`.
 2. **Menu** — `Menu`, `Menubar`, `TabMenu`, `ContextMenu`, `PanelMenu`,
    `TieredMenu`, `MegaMenu`, `Dock`, `Steps`.
 3. **Form extra** — `TreeSelect`, `CascadeSelect`, `InputMask`, `InputOTP`,

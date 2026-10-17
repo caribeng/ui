@@ -75,6 +75,13 @@ export const NAV: NavGroup[] = [
     ],
   },
   {
+    label: 'Data',
+    items: [
+      { label: 'Table', route: '/components/table' },
+      { label: 'Paginator', route: '/components/paginator' },
+    ],
+  },
+  {
     label: 'Media',
     items: [{ label: 'Avatar', route: '/components/avatar' }],
   },
