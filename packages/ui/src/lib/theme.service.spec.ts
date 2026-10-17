@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { CB_CONFIG, CB_DEFAULT_CONFIG } from './caribeng.config';
+import { CB_COLOR_PRESETS, CB_CONFIG, CB_DEFAULT_CONFIG } from './caribeng.config';
 import { CbThemeService } from './theme.service';
 
 describe('CbThemeService', () => {
@@ -15,6 +15,7 @@ describe('CbThemeService', () => {
 
   beforeEach(() => {
     document.documentElement.removeAttribute('data-theme');
+    document.documentElement.removeAttribute('data-preset');
   });
 
   it('inicia con el tema de la configuración', () => {
@@ -38,5 +39,18 @@ describe('CbThemeService', () => {
     expect(svc.isDark()).toBe(true);
     svc.toggle();
     expect(svc.isDark()).toBe(false);
+  });
+
+  it('aplica presets de paleta primaria en vivo sobre --cb-color-primary-*', () => {
+    const svc = configure('light');
+    TestBed.tick();
+    expect(svc.preset()).toBe('emerald');
+
+    svc.setPreset('ocean');
+    TestBed.tick();
+    expect(document.documentElement.getAttribute('data-preset')).toBe('ocean');
+    expect(
+      document.documentElement.style.getPropertyValue('--cb-color-primary-500')
+    ).toBe(CB_COLOR_PRESETS.ocean[500]);
   });
 });

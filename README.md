@@ -1,77 +1,47 @@
-# CaribeNG
+# CaribeNG — Design System & Librería de Componentes Angular 22+
 
-Sistema de diseño y librería de componentes para **Angular 22+**, independiente de PrimeNG y de cualquier otra librería de componentes de terceros. Su única dependencia de comportamiento es `@angular/cdk`.
+[![Angular 22](https://img.shields.io/badge/Angular-22-dd0031.svg)](#)
+[![Entry Points](https://img.shields.io/badge/Entry%20Points-93-10b981.svg)](#)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](#)
 
-- **Scope npm:** `@caribeng`
-- **Prefijo:** `cb-` (selectores, clases, variables CSS)
-- **Monorepo:** Nx + pnpm
-- **Reactividad:** Signals · `OnPush` en todos los componentes · standalone
+Monorepo oficial de **CaribeNG** (`@caribeng/ui`), una librería greenfield de componentes y directivas para Angular 22+ construida con **Signals**, `ChangeDetectionStrategy.OnPush`, soporte **Zoneless**, tokens CSS (`--cb-*`) y accesibilidad **WCAG 2.2 AA**.
 
-> Estado: **v0.1 — Fundación** (en desarrollo). Ver `SPEC.md` para la especificación completa.
+---
 
-## Paquetes de esta fase
+## Estructura del Monorepo (Nx 23 + pnpm 11)
 
-| Paquete | Descripción |
-|---|---|
-| `@caribeng/tokens` | Design tokens (`--cb-*`), utilidades y mixins SCSS. |
-| `@caribeng/core` | `provideCaribeNG()`, `CbThemeService`, tipos compartidos. |
-| `@caribeng/button` | Componente Button (variantes, severidades, loading). |
-| `@caribeng/input` | Componente Input con `ControlValueAccessor`. |
-| `apps/showcase` | App de demostración (arranca en modo **zoneless**). |
+- [`packages/ui`](./packages/ui): Paquete publicable `@caribeng/ui` con entry point primario y **93 secondary entry points** (`@caribeng/ui/button`, `@caribeng/ui/table`, `@caribeng/ui/chart`, etc.).
+- [`packages/tokens`](./packages/tokens): Sistema de tokens CSS/SCSS (`--cb-*`), utilidades y soporte nativo de modo oscuro (`[data-theme="dark"]`).
+- [`apps/showcase`](./apps/showcase): Aplicación interactiva de documentación con ejemplos en vivo y tablas de API para los 93 componentes y directivas.
 
-## Requisitos
+---
 
-- Node.js >= 20.19
-- pnpm (vía corepack: `corepack enable pnpm`)
+## Comandos de Desarrollo
 
-## Desarrollo
+> En entornos con resolución IPv6 inestable hacia el registro npm, antepón `NODE_OPTIONS=--dns-result-order=ipv4first`.
 
 ```bash
-pnpm install
+# Instalar dependencias
+NODE_OPTIONS=--dns-result-order=ipv4first pnpm install
 
-# Compilar todas las librerías publicables
-pnpm build:libs
+# Compilar todos los paquetes y aplicaciones (ui, tokens, showcase)
+NODE_OPTIONS=--dns-result-order=ipv4first pnpm run build
 
-# Levantar la app showcase
-pnpm showcase        # http://localhost:4200
+# Ejecutar la suite completa de tests unitarios (Vitest + jsdom)
+NODE_OPTIONS=--dns-result-order=ipv4first pnpm nx test ui
 
-# Compilar un paquete puntual
-pnpm nx build button
+# Ejecutar tests con reporte de cobertura
+NODE_OPTIONS=--dns-result-order=ipv4first pnpm run test:coverage
+
+# Levantar el sitio de documentación interactivo (http://127.0.0.1:4200)
+NODE_OPTIONS=--dns-result-order=ipv4first pnpm run showcase
+
+# Verificar el empaquetado npm (Angular Package Format)
+NODE_OPTIONS=--dns-result-order=ipv4first pnpm run pack:verify
 ```
 
-## Estructura
+---
 
-```
-caribeng/
-├── packages/
-│   ├── tokens/   → @caribeng/tokens
-│   ├── core/     → @caribeng/core
-│   ├── button/   → @caribeng/button
-│   └── input/    → @caribeng/input
-├── apps/
-│   └── showcase/ → demo
-├── nx.json
-├── pnpm-workspace.yaml
-└── tsconfig.base.json
-```
+## Uso del paquete `@caribeng/ui`
 
-## Uso (consumidor)
-
-```ts
-import { provideCaribeNG } from '@caribeng/core';
-import { CbButtonComponent } from '@caribeng/button';
-import { CbInputComponent } from '@caribeng/input';
-
-bootstrapApplication(AppComponent, {
-  providers: [provideCaribeNG({ theme: 'light' })],
-});
-```
-
-```css
-/* estilos globales */
-@import '@caribeng/tokens/css/caribeng.css';
-```
-
-## Licencia
-
-MIT
+Consulta la guía completa de consumo en [`packages/ui/README.md`](./packages/ui/README.md) y el estado detallado del proyecto en [`PROGRESO.md`](./PROGRESO.md).
