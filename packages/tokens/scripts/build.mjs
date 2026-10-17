@@ -1,7 +1,11 @@
-// Build de @caribeng/tokens: compila SCSS -> CSS y arma el paquete publicable.
-// Cross-platform (Node ESM). No usa shell.
+// Build de los estilos/tokens de CaribeNG: compila SCSS -> CSS y los entrega
+// DENTRO del paquete único @caribeng/ui (en dist/packages/ui/styles), parcheando
+// su `exports`. Así el consumidor instala una sola librería y obtiene también el
+// CSS: `@caribeng/ui/styles.css` o, con Sass, `@use '@caribeng/ui/styles'`.
+// Cross-platform (Node ESM). No usa shell. Depende de que ui:build corra antes
+// (dependsOn en project.json), porque ng-packagr limpia dist/packages/ui.
 import { compile } from 'sass';
-import { cpSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { cpSync, mkdirSync, readFileSync, rmSync, writeFileSync, existsSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -9,35 +13,56 @@ const here = dirname(fileURLToPath(import.meta.url));
 const pkgRoot = resolve(here, '..');
 const workspaceRoot = resolve(pkgRoot, '..', '..');
 const src = resolve(pkgRoot, 'src', 'scss');
-const dest = resolve(workspaceRoot, 'dist', 'packages', 'tokens');
+const uiDist = resolve(workspaceRoot, 'dist', 'packages', 'ui');
+const dest = resolve(uiDist, 'styles');
+
+if (!existsSync(uiDist)) {
+  throw new Error(
+    `No existe ${uiDist}. Ejecuta primero "nx build ui" (styles depende de ui:build).`,
+  );
+}
 
 rmSync(dest, { recursive: true, force: true });
-mkdirSync(resolve(dest, 'css'), { recursive: true });
+mkdirSync(dest, { recursive: true });
 
 // 1) Compilar el CSS completo (tokens + utilidades).
 const { css } = compile(resolve(src, 'index.scss'), {
   style: 'expanded',
   sourceMap: false,
 });
-const banner = `/*! CaribeNG tokens · @caribeng/tokens · MIT */\n`;
-writeFileSync(resolve(dest, 'css', 'caribeng.css'), banner + css, 'utf8');
+const banner = `/*! CaribeNG · @caribeng/ui/styles · MIT */\n`;
+writeFileSync(resolve(dest, 'caribeng.css'), banner + css, 'utf8');
 
 // 2) Copiar los fuentes SCSS (para consumidores Sass).
 cpSync(src, resolve(dest, 'scss'), { recursive: true });
 
-// 3) Copiar package.json y README al dist.
-cpSync(resolve(pkgRoot, 'package.json'), resolve(dest, 'package.json'));
-const readme = resolve(pkgRoot, 'README.md');
-try {
-  cpSync(readme, resolve(dest, 'README.md'));
-} catch {
-  /* README opcional */
+// 3) Parchear el package.json publicable de @caribeng/ui con los exports de estilos.
+const pkgPath = resolve(uiDist, 'package.json');
+const pkg = JSON.parse(readFileSync(pkgPath, 'utf8'));
+pkg.exports ||= {};
+pkg.exports['./styles'] = {
+  sass: './styles/scss/index.scss',
+  style: './styles/caribeng.css',
+  default: './styles/caribeng.css',
+};
+pkg.exports['./styles.css'] = './styles/caribeng.css';
+pkg.exports['./styles/caribeng.css'] = './styles/caribeng.css';
+pkg.exports['./styles/scss/*'] = './styles/scss/*';
+pkg.sideEffects = Array.isArray(pkg.sideEffects)
+  ? pkg.sideEffects
+  : ['./styles/caribeng.css'];
+writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + '\n', 'utf8');
+
+// 3b) Copiar el aviso de terceros (atribución de iconos Lucide/Feather) al dist.
+const noticeSrc = resolve(workspaceRoot, 'packages', 'ui', 'THIRD-PARTY-NOTICES.md');
+if (existsSync(noticeSrc)) {
+  cpSync(noticeSrc, resolve(uiDist, 'THIRD-PARTY-NOTICES.md'));
 }
 
 // 4) Verificación mínima.
-const out = readFileSync(resolve(dest, 'css', 'caribeng.css'), 'utf8');
+const out = readFileSync(resolve(dest, 'caribeng.css'), 'utf8');
 if (!out.includes('--cb-color-primary-500')) {
-  throw new Error('Build de tokens falló: no se encontró --cb-color-primary-500 en el CSS.');
+  throw new Error('Build de estilos falló: no se encontró --cb-color-primary-500 en el CSS.');
 }
 
-console.log(`[tokens] OK -> ${resolve(dest, 'css', 'caribeng.css')} (${out.length} bytes)`);
+console.log(`[styles] OK -> ${resolve(dest, 'caribeng.css')} (${out.length} bytes) + exports parcheados`);

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CbDatepickerComponent } from '@caribeng/datepicker';
+import { CbDatepickerComponent } from '@caribeng/ui/datepicker';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
@@ -105,9 +105,9 @@ export class DatepickerDocComponent {
 
   protected readonly cita = new FormControl<Date | null>(null, [Validators.required]);
 
-  protected readonly installCode = `npm install @caribeng/core @caribeng/datepicker`;
+  protected readonly installCode = `npm install @caribeng/ui`;
 
-  protected readonly importCode = `import { CbDatepickerComponent } from '@caribeng/datepicker';
+  protected readonly importCode = `import { CbDatepickerComponent } from '@caribeng/ui/datepicker';
 
 @Component({
   imports: [CbDatepickerComponent],

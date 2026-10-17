@@ -37,7 +37,7 @@ export class ThemingComponent {
   protected readonly darkCode = `// Activa el tema oscuro con el atributo del elemento raíz:
 // <html data-theme="dark">
 // o desde el servicio:
-import { CbThemeService } from '@caribeng/core';
+import { CbThemeService } from '@caribeng/ui';
 
 const theme = inject(CbThemeService);
 theme.toggle();          // light <-> dark
@@ -56,7 +56,7 @@ theme.isDark();          // signal computed`;
 </style>`;
 
   protected readonly serviceCode = `import { Component, inject } from '@angular/core';
-import { CbThemeService } from '@caribeng/core';
+import { CbThemeService } from '@caribeng/ui';
 
 @Component({ /* ... */ })
 export class ThemeToggle {

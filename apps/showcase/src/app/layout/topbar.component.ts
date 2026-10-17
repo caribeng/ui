@@ -1,11 +1,12 @@
 import { ChangeDetectionStrategy, Component, inject, output } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { CbThemeService } from '@caribeng/core';
+import { CbThemeService } from '@caribeng/ui';
+import { CbIconComponent } from '@caribeng/ui/icon';
 
 @Component({
   selector: 'doc-topbar',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink],
+  imports: [RouterLink, CbIconComponent],
   template: `
     <div class="topbar">
       <a routerLink="/" class="topbar__brand">
@@ -20,7 +21,7 @@ import { CbThemeService } from '@caribeng/core';
         aria-label="Menú"
         (click)="toggleMenu.emit()"
       >
-        ☰
+        <cb-icon name="menu" [size]="20" aria-hidden="true" />
       </button>
 
       <nav class="topbar__nav">
@@ -36,7 +37,7 @@ import { CbThemeService } from '@caribeng/core';
           [attr.aria-label]="theme.isDark() ? 'Tema claro' : 'Tema oscuro'"
           (click)="theme.toggle()"
         >
-          {{ theme.isDark() ? '☀' : '🌙' }}
+          <cb-icon [name]="theme.isDark() ? 'sun' : 'moon'" [size]="18" aria-hidden="true" />
         </button>
         <button
           type="button"
@@ -44,7 +45,7 @@ import { CbThemeService } from '@caribeng/core';
           aria-label="Configurar tema"
           (click)="toggleConfig.emit()"
         >
-          🎨
+          <cb-icon name="palette" [size]="18" aria-hidden="true" />
         </button>
         <a
           class="topbar__icon-btn"
@@ -53,7 +54,7 @@ import { CbThemeService } from '@caribeng/core';
           rel="noopener"
           aria-label="GitHub"
         >
-          ↗
+          <cb-icon name="external-link" [size]="18" aria-hidden="true" />
         </a>
       </div>
     </div>

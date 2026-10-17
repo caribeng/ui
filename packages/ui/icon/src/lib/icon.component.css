@@ -1,0 +1,36 @@
+:host {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 0;
+  vertical-align: middle;
+  color: inherit;
+  flex-shrink: 0;
+}
+
+.cb-icon__box {
+  display: inline-flex;
+}
+
+.cb-icon__box svg {
+  display: block;
+}
+
+:host(.cb-icon--spin) .cb-icon__box svg {
+  animation: cb-icon-spin 0.9s linear infinite;
+}
+
+@keyframes cb-icon-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :host(.cb-icon--spin) .cb-icon__box svg {
+    animation-duration: 2.4s;
+  }
+}

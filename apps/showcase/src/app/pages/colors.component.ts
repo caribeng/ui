@@ -21,7 +21,7 @@ const SURFACE_SCALE = [0, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950];
     <doc-page-header
       eyebrow="Foundations"
       title="Colors"
-      lead="Paleta de design tokens (--cb-color-*). Cámbiala en vivo con el configurador (🎨 en la barra superior)."
+      lead="Paleta de design tokens (--cb-color-*). Cámbiala en vivo con el configurador de la barra superior."
     />
 
     @for (p of palettes; track p.id) {

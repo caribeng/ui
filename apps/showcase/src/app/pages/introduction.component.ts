@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { CbButtonComponent } from '@caribeng/button';
+import { CbButtonComponent } from '@caribeng/ui/button';
+import { CbIconComponent } from '@caribeng/ui/icon';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
 import { TocService } from '../services/toc.service';
@@ -8,7 +9,7 @@ import { TocService } from '../services/toc.service';
 @Component({
   selector: 'doc-introduction',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, CbButtonComponent, CodeBlockComponent, DocPageHeaderComponent],
+  imports: [RouterLink, CbButtonComponent, CbIconComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
     <doc-page-header
       eyebrow="Foundations"
@@ -26,7 +27,7 @@ import { TocService } from '../services/toc.service';
     <section id="features" class="intro-grid">
       @for (f of features; track f.title) {
         <article class="intro-feature">
-          <span class="intro-feature__icon">{{ f.icon }}</span>
+          <cb-icon class="intro-feature__icon" [name]="f.icon" [size]="28" aria-hidden="true" />
           <h3 class="intro-feature__title">{{ f.title }}</h3>
           <p class="intro-feature__text">{{ f.text }}</p>
         </article>
@@ -99,18 +100,18 @@ export class IntroductionComponent {
   }
 
   protected readonly features = [
-    { icon: '⚡', title: 'Signals + OnPush', text: 'Reactividad moderna con input(), model() y computed() en todos los componentes.' },
-    { icon: '🧩', title: 'Independiente', text: 'Cero dependencias de PrimeNG o Material. Solo @angular/cdk.' },
-    { icon: '🎨', title: 'Design tokens', text: 'Personaliza con variables CSS --cb-*. Tema claro y oscuro integrados.' },
-    { icon: '🌳', title: 'Tree-shaking', text: 'Un paquete npm por componente para incluir solo lo que usas.' },
-    { icon: '♿', title: 'Accesible', text: 'Objetivo WCAG 2.2 AA: teclado, foco visible y ARIA correcto.' },
-    { icon: '🔌', title: 'Zoneless', text: 'Compatible con zoneless y Zone.js sin configuración global.' },
+    { icon: 'zap', title: 'Signals + OnPush', text: 'Reactividad moderna con input(), model() y computed() en todos los componentes.' },
+    { icon: 'puzzle', title: 'Independiente', text: 'Cero dependencias de PrimeNG o Material. Solo @angular/cdk.' },
+    { icon: 'palette', title: 'Design tokens', text: 'Personaliza con variables CSS --cb-*. Tema claro y oscuro integrados.' },
+    { icon: 'tree-pine', title: 'Tree-shaking', text: 'Un solo paquete @caribeng/ui con entry points por componente: incluye solo lo que usas.' },
+    { icon: 'accessibility', title: 'Accesible', text: 'Objetivo WCAG 2.2 AA: teclado, foco visible y ARIA correcto.' },
+    { icon: 'plug', title: 'Zoneless', text: 'Compatible con zoneless y Zone.js sin configuración global.' },
   ];
 
-  protected readonly installCode = `npm install @caribeng/core @caribeng/button @caribeng/input`;
+  protected readonly installCode = `npm install @caribeng/ui`;
 
   protected readonly setupCode = `import { bootstrapApplication } from '@angular/platform-browser';
-import { provideCaribeNG } from '@caribeng/core';
+import { provideCaribeNG } from '@caribeng/ui';
 
 bootstrapApplication(AppComponent, {
   providers: [provideCaribeNG({ theme: 'light' })],

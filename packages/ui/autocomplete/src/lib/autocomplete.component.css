@@ -1,0 +1,166 @@
+:host {
+  display: block;
+}
+
+.cb-autocomplete__label {
+  display: block;
+  margin-bottom: var(--cb-space-1);
+  font-family: var(--cb-font-sans);
+  font-size: var(--cb-text-sm);
+  font-weight: var(--cb-font-weight-medium);
+  color: var(--cb-color-text);
+}
+
+.cb-autocomplete__required {
+  color: var(--cb-color-danger);
+  margin-left: 2px;
+}
+
+.cb-autocomplete {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  box-sizing: border-box;
+  width: 100%;
+  background-color: var(--cb-color-bg);
+  border: var(--cb-border-width) solid var(--cb-color-border-strong);
+  border-radius: var(--cb-radius-md);
+  transition:
+    border-color var(--cb-duration-fast) var(--cb-ease),
+    box-shadow var(--cb-duration-fast) var(--cb-ease);
+}
+
+.cb-autocomplete:hover:not(.cb-is-disabled):not(:focus-within) {
+  border-color: var(--cb-color-text-muted);
+}
+.cb-autocomplete:focus-within,
+.cb-autocomplete.cb-is-open {
+  border-color: var(--cb-color-primary-500);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--cb-color-primary-500) 25%, transparent);
+}
+.cb-autocomplete.cb-is-invalid {
+  border-color: var(--cb-color-danger);
+}
+.cb-autocomplete.cb-is-invalid:focus-within,
+.cb-autocomplete.cb-is-invalid.cb-is-open {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--cb-color-danger) 25%, transparent);
+}
+.cb-autocomplete.cb-is-disabled {
+  background-color: var(--cb-color-surface);
+  opacity: 0.8;
+}
+
+.cb-autocomplete__field {
+  flex: 1 1 auto;
+  min-width: 0;
+  box-sizing: border-box;
+  font-family: var(--cb-font-sans);
+  color: var(--cb-color-text);
+  background: transparent;
+  border: none;
+  border-radius: inherit;
+}
+.cb-autocomplete__field::placeholder {
+  color: var(--cb-color-text-muted);
+}
+.cb-autocomplete__field:focus {
+  outline: none;
+}
+.cb-autocomplete__field:disabled {
+  color: var(--cb-color-text-muted);
+  cursor: not-allowed;
+}
+
+/* Tamaños */
+.cb-autocomplete--sm .cb-autocomplete__field {
+  min-height: 2rem;
+  padding: var(--cb-space-1) var(--cb-space-2);
+  font-size: var(--cb-text-sm);
+}
+.cb-autocomplete--md .cb-autocomplete__field {
+  min-height: 2.5rem;
+  padding: var(--cb-space-2) var(--cb-space-3);
+  font-size: var(--cb-text-base);
+}
+.cb-autocomplete--lg .cb-autocomplete__field {
+  min-height: 3rem;
+  padding: var(--cb-space-3) var(--cb-space-4);
+  font-size: var(--cb-text-lg);
+}
+
+/* Botón desplegable */
+.cb-autocomplete__dropdown-btn {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  padding: 0;
+  color: var(--cb-color-text-muted);
+  background: transparent;
+  border: none;
+  border-left: var(--cb-border-width) solid var(--cb-color-border);
+  cursor: pointer;
+}
+.cb-autocomplete__dropdown-btn:hover:not(:disabled) {
+  color: var(--cb-color-text);
+}
+.cb-autocomplete__dropdown-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.cb-autocomplete__dropdown-btn cb-icon {
+  color: currentColor;
+}
+
+/* Panel */
+.cb-autocomplete__panel {
+  background-color: var(--cb-color-surface-raised);
+  border: 1px solid var(--cb-color-border);
+  border-radius: var(--cb-radius-md);
+  box-shadow: var(--cb-shadow-md);
+  overflow: hidden;
+  font-family: var(--cb-font-sans);
+}
+
+.cb-autocomplete__list {
+  list-style: none;
+  margin: 0;
+  padding: var(--cb-space-1);
+  max-height: 16rem;
+  overflow-y: auto;
+}
+
+.cb-autocomplete__option {
+  display: flex;
+  align-items: center;
+  padding: var(--cb-space-2) var(--cb-space-3);
+  border-radius: var(--cb-radius-sm);
+  font-size: var(--cb-text-base);
+  color: var(--cb-color-text);
+  cursor: pointer;
+}
+.cb-autocomplete__option.cb-is-active {
+  background-color: var(--cb-color-surface-100);
+}
+
+.cb-autocomplete__empty {
+  padding: var(--cb-space-3);
+  color: var(--cb-color-text-muted);
+  font-size: var(--cb-text-sm);
+  text-align: center;
+}
+
+/* Mensajes */
+.cb-autocomplete__message {
+  margin: var(--cb-space-1) 0 0;
+  font-size: var(--cb-text-sm);
+  line-height: var(--cb-line-height-normal);
+}
+.cb-autocomplete__message--hint {
+  color: var(--cb-color-text-muted);
+}
+.cb-autocomplete__message--error {
+  color: var(--cb-color-danger);
+}

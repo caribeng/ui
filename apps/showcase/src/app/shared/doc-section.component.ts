@@ -7,6 +7,7 @@ import {
   input,
   signal,
 } from '@angular/core';
+import { CbIconComponent } from '@caribeng/ui/icon';
 import { CodeBlockComponent } from './code-block.component';
 import { TocService } from '../services/toc.service';
 
@@ -14,7 +15,7 @@ import { TocService } from '../services/toc.service';
 @Component({
   selector: 'doc-section',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CodeBlockComponent],
+  imports: [CodeBlockComponent, CbIconComponent],
   template: `
     <section [id]="id()" class="doc-section">
       <h2 class="doc-section__title">
@@ -54,9 +55,11 @@ import { TocService } from '../services/toc.service';
             <button
               type="button"
               class="doc-card__toggle"
+              style="display: inline-flex; align-items: center; gap: 0.35rem"
               (click)="showCode.set(!showCode())"
             >
-              {{ showCode() ? '▲ Ocultar código' : '▼ Ver código' }}
+              <cb-icon [name]="showCode() ? 'chevron-up' : 'chevron-down'" [size]="16" aria-hidden="true" />
+              {{ showCode() ? 'Ocultar código' : 'Ver código' }}
             </button>
           </div>
 
