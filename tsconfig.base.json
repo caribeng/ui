@@ -9,7 +9,11 @@
     "importHelpers": true,
     "target": "ES2022",
     "module": "ESNext",
-    "lib": ["ES2022", "dom", "dom.iterable"],
+    "lib": [
+      "ES2022",
+      "dom",
+      "dom.iterable"
+    ],
     "skipLibCheck": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
@@ -20,102 +24,341 @@
     "noPropertyAccessFromIndexSignature": false,
     "useDefineForClassFields": false,
     "paths": {
-      "@caribeng/ui": ["./packages/ui/src/public-api.ts"],
-      "@caribeng/ui/icon": ["./packages/ui/icon/src/public-api.ts"],
-      "@caribeng/ui/icons": ["./packages/ui/icons/src/public-api.ts"],
-      "@caribeng/ui/button": ["./packages/ui/button/src/public-api.ts"],
-      "@caribeng/ui/input": ["./packages/ui/input/src/public-api.ts"],
-      "@caribeng/ui/select": ["./packages/ui/select/src/public-api.ts"],
-      "@caribeng/ui/dialog": ["./packages/ui/dialog/src/public-api.ts"],
-      "@caribeng/ui/toast": ["./packages/ui/toast/src/public-api.ts"],
-      "@caribeng/ui/textarea": ["./packages/ui/textarea/src/public-api.ts"],
-      "@caribeng/ui/checkbox": ["./packages/ui/checkbox/src/public-api.ts"],
-      "@caribeng/ui/radio": ["./packages/ui/radio/src/public-api.ts"],
-      "@caribeng/ui/toggle": ["./packages/ui/toggle/src/public-api.ts"],
-      "@caribeng/ui/input-number": ["./packages/ui/input-number/src/public-api.ts"],
-      "@caribeng/ui/autocomplete": ["./packages/ui/autocomplete/src/public-api.ts"],
-      "@caribeng/ui/datepicker": ["./packages/ui/datepicker/src/public-api.ts"],
-      "@caribeng/ui/inputgroup": ["./packages/ui/inputgroup/src/public-api.ts"],
-      "@caribeng/ui/rating": ["./packages/ui/rating/src/public-api.ts"],
-      "@caribeng/ui/slider": ["./packages/ui/slider/src/public-api.ts"],
-      "@caribeng/ui/chips": ["./packages/ui/chips/src/public-api.ts"],
-      "@caribeng/ui/multiselect": ["./packages/ui/multiselect/src/public-api.ts"],
-      "@caribeng/ui/colorpicker": ["./packages/ui/colorpicker/src/public-api.ts"],
-      "@caribeng/ui/badge": ["./packages/ui/badge/src/public-api.ts"],
-      "@caribeng/ui/tag": ["./packages/ui/tag/src/public-api.ts"],
-      "@caribeng/ui/message": ["./packages/ui/message/src/public-api.ts"],
-      "@caribeng/ui/card": ["./packages/ui/card/src/public-api.ts"],
-      "@caribeng/ui/divider": ["./packages/ui/divider/src/public-api.ts"],
-      "@caribeng/ui/tooltip": ["./packages/ui/tooltip/src/public-api.ts"],
-      "@caribeng/ui/popover": ["./packages/ui/popover/src/public-api.ts"],
-      "@caribeng/ui/drawer": ["./packages/ui/drawer/src/public-api.ts"],
-      "@caribeng/ui/accordion": ["./packages/ui/accordion/src/public-api.ts"],
-      "@caribeng/ui/tabs": ["./packages/ui/tabs/src/public-api.ts"],
-      "@caribeng/ui/stepper": ["./packages/ui/stepper/src/public-api.ts"],
-      "@caribeng/ui/avatar": ["./packages/ui/avatar/src/public-api.ts"],
-      "@caribeng/ui/progressbar": ["./packages/ui/progressbar/src/public-api.ts"],
-      "@caribeng/ui/spinner": ["./packages/ui/spinner/src/public-api.ts"],
-      "@caribeng/ui/skeleton": ["./packages/ui/skeleton/src/public-api.ts"],
-      "@caribeng/ui/breadcrumb": ["./packages/ui/breadcrumb/src/public-api.ts"],
-      "@caribeng/ui/selectbutton": ["./packages/ui/selectbutton/src/public-api.ts"],
-      "@caribeng/ui/togglebutton": ["./packages/ui/togglebutton/src/public-api.ts"],
-      "@caribeng/ui/listbox": ["./packages/ui/listbox/src/public-api.ts"],
-      "@caribeng/ui/knob": ["./packages/ui/knob/src/public-api.ts"],
-      "@caribeng/ui/paginator": ["./packages/ui/paginator/src/public-api.ts"],
-      "@caribeng/ui/table": ["./packages/ui/table/src/public-api.ts"],
-      "@caribeng/ui/menu": ["./packages/ui/menu/src/public-api.ts"],
-      "@caribeng/ui/menubar": ["./packages/ui/menubar/src/public-api.ts"],
-      "@caribeng/ui/contextmenu": ["./packages/ui/contextmenu/src/public-api.ts"],
-      "@caribeng/ui/dock": ["./packages/ui/dock/src/public-api.ts"],
-      "@caribeng/ui/megamenu": ["./packages/ui/megamenu/src/public-api.ts"],
-      "@caribeng/ui/panelmenu": ["./packages/ui/panelmenu/src/public-api.ts"],
-      "@caribeng/ui/steps": ["./packages/ui/steps/src/public-api.ts"],
-      "@caribeng/ui/tabmenu": ["./packages/ui/tabmenu/src/public-api.ts"],
-      "@caribeng/ui/tieredmenu": ["./packages/ui/tieredmenu/src/public-api.ts"],
-      "@caribeng/ui/panel": ["./packages/ui/panel/src/public-api.ts"],
-      "@caribeng/ui/fieldset": ["./packages/ui/fieldset/src/public-api.ts"],
-      "@caribeng/ui/toolbar": ["./packages/ui/toolbar/src/public-api.ts"],
-      "@caribeng/ui/splitter": ["./packages/ui/splitter/src/public-api.ts"],
-      "@caribeng/ui/scrollpanel": ["./packages/ui/scrollpanel/src/public-api.ts"],
-      "@caribeng/ui/scrolltop": ["./packages/ui/scrolltop/src/public-api.ts"],
-      "@caribeng/ui/dataview": ["./packages/ui/dataview/src/public-api.ts"],
-      "@caribeng/ui/tree": ["./packages/ui/tree/src/public-api.ts"],
-      "@caribeng/ui/treetable": ["./packages/ui/treetable/src/public-api.ts"],
-      "@caribeng/ui/timeline": ["./packages/ui/timeline/src/public-api.ts"],
-      "@caribeng/ui/virtualscroller": ["./packages/ui/virtualscroller/src/public-api.ts"],
-      "@caribeng/ui/orderlist": ["./packages/ui/orderlist/src/public-api.ts"],
-      "@caribeng/ui/picklist": ["./packages/ui/picklist/src/public-api.ts"],
-      "@caribeng/ui/confirmdialog": ["./packages/ui/confirmdialog/src/public-api.ts"],
-      "@caribeng/ui/confirmpopup": ["./packages/ui/confirmpopup/src/public-api.ts"],
-      "@caribeng/ui/dynamicdialog": ["./packages/ui/dynamicdialog/src/public-api.ts"],
-      "@caribeng/ui/inputmask": ["./packages/ui/inputmask/src/public-api.ts"],
-      "@caribeng/ui/inputotp": ["./packages/ui/inputotp/src/public-api.ts"],
-      "@caribeng/ui/floatlabel": ["./packages/ui/floatlabel/src/public-api.ts"],
-      "@caribeng/ui/iconfield": ["./packages/ui/iconfield/src/public-api.ts"],
-      "@caribeng/ui/treeselect": ["./packages/ui/treeselect/src/public-api.ts"],
-      "@caribeng/ui/cascadeselect": ["./packages/ui/cascadeselect/src/public-api.ts"],
-      "@caribeng/ui/fileupload": ["./packages/ui/fileupload/src/public-api.ts"],
-      "@caribeng/ui/editor": ["./packages/ui/editor/src/public-api.ts"],
-      "@caribeng/ui/carousel": ["./packages/ui/carousel/src/public-api.ts"],
-      "@caribeng/ui/image": ["./packages/ui/image/src/public-api.ts"],
-      "@caribeng/ui/galleria": ["./packages/ui/galleria/src/public-api.ts"],
-      "@caribeng/ui/avatargroup": ["./packages/ui/avatargroup/src/public-api.ts"],
-      "@caribeng/ui/chip": ["./packages/ui/chip/src/public-api.ts"],
-      "@caribeng/ui/metergroup": ["./packages/ui/metergroup/src/public-api.ts"],
-      "@caribeng/ui/inplace": ["./packages/ui/inplace/src/public-api.ts"],
-      "@caribeng/ui/blockui": ["./packages/ui/blockui/src/public-api.ts"],
-      "@caribeng/ui/inlinemessage": ["./packages/ui/inlinemessage/src/public-api.ts"],
-      "@caribeng/ui/terminal": ["./packages/ui/terminal/src/public-api.ts"],
-      "@caribeng/ui/ripple": ["./packages/ui/ripple/src/public-api.ts"],
-      "@caribeng/ui/organizationchart": ["./packages/ui/organizationchart/src/public-api.ts"],
-      "@caribeng/ui/speeddial": ["./packages/ui/speeddial/src/public-api.ts"],
-      "@caribeng/ui/password": ["./packages/ui/password/src/public-api.ts"],
-      "@caribeng/ui/chart": ["./packages/ui/chart/src/public-api.ts"],
-      "@caribeng/ui/focustrap": ["./packages/ui/focustrap/src/public-api.ts"],
-      "@caribeng/ui/animateonscroll": ["./packages/ui/animateonscroll/src/public-api.ts"],
-      "@caribeng/ui/styleclass": ["./packages/ui/styleclass/src/public-api.ts"],
-      "@caribeng/ui/autofocus": ["./packages/ui/autofocus/src/public-api.ts"]
+      "@caribeng/ui": [
+        "./packages/ui/src/public-api.ts"
+      ],
+      "@caribeng/ui/icon": [
+        "./packages/ui/icon/src/public-api.ts"
+      ],
+      "@caribeng/ui/icons": [
+        "./packages/ui/icons/src/public-api.ts"
+      ],
+      "@caribeng/ui/button": [
+        "./packages/ui/button/src/public-api.ts"
+      ],
+      "@caribeng/ui/input": [
+        "./packages/ui/input/src/public-api.ts"
+      ],
+      "@caribeng/ui/select": [
+        "./packages/ui/select/src/public-api.ts"
+      ],
+      "@caribeng/ui/dialog": [
+        "./packages/ui/dialog/src/public-api.ts"
+      ],
+      "@caribeng/ui/toast": [
+        "./packages/ui/toast/src/public-api.ts"
+      ],
+      "@caribeng/ui/textarea": [
+        "./packages/ui/textarea/src/public-api.ts"
+      ],
+      "@caribeng/ui/checkbox": [
+        "./packages/ui/checkbox/src/public-api.ts"
+      ],
+      "@caribeng/ui/radio": [
+        "./packages/ui/radio/src/public-api.ts"
+      ],
+      "@caribeng/ui/toggle": [
+        "./packages/ui/toggle/src/public-api.ts"
+      ],
+      "@caribeng/ui/input-number": [
+        "./packages/ui/input-number/src/public-api.ts"
+      ],
+      "@caribeng/ui/autocomplete": [
+        "./packages/ui/autocomplete/src/public-api.ts"
+      ],
+      "@caribeng/ui/datepicker": [
+        "./packages/ui/datepicker/src/public-api.ts"
+      ],
+      "@caribeng/ui/inputgroup": [
+        "./packages/ui/inputgroup/src/public-api.ts"
+      ],
+      "@caribeng/ui/rating": [
+        "./packages/ui/rating/src/public-api.ts"
+      ],
+      "@caribeng/ui/slider": [
+        "./packages/ui/slider/src/public-api.ts"
+      ],
+      "@caribeng/ui/chips": [
+        "./packages/ui/chips/src/public-api.ts"
+      ],
+      "@caribeng/ui/multiselect": [
+        "./packages/ui/multiselect/src/public-api.ts"
+      ],
+      "@caribeng/ui/colorpicker": [
+        "./packages/ui/colorpicker/src/public-api.ts"
+      ],
+      "@caribeng/ui/badge": [
+        "./packages/ui/badge/src/public-api.ts"
+      ],
+      "@caribeng/ui/tag": [
+        "./packages/ui/tag/src/public-api.ts"
+      ],
+      "@caribeng/ui/message": [
+        "./packages/ui/message/src/public-api.ts"
+      ],
+      "@caribeng/ui/card": [
+        "./packages/ui/card/src/public-api.ts"
+      ],
+      "@caribeng/ui/divider": [
+        "./packages/ui/divider/src/public-api.ts"
+      ],
+      "@caribeng/ui/tooltip": [
+        "./packages/ui/tooltip/src/public-api.ts"
+      ],
+      "@caribeng/ui/popover": [
+        "./packages/ui/popover/src/public-api.ts"
+      ],
+      "@caribeng/ui/drawer": [
+        "./packages/ui/drawer/src/public-api.ts"
+      ],
+      "@caribeng/ui/accordion": [
+        "./packages/ui/accordion/src/public-api.ts"
+      ],
+      "@caribeng/ui/tabs": [
+        "./packages/ui/tabs/src/public-api.ts"
+      ],
+      "@caribeng/ui/stepper": [
+        "./packages/ui/stepper/src/public-api.ts"
+      ],
+      "@caribeng/ui/avatar": [
+        "./packages/ui/avatar/src/public-api.ts"
+      ],
+      "@caribeng/ui/progressbar": [
+        "./packages/ui/progressbar/src/public-api.ts"
+      ],
+      "@caribeng/ui/spinner": [
+        "./packages/ui/spinner/src/public-api.ts"
+      ],
+      "@caribeng/ui/skeleton": [
+        "./packages/ui/skeleton/src/public-api.ts"
+      ],
+      "@caribeng/ui/breadcrumb": [
+        "./packages/ui/breadcrumb/src/public-api.ts"
+      ],
+      "@caribeng/ui/selectbutton": [
+        "./packages/ui/selectbutton/src/public-api.ts"
+      ],
+      "@caribeng/ui/togglebutton": [
+        "./packages/ui/togglebutton/src/public-api.ts"
+      ],
+      "@caribeng/ui/listbox": [
+        "./packages/ui/listbox/src/public-api.ts"
+      ],
+      "@caribeng/ui/knob": [
+        "./packages/ui/knob/src/public-api.ts"
+      ],
+      "@caribeng/ui/paginator": [
+        "./packages/ui/paginator/src/public-api.ts"
+      ],
+      "@caribeng/ui/table": [
+        "./packages/ui/table/src/public-api.ts"
+      ],
+      "@caribeng/ui/menu": [
+        "./packages/ui/menu/src/public-api.ts"
+      ],
+      "@caribeng/ui/menubar": [
+        "./packages/ui/menubar/src/public-api.ts"
+      ],
+      "@caribeng/ui/contextmenu": [
+        "./packages/ui/contextmenu/src/public-api.ts"
+      ],
+      "@caribeng/ui/dock": [
+        "./packages/ui/dock/src/public-api.ts"
+      ],
+      "@caribeng/ui/megamenu": [
+        "./packages/ui/megamenu/src/public-api.ts"
+      ],
+      "@caribeng/ui/panelmenu": [
+        "./packages/ui/panelmenu/src/public-api.ts"
+      ],
+      "@caribeng/ui/steps": [
+        "./packages/ui/steps/src/public-api.ts"
+      ],
+      "@caribeng/ui/tabmenu": [
+        "./packages/ui/tabmenu/src/public-api.ts"
+      ],
+      "@caribeng/ui/tieredmenu": [
+        "./packages/ui/tieredmenu/src/public-api.ts"
+      ],
+      "@caribeng/ui/panel": [
+        "./packages/ui/panel/src/public-api.ts"
+      ],
+      "@caribeng/ui/fieldset": [
+        "./packages/ui/fieldset/src/public-api.ts"
+      ],
+      "@caribeng/ui/toolbar": [
+        "./packages/ui/toolbar/src/public-api.ts"
+      ],
+      "@caribeng/ui/splitter": [
+        "./packages/ui/splitter/src/public-api.ts"
+      ],
+      "@caribeng/ui/scrollpanel": [
+        "./packages/ui/scrollpanel/src/public-api.ts"
+      ],
+      "@caribeng/ui/scrolltop": [
+        "./packages/ui/scrolltop/src/public-api.ts"
+      ],
+      "@caribeng/ui/dataview": [
+        "./packages/ui/dataview/src/public-api.ts"
+      ],
+      "@caribeng/ui/tree": [
+        "./packages/ui/tree/src/public-api.ts"
+      ],
+      "@caribeng/ui/treetable": [
+        "./packages/ui/treetable/src/public-api.ts"
+      ],
+      "@caribeng/ui/timeline": [
+        "./packages/ui/timeline/src/public-api.ts"
+      ],
+      "@caribeng/ui/virtualscroller": [
+        "./packages/ui/virtualscroller/src/public-api.ts"
+      ],
+      "@caribeng/ui/orderlist": [
+        "./packages/ui/orderlist/src/public-api.ts"
+      ],
+      "@caribeng/ui/picklist": [
+        "./packages/ui/picklist/src/public-api.ts"
+      ],
+      "@caribeng/ui/confirmdialog": [
+        "./packages/ui/confirmdialog/src/public-api.ts"
+      ],
+      "@caribeng/ui/confirmpopup": [
+        "./packages/ui/confirmpopup/src/public-api.ts"
+      ],
+      "@caribeng/ui/dynamicdialog": [
+        "./packages/ui/dynamicdialog/src/public-api.ts"
+      ],
+      "@caribeng/ui/inputmask": [
+        "./packages/ui/inputmask/src/public-api.ts"
+      ],
+      "@caribeng/ui/inputotp": [
+        "./packages/ui/inputotp/src/public-api.ts"
+      ],
+      "@caribeng/ui/floatlabel": [
+        "./packages/ui/floatlabel/src/public-api.ts"
+      ],
+      "@caribeng/ui/iconfield": [
+        "./packages/ui/iconfield/src/public-api.ts"
+      ],
+      "@caribeng/ui/treeselect": [
+        "./packages/ui/treeselect/src/public-api.ts"
+      ],
+      "@caribeng/ui/cascadeselect": [
+        "./packages/ui/cascadeselect/src/public-api.ts"
+      ],
+      "@caribeng/ui/fileupload": [
+        "./packages/ui/fileupload/src/public-api.ts"
+      ],
+      "@caribeng/ui/editor": [
+        "./packages/ui/editor/src/public-api.ts"
+      ],
+      "@caribeng/ui/carousel": [
+        "./packages/ui/carousel/src/public-api.ts"
+      ],
+      "@caribeng/ui/image": [
+        "./packages/ui/image/src/public-api.ts"
+      ],
+      "@caribeng/ui/galleria": [
+        "./packages/ui/galleria/src/public-api.ts"
+      ],
+      "@caribeng/ui/avatargroup": [
+        "./packages/ui/avatargroup/src/public-api.ts"
+      ],
+      "@caribeng/ui/chip": [
+        "./packages/ui/chip/src/public-api.ts"
+      ],
+      "@caribeng/ui/metergroup": [
+        "./packages/ui/metergroup/src/public-api.ts"
+      ],
+      "@caribeng/ui/inplace": [
+        "./packages/ui/inplace/src/public-api.ts"
+      ],
+      "@caribeng/ui/blockui": [
+        "./packages/ui/blockui/src/public-api.ts"
+      ],
+      "@caribeng/ui/inlinemessage": [
+        "./packages/ui/inlinemessage/src/public-api.ts"
+      ],
+      "@caribeng/ui/terminal": [
+        "./packages/ui/terminal/src/public-api.ts"
+      ],
+      "@caribeng/ui/ripple": [
+        "./packages/ui/ripple/src/public-api.ts"
+      ],
+      "@caribeng/ui/organizationchart": [
+        "./packages/ui/organizationchart/src/public-api.ts"
+      ],
+      "@caribeng/ui/speeddial": [
+        "./packages/ui/speeddial/src/public-api.ts"
+      ],
+      "@caribeng/ui/password": [
+        "./packages/ui/password/src/public-api.ts"
+      ],
+      "@caribeng/ui/chart": [
+        "./packages/ui/chart/src/public-api.ts"
+      ],
+      "@caribeng/ui/focustrap": [
+        "./packages/ui/focustrap/src/public-api.ts"
+      ],
+      "@caribeng/ui/animateonscroll": [
+        "./packages/ui/animateonscroll/src/public-api.ts"
+      ],
+      "@caribeng/ui/styleclass": [
+        "./packages/ui/styleclass/src/public-api.ts"
+      ],
+      "@caribeng/ui/autofocus": [
+        "./packages/ui/autofocus/src/public-api.ts"
+      ],
+      "@caribeng/ui/animation-lottie": [
+        "./packages/ui/animation-lottie/src/public-api.ts"
+      ],
+      "@caribeng/ui/circle-loading": [
+        "./packages/ui/circle-loading/src/public-api.ts"
+      ],
+      "@caribeng/ui/loader": [
+        "./packages/ui/loader/src/public-api.ts"
+      ],
+      "@caribeng/ui/preloader": [
+        "./packages/ui/preloader/src/public-api.ts"
+      ],
+      "@caribeng/ui/logo": [
+        "./packages/ui/logo/src/public-api.ts"
+      ],
+      "@caribeng/ui/illustration": [
+        "./packages/ui/illustration/src/public-api.ts"
+      ],
+      "@caribeng/ui/pictogram": [
+        "./packages/ui/pictogram/src/public-api.ts"
+      ],
+      "@caribeng/ui/stroke": [
+        "./packages/ui/stroke/src/public-api.ts"
+      ],
+      "@caribeng/ui/file-download": [
+        "./packages/ui/file-download/src/public-api.ts"
+      ],
+      "@caribeng/ui/file-select": [
+        "./packages/ui/file-select/src/public-api.ts"
+      ],
+      "@caribeng/ui/input-search": [
+        "./packages/ui/input-search/src/public-api.ts"
+      ],
+      "@caribeng/ui/input-token": [
+        "./packages/ui/input-token/src/public-api.ts"
+      ],
+      "@caribeng/ui/input-date": [
+        "./packages/ui/input-date/src/public-api.ts"
+      ],
+      "@caribeng/ui/input-select": [
+        "./packages/ui/input-select/src/public-api.ts"
+      ],
+      "@caribeng/ui/calendar": [
+        "./packages/ui/calendar/src/public-api.ts"
+      ]
     }
   },
-  "exclude": ["node_modules", "tmp", "dist"]
+  "exclude": [
+    "node_modules",
+    "tmp",
+    "dist"
+  ]
 }

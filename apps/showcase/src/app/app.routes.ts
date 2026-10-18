@@ -96,6 +96,22 @@ import { AnimateonscrollDocComponent } from './pages/animateonscroll-doc.compone
 import { StyleclassDocComponent } from './pages/styleclass-doc.component';
 import { AutofocusDocComponent } from './pages/autofocus-doc.component';
 
+import { AnimationLottieDocComponent } from './pages/animation-lottie-doc.component';
+import { CircleLoadingDocComponent } from './pages/circle-loading-doc.component';
+import { LoaderDocComponent } from './pages/loader-doc.component';
+import { PreloaderDocComponent } from './pages/preloader-doc.component';
+import { LogoDocComponent } from './pages/logo-doc.component';
+import { IllustrationDocComponent } from './pages/illustration-doc.component';
+import { PictogramDocComponent } from './pages/pictogram-doc.component';
+import { StrokeDocComponent } from './pages/stroke-doc.component';
+import { FileDownloadDocComponent } from './pages/file-download-doc.component';
+import { FileSelectDocComponent } from './pages/file-select-doc.component';
+import { InputSearchDocComponent } from './pages/input-search-doc.component';
+import { InputTokenDocComponent } from './pages/input-token-doc.component';
+import { InputDateDocComponent } from './pages/input-date-doc.component';
+import { InputSelectDocComponent } from './pages/input-select-doc.component';
+import { CalendarDocComponent } from './pages/calendar-doc.component';
+
 export const routes: Routes = [
   { path: '', redirectTo: 'introduction', pathMatch: 'full' },
   { path: 'introduction', component: IntroductionComponent, title: 'CaribeNG' },
@@ -194,5 +210,20 @@ export const routes: Routes = [
   { path: 'components/dynamicdialog', component: DynamicdialogDocComponent, title: 'DynamicDialog · CaribeNG' },
   { path: 'components/organizationchart', component: OrganizationChartDocComponent, title: 'OrganizationChart · CaribeNG' },
   { path: 'components/speeddial', component: SpeedDialDocComponent, title: 'SpeedDial · CaribeNG' },
+  { path: 'components/animation-lottie', component: AnimationLottieDocComponent, title: 'AnimationLottie · CaribeNG' },
+  { path: 'components/circle-loading', component: CircleLoadingDocComponent, title: 'CircleLoading · CaribeNG' },
+  { path: 'components/loader', component: LoaderDocComponent, title: 'Loader · CaribeNG' },
+  { path: 'components/preloader', component: PreloaderDocComponent, title: 'Preloader · CaribeNG' },
+  { path: 'components/logo', component: LogoDocComponent, title: 'Logo · CaribeNG' },
+  { path: 'components/illustration', component: IllustrationDocComponent, title: 'Illustration · CaribeNG' },
+  { path: 'components/pictogram', component: PictogramDocComponent, title: 'Pictogram · CaribeNG' },
+  { path: 'components/stroke', component: StrokeDocComponent, title: 'Stroke · CaribeNG' },
+  { path: 'components/file-download', component: FileDownloadDocComponent, title: 'FileDownload · CaribeNG' },
+  { path: 'components/file-select', component: FileSelectDocComponent, title: 'FileSelect · CaribeNG' },
+  { path: 'components/input-search', component: InputSearchDocComponent, title: 'InputSearch · CaribeNG' },
+  { path: 'components/input-token', component: InputTokenDocComponent, title: 'InputToken · CaribeNG' },
+  { path: 'components/input-date', component: InputDateDocComponent, title: 'InputDate · CaribeNG' },
+  { path: 'components/input-select', component: InputSelectDocComponent, title: 'InputSelect · CaribeNG' },
+  { path: 'components/calendar', component: CalendarDocComponent, title: 'Calendar · CaribeNG' },
   { path: '**', redirectTo: 'introduction' },
 ];

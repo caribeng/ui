@@ -1,0 +1,30 @@
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { CbFileSelectComponent } from '@caribeng/ui/file-select';
+import { CbDocApiRow, CbDocPageComponent } from '../components/doc-page.component';
+import { CbDocExampleComponent } from '../components/doc-example.component';
+
+@Component({
+  selector: 'cb-file-select-doc',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [CbDocPageComponent, CbDocExampleComponent, CbFileSelectComponent],
+  template: `
+    <cb-doc-page
+      category="Caribe Design · Archivos"
+      title="FileSelect"
+      subtitle="Selector de archivos con filtro de extensiones y modelo reactivo."
+      importCode="import { CbFileSelectComponent } from '@caribeng/ui/file-select';"
+      [api]="api"
+    >
+      <cb-doc-example title="Selección de soporte PDF" code='<cb-file-select label="Adjuntar RUT" accept=".pdf" />'>
+        <cb-file-select label="Adjuntar RUT" accept=".pdf" />
+      </cb-doc-example>
+    </cb-doc-page>
+  `,
+})
+export class FileSelectDocComponent {
+  protected readonly api: CbDocApiRow[] = [
+    { name: 'label', type: 'string', default: "'Seleccionar documento'", description: 'Etiqueta principal del selector.' },
+    { name: 'accept', type: 'string', default: "'.pdf,.png,.jpg'", description: 'Tipos MIME o extensiones permitidas.' },
+    { name: 'multiple', type: 'boolean', default: 'false', description: 'Permite seleccionar varios archivos.' },
+  ];
+}
