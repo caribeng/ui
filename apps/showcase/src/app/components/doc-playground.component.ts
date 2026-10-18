@@ -186,6 +186,7 @@ export class DocPlaygroundComponent {
     const sel = this.api().selector;
     const parts: string[] = [];
     for (const p of this.api().props) {
+      if (p.control === false) continue;
       const v = m[p.name];
       if (v === undefined || v === p.default) continue;
       if (p.kind === 'boolean') {
