@@ -1618,7 +1618,7 @@ export const DOC_API: Record<string, DocApi> = {
     component: CbTimeline,
     selector: "cb-timeline",
     props: [
-      { name: "value", kind: "string", type: "readonly CbTimelineEvent[]", default: [], description: "", control: false },
+      { name: "value", kind: "string", type: "readonly CbTimelineEvent[]", default: [{ date: 'Oct 18, 2026', title: 'Payment sent', description: 'Transfer to savings account.' }, { date: 'Oct 17, 2026', title: 'Card reloaded', description: 'Top-up of $ 50,000.' }, { date: 'Oct 15, 2026', title: 'Account opened' }], description: "", control: false },
       { name: "orientation", kind: "enum", type: "'vertical'|'horizontal'", default: "vertical", description: "" },
       { name: "ariaLabel", kind: "string", type: "string", default: "Cronología", description: "" }
     ]
