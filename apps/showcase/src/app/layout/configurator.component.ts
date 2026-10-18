@@ -98,10 +98,8 @@ export class ConfiguratorComponent {
     return PRIMARY_PALETTES[name][5]; // tono 500
   }
   protected surface(name: string): string {
-    // Las superficies son grises casi neutros: un solo tono (700) se ve igual
-    // en todas. Un degradado por la rampa (claro → medio → oscuro) revela el
-    // matiz de cada paleta y las hace distinguibles.
-    const p = SURFACE_PALETTES[name];
-    return `linear-gradient(135deg, ${p[2]} 0%, ${p[5]} 55%, ${p[9]} 100%)`;
+    // Chip plano como en la página de Colores. El tono 500 es el más claro
+    // donde el matiz de cada superficie (frío/neutro/cálido) aún se distingue.
+    return SURFACE_PALETTES[name][5]; // tono 500
   }
 }
