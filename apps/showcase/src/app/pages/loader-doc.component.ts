@@ -1,18 +1,18 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { CbLoaderComponent } from '@caribeng/ui/loader';
+import { CbLoader } from '@caribeng/ui/caribe/loader';
 import { CbDocApiRow, CbDocPageComponent } from '../components/doc-page.component';
 import { CbDocExampleComponent } from '../components/doc-example.component';
 
 @Component({
   selector: 'cb-loader-doc',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbDocPageComponent, CbDocExampleComponent, CbLoaderComponent],
+  imports: [CbDocPageComponent, CbDocExampleComponent, CbLoader],
   template: `
     <cb-doc-page
       category="Caribe Design · Loaders"
       title="Loader"
       subtitle="Indicador compacto de espera con anuncio accesible en vivo."
-      importCode="import { CbLoaderComponent } from '@caribeng/ui/loader';"
+      importCode="import { CbLoader } from '@caribeng/ui/caribe/loader';"
       [api]="api"
     >
       <cb-doc-example title="Loader con mensaje" code='<cb-loader text="Consultando saldo…" />'>

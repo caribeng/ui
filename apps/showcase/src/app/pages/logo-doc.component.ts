@@ -1,18 +1,18 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { CbLogoComponent } from '@caribeng/ui/logo';
+import { CbLogo } from '@caribeng/ui/caribe/logo';
 import { CbDocApiRow, CbDocPageComponent } from '../components/doc-page.component';
 import { CbDocExampleComponent } from '../components/doc-example.component';
 
 @Component({
   selector: 'cb-logo-doc',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbDocPageComponent, CbDocExampleComponent, CbLogoComponent],
+  imports: [CbDocPageComponent, CbDocExampleComponent, CbLogo],
   template: `
     <cb-doc-page
       category="Caribe Design · Identidad"
       title="Logo"
       subtitle="Logotipo vectorial escalable con soporte de versión positiva/negativa y tamaño personalizable."
-      importCode="import { CbLogoComponent } from '@caribeng/ui/logo';"
+      importCode="import { CbLogo } from '@caribeng/ui/caribe/logo';"
       [api]="api"
     >
       <cb-doc-example title="Tamaños y variantes" code='<cb-logo name="caribe-horizontal" size="180px" />'>

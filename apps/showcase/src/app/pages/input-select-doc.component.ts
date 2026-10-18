@@ -1,18 +1,18 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
-import { CbInputSelectComponent } from '@caribeng/ui/input-select';
+import { CbInputSelect } from '@caribeng/ui/caribe/input-select';
 import { CbDocApiRow, CbDocPageComponent } from '../components/doc-page.component';
 import { CbDocExampleComponent } from '../components/doc-example.component';
 
 @Component({
   selector: 'cb-input-select-doc',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbDocPageComponent, CbDocExampleComponent, CbInputSelectComponent],
+  imports: [CbDocPageComponent, CbDocExampleComponent, CbInputSelect],
   template: `
     <cb-doc-page
       category="Caribe Design · Formularios"
       title="InputSelect"
       subtitle="Campo desplegable de selección rápida con soporte CVA."
-      importCode="import { CbInputSelectComponent } from '@caribeng/ui/input-select';"
+      importCode="import { CbInputSelect } from '@caribeng/ui/caribe/input-select';"
       [api]="api"
     >
       <cb-doc-example title="Tipo de cuenta" code='<cb-input-select label="Tipo de cuenta" [options]="options" [(value)]="selected" />'>

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { CbCardSelectComponent } from '@caribeng/ui/card-select';
+import { CbCardSelect } from '@caribeng/ui/caribe/card-select';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
@@ -7,7 +7,7 @@ import { TocService } from '../services/toc.service';
 
 @Component({
   selector: 'doc-card-select-page', changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbCardSelectComponent, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
+  imports: [CbCardSelect, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
     <doc-page-header eyebrow="Caribe Design" title="Card Select" lead="Card Select para interfaces accesibles, con estilos basados en tokens CaribeNG." />
     <doc-section id="import" title="Import"><doc-code-block [code]="importCode" lang="typescript" /></doc-section>
@@ -17,6 +17,6 @@ import { TocService } from '../services/toc.service';
 export class CardSelectDocComponent {
   constructor() { inject(TocService).reset(); }
   protected readonly options = ['Ahorros', 'Corriente', 'Nomina'];
-  protected readonly importCode = `import { CbCardSelectComponent } from '@caribeng/ui/card-select';`;
+  protected readonly importCode = `import { CbCardSelect } from '@caribeng/ui/caribe/card-select';`;
   protected readonly exampleCode = `<cb-card-select [items]="options" />`;
 }

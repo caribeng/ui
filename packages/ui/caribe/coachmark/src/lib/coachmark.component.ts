@@ -1,0 +1,6 @@
+import { ChangeDetectionStrategy, Component, ViewEncapsulation, computed, input, model, output } from '@angular/core';
+
+@Component({ selector: 'cb-coachmark', standalone: true, changeDetection: ChangeDetectionStrategy.OnPush, encapsulation: ViewEncapsulation.Emulated, template: `@if (visible() && steps().length) {<aside class="cb-surface" role="dialog" aria-label="Ayuda guiada"><span class="cb-muted">Paso {{index()+1}} de {{steps().length}}</span><h3>{{steps()[index()]}}</h3><div class="cb-actions"><button type="button" (click)="close()">Omitir</button><button type="button" (click)="previous()" [disabled]="index()===0">Anterior</button><button class="cb-primary" type="button" (click)="next()">{{index()===steps().length-1?'Finalizar':'Siguiente'}}</button></div></aside>}`, styleUrl: './coachmark.component.css' })
+export class CbCoachmark {
+readonly steps=input<readonly string[]>([]); readonly visible=model(true); readonly index=model(0); readonly stepChange=output<number>(); protected previous(){this.index.update(i=>Math.max(0,i-1));this.stepChange.emit(this.index());} protected next(){if(this.index()>=this.steps().length-1){this.close();return;}this.index.update(i=>i+1);this.stepChange.emit(this.index());} protected close(){this.visible.set(false);}
+}

@@ -1,18 +1,18 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { CbAnimationLottieComponent } from '@caribeng/ui/animation-lottie';
+import { CbAnimationLottie } from '@caribeng/ui/caribe/animation-lottie';
 import { CbDocApiRow, CbDocPageComponent } from '../components/doc-page.component';
 import { CbDocExampleComponent } from '../components/doc-example.component';
 
 @Component({
   selector: 'cb-animation-lottie-doc',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbDocPageComponent, CbDocExampleComponent, CbAnimationLottieComponent],
+  imports: [CbDocPageComponent, CbDocExampleComponent, CbAnimationLottie],
   template: `
     <cb-doc-page
       category="Caribe Design · Identidad"
       title="AnimationLottie"
       subtitle="Contenedor accesible de animaciones vectoriales tipo Lottie con control de reproducción."
-      importCode="import { CbAnimationLottieComponent } from '@caribeng/ui/animation-lottie';"
+      importCode="import { CbAnimationLottie } from '@caribeng/ui/caribe/animation-lottie';"
       [api]="api"
     >
       <cb-doc-example title="Animación en bucle" code='<cb-animation-lottie size="96px" [loop]="true" />'>

@@ -1,18 +1,18 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { CbPictogramComponent } from '@caribeng/ui/pictogram';
+import { CbPictogram } from '@caribeng/ui/caribe/pictogram';
 import { CbDocApiRow, CbDocPageComponent } from '../components/doc-page.component';
 import { CbDocExampleComponent } from '../components/doc-example.component';
 
 @Component({
   selector: 'cb-pictogram-doc',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbDocPageComponent, CbDocExampleComponent, CbPictogramComponent],
+  imports: [CbDocPageComponent, CbDocExampleComponent, CbPictogram],
   template: `
     <cb-doc-page
       category="Caribe Design · Identidad"
       title="Pictogram"
       subtitle="Pictogramas gráficos de síntesis visual para categorías financieras y servicios."
-      importCode="import { CbPictogramComponent } from '@caribeng/ui/pictogram';"
+      importCode="import { CbPictogram } from '@caribeng/ui/caribe/pictogram';"
       [api]="api"
     >
       <cb-doc-example title="Pictograma" code='<cb-pictogram name="security-shield" size="64px" />'>

@@ -1,18 +1,18 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { CbFileSelectComponent } from '@caribeng/ui/file-select';
+import { CbFileSelect } from '@caribeng/ui/caribe/file-select';
 import { CbDocApiRow, CbDocPageComponent } from '../components/doc-page.component';
 import { CbDocExampleComponent } from '../components/doc-example.component';
 
 @Component({
   selector: 'cb-file-select-doc',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbDocPageComponent, CbDocExampleComponent, CbFileSelectComponent],
+  imports: [CbDocPageComponent, CbDocExampleComponent, CbFileSelect],
   template: `
     <cb-doc-page
       category="Caribe Design · Archivos"
       title="FileSelect"
       subtitle="Selector de archivos con filtro de extensiones y modelo reactivo."
-      importCode="import { CbFileSelectComponent } from '@caribeng/ui/file-select';"
+      importCode="import { CbFileSelect } from '@caribeng/ui/caribe/file-select';"
       [api]="api"
     >
       <cb-doc-example title="Selección de soporte PDF" code='<cb-file-select label="Adjuntar RUT" accept=".pdf" />'>

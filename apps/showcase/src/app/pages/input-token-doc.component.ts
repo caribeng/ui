@@ -1,18 +1,18 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
-import { CbInputTokenComponent } from '@caribeng/ui/input-token';
+import { CbInputToken } from '@caribeng/ui/caribe/input-token';
 import { CbDocApiRow, CbDocPageComponent } from '../components/doc-page.component';
 import { CbDocExampleComponent } from '../components/doc-example.component';
 
 @Component({
   selector: 'cb-input-token-doc',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbDocPageComponent, CbDocExampleComponent, CbInputTokenComponent],
+  imports: [CbDocPageComponent, CbDocExampleComponent, CbInputToken],
   template: `
     <cb-doc-page
       category="Caribe Design · Formularios"
       title="InputToken"
       subtitle="Captura segura de clave dinámica / OTP tokenizado con enmascaramiento opcional."
-      importCode="import { CbInputTokenComponent } from '@caribeng/ui/input-token';"
+      importCode="import { CbInputToken } from '@caribeng/ui/caribe/input-token';"
       [api]="api"
     >
       <cb-doc-example title="Clave dinámica de 6 dígitos" code='<cb-input-token [(value)]="token" [numInputs]="6" [unmasked]="true" />'>

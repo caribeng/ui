@@ -1,18 +1,18 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { CbIllustrationComponent } from '@caribeng/ui/illustration';
+import { CbIllustration } from '@caribeng/ui/caribe/illustration';
 import { CbDocApiRow, CbDocPageComponent } from '../components/doc-page.component';
 import { CbDocExampleComponent } from '../components/doc-example.component';
 
 @Component({
   selector: 'cb-illustration-doc',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbDocPageComponent, CbDocExampleComponent, CbIllustrationComponent],
+  imports: [CbDocPageComponent, CbDocExampleComponent, CbIllustration],
   template: `
     <cb-doc-page
       category="Caribe Design · Identidad"
       title="Illustration"
       subtitle="Ilustraciones vectoriales expresivas para estados vacíos, confirmaciones y onboarding."
-      importCode="import { CbIllustrationComponent } from '@caribeng/ui/illustration';"
+      importCode="import { CbIllustration } from '@caribeng/ui/caribe/illustration';"
       [api]="api"
     >
       <cb-doc-example title="Ilustración escalable" code='<cb-illustration name="transfer-success" size="180px" />'>

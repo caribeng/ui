@@ -1,18 +1,18 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { CbStrokeComponent } from '@caribeng/ui/stroke';
+import { CbStroke } from '@caribeng/ui/caribe/stroke';
 import { CbDocApiRow, CbDocPageComponent } from '../components/doc-page.component';
 import { CbDocExampleComponent } from '../components/doc-example.component';
 
 @Component({
   selector: 'cb-stroke-doc',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbDocPageComponent, CbDocExampleComponent, CbStrokeComponent],
+  imports: [CbDocPageComponent, CbDocExampleComponent, CbStroke],
   template: `
     <cb-doc-page
       category="Caribe Design · Identidad"
       title="Stroke"
       subtitle="Trazos decorativos SVG escalables del sistema de diseño Caribe."
-      importCode="import { CbStrokeComponent } from '@caribeng/ui/stroke';"
+      importCode="import { CbStroke } from '@caribeng/ui/caribe/stroke';"
       [api]="api"
     >
       <cb-doc-example title="Trazo decorativo" code='<cb-stroke name="01" size="240px" />'>

@@ -1,18 +1,18 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
-import { CbCalendarComponent } from '@caribeng/ui/calendar';
+import { CbCalendar } from '@caribeng/ui/caribe/calendar';
 import { CbDocApiRow, CbDocPageComponent } from '../components/doc-page.component';
 import { CbDocExampleComponent } from '../components/doc-example.component';
 
 @Component({
   selector: 'cb-calendar-doc',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbDocPageComponent, CbDocExampleComponent, CbCalendarComponent],
+  imports: [CbDocPageComponent, CbDocExampleComponent, CbCalendar],
   template: `
     <cb-doc-page
       category="Caribe Design · Formularios"
       title="Calendar"
       subtitle="Vista de calendario mensual inline para selección directa de día."
-      importCode="import { CbCalendarComponent } from '@caribeng/ui/calendar';"
+      importCode="import { CbCalendar } from '@caribeng/ui/caribe/calendar';"
       [api]="api"
     >
       <cb-doc-example title="Calendario mensual" code='<cb-calendar [(selectedDay)]="day" monthLabel="Octubre 2026" />'>
