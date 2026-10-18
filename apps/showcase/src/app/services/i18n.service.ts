@@ -1,4 +1,5 @@
 import { Injectable, computed, signal } from '@angular/core';
+import { ES_EN } from './i18n-dict';
 
 export type CbLang = 'es' | 'en';
 
@@ -23,6 +24,16 @@ export class I18nService {
   /** Devuelve la cadena según el idioma activo. */
   t(es: string, en: string): string {
     return this.lang() === 'en' ? en : es;
+  }
+
+  /**
+   * Traduce una cadena en español usando el diccionario central ES→EN.
+   * Si el idioma es ES, o la cadena no está en el diccionario, la devuelve tal
+   * cual (seguro para nombres propios, código y contenido aún sin traducir).
+   */
+  auto(value: string | null | undefined): string {
+    if (!value) return value ?? '';
+    return this.lang() === 'en' ? (ES_EN[value] ?? value) : value;
   }
 
   setLang(lang: CbLang): void {

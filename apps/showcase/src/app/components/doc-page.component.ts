@@ -15,7 +15,7 @@ export interface CbDocApiRow {
   imports: [DocPageHeaderComponent],
   template: `
     <div class="cb-doc-page">
-      <doc-page-header [eyebrow]="category()" [title]="title()" [lead]="subtitle()" />
+      <doc-page-header [eyebrow]="i18n.auto(category())" [title]="title()" [lead]="i18n.auto(subtitle())" />
       <section class="cb-doc-page__import">
         <h2>Import</h2>
         <pre><code>{{ importCode() }}</code></pre>
@@ -28,7 +28,7 @@ export interface CbDocApiRow {
             <table>
               <thead><tr><th>{{ i18n.t('Nombre', 'Name') }}</th><th>{{ i18n.t('Tipo', 'Type') }}</th><th>{{ i18n.t('Por defecto', 'Default') }}</th><th>{{ i18n.t('Descripción', 'Description') }}</th></tr></thead>
               <tbody>@for (row of api(); track row.name) {
-                <tr><td><code>{{ row.name }}</code></td><td><code>{{ row.type }}</code></td><td><code>{{ row.default }}</code></td><td>{{ row.description }}</td></tr>
+                <tr><td><code>{{ row.name }}</code></td><td><code>{{ row.type }}</code></td><td><code>{{ row.default }}</code></td><td>{{ i18n.auto(row.description) }}</td></tr>
               }</tbody>
             </table>
           </div>
