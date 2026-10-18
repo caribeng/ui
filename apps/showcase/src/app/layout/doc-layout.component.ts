@@ -20,7 +20,7 @@ import { ConfiguratorComponent } from './configurator.component';
 
     <div class="layout">
       <aside class="layout__sidebar" [class.layout__sidebar--open]="menuOpen()">
-        <doc-sidebar (click)="menuOpen.set(false)" />
+        <doc-sidebar (navigate)="menuOpen.set(false)" />
       </aside>
       @if (menuOpen()) {
         <div class="layout__scrim" (click)="menuOpen.set(false)"></div>
