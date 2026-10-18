@@ -70,7 +70,7 @@ import {
           @for (name of surfaceNames; track name) {
             <button
               type="button"
-              class="cfg__swatch"
+              class="cfg__swatch cfg__swatch--ramp"
               [class.cfg__swatch--active]="config.surface() === name"
               [style.background]="surface(name)"
               [attr.aria-label]="name"
@@ -98,8 +98,9 @@ export class ConfiguratorComponent {
     return PRIMARY_PALETTES[name][5]; // tono 500
   }
   protected surface(name: string): string {
-    // Chip plano como en la página de Colores. El tono 500 es el más claro
-    // donde el matiz de cada superficie (frío/neutro/cálido) aún se distingue.
-    return SURFACE_PALETTES[name][5]; // tono 500
+    // Mini-rampa de 3 chips discretos (claro · medio · oscuro) como la sección
+    // Surface de la página Colores: así el matiz de cada paleta se distingue.
+    const p = SURFACE_PALETTES[name];
+    return `linear-gradient(to right, ${p[2]} 0 33.34%, ${p[5]} 33.34% 66.67%, ${p[8]} 66.67% 100%)`;
   }
 }
