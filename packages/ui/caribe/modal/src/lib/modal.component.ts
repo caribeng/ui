@@ -6,6 +6,7 @@ import {
   model,
   output,
 } from '@angular/core';
+import { CbButton } from '@caribeng/ui/button';
 
 /**
  * Modal de Caribe Design: diálogo centrado con backdrop, cabecera, contenido y
@@ -20,6 +21,7 @@ import {
   selector: 'cb-modal',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
+  imports: [CbButton],
   template: `
     @if (visible()) {
       <div class="cb-modal__backdrop" (click)="close()">
@@ -43,16 +45,10 @@ import {
           </header>
           <div class="cb-modal__body"><ng-content /></div>
           <footer class="cb-modal__foot">
-            <button type="button" class="cb-modal__btn" (click)="close()">
+            <cb-button variant="text" severity="secondary" (click)="close()">
               Cancelar
-            </button>
-            <button
-              type="button"
-              class="cb-modal__btn cb-modal__btn--primary"
-              (click)="confirm.emit()"
-            >
-              {{ confirmLabel() }}
-            </button>
+            </cb-button>
+            <cb-button (click)="confirm.emit()">{{ confirmLabel() }}</cb-button>
           </footer>
         </div>
       </div>
