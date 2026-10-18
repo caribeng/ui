@@ -1,0 +1,6 @@
+import { ChangeDetectionStrategy, Component, ViewEncapsulation, computed, input, model, output } from '@angular/core';
+
+@Component({ selector: 'cb-onboarding', standalone: true, changeDetection: ChangeDetectionStrategy.OnPush, encapsulation: ViewEncapsulation.Emulated, template: `@if (visible() && steps().length) {<section class="cb-surface cb-column" role="dialog" aria-label="Onboarding"><span class="cb-muted">{{index()+1}} / {{steps().length}}</span><h2>{{steps()[index()]}}</h2><ng-content /><div class="cb-actions"><button type="button" (click)="visible.set(false)">Omitir</button><button type="button" (click)="previous()" [disabled]="index()===0">Anterior</button><button class="cb-primary" type="button" (click)="next()">{{index()===steps().length-1?'Comenzar':'Continuar'}}</button></div></section>}`, styleUrl: './onboarding.component.css' })
+export class CbOnboardingComponent {
+readonly steps=input<readonly string[]>([]); readonly visible=model(true); readonly index=model(0); readonly currentStepIndex=output<number>(); protected previous(){this.index.update(i=>Math.max(0,i-1));this.currentStepIndex.emit(this.index());} protected next(){if(this.index()<this.steps().length-1){this.index.update(i=>i+1);this.currentStepIndex.emit(this.index());}else this.visible.set(false);}
+}

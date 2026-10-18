@@ -22,7 +22,7 @@ import { TocService } from '../services/toc.service';
         @for (p of presets; track p.id) {
           <cb-button
             size="sm"
-            [variant]="theme.preset() === p.id ? 'primary' : 'outline'"
+            [variant]="theme.preset() === p.id ? 'solid' : 'outlined'"
             (click)="theme.setPreset(p.id)"
           >
             <span

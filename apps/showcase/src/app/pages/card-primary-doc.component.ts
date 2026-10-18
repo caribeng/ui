@@ -1,0 +1,21 @@
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { CbCardPrimaryComponent } from '@caribeng/ui/card-primary';
+import { DocSectionComponent } from '../shared/doc-section.component';
+import { CodeBlockComponent } from '../shared/code-block.component';
+import { DocPageHeaderComponent } from '../shared/page-header.component';
+import { TocService } from '../services/toc.service';
+
+@Component({
+  selector: 'doc-card-primary-page', changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [CbCardPrimaryComponent, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
+  template: `
+    <doc-page-header eyebrow="Caribe Design" title="Card Primary" lead="Card Primary para interfaces accesibles, con estilos basados en tokens CaribeNG." />
+    <doc-section id="import" title="Import"><doc-code-block [code]="importCode" lang="typescript" /></doc-section>
+    <doc-section id="basic" title="Uso basico" [code]="exampleCode"><cb-card-primary title="Cuenta de ahorros" subtitle="**** 2048" value="$ 2.450.000" /></doc-section>
+  `,
+})
+export class CardPrimaryDocComponent {
+  constructor() { inject(TocService).reset(); }
+  protected readonly importCode = `import { CbCardPrimaryComponent } from '@caribeng/ui/card-primary';`;
+  protected readonly exampleCode = `<cb-card-primary title="Cuenta de ahorros" subtitle="**** 2048" value="$ 2.450.000" />`;
+}

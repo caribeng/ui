@@ -65,6 +65,8 @@ export const NAV: NavGroup[] = [
       { label: 'ConfirmDialog', route: '/components/confirmdialog' },
       { label: 'ConfirmPopup', route: '/components/confirmpopup' },
       { label: 'DynamicDialog', route: '/components/dynamicdialog' },
+      { label: 'Modal', route: '/components/modal' },
+      { label: 'Pop Over', route: '/components/pop-over' },
     ],
   },
   {
@@ -75,6 +77,10 @@ export const NAV: NavGroup[] = [
       { label: 'InlineMessage', route: '/components/inlinemessage' },
       { label: 'Badge', route: '/components/badge' },
       { label: 'Tag', route: '/components/tag' },
+      { label: 'Alert', route: '/components/alert' },
+      { label: 'Inline Alert', route: '/components/inline-alert' },
+      { label: 'Status', route: '/components/status' },
+      { label: 'Transaction Status', route: '/components/transaction-status' },
     ],
   },
   {
@@ -91,6 +97,10 @@ export const NAV: NavGroup[] = [
       { label: 'Accordion', route: '/components/accordion' },
       { label: 'Tabs', route: '/components/tabs' },
       { label: 'Stepper', route: '/components/stepper' },
+      { label: 'Card Content', route: '/components/card-content' },
+      { label: 'Card Move', route: '/components/card-move' },
+      { label: 'Card Primary', route: '/components/card-primary' },
+      { label: 'Card Select', route: '/components/card-select' },
     ],
   },
   {
@@ -106,6 +116,7 @@ export const NAV: NavGroup[] = [
       { label: 'OrderList', route: '/components/orderlist' },
       { label: 'PickList', route: '/components/picklist' },
       { label: 'OrganizationChart', route: '/components/organizationchart' },
+      { label: 'Data Table', route: '/components/data-table' },
     ],
   },
   {
@@ -135,6 +146,10 @@ export const NAV: NavGroup[] = [
       { label: 'AnimateOnScroll', route: '/components/animateonscroll' },
       { label: 'StyleClass', route: '/components/styleclass' },
       { label: 'AutoFocus', route: '/components/autofocus' },
+      { label: 'Coachmark', route: '/components/coachmark' },
+      { label: 'Onboarding', route: '/components/onboarding' },
+      { label: 'Tracker', route: '/components/tracker' },
+      { label: 'Voucher', route: '/components/voucher' },
     ],
   },
   {
