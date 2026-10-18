@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { DocPlaygroundComponent } from '../components/doc-playground.component';
+import { DOC_API } from '../components/doc-api-registry';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { CbRating } from '@caribeng/ui/rating';
 import { DocSectionComponent } from '../shared/doc-section.component';
@@ -9,7 +11,7 @@ import { TocService } from '../services/toc.service';
 @Component({
   selector: 'doc-rating-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
+  imports: [DocPlaygroundComponent, 
     ReactiveFormsModule,
     CbRating,
     DocSectionComponent,
@@ -22,6 +24,8 @@ import { TocService } from '../services/toc.service';
       title="Rating"
       lead="Valoración con estrellas. ControlValueAccessor, teclado (flechas, Home/End) y vista previa al pasar el cursor."
     />
+
+    <doc-playground [api]="docApi" />
 
     <doc-section id="import" title="Import">
       <doc-code-block [code]="installCode" lang="bash" />
@@ -57,6 +61,8 @@ import { TocService } from '../services/toc.service';
   `,
 })
 export class RatingDocComponent {
+  protected readonly docApi = DOC_API['cb-rating'];
+
   constructor() {
     inject(TocService).reset();
   }

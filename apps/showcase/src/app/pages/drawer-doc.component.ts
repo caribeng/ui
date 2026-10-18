@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { DocPlaygroundComponent } from '../components/doc-playground.component';
+import { DOC_API } from '../components/doc-api-registry';
 import { CbDrawer } from '@caribeng/ui/drawer';
 import { CbButton } from '@caribeng/ui/button';
 import { DocSectionComponent } from '../shared/doc-section.component';
@@ -9,7 +11,7 @@ import { TocService } from '../services/toc.service';
 @Component({
   selector: 'doc-drawer-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
+  imports: [DocPlaygroundComponent, 
     CbDrawer,
     CbButton,
     DocSectionComponent,
@@ -18,6 +20,8 @@ import { TocService } from '../services/toc.service';
   ],
   template: `
     <doc-page-header eyebrow="Overlay" title="Drawer" lead="Panel lateral que se desliza desde un borde. Trampa de foco, bloqueo de scroll y cierre con Escape/backdrop." />
+
+    <doc-playground [api]="docApi" />
 
     <doc-section id="import" title="Import">
       <doc-code-block [code]="installCode" lang="bash" />
@@ -53,6 +57,8 @@ import { TocService } from '../services/toc.service';
   `,
 })
 export class DrawerDocComponent {
+  protected readonly docApi = DOC_API['cb-drawer'];
+
   constructor() {
     inject(TocService).reset();
   }

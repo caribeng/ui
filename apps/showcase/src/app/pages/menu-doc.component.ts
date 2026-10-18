@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { DocPlaygroundComponent } from '../components/doc-playground.component';
+import { DOC_API } from '../components/doc-api-registry';
 import { CbButton } from '@caribeng/ui/button';
 import { CbMenu, type CbMenuItem } from '@caribeng/ui/menu';
 import { DocSectionComponent } from '../shared/doc-section.component';
@@ -9,9 +11,11 @@ import { TocService } from '../services/toc.service';
 @Component({
   selector: 'doc-menu-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbMenu, CbButton, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
+  imports: [DocPlaygroundComponent, CbMenu, CbButton, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
     <doc-page-header eyebrow="Menu" title="Menu" lead="Menú emergente de acciones con iconos, separadores y atajos de teclado." />
+
+    <doc-playground [api]="docApi" />
 
     <doc-section id="import" title="Import">
       <doc-code-block [code]="installCode" lang="bash" />
@@ -29,6 +33,8 @@ import { TocService } from '../services/toc.service';
   `,
 })
 export class MenuDocComponent {
+  protected readonly docApi = DOC_API['cb-menu'];
+
   constructor() { inject(TocService).reset(); }
 
   protected readonly selected = signal('');

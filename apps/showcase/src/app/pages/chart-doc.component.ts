@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { DocPlaygroundComponent } from '../components/doc-playground.component';
+import { DOC_API } from '../components/doc-api-registry';
 import { CbChart, CbChartData, CbChartType } from '@caribeng/ui/chart';
 import { CbButton } from '@caribeng/ui/button';
 import { CbDocApiRow, CbDocPageComponent } from '../components/doc-page.component';
@@ -9,7 +11,7 @@ const BASIC_CODE = `<cb-chart [type]="chartType()" [data]="salesData" />`;
 @Component({
   selector: 'cb-chart-doc',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbDocPageComponent, CbDocExampleComponent, CbChart, CbButton],
+  imports: [DocPlaygroundComponent, CbDocPageComponent, CbDocExampleComponent, CbChart, CbButton],
   template: `
     <cb-doc-page
       category="Data & Media"
@@ -32,10 +34,14 @@ const BASIC_CODE = `<cb-chart [type]="chartType()" [data]="salesData" />`;
           <cb-chart [type]="chartType()" [data]="salesData" />
         </div>
       </cb-doc-example>
+    
+      <doc-playground [api]="docApi" />
     </cb-doc-page>
   `,
 })
 export class ChartDocComponent {
+  protected readonly docApi = DOC_API['cb-chart'];
+
   protected readonly basicCode = BASIC_CODE;
   protected readonly chartType = signal<CbChartType>('bar');
 

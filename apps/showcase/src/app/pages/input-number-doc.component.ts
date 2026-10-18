@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { DocPlaygroundComponent } from '../components/doc-playground.component';
+import { DOC_API } from '../components/doc-api-registry';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CbInputNumber } from '@caribeng/ui/input-number';
 import { DocSectionComponent } from '../shared/doc-section.component';
@@ -9,7 +11,7 @@ import { TocService } from '../services/toc.service';
 @Component({
   selector: 'doc-input-number-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
+  imports: [DocPlaygroundComponent, 
     ReactiveFormsModule,
     CbInputNumber,
     DocSectionComponent,
@@ -22,6 +24,8 @@ import { TocService } from '../services/toc.service';
       title="InputNumber"
       lead="Campo numérico con botones de paso, formato por locale/moneda y ControlValueAccessor."
     />
+
+    <doc-playground [api]="docApi" />
 
     <doc-section id="import" title="Import">
       <doc-code-block [code]="installCode" lang="bash" />
@@ -105,6 +109,8 @@ import { TocService } from '../services/toc.service';
   `,
 })
 export class InputNumberDocComponent {
+  protected readonly docApi = DOC_API['cb-input-number'];
+
   constructor() {
     inject(TocService).reset();
   }

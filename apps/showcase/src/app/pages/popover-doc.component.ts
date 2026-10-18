@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { DocPlaygroundComponent } from '../components/doc-playground.component';
+import { DOC_API } from '../components/doc-api-registry';
 import { CbPopover } from '@caribeng/ui/popover';
 import { CbButton } from '@caribeng/ui/button';
 import { DocSectionComponent } from '../shared/doc-section.component';
@@ -9,7 +11,7 @@ import { TocService } from '../services/toc.service';
 @Component({
   selector: 'doc-popover-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
+  imports: [DocPlaygroundComponent, 
     CbPopover,
     CbButton,
     DocSectionComponent,
@@ -18,6 +20,8 @@ import { TocService } from '../services/toc.service';
   ],
   template: `
     <doc-page-header eyebrow="Overlay" title="Popover" lead="Panel flotante con contenido libre, anclado a un disparador. Se cierra al hacer clic fuera o con Escape." />
+
+    <doc-playground [api]="docApi" />
 
     <doc-section id="import" title="Import">
       <doc-code-block [code]="installCode" lang="bash" />
@@ -50,6 +54,8 @@ import { TocService } from '../services/toc.service';
   `,
 })
 export class PopoverDocComponent {
+  protected readonly docApi = DOC_API['cb-popover'];
+
   constructor() {
     inject(TocService).reset();
   }

@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { DocPlaygroundComponent } from '../components/doc-playground.component';
+import { DOC_API } from '../components/doc-api-registry';
 import { CbTreeSelect, CbTreeSelectNode } from '@caribeng/ui/treeselect';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
@@ -8,9 +10,11 @@ import { TocService } from '../services/toc.service';
 @Component({
   selector: 'doc-treeselect-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbTreeSelect, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
+  imports: [DocPlaygroundComponent, CbTreeSelect, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
     <doc-page-header eyebrow="Form" title="TreeSelect" lead="Selector desplegable con estructura jerárquica de árbol." />
+    <doc-playground [api]="docApi" />
+
     <doc-section id="import" title="Import">
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
@@ -22,6 +26,8 @@ import { TocService } from '../services/toc.service';
   `,
 })
 export class TreeselectDocComponent {
+  protected readonly docApi = DOC_API['cb-tree-select'];
+
   constructor() {
     inject(TocService).reset();
   }

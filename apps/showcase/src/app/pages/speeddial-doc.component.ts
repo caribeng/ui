@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { DocPlaygroundComponent } from '../components/doc-playground.component';
+import { DOC_API } from '../components/doc-api-registry';
 import { CbSpeedDial, type CbSpeedDialItem } from '@caribeng/ui/speeddial';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
@@ -8,9 +10,11 @@ import { TocService } from '../services/toc.service';
 @Component({
   selector: 'doc-speeddial-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbSpeedDial, CodeBlockComponent, DocPageHeaderComponent, DocSectionComponent],
+  imports: [DocPlaygroundComponent, CbSpeedDial, CodeBlockComponent, DocPageHeaderComponent, DocSectionComponent],
   template: `
     <doc-page-header eyebrow="Menu" title="SpeedDial" lead="Acciones rápidas que se despliegan desde un botón flotante." />
+    <doc-playground [api]="docApi" />
+
     <doc-section id="import" title="Import">
       <doc-code-block [code]="installCode" lang="bash" />
       <br />
@@ -25,6 +29,8 @@ import { TocService } from '../services/toc.service';
   `,
 })
 export class SpeedDialDocComponent {
+  protected readonly docApi = DOC_API['cb-speed-dial'];
+
   constructor() { inject(TocService).reset(); }
 
   protected readonly items: CbSpeedDialItem[] = [

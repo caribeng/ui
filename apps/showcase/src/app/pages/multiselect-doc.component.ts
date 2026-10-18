@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { DocPlaygroundComponent } from '../components/doc-playground.component';
+import { DOC_API } from '../components/doc-api-registry';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { CbMultiSelect } from '@caribeng/ui/multiselect';
 import { DocSectionComponent } from '../shared/doc-section.component';
@@ -14,7 +16,7 @@ interface Ciudad {
 @Component({
   selector: 'doc-multiselect-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
+  imports: [DocPlaygroundComponent, 
     ReactiveFormsModule,
     CbMultiSelect,
     DocSectionComponent,
@@ -27,6 +29,8 @@ interface Ciudad {
       title="MultiSelect"
       lead="Selección múltiple en overlay con casillas, filtro y seleccionar-todo. ControlValueAccessor (array)."
     />
+
+    <doc-playground [api]="docApi" />
 
     <doc-section id="import" title="Import">
       <doc-code-block [code]="installCode" lang="bash" />
@@ -77,6 +81,8 @@ interface Ciudad {
   `,
 })
 export class MultiselectDocComponent {
+  protected readonly docApi = DOC_API['cb-multiselect'];
+
   constructor() {
     inject(TocService).reset();
   }

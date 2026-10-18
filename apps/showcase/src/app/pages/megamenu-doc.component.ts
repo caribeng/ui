@@ -1,19 +1,25 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { DocPlaygroundComponent } from '../components/doc-playground.component';
+import { DOC_API } from '../components/doc-api-registry';
 import { CbMegaMenu, type CbMegaMenuItem } from '@caribeng/ui/megamenu';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
 import { TocService } from '../services/toc.service';
 
-@Component({ selector: 'doc-megamenu-page', changeDetection: ChangeDetectionStrategy.OnPush, imports: [CbMegaMenu, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent], template: `
+@Component({ selector: 'doc-megamenu-page', changeDetection: ChangeDetectionStrategy.OnPush, imports: [DocPlaygroundComponent, CbMegaMenu, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent], template: `
   <doc-page-header eyebrow="Menu" title="MegaMenu" lead="Navegación por categorías con enlaces organizados en columnas." />
-  <doc-section id="import" title="Import"><doc-code-block [code]="installCode" lang="bash" /><br /><doc-code-block [code]="importCode" lang="typescript" /></doc-section>
+  <doc-playground [api]="docApi" />
+
+    <doc-section id="import" title="Import"><doc-code-block [code]="installCode" lang="bash" /><br /><doc-code-block [code]="importCode" lang="typescript" /></doc-section>
   <doc-section id="basic" title="Basic" description="Pulsa una categoría para abrir o cerrar sus grupos." [code]="basicCode">
     <cb-megamenu [items]="items" (itemSelect)="selected.set($event.label)" />
     <p style="margin:.75rem 0 0;color:var(--cb-color-text-muted)">Selección: {{ selected() || 'ninguna' }}</p>
   </doc-section>
 ` })
 export class MegamenuDocComponent {
+  protected readonly docApi = DOC_API['cb-megamenu'];
+
   constructor() { inject(TocService).reset(); }
   protected readonly selected = signal('');
   protected readonly items: CbMegaMenuItem[] = [{ label: 'Productos', icon: 'store', groups: [

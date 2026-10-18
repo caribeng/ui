@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { DocPlaygroundComponent } from '../components/doc-playground.component';
+import { DOC_API } from '../components/doc-api-registry';
 import { CbPassword } from '@caribeng/ui/password';
 import { CbDocApiRow, CbDocPageComponent } from '../components/doc-page.component';
 import { CbDocExampleComponent } from '../components/doc-example.component';
@@ -8,7 +10,7 @@ const BASIC_CODE = `<cb-password [(value)]="secret" placeholder="Introduce tu co
 @Component({
   selector: 'cb-password-doc',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbDocPageComponent, CbDocExampleComponent, CbPassword],
+  imports: [DocPlaygroundComponent, CbDocPageComponent, CbDocExampleComponent, CbPassword],
   template: `
     <cb-doc-page
       category="Form"
@@ -26,10 +28,14 @@ const BASIC_CODE = `<cb-password [(value)]="secret" placeholder="Introduce tu co
           <cb-password [(value)]="secret" placeholder="Introduce tu contraseña" />
         </div>
       </cb-doc-example>
+    
+      <doc-playground [api]="docApi" />
     </cb-doc-page>
   `,
 })
 export class PasswordDocComponent {
+  protected readonly docApi = DOC_API['cb-password'];
+
   protected readonly basicCode = BASIC_CODE;
   protected readonly secret = signal('Caribe2026!');
 

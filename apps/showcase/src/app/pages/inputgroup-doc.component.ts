@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { DocPlaygroundComponent } from '../components/doc-playground.component';
+import { DOC_API } from '../components/doc-api-registry';
 import {
   CbInputGroup,
   CbInputGroupAddon,
@@ -14,7 +16,7 @@ import { TocService } from '../services/toc.service';
 @Component({
   selector: 'doc-inputgroup-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
+  imports: [DocPlaygroundComponent, 
     CbInputGroup,
     CbInputGroupAddon,
     CbInput,
@@ -30,6 +32,8 @@ import { TocService } from '../services/toc.service';
       title="InputGroup"
       lead="Agrupa un control con addons (texto o icono) y botones, uniéndolos visualmente."
     />
+
+    <doc-playground [api]="docApi" />
 
     <doc-section id="import" title="Import">
       <doc-code-block [code]="installCode" lang="bash" />
@@ -71,6 +75,8 @@ import { TocService } from '../services/toc.service';
   `,
 })
 export class InputgroupDocComponent {
+  protected readonly docApi = DOC_API['cb-input-group'];
+
   constructor() {
     inject(TocService).reset();
   }

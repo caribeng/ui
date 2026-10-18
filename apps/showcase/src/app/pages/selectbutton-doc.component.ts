@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { DocPlaygroundComponent } from '../components/doc-playground.component';
+import { DOC_API } from '../components/doc-api-registry';
 import { CbSelectButton } from '@caribeng/ui/selectbutton';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
@@ -8,9 +10,11 @@ import { TocService } from '../services/toc.service';
 @Component({
   selector: 'doc-selectbutton-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbSelectButton, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
+  imports: [DocPlaygroundComponent, CbSelectButton, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
     <doc-page-header eyebrow="Form" title="SelectButton" lead="Grupo de botones segmentados para elegir una o varias opciones." />
+
+    <doc-playground [api]="docApi" />
 
     <doc-section id="import" title="Import">
       <doc-code-block [code]="installCode" lang="bash" />
@@ -34,6 +38,8 @@ import { TocService } from '../services/toc.service';
   `,
 })
 export class SelectbuttonDocComponent {
+  protected readonly docApi = DOC_API['cb-selectbutton'];
+
   constructor() {
     inject(TocService).reset();
   }

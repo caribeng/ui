@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { DocPlaygroundComponent } from '../components/doc-playground.component';
+import { DOC_API } from '../components/doc-api-registry';
 import { CbAvatarGroup } from '@caribeng/ui/avatargroup';
 import { CbAvatar } from '@caribeng/ui/avatar';
 import { DocSectionComponent } from '../shared/doc-section.component';
@@ -9,7 +11,7 @@ import { TocService } from '../services/toc.service';
 @Component({
   selector: 'doc-avatargroup-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
+  imports: [DocPlaygroundComponent, 
     CbAvatarGroup,
     CbAvatar,
     DocSectionComponent,
@@ -18,6 +20,8 @@ import { TocService } from '../services/toc.service';
   ],
   template: `
     <doc-page-header eyebrow="Media" title="AvatarGroup" lead="Agrupa múltiples avatares superpuestos." />
+    <doc-playground [api]="docApi" />
+
     <doc-section id="import" title="Import">
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
@@ -32,6 +36,8 @@ import { TocService } from '../services/toc.service';
   `,
 })
 export class AvatargroupDocComponent {
+  protected readonly docApi = DOC_API['cb-avatar-group'];
+
   constructor() {
     inject(TocService).reset();
   }

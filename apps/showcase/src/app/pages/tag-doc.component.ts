@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { DocPlaygroundComponent } from '../components/doc-playground.component';
+import { DOC_API } from '../components/doc-api-registry';
 import { CbTag } from '@caribeng/ui/tag';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
@@ -8,9 +10,11 @@ import { TocService } from '../services/toc.service';
 @Component({
   selector: 'doc-tag-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbTag, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
+  imports: [DocPlaygroundComponent, CbTag, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
     <doc-page-header eyebrow="Messages" title="Tag" lead="Etiqueta para categorizar o marcar estado, con icono opcional." />
+
+    <doc-playground [api]="docApi" />
 
     <doc-section id="import" title="Import">
       <doc-code-block [code]="installCode" lang="bash" />
@@ -48,6 +52,8 @@ import { TocService } from '../services/toc.service';
   `,
 })
 export class TagDocComponent {
+  protected readonly docApi = DOC_API['cb-tag'];
+
   constructor() {
     inject(TocService).reset();
   }

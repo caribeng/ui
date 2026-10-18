@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { DocPlaygroundComponent } from '../components/doc-playground.component';
+import { DOC_API } from '../components/doc-api-registry';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { CbToggle } from '@caribeng/ui/toggle';
 import { DocSectionComponent } from '../shared/doc-section.component';
@@ -9,7 +11,7 @@ import { TocService } from '../services/toc.service';
 @Component({
   selector: 'doc-toggle-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
+  imports: [DocPlaygroundComponent, 
     ReactiveFormsModule,
     CbToggle,
     DocSectionComponent,
@@ -22,6 +24,8 @@ import { TocService } from '../services/toc.service';
       title="Toggle"
       lead="Switch booleano con ControlValueAccessor y role=&quot;switch&quot; para accesibilidad."
     />
+
+    <doc-playground [api]="docApi" />
 
     <doc-section id="import" title="Import">
       <doc-code-block [code]="installCode" lang="bash" />
@@ -69,6 +73,8 @@ import { TocService } from '../services/toc.service';
   `,
 })
 export class ToggleDocComponent {
+  protected readonly docApi = DOC_API['cb-toggle'];
+
   constructor() {
     inject(TocService).reset();
   }

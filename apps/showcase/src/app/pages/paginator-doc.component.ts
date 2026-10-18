@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { DocPlaygroundComponent } from '../components/doc-playground.component';
+import { DOC_API } from '../components/doc-api-registry';
 import { CbPaginator } from '@caribeng/ui/paginator';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
@@ -8,9 +10,11 @@ import { TocService } from '../services/toc.service';
 @Component({
   selector: 'doc-paginator-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbPaginator, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
+  imports: [DocPlaygroundComponent, CbPaginator, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
     <doc-page-header eyebrow="Data" title="Paginator" lead="Control de paginación reutilizable. first y rows son two-way." />
+
+    <doc-playground [api]="docApi" />
 
     <doc-section id="import" title="Import">
       <doc-code-block [code]="installCode" lang="bash" />
@@ -31,6 +35,8 @@ import { TocService } from '../services/toc.service';
   `,
 })
 export class PaginatorDocComponent {
+  protected readonly docApi = DOC_API['cb-paginator'];
+
   constructor() {
     inject(TocService).reset();
   }

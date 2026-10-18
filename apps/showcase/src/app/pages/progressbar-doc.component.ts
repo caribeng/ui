@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { DocPlaygroundComponent } from '../components/doc-playground.component';
+import { DOC_API } from '../components/doc-api-registry';
 import { CbProgressBar } from '@caribeng/ui/progressbar';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
@@ -8,9 +10,11 @@ import { TocService } from '../services/toc.service';
 @Component({
   selector: 'doc-progressbar-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbProgressBar, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
+  imports: [DocPlaygroundComponent, CbProgressBar, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
     <doc-page-header eyebrow="Misc" title="ProgressBar" lead="Barra de progreso determinada o indeterminada." />
+
+    <doc-playground [api]="docApi" />
 
     <doc-section id="import" title="Import">
       <doc-code-block [code]="installCode" lang="bash" />
@@ -41,6 +45,8 @@ import { TocService } from '../services/toc.service';
   `,
 })
 export class ProgressbarDocComponent {
+  protected readonly docApi = DOC_API['cb-progressbar'];
+
   constructor() {
     inject(TocService).reset();
   }

@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { DocPlaygroundComponent } from '../components/doc-playground.component';
+import { DOC_API } from '../components/doc-api-registry';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { CbAutocomplete } from '@caribeng/ui/autocomplete';
 import { DocSectionComponent } from '../shared/doc-section.component';
@@ -16,7 +18,7 @@ const PAISES = [
 @Component({
   selector: 'doc-autocomplete-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
+  imports: [DocPlaygroundComponent, 
     ReactiveFormsModule,
     CbAutocomplete,
     DocSectionComponent,
@@ -29,6 +31,8 @@ const PAISES = [
       title="Autocomplete"
       lead="Campo de texto con sugerencias en overlay. El filtrado lo resuelve tu app vía (complete)."
     />
+
+    <doc-playground [api]="docApi" />
 
     <doc-section id="import" title="Import">
       <doc-code-block [code]="installCode" lang="bash" />
@@ -96,6 +100,8 @@ const PAISES = [
   `,
 })
 export class AutocompleteDocComponent {
+  protected readonly docApi = DOC_API['cb-autocomplete'];
+
   constructor() {
     inject(TocService).reset();
   }

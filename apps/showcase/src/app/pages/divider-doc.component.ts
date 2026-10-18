@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { DocPlaygroundComponent } from '../components/doc-playground.component';
+import { DOC_API } from '../components/doc-api-registry';
 import { CbDivider } from '@caribeng/ui/divider';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
@@ -8,9 +10,11 @@ import { TocService } from '../services/toc.service';
 @Component({
   selector: 'doc-divider-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbDivider, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
+  imports: [DocPlaygroundComponent, CbDivider, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
     <doc-page-header eyebrow="Panel" title="Divider" lead="Separador horizontal o vertical, con etiqueta opcional." />
+
+    <doc-playground [api]="docApi" />
 
     <doc-section id="import" title="Import">
       <doc-code-block [code]="installCode" lang="bash" />
@@ -48,6 +52,8 @@ import { TocService } from '../services/toc.service';
   `,
 })
 export class DividerDocComponent {
+  protected readonly docApi = DOC_API['cb-divider'];
+
   constructor() {
     inject(TocService).reset();
   }

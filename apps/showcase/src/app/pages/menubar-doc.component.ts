@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { DocPlaygroundComponent } from '../components/doc-playground.component';
+import { DOC_API } from '../components/doc-api-registry';
 import { CbMenubar, type CbMenubarItem } from '@caribeng/ui/menubar';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
@@ -8,9 +10,11 @@ import { TocService } from '../services/toc.service';
 @Component({
   selector: 'doc-menubar-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbMenubar, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
+  imports: [DocPlaygroundComponent, CbMenubar, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
     <doc-page-header eyebrow="Menu" title="Menubar" lead="Barra horizontal de navegación con submenús y soporte de teclado." />
+
+    <doc-playground [api]="docApi" />
 
     <doc-section id="import" title="Import">
       <doc-code-block [code]="installCode" lang="bash" />
@@ -25,6 +29,8 @@ import { TocService } from '../services/toc.service';
   `,
 })
 export class MenubarDocComponent {
+  protected readonly docApi = DOC_API['cb-menubar'];
+
   constructor() { inject(TocService).reset(); }
 
   protected readonly selected = signal('');

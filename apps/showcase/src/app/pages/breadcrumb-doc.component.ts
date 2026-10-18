@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { DocPlaygroundComponent } from '../components/doc-playground.component';
+import { DOC_API } from '../components/doc-api-registry';
 import { CbBreadcrumb, type CbBreadcrumbItem } from '@caribeng/ui/breadcrumb';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
@@ -8,9 +10,11 @@ import { TocService } from '../services/toc.service';
 @Component({
   selector: 'doc-breadcrumb-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbBreadcrumb, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
+  imports: [DocPlaygroundComponent, CbBreadcrumb, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
     <doc-page-header eyebrow="Menu" title="Breadcrumb" lead="Rastro de navegación jerárquica. El último elemento es la página actual." />
+
+    <doc-playground [api]="docApi" />
 
     <doc-section id="import" title="Import">
       <doc-code-block [code]="installCode" lang="bash" />
@@ -28,6 +32,8 @@ import { TocService } from '../services/toc.service';
   `,
 })
 export class BreadcrumbDocComponent {
+  protected readonly docApi = DOC_API['cb-breadcrumb'];
+
   constructor() {
     inject(TocService).reset();
   }

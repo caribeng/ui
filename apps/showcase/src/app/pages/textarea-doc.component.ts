@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { DocPlaygroundComponent } from '../components/doc-playground.component';
+import { DOC_API } from '../components/doc-api-registry';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CbTextarea } from '@caribeng/ui/textarea';
 import { DocSectionComponent } from '../shared/doc-section.component';
@@ -9,7 +11,7 @@ import { TocService } from '../services/toc.service';
 @Component({
   selector: 'doc-textarea-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
+  imports: [DocPlaygroundComponent, 
     ReactiveFormsModule,
     CbTextarea,
     DocSectionComponent,
@@ -22,6 +24,8 @@ import { TocService } from '../services/toc.service';
       title="Textarea"
       lead="Área de texto multilínea con ControlValueAccessor, auto-resize y conteo de caracteres."
     />
+
+    <doc-playground [api]="docApi" />
 
     <doc-section id="import" title="Import">
       <doc-code-block [code]="installCode" lang="bash" />
@@ -102,6 +106,8 @@ import { TocService } from '../services/toc.service';
   `,
 })
 export class TextareaDocComponent {
+  protected readonly docApi = DOC_API['cb-textarea'];
+
   constructor() {
     inject(TocService).reset();
   }
