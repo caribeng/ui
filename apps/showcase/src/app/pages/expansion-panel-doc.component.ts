@@ -1,18 +1,18 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { CbExpansionPanelComponent } from '@caribeng/ui/expansion-panel';
+import { CbExpansionPanel } from '@caribeng/ui/caribe/expansion-panel';
 import { CbDocApiRow, CbDocPageComponent } from '../components/doc-page.component';
 import { CbDocExampleComponent } from '../components/doc-example.component';
 
 @Component({
   selector: 'cb-expansion-panel-doc',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbDocPageComponent, CbDocExampleComponent, CbExpansionPanelComponent],
+  imports: [CbDocPageComponent, CbDocExampleComponent, CbExpansionPanel],
   template: `
     <cb-doc-page
       category="Caribe Design · Paneles"
       title="ExpansionPanel"
       subtitle="Panel desplegable para mostrar u ocultar detalles adicionales."
-      importCode="import { CbExpansionPanelComponent } from '@caribeng/ui/expansion-panel';"
+      importCode="import { CbExpansionPanel } from '@caribeng/ui/caribe/expansion-panel';"
       [api]="api"
     >
       <cb-doc-example title="Panel desplegable" code='<cb-expansion-panel title="Condiciones del producto" [expanded]="true">Sin cuota de manejo.</cb-expansion-panel>'>

@@ -1,18 +1,18 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
-import { CbSwitchComponent } from '@caribeng/ui/switch';
+import { CbSwitch } from '@caribeng/ui/caribe/switch';
 import { CbDocApiRow, CbDocPageComponent } from '../components/doc-page.component';
 import { CbDocExampleComponent } from '../components/doc-example.component';
 
 @Component({
   selector: 'cb-switch-doc',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbDocPageComponent, CbDocExampleComponent, CbSwitchComponent],
+  imports: [CbDocPageComponent, CbDocExampleComponent, CbSwitch],
   template: `
     <cb-doc-page
       category="Caribe Design · Formularios"
       title="Switch"
       subtitle="Interruptor binario con rol ARIA switch e integración CVA."
-      importCode="import { CbSwitchComponent } from '@caribeng/ui/switch';"
+      importCode="import { CbSwitch } from '@caribeng/ui/caribe/switch';"
       [api]="api"
     >
       <cb-doc-example title="Interruptor con etiqueta" code='<cb-switch label="Notificaciones push" [(checked)]="enabled" />'>

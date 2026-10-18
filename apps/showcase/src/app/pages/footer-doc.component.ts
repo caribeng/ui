@@ -1,18 +1,18 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { CbFooterComponent } from '@caribeng/ui/footer';
+import { CbFooter } from '@caribeng/ui/caribe/footer';
 import { CbDocApiRow, CbDocPageComponent } from '../components/doc-page.component';
 import { CbDocExampleComponent } from '../components/doc-example.component';
 
 @Component({
   selector: 'cb-footer-doc',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbDocPageComponent, CbDocExampleComponent, CbFooterComponent],
+  imports: [CbDocPageComponent, CbDocExampleComponent, CbFooter],
   template: `
     <cb-doc-page
       category="Caribe Design · Navegación"
       title="Footer"
       subtitle="Pie de página institucional con texto legal y ranura para enlaces."
-      importCode="import { CbFooterComponent } from '@caribeng/ui/footer';"
+      importCode="import { CbFooter } from '@caribeng/ui/caribe/footer';"
       [api]="api"
     >
       <cb-doc-example title="Pie institucional" code='<cb-footer />'>

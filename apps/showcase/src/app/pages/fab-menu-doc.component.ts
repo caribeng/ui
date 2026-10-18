@@ -1,18 +1,18 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { CbFabMenuComponent } from '@caribeng/ui/fab-menu';
+import { CbFabMenu } from '@caribeng/ui/caribe/fab-menu';
 import { CbDocApiRow, CbDocPageComponent } from '../components/doc-page.component';
 import { CbDocExampleComponent } from '../components/doc-example.component';
 
 @Component({
   selector: 'cb-fab-menu-doc',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbDocPageComponent, CbDocExampleComponent, CbFabMenuComponent],
+  imports: [CbDocPageComponent, CbDocExampleComponent, CbFabMenu],
   template: `
     <cb-doc-page
       category="Caribe Design · Navegación"
       title="FabMenu"
       subtitle="Botón de acción flotante (FAB) con menú desplegable de atajos."
-      importCode="import { CbFabMenuComponent } from '@caribeng/ui/fab-menu';"
+      importCode="import { CbFabMenu } from '@caribeng/ui/caribe/fab-menu';"
       [api]="api"
     >
       <cb-doc-example title="FAB interactivo" code='<cb-fab-menu [items]="items" />'>

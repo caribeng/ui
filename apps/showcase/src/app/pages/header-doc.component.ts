@@ -1,18 +1,18 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { CbHeaderComponent } from '@caribeng/ui/header';
+import { CbHeader } from '@caribeng/ui/caribe/header';
 import { CbDocApiRow, CbDocPageComponent } from '../components/doc-page.component';
 import { CbDocExampleComponent } from '../components/doc-example.component';
 
 @Component({
   selector: 'cb-header-doc',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbDocPageComponent, CbDocExampleComponent, CbHeaderComponent],
+  imports: [CbDocPageComponent, CbDocExampleComponent, CbHeader],
   template: `
     <cb-doc-page
       category="Caribe Design · Navegación"
       title="Header"
       subtitle="Encabezado de aplicación o flujo con botón de retorno y proyección de acciones."
-      importCode="import { CbHeaderComponent } from '@caribeng/ui/header';"
+      importCode="import { CbHeader } from '@caribeng/ui/caribe/header';"
       [api]="api"
     >
       <cb-doc-example title="Encabezado de flujo" code='<cb-header title="Transferencias" subtitle="Paso 1 de 3" [showBack]="true" />'>

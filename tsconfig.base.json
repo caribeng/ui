@@ -66,8 +66,8 @@
       "@caribeng/ui/button": [
         "./packages/ui/button/src/public-api.ts"
       ],
-      "@caribeng/ui/button-group": [
-        "./packages/ui/button-group/src/public-api.ts"
+      "@caribeng/ui/caribe/button-group": [
+        "./packages/ui/caribe/button-group/src/public-api.ts"
       ],
       "@caribeng/ui/calendar": [
         "./packages/ui/calendar/src/public-api.ts"
@@ -141,8 +141,8 @@
       "@caribeng/ui/dock": [
         "./packages/ui/dock/src/public-api.ts"
       ],
-      "@caribeng/ui/dots-indicator": [
-        "./packages/ui/dots-indicator/src/public-api.ts"
+      "@caribeng/ui/caribe/dots-indicator": [
+        "./packages/ui/caribe/dots-indicator/src/public-api.ts"
       ],
       "@caribeng/ui/drawer": [
         "./packages/ui/drawer/src/public-api.ts"
@@ -153,11 +153,11 @@
       "@caribeng/ui/editor": [
         "./packages/ui/editor/src/public-api.ts"
       ],
-      "@caribeng/ui/expansion-panel": [
-        "./packages/ui/expansion-panel/src/public-api.ts"
+      "@caribeng/ui/caribe/expansion-panel": [
+        "./packages/ui/caribe/expansion-panel/src/public-api.ts"
       ],
-      "@caribeng/ui/fab-menu": [
-        "./packages/ui/fab-menu/src/public-api.ts"
+      "@caribeng/ui/caribe/fab-menu": [
+        "./packages/ui/caribe/fab-menu/src/public-api.ts"
       ],
       "@caribeng/ui/fieldset": [
         "./packages/ui/fieldset/src/public-api.ts"
@@ -171,8 +171,8 @@
       "@caribeng/ui/fileupload": [
         "./packages/ui/fileupload/src/public-api.ts"
       ],
-      "@caribeng/ui/float-menu": [
-        "./packages/ui/float-menu/src/public-api.ts"
+      "@caribeng/ui/caribe/float-menu": [
+        "./packages/ui/caribe/float-menu/src/public-api.ts"
       ],
       "@caribeng/ui/floatlabel": [
         "./packages/ui/floatlabel/src/public-api.ts"
@@ -180,20 +180,20 @@
       "@caribeng/ui/focustrap": [
         "./packages/ui/focustrap/src/public-api.ts"
       ],
-      "@caribeng/ui/footer": [
-        "./packages/ui/footer/src/public-api.ts"
+      "@caribeng/ui/caribe/footer": [
+        "./packages/ui/caribe/footer/src/public-api.ts"
       ],
       "@caribeng/ui/galleria": [
         "./packages/ui/galleria/src/public-api.ts"
       ],
-      "@caribeng/ui/header": [
-        "./packages/ui/header/src/public-api.ts"
+      "@caribeng/ui/caribe/header": [
+        "./packages/ui/caribe/header/src/public-api.ts"
       ],
       "@caribeng/ui/icon": [
         "./packages/ui/icon/src/public-api.ts"
       ],
-      "@caribeng/ui/icon-button": [
-        "./packages/ui/icon-button/src/public-api.ts"
+      "@caribeng/ui/caribe/icon-button": [
+        "./packages/ui/caribe/icon-button/src/public-api.ts"
       ],
       "@caribeng/ui/iconfield": [
         "./packages/ui/iconfield/src/public-api.ts"
@@ -246,8 +246,8 @@
       "@caribeng/ui/knob": [
         "./packages/ui/knob/src/public-api.ts"
       ],
-      "@caribeng/ui/link": [
-        "./packages/ui/link/src/public-api.ts"
+      "@caribeng/ui/caribe/link": [
+        "./packages/ui/caribe/link/src/public-api.ts"
       ],
       "@caribeng/ui/listbox": [
         "./packages/ui/listbox/src/public-api.ts"
@@ -279,8 +279,8 @@
       "@caribeng/ui/multiselect": [
         "./packages/ui/multiselect/src/public-api.ts"
       ],
-      "@caribeng/ui/off-canvas": [
-        "./packages/ui/off-canvas/src/public-api.ts"
+      "@caribeng/ui/caribe/off-canvas": [
+        "./packages/ui/caribe/off-canvas/src/public-api.ts"
       ],
       "@caribeng/ui/onboarding": [
         "./packages/ui/onboarding/src/public-api.ts"
@@ -318,8 +318,8 @@
       "@caribeng/ui/preloader": [
         "./packages/ui/preloader/src/public-api.ts"
       ],
-      "@caribeng/ui/progress-bar": [
-        "./packages/ui/progress-bar/src/public-api.ts"
+      "@caribeng/ui/caribe/progress-bar": [
+        "./packages/ui/caribe/progress-bar/src/public-api.ts"
       ],
       "@caribeng/ui/progressbar": [
         "./packages/ui/progressbar/src/public-api.ts"
@@ -345,8 +345,8 @@
       "@caribeng/ui/selectbutton": [
         "./packages/ui/selectbutton/src/public-api.ts"
       ],
-      "@caribeng/ui/shortcut": [
-        "./packages/ui/shortcut/src/public-api.ts"
+      "@caribeng/ui/caribe/shortcut": [
+        "./packages/ui/caribe/shortcut/src/public-api.ts"
       ],
       "@caribeng/ui/skeleton": [
         "./packages/ui/skeleton/src/public-api.ts"
@@ -366,8 +366,8 @@
       "@caribeng/ui/status": [
         "./packages/ui/status/src/public-api.ts"
       ],
-      "@caribeng/ui/step-indicator": [
-        "./packages/ui/step-indicator/src/public-api.ts"
+      "@caribeng/ui/caribe/step-indicator": [
+        "./packages/ui/caribe/step-indicator/src/public-api.ts"
       ],
       "@caribeng/ui/stepper": [
         "./packages/ui/stepper/src/public-api.ts"
@@ -381,8 +381,8 @@
       "@caribeng/ui/styleclass": [
         "./packages/ui/styleclass/src/public-api.ts"
       ],
-      "@caribeng/ui/switch": [
-        "./packages/ui/switch/src/public-api.ts"
+      "@caribeng/ui/caribe/switch": [
+        "./packages/ui/caribe/switch/src/public-api.ts"
       ],
       "@caribeng/ui/table": [
         "./packages/ui/table/src/public-api.ts"
@@ -396,8 +396,8 @@
       "@caribeng/ui/tag": [
         "./packages/ui/tag/src/public-api.ts"
       ],
-      "@caribeng/ui/tag-button": [
-        "./packages/ui/tag-button/src/public-api.ts"
+      "@caribeng/ui/caribe/tag-button": [
+        "./packages/ui/caribe/tag-button/src/public-api.ts"
       ],
       "@caribeng/ui/terminal": [
         "./packages/ui/terminal/src/public-api.ts"

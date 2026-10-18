@@ -1,18 +1,18 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
-import { CbFloatMenuComponent } from '@caribeng/ui/float-menu';
+import { CbFloatMenu } from '@caribeng/ui/caribe/float-menu';
 import { CbDocApiRow, CbDocPageComponent } from '../components/doc-page.component';
 import { CbDocExampleComponent } from '../components/doc-example.component';
 
 @Component({
   selector: 'cb-float-menu-doc',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbDocPageComponent, CbDocExampleComponent, CbFloatMenuComponent],
+  imports: [CbDocPageComponent, CbDocExampleComponent, CbFloatMenu],
   template: `
     <cb-doc-page
       category="Caribe Design · Navegación"
       title="FloatMenu"
       subtitle="Barra de navegación flotante tipo píldora para vistas móviles y web."
-      importCode="import { CbFloatMenuComponent } from '@caribeng/ui/float-menu';"
+      importCode="import { CbFloatMenu } from '@caribeng/ui/caribe/float-menu';"
       [api]="api"
     >
       <cb-doc-example title="Barra flotante" code='<cb-float-menu [items]="items" [activeId]="active()" />'>

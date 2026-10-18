@@ -1,18 +1,18 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { CbProgressBarCaribeComponent } from '@caribeng/ui/progress-bar';
+import { CbProgressBar } from '@caribeng/ui/caribe/progress-bar';
 import { CbDocApiRow, CbDocPageComponent } from '../components/doc-page.component';
 import { CbDocExampleComponent } from '../components/doc-example.component';
 
 @Component({
   selector: 'cb-progress-bar-caribe-doc',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbDocPageComponent, CbDocExampleComponent, CbProgressBarCaribeComponent],
+  imports: [CbDocPageComponent, CbDocExampleComponent, CbProgressBar],
   template: `
     <cb-doc-page
       category="Caribe Design · Indicadores"
       title="ProgressBar (Caribe)"
       subtitle="Barra de progreso lineal con etiqueta y porcentaje integrado."
-      importCode="import { CbProgressBarCaribeComponent } from '@caribeng/ui/progress-bar';"
+      importCode="import { CbProgressBar } from '@caribeng/ui/caribe/progress-bar';"
       [api]="api"
     >
       <cb-doc-example title="Meta de ahorro" code='<cb-progress-bar label="Meta de ahorro" [value]="72" />'>

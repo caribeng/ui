@@ -1,18 +1,18 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
-import { CbDotsIndicatorComponent } from '@caribeng/ui/dots-indicator';
+import { CbDotsIndicator } from '@caribeng/ui/caribe/dots-indicator';
 import { CbDocApiRow, CbDocPageComponent } from '../components/doc-page.component';
 import { CbDocExampleComponent } from '../components/doc-example.component';
 
 @Component({
   selector: 'cb-dots-indicator-doc',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbDocPageComponent, CbDocExampleComponent, CbDotsIndicatorComponent],
+  imports: [CbDocPageComponent, CbDocExampleComponent, CbDotsIndicator],
   template: `
     <cb-doc-page
       category="Caribe Design · Indicadores"
       title="DotsIndicator"
       subtitle="Indicador de paginación por puntos para carruseles y flujos de onboarding."
-      importCode="import { CbDotsIndicatorComponent } from '@caribeng/ui/dots-indicator';"
+      importCode="import { CbDotsIndicator } from '@caribeng/ui/caribe/dots-indicator';"
       [api]="api"
     >
       <cb-doc-example title="Puntos interactivos" code='<cb-dots-indicator [count]="4" [(activeIndex)]="page" />'>

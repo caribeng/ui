@@ -1,18 +1,18 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
-import { CbTagButtonComponent } from '@caribeng/ui/tag-button';
+import { CbTagButton } from '@caribeng/ui/caribe/tag-button';
 import { CbDocApiRow, CbDocPageComponent } from '../components/doc-page.component';
 import { CbDocExampleComponent } from '../components/doc-example.component';
 
 @Component({
   selector: 'cb-tag-button-doc',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbDocPageComponent, CbDocExampleComponent, CbTagButtonComponent],
+  imports: [CbDocPageComponent, CbDocExampleComponent, CbTagButton],
   template: `
     <cb-doc-page
       category="Caribe Design · Acciones"
       title="TagButton"
       subtitle="Píldora interactiva seleccionable para filtros rápidos y categorías."
-      importCode="import { CbTagButtonComponent } from '@caribeng/ui/tag-button';"
+      importCode="import { CbTagButton } from '@caribeng/ui/caribe/tag-button';"
       [api]="api"
     >
       <cb-doc-example title="Filtros seleccionables" code='<cb-tag-button label="Transferencias" [(selected)]="active" />'>

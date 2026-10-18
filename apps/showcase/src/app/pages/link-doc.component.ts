@@ -1,18 +1,18 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { CbLinkComponent } from '@caribeng/ui/link';
+import { CbLink } from '@caribeng/ui/caribe/link';
 import { CbDocApiRow, CbDocPageComponent } from '../components/doc-page.component';
 import { CbDocExampleComponent } from '../components/doc-example.component';
 
 @Component({
   selector: 'cb-link-doc',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbDocPageComponent, CbDocExampleComponent, CbLinkComponent],
+  imports: [CbDocPageComponent, CbDocExampleComponent, CbLink],
   template: `
     <cb-doc-page
       category="Caribe Design · Navegación"
       title="Link"
       subtitle="Hipervínculo accesible con soporte para enlaces externos seguros."
-      importCode="import { CbLinkComponent } from '@caribeng/ui/link';"
+      importCode="import { CbLink } from '@caribeng/ui/caribe/link';"
       [api]="api"
     >
       <cb-doc-example title="Enlace estándar" code='<cb-link label="Conoce nuestras tarifas" href="#tarifas" />'>

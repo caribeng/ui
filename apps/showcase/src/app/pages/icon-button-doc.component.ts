@@ -1,18 +1,18 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { CbIconButtonComponent } from '@caribeng/ui/icon-button';
+import { CbIconButton } from '@caribeng/ui/caribe/icon-button';
 import { CbDocApiRow, CbDocPageComponent } from '../components/doc-page.component';
 import { CbDocExampleComponent } from '../components/doc-example.component';
 
 @Component({
   selector: 'cb-icon-button-doc',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbDocPageComponent, CbDocExampleComponent, CbIconButtonComponent],
+  imports: [CbDocPageComponent, CbDocExampleComponent, CbIconButton],
   template: `
     <cb-doc-page
       category="Caribe Design · Acciones"
       title="IconButton"
       subtitle="Botón compacto circular de icono con etiqueta accesible obligatoria."
-      importCode="import { CbIconButtonComponent } from '@caribeng/ui/icon-button';"
+      importCode="import { CbIconButton } from '@caribeng/ui/caribe/icon-button';"
       [api]="api"
     >
       <cb-doc-example title="Botones de acción rápida" code='<cb-icon-button icon="plus" ariaLabel="Nuevo" />'>

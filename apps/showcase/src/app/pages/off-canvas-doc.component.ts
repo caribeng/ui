@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
-import { CbOffCanvasComponent } from '@caribeng/ui/off-canvas';
+import { CbOffCanvas } from '@caribeng/ui/caribe/off-canvas';
 import { CbButtonComponent } from '@caribeng/ui/button';
 import { CbDocApiRow, CbDocPageComponent } from '../components/doc-page.component';
 import { CbDocExampleComponent } from '../components/doc-example.component';
@@ -7,13 +7,13 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
 @Component({
   selector: 'cb-off-canvas-doc',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbDocPageComponent, CbDocExampleComponent, CbOffCanvasComponent, CbButtonComponent],
+  imports: [CbDocPageComponent, CbDocExampleComponent, CbOffCanvas, CbButtonComponent],
   template: `
     <cb-doc-page
       category="Caribe Design · Paneles"
       title="OffCanvas"
       subtitle="Panel lateral deslizable para filtros, menús contextuales y formularios secundarios."
-      importCode="import { CbOffCanvasComponent } from '@caribeng/ui/off-canvas';"
+      importCode="import { CbOffCanvas } from '@caribeng/ui/caribe/off-canvas';"
       [api]="api"
     >
       <cb-doc-example title="Panel lateral" code='<cb-off-canvas title="Filtros avanzados" [(open)]="visible">Contenido</cb-off-canvas>'>

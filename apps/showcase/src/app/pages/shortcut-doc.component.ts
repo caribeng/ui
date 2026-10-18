@@ -1,18 +1,18 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { CbShortcutComponent } from '@caribeng/ui/shortcut';
+import { CbShortcut } from '@caribeng/ui/caribe/shortcut';
 import { CbDocApiRow, CbDocPageComponent } from '../components/doc-page.component';
 import { CbDocExampleComponent } from '../components/doc-example.component';
 
 @Component({
   selector: 'cb-shortcut-doc',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbDocPageComponent, CbDocExampleComponent, CbShortcutComponent],
+  imports: [CbDocPageComponent, CbDocExampleComponent, CbShortcut],
   template: `
     <cb-doc-page
       category="Caribe Design · Navegación"
       title="Shortcut"
       subtitle="Botón de acceso directo con icono y etiqueta para acciones frecuentes."
-      importCode="import { CbShortcutComponent } from '@caribeng/ui/shortcut';"
+      importCode="import { CbShortcut } from '@caribeng/ui/caribe/shortcut';"
       [api]="api"
     >
       <cb-doc-example title="Atajos transaccionales" code='<cb-shortcut label="Transferir" icon="arrow-right" />'>
