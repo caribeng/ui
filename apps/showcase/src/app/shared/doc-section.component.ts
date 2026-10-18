@@ -10,6 +10,7 @@ import {
 import { CbIcon } from '@caribeng/ui/icon';
 import { CodeBlockComponent } from './code-block.component';
 import { TocService } from '../services/toc.service';
+import { I18nService } from '../services/i18n.service';
 
 /** Bloque de documentación: título anclado, demo en vivo y código (Template/Component). */
 @Component({
@@ -59,7 +60,7 @@ import { TocService } from '../services/toc.service';
               (click)="showCode.set(!showCode())"
             >
               <cb-icon [name]="showCode() ? 'chevron-up' : 'chevron-down'" [size]="16" aria-hidden="true" />
-              {{ showCode() ? 'Ocultar código' : 'Ver código' }}
+              {{ showCode() ? i18n.t('Ocultar código', 'Hide code') : i18n.t('Ver código', 'Show code') }}
             </button>
           </div>
 
@@ -78,6 +79,7 @@ import { TocService } from '../services/toc.service';
 })
 export class DocSectionComponent {
   private readonly toc = inject(TocService);
+  protected readonly i18n = inject(I18nService);
 
   readonly id = input.required<string>();
   readonly title = input.required<string>();

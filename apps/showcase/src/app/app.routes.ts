@@ -17,6 +17,7 @@ import { PopOverDocComponent } from './pages/pop-over-doc.component';
 import { IntroductionComponent } from './pages/introduction.component';
 import { ColorsComponent } from './pages/colors.component';
 import { ThemingComponent } from './pages/theming.component';
+import { UtilitiesComponent } from './pages/utilities.component';
 import { IconsComponent } from './pages/icons.component';
 import { ButtonDocComponent } from './pages/button-doc.component';
 import { InputDocComponent } from './pages/input-doc.component';
@@ -116,6 +117,7 @@ export const routes: Routes = [
   { path: 'introduction', component: IntroductionComponent, title: 'CaribeNG' },
   { path: 'foundations/colors', component: ColorsComponent, title: 'Colors · CaribeNG' },
   { path: 'foundations/theming', component: ThemingComponent, title: 'Theming · CaribeNG' },
+  { path: 'foundations/utilities', component: UtilitiesComponent, title: 'Utilities · CaribeNG' },
   { path: 'foundations/icons', component: IconsComponent, title: 'Icons · CaribeNG' },
   { path: 'components/button', component: ButtonDocComponent, title: 'Button · CaribeNG' },
   { path: 'components/input', component: InputDocComponent, title: 'Input · CaribeNG' },

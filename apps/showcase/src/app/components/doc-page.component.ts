@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
+import { I18nService } from '../services/i18n.service';
 
 export interface CbDocApiRow {
   name: string;
@@ -25,7 +26,7 @@ export interface CbDocApiRow {
           <h2>API</h2>
           <div class="cb-doc-page__table-wrap">
             <table>
-              <thead><tr><th>Nombre</th><th>Tipo</th><th>Por defecto</th><th>Descripción</th></tr></thead>
+              <thead><tr><th>{{ i18n.t('Nombre', 'Name') }}</th><th>{{ i18n.t('Tipo', 'Type') }}</th><th>{{ i18n.t('Por defecto', 'Default') }}</th><th>{{ i18n.t('Descripción', 'Description') }}</th></tr></thead>
               <tbody>@for (row of api(); track row.name) {
                 <tr><td><code>{{ row.name }}</code></td><td><code>{{ row.type }}</code></td><td><code>{{ row.default }}</code></td><td>{{ row.description }}</td></tr>
               }</tbody>
@@ -46,6 +47,7 @@ export interface CbDocApiRow {
   `],
 })
 export class CbDocPageComponent {
+  protected readonly i18n = inject(I18nService);
   readonly category = input('');
   readonly title = input.required<string>();
   readonly subtitle = input('');

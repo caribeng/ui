@@ -33,6 +33,7 @@ export const NAV_MENU: NavItem[] = [
     children: [
       { label: 'Colors', route: '/foundations/colors' },
       { label: 'Theming & Presets', route: '/foundations/theming' },
+      { label: 'Utilities', route: '/foundations/utilities' },
     ],
   },
   {

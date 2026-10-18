@@ -98,6 +98,28 @@
   border-color: var(--cb-color-border);
 }
 
+.topbar__lang-btn {
+  display: grid;
+  place-items: center;
+  min-width: 2.25rem;
+  height: 2.25rem;
+  padding: 0 0.5rem;
+  border-radius: var(--cb-radius-md);
+  border: 1px solid var(--cb-color-border);
+  background: transparent;
+  color: var(--cb-color-text);
+  font: inherit;
+  font-size: var(--cb-text-xs);
+  font-weight: var(--cb-font-weight-bold);
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: background var(--cb-duration-fast) var(--cb-ease);
+}
+.topbar__lang-btn:hover {
+  background: var(--cb-color-surface);
+  border-color: var(--cb-color-border-strong);
+}
+
 .topbar__menu-btn {
   display: none;
   background: transparent;

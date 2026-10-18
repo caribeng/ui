@@ -14,6 +14,35 @@ import { filter } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CbIcon } from '@caribeng/ui/icon';
 import { NAV_MENU, type NavItem } from '../data/nav';
+import { I18nService } from '../services/i18n.service';
+
+/** Traducción ES de las etiquetas de sección/grupo del nav (la fuente está en EN). */
+const NAV_LABEL_ES: Record<string, string> = {
+  'Getting Started': 'Primeros pasos',
+  Introduction: 'Introducción',
+  Theming: 'Temas',
+  Colors: 'Colores',
+  'Theming & Presets': 'Temas y presets',
+  Components: 'Componentes',
+  Form: 'Formulario',
+  Button: 'Botones',
+  Data: 'Datos',
+  Panel: 'Paneles',
+  Overlay: 'Overlays',
+  File: 'Archivos',
+  Menu: 'Menús',
+  Chart: 'Gráficas',
+  Messages: 'Mensajes',
+  Media: 'Multimedia',
+  Misc: 'Varios',
+  'Cards & Transactions': 'Tarjetas y transacciones',
+  'Alerts & Overlays': 'Alertas y overlays',
+  'Navigation & Actions': 'Navegación y acciones',
+  'Identity, Loaders & Forms': 'Identidad, loaders y formularios',
+  Icons: 'Iconos',
+  'Catalog (Lucide)': 'Catálogo (Lucide)',
+  Utilities: 'Utilidades',
+};
 
 @Component({
   selector: 'doc-sidebar',
@@ -26,14 +55,14 @@ import { NAV_MENU, type NavItem } from '../data/nav';
         <input
           type="search"
           class="sidebar__search-input"
-          placeholder="Buscar componente…"
-          aria-label="Buscar componentes"
+          [placeholder]="i18n.t('Buscar componente…', 'Search component…')"
+          [attr.aria-label]="i18n.t('Buscar componentes', 'Search components')"
           [value]="query()"
           (input)="onSearch($event)"
         />
       </div>
 
-      <nav aria-label="Navegación principal">
+      <nav [attr.aria-label]="i18n.t('Navegación principal', 'Main navigation')">
         <ol class="layout-menu">
           @for (rootItem of filteredMenu(); track rootItem.label) {
             <li app-menuitem>
@@ -47,7 +76,7 @@ import { NAV_MENU, type NavItem } from '../data/nav';
                 <div class="menu-icon">
                   <cb-icon [name]="rootItem.icon ?? 'folder'" [size]="16" aria-hidden="true" />
                 </div>
-                <span>{{ rootItem.label }}</span>
+                <span>{{ label(rootItem.label) }}</span>
                 <span class="menu-toggle">
                   @if (rootItem.badge) {
                     <span class="p-tag">
@@ -69,7 +98,7 @@ import { NAV_MENU, type NavItem } from '../data/nav';
                   @for (child of rootItem.children ?? []; track child.label) {
                     @if (child.children?.length) {
                       <li app-menuitem>
-                        <span class="menu-child-category">{{ child.label }}</span>
+                        <span class="menu-child-category">{{ label(child.label) }}</span>
                         <div class="menu-subpanel">
                           <ol>
                             @for (leaf of child.children; track leaf.label) {
@@ -80,7 +109,7 @@ import { NAV_MENU, type NavItem } from '../data/nav';
                                   [routerLinkActiveOptions]="{ exact: true }"
                                   (click)="navigate.emit()"
                                 >
-                                  <span>{{ leaf.label }}</span>
+                                  <span>{{ label(leaf.label) }}</span>
                                   @if (leaf.badge) {
                                     <span class="p-tag">
                                       <span class="p-tag-label">{{ leaf.badge }}</span>
@@ -100,7 +129,7 @@ import { NAV_MENU, type NavItem } from '../data/nav';
                           [routerLinkActiveOptions]="{ exact: true }"
                           (click)="navigate.emit()"
                         >
-                          <span>{{ child.label }}</span>
+                          <span>{{ label(child.label) }}</span>
                           @if (child.badge) {
                             <span class="p-tag">
                               <span class="p-tag-label">{{ child.badge }}</span>
@@ -117,7 +146,9 @@ import { NAV_MENU, type NavItem } from '../data/nav';
         </ol>
 
         @if (filteredMenu().length === 0) {
-          <p class="sidebar__empty">Sin resultados para "{{ query() }}".</p>
+          <p class="sidebar__empty">
+            {{ i18n.t('Sin resultados para', 'No results for') }} "{{ query() }}".
+          </p>
         }
       </nav>
     </div>
@@ -128,8 +159,14 @@ export class SidebarComponent {
   private readonly router = inject(Router);
   private readonly el = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly destroyRef = inject(DestroyRef);
+  protected readonly i18n = inject(I18nService);
 
   readonly navigate = output<void>();
+
+  /** Traduce etiquetas de sección/grupo del nav; nombres de componente pasan igual. */
+  protected label(raw: string): string {
+    return this.i18n.t(NAV_LABEL_ES[raw] ?? raw, raw);
+  }
 
   protected readonly query = signal('');
   protected readonly currentUrl = signal(this.cleanUrl(this.router.url));

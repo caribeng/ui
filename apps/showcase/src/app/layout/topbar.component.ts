@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, inject, output } from '@angular/cor
 import { RouterLink } from '@angular/router';
 import { CbThemeService } from '@caribeng/ui';
 import { CbIcon } from '@caribeng/ui/icon';
+import { I18nService } from '../services/i18n.service';
 
 @Component({
   selector: 'doc-topbar',
@@ -33,8 +34,17 @@ import { CbIcon } from '@caribeng/ui/icon';
       <div class="topbar__actions">
         <button
           type="button"
+          class="topbar__lang-btn"
+          [attr.aria-label]="i18n.t('Cambiar a inglés', 'Switch to Spanish')"
+          [attr.title]="i18n.t('Idioma', 'Language')"
+          (click)="i18n.toggle()"
+        >
+          {{ i18n.isEnglish() ? 'EN' : 'ES' }}
+        </button>
+        <button
+          type="button"
           class="topbar__icon-btn"
-          [attr.aria-label]="theme.isDark() ? 'Tema claro' : 'Tema oscuro'"
+          [attr.aria-label]="theme.isDark() ? i18n.t('Tema claro', 'Light theme') : i18n.t('Tema oscuro', 'Dark theme')"
           (click)="theme.toggle()"
         >
           <cb-icon [name]="theme.isDark() ? 'sun' : 'moon'" [size]="18" aria-hidden="true" />
@@ -63,6 +73,7 @@ import { CbIcon } from '@caribeng/ui/icon';
 })
 export class TopbarComponent {
   protected readonly theme = inject(CbThemeService);
+  protected readonly i18n = inject(I18nService);
   readonly toggleConfig = output<void>();
   readonly toggleMenu = output<void>();
 }
