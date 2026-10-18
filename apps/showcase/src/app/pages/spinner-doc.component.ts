@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { DocPlaygroundComponent } from '../components/doc-playground.component';
+import { DOC_API } from '../components/doc-api-registry';
 import { CbSpinner } from '@caribeng/ui/spinner';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
@@ -8,9 +10,11 @@ import { TocService } from '../services/toc.service';
 @Component({
   selector: 'doc-spinner-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbSpinner, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
+  imports: [DocPlaygroundComponent, CbSpinner, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
     <doc-page-header eyebrow="Misc" title="Spinner" lead="Indicador de carga circular." />
+
+    <doc-playground [api]="docApi" />
 
     <doc-section id="import" title="Import">
       <doc-code-block [code]="installCode" lang="bash" />
@@ -37,6 +41,8 @@ import { TocService } from '../services/toc.service';
   `,
 })
 export class SpinnerDocComponent {
+  protected readonly docApi = DOC_API['cb-spinner'];
+
   constructor() {
     inject(TocService).reset();
   }

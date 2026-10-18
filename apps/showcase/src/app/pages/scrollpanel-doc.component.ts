@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { DocPlaygroundComponent } from '../components/doc-playground.component';
+import { DOC_API } from '../components/doc-api-registry';
 import { CbScrollPanel } from '@caribeng/ui/scrollpanel';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
@@ -8,7 +10,7 @@ import { TocService } from '../services/toc.service';
 @Component({
   selector: 'doc-scrollpanel-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
+  imports: [DocPlaygroundComponent, 
     CbScrollPanel,
     DocSectionComponent,
     CodeBlockComponent,
@@ -20,6 +22,8 @@ import { TocService } from '../services/toc.service';
       title="ScrollPanel"
       lead="Contenedor de desplazamiento accesible con barras estilizadas mediante tokens CSS."
     />
+
+    <doc-playground [api]="docApi" />
 
     <doc-section id="import" title="Import">
       <doc-code-block [code]="installCode" lang="bash" />
@@ -46,6 +50,8 @@ import { TocService } from '../services/toc.service';
   `,
 })
 export class ScrollpanelDocComponent {
+  protected readonly docApi = DOC_API['cb-scroll-panel'];
+
   constructor() {
     inject(TocService).reset();
   }

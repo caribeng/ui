@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { DocPlaygroundComponent } from '../components/doc-playground.component';
+import { DOC_API } from '../components/doc-api-registry';
 import { CbInputSelect } from '@caribeng/ui/caribe/input-select';
 import { CbDocApiRow, CbDocPageComponent } from '../components/doc-page.component';
 import { CbDocExampleComponent } from '../components/doc-example.component';
@@ -6,7 +8,7 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
 @Component({
   selector: 'cb-input-select-doc',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbDocPageComponent, CbDocExampleComponent, CbInputSelect],
+  imports: [DocPlaygroundComponent, CbDocPageComponent, CbDocExampleComponent, CbInputSelect],
   template: `
     <cb-doc-page
       category="Caribe Design · Formularios"
@@ -18,10 +20,14 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
       <cb-doc-example title="Tipo de cuenta" code='<cb-input-select label="Tipo de cuenta" [options]="options" [(value)]="selected" />'>
         <cb-input-select label="Tipo de cuenta" [options]="options" [(value)]="selected" />
       </cb-doc-example>
+    
+      <doc-playground [api]="docApi" />
     </cb-doc-page>
   `,
 })
 export class InputSelectDocComponent {
+  protected readonly docApi = DOC_API['cb-input-select'];
+
   protected readonly selected = signal('ahorros');
   protected readonly options = [
     { label: 'Cuenta de Ahorros', value: 'ahorros' },

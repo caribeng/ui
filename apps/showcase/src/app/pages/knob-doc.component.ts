@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { DocPlaygroundComponent } from '../components/doc-playground.component';
+import { DOC_API } from '../components/doc-api-registry';
 import { CbKnob } from '@caribeng/ui/knob';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
@@ -8,9 +10,11 @@ import { TocService } from '../services/toc.service';
 @Component({
   selector: 'doc-knob-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbKnob, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
+  imports: [DocPlaygroundComponent, CbKnob, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
     <doc-page-header eyebrow="Form" title="Knob" lead="Dial circular para elegir un número. Arrastre con el puntero o teclado." />
+
+    <doc-playground [api]="docApi" />
 
     <doc-section id="import" title="Import">
       <doc-code-block [code]="installCode" lang="bash" />
@@ -39,6 +43,8 @@ import { TocService } from '../services/toc.service';
   `,
 })
 export class KnobDocComponent {
+  protected readonly docApi = DOC_API['cb-knob'];
+
   constructor() {
     inject(TocService).reset();
   }

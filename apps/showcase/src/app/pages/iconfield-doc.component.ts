@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { DocPlaygroundComponent } from '../components/doc-playground.component';
+import { DOC_API } from '../components/doc-api-registry';
 import { CbIconField, CbInputIcon } from '@caribeng/ui/iconfield';
 import { CbInput } from '@caribeng/ui/input';
 import { CbIcon } from '@caribeng/ui/icon';
@@ -10,7 +12,7 @@ import { TocService } from '../services/toc.service';
 @Component({
   selector: 'doc-iconfield-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
+  imports: [DocPlaygroundComponent, 
     CbIconField,
     CbInputIcon,
     CbInput,
@@ -21,6 +23,8 @@ import { TocService } from '../services/toc.service';
   ],
   template: `
     <doc-page-header eyebrow="Form" title="IconField" lead="Integra iconos informativos a la izquierda o derecha de un campo de entrada." />
+    <doc-playground [api]="docApi" />
+
     <doc-section id="import" title="Import">
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
@@ -35,6 +39,8 @@ import { TocService } from '../services/toc.service';
   `,
 })
 export class IconfieldDocComponent {
+  protected readonly docApi = DOC_API['cb-icon-field'];
+
   constructor() {
     inject(TocService).reset();
   }

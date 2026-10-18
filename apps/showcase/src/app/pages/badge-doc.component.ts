@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { DocPlaygroundComponent } from '../components/doc-playground.component';
+import { DOC_API } from '../components/doc-api-registry';
 import { CbBadge } from '@caribeng/ui/badge';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
@@ -8,9 +10,11 @@ import { TocService } from '../services/toc.service';
 @Component({
   selector: 'doc-badge-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbBadge, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
+  imports: [DocPlaygroundComponent, CbBadge, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
     <doc-page-header eyebrow="Messages" title="Badge" lead="Indicador compacto de conteo o estado." />
+
+    <doc-playground [api]="docApi" />
 
     <doc-section id="import" title="Import">
       <doc-code-block [code]="installCode" lang="bash" />
@@ -49,6 +53,8 @@ import { TocService } from '../services/toc.service';
   `,
 })
 export class BadgeDocComponent {
+  protected readonly docApi = DOC_API['cb-badge'];
+
   constructor() {
     inject(TocService).reset();
   }

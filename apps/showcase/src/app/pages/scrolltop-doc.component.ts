@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { DocPlaygroundComponent } from '../components/doc-playground.component';
+import { DOC_API } from '../components/doc-api-registry';
 import { CbScrollTop } from '@caribeng/ui/scrolltop';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
@@ -8,7 +10,7 @@ import { TocService } from '../services/toc.service';
 @Component({
   selector: 'doc-scrolltop-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
+  imports: [DocPlaygroundComponent, 
     CbScrollTop,
     DocSectionComponent,
     CodeBlockComponent,
@@ -20,6 +22,8 @@ import { TocService } from '../services/toc.service';
       title="ScrollTop"
       lead="Botón flotante que aparece al superar un umbral de desplazamiento para volver rápidamente al inicio."
     />
+
+    <doc-playground [api]="docApi" />
 
     <doc-section id="import" title="Import">
       <doc-code-block [code]="installCode" lang="bash" />
@@ -56,6 +60,8 @@ import { TocService } from '../services/toc.service';
   `,
 })
 export class ScrolltopDocComponent {
+  protected readonly docApi = DOC_API['cb-scroll-top'];
+
   constructor() {
     inject(TocService).reset();
   }

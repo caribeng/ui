@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { DocPlaygroundComponent } from '../components/doc-playground.component';
+import { DOC_API } from '../components/doc-api-registry';
 import { CbCarousel, CbCarouselItem } from '@caribeng/ui/carousel';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
@@ -8,9 +10,11 @@ import { TocService } from '../services/toc.service';
 @Component({
   selector: 'doc-carousel-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbCarousel, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
+  imports: [DocPlaygroundComponent, CbCarousel, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
     <doc-page-header eyebrow="Media" title="Carousel" lead="Carrusel accesible de contenido con navegación e indicadores." />
+    <doc-playground [api]="docApi" />
+
     <doc-section id="import" title="Import">
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
@@ -20,6 +24,8 @@ import { TocService } from '../services/toc.service';
   `,
 })
 export class CarouselDocComponent {
+  protected readonly docApi = DOC_API['cb-carousel'];
+
   constructor() {
     inject(TocService).reset();
   }

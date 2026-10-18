@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { DocPlaygroundComponent } from '../components/doc-playground.component';
+import { DOC_API } from '../components/doc-api-registry';
 import { CbInputDate } from '@caribeng/ui/caribe/input-date';
 import { CbDocApiRow, CbDocPageComponent } from '../components/doc-page.component';
 import { CbDocExampleComponent } from '../components/doc-example.component';
@@ -6,7 +8,7 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
 @Component({
   selector: 'cb-input-date-doc',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbDocPageComponent, CbDocExampleComponent, CbInputDate],
+  imports: [DocPlaygroundComponent, CbDocPageComponent, CbDocExampleComponent, CbInputDate],
   template: `
     <cb-doc-page
       category="Caribe Design · Formularios"
@@ -18,10 +20,14 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
       <cb-doc-example title="Selector de fecha" code='<cb-input-date label="Fecha de programación" [(value)]="date" />'>
         <cb-input-date label="Fecha de programación" [(value)]="date" />
       </cb-doc-example>
+    
+      <doc-playground [api]="docApi" />
     </cb-doc-page>
   `,
 })
 export class InputDateDocComponent {
+  protected readonly docApi = DOC_API['cb-input-date'];
+
   protected readonly date = signal('2026-10-17');
   protected readonly api: CbDocApiRow[] = [
     { name: 'label', type: 'string', default: "''", description: 'Etiqueta superior del campo.' },

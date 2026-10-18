@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { DocPlaygroundComponent } from '../components/doc-playground.component';
+import { DOC_API } from '../components/doc-api-registry';
 import {
   CbOrganizationChart,
   type CbOrganizationChartNode,
@@ -11,9 +13,11 @@ import { TocService } from '../services/toc.service';
 @Component({
   selector: 'doc-organizationchart-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbOrganizationChart, CodeBlockComponent, DocPageHeaderComponent, DocSectionComponent],
+  imports: [DocPlaygroundComponent, CbOrganizationChart, CodeBlockComponent, DocPageHeaderComponent, DocSectionComponent],
   template: `
     <doc-page-header eyebrow="Data" title="OrganizationChart" lead="Organigrama jerárquico con expansión de ramas y selección de nodos." />
+    <doc-playground [api]="docApi" />
+
     <doc-section id="import" title="Import">
       <doc-code-block [code]="installCode" lang="bash" />
       <br />
@@ -26,6 +30,8 @@ import { TocService } from '../services/toc.service';
   `,
 })
 export class OrganizationChartDocComponent {
+  protected readonly docApi = DOC_API['cb-organization-chart'];
+
   constructor() { inject(TocService).reset(); }
 
   protected readonly organization: CbOrganizationChartNode[] = [

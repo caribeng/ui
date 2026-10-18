@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { DocPlaygroundComponent } from '../components/doc-playground.component';
+import { DOC_API } from '../components/doc-api-registry';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { CbColorPicker } from '@caribeng/ui/colorpicker';
 import { DocSectionComponent } from '../shared/doc-section.component';
@@ -9,7 +11,7 @@ import { TocService } from '../services/toc.service';
 @Component({
   selector: 'doc-colorpicker-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
+  imports: [DocPlaygroundComponent, 
     ReactiveFormsModule,
     CbColorPicker,
     DocSectionComponent,
@@ -22,6 +24,8 @@ import { TocService } from '../services/toc.service';
       title="ColorPicker"
       lead="Selector de color en overlay: área saturación/valor, barra de matiz, hex y presets. ControlValueAccessor (hex)."
     />
+
+    <doc-playground [api]="docApi" />
 
     <doc-section id="import" title="Import">
       <doc-code-block [code]="installCode" lang="bash" />
@@ -54,6 +58,8 @@ import { TocService } from '../services/toc.service';
   `,
 })
 export class ColorpickerDocComponent {
+  protected readonly docApi = DOC_API['cb-colorpicker'];
+
   constructor() {
     inject(TocService).reset();
   }

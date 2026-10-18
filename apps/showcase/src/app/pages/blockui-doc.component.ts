@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { DocPlaygroundComponent } from '../components/doc-playground.component';
+import { DOC_API } from '../components/doc-api-registry';
 import { CbBlockUi } from '@caribeng/ui/blockui';
 import { CbCard } from '@caribeng/ui/card';
 import { CbButton } from '@caribeng/ui/button';
@@ -10,7 +12,7 @@ import { TocService } from '../services/toc.service';
 @Component({
   selector: 'doc-blockui-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
+  imports: [DocPlaygroundComponent, 
     CbBlockUi,
     CbCard,
     CbButton,
@@ -20,6 +22,8 @@ import { TocService } from '../services/toc.service';
   ],
   template: `
     <doc-page-header eyebrow="Misc" title="BlockUI" lead="Bloquea temporalmente un contenedor con una máscara accesible." />
+    <doc-playground [api]="docApi" />
+
     <doc-section id="import" title="Import">
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
@@ -40,6 +44,8 @@ import { TocService } from '../services/toc.service';
   `,
 })
 export class BlockuiDocComponent {
+  protected readonly docApi = DOC_API['cb-block-ui'];
+
   constructor() {
     inject(TocService).reset();
   }

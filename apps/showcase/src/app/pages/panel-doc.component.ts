@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { DocPlaygroundComponent } from '../components/doc-playground.component';
+import { DOC_API } from '../components/doc-api-registry';
 import { CbPanel } from '@caribeng/ui/panel';
 import { CbButton } from '@caribeng/ui/button';
 import { DocSectionComponent } from '../shared/doc-section.component';
@@ -9,7 +11,7 @@ import { TocService } from '../services/toc.service';
 @Component({
   selector: 'doc-panel-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
+  imports: [DocPlaygroundComponent, 
     CbPanel,
     CbButton,
     DocSectionComponent,
@@ -22,6 +24,8 @@ import { TocService } from '../services/toc.service';
       title="Panel"
       lead="Contenedor de agrupación con encabezado, cuerpo colapsable opcional y pie proyectado."
     />
+
+    <doc-playground [api]="docApi" />
 
     <doc-section id="import" title="Import">
       <doc-code-block [code]="installCode" lang="bash" />
@@ -60,6 +64,8 @@ import { TocService } from '../services/toc.service';
   `,
 })
 export class PanelDocComponent {
+  protected readonly docApi = DOC_API['cb-panel'];
+
   constructor() {
     inject(TocService).reset();
   }

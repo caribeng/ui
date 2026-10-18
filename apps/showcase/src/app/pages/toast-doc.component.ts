@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { DocPlaygroundComponent } from '../components/doc-playground.component';
+import { DOC_API } from '../components/doc-api-registry';
 import { CbButton } from '@caribeng/ui/button';
 import { CbToast, CbToastService } from '@caribeng/ui/toast';
 import { DocSectionComponent } from '../shared/doc-section.component';
@@ -9,7 +11,7 @@ import { TocService } from '../services/toc.service';
 @Component({
   selector: 'doc-toast-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
+  imports: [DocPlaygroundComponent, 
     CbButton,
     CbToast,
     DocSectionComponent,
@@ -24,6 +26,8 @@ import { TocService } from '../services/toc.service';
       title="Toast"
       lead="Notificaciones no intrusivas con auto-cierre, gestionadas por CbToastService (signals)."
     />
+
+    <doc-playground [api]="docApi" />
 
     <doc-section id="import" title="Import">
       <doc-code-block [code]="installCode" lang="bash" />
@@ -71,6 +75,8 @@ import { TocService } from '../services/toc.service';
   `,
 })
 export class ToastDocComponent {
+  protected readonly docApi = DOC_API['cb-toast'];
+
   protected readonly toast = inject(CbToastService);
 
   constructor() {

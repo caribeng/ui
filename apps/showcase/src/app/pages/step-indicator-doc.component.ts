@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { DocPlaygroundComponent } from '../components/doc-playground.component';
+import { DOC_API } from '../components/doc-api-registry';
 import { CbStepIndicator } from '@caribeng/ui/caribe/step-indicator';
 import { CbDocApiRow, CbDocPageComponent } from '../components/doc-page.component';
 import { CbDocExampleComponent } from '../components/doc-example.component';
@@ -6,7 +8,7 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
 @Component({
   selector: 'cb-step-indicator-doc',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbDocPageComponent, CbDocExampleComponent, CbStepIndicator],
+  imports: [DocPlaygroundComponent, CbDocPageComponent, CbDocExampleComponent, CbStepIndicator],
   template: `
     <cb-doc-page
       category="Caribe Design · Indicadores"
@@ -18,10 +20,14 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
       <cb-doc-example title="Paso actual" code='<cb-step-indicator [currentStep]="2" [totalSteps]="4" label="Confirmación" />'>
         <cb-step-indicator [currentStep]="2" [totalSteps]="4" label="Confirmación" />
       </cb-doc-example>
+    
+      <doc-playground [api]="docApi" />
     </cb-doc-page>
   `,
 })
 export class StepIndicatorDocComponent {
+  protected readonly docApi = DOC_API['cb-step-indicator'];
+
   protected readonly api: CbDocApiRow[] = [
     { name: 'currentStep', type: 'number', default: '1', description: 'Número del paso actual.' },
     { name: 'totalSteps', type: 'number', default: '4', description: 'Total de pasos del flujo.' },

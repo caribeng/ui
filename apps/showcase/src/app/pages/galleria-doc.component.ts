@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { DocPlaygroundComponent } from '../components/doc-playground.component';
+import { DOC_API } from '../components/doc-api-registry';
 import { CbGalleria, CbGalleriaItem } from '@caribeng/ui/galleria';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
@@ -8,9 +10,11 @@ import { TocService } from '../services/toc.service';
 @Component({
   selector: 'doc-galleria-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbGalleria, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
+  imports: [DocPlaygroundComponent, CbGalleria, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
     <doc-page-header eyebrow="Media" title="Galleria" lead="Galería fotográfica con visor principal y tira de miniaturas." />
+    <doc-playground [api]="docApi" />
+
     <doc-section id="import" title="Import">
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
@@ -20,6 +24,8 @@ import { TocService } from '../services/toc.service';
   `,
 })
 export class GalleriaDocComponent {
+  protected readonly docApi = DOC_API['cb-galleria'];
+
   constructor() {
     inject(TocService).reset();
   }

@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { DocPlaygroundComponent } from '../components/doc-playground.component';
+import { DOC_API } from '../components/doc-api-registry';
 import { CbMessage } from '@caribeng/ui/message';
 import { CbButton } from '@caribeng/ui/button';
 import { DocSectionComponent } from '../shared/doc-section.component';
@@ -9,7 +11,7 @@ import { TocService } from '../services/toc.service';
 @Component({
   selector: 'doc-message-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
+  imports: [DocPlaygroundComponent, 
     CbMessage,
     CbButton,
     DocSectionComponent,
@@ -18,6 +20,8 @@ import { TocService } from '../services/toc.service';
   ],
   template: `
     <doc-page-header eyebrow="Messages" title="Message" lead="Mensaje inline con severidad, icono y cierre opcional." />
+
+    <doc-playground [api]="docApi" />
 
     <doc-section id="import" title="Import">
       <doc-code-block [code]="installCode" lang="bash" />
@@ -46,6 +50,8 @@ import { TocService } from '../services/toc.service';
   `,
 })
 export class MessageDocComponent {
+  protected readonly docApi = DOC_API['cb-message'];
+
   constructor() {
     inject(TocService).reset();
   }

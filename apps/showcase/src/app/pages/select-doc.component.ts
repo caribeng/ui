@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { DocPlaygroundComponent } from '../components/doc-playground.component';
+import { DOC_API } from '../components/doc-api-registry';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CbSelect } from '@caribeng/ui/select';
 import { DocSectionComponent } from '../shared/doc-section.component';
@@ -9,7 +11,7 @@ import { TocService } from '../services/toc.service';
 @Component({
   selector: 'doc-select-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
+  imports: [DocPlaygroundComponent, 
     ReactiveFormsModule,
     CbSelect,
     DocSectionComponent,
@@ -22,6 +24,8 @@ import { TocService } from '../services/toc.service';
       title="Select"
       lead="Dropdown accesible (listbox) sobre CDK Overlay, con teclado, filtro y ControlValueAccessor."
     />
+
+    <doc-playground [api]="docApi" />
 
     <doc-section id="import" title="Import">
       <doc-code-block [code]="installCode" lang="bash" />
@@ -108,6 +112,8 @@ import { TocService } from '../services/toc.service';
   `,
 })
 export class SelectDocComponent {
+  protected readonly docApi = DOC_API['cb-select'];
+
   constructor() {
     inject(TocService).reset();
   }

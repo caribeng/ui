@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { DocPlaygroundComponent } from '../components/doc-playground.component';
+import { DOC_API } from '../components/doc-api-registry';
 import { CbCard } from '@caribeng/ui/card';
 import { CbButton } from '@caribeng/ui/button';
 import { DocSectionComponent } from '../shared/doc-section.component';
@@ -9,7 +11,7 @@ import { TocService } from '../services/toc.service';
 @Component({
   selector: 'doc-card-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
+  imports: [DocPlaygroundComponent, 
     CbCard,
     CbButton,
     DocSectionComponent,
@@ -18,6 +20,8 @@ import { TocService } from '../services/toc.service';
   ],
   template: `
     <doc-page-header eyebrow="Panel" title="Card" lead="Contenedor con encabezado opcional, cuerpo y pie." />
+
+    <doc-playground [api]="docApi" />
 
     <doc-section id="import" title="Import">
       <doc-code-block [code]="installCode" lang="bash" />
@@ -59,6 +63,8 @@ import { TocService } from '../services/toc.service';
   `,
 })
 export class CardDocComponent {
+  protected readonly docApi = DOC_API['cb-card'];
+
   constructor() {
     inject(TocService).reset();
   }

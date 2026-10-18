@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { DocPlaygroundComponent } from '../components/doc-playground.component';
+import { DOC_API } from '../components/doc-api-registry';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CbDatepicker } from '@caribeng/ui/datepicker';
 import { DocSectionComponent } from '../shared/doc-section.component';
@@ -9,7 +11,7 @@ import { TocService } from '../services/toc.service';
 @Component({
   selector: 'doc-datepicker-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
+  imports: [DocPlaygroundComponent, 
     ReactiveFormsModule,
     CbDatepicker,
     DocSectionComponent,
@@ -22,6 +24,8 @@ import { TocService } from '../services/toc.service';
       title="DatePicker"
       lead="Selector de fecha con calendario en overlay, navegación por teclado y ControlValueAccessor."
     />
+
+    <doc-playground [api]="docApi" />
 
     <doc-section id="import" title="Import">
       <doc-code-block [code]="installCode" lang="bash" />
@@ -92,6 +96,8 @@ import { TocService } from '../services/toc.service';
   `,
 })
 export class DatepickerDocComponent {
+  protected readonly docApi = DOC_API['cb-datepicker'];
+
   constructor() {
     inject(TocService).reset();
   }

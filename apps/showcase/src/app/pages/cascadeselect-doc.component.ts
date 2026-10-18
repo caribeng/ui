@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { DocPlaygroundComponent } from '../components/doc-playground.component';
+import { DOC_API } from '../components/doc-api-registry';
 import { CbCascadeOption, CbCascadeSelect } from '@caribeng/ui/cascadeselect';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
@@ -8,9 +10,11 @@ import { TocService } from '../services/toc.service';
 @Component({
   selector: 'doc-cascadeselect-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbCascadeSelect, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
+  imports: [DocPlaygroundComponent, CbCascadeSelect, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
     <doc-page-header eyebrow="Form" title="CascadeSelect" lead="Selector multinivel en cascada para estructuras anidadas." />
+    <doc-playground [api]="docApi" />
+
     <doc-section id="import" title="Import">
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
@@ -22,6 +26,8 @@ import { TocService } from '../services/toc.service';
   `,
 })
 export class CascadeselectDocComponent {
+  protected readonly docApi = DOC_API['cb-cascade-select'];
+
   constructor() {
     inject(TocService).reset();
   }

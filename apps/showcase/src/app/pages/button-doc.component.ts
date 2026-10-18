@@ -3,6 +3,8 @@ import { CbButton } from '@caribeng/ui/button';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
+import { DocPlaygroundComponent } from '../components/doc-playground.component';
+import type { DocApi } from '../components/doc-api.model';
 import { TocService } from '../services/toc.service';
 
 @Component({
@@ -13,6 +15,7 @@ import { TocService } from '../services/toc.service';
     DocSectionComponent,
     CodeBlockComponent,
     DocPageHeaderComponent,
+    DocPlaygroundComponent,
   ],
   template: `
     <doc-page-header
@@ -20,6 +23,14 @@ import { TocService } from '../services/toc.service';
       title="Button"
       lead="Botón accesible con severidades, variantes, tamaños y estado de carga."
     />
+
+    <doc-section
+      id="playground"
+      title="Playground"
+      description="Ajusta las propiedades y observa el componente en vivo."
+    >
+      <doc-playground [api]="playground" />
+    </doc-section>
 
     <doc-section id="import" title="Import">
       <doc-code-block [code]="installCode" lang="bash" />
@@ -98,6 +109,76 @@ export class ButtonDocComponent {
   constructor() {
     inject(TocService).reset();
   }
+
+  protected readonly playground: DocApi = {
+    component: CbButton,
+    selector: 'cb-button',
+    content: { default: 'Guardar' },
+    props: [
+      {
+        name: 'severity',
+        kind: 'enum',
+        type: 'CbSeverity',
+        default: 'primary',
+        options: [
+          'primary',
+          'secondary',
+          'success',
+          'info',
+          'warning',
+          'help',
+          'danger',
+          'contrast',
+        ],
+        description: 'Color e intención semántica del botón.',
+      },
+      {
+        name: 'variant',
+        kind: 'enum',
+        type: "'solid' | 'outlined' | 'text'",
+        default: 'solid',
+        options: ['solid', 'outlined', 'text'],
+        description: 'Estilo visual del botón.',
+      },
+      {
+        name: 'size',
+        kind: 'enum',
+        type: "'sm' | 'md' | 'lg'",
+        default: 'md',
+        options: ['sm', 'md', 'lg'],
+        description: 'Tamaño del botón.',
+      },
+      {
+        name: 'type',
+        kind: 'enum',
+        type: "'button' | 'submit' | 'reset'",
+        default: 'button',
+        options: ['button', 'submit', 'reset'],
+        description: 'Atributo type nativo del botón.',
+      },
+      {
+        name: 'disabled',
+        kind: 'boolean',
+        type: 'boolean',
+        default: false,
+        description: 'Deshabilita el botón.',
+      },
+      {
+        name: 'loading',
+        kind: 'boolean',
+        type: 'boolean',
+        default: false,
+        description: 'Muestra un spinner y bloquea la interacción.',
+      },
+      {
+        name: 'fullWidth',
+        kind: 'boolean',
+        type: 'boolean',
+        default: false,
+        description: 'Ocupa todo el ancho disponible.',
+      },
+    ],
+  };
 
   protected readonly severities = [
     'primary',

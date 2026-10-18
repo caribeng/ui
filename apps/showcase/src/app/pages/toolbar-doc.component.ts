@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { DocPlaygroundComponent } from '../components/doc-playground.component';
+import { DOC_API } from '../components/doc-api-registry';
 import { CbToolbar } from '@caribeng/ui/toolbar';
 import { CbButton } from '@caribeng/ui/button';
 import { CbIcon } from '@caribeng/ui/icon';
@@ -10,7 +12,7 @@ import { TocService } from '../services/toc.service';
 @Component({
   selector: 'doc-toolbar-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
+  imports: [DocPlaygroundComponent, 
     CbToolbar,
     CbButton,
     CbIcon,
@@ -24,6 +26,8 @@ import { TocService } from '../services/toc.service';
       title="Toolbar"
       lead="Barra horizontal accesible (role='toolbar') para organizar acciones en inicio, centro y fin."
     />
+
+    <doc-playground [api]="docApi" />
 
     <doc-section id="import" title="Import">
       <doc-code-block [code]="installCode" lang="bash" />
@@ -49,6 +53,8 @@ import { TocService } from '../services/toc.service';
   `,
 })
 export class ToolbarDocComponent {
+  protected readonly docApi = DOC_API['cb-toolbar'];
+
   constructor() {
     inject(TocService).reset();
   }

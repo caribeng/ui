@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { DocPlaygroundComponent } from '../components/doc-playground.component';
+import { DOC_API } from '../components/doc-api-registry';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CbChips } from '@caribeng/ui/chips';
 import { DocSectionComponent } from '../shared/doc-section.component';
@@ -9,7 +11,7 @@ import { TocService } from '../services/toc.service';
 @Component({
   selector: 'doc-chips-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
+  imports: [DocPlaygroundComponent, 
     ReactiveFormsModule,
     CbChips,
     DocSectionComponent,
@@ -22,6 +24,8 @@ import { TocService } from '../services/toc.service';
       title="Chips"
       lead="Entrada de etiquetas: Enter o coma añade; Backspace borra la última. ControlValueAccessor (string[])."
     />
+
+    <doc-playground [api]="docApi" />
 
     <doc-section id="import" title="Import">
       <doc-code-block [code]="installCode" lang="bash" />
@@ -56,6 +60,8 @@ import { TocService } from '../services/toc.service';
   `,
 })
 export class ChipsDocComponent {
+  protected readonly docApi = DOC_API['cb-chips'];
+
   constructor() {
     inject(TocService).reset();
   }

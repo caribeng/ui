@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { DocPlaygroundComponent } from '../components/doc-playground.component';
+import { DOC_API } from '../components/doc-api-registry';
 import { CbImage } from '@caribeng/ui/image';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
@@ -8,9 +10,11 @@ import { TocService } from '../services/toc.service';
 @Component({
   selector: 'doc-image-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbImage, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
+  imports: [DocPlaygroundComponent, CbImage, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
     <doc-page-header eyebrow="Media" title="Image" lead="Componente de imagen con visor lightbox y zoom integrado." />
+    <doc-playground [api]="docApi" />
+
     <doc-section id="import" title="Import">
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
@@ -25,6 +29,8 @@ import { TocService } from '../services/toc.service';
   `,
 })
 export class ImageDocComponent {
+  protected readonly docApi = DOC_API['cb-image'];
+
   constructor() {
     inject(TocService).reset();
   }

@@ -713,4 +713,23 @@ export const ES_EN: Record<string, string> = {
     'No text, useful as a status indicator.',
   'selectionMode + [(selection)]; usa dataKey para identidad.':
     'selectionMode + [(selection)]; use dataKey for identity.',
+
+  // --- Playground (pilotos button / switch) ---
+  'Ajusta las propiedades y observa el componente en vivo.':
+    'Adjust the properties and watch the component live.',
+  'Color e intención semántica del botón.':
+    'Color and semantic intent of the button.',
+  'Estilo visual del botón.': 'Visual style of the button.',
+  'Tamaño del botón.': 'Button size.',
+  'Atributo type nativo del botón.': 'Native type attribute of the button.',
+  'Deshabilita el botón.': 'Disables the button.',
+  'Muestra un spinner y bloquea la interacción.':
+    'Shows a spinner and blocks interaction.',
+  'Ocupa todo el ancho disponible.': 'Takes the full available width.',
+  'Coloca la etiqueta a la izquierda.': 'Places the label on the left.',
+  'Marca el control como requerido (aria-required).':
+    'Marks the control as required (aria-required).',
+  'Id del input; se genera uno estable si no se provee.':
+    'Input id; a stable one is generated if not provided.',
+  'Emite el nuevo estado al cambiar.': 'Emits the new state on change.',
 };

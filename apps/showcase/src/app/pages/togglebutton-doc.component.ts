@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { DocPlaygroundComponent } from '../components/doc-playground.component';
+import { DOC_API } from '../components/doc-api-registry';
 import { CbToggleButton } from '@caribeng/ui/togglebutton';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
@@ -8,9 +10,11 @@ import { TocService } from '../services/toc.service';
 @Component({
   selector: 'doc-togglebutton-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbToggleButton, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
+  imports: [DocPlaygroundComponent, CbToggleButton, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
     <doc-page-header eyebrow="Form" title="ToggleButton" lead="Botón de dos estados (on/off) con etiqueta e icono por estado." />
+
+    <doc-playground [api]="docApi" />
 
     <doc-section id="import" title="Import">
       <doc-code-block [code]="installCode" lang="bash" />
@@ -34,6 +38,8 @@ import { TocService } from '../services/toc.service';
   `,
 })
 export class TogglebuttonDocComponent {
+  protected readonly docApi = DOC_API['cb-togglebutton'];
+
   constructor() {
     inject(TocService).reset();
   }

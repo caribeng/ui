@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { DocPlaygroundComponent } from '../components/doc-playground.component';
+import { DOC_API } from '../components/doc-api-registry';
 import { CbTooltipDirective } from '@caribeng/ui/tooltip';
 import { CbButton } from '@caribeng/ui/button';
 import { DocSectionComponent } from '../shared/doc-section.component';
@@ -9,7 +11,7 @@ import { TocService } from '../services/toc.service';
 @Component({
   selector: 'doc-tooltip-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
+  imports: [DocPlaygroundComponent, 
     CbTooltipDirective,
     CbButton,
     DocSectionComponent,
@@ -18,6 +20,8 @@ import { TocService } from '../services/toc.service';
   ],
   template: `
     <doc-page-header eyebrow="Overlay" title="Tooltip" lead="Texto flotante al pasar el cursor o enfocar. Directiva [cbTooltip] sobre cualquier elemento." />
+
+    <doc-playground [api]="docApi" />
 
     <doc-section id="import" title="Import">
       <doc-code-block [code]="installCode" lang="bash" />
@@ -40,6 +44,8 @@ import { TocService } from '../services/toc.service';
   `,
 })
 export class TooltipDocComponent {
+  protected readonly docApi = DOC_API['cb-tooltip-content'];
+
   constructor() {
     inject(TocService).reset();
   }

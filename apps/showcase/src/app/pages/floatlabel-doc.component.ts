@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { DocPlaygroundComponent } from '../components/doc-playground.component';
+import { DOC_API } from '../components/doc-api-registry';
 import { CbFloatLabel } from '@caribeng/ui/floatlabel';
 import { CbInput } from '@caribeng/ui/input';
 import { DocSectionComponent } from '../shared/doc-section.component';
@@ -9,9 +11,11 @@ import { TocService } from '../services/toc.service';
 @Component({
   selector: 'doc-floatlabel-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbFloatLabel, CbInput, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
+  imports: [DocPlaygroundComponent, CbFloatLabel, CbInput, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
     <doc-page-header eyebrow="Form" title="FloatLabel" lead="Etiqueta flotante reactiva al foco y al contenido del control." />
+    <doc-playground [api]="docApi" />
+
     <doc-section id="import" title="Import">
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
@@ -26,6 +30,8 @@ import { TocService } from '../services/toc.service';
   `,
 })
 export class FloatlabelDocComponent {
+  protected readonly docApi = DOC_API['cb-float-label'];
+
   constructor() {
     inject(TocService).reset();
   }

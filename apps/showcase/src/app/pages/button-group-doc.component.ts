@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { DocPlaygroundComponent } from '../components/doc-playground.component';
+import { DOC_API } from '../components/doc-api-registry';
 import { CbButtonGroup } from '@caribeng/ui/caribe/button-group';
 import { CbButton } from '@caribeng/ui/button';
 import { CbDocApiRow, CbDocPageComponent } from '../components/doc-page.component';
@@ -7,7 +9,7 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
 @Component({
   selector: 'cb-button-group-doc',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbDocPageComponent, CbDocExampleComponent, CbButtonGroup, CbButton],
+  imports: [DocPlaygroundComponent, CbDocPageComponent, CbDocExampleComponent, CbButtonGroup, CbButton],
   template: `
     <cb-doc-page
       category="Caribe Design · Acciones"
@@ -23,10 +25,14 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
           <cb-button size="sm" variant="outlined">Año</cb-button>
         </cb-button-group>
       </cb-doc-example>
+    
+      <doc-playground [api]="docApi" />
     </cb-doc-page>
   `,
 })
 export class ButtonGroupDocComponent {
+  protected readonly docApi = DOC_API['cb-button-group'];
+
   protected readonly api: CbDocApiRow[] = [
     { name: 'orientation', type: "'horizontal' | 'vertical'", default: "'horizontal'", description: 'Dirección del grupo de botones.' },
     { name: 'ariaLabel', type: 'string', default: "'Grupo de acciones'", description: 'Nombre accesible del grupo.' },

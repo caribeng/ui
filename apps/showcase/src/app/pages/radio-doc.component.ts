@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { DocPlaygroundComponent } from '../components/doc-playground.component';
+import { DOC_API } from '../components/doc-api-registry';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { CbRadio, CbRadioGroup } from '@caribeng/ui/radio';
 import { DocSectionComponent } from '../shared/doc-section.component';
@@ -9,7 +11,7 @@ import { TocService } from '../services/toc.service';
 @Component({
   selector: 'doc-radio-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
+  imports: [DocPlaygroundComponent, 
     ReactiveFormsModule,
     CbRadioGroup,
     CbRadio,
@@ -23,6 +25,8 @@ import { TocService } from '../services/toc.service';
       title="Radio"
       lead="Selección única con un grupo (CbRadioGroup) que actúa como ControlValueAccessor."
     />
+
+    <doc-playground [api]="docApi" />
 
     <doc-section id="import" title="Import">
       <doc-code-block [code]="installCode" lang="bash" />
@@ -91,6 +95,8 @@ import { TocService } from '../services/toc.service';
   `,
 })
 export class RadioDocComponent {
+  protected readonly docApi = DOC_API['cb-radio-group'];
+
   constructor() {
     inject(TocService).reset();
   }

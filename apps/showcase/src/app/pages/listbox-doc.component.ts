@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { DocPlaygroundComponent } from '../components/doc-playground.component';
+import { DOC_API } from '../components/doc-api-registry';
 import { CbListBox } from '@caribeng/ui/listbox';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
@@ -13,9 +15,11 @@ interface Ciudad {
 @Component({
   selector: 'doc-listbox-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbListBox, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
+  imports: [DocPlaygroundComponent, CbListBox, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
     <doc-page-header eyebrow="Form" title="ListBox" lead="Lista de opciones siempre visible. Simple o múltiple, con filtro." />
+
+    <doc-playground [api]="docApi" />
 
     <doc-section id="import" title="Import">
       <doc-code-block [code]="installCode" lang="bash" />
@@ -40,6 +44,8 @@ interface Ciudad {
   `,
 })
 export class ListboxDocComponent {
+  protected readonly docApi = DOC_API['cb-listbox'];
+
   constructor() {
     inject(TocService).reset();
   }

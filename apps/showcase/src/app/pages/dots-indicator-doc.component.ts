@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { DocPlaygroundComponent } from '../components/doc-playground.component';
+import { DOC_API } from '../components/doc-api-registry';
 import { CbDotsIndicator } from '@caribeng/ui/caribe/dots-indicator';
 import { CbDocApiRow, CbDocPageComponent } from '../components/doc-page.component';
 import { CbDocExampleComponent } from '../components/doc-example.component';
@@ -6,7 +8,7 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
 @Component({
   selector: 'cb-dots-indicator-doc',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbDocPageComponent, CbDocExampleComponent, CbDotsIndicator],
+  imports: [DocPlaygroundComponent, CbDocPageComponent, CbDocExampleComponent, CbDotsIndicator],
   template: `
     <cb-doc-page
       category="Caribe Design · Indicadores"
@@ -18,10 +20,14 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
       <cb-doc-example title="Puntos interactivos" code='<cb-dots-indicator [count]="4" [(activeIndex)]="page" />'>
         <cb-dots-indicator [count]="4" [(activeIndex)]="page" />
       </cb-doc-example>
+    
+      <doc-playground [api]="docApi" />
     </cb-doc-page>
   `,
 })
 export class DotsIndicatorDocComponent {
+  protected readonly docApi = DOC_API['cb-dots-indicator'];
+
   protected readonly page = signal(1);
   protected readonly api: CbDocApiRow[] = [
     { name: 'count', type: 'number', default: '4', description: 'Número total de pasos o vistas.' },

@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { DocPlaygroundComponent } from '../components/doc-playground.component';
+import { DOC_API } from '../components/doc-api-registry';
 import { CbInputMask } from '@caribeng/ui/inputmask';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
@@ -8,9 +10,11 @@ import { TocService } from '../services/toc.service';
 @Component({
   selector: 'doc-inputmask-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbInputMask, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
+  imports: [DocPlaygroundComponent, CbInputMask, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
     <doc-page-header eyebrow="Form" title="InputMask" lead="Campo de texto con máscara de formato (9 numérico, a alfabético, * alfanumérico)." />
+    <doc-playground [api]="docApi" />
+
     <doc-section id="import" title="Import">
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
@@ -22,6 +26,8 @@ import { TocService } from '../services/toc.service';
   `,
 })
 export class InputmaskDocComponent {
+  protected readonly docApi = DOC_API['cb-input-mask'];
+
   constructor() {
     inject(TocService).reset();
   }
