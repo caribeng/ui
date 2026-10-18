@@ -307,7 +307,7 @@ export const DOC_API: Record<string, DocApi> = {
     component: CbCardMove,
     selector: "cb-card-move",
     props: [
-      { name: "items", kind: "string", type: "readonly string[] (model)", default: [], description: "", control: false }
+      { name: "items", kind: "string", type: "readonly string[] (model)", default: ['First card', 'Second card', 'Third card'], description: "", control: false }
     ]
   },
   "cb-card-primary": {
@@ -349,7 +349,7 @@ export const DOC_API: Record<string, DocApi> = {
     component: CbCascadeSelect,
     selector: "cb-cascade-select",
     props: [
-      { name: "options", kind: "string", type: "CbCascadeOption[]", default: [], description: "", control: false },
+      { name: "options", kind: "string", type: "CbCascadeOption[]", default: [{ label: 'Americas', children: [{ label: 'Colombia', value: 'co' }, { label: 'United States', value: 'us' }] }, { label: 'Europe', children: [{ label: 'Spain', value: 'es' }] }], description: "", control: false },
       { name: "placeholder", kind: "string", type: "string", default: "Seleccionar opción…", description: "" },
       { name: "disabled", kind: "boolean", type: "boolean", default: false, description: "" },
       { name: "value", kind: "string", type: "string | null (model)", default: "", description: "" }
@@ -360,7 +360,7 @@ export const DOC_API: Record<string, DocApi> = {
     selector: "cb-chart",
     props: [
       { name: "type", kind: "enum", type: "CbChartType", default: "bar", description: "" },
-      { name: "data", kind: "string", type: "CbChartData", default: "", description: "" },
+      { name: "data", kind: "string", type: "CbChartData", default: { labels: ['Jan', 'Feb', 'Mar'], datasets: [{ label: 'Sales', data: [12, 19, 8] }] }, description: "", control: false },
       { name: "height", kind: "number", type: "number", default: 220, description: "" },
       { name: "showLegend", kind: "boolean", type: "boolean", default: true, description: "" },
       { name: "ariaLabel", kind: "string", type: "string", default: "Gráfico de datos", description: "" }
@@ -402,7 +402,7 @@ export const DOC_API: Record<string, DocApi> = {
     component: CbChips,
     selector: "cb-chips",
     props: [
-      { name: "value", kind: "string", type: "string[] (model)", default: [], description: "", control: false },
+      { name: "value", kind: "string", type: "string[] (model)", default: ['angular', 'design', 'caribe'], description: "", control: false },
       { name: "placeholder", kind: "string", type: "string", default: "", description: "" },
       { name: "size", kind: "enum", type: "CbSize", default: "md", description: "" },
       { name: "invalid", kind: "boolean", type: "boolean", default: false, description: "" },
@@ -447,7 +447,7 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "value", kind: "string", type: "string (model)", default: "#10b981", description: "Color seleccionado (hex `#rrggbb`). Two-way opcional fuera de Forms." },
       { name: "size", kind: "enum", type: "CbSize", default: "md", description: "" },
       { name: "showValue", kind: "boolean", type: "boolean", default: true, description: "Muestra el texto del hex junto al swatch del trigger." },
-      { name: "presets", kind: "string", type: "readonly string[]", default: [], description: "Colores predefinidos; `[]` los oculta.", control: false },
+      { name: "presets", kind: "string", type: "readonly string[]", default: ['#10b981', '#3b82f6', '#f59e0b', '#ef4444'], description: "Colores predefinidos; `[]` los oculta.", control: false },
       { name: "invalid", kind: "boolean", type: "boolean", default: false, description: "" },
       { name: "disabled", kind: "boolean", type: "boolean", default: false, description: "" },
       { name: "ariaLabel", kind: "string", type: "string", default: "", description: "" },
@@ -565,7 +565,7 @@ export const DOC_API: Record<string, DocApi> = {
     component: CbDock,
     selector: "cb-dock",
     props: [
-      { name: "items", kind: "string", type: "readonly CbDockItem[]", default: [], description: "", control: false },
+      { name: "items", kind: "string", type: "readonly CbDockItem[]", default: [{ label: 'Home', icon: 'house' }, { label: 'Search', icon: 'search' }, { label: 'Profile', icon: 'user' }, { label: 'Settings', icon: 'settings' }], description: "", control: false },
       { name: "position", kind: "enum", type: "CbDockPosition", default: "bottom", description: "" },
       { name: "ariaLabel", kind: "string", type: "string", default: "Application dock", description: "" }
     ],
@@ -729,7 +729,7 @@ export const DOC_API: Record<string, DocApi> = {
     component: CbGalleria,
     selector: "cb-galleria",
     props: [
-      { name: "value", kind: "string", type: "CbGalleriaItem[]", default: [], description: "", control: false },
+      { name: "value", kind: "string", type: "CbGalleriaItem[]", default: [{ itemImageSrc: 'https://picsum.photos/id/10/800/500', thumbnailImageSrc: 'https://picsum.photos/id/10/120/80', alt: 'Forest', title: 'Forest' }, { itemImageSrc: 'https://picsum.photos/id/20/800/500', thumbnailImageSrc: 'https://picsum.photos/id/20/120/80', alt: 'Workspace', title: 'Workspace' }], description: "", control: false },
       { name: "showThumbnails", kind: "boolean", type: "boolean", default: true, description: "" },
       { name: "circular", kind: "boolean", type: "boolean", default: true, description: "" },
       { name: "activeIndex", kind: "number", type: "number (model)", default: 0, description: "" }
@@ -1031,7 +1031,7 @@ export const DOC_API: Record<string, DocApi> = {
     component: CbMegaMenu,
     selector: "cb-megamenu",
     props: [
-      { name: "items", kind: "string", type: "readonly CbMegaMenuItem[]", default: [], description: "", control: false },
+      { name: "items", kind: "string", type: "readonly CbMegaMenuItem[]", default: [{ label: 'Products', icon: 'house', groups: [{ label: 'Banking', items: [{ label: 'Accounts', url: '#' }, { label: 'Cards', url: '#' }] }, { label: 'Loans', items: [{ label: 'Mortgage', url: '#' }] }] }, { label: 'Support', groups: [{ label: 'Help', items: [{ label: 'Contact', url: '#' }] }] }], description: "", control: false },
       { name: "ariaLabel", kind: "string", type: "string", default: "Categories", description: "" }
     ],
     events: [
@@ -1152,7 +1152,7 @@ export const DOC_API: Record<string, DocApi> = {
     component: CbOrganizationChart,
     selector: "cb-organization-chart",
     props: [
-      { name: "value", kind: "string", type: "readonly CbOrganizationChartNode[]", default: [], description: "", control: false },
+      { name: "value", kind: "string", type: "readonly CbOrganizationChartNode[]", default: [{ key: 'ceo', label: 'CEO', title: 'Jane Doe', subtitle: 'Chief Executive', children: [{ key: 'cto', label: 'CTO', title: 'John Roe' }, { key: 'cfo', label: 'CFO', title: 'Mary Lee' }] }], description: "", control: false },
       { name: "selection", kind: "string", type: "CbOrganizationChartNode | null (model)", default: "", description: "" },
       { name: "ariaLabel", kind: "string", type: "string", default: "Organigrama", description: "" }
     ]
@@ -1424,7 +1424,7 @@ export const DOC_API: Record<string, DocApi> = {
     component: CbSpeedDial,
     selector: "cb-speed-dial",
     props: [
-      { name: "items", kind: "string", type: "readonly CbSpeedDialItem[]", default: [], description: "", control: false },
+      { name: "items", kind: "string", type: "readonly CbSpeedDialItem[]", default: [{ label: 'Add', icon: 'plus' }, { label: 'Search', icon: 'search' }, { label: 'Settings', icon: 'settings' }], description: "", control: false },
       { name: "direction", kind: "enum", type: "CbSpeedDialDirection", default: "up", description: "" },
       { name: "icon", kind: "string", type: "string", default: "plus", description: "" },
       { name: "closeIcon", kind: "string", type: "string", default: "x", description: "" },
@@ -1706,7 +1706,7 @@ export const DOC_API: Record<string, DocApi> = {
     component: CbTreeSelect,
     selector: "cb-tree-select",
     props: [
-      { name: "nodes", kind: "string", type: "CbTreeSelectNode[]", default: [], description: "", control: false },
+      { name: "nodes", kind: "string", type: "CbTreeSelectNode[]", default: [{ key: '1', label: 'Documents', icon: 'folder', children: [{ key: '1-1', label: 'Invoices' }, { key: '1-2', label: 'Reports' }] }, { key: '2', label: 'Pictures' }, { key: '3', label: 'Movies' }], description: "", control: false },
       { name: "placeholder", kind: "string", type: "string", default: "Seleccionar nodo…", description: "" },
       { name: "disabled", kind: "boolean", type: "boolean", default: false, description: "" },
       { name: "value", kind: "string", type: "string | null (model)", default: "", description: "" }
@@ -1716,15 +1716,15 @@ export const DOC_API: Record<string, DocApi> = {
     component: CbTreeTable,
     selector: "cb-treetable",
     props: [
-      { name: "value", kind: "string", type: "readonly CbTreeTableNode[]", default: [], description: "", control: false },
-      { name: "columns", kind: "string", type: "readonly CbTreeTableColumn[]", default: [], description: "", control: false }
+      { name: "value", kind: "string", type: "readonly CbTreeTableNode[]", default: [{ key: '1', data: { name: 'Savings', balance: '$ 2,500' }, children: [{ key: '1-1', data: { name: 'Emergency fund', balance: '$ 1,200' } }] }, { key: '2', data: { name: 'Checking', balance: '$ 840' } }], description: "", control: false },
+      { name: "columns", kind: "string", type: "readonly CbTreeTableColumn[]", default: [{ field: 'name', header: 'Account' }, { field: 'balance', header: 'Balance' }], description: "", control: false }
     ]
   },
   "cb-virtualscroller": {
     component: CbVirtualScroller,
     selector: "cb-virtualscroller",
     props: [
-      { name: "items", kind: "string", type: "readonly unknown[]", default: [], description: "", control: false },
+      { name: "items", kind: "string", type: "readonly unknown[]", default: Array.from({ length: 1000 }, (_, i) => 'Item ' + (i + 1)), description: "", control: false },
       { name: "itemSize", kind: "number", type: "number", default: 40, description: "" },
       { name: "viewportHeight", kind: "number", type: "number", default: 240, description: "" }
     ]
@@ -1735,7 +1735,7 @@ export const DOC_API: Record<string, DocApi> = {
     content: { default: "Content" },
     props: [
       { name: "title", kind: "string", type: "string", default: "Comprobante", description: "" },
-      { name: "rows", kind: "string", type: "readonly { label: string; value: string }[]", default: [], description: "", control: false },
+      { name: "rows", kind: "string", type: "readonly { label: string; value: string }[]", default: [{ label: 'Amount', value: '$ 150,000' }, { label: 'Date', value: 'Oct 18, 2026' }, { label: 'Reference', value: 'TRX-00921' }], description: "", control: false },
       { name: "actionLabel", kind: "string", type: "string", default: "Compartir", description: "" }
     ],
     events: [
