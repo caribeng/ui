@@ -1,22 +1,37 @@
-import { ChangeDetectionStrategy, Component, ViewEncapsulation, computed, input, model } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ViewEncapsulation,
+  computed,
+  input,
+  model,
+} from '@angular/core';
 
+/**
+ * Dots-indicator de Caribe Design: indicador de paginación por puntos. El punto
+ * activo se alarga; cada punto es navegable.
+ *
+ * @example
+ * ```html
+ * <cb-dots-indicator [count]="5" [(activeIndex)]="page" />
+ * ```
+ */
 @Component({
   selector: 'cb-dots-indicator',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
-  host: { class: 'cb-dots-indicator' },
+  host: { class: 'cb-dots-indicator-host' },
   template: `
-    <div role="tablist" aria-label="Indicador de páginas" style="display: inline-flex; gap: 0.4rem; align-items: center">
+    <div class="cb-dots-indicator" role="tablist" aria-label="Indicador de páginas">
       @for (idx of indices(); track idx) {
         <button
           type="button"
+          class="cb-dots-indicator__dot"
+          [class.cb-dots-indicator__dot--active]="activeIndex() === idx"
           role="tab"
           [attr.aria-selected]="activeIndex() === idx"
           [attr.aria-label]="'Página ' + (idx + 1)"
           (click)="activeIndex.set(idx)"
-          [style.width]="activeIndex() === idx ? '1.4rem' : '0.5rem'"
-          [style.background]="activeIndex() === idx ? 'var(--cb-color-primary-500, #10b981)' : 'var(--cb-color-surface-300, #cbd5e1)'"
-          style="height: 0.5rem; border: none; border-radius: 999px; padding: 0; cursor: pointer; transition: width 150ms ease"
         ></button>
       }
     </div>
@@ -24,10 +39,12 @@ import { ChangeDetectionStrategy, Component, ViewEncapsulation, computed, input,
   styleUrl: './dots-indicator.component.css',
 })
 export class CbDotsIndicator {
+  /** Número de puntos. */
   readonly count = input<number>(4);
+  /** Índice activo (two-way). */
   readonly activeIndex = model<number>(0);
 
   protected readonly indices = computed(() =>
-    Array.from({ length: Math.max(1, this.count()) }, (_, i) => i)
+    Array.from({ length: Math.max(1, this.count()) }, (_, i) => i),
   );
 }

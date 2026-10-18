@@ -1,22 +1,32 @@
-
 :host {
+  display: inline-flex;
+}
+
+.cb-animation-lottie {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-family: var(--cb-font-sans, inherit);
+  width: 100%;
+  height: 100%;
 }
-.cb-caribe-box {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.65rem;
-  padding: 0.65rem 1rem;
-  border-radius: var(--cb-radius-md, 0.5rem);
-  border: 1px solid var(--cb-color-border, #e2e8f0);
-  background: var(--cb-color-surface, #f8fafc);
-  color: var(--cb-color-text-strong, #0f172a);
+
+.cb-animation-lottie__svg {
+  width: 70%;
+  height: 70%;
+  transform-origin: center;
 }
-:host-context([data-theme="dark"]) .cb-caribe-box {
-  background: var(--cb-color-surface-900, #0f172a);
-  border-color: var(--cb-color-surface-700, #334155);
-  color: var(--cb-color-surface-0, #ffffff);
+.cb-animation-lottie__svg.cb-is-playing {
+  animation: cb-lottie-spin 1.2s linear infinite;
+}
+
+@keyframes cb-lottie-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cb-animation-lottie__svg.cb-is-playing {
+    animation-duration: 3s;
+  }
 }

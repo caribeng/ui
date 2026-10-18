@@ -1,10 +1,34 @@
-import { ChangeDetectionStrategy, Component, ViewEncapsulation, forwardRef, input, model, signal } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ViewEncapsulation,
+  computed,
+  forwardRef,
+  input,
+  model,
+  output,
+  signal,
+} from '@angular/core';
+import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
 
+let nextUid = 0;
+
+/**
+ * Switch de Caribe Design. Permite alternar entre dos estados mutuamente
+ * exclusivos (on/off). Integrado con Angular Forms vía `ControlValueAccessor`,
+ * expone `role="switch"` y soporte de teclado.
+ *
+ * @example
+ * ```html
+ * <cb-switch [(value)]="activo">Notificaciones</cb-switch>
+ * <cb-switch formControlName="oscuro" leftLabel>Modo oscuro</cb-switch>
+ * ```
+ */
 @Component({
   selector: 'cb-switch',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
+  host: { class: 'cb-switch-host' },
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -12,54 +36,65 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
       multi: true,
     },
   ],
-  host: { class: 'cb-switch' },
   template: `
-    <button
-      type="button"
-      role="switch"
-      [attr.aria-checked]="checked()"
-      [attr.aria-label]="label() || 'Interruptor'"
-      [disabled]="disabled() || cvaDisabled()"
-      (click)="toggle()"
-      style="display: inline-flex; align-items: center; gap: 0.5rem; border: none; background: transparent; cursor: pointer; color: inherit"
+    <label
+      class="cb-switch"
+      [class.cb-switch--left-label]="leftLabel()"
+      [class.cb-is-disabled]="isDisabled()"
     >
-      <span
-        [style.background]="checked() ? 'var(--cb-color-primary-500, #10b981)' : 'var(--cb-color-surface-300, #cbd5e1)'"
-        style="width: 2.5rem; height: 1.4rem; border-radius: 999px; position: relative; display: inline-flex; align-items: center; padding: 0 0.15rem; transition: background 150ms ease"
-      >
-        <span
-          [style.transform]="checked() ? 'translateX(1.1rem)' : 'translateX(0)'"
-          style="width: 1.1rem; height: 1.1rem; border-radius: 999px; background: #ffffff; transition: transform 150ms ease"
-        ></span>
+      <input
+        type="checkbox"
+        class="cb-switch__input"
+        role="switch"
+        [id]="inputId()"
+        [checked]="checked()"
+        [disabled]="isDisabled()"
+        [attr.aria-checked]="checked()"
+        [attr.aria-required]="required() || null"
+        [attr.aria-label]="label() ? null : 'Interruptor'"
+        (change)="toggle()"
+        (blur)="handleBlur()"
+      />
+      <span class="cb-switch__track" aria-hidden="true">
+        <span class="cb-switch__thumb"></span>
       </span>
       @if (label()) {
-        <span style="font-size: 0.875rem">{{ label() }}</span>
+        <span class="cb-switch__label">{{ label() }}</span>
       }
-    </button>
+    </label>
   `,
   styleUrl: './switch.component.css',
 })
 export class CbSwitch implements ControlValueAccessor {
+  /** Etiqueta visible junto al control. */
   readonly label = input<string>('');
-  readonly disabled = input<boolean>(false);
-  readonly checked = model<boolean>(false);
+  /** Coloca la etiqueta a la izquierda del control. */
+  readonly leftLabel = input(false, { transform: booleanAttr });
+  /** Marca el control como requerido (`aria-required`). */
+  readonly required = input(false, { transform: booleanAttr });
+  /** Deshabilitado declarativo (se combina con Angular Forms). */
+  readonly disabled = input(false, { transform: booleanAttr });
+  /** Id del input; se genera uno estable si no se provee. */
+  readonly inputId = input<string>(`cb-switch-${++nextUid}`);
 
-  protected readonly cvaDisabled = signal(false);
-  private onChange: (v: boolean) => void = () => {};
+  /** Estado del switch (two-way: `[(checked)]`). */
+  readonly checked = model(false);
+  /** Emite el nuevo estado al cambiar. */
+  readonly changed = output<boolean>();
+
+  private readonly cvaDisabled = signal(false);
+  protected readonly isDisabled = computed(
+    () => this.disabled() || this.cvaDisabled(),
+  );
+
+  private onChange: (value: boolean) => void = () => {};
   private onTouched: () => void = () => {};
 
-  toggle(): void {
-    if (this.disabled() || this.cvaDisabled()) return;
-    const next = !this.checked();
-    this.checked.set(next);
-    this.onChange(next);
-    this.onTouched();
+  // --- ControlValueAccessor --------------------------------------------------
+  writeValue(value: boolean | null): void {
+    this.checked.set(!!value);
   }
-
-  writeValue(val: boolean | null | undefined): void {
-    this.checked.set(!!val);
-  }
-  registerOnChange(fn: (v: boolean) => void): void {
+  registerOnChange(fn: (value: boolean) => void): void {
     this.onChange = fn;
   }
   registerOnTouched(fn: () => void): void {
@@ -68,4 +103,22 @@ export class CbSwitch implements ControlValueAccessor {
   setDisabledState(isDisabled: boolean): void {
     this.cvaDisabled.set(isDisabled);
   }
+
+  // --- Lógica ----------------------------------------------------------------
+  protected toggle(): void {
+    if (this.isDisabled()) return;
+    const next = !this.checked();
+    this.checked.set(next);
+    this.onChange(next);
+    this.onTouched();
+    this.changed.emit(next);
+  }
+
+  protected handleBlur(): void {
+    this.onTouched();
+  }
+}
+
+function booleanAttr(value: unknown): boolean {
+  return value !== false && value != null && `${value}` !== 'false';
 }

@@ -1,6 +1,24 @@
-import { ChangeDetectionStrategy, Component, ViewEncapsulation, forwardRef, input, model, output, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ViewEncapsulation,
+  forwardRef,
+  input,
+  model,
+  output,
+  signal,
+} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
+/**
+ * Input-search de Caribe Design: campo de búsqueda con icono, botón de limpiar
+ * e integración con Angular Forms (CVA).
+ *
+ * @example
+ * ```html
+ * <cb-input-search placeholder="Buscar…" (search)="run($event)" />
+ * ```
+ */
 @Component({
   selector: 'cb-input-search',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -12,25 +30,27 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
       multi: true,
     },
   ],
-  host: { class: 'cb-input-search' },
+  host: { class: 'cb-input-search-host' },
   template: `
-    <div class="cb-caribe-box" style="padding: 0.35rem 0.65rem; min-width: 240px">
+    <div class="cb-input-search" [class.cb-is-disabled]="disabled() || cvaDisabled()">
+      <span class="cb-input-search__icon" aria-hidden="true">⌕</span>
       <input
+        class="cb-input-search__field"
         type="search"
         [value]="value()"
         [placeholder]="placeholder()"
         [disabled]="disabled() || cvaDisabled()"
         [attr.aria-label]="placeholder()"
         (input)="onInput($event)"
+        (blur)="onTouched()"
         (keydown.enter)="search.emit(value())"
-        style="border: none; outline: none; background: transparent; color: inherit; width: 100%; font-size: 0.875rem"
       />
       @if (clearable() && value()) {
         <button
           type="button"
+          class="cb-input-search__clear"
           aria-label="Limpiar búsqueda"
           (click)="clear()"
-          style="border: none; background: transparent; cursor: pointer; color: var(--cb-color-text-muted, #64748b)"
         >
           ×
         </button>
@@ -49,7 +69,7 @@ export class CbInputSearch implements ControlValueAccessor {
 
   protected readonly cvaDisabled = signal(false);
   private onChange: (v: string) => void = () => {};
-  private onTouched: () => void = () => {};
+  protected onTouched: () => void = () => {};
 
   protected onInput(event: Event): void {
     const next = (event.target as HTMLInputElement).value;

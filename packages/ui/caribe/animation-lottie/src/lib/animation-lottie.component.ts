@@ -1,22 +1,37 @@
-import { ChangeDetectionStrategy, Component, ViewEncapsulation, input, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ViewEncapsulation,
+  input,
+  signal,
+} from '@angular/core';
 
+/**
+ * Animation-lottie de Caribe Design: contenedor de animación (placeholder
+ * animado mientras se integra Lottie real).
+ *
+ * @example
+ * ```html
+ * <cb-animation-lottie size="96px" ariaLabel="Cargando" />
+ * ```
+ */
 @Component({
   selector: 'cb-animation-lottie',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
   host: {
-    class: 'cb-animation-lottie',
+    class: 'cb-animation-lottie-host',
     '[style.width]': 'size()',
     '[style.height]': 'size()',
   },
   template: `
-    <div
-      class="cb-caribe-box"
-      role="img"
-      [attr.aria-label]="ariaLabel()"
-      style="justify-content: center; width: 100%; height: 100%"
-    >
-      <svg viewBox="0 0 48 48" width="36" height="36" aria-hidden="true">
+    <div class="cb-animation-lottie" role="img" [attr.aria-label]="ariaLabel()">
+      <svg
+        class="cb-animation-lottie__svg"
+        [class.cb-is-playing]="playing()"
+        viewBox="0 0 48 48"
+        aria-hidden="true"
+      >
         <circle
           cx="24"
           cy="24"
@@ -24,6 +39,7 @@ import { ChangeDetectionStrategy, Component, ViewEncapsulation, input, signal } 
           fill="none"
           stroke="var(--cb-color-primary-500, #10b981)"
           stroke-width="4"
+          stroke-linecap="round"
           stroke-dasharray="80 32"
         />
       </svg>

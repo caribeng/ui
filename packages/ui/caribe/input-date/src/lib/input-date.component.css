@@ -1,22 +1,52 @@
-
 :host {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  display: inline-block;
+  width: 100%;
+  max-width: 14rem;
+}
+
+.cb-input-date {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cb-space-2, 0.35rem);
   font-family: var(--cb-font-sans, inherit);
 }
-.cb-caribe-box {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.65rem;
-  padding: 0.65rem 1rem;
-  border-radius: var(--cb-radius-md, 0.5rem);
-  border: 1px solid var(--cb-color-border, #e2e8f0);
-  background: var(--cb-color-surface, #f8fafc);
+
+.cb-input-date__label {
+  font-size: var(--cb-text-sm, 0.8125rem);
+  font-weight: var(--cb-font-weight-semibold, 600);
   color: var(--cb-color-text-strong, #0f172a);
 }
-:host-context([data-theme="dark"]) .cb-caribe-box {
-  background: var(--cb-color-surface-900, #0f172a);
-  border-color: var(--cb-color-surface-700, #334155);
-  color: var(--cb-color-surface-0, #ffffff);
+
+.cb-input-date__field {
+  box-sizing: border-box;
+  width: 100%;
+  height: 2.5rem;
+  padding: 0 var(--cb-space-3, 0.75rem);
+  font: inherit;
+  font-size: var(--cb-text-sm, 0.875rem);
+  color: var(--cb-color-text-strong, #0f172a);
+  background-color: var(--cb-color-surface-0, #ffffff);
+  border: 1px solid var(--cb-color-border, #cbd5e1);
+  border-radius: var(--cb-radius-md, 0.5rem);
+}
+.cb-input-date__field:focus-visible {
+  outline: none;
+  border-color: var(--cb-color-primary-500, #10b981);
+  box-shadow: 0 0 0 3px
+    color-mix(in srgb, var(--cb-color-primary-500, #10b981) 18%, transparent);
+}
+.cb-input-date__field:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background-color: var(--cb-color-surface-100, #f1f5f9);
+}
+
+:host-context([data-theme='dark']) .cb-input-date__label {
+  color: var(--cb-color-surface-0, #f8fafc);
+}
+:host-context([data-theme='dark']) .cb-input-date__field {
+  color: var(--cb-color-surface-0, #f8fafc);
+  background-color: var(--cb-color-surface-900, #0f172a);
+  border-color: var(--cb-color-surface-600, #475569);
+  color-scheme: dark;
 }

@@ -1,21 +1,43 @@
-import { ChangeDetectionStrategy, Component, ViewEncapsulation, input, model, output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ViewEncapsulation,
+  input,
+  model,
+  output,
+} from '@angular/core';
 
+/**
+ * File-select de Caribe Design: zona de selección de archivos con formatos
+ * admitidos y lista de seleccionados.
+ *
+ * @example
+ * ```html
+ * <cb-file-select label="Adjuntar soporte" accept=".pdf,.png" />
+ * ```
+ */
 @Component({
   selector: 'cb-file-select',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
-  host: { class: 'cb-file-select' },
+  host: { class: 'cb-file-select-host' },
   template: `
-    <label class="cb-caribe-box" style="cursor: pointer; flex-direction: column; align-items: flex-start; min-width: 260px">
-      <span style="font-weight: 600; font-size: 0.875rem">{{ label() }}</span>
-      <span style="font-size: 0.75rem; color: var(--cb-color-text-muted, #64748b)">Formatos: {{ accept() }}</span>
+    <label class="cb-file-select" [class.cb-is-disabled]="disabled()">
+      <span class="cb-file-select__icon" aria-hidden="true">↑</span>
+      <span class="cb-file-select__title">{{ label() }}</span>
+      <span class="cb-file-select__hint">Formatos: {{ accept() }}</span>
+      @if (files().length) {
+        <span class="cb-file-select__count">
+          {{ files().length }} archivo(s) seleccionado(s)
+        </span>
+      }
       <input
+        class="cb-file-select__input"
         type="file"
         [attr.accept]="accept()"
         [multiple]="multiple()"
         [disabled]="disabled()"
         (change)="onFileChange($event)"
-        style="font-size: 0.8rem; margin-top: 0.25rem"
       />
     </label>
   `,

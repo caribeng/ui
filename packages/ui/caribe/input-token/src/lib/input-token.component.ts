@@ -1,6 +1,24 @@
-import { ChangeDetectionStrategy, Component, ViewEncapsulation, computed, forwardRef, input, model, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ViewEncapsulation,
+  computed,
+  forwardRef,
+  input,
+  model,
+  signal,
+} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
+/**
+ * Input-token de Caribe Design: entrada de código OTP con casillas por dígito,
+ * enmascarado opcional y CVA.
+ *
+ * @example
+ * ```html
+ * <cb-input-token [numInputs]="6" helpText="Enviado a tu móvil" />
+ * ```
+ */
 @Component({
   selector: 'cb-input-token',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -12,12 +30,17 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
       multi: true,
     },
   ],
-  host: { class: 'cb-input-token' },
+  host: { class: 'cb-input-token-host' },
   template: `
-    <div style="display: inline-flex; flex-direction: column; gap: 0.4rem">
-      <div style="display: inline-flex; gap: 0.45rem" role="group" aria-label="Código de verificación">
+    <div class="cb-input-token">
+      <div
+        class="cb-input-token__slots"
+        role="group"
+        aria-label="Código de verificación"
+      >
         @for (slot of slots(); track slot) {
           <input
+            class="cb-input-token__slot"
             [type]="unmasked() ? 'text' : 'password'"
             maxlength="1"
             inputmode="numeric"
@@ -25,12 +48,12 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
             [disabled]="disabled() || cvaDisabled()"
             [attr.aria-label]="'Dígito ' + (slot + 1)"
             (input)="onDigitInput($event, slot)"
-            style="width: 2.4rem; height: 2.6rem; text-align: center; border-radius: 0.5rem; border: 1px solid var(--cb-color-border, #cbd5e1); font-size: 1rem; font-weight: 600"
+            (blur)="onTouched()"
           />
         }
       </div>
       @if (helpText()) {
-        <span style="font-size: 0.75rem; color: var(--cb-color-text-muted, #64748b)">{{ helpText() }}</span>
+        <span class="cb-input-token__help">{{ helpText() }}</span>
       }
     </div>
   `,
@@ -46,11 +69,14 @@ export class CbInputToken implements ControlValueAccessor {
   protected readonly cvaDisabled = signal(false);
 
   protected readonly slots = computed(() =>
-    Array.from({ length: Math.max(3, Math.min(8, this.numInputs())) }, (_, i) => i)
+    Array.from(
+      { length: Math.max(3, Math.min(8, this.numInputs())) },
+      (_, i) => i,
+    ),
   );
 
   private onChange: (v: string) => void = () => {};
-  private onTouched: () => void = () => {};
+  protected onTouched: () => void = () => {};
 
   protected charAt(index: number): string {
     return (this.value() ?? '')[index] ?? '';

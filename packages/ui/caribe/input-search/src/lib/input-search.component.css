@@ -1,22 +1,74 @@
-
 :host {
+  display: inline-block;
+  width: 100%;
+  max-width: 20rem;
+}
+
+.cb-input-search {
+  display: flex;
+  align-items: center;
+  gap: var(--cb-space-2, 0.5rem);
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0 var(--cb-space-3, 0.75rem);
+  height: 2.5rem;
+  font-family: var(--cb-font-sans, inherit);
+  color: var(--cb-color-text-strong, #0f172a);
+  background-color: var(--cb-color-surface-0, #ffffff);
+  border: 1px solid var(--cb-color-border, #cbd5e1);
+  border-radius: var(--cb-radius-md, 0.5rem);
+  transition: border-color var(--cb-duration-fast, 0.12s) var(--cb-ease, ease);
+}
+.cb-input-search:focus-within {
+  border-color: var(--cb-color-primary-500, #10b981);
+  box-shadow: 0 0 0 3px
+    color-mix(in srgb, var(--cb-color-primary-500, #10b981) 18%, transparent);
+}
+.cb-input-search.cb-is-disabled {
+  opacity: 0.6;
+  background-color: var(--cb-color-surface-100, #f1f5f9);
+}
+
+.cb-input-search__icon {
+  flex: none;
+  font-size: 1.1rem;
+  color: var(--cb-color-text-muted, #64748b);
+}
+
+.cb-input-search__field {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: var(--cb-text-sm, 0.875rem);
+}
+.cb-input-search__field::-webkit-search-cancel-button {
+  display: none;
+}
+
+.cb-input-search__clear {
+  flex: none;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-family: var(--cb-font-sans, inherit);
+  width: 1.5rem;
+  height: 1.5rem;
+  font-size: 1rem;
+  color: var(--cb-color-text-muted, #64748b);
+  background: transparent;
+  border: none;
+  border-radius: var(--cb-radius-full, 999px);
+  cursor: pointer;
 }
-.cb-caribe-box {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.65rem;
-  padding: 0.65rem 1rem;
-  border-radius: var(--cb-radius-md, 0.5rem);
-  border: 1px solid var(--cb-color-border, #e2e8f0);
-  background: var(--cb-color-surface, #f8fafc);
-  color: var(--cb-color-text-strong, #0f172a);
+.cb-input-search__clear:hover {
+  background-color: var(--cb-color-surface-100, #f1f5f9);
 }
-:host-context([data-theme="dark"]) .cb-caribe-box {
-  background: var(--cb-color-surface-900, #0f172a);
-  border-color: var(--cb-color-surface-700, #334155);
-  color: var(--cb-color-surface-0, #ffffff);
+
+:host-context([data-theme='dark']) .cb-input-search {
+  color: var(--cb-color-surface-0, #f8fafc);
+  background-color: var(--cb-color-surface-900, #0f172a);
+  border-color: var(--cb-color-surface-600, #475569);
 }

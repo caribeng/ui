@@ -1,20 +1,68 @@
-
 :host {
   display: inline-flex;
+}
+
+.cb-button-group {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: stretch;
+  gap: var(--cb-space-1, 0.25rem);
+  padding: var(--cb-space-1, 0.25rem);
+  background-color: var(--cb-color-surface-100, #f1f5f9);
+  border: 1px solid var(--cb-color-border, #e2e8f0);
+  border-radius: var(--cb-radius-md, 0.5rem);
   font-family: var(--cb-font-sans, inherit);
 }
-.cb-caribe-surface {
+
+.cb-button-group--vertical {
+  flex-direction: column;
+}
+
+/* Normaliza botones proyectados para que se vean como un segmentado. */
+.cb-button-group ::ng-deep > button,
+.cb-button-group ::ng-deep > a {
+  appearance: none;
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.55rem 0.9rem;
-  border-radius: var(--cb-radius-md, 0.5rem);
-  border: 1px solid var(--cb-color-border, #e2e8f0);
-  background: var(--cb-color-surface, #f8fafc);
-  color: var(--cb-color-text-strong, #0f172a);
+  justify-content: center;
+  gap: var(--cb-space-1, 0.25rem);
+  padding: var(--cb-space-2, 0.5rem) var(--cb-space-4, 1rem);
+  font: inherit;
+  font-size: var(--cb-text-sm, 0.875rem);
+  font-weight: var(--cb-font-weight-medium, 500);
+  color: var(--cb-color-text, #0f172a);
+  background-color: transparent;
+  border: none;
+  border-radius: var(--cb-radius-sm, 0.375rem);
+  cursor: pointer;
+  transition: background-color var(--cb-duration-fast, 0.12s) var(--cb-ease, ease);
 }
-:host-context([data-theme="dark"]) .cb-caribe-surface {
-  background: var(--cb-color-surface-900, #0f172a);
-  border-color: var(--cb-color-surface-700, #334155);
-  color: var(--cb-color-surface-0, #ffffff);
+
+.cb-button-group ::ng-deep > button:hover,
+.cb-button-group ::ng-deep > a:hover {
+  background-color: var(--cb-color-surface-0, #ffffff);
+}
+
+.cb-button-group ::ng-deep > button[aria-pressed='true'],
+.cb-button-group ::ng-deep > button.is-active {
+  background-color: var(--cb-color-surface-0, #ffffff);
+  color: var(--cb-color-primary-700, #065f46);
+  box-shadow: var(--cb-shadow-sm, 0 1px 2px rgba(0, 0, 0, 0.1));
+}
+
+:host-context([data-theme='dark']) .cb-button-group {
+  background-color: var(--cb-color-surface-800, #1e293b);
+  border-color: var(--cb-color-surface-600, #475569);
+}
+:host-context([data-theme='dark']) .cb-button-group ::ng-deep > button,
+:host-context([data-theme='dark']) .cb-button-group ::ng-deep > a {
+  color: var(--cb-color-surface-0, #f8fafc);
+}
+:host-context([data-theme='dark']) .cb-button-group ::ng-deep > button:hover,
+:host-context([data-theme='dark']) .cb-button-group ::ng-deep > a:hover,
+:host-context([data-theme='dark'])
+  .cb-button-group
+  ::ng-deep
+  > button[aria-pressed='true'] {
+  background-color: var(--cb-color-surface-700, #334155);
 }

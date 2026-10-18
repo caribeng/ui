@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component, ViewEncapsulation, forwardRef, input, model, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ViewEncapsulation,
+  forwardRef,
+  input,
+  model,
+  signal,
+} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 export interface CbInputSelectOption {
@@ -6,6 +14,15 @@ export interface CbInputSelectOption {
   value: string;
 }
 
+/**
+ * Input-select de Caribe Design: desplegable nativo estilizado con etiqueta,
+ * placeholder y CVA.
+ *
+ * @example
+ * ```html
+ * <cb-input-select label="País" [options]="paises" />
+ * ```
+ */
 @Component({
   selector: 'cb-input-select',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -17,25 +34,29 @@ export interface CbInputSelectOption {
       multi: true,
     },
   ],
-  host: { class: 'cb-input-select' },
+  host: { class: 'cb-input-select-host' },
   template: `
-    <label style="display: inline-flex; flex-direction: column; gap: 0.35rem; font-size: 0.85rem; min-width: 220px">
+    <label class="cb-input-select">
       @if (label()) {
-        <span style="font-weight: 600">{{ label() }}</span>
+        <span class="cb-input-select__label">{{ label() }}</span>
       }
-      <select
-        [value]="value()"
-        [disabled]="disabled() || cvaDisabled()"
-        (change)="onSelect($event)"
-        style="padding: 0.45rem 0.7rem; border-radius: 0.5rem; border: 1px solid var(--cb-color-border, #cbd5e1); background: var(--cb-color-bg, #fff); color: inherit"
-      >
-        @if (placeholder()) {
-          <option value="" disabled>{{ placeholder() }}</option>
-        }
-        @for (opt of options(); track opt.value) {
-          <option [value]="opt.value">{{ opt.label }}</option>
-        }
-      </select>
+      <div class="cb-input-select__wrap">
+        <select
+          class="cb-input-select__field"
+          [value]="value()"
+          [disabled]="disabled() || cvaDisabled()"
+          (change)="onSelect($event)"
+          (blur)="onTouched()"
+        >
+          @if (placeholder()) {
+            <option value="" disabled>{{ placeholder() }}</option>
+          }
+          @for (opt of options(); track opt.value) {
+            <option [value]="opt.value">{{ opt.label }}</option>
+          }
+        </select>
+        <span class="cb-input-select__chevron" aria-hidden="true">▾</span>
+      </div>
     </label>
   `,
   styleUrl: './input-select.component.css',
@@ -50,7 +71,7 @@ export class CbInputSelect implements ControlValueAccessor {
   protected readonly cvaDisabled = signal(false);
 
   private onChange: (v: string) => void = () => {};
-  private onTouched: () => void = () => {};
+  protected onTouched: () => void = () => {};
 
   protected onSelect(event: Event): void {
     const next = (event.target as HTMLSelectElement).value;

@@ -1,6 +1,23 @@
-import { ChangeDetectionStrategy, Component, ViewEncapsulation, forwardRef, input, model, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ViewEncapsulation,
+  forwardRef,
+  input,
+  model,
+  signal,
+} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
+/**
+ * Input-date de Caribe Design: campo de fecha nativo estilizado con etiqueta,
+ * límites min/max y CVA.
+ *
+ * @example
+ * ```html
+ * <cb-input-date label="Fecha de pago" />
+ * ```
+ */
 @Component({
   selector: 'cb-input-date',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -12,20 +29,21 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
       multi: true,
     },
   ],
-  host: { class: 'cb-input-date' },
+  host: { class: 'cb-input-date-host' },
   template: `
-    <label style="display: inline-flex; flex-direction: column; gap: 0.35rem; font-size: 0.85rem">
+    <label class="cb-input-date">
       @if (label()) {
-        <span style="font-weight: 600">{{ label() }}</span>
+        <span class="cb-input-date__label">{{ label() }}</span>
       }
       <input
+        class="cb-input-date__field"
         type="date"
         [value]="value()"
         [attr.min]="min() || null"
         [attr.max]="max() || null"
         [disabled]="disabled() || cvaDisabled()"
         (input)="onInput($event)"
-        style="padding: 0.45rem 0.7rem; border-radius: 0.5rem; border: 1px solid var(--cb-color-border, #cbd5e1); background: var(--cb-color-bg, #fff); color: inherit"
+        (blur)="onTouched()"
       />
     </label>
   `,
@@ -41,7 +59,7 @@ export class CbInputDate implements ControlValueAccessor {
   protected readonly cvaDisabled = signal(false);
 
   private onChange: (v: string) => void = () => {};
-  private onTouched: () => void = () => {};
+  protected onTouched: () => void = () => {};
 
   protected onInput(event: Event): void {
     const next = (event.target as HTMLInputElement).value;

@@ -1,21 +1,37 @@
-import { ChangeDetectionStrategy, Component, ViewEncapsulation, input, output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ViewEncapsulation,
+  input,
+  output,
+} from '@angular/core';
 
+/**
+ * File-download de Caribe Design: fila de archivo con nombre, tamaño y botón de
+ * descarga.
+ *
+ * @example
+ * ```html
+ * <cb-file-download fileName="Extracto.pdf" fileSize="420 KB" (download)="go($event)" />
+ * ```
+ */
 @Component({
   selector: 'cb-file-download',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
-  host: { class: 'cb-file-download' },
+  host: { class: 'cb-file-download-host' },
   template: `
-    <div class="cb-caribe-box" style="justify-content: space-between; min-width: 260px">
-      <div style="display: flex; flex-direction: column">
-        <strong style="font-size: 0.875rem">{{ fileName() }}</strong>
-        <span style="font-size: 0.75rem; color: var(--cb-color-text-muted, #64748b)">{{ fileSize() }}</span>
+    <div class="cb-file-download">
+      <span class="cb-file-download__icon" aria-hidden="true">PDF</span>
+      <div class="cb-file-download__meta">
+        <strong class="cb-file-download__name">{{ fileName() }}</strong>
+        <span class="cb-file-download__size">{{ fileSize() }}</span>
       </div>
       <button
         type="button"
+        class="cb-file-download__btn"
         (click)="onDownload()"
         [disabled]="disabled()"
-        style="padding: 0.35rem 0.75rem; border-radius: 0.375rem; border: 1px solid var(--cb-color-primary-500, #10b981); background: var(--cb-color-primary-500, #10b981); color: #fff; cursor: pointer; font-size: 0.8rem"
       >
         {{ buttonLabel() }}
       </button>

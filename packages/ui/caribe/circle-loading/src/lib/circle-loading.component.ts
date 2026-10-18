@@ -1,27 +1,56 @@
-import { ChangeDetectionStrategy, Component, ViewEncapsulation, computed, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ViewEncapsulation,
+  computed,
+  input,
+} from '@angular/core';
 
+/**
+ * Circle-loading de Caribe Design: progreso circular determinado o
+ * indeterminado (spinner).
+ *
+ * @example
+ * ```html
+ * <cb-circle-loading [progress]="65" />
+ * <cb-circle-loading [indeterminate]="true" />
+ * ```
+ */
 @Component({
   selector: 'cb-circle-loading',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
-  host: { class: 'cb-circle-loading' },
+  host: { class: 'cb-circle-loading-host' },
   template: `
     <div
+      class="cb-circle-loading"
       role="progressbar"
       [attr.aria-valuenow]="indeterminate() ? null : progress()"
       aria-valuemin="0"
       aria-valuemax="100"
       [attr.aria-label]="label()"
-      style="display: inline-flex; flex-direction: column; align-items: center; gap: 0.4rem"
     >
-      <svg [attr.width]="size()" [attr.height]="size()" viewBox="0 0 48 48">
-        <circle cx="24" cy="24" r="20" fill="none" stroke="var(--cb-color-surface-200, #e2e8f0)" stroke-width="4" />
+      <svg
+        class="cb-circle-loading__svg"
+        [class.cb-is-indeterminate]="indeterminate()"
+        [attr.width]="size()"
+        [attr.height]="size()"
+        viewBox="0 0 48 48"
+      >
         <circle
+          class="cb-circle-loading__track"
           cx="24"
           cy="24"
           r="20"
           fill="none"
-          stroke="var(--cb-color-primary-500, #10b981)"
+          stroke-width="4"
+        />
+        <circle
+          class="cb-circle-loading__bar"
+          cx="24"
+          cy="24"
+          r="20"
+          fill="none"
           stroke-width="4"
           stroke-linecap="round"
           [attr.stroke-dasharray]="circumference"
@@ -30,7 +59,7 @@ import { ChangeDetectionStrategy, Component, ViewEncapsulation, computed, input 
         />
       </svg>
       @if (label()) {
-        <span style="font-size: 0.75rem; color: var(--cb-color-text-muted, #64748b)">{{ label() }}</span>
+        <span class="cb-circle-loading__label">{{ label() }}</span>
       }
     </div>
   `,
@@ -44,7 +73,7 @@ export class CbCircleLoading {
 
   protected readonly circumference = 2 * Math.PI * 20;
   protected readonly dashOffset = computed(() => {
-    if (this.indeterminate()) return this.circumference * 0.65;
+    if (this.indeterminate()) return this.circumference * 0.75;
     const clamped = Math.max(0, Math.min(100, this.progress()));
     return this.circumference * (1 - clamped / 100);
   });

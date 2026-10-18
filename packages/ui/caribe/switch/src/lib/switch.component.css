@@ -1,20 +1,106 @@
-
 :host {
-  display: inline-flex;
-  font-family: var(--cb-font-sans, inherit);
+  display: inline-block;
 }
-.cb-caribe-surface {
+
+.cb-switch {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.55rem 0.9rem;
-  border-radius: var(--cb-radius-md, 0.5rem);
-  border: 1px solid var(--cb-color-border, #e2e8f0);
-  background: var(--cb-color-surface, #f8fafc);
-  color: var(--cb-color-text-strong, #0f172a);
+  gap: var(--cb-space-2, 0.5rem);
+  font-family: var(--cb-font-sans, inherit);
+  font-size: var(--cb-text-base, 0.875rem);
+  color: var(--cb-color-text, #0f172a);
+  cursor: pointer;
+  user-select: none;
 }
-:host-context([data-theme="dark"]) .cb-caribe-surface {
-  background: var(--cb-color-surface-900, #0f172a);
-  border-color: var(--cb-color-surface-700, #334155);
-  color: var(--cb-color-surface-0, #ffffff);
+
+.cb-switch--left-label {
+  flex-direction: row-reverse;
+}
+
+/* Input nativo oculto pero accesible. */
+.cb-switch__input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  opacity: 0;
+  clip: rect(0 0 0 0);
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+/* Pista */
+.cb-switch__track {
+  box-sizing: border-box;
+  position: relative;
+  flex: none;
+  width: 2.75rem;
+  height: 1.5rem;
+  padding: 2px;
+  background-color: var(--cb-color-surface-300, #cbd5e1);
+  border-radius: var(--cb-radius-full, 999px);
+  transition:
+    background-color var(--cb-duration-normal, 0.2s) var(--cb-ease, ease),
+    box-shadow var(--cb-duration-fast, 0.12s) var(--cb-ease, ease);
+}
+
+/* Perilla */
+.cb-switch__thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 1.25rem;
+  height: 1.25rem;
+  background-color: var(--cb-color-surface-0, #ffffff);
+  border-radius: var(--cb-radius-full, 999px);
+  box-shadow: var(--cb-shadow-sm, 0 1px 2px rgba(0, 0, 0, 0.15));
+  transition: transform var(--cb-duration-normal, 0.2s) var(--cb-ease, ease);
+}
+
+/* Encendido */
+.cb-switch__input:checked ~ .cb-switch__track {
+  background-color: var(--cb-color-primary-500, #10b981);
+}
+.cb-switch__input:checked ~ .cb-switch__track .cb-switch__thumb {
+  transform: translateX(1.25rem);
+}
+
+/* Hover */
+.cb-switch:hover
+  .cb-switch__input:not(:disabled):not(:checked)
+  ~ .cb-switch__track {
+  background-color: var(--cb-color-surface-400, #94a3b8);
+}
+
+/* Foco por teclado */
+.cb-switch__input:focus-visible ~ .cb-switch__track {
+  outline: none;
+  box-shadow: 0 0 0 3px
+    color-mix(in srgb, var(--cb-color-primary-500, #10b981) 25%, transparent);
+}
+
+/* Deshabilitado */
+.cb-switch.cb-is-disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+/* Etiqueta: se oculta si no hay contenido proyectado */
+.cb-switch__label {
+  line-height: var(--cb-line-height-normal, 1.5);
+}
+.cb-switch__label:empty {
+  display: none;
+}
+
+/* Dark mode */
+:host-context([data-theme='dark']) .cb-switch__track {
+  background-color: var(--cb-color-surface-700, #334155);
+}
+:host-context([data-theme='dark'])
+  .cb-switch__input:checked
+  ~ .cb-switch__track {
+  background-color: var(--cb-color-primary-500, #10b981);
 }

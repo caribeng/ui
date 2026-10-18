@@ -1,34 +1,46 @@
-import { ChangeDetectionStrategy, Component, ViewEncapsulation, input, output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ViewEncapsulation,
+  input,
+  output,
+} from '@angular/core';
 
+/**
+ * Header de Caribe Design: cabecera de pantalla con título, subtítulo opcional,
+ * botón de retroceso y una zona de acciones proyectadas.
+ *
+ * @example
+ * ```html
+ * <cb-header title="Transferencias" subtitle="Nueva" [showBack]="true" />
+ * ```
+ */
 @Component({
   selector: 'cb-header',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
-  host: { class: 'cb-header', style: 'display: block; width: 100%' },
+  host: { class: 'cb-header-host' },
   template: `
-    <header
-      class="cb-caribe-surface"
-      style="display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 0.75rem 1.25rem"
-    >
-      <div style="display: flex; align-items: center; gap: 0.75rem">
+    <header class="cb-header">
+      <div class="cb-header__start">
         @if (showBack()) {
           <button
             type="button"
+            class="cb-header__back"
             aria-label="Volver"
             (click)="backClick.emit()"
-            style="border: none; background: transparent; cursor: pointer; font-size: 1rem; color: inherit"
           >
-            ←
+            <span aria-hidden="true">←</span>
           </button>
         }
-        <div>
-          <strong style="font-size: 1rem; display: block">{{ title() }}</strong>
+        <div class="cb-header__titles">
+          <strong class="cb-header__title">{{ title() }}</strong>
           @if (subtitle()) {
-            <span style="font-size: 0.75rem; color: var(--cb-color-text-muted, #64748b)">{{ subtitle() }}</span>
+            <span class="cb-header__subtitle">{{ subtitle() }}</span>
           }
         </div>
       </div>
-      <div>
+      <div class="cb-header__actions">
         <ng-content />
       </div>
     </header>
@@ -36,8 +48,12 @@ import { ChangeDetectionStrategy, Component, ViewEncapsulation, input, output } 
   styleUrl: './header.component.css',
 })
 export class CbHeader {
+  /** Título principal. */
   readonly title = input<string>('CaribeNG');
+  /** Subtítulo opcional. */
   readonly subtitle = input<string>('');
+  /** Muestra el botón de retroceso. */
   readonly showBack = input<boolean>(false);
+  /** Emite al pulsar retroceso. */
   readonly backClick = output<void>();
 }

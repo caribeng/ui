@@ -22,7 +22,7 @@ export interface NavGroup {
 export const NAV_MENU: NavItem[] = [
   {
     label: 'Getting Started',
-    icon: 'home',
+    icon: 'house',
     children: [
       { label: 'Introduction', route: '/introduction' },
     ],
@@ -190,7 +190,7 @@ export const NAV_MENU: NavItem[] = [
   },
   {
     label: 'Caribe Design',
-    icon: 'layers',
+    icon: 'library-big',
     badge: 'NEW',
     children: [
       {

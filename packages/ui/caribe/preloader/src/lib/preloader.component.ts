@@ -1,20 +1,32 @@
-import { ChangeDetectionStrategy, Component, ViewEncapsulation, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ViewEncapsulation,
+  input,
+} from '@angular/core';
 
+/**
+ * Preloader de Caribe Design: pantalla/bloque de carga inicial con marca,
+ * barra de progreso indeterminada y mensaje.
+ *
+ * @example
+ * ```html
+ * <cb-preloader title="CaribeNG" label="Preparando…" />
+ * ```
+ */
 @Component({
   selector: 'cb-preloader',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
-  host: { class: 'cb-preloader' },
+  host: { class: 'cb-preloader-host' },
   template: `
     @if (active()) {
-      <div
-        class="cb-caribe-box"
-        role="alert"
-        aria-busy="true"
-        style="padding: 1rem 1.5rem; flex-direction: column; text-align: center"
-      >
-        <strong style="font-size: 0.9rem">{{ title() }}</strong>
-        <span style="font-size: 0.8rem; color: var(--cb-color-text-muted, #64748b)">{{ label() }}</span>
+      <div class="cb-preloader" role="alert" aria-busy="true">
+        <strong class="cb-preloader__title">{{ title() }}</strong>
+        <div class="cb-preloader__bar" aria-hidden="true">
+          <span class="cb-preloader__bar-fill"></span>
+        </div>
+        <span class="cb-preloader__label">{{ label() }}</span>
       </div>
     }
   `,

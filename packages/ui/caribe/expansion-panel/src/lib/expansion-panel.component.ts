@@ -1,23 +1,38 @@
-import { ChangeDetectionStrategy, Component, ViewEncapsulation, input, model } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ViewEncapsulation,
+  input,
+  model,
+} from '@angular/core';
 
+/**
+ * Expansion-panel de Caribe Design: panel colapsable con cabecera pulsable y
+ * contenido proyectado.
+ *
+ * @example
+ * ```html
+ * <cb-expansion-panel title="Detalles" [(expanded)]="open">…</cb-expansion-panel>
+ * ```
+ */
 @Component({
   selector: 'cb-expansion-panel',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
-  host: { class: 'cb-expansion-panel', style: 'display: block; width: 100%' },
+  host: { class: 'cb-expansion-panel-host' },
   template: `
-    <div class="cb-caribe-surface" style="display: flex; flex-direction: column; align-items: stretch; width: 100%">
+    <div class="cb-expansion-panel" [class.cb-is-open]="expanded()">
       <button
         type="button"
+        class="cb-expansion-panel__header"
         [attr.aria-expanded]="expanded()"
         (click)="expanded.set(!expanded())"
-        style="display: flex; justify-content: space-between; align-items: center; width: 100%; border: none; background: transparent; color: inherit; font-weight: 600; cursor: pointer; padding: 0.25rem 0"
       >
-        <span>{{ title() }}</span>
-        <span aria-hidden="true">{{ expanded() ? '▾' : '▸' }}</span>
+        <span class="cb-expansion-panel__title">{{ title() }}</span>
+        <span class="cb-expansion-panel__chevron" aria-hidden="true">▾</span>
       </button>
       @if (expanded()) {
-        <div style="padding-top: 0.5rem; border-top: 1px solid var(--cb-color-border, #e2e8f0); font-size: 0.875rem">
+        <div class="cb-expansion-panel__body">
           <ng-content />
         </div>
       }
@@ -26,6 +41,8 @@ import { ChangeDetectionStrategy, Component, ViewEncapsulation, input, model } f
   styleUrl: './expansion-panel.component.css',
 })
 export class CbExpansionPanel {
+  /** Título de la cabecera. */
   readonly title = input<string>('Detalles');
+  /** Estado abierto/cerrado (two-way). */
   readonly expanded = model<boolean>(false);
 }

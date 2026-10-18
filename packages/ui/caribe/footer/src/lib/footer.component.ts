@@ -1,21 +1,37 @@
-import { ChangeDetectionStrategy, Component, ViewEncapsulation, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ViewEncapsulation,
+  input,
+} from '@angular/core';
 
+/**
+ * Footer de Caribe Design: pie de página con texto de copyright y una zona de
+ * enlaces o acciones proyectadas.
+ *
+ * @example
+ * ```html
+ * <cb-footer><a href="#">Privacidad</a><a href="#">Términos</a></cb-footer>
+ * ```
+ */
 @Component({
   selector: 'cb-footer',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
-  host: { class: 'cb-footer', style: 'display: block; width: 100%' },
+  host: { class: 'cb-footer-host' },
   template: `
-    <footer
-      class="cb-caribe-surface"
-      style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; width: 100%; padding: 0.85rem 1.25rem; font-size: 0.8rem"
-    >
-      <span>{{ copyright() }}</span>
-      <div><ng-content /></div>
+    <footer class="cb-footer">
+      <span class="cb-footer__copy">{{ copyright() }}</span>
+      <div class="cb-footer__links">
+        <ng-content />
+      </div>
     </footer>
   `,
   styleUrl: './footer.component.css',
 })
 export class CbFooter {
-  readonly copyright = input<string>('© 2026 CaribeNG Design System. Todos los derechos reservados.');
+  /** Texto de copyright. */
+  readonly copyright = input<string>(
+    '© 2026 CaribeNG Design System. Todos los derechos reservados.',
+  );
 }
