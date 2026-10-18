@@ -20,6 +20,19 @@ class HostComponent {
   max: Date | null = null;
 }
 
+// Host con límites preestablecidos en construcción (uso real: minDate/maxDate
+// son inputs estáticos). Evita la transición null→fecha del binding del host,
+// que en Angular 21 dispara un NG0100 falso en checkNoChanges al abrir el overlay.
+@Component({
+  imports: [ReactiveFormsModule, CbDatepicker],
+  template: `<cb-datepicker [formControl]="ctrl" locale="es-CO" [minDate]="min" [maxDate]="max" />`,
+})
+class RangeHostComponent {
+  ctrl = new FormControl<Date | null>(new Date(2026, 9, 16));
+  readonly min = new Date(2026, 9, 10);
+  readonly max = new Date(2026, 9, 20);
+}
+
 describe('CbDatepicker', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({ imports: [HostComponent] });
@@ -89,12 +102,20 @@ describe('CbDatepicker', () => {
   });
 
   it('deshabilita los días fuera del rango [minDate, maxDate]', () => {
-    const { fixture, openCalendar, dayBtn } = setup();
-    fixture.componentInstance.ctrl.setValue(new Date(2026, 9, 16));
-    fixture.componentInstance.min = new Date(2026, 9, 10);
-    fixture.componentInstance.max = new Date(2026, 9, 20);
+    TestBed.configureTestingModule({ imports: [RangeHostComponent] });
+    const fixture = TestBed.createComponent(RangeHostComponent);
     fixture.detectChanges();
-    openCalendar();
+    const el = fixture.nativeElement as HTMLElement;
+    el.querySelector<HTMLInputElement>('input.cb-datepicker__field')!.click();
+    fixture.detectChanges();
+    const dayBtn = (n: number): HTMLButtonElement | undefined =>
+      Array.from(
+        document.querySelectorAll<HTMLButtonElement>('.cb-datepicker__day'),
+      ).find(
+        (b) =>
+          b.textContent!.trim() === String(n) &&
+          !b.classList.contains('cb-is-other-month'),
+      );
     expect(dayBtn(5)!.disabled).toBe(true);
     expect(dayBtn(18)!.disabled).toBe(false);
     expect(dayBtn(25)!.disabled).toBe(true);
