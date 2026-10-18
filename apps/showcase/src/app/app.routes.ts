@@ -1,4 +1,19 @@
 import { Routes } from '@angular/router';
+import { AlertDocComponent } from './pages/alert-doc.component';
+import { InlineAlertDocComponent } from './pages/inline-alert-doc.component';
+import { CardContentDocComponent } from './pages/card-content-doc.component';
+import { CardMoveDocComponent } from './pages/card-move-doc.component';
+import { CardPrimaryDocComponent } from './pages/card-primary-doc.component';
+import { CardSelectDocComponent } from './pages/card-select-doc.component';
+import { CoachmarkDocComponent } from './pages/coachmark-doc.component';
+import { OnboardingDocComponent } from './pages/onboarding-doc.component';
+import { StatusDocComponent } from './pages/status-doc.component';
+import { TrackerDocComponent } from './pages/tracker-doc.component';
+import { TransactionStatusDocComponent } from './pages/transaction-status-doc.component';
+import { VoucherDocComponent } from './pages/voucher-doc.component';
+import { DataTableDocComponent } from './pages/data-table-doc.component';
+import { ModalDocComponent } from './pages/modal-doc.component';
+import { PopOverDocComponent } from './pages/pop-over-doc.component';
 import { IntroductionComponent } from './pages/introduction.component';
 import { ColorsComponent } from './pages/colors.component';
 import { ThemingComponent } from './pages/theming.component';
@@ -194,5 +209,20 @@ export const routes: Routes = [
   { path: 'components/dynamicdialog', component: DynamicdialogDocComponent, title: 'DynamicDialog · CaribeNG' },
   { path: 'components/organizationchart', component: OrganizationChartDocComponent, title: 'OrganizationChart · CaribeNG' },
   { path: 'components/speeddial', component: SpeedDialDocComponent, title: 'SpeedDial · CaribeNG' },
+  { path: 'components/alert', component: AlertDocComponent, title: 'Alert ? CaribeNG' },
+  { path: 'components/inline-alert', component: InlineAlertDocComponent, title: 'Inline Alert ? CaribeNG' },
+  { path: 'components/card-content', component: CardContentDocComponent, title: 'Card Content ? CaribeNG' },
+  { path: 'components/card-move', component: CardMoveDocComponent, title: 'Card Move ? CaribeNG' },
+  { path: 'components/card-primary', component: CardPrimaryDocComponent, title: 'Card Primary ? CaribeNG' },
+  { path: 'components/card-select', component: CardSelectDocComponent, title: 'Card Select ? CaribeNG' },
+  { path: 'components/coachmark', component: CoachmarkDocComponent, title: 'Coachmark ? CaribeNG' },
+  { path: 'components/onboarding', component: OnboardingDocComponent, title: 'Onboarding ? CaribeNG' },
+  { path: 'components/status', component: StatusDocComponent, title: 'Status ? CaribeNG' },
+  { path: 'components/tracker', component: TrackerDocComponent, title: 'Tracker ? CaribeNG' },
+  { path: 'components/transaction-status', component: TransactionStatusDocComponent, title: 'Transaction Status ? CaribeNG' },
+  { path: 'components/voucher', component: VoucherDocComponent, title: 'Voucher ? CaribeNG' },
+  { path: 'components/data-table', component: DataTableDocComponent, title: 'Data Table ? CaribeNG' },
+  { path: 'components/modal', component: ModalDocComponent, title: 'Modal ? CaribeNG' },
+  { path: 'components/pop-over', component: PopOverDocComponent, title: 'Pop Over ? CaribeNG' },
   { path: '**', redirectTo: 'introduction' },
 ];
