@@ -45,11 +45,10 @@ import type { DocApi } from './doc-api.model';
                 @case ('enum') {
                   <select
                     class="pg__select"
-                    [value]="model()[p.name]"
                     (change)="set(p.name, $any($event.target).value)"
                   >
                     @for (opt of p.options ?? []; track opt) {
-                      <option [value]="opt">{{ opt }}</option>
+                      <option [value]="opt" [selected]="opt === model()[p.name]">{{ opt }}</option>
                     }
                   </select>
                 }

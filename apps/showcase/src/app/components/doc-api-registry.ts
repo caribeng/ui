@@ -152,7 +152,7 @@ export const DOC_API: Record<string, DocApi> = {
     content: { default: "Content" },
     props: [
       { name: "title", kind: "string", type: "string", default: "", description: "" },
-      { name: "severity", kind: "enum", type: "'success' | 'warning' | 'error' | 'info'", default: "info", description: "" },
+      { name: "severity", kind: "enum", type: "'success' | 'warning' | 'error' | 'info'", options: ["success", "warning", "error", "info"], default: "info", description: "" },
       { name: "closable", kind: "boolean", type: "boolean", default: true, description: "" },
       { name: "visible", kind: "boolean", type: "boolean (model)", default: true, description: "" }
     ],
@@ -180,7 +180,7 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "optionLabel", kind: "string", type: "string", default: "label", description: "" },
       { name: "optionValue", kind: "string", type: "string | null", default: "", description: "" },
       { name: "placeholder", kind: "string", type: "string", default: "", description: "" },
-      { name: "size", kind: "enum", type: "CbSize", default: "md", description: "" },
+      { name: "size", kind: "enum", type: "CbSize", options: ["sm", "md", "lg"], default: "md", description: "" },
       { name: "minLength", kind: "number", type: "number", default: 1, description: "Caracteres mínimos para disparar `complete`." },
       { name: "delay", kind: "number", type: "number", default: 300, description: "Debounce (ms) antes de emitir `complete`." },
       { name: "forceSelection", kind: "boolean", type: "boolean", default: true, description: "Exige elegir una opción de la lista (si no, al salir se limpia)." },
@@ -206,9 +206,9 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "image", kind: "string", type: "string", default: "", description: "URL de la imagen." },
       { name: "label", kind: "string", type: "string", default: "", description: "Iniciales o texto corto (si no hay imagen ni icono)." },
       { name: "icon", kind: "string", type: "string", default: "", description: "Icono (nombre del set de" },
-      { name: "size", kind: "enum", type: "'sm' | 'md' | 'lg' | 'xl' | number", default: "md", description: "Tamaño: `sm` (28) · `md` (40) · `lg` (56) · `xl` (80) o un número en px." },
-      { name: "shape", kind: "enum", type: "'circle' | 'square'", default: "circle", description: "Forma." },
-      { name: "severity", kind: "enum", type: "CbSeverity", default: "secondary", description: "Color de fondo cuando se muestran iniciales/icono." },
+      { name: "size", kind: "enum", type: "'sm' | 'md' | 'lg' | 'xl' | number", options: ["sm", "md", "lg", "xl"], default: "md", description: "Tamaño: `sm` (28) · `md` (40) · `lg` (56) · `xl` (80) o un número en px." },
+      { name: "shape", kind: "enum", type: "'circle' | 'square'", options: ["circle", "square"], default: "circle", description: "Forma." },
+      { name: "severity", kind: "enum", type: "CbSeverity", options: ["primary", "secondary", "success", "warning", "danger", "info", "help", "contrast"], default: "secondary", description: "Color de fondo cuando se muestran iniciales/icono." },
       { name: "ariaLabel", kind: "string", type: "string", default: "", description: "Nombre accesible." }
     ]
   },
@@ -225,8 +225,8 @@ export const DOC_API: Record<string, DocApi> = {
     selector: "cb-badge",
     props: [
       { name: "value", kind: "string", type: "string | number", default: "", description: "Contenido (conteo o texto breve)." },
-      { name: "severity", kind: "enum", type: "CbSeverity", default: "primary", description: "Severidad semántica (color)." },
-      { name: "size", kind: "enum", type: "CbSize", default: "md", description: "Tamaño." },
+      { name: "severity", kind: "enum", type: "CbSeverity", options: ["primary", "secondary", "success", "warning", "danger", "info", "help", "contrast"], default: "primary", description: "Severidad semántica (color)." },
+      { name: "size", kind: "enum", type: "CbSize", options: ["sm", "md", "lg"], default: "md", description: "Tamaño." },
       { name: "dot", kind: "boolean", type: "boolean", default: false, description: "Muestra solo un punto (sin texto)." }
     ]
   },
@@ -254,13 +254,13 @@ export const DOC_API: Record<string, DocApi> = {
     selector: "cb-button",
     content: { default: "Content" },
     props: [
-      { name: "severity", kind: "enum", type: "CbSeverity", default: "primary", description: "Severidad semántica (color)." },
-      { name: "variant", kind: "enum", type: "CbButtonVariant", default: "solid", description: "Variante visual." },
-      { name: "size", kind: "enum", type: "CbSize", default: "md", description: "Tamaño del botón." },
+      { name: "severity", kind: "enum", type: "CbSeverity", options: ["primary", "secondary", "success", "warning", "danger", "info", "help", "contrast"], default: "primary", description: "Severidad semántica (color)." },
+      { name: "variant", kind: "enum", type: "CbButtonVariant", options: ["solid", "outlined", "text"], default: "solid", description: "Variante visual." },
+      { name: "size", kind: "enum", type: "CbSize", options: ["sm", "md", "lg"], default: "md", description: "Tamaño del botón." },
       { name: "disabled", kind: "boolean", type: "boolean", default: false, description: "Deshabilita el botón." },
       { name: "loading", kind: "boolean", type: "boolean", default: false, description: "Muestra un spinner y bloquea la interacción." },
       { name: "fullWidth", kind: "boolean", type: "boolean", default: false, description: "Ocupa todo el ancho disponible." },
-      { name: "type", kind: "enum", type: "CbButtonType", default: "button", description: "Tipo nativo del botón." }
+      { name: "type", kind: "enum", type: "CbButtonType", options: ["button", "submit", "reset"], default: "button", description: "Tipo nativo del botón." }
     ]
   },
   "cb-button-group": {
@@ -268,7 +268,7 @@ export const DOC_API: Record<string, DocApi> = {
     selector: "cb-button-group",
     content: { default: "Content" },
     props: [
-      { name: "orientation", kind: "enum", type: "'horizontal' | 'vertical'", default: "horizontal", description: "Dirección del grupo." },
+      { name: "orientation", kind: "enum", type: "'horizontal' | 'vertical'", options: ["horizontal", "vertical"], default: "horizontal", description: "Dirección del grupo." },
       { name: "ariaLabel", kind: "string", type: "string", default: "Grupo de acciones", description: "Etiqueta accesible del grupo." }
     ]
   },
@@ -359,7 +359,7 @@ export const DOC_API: Record<string, DocApi> = {
     component: CbChart,
     selector: "cb-chart",
     props: [
-      { name: "type", kind: "enum", type: "CbChartType", default: "bar", description: "" },
+      { name: "type", kind: "enum", type: "CbChartType", options: ["bar", "line", "doughnut", "pie"], default: "bar", description: "" },
       { name: "data", kind: "string", type: "CbChartData", default: { labels: ['Jan', 'Feb', 'Mar'], datasets: [{ label: 'Sales', data: [12, 19, 8] }] }, description: "", control: false },
       { name: "height", kind: "number", type: "number", default: 220, description: "" },
       { name: "showLegend", kind: "boolean", type: "boolean", default: true, description: "" },
@@ -372,7 +372,7 @@ export const DOC_API: Record<string, DocApi> = {
     props: [
       { name: "label", kind: "string", type: "string", default: "", description: "Etiqueta mostrada junto al control." },
       { name: "ariaLabel", kind: "string", type: "string", default: "", description: "`aria-label` cuando no hay `label` visible." },
-      { name: "size", kind: "enum", type: "CbSize", default: "md", description: "Tamaño." },
+      { name: "size", kind: "enum", type: "CbSize", options: ["sm", "md", "lg"], default: "md", description: "Tamaño." },
       { name: "value", kind: "string", type: "boolean", default: true, description: "Valor que aporta a la lista cuando el modelo enlazado es un array.", control: false },
       { name: "indeterminate", kind: "boolean", type: "boolean", default: false, description: "Estado indeterminado (visual + `aria-checked=\"mixed\"`)." },
       { name: "invalid", kind: "boolean", type: "boolean", default: false, description: "Marca visual y ARIA de estado inválido." },
@@ -404,7 +404,7 @@ export const DOC_API: Record<string, DocApi> = {
     props: [
       { name: "value", kind: "string", type: "string[] (model)", default: ['angular', 'design', 'caribe'], description: "", control: false },
       { name: "placeholder", kind: "string", type: "string", default: "", description: "" },
-      { name: "size", kind: "enum", type: "CbSize", default: "md", description: "" },
+      { name: "size", kind: "enum", type: "CbSize", options: ["sm", "md", "lg"], default: "md", description: "" },
       { name: "invalid", kind: "boolean", type: "boolean", default: false, description: "" },
       { name: "readonly", kind: "boolean", type: "boolean", default: false, description: "" },
       { name: "disabled", kind: "boolean", type: "boolean", default: false, description: "" },
@@ -445,7 +445,7 @@ export const DOC_API: Record<string, DocApi> = {
     selector: "cb-colorpicker",
     props: [
       { name: "value", kind: "string", type: "string (model)", default: "#10b981", description: "Color seleccionado (hex `#rrggbb`). Two-way opcional fuera de Forms." },
-      { name: "size", kind: "enum", type: "CbSize", default: "md", description: "" },
+      { name: "size", kind: "enum", type: "CbSize", options: ["sm", "md", "lg"], default: "md", description: "" },
       { name: "showValue", kind: "boolean", type: "boolean", default: true, description: "Muestra el texto del hex junto al swatch del trigger." },
       { name: "presets", kind: "string", type: "readonly string[]", default: ['#10b981', '#3b82f6', '#f59e0b', '#ef4444'], description: "Colores predefinidos; `[]` los oculta.", control: false },
       { name: "invalid", kind: "boolean", type: "boolean", default: false, description: "" },
@@ -508,7 +508,7 @@ export const DOC_API: Record<string, DocApi> = {
     selector: "cb-dataview",
     props: [
       { name: "value", kind: "string", type: "readonly CbDataViewItem[]", default: [{ id: 1, title: 'Wireless Mouse', category: 'Accessories', description: 'Ergonomic, 2.4GHz.' }, { id: 2, title: 'Mechanical Keyboard', category: 'Accessories', description: 'RGB backlight.' }], description: "", control: false },
-      { name: "layout", kind: "enum", type: "'grid'|'list' (model)", default: "grid", description: "" },
+      { name: "layout", kind: "enum", type: "'grid'|'list' (model)", options: ["grid", "list"], default: "grid", description: "" },
       { name: "selection", kind: "string", type: "CbDataViewItem|null (model)", default: "", description: "" },
       { name: "emptyMessage", kind: "string", type: "string", default: "Sin resultados", description: "" }
     ]
@@ -522,7 +522,7 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "hint", kind: "string", type: "string", default: "", description: "" },
       { name: "error", kind: "string", type: "string", default: "", description: "" },
       { name: "placeholder", kind: "string", type: "string", default: "", description: "" },
-      { name: "size", kind: "enum", type: "CbSize", default: "md", description: "" },
+      { name: "size", kind: "enum", type: "CbSize", options: ["sm", "md", "lg"], default: "md", description: "" },
       { name: "invalid", kind: "boolean", type: "boolean", default: false, description: "" },
       { name: "required", kind: "boolean", type: "boolean", default: false, description: "" },
       { name: "disabled", kind: "boolean", type: "boolean", default: false, description: "" },
@@ -556,9 +556,9 @@ export const DOC_API: Record<string, DocApi> = {
     selector: "cb-divider",
     content: { default: "Content" },
     props: [
-      { name: "orientation", kind: "enum", type: "'horizontal' | 'vertical'", default: "horizontal", description: "" },
-      { name: "align", kind: "enum", type: "'start' | 'center' | 'end'", default: "center", description: "Posición de la etiqueta (solo horizontal)." },
-      { name: "type", kind: "enum", type: "'solid' | 'dashed' | 'dotted'", default: "solid", description: "Estilo de la línea." }
+      { name: "orientation", kind: "enum", type: "'horizontal' | 'vertical'", options: ["horizontal", "vertical"], default: "horizontal", description: "" },
+      { name: "align", kind: "enum", type: "'start' | 'center' | 'end'", options: ["start", "center", "end"], default: "center", description: "Posición de la etiqueta (solo horizontal)." },
+      { name: "type", kind: "enum", type: "'solid' | 'dashed' | 'dotted'", options: ["solid", "dashed", "dotted"], default: "solid", description: "Estilo de la línea." }
     ]
   },
   "cb-dock": {
@@ -566,7 +566,7 @@ export const DOC_API: Record<string, DocApi> = {
     selector: "cb-dock",
     props: [
       { name: "items", kind: "string", type: "readonly CbDockItem[]", default: [{ label: 'Home', icon: 'house' }, { label: 'Search', icon: 'search' }, { label: 'Profile', icon: 'user' }, { label: 'Settings', icon: 'settings' }], description: "", control: false },
-      { name: "position", kind: "enum", type: "CbDockPosition", default: "bottom", description: "" },
+      { name: "position", kind: "enum", type: "CbDockPosition", options: ["top", "right", "bottom", "left"], default: "bottom", description: "" },
       { name: "ariaLabel", kind: "string", type: "string", default: "Application dock", description: "" }
     ],
     events: [
@@ -702,7 +702,7 @@ export const DOC_API: Record<string, DocApi> = {
     selector: "cb-float-label",
     content: { default: "Content" },
     props: [
-      { name: "variant", kind: "enum", type: "CbFloatLabelVariant", default: "on", description: "" }
+      { name: "variant", kind: "enum", type: "CbFloatLabelVariant", options: ["over", "in", "on"], default: "on", description: "" }
     ]
   },
   "cb-float-menu": {
@@ -753,7 +753,7 @@ export const DOC_API: Record<string, DocApi> = {
     selector: "cb-icon",
     props: [
       { name: "name", kind: "string", type: "string", description: "Nombre del icono en el registro (p. ej. `chevron-down`)." },
-      { name: "size", kind: "enum", type: "CbIconSize", default: "md", description: "Tamaño: `sm` (16) · `md` (20) · `lg` (24) · `xl` (32) o un número en px." },
+      { name: "size", kind: "enum", type: "CbIconSize", options: ["sm", "md", "lg", "xl"], default: "md", description: "Tamaño: `sm` (16) · `md` (20) · `lg` (24) · `xl` (32) o un número en px." },
       { name: "spin", kind: "boolean", type: "boolean", default: false, description: "Anima el icono girando (útil con `loader`)." },
       { name: "ariaLabel", kind: "string", type: "string", default: "", description: "Nombre accesible. Si se omite, el icono es decorativo (`aria-hidden`)." }
     ]
@@ -764,7 +764,7 @@ export const DOC_API: Record<string, DocApi> = {
     props: [
       { name: "icon", kind: "string", type: "string", default: "plus", description: "Nombre del icono del set núcleo." },
       { name: "ariaLabel", kind: "string", type: "string", default: "Acción", description: "Etiqueta accesible del botón." },
-      { name: "variant", kind: "enum", type: "'solid' | 'ghost'", default: "solid", description: "Variante visual." },
+      { name: "variant", kind: "enum", type: "'solid' | 'ghost'", options: ["solid", "ghost"], default: "solid", description: "Variante visual." },
       { name: "disabled", kind: "boolean", type: "boolean", default: false, description: "Deshabilita la acción." }
     ],
     events: [
@@ -776,7 +776,7 @@ export const DOC_API: Record<string, DocApi> = {
     selector: "cb-icon-field",
     content: { default: "Content" },
     props: [
-      { name: "iconPosition", kind: "enum", type: "CbIconFieldPosition", default: "left", description: "" }
+      { name: "iconPosition", kind: "enum", type: "CbIconFieldPosition", options: ["left", "right"], default: "left", description: "" }
     ]
   },
   "cb-illustration": {
@@ -805,7 +805,7 @@ export const DOC_API: Record<string, DocApi> = {
     content: { default: "Content" },
     props: [
       { name: "title", kind: "string", type: "string", default: "", description: "" },
-      { name: "status", kind: "enum", type: "'success' | 'warning' | 'error' | 'info'", default: "info", description: "" },
+      { name: "status", kind: "enum", type: "'success' | 'warning' | 'error' | 'info'", options: ["success", "warning", "error", "info"], default: "info", description: "" },
       { name: "closable", kind: "boolean", type: "boolean", default: true, description: "" },
       { name: "visible", kind: "boolean", type: "boolean (model)", default: true, description: "" }
     ],
@@ -818,7 +818,7 @@ export const DOC_API: Record<string, DocApi> = {
     selector: "cb-inline-message",
     content: { default: "Content" },
     props: [
-      { name: "severity", kind: "enum", type: "CbInlineMessageSeverity", default: "info", description: "" },
+      { name: "severity", kind: "enum", type: "CbInlineMessageSeverity", options: ["info", "success", "warn", "danger"], default: "info", description: "" },
       { name: "text", kind: "string", type: "string", default: "", description: "" }
     ]
   },
@@ -841,9 +841,9 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "hint", kind: "string", type: "string", default: "", description: "Texto de ayuda bajo el campo." },
       { name: "error", kind: "string", type: "string", default: "", description: "Mensaje de error (se muestra cuando `invalid` es true)." },
       { name: "invalid", kind: "boolean", type: "boolean", default: false, description: "Marca visual y ARIA de estado inválido." },
-      { name: "type", kind: "enum", type: "CbInputType", default: "text", description: "Tipo nativo del input." },
+      { name: "type", kind: "enum", type: "CbInputType", options: ["text", "email", "password", "search", "tel", "url", "number"], default: "text", description: "Tipo nativo del input." },
       { name: "placeholder", kind: "string", type: "string", default: "", description: "Placeholder." },
-      { name: "size", kind: "enum", type: "CbSize", default: "md", description: "Tamaño." },
+      { name: "size", kind: "enum", type: "CbSize", options: ["sm", "md", "lg"], default: "md", description: "Tamaño." },
       { name: "readonly", kind: "boolean", type: "boolean", default: false, description: "Solo lectura." },
       { name: "required", kind: "boolean", type: "boolean", default: false, description: "Marca el campo como requerido (atributo + indicador visual)." },
       { name: "inputmode", kind: "string", type: "string | null", default: "", description: "`inputmode` para teclados móviles." },
@@ -891,7 +891,7 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "hint", kind: "string", type: "string", default: "", description: "" },
       { name: "error", kind: "string", type: "string", default: "", description: "" },
       { name: "placeholder", kind: "string", type: "string", default: "", description: "" },
-      { name: "size", kind: "enum", type: "CbSize", default: "md", description: "" },
+      { name: "size", kind: "enum", type: "CbSize", options: ["sm", "md", "lg"], default: "md", description: "" },
       { name: "invalid", kind: "boolean", type: "boolean", default: false, description: "" },
       { name: "required", kind: "boolean", type: "boolean", default: false, description: "" },
       { name: "readonly", kind: "boolean", type: "boolean", default: false, description: "" },
@@ -901,7 +901,7 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "max", kind: "string", type: "number | null", default: "", description: "Valor máximo permitido." },
       { name: "step", kind: "number", type: "number", default: 1, description: "Incremento de los botones y de las flechas." },
       { name: "showButtons", kind: "boolean", type: "boolean", default: false, description: "Muestra los botones de incremento/decremento." },
-      { name: "mode", kind: "enum", type: "'decimal' | 'currency'", default: "decimal", description: "'decimal' (por defecto) o 'currency'." },
+      { name: "mode", kind: "enum", type: "'decimal' | 'currency'", options: ["decimal", "currency"], default: "decimal", description: "'decimal' (por defecto) o 'currency'." },
       { name: "currency", kind: "string", type: "string", default: "USD", description: "Código ISO de moneda cuando mode='currency' (p. ej. 'USD', 'COP', 'EUR')." },
       { name: "locale", kind: "string", type: "string | undefined", default: "", description: "Locale BCP 47 para el formato (por defecto el del navegador)." },
       { name: "useGrouping", kind: "boolean", type: "boolean", default: true, description: "Agrupación de miles." },
@@ -967,7 +967,7 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "step", kind: "number", type: "number", default: 1, description: "" },
       { name: "size", kind: "number", type: "number", default: 100, description: "" },
       { name: "strokeWidth", kind: "number", type: "number", default: 12, description: "" },
-      { name: "severity", kind: "enum", type: "CbSeverity", default: "primary", description: "" },
+      { name: "severity", kind: "enum", type: "CbSeverity", options: ["primary", "secondary", "success", "warning", "danger", "info", "help", "contrast"], default: "primary", description: "" },
       { name: "showValue", kind: "boolean", type: "boolean", default: true, description: "" },
       { name: "suffix", kind: "string", type: "string", default: "", description: "Sufijo del texto central (p. ej. `%`)." },
       { name: "disabled", kind: "boolean", type: "boolean", default: false, description: "" },
@@ -1013,7 +1013,7 @@ export const DOC_API: Record<string, DocApi> = {
     selector: "cb-loader",
     props: [
       { name: "text", kind: "string", type: "string", default: "Cargando información…", description: "" },
-      { name: "size", kind: "enum", type: "'sm' | 'md' | 'lg'", default: "md", description: "" }
+      { name: "size", kind: "enum", type: "'sm' | 'md' | 'lg'", options: ["sm", "md", "lg"], default: "md", description: "" }
     ]
   },
   "cb-logo": {
@@ -1065,7 +1065,7 @@ export const DOC_API: Record<string, DocApi> = {
     selector: "cb-message",
     content: { default: "Content" },
     props: [
-      { name: "severity", kind: "enum", type: "CbSeverity", default: "info", description: "" },
+      { name: "severity", kind: "enum", type: "CbSeverity", options: ["primary", "secondary", "success", "warning", "danger", "info", "help", "contrast"], default: "info", description: "" },
       { name: "closable", kind: "boolean", type: "boolean", default: false, description: "Muestra el botón de cerrar." },
       { name: "icon", kind: "string", type: "string | null", default: "", description: "Icono (sobrescribe el de la severidad); `''` para ocultarlo." },
       { name: "visible", kind: "boolean", type: "boolean (model)", default: true, description: "Visibilidad (two-way)." }
@@ -1105,7 +1105,7 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "optionValue", kind: "string", type: "string | null", default: "", description: "" },
       { name: "optionDisabled", kind: "string", type: "string", default: "disabled", description: "" },
       { name: "placeholder", kind: "string", type: "string", default: "Seleccionar", description: "" },
-      { name: "size", kind: "enum", type: "CbSize", default: "md", description: "" },
+      { name: "size", kind: "enum", type: "CbSize", options: ["sm", "md", "lg"], default: "md", description: "" },
       { name: "filter", kind: "boolean", type: "boolean", default: false, description: "" },
       { name: "filterPlaceholder", kind: "string", type: "string", default: "Buscar…", description: "" },
       { name: "emptyMessage", kind: "string", type: "string", default: "Sin resultados", description: "" },
@@ -1123,7 +1123,7 @@ export const DOC_API: Record<string, DocApi> = {
     content: { default: "Content" },
     props: [
       { name: "title", kind: "string", type: "string", default: "Panel lateral", description: "Título del panel." },
-      { name: "position", kind: "enum", type: "'left' | 'right' | 'bottom'", default: "right", description: "Lado de aparición." },
+      { name: "position", kind: "enum", type: "'left' | 'right' | 'bottom'", options: ["left", "right", "bottom"], default: "right", description: "Lado de aparición." },
       { name: "open", kind: "boolean", type: "boolean (model)", default: false, description: "Estado abierto/cerrado (two-way)." }
     ]
   },
@@ -1206,7 +1206,7 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "invalid", kind: "boolean", type: "boolean", default: false, description: "" },
       { name: "toggleMask", kind: "boolean", type: "boolean", default: true, description: "" },
       { name: "feedback", kind: "boolean", type: "boolean", default: true, description: "" },
-      { name: "size", kind: "enum", type: "CbPasswordSize", default: "md", description: "" },
+      { name: "size", kind: "enum", type: "CbPasswordSize", options: ["sm", "md", "lg"], default: "md", description: "" },
       { name: "inputId", kind: "string", type: "string", default: "", description: "", control: false },
       { name: "autocomplete", kind: "string", type: "string", default: "current-password", description: "" },
       { name: "value", kind: "string", type: "string (model)", default: "", description: "" }
@@ -1275,8 +1275,8 @@ export const DOC_API: Record<string, DocApi> = {
     props: [
       { name: "value", kind: "number", type: "number | null", default: 0, description: "Valor 0–100. `null` activa el modo indeterminado." },
       { name: "showValue", kind: "boolean", type: "boolean", default: false, description: "Muestra el porcentaje a la derecha." },
-      { name: "severity", kind: "enum", type: "CbSeverity", default: "primary", description: "" },
-      { name: "size", kind: "enum", type: "'sm' | 'md' | 'lg'", default: "md", description: "" },
+      { name: "severity", kind: "enum", type: "CbSeverity", options: ["primary", "secondary", "success", "warning", "danger", "info", "help", "contrast"], default: "primary", description: "" },
+      { name: "size", kind: "enum", type: "'sm' | 'md' | 'lg'", options: ["sm", "md", "lg"], default: "md", description: "" },
       { name: "ariaLabel", kind: "string", type: "string", default: "", description: "" }
     ]
   },
@@ -1298,8 +1298,8 @@ export const DOC_API: Record<string, DocApi> = {
     props: [
       { name: "ariaLabel", kind: "string", type: "string", default: "", description: "`aria-label` del grupo (recomendado para accesibilidad)." },
       { name: "name", kind: "string", type: "string", default: "", description: "Nombre compartido por los radios nativos; se genera uno si se omite.", control: false },
-      { name: "size", kind: "enum", type: "CbSize", default: "md", description: "Tamaño aplicado a los radios hijos." },
-      { name: "orientation", kind: "enum", type: "'vertical' | 'horizontal'", default: "vertical", description: "Disposición de los items." },
+      { name: "size", kind: "enum", type: "CbSize", options: ["sm", "md", "lg"], default: "md", description: "Tamaño aplicado a los radios hijos." },
+      { name: "orientation", kind: "enum", type: "'vertical' | 'horizontal'", options: ["vertical", "horizontal"], default: "vertical", description: "Disposición de los items." },
       { name: "disabled", kind: "boolean", type: "boolean", default: false, description: "Deshabilita todo el grupo." }
     ],
     events: [
@@ -1312,7 +1312,7 @@ export const DOC_API: Record<string, DocApi> = {
     props: [
       { name: "value", kind: "number", type: "number (model)", default: 0, description: "Valor seleccionado (two-way opcional fuera de Angular Forms)." },
       { name: "stars", kind: "number", type: "number", default: 5, description: "Número de estrellas." },
-      { name: "size", kind: "enum", type: "CbSize", default: "md", description: "Tamaño." },
+      { name: "size", kind: "enum", type: "CbSize", options: ["sm", "md", "lg"], default: "md", description: "Tamaño." },
       { name: "readonly", kind: "boolean", type: "boolean", default: false, description: "Solo lectura (no editable, pero muestra el valor)." },
       { name: "disabled", kind: "boolean", type: "boolean", default: false, description: "Deshabilitado declarativo (se combina con Angular Forms)." },
       { name: "ariaLabel", kind: "string", type: "string", default: "", description: "Etiqueta accesible del control." },
@@ -1336,7 +1336,7 @@ export const DOC_API: Record<string, DocApi> = {
     component: CbScrollTop,
     selector: "cb-scroll-top",
     props: [
-      { name: "target", kind: "enum", type: "CbScrollTopTarget", default: "window", description: "Elemento cuyo desplazamiento se escucha: `'window'` o `'parent'`." },
+      { name: "target", kind: "enum", type: "CbScrollTopTarget", options: ["window", "parent"], default: "window", description: "Elemento cuyo desplazamiento se escucha: `'window'` o `'parent'`." },
       { name: "threshold", kind: "number", type: "number", default: 200, description: "Píxeles desplazados a partir de los cuales se muestra el botón." },
       { name: "behavior", kind: "string", type: "ScrollBehavior", default: "smooth", description: "Comportamiento del scroll al volver arriba." },
       { name: "icon", kind: "string", type: "string", default: "chevron-up", description: "Nombre del icono de `<cb-icon>`." },
@@ -1352,7 +1352,7 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "optionValue", kind: "string", type: "string | null", default: "", description: "" },
       { name: "optionDisabled", kind: "string", type: "string", default: "disabled", description: "" },
       { name: "placeholder", kind: "string", type: "string", default: "Seleccionar", description: "" },
-      { name: "size", kind: "enum", type: "CbSize", default: "md", description: "" },
+      { name: "size", kind: "enum", type: "CbSize", options: ["sm", "md", "lg"], default: "md", description: "" },
       { name: "filter", kind: "boolean", type: "boolean", default: false, description: "" },
       { name: "filterPlaceholder", kind: "string", type: "string", default: "Buscar…", description: "" },
       { name: "emptyMessage", kind: "string", type: "string", default: "Sin resultados", description: "" },
@@ -1371,7 +1371,7 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "optionValue", kind: "string", type: "string | null", default: "", description: "" },
       { name: "optionDisabled", kind: "string", type: "string", default: "disabled", description: "" },
       { name: "multiple", kind: "boolean", type: "boolean", default: false, description: "" },
-      { name: "size", kind: "enum", type: "CbSize", default: "md", description: "" },
+      { name: "size", kind: "enum", type: "CbSize", options: ["sm", "md", "lg"], default: "md", description: "" },
       { name: "disabled", kind: "boolean", type: "boolean", default: false, description: "" },
       { name: "ariaLabel", kind: "string", type: "string", default: "", description: "" },
       { name: "inputId", kind: "string", type: "string", default: "", description: "", control: false },
@@ -1399,8 +1399,8 @@ export const DOC_API: Record<string, DocApi> = {
     props: [
       { name: "width", kind: "string", type: "string", default: "100%", description: "Ancho CSS (p. ej. `100%`, `12rem`)." },
       { name: "height", kind: "string", type: "string", default: "", description: "Alto CSS. En `circle` se iguala al ancho." },
-      { name: "shape", kind: "enum", type: "'text' | 'rect' | 'circle'", default: "text", description: "" },
-      { name: "animation", kind: "enum", type: "'pulse' | 'wave' | 'none'", default: "wave", description: "" }
+      { name: "shape", kind: "enum", type: "'text' | 'rect' | 'circle'", options: ["text", "rect", "circle"], default: "text", description: "" },
+      { name: "animation", kind: "enum", type: "'pulse' | 'wave' | 'none'", options: ["pulse", "wave", "none"], default: "wave", description: "" }
     ]
   },
   "cb-slider": {
@@ -1411,7 +1411,7 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "min", kind: "number", type: "number", default: 0, description: "" },
       { name: "max", kind: "number", type: "number", default: 100, description: "" },
       { name: "step", kind: "number", type: "number", default: 1, description: "" },
-      { name: "size", kind: "enum", type: "CbSize", default: "md", description: "" },
+      { name: "size", kind: "enum", type: "CbSize", options: ["sm", "md", "lg"], default: "md", description: "" },
       { name: "disabled", kind: "boolean", type: "boolean", default: false, description: "" },
       { name: "ariaLabel", kind: "string", type: "string", default: "", description: "" },
       { name: "inputId", kind: "string", type: "string", default: "", description: "", control: false }
@@ -1425,7 +1425,7 @@ export const DOC_API: Record<string, DocApi> = {
     selector: "cb-speed-dial",
     props: [
       { name: "items", kind: "string", type: "readonly CbSpeedDialItem[]", default: [{ label: 'Add', icon: 'plus' }, { label: 'Search', icon: 'search' }, { label: 'Settings', icon: 'settings' }], description: "", control: false },
-      { name: "direction", kind: "enum", type: "CbSpeedDialDirection", default: "up", description: "" },
+      { name: "direction", kind: "enum", type: "CbSpeedDialDirection", options: ["up", "down", "left", "right"], default: "up", description: "" },
       { name: "icon", kind: "string", type: "string", default: "plus", description: "" },
       { name: "closeIcon", kind: "string", type: "string", default: "x", description: "" },
       { name: "openLabel", kind: "string", type: "string", default: "Abrir acciones", description: "" },
@@ -1442,7 +1442,7 @@ export const DOC_API: Record<string, DocApi> = {
     props: [
       { name: "size", kind: "number", type: "number", default: 32, description: "Tamaño en píxeles." },
       { name: "strokeWidth", kind: "number", type: "number", default: 4, description: "Grosor del trazo." },
-      { name: "severity", kind: "enum", type: "CbSeverity", default: "primary", description: "" },
+      { name: "severity", kind: "enum", type: "CbSeverity", options: ["primary", "secondary", "success", "warning", "danger", "info", "help", "contrast"], default: "primary", description: "" },
       { name: "ariaLabel", kind: "string", type: "string", default: "", description: "" }
     ]
   },
@@ -1451,7 +1451,7 @@ export const DOC_API: Record<string, DocApi> = {
     selector: "cb-splitter",
     content: { default: "Content" },
     props: [
-      { name: "layout", kind: "enum", type: "CbSplitterLayout", default: "horizontal", description: "Orientación de la división: `'horizontal'` (lado a lado) o `'vertical'` (apilados)." },
+      { name: "layout", kind: "enum", type: "CbSplitterLayout", options: ["horizontal", "vertical"], default: "horizontal", description: "Orientación de la división: `'horizontal'` (lado a lado) o `'vertical'` (apilados)." },
       { name: "gutterSize", kind: "number", type: "number", default: 8, description: "Grosor del separador en píxeles." },
       { name: "step", kind: "number", type: "number", default: 5, description: "Paso porcentual al redimensionar con teclado." },
       { name: "size", kind: "string", type: "number | undefined", default: "", description: "Tamaño inicial del panel en porcentaje (0–100)." },
@@ -1467,7 +1467,7 @@ export const DOC_API: Record<string, DocApi> = {
     content: { default: "Content" },
     props: [
       { name: "text", kind: "string", type: "string", default: "", description: "" },
-      { name: "status", kind: "enum", type: "'success' | 'warning' | 'error' | 'info'", default: "info", description: "" }
+      { name: "status", kind: "enum", type: "'success' | 'warning' | 'error' | 'info'", options: ["success", "warning", "error", "info"], default: "info", description: "" }
     ]
   },
   "cb-step-indicator": {
@@ -1554,7 +1554,7 @@ export const DOC_API: Record<string, DocApi> = {
     content: { default: "Content" },
     props: [
       { name: "value", kind: "string", type: "string", default: "", description: "" },
-      { name: "severity", kind: "enum", type: "CbSeverity", default: "primary", description: "" },
+      { name: "severity", kind: "enum", type: "CbSeverity", options: ["primary", "secondary", "success", "warning", "danger", "info", "help", "contrast"], default: "primary", description: "" },
       { name: "icon", kind: "string", type: "string", default: "", description: "Icono (nombre del set de" },
       { name: "rounded", kind: "boolean", type: "boolean", default: false, description: "Esquinas totalmente redondeadas (pill)." }
     ]
@@ -1592,7 +1592,7 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "error", kind: "string", type: "string", default: "", description: "Mensaje de error (se muestra cuando `invalid` es true)." },
       { name: "invalid", kind: "boolean", type: "boolean", default: false, description: "Marca visual y ARIA de estado inválido." },
       { name: "placeholder", kind: "string", type: "string", default: "", description: "Placeholder." },
-      { name: "size", kind: "enum", type: "CbSize", default: "md", description: "Tamaño." },
+      { name: "size", kind: "enum", type: "CbSize", options: ["sm", "md", "lg"], default: "md", description: "Tamaño." },
       { name: "rows", kind: "number", type: "number", default: 3, description: "Número de filas inicial." },
       { name: "autoResize", kind: "boolean", type: "boolean", default: false, description: "Crece automáticamente con el contenido (ignora el scroll vertical)." },
       { name: "maxlength", kind: "string", type: "number | null", default: "", description: "Límite de caracteres; muestra un contador cuando se define." },
@@ -1619,7 +1619,7 @@ export const DOC_API: Record<string, DocApi> = {
     selector: "cb-timeline",
     props: [
       { name: "value", kind: "string", type: "readonly CbTimelineEvent[]", default: [{ date: 'Oct 18, 2026', title: 'Payment sent', description: 'Transfer to savings account.' }, { date: 'Oct 17, 2026', title: 'Card reloaded', description: 'Top-up of $ 50,000.' }, { date: 'Oct 15, 2026', title: 'Account opened' }], description: "", control: false },
-      { name: "orientation", kind: "enum", type: "'vertical'|'horizontal'", default: "vertical", description: "" },
+      { name: "orientation", kind: "enum", type: "'vertical'|'horizontal'", options: ["vertical", "horizontal"], default: "vertical", description: "" },
       { name: "ariaLabel", kind: "string", type: "string", default: "Cronología", description: "" }
     ]
   },
@@ -1627,7 +1627,7 @@ export const DOC_API: Record<string, DocApi> = {
     component: CbToast,
     selector: "cb-toast",
     props: [
-      { name: "position", kind: "enum", type: "CbToastPosition", default: "top-right", description: "" }
+      { name: "position", kind: "enum", type: "CbToastPosition", options: ["top-right", "top-left", "top-center", "bottom-right", "bottom-left", "bottom-center"], default: "top-right", description: "" }
     ]
   },
   "cb-toggle": {
@@ -1636,7 +1636,7 @@ export const DOC_API: Record<string, DocApi> = {
     props: [
       { name: "label", kind: "string", type: "string", default: "", description: "Etiqueta mostrada junto al control." },
       { name: "ariaLabel", kind: "string", type: "string", default: "", description: "`aria-label` cuando no hay `label` visible." },
-      { name: "size", kind: "enum", type: "CbSize", default: "md", description: "Tamaño." },
+      { name: "size", kind: "enum", type: "CbSize", options: ["sm", "md", "lg"], default: "md", description: "Tamaño." },
       { name: "disabled", kind: "boolean", type: "boolean", default: false, description: "Deshabilitado de forma declarativa (se combina con Angular Forms)." },
       { name: "inputId", kind: "string", type: "string", default: "", description: "Id del input; se genera uno estable si no se provee.", control: false }
     ],
@@ -1652,7 +1652,7 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "offLabel", kind: "string", type: "string", default: "No", description: "" },
       { name: "onIcon", kind: "string", type: "string", default: "", description: "" },
       { name: "offIcon", kind: "string", type: "string", default: "", description: "" },
-      { name: "size", kind: "enum", type: "CbSize", default: "md", description: "" },
+      { name: "size", kind: "enum", type: "CbSize", options: ["sm", "md", "lg"], default: "md", description: "" },
       { name: "disabled", kind: "boolean", type: "boolean", default: false, description: "" },
       { name: "ariaLabel", kind: "string", type: "string", default: "", description: "" },
       { name: "inputId", kind: "string", type: "string", default: "", description: "", control: false },
@@ -1675,7 +1675,7 @@ export const DOC_API: Record<string, DocApi> = {
     selector: "cb-tooltip-content",
     props: [
       { name: "text", kind: "string", type: "string", default: "", description: "" },
-      { name: "position", kind: "enum", type: "'top' | 'bottom' | 'left' | 'right'", default: "top", description: "" }
+      { name: "position", kind: "enum", type: "'top' | 'bottom' | 'left' | 'right'", options: ["top", "bottom", "left", "right"], default: "top", description: "" }
     ]
   },
   "cb-tracker": {
@@ -1690,7 +1690,7 @@ export const DOC_API: Record<string, DocApi> = {
     component: CbTransactionStatus,
     selector: "cb-transaction-status",
     props: [
-      { name: "status", kind: "enum", type: "'success' | 'warning' | 'error' | 'info'", default: "success", description: "" },
+      { name: "status", kind: "enum", type: "'success' | 'warning' | 'error' | 'info'", options: ["success", "warning", "error", "info"], default: "success", description: "" },
       { name: "label", kind: "string", type: "string", default: "Transacción completada", description: "" }
     ]
   },
