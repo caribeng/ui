@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { CbInplaceComponent } from './inplace.component';
+import { CbInplace } from './inplace.component';
 
 @Component({
-  imports: [CbInplaceComponent],
+  imports: [CbInplace],
   template: `
     <cb-inplace [closable]="true">
       <span cb-inplace-display>Editar título</span>
@@ -13,7 +13,7 @@ import { CbInplaceComponent } from './inplace.component';
 })
 class HostComponent {}
 
-describe('CbInplaceComponent', () => {
+describe('CbInplace', () => {
   it('muestra el contenido al hacer clic en display y vuelve al cerrar', () => {
     const fixture = TestBed.createComponent(HostComponent);
     fixture.detectChanges();

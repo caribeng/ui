@@ -2,6 +2,6 @@
  * Public API Surface de @caribeng/ui/paginator
  */
 export {
-  CbPaginatorComponent,
+  CbPaginator,
   type CbPaginatorState,
 } from './lib/paginator.component';

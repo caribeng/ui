@@ -2,12 +2,12 @@ import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { beforeEach, describe, expect, it } from 'vitest';
 import {
-  CbAccordionComponent,
-  CbAccordionPanelComponent,
+  CbAccordion,
+  CbAccordionPanel,
 } from './accordion.component';
 
 @Component({
-  imports: [CbAccordionComponent, CbAccordionPanelComponent],
+  imports: [CbAccordion, CbAccordionPanel],
   template: `
     <cb-accordion [multiple]="multiple()">
       <cb-accordion-panel header="Uno"><p class="c1">Contenido 1</p></cb-accordion-panel>
@@ -19,7 +19,7 @@ class HostComponent {
   multiple = signal(false);
 }
 
-describe('CbAccordionComponent', () => {
+describe('CbAccordion', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({ imports: [HostComponent] });
   });

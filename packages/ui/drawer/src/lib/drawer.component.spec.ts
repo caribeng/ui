@@ -1,10 +1,10 @@
 import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { CbDrawerComponent } from './drawer.component';
+import { CbDrawer } from './drawer.component';
 
 @Component({
-  imports: [CbDrawerComponent],
+  imports: [CbDrawer],
   template: `
     <cb-drawer
       [visible]="open()"
@@ -22,7 +22,7 @@ class HostComponent {
   hidden = false;
 }
 
-describe('CbDrawerComponent', () => {
+describe('CbDrawer', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({ imports: [HostComponent] });
   });

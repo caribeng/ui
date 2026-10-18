@@ -1,11 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { describe, expect, it } from 'vitest';
-import { CbOrganizationChartComponent } from './organizationchart.component';
+import { CbOrganizationChart } from './organizationchart.component';
 
-describe('CbOrganizationChartComponent', () => {
+describe('CbOrganizationChart', () => {
   it('expands nested branches and selects a node', () => {
-    TestBed.configureTestingModule({ imports: [CbOrganizationChartComponent] });
-    const fixture = TestBed.createComponent(CbOrganizationChartComponent);
+    TestBed.configureTestingModule({ imports: [CbOrganizationChart] });
+    const fixture = TestBed.createComponent(CbOrganizationChart);
     fixture.componentRef.setInput('value', [
       { key: 'ceo', label: 'Dirección', children: [
         { key: 'eng', label: 'Ingeniería', children: [{ key: 'dev', label: 'Desarrollo' }] },
@@ -24,8 +24,8 @@ describe('CbOrganizationChartComponent', () => {
   });
 
   it('collapses expanded branches', () => {
-    TestBed.configureTestingModule({ imports: [CbOrganizationChartComponent] });
-    const fixture = TestBed.createComponent(CbOrganizationChartComponent);
+    TestBed.configureTestingModule({ imports: [CbOrganizationChart] });
+    const fixture = TestBed.createComponent(CbOrganizationChart);
     fixture.componentRef.setInput('value', [{ key: 'root', label: 'Raíz', children: [{ key: 'child', label: 'Hijo' }] }]);
     fixture.detectChanges();
     fixture.nativeElement.querySelector('[aria-label="Expandir Raíz"]').click();

@@ -6,7 +6,7 @@ import {
   model,
   output,
 } from '@angular/core';
-import { CbIconComponent } from '@caribeng/ui/icon';
+import { CbIcon } from '@caribeng/ui/icon';
 
 let nextPanelUid = 0;
 
@@ -25,7 +25,7 @@ let nextPanelUid = 0;
   selector: 'cb-panel',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
-  imports: [CbIconComponent],
+  imports: [CbIcon],
   host: {
     class: 'cb-panel',
     '[class.cb-panel--toggleable]': 'toggleable()',
@@ -70,7 +70,7 @@ let nextPanelUid = 0;
   `,
   styleUrl: './panel.component.css',
 })
-export class CbPanelComponent {
+export class CbPanel {
   private readonly uid = ++nextPanelUid;
 
   /** Título mostrado en la cabecera del panel. */

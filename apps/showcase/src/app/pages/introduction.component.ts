@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { CbButtonComponent } from '@caribeng/ui/button';
-import { CbIconComponent } from '@caribeng/ui/icon';
+import { CbButton } from '@caribeng/ui/button';
+import { CbIcon } from '@caribeng/ui/icon';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
 import { TocService } from '../services/toc.service';
@@ -9,7 +9,7 @@ import { TocService } from '../services/toc.service';
 @Component({
   selector: 'doc-introduction',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, CbButtonComponent, CbIconComponent, CodeBlockComponent, DocPageHeaderComponent],
+  imports: [RouterLink, CbButton, CbIcon, CodeBlockComponent, DocPageHeaderComponent],
   template: `
     <doc-page-header
       eyebrow="Foundations"

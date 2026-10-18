@@ -23,7 +23,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => CbInputOtpComponent),
+      useExisting: forwardRef(() => CbInputOtp),
       multi: true,
     },
   ],
@@ -51,7 +51,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
   `,
   styleUrl: './inputotp.component.css',
 })
-export class CbInputOtpComponent implements ControlValueAccessor {
+export class CbInputOtp implements ControlValueAccessor {
   private readonly hostRef = inject<ElementRef<HTMLElement>>(ElementRef);
 
   readonly length = input<number>(6);

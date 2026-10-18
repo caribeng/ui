@@ -2,10 +2,10 @@ import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { CbListBoxComponent } from './listbox.component';
+import { CbListBox } from './listbox.component';
 
 @Component({
-  imports: [ReactiveFormsModule, CbListBoxComponent],
+  imports: [ReactiveFormsModule, CbListBox],
   template: `<cb-listbox [formControl]="control" [options]="opts" [multiple]="multiple()" />`,
 })
 class HostComponent {
@@ -14,7 +14,7 @@ class HostComponent {
   multiple = signal(false);
 }
 
-describe('CbListBoxComponent', () => {
+describe('CbListBox', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({ imports: [HostComponent] });
   });

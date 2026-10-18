@@ -5,7 +5,7 @@ import {
   input,
   model,
 } from '@angular/core';
-import { CbIconComponent } from '@caribeng/ui/icon';
+import { CbIcon } from '@caribeng/ui/icon';
 
 /**
  * Inplace de CaribeNG: alterna entre una vista previa (`[cb-inplace-display]`)
@@ -15,7 +15,7 @@ import { CbIconComponent } from '@caribeng/ui/icon';
   selector: 'cb-inplace',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
-  imports: [CbIconComponent],
+  imports: [CbIcon],
   host: {
     class: 'cb-inplace',
     '[class.cb-is-active]': 'active()',
@@ -48,7 +48,7 @@ import { CbIconComponent } from '@caribeng/ui/icon';
   `,
   styleUrl: './inplace.component.css',
 })
-export class CbInplaceComponent {
+export class CbInplace {
   readonly closable = input<boolean>(false);
   readonly disabled = input<boolean>(false);
 

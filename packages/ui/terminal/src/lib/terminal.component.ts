@@ -51,7 +51,7 @@ export interface CbTerminalEntry {
   `,
   styleUrl: './terminal.component.css',
 })
-export class CbTerminalComponent {
+export class CbTerminal {
   readonly welcomeMessage = input<string>('');
   readonly prompt = input<string>('caribeng $');
 

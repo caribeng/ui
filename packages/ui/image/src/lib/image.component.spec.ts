@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { CbImageComponent } from './image.component';
+import { CbImage } from './image.component';
 
 @Component({
-  imports: [CbImageComponent],
+  imports: [CbImage],
   template: `<cb-image src="https://picsum.photos/200" alt="Paisaje" [preview]="true" />`,
 })
 class HostComponent {}
 
-describe('CbImageComponent', () => {
+describe('CbImage', () => {
   it('renderiza la imagen y abre el lightbox al pulsar preview', () => {
     const fixture = TestBed.createComponent(HostComponent);
     fixture.detectChanges();

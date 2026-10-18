@@ -1,1 +1,1 @@
-export { CbPanelComponent } from './lib/panel.component';
+export { CbPanel } from './lib/panel.component';

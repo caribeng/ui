@@ -2,7 +2,7 @@
  * Public API Surface de @caribeng/ui/table
  */
 export {
-  CbTableComponent,
+  CbTable,
   CbTableCellDirective,
   type CbTableCellContext,
   type CbTableColumn,

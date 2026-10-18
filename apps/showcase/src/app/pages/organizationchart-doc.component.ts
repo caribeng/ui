@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import {
-  CbOrganizationChartComponent,
+  CbOrganizationChart,
   type CbOrganizationChartNode,
 } from '@caribeng/ui/organizationchart';
 import { CodeBlockComponent } from '../shared/code-block.component';
@@ -11,7 +11,7 @@ import { TocService } from '../services/toc.service';
 @Component({
   selector: 'doc-organizationchart-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbOrganizationChartComponent, CodeBlockComponent, DocPageHeaderComponent, DocSectionComponent],
+  imports: [CbOrganizationChart, CodeBlockComponent, DocPageHeaderComponent, DocSectionComponent],
   template: `
     <doc-page-header eyebrow="Data" title="OrganizationChart" lead="Organigrama jerárquico con expansión de ramas y selección de nodos." />
     <doc-section id="import" title="Import">
@@ -43,7 +43,7 @@ export class OrganizationChartDocComponent {
   ];
   protected readonly selection = signal<CbOrganizationChartNode | null>(null);
   protected readonly installCode = `npm install @caribeng/ui`;
-  protected readonly importCode = `import { CbOrganizationChartComponent } from '@caribeng/ui/organizationchart';`;
+  protected readonly importCode = `import { CbOrganizationChart } from '@caribeng/ui/organizationchart';`;
   protected readonly dataCode = `const organization = [{
   key: 'ceo', label: 'Dirección general', children: [
     { key: 'tech', label: 'Tecnología', children: [

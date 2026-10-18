@@ -2,12 +2,12 @@ import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { beforeEach, describe, expect, it } from 'vitest';
 import {
-  CbInputGroupComponent,
-  CbInputGroupAddonComponent,
+  CbInputGroup,
+  CbInputGroupAddon,
 } from './input-group.component';
 
 @Component({
-  imports: [CbInputGroupComponent, CbInputGroupAddonComponent],
+  imports: [CbInputGroup, CbInputGroupAddon],
   template: `
     <cb-input-group>
       <cb-input-group-addon>@</cb-input-group-addon>
@@ -18,7 +18,7 @@ import {
 })
 class HostComponent {}
 
-describe('CbInputGroupComponent', () => {
+describe('CbInputGroup', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({ imports: [HostComponent] });
   });

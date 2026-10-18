@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { CbPaginatorComponent } from '@caribeng/ui/paginator';
+import { CbPaginator } from '@caribeng/ui/paginator';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
@@ -8,7 +8,7 @@ import { TocService } from '../services/toc.service';
 @Component({
   selector: 'doc-paginator-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbPaginatorComponent, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
+  imports: [CbPaginator, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
     <doc-page-header eyebrow="Data" title="Paginator" lead="Control de paginación reutilizable. first y rows son two-way." />
 
@@ -40,7 +40,7 @@ export class PaginatorDocComponent {
   protected readonly rows2 = signal(10);
 
   protected readonly installCode = `npm install @caribeng/ui`;
-  protected readonly importCode = `import { CbPaginatorComponent } from '@caribeng/ui/paginator';`;
+  protected readonly importCode = `import { CbPaginator } from '@caribeng/ui/paginator';`;
   protected readonly basicCode = `<cb-paginator [totalRecords]="120" [(first)]="first" [(rows)]="rows" />`;
   protected readonly rowsCode = `<cb-paginator [totalRecords]="248" [(first)]="first" [(rows)]="rows"
   [rowsPerPageOptions]="[10, 20, 50]" />`;

@@ -5,7 +5,7 @@ import {
   model,
   output,
 } from '@angular/core';
-import { CbIconComponent } from '@caribeng/ui/icon';
+import { CbIcon } from '@caribeng/ui/icon';
 
 export type CbSpeedDialDirection = 'up' | 'down' | 'left' | 'right';
 
@@ -19,7 +19,7 @@ export interface CbSpeedDialItem {
   selector: 'cb-speed-dial',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbIconComponent],
+  imports: [CbIcon],
   host: {
     class: 'cb-speed-dial',
     '[class.cb-speed-dial--up]': 'direction() === "up"',
@@ -53,7 +53,7 @@ export interface CbSpeedDialItem {
   `,
   styleUrl: './speeddial.component.css',
 })
-export class CbSpeedDialComponent {
+export class CbSpeedDial {
   readonly items = input<readonly CbSpeedDialItem[]>([]);
   readonly direction = input<CbSpeedDialDirection>('up');
   readonly icon = input('plus');

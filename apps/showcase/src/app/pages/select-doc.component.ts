@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CbSelectComponent } from '@caribeng/ui/select';
+import { CbSelect } from '@caribeng/ui/select';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
@@ -11,7 +11,7 @@ import { TocService } from '../services/toc.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule,
-    CbSelectComponent,
+    CbSelect,
     DocSectionComponent,
     CodeBlockComponent,
     DocPageHeaderComponent,
@@ -136,10 +136,10 @@ export class SelectDocComponent {
 
   protected readonly installCode = `npm install @caribeng/ui`;
 
-  protected readonly importCode = `import { CbSelectComponent } from '@caribeng/ui/select';
+  protected readonly importCode = `import { CbSelect } from '@caribeng/ui/select';
 
 @Component({
-  imports: [CbSelectComponent],
+  imports: [CbSelect],
   // ...
 })
 export class MyComponent {}`;

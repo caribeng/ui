@@ -4,7 +4,7 @@ import {
   ViewEncapsulation,
   input,
 } from '@angular/core';
-import { CbIconComponent } from '@caribeng/ui/icon';
+import { CbIcon } from '@caribeng/ui/icon';
 import type { CbSeverity } from '@caribeng/ui';
 
 /**
@@ -19,7 +19,7 @@ import type { CbSeverity } from '@caribeng/ui';
   selector: 'cb-tag',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
-  imports: [CbIconComponent],
+  imports: [CbIcon],
   host: {
     class: 'cb-tag',
     '[class]': "'cb-tag cb-tag--' + severity()",
@@ -36,7 +36,7 @@ import type { CbSeverity } from '@caribeng/ui';
   `,
   styleUrl: './tag.component.css',
 })
-export class CbTagComponent {
+export class CbTag {
   readonly value = input<string>('');
   readonly severity = input<CbSeverity>('primary');
   /** Icono (nombre del set de @caribeng/ui/icon) antes del texto. */

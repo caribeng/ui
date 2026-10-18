@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CbTextareaComponent } from '@caribeng/ui/textarea';
+import { CbTextarea } from '@caribeng/ui/textarea';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
@@ -11,7 +11,7 @@ import { TocService } from '../services/toc.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule,
-    CbTextareaComponent,
+    CbTextarea,
     DocSectionComponent,
     CodeBlockComponent,
     DocPageHeaderComponent,
@@ -113,10 +113,10 @@ export class TextareaDocComponent {
 
   protected readonly installCode = `npm install @caribeng/ui`;
 
-  protected readonly importCode = `import { CbTextareaComponent } from '@caribeng/ui/textarea';
+  protected readonly importCode = `import { CbTextarea } from '@caribeng/ui/textarea';
 
 @Component({
-  imports: [CbTextareaComponent],
+  imports: [CbTextarea],
   // ...
 })
 export class MyComponent {}`;

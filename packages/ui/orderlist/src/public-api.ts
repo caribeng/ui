@@ -1,1 +1,1 @@
-export { CbOrderListComponent } from './lib/orderlist.component';
+export { CbOrderList } from './lib/orderlist.component';

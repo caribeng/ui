@@ -32,7 +32,7 @@ export function provideCbIcons(icons: CbIconSet): EnvironmentProviders {
 
 /**
  * Registro de iconos de CaribeNG. Arranca con el set núcleo (`cbCoreIcons`) y
- * fusiona los sets registrados vía `provideCbIcons`. `CbIconComponent` lo
+ * fusiona los sets registrados vía `provideCbIcons`. `CbIcon` lo
  * consulta por nombre.
  */
 @Injectable({ providedIn: 'root' })

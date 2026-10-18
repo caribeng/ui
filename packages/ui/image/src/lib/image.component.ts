@@ -5,7 +5,7 @@ import {
   input,
   signal,
 } from '@angular/core';
-import { CbIconComponent } from '@caribeng/ui/icon';
+import { CbIcon } from '@caribeng/ui/icon';
 
 /**
  * Image de CaribeNG: imagen con previsualización lightbox accesible y controles
@@ -15,7 +15,7 @@ import { CbIconComponent } from '@caribeng/ui/icon';
   selector: 'cb-image',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
-  imports: [CbIconComponent],
+  imports: [CbIcon],
   host: {
     class: 'cb-image',
     '[class.cb-image--preview]': 'preview()',
@@ -72,7 +72,7 @@ import { CbIconComponent } from '@caribeng/ui/icon';
   `,
   styleUrl: './image.component.css',
 })
-export class CbImageComponent {
+export class CbImage {
   readonly src = input<string>('');
   readonly alt = input<string>('');
   readonly width = input<string>('');

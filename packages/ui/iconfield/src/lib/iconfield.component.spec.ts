@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { CbIconFieldComponent, CbInputIconComponent } from './iconfield.component';
+import { CbIconField, CbInputIcon } from './iconfield.component';
 
 @Component({
-  imports: [CbIconFieldComponent, CbInputIconComponent],
+  imports: [CbIconField, CbInputIcon],
   template: `
     <cb-icon-field iconPosition="right">
       <cb-input-icon><span>🔍</span></cb-input-icon>
@@ -13,7 +13,7 @@ import { CbIconFieldComponent, CbInputIconComponent } from './iconfield.componen
 })
 class HostComponent {}
 
-describe('CbIconFieldComponent', () => {
+describe('CbIconField', () => {
   it('aplica la clase de posición al contenedor y renderiza cb-input-icon', () => {
     const fixture = TestBed.createComponent(HostComponent);
     fixture.detectChanges();

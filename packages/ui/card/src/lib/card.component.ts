@@ -39,7 +39,7 @@ import {
   `,
   styleUrl: './card.component.css',
 })
-export class CbCardComponent {
+export class CbCard {
   /** Título del encabezado. */
   readonly header = input<string>('');
   /** Subtítulo bajo el título. */

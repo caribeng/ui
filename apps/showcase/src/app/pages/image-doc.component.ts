@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { CbImageComponent } from '@caribeng/ui/image';
+import { CbImage } from '@caribeng/ui/image';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
@@ -8,7 +8,7 @@ import { TocService } from '../services/toc.service';
 @Component({
   selector: 'doc-image-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbImageComponent, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
+  imports: [CbImage, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
     <doc-page-header eyebrow="Media" title="Image" lead="Componente de imagen con visor lightbox y zoom integrado." />
     <doc-section id="import" title="Import">
@@ -28,6 +28,6 @@ export class ImageDocComponent {
   constructor() {
     inject(TocService).reset();
   }
-  protected readonly importCode = `import { CbImageComponent } from '@caribeng/ui/image';`;
+  protected readonly importCode = `import { CbImage } from '@caribeng/ui/image';`;
   protected readonly basicCode = `<cb-image src="..." alt="Playa" width="280px" [preview]="true" />`;
 }

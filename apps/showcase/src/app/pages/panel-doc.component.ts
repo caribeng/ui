@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { CbPanelComponent } from '@caribeng/ui/panel';
-import { CbButtonComponent } from '@caribeng/ui/button';
+import { CbPanel } from '@caribeng/ui/panel';
+import { CbButton } from '@caribeng/ui/button';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
@@ -10,8 +10,8 @@ import { TocService } from '../services/toc.service';
   selector: 'doc-panel-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    CbPanelComponent,
-    CbButtonComponent,
+    CbPanel,
+    CbButton,
     DocSectionComponent,
     CodeBlockComponent,
     DocPageHeaderComponent,
@@ -67,7 +67,7 @@ export class PanelDocComponent {
   protected readonly collapsed = signal(false);
 
   protected readonly installCode = `npm install @caribeng/ui`;
-  protected readonly importCode = `import { CbPanelComponent } from '@caribeng/ui/panel';`;
+  protected readonly importCode = `import { CbPanel } from '@caribeng/ui/panel';`;
   protected readonly basicCode = `<cb-panel header="Resumen de cuenta">
   <p>Contenido del panel…</p>
 </cb-panel>`;

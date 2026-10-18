@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { CbAvatarComponent } from '@caribeng/ui/avatar';
+import { CbAvatar } from '@caribeng/ui/avatar';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
@@ -8,7 +8,7 @@ import { TocService } from '../services/toc.service';
 @Component({
   selector: 'doc-avatar-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbAvatarComponent, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
+  imports: [CbAvatar, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
     <doc-page-header eyebrow="Media" title="Avatar" lead="Imagen, iniciales o icono en círculo o cuadrado." />
 
@@ -54,7 +54,7 @@ export class AvatarDocComponent {
     inject(TocService).reset();
   }
   protected readonly installCode = `npm install @caribeng/ui`;
-  protected readonly importCode = `import { CbAvatarComponent } from '@caribeng/ui/avatar';`;
+  protected readonly importCode = `import { CbAvatar } from '@caribeng/ui/avatar';`;
   protected readonly typesCode = `<cb-avatar label="AP" severity="info" />
 <cb-avatar icon="user" />
 <cb-avatar image="/u/ana.jpg" />`;

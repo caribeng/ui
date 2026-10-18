@@ -28,7 +28,7 @@ import {
   template: `<span class="cb-divider__inner"><ng-content /></span>`,
   styleUrl: './divider.component.css',
 })
-export class CbDividerComponent {
+export class CbDivider {
   readonly orientation = input<'horizontal' | 'vertical'>('horizontal');
   /** Posición de la etiqueta (solo horizontal). */
   readonly align = input<'start' | 'center' | 'end'>('center');

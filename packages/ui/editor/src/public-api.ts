@@ -1,1 +1,1 @@
-export { CbEditorComponent } from './lib/editor.component';
+export { CbEditor } from './lib/editor.component';

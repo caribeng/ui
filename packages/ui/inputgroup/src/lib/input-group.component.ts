@@ -27,7 +27,7 @@ import {
   template: `<ng-content />`,
   styleUrl: './input-group.component.css',
 })
-export class CbInputGroupComponent {}
+export class CbInputGroup {}
 
 /**
  * Addon (texto o icono) para un `<cb-input-group>`.
@@ -43,7 +43,7 @@ export class CbInputGroupComponent {}
   template: `<ng-content />`,
   styleUrl: './input-group-addon.component.css',
 })
-export class CbInputGroupAddonComponent {
+export class CbInputGroupAddon {
   /** Estilo de addon "botón" (sin fondo de relleno). */
   readonly button = input<boolean, unknown>(false, { transform: toBoolean });
 }

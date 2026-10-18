@@ -1,18 +1,18 @@
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { describe, expect, it } from 'vitest';
-import { CbButtonComponent } from '@caribeng/ui/button';
-import { CbInputComponent } from '@caribeng/ui/input';
-import { CbPasswordComponent } from '@caribeng/ui/password';
-import { CbChartComponent } from '@caribeng/ui/chart';
+import { CbButton } from '@caribeng/ui/button';
+import { CbInput } from '@caribeng/ui/input';
+import { CbPassword } from '@caribeng/ui/password';
+import { CbChart } from '@caribeng/ui/chart';
 import { CbFocusTrapDirective } from '@caribeng/ui/focustrap';
 
 @Component({
   imports: [
-    CbButtonComponent,
-    CbInputComponent,
-    CbPasswordComponent,
-    CbChartComponent,
+    CbButton,
+    CbInput,
+    CbPassword,
+    CbChart,
     CbFocusTrapDirective,
   ],
   template: `

@@ -1,4 +1,4 @@
 /*
  * Public API Surface de @caribeng/ui/skeleton
  */
-export { CbSkeletonComponent } from './lib/skeleton.component';
+export { CbSkeleton } from './lib/skeleton.component';

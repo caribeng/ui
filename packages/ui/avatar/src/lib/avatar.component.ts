@@ -5,7 +5,7 @@ import {
   computed,
   input,
 } from '@angular/core';
-import { CbIconComponent } from '@caribeng/ui/icon';
+import { CbIcon } from '@caribeng/ui/icon';
 import type { CbSeverity } from '@caribeng/ui';
 
 /**
@@ -22,7 +22,7 @@ import type { CbSeverity } from '@caribeng/ui';
   selector: 'cb-avatar',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
-  imports: [CbIconComponent],
+  imports: [CbIcon],
   host: {
     class: 'cb-avatar',
     '[class]': "'cb-avatar cb-avatar--' + shape() + ' cb-avatar--' + severity()",
@@ -43,7 +43,7 @@ import type { CbSeverity } from '@caribeng/ui';
   `,
   styleUrl: './avatar.component.css',
 })
-export class CbAvatarComponent {
+export class CbAvatar {
   /** URL de la imagen. */
   readonly image = input<string>('');
   /** Iniciales o texto corto (si no hay imagen ni icono). */

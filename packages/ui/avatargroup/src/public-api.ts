@@ -1,1 +1,1 @@
-export { CbAvatarGroupComponent } from './lib/avatargroup.component';
+export { CbAvatarGroup } from './lib/avatargroup.component';

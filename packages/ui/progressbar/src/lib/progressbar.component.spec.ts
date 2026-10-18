@@ -1,14 +1,14 @@
 import { TestBed } from '@angular/core/testing';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { CbProgressBarComponent } from './progressbar.component';
+import { CbProgressBar } from './progressbar.component';
 
-describe('CbProgressBarComponent', () => {
+describe('CbProgressBar', () => {
   beforeEach(() => {
-    TestBed.configureTestingModule({ imports: [CbProgressBarComponent] });
+    TestBed.configureTestingModule({ imports: [CbProgressBar] });
   });
 
   function setup() {
-    const fixture = TestBed.createComponent(CbProgressBarComponent);
+    const fixture = TestBed.createComponent(CbProgressBar);
     const host = (): HTMLElement => fixture.nativeElement;
     const fill = (): HTMLElement => host().querySelector('.cb-progressbar__fill')!;
     return { fixture, host, fill };

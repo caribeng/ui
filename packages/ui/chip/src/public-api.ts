@@ -1,1 +1,1 @@
-export { CbChipComponent } from './lib/chip.component';
+export { CbChip } from './lib/chip.component';

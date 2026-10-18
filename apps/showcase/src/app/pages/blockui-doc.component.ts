@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { CbBlockUiComponent } from '@caribeng/ui/blockui';
-import { CbCardComponent } from '@caribeng/ui/card';
-import { CbButtonComponent } from '@caribeng/ui/button';
+import { CbBlockUi } from '@caribeng/ui/blockui';
+import { CbCard } from '@caribeng/ui/card';
+import { CbButton } from '@caribeng/ui/button';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
@@ -11,9 +11,9 @@ import { TocService } from '../services/toc.service';
   selector: 'doc-blockui-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    CbBlockUiComponent,
-    CbCardComponent,
-    CbButtonComponent,
+    CbBlockUi,
+    CbCard,
+    CbButton,
     DocSectionComponent,
     CodeBlockComponent,
     DocPageHeaderComponent,
@@ -44,7 +44,7 @@ export class BlockuiDocComponent {
     inject(TocService).reset();
   }
   protected readonly blocked = signal(false);
-  protected readonly importCode = `import { CbBlockUiComponent } from '@caribeng/ui/blockui';`;
+  protected readonly importCode = `import { CbBlockUi } from '@caribeng/ui/blockui';`;
   protected readonly basicCode = `<cb-block-ui [blocked]="blocked()">
   <cb-card header="Panel">…</cb-card>
 </cb-block-ui>`;

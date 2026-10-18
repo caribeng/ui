@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { CbMessageComponent } from '@caribeng/ui/message';
-import { CbButtonComponent } from '@caribeng/ui/button';
+import { CbMessage } from '@caribeng/ui/message';
+import { CbButton } from '@caribeng/ui/button';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
@@ -10,8 +10,8 @@ import { TocService } from '../services/toc.service';
   selector: 'doc-message-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    CbMessageComponent,
-    CbButtonComponent,
+    CbMessage,
+    CbButton,
     DocSectionComponent,
     CodeBlockComponent,
     DocPageHeaderComponent,
@@ -51,7 +51,7 @@ export class MessageDocComponent {
   }
   protected readonly visible = signal(true);
   protected readonly installCode = `npm install @caribeng/ui`;
-  protected readonly importCode = `import { CbMessageComponent } from '@caribeng/ui/message';`;
+  protected readonly importCode = `import { CbMessage } from '@caribeng/ui/message';`;
   protected readonly sevCode = `<cb-message severity="success">Guardado correctamente.</cb-message>
 <cb-message severity="danger">No se pudo completar.</cb-message>`;
   protected readonly closableCode = `<cb-message severity="info" closable [(visible)]="visible">

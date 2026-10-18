@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { CbScrollTopComponent } from '@caribeng/ui/scrolltop';
+import { CbScrollTop } from '@caribeng/ui/scrolltop';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
@@ -9,7 +9,7 @@ import { TocService } from '../services/toc.service';
   selector: 'doc-scrolltop-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    CbScrollTopComponent,
+    CbScrollTop,
     DocSectionComponent,
     CodeBlockComponent,
     DocPageHeaderComponent,
@@ -61,7 +61,7 @@ export class ScrolltopDocComponent {
   }
 
   protected readonly installCode = `npm install @caribeng/ui`;
-  protected readonly importCode = `import { CbScrollTopComponent } from '@caribeng/ui/scrolltop';`;
+  protected readonly importCode = `import { CbScrollTop } from '@caribeng/ui/scrolltop';`;
   protected readonly parentCode = `<div style="height: 200px; overflow: auto; position: relative">
   <p>Contenido extenso…</p>
   <cb-scroll-top target="parent" [threshold]="60" />

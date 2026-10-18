@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { CbAccordionComponent, CbAccordionPanelComponent } from '@caribeng/ui/accordion';
+import { CbAccordion, CbAccordionPanel } from '@caribeng/ui/accordion';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
@@ -9,8 +9,8 @@ import { TocService } from '../services/toc.service';
   selector: 'doc-accordion-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    CbAccordionComponent,
-    CbAccordionPanelComponent,
+    CbAccordion,
+    CbAccordionPanel,
     DocSectionComponent,
     CodeBlockComponent,
     DocPageHeaderComponent,
@@ -52,7 +52,7 @@ export class AccordionDocComponent {
     inject(TocService).reset();
   }
   protected readonly installCode = `npm install @caribeng/ui`;
-  protected readonly importCode = `import { CbAccordionComponent, CbAccordionPanelComponent } from '@caribeng/ui/accordion';`;
+  protected readonly importCode = `import { CbAccordion, CbAccordionPanel } from '@caribeng/ui/accordion';`;
   protected readonly basicCode = `<cb-accordion>
   <cb-accordion-panel header="Sección 1">Contenido…</cb-accordion-panel>
   <cb-accordion-panel header="Sección 2">Contenido…</cb-accordion-panel>

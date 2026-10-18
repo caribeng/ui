@@ -1,4 +1,4 @@
 export {
-  CbCarouselComponent,
+  CbCarousel,
   type CbCarouselItem,
 } from './lib/carousel.component';

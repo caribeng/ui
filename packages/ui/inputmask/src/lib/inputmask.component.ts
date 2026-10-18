@@ -21,7 +21,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => CbInputMaskComponent),
+      useExisting: forwardRef(() => CbInputMask),
       multi: true,
     },
   ],
@@ -43,7 +43,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
   `,
   styleUrl: './inputmask.component.css',
 })
-export class CbInputMaskComponent implements ControlValueAccessor {
+export class CbInputMask implements ControlValueAccessor {
   /** Patrón de máscara: `9` para números, `a` para letras, `*` alfanumérico. */
   readonly mask = input<string>('999-999');
   /** Si es true, el valor del modelo excluye los literales de la máscara. */

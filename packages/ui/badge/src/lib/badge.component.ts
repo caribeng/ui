@@ -27,7 +27,7 @@ import type { CbSeverity, CbSize } from '@caribeng/ui';
   template: `@if (!dot()) {{{ value() }}}`,
   styleUrl: './badge.component.css',
 })
-export class CbBadgeComponent {
+export class CbBadge {
   /** Contenido (conteo o texto breve). */
   readonly value = input<string | number>('');
   /** Severidad semántica (color). */

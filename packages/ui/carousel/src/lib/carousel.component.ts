@@ -6,7 +6,7 @@ import {
   input,
   model,
 } from '@angular/core';
-import { CbIconComponent } from '@caribeng/ui/icon';
+import { CbIcon } from '@caribeng/ui/icon';
 
 export interface CbCarouselItem {
   title: string;
@@ -23,7 +23,7 @@ export interface CbCarouselItem {
   selector: 'cb-carousel',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
-  imports: [CbIconComponent],
+  imports: [CbIcon],
   host: {
     class: 'cb-carousel',
     role: 'region',
@@ -91,7 +91,7 @@ export interface CbCarouselItem {
   `,
   styleUrl: './carousel.component.css',
 })
-export class CbCarouselComponent {
+export class CbCarousel {
   readonly items = input<CbCarouselItem[]>([]);
   readonly circular = input<boolean>(true);
   readonly showNavigators = input<boolean>(true);

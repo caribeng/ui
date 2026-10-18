@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { CbSpeedDialComponent, type CbSpeedDialItem } from '@caribeng/ui/speeddial';
+import { CbSpeedDial, type CbSpeedDialItem } from '@caribeng/ui/speeddial';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
 import { DocSectionComponent } from '../shared/doc-section.component';
@@ -8,7 +8,7 @@ import { TocService } from '../services/toc.service';
 @Component({
   selector: 'doc-speeddial-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbSpeedDialComponent, CodeBlockComponent, DocPageHeaderComponent, DocSectionComponent],
+  imports: [CbSpeedDial, CodeBlockComponent, DocPageHeaderComponent, DocSectionComponent],
   template: `
     <doc-page-header eyebrow="Menu" title="SpeedDial" lead="Acciones rápidas que se despliegan desde un botón flotante." />
     <doc-section id="import" title="Import">
@@ -34,7 +34,7 @@ export class SpeedDialDocComponent {
   ];
   protected readonly selected = signal('');
   protected readonly installCode = `npm install @caribeng/ui`;
-  protected readonly importCode = `import { CbSpeedDialComponent } from '@caribeng/ui/speeddial';`;
+  protected readonly importCode = `import { CbSpeedDial } from '@caribeng/ui/speeddial';`;
   protected readonly basicCode = `<cb-speed-dial
   [items]="items"
   direction="up"

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { CbRatingComponent } from '@caribeng/ui/rating';
+import { CbRating } from '@caribeng/ui/rating';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
@@ -11,7 +11,7 @@ import { TocService } from '../services/toc.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule,
-    CbRatingComponent,
+    CbRating,
     DocSectionComponent,
     CodeBlockComponent,
     DocPageHeaderComponent,
@@ -69,7 +69,7 @@ export class RatingDocComponent {
   protected readonly fijo = signal(4);
 
   protected readonly installCode = `npm install @caribeng/ui`;
-  protected readonly importCode = `import { CbRatingComponent } from '@caribeng/ui/rating';`;
+  protected readonly importCode = `import { CbRating } from '@caribeng/ui/rating';`;
   protected readonly basicCode = `<cb-rating formControlName="puntuacion" />`;
   protected readonly starsCode = `<cb-rating formControlName="puntuacion" [stars]="10" />`;
   protected readonly sizesCode = `<cb-rating [(value)]="v" size="sm" />

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, ViewEncapsulation, input, output, signal } from '@angular/core';
-import { CbIconComponent } from '@caribeng/ui/icon';
+import { CbIcon } from '@caribeng/ui/icon';
 
 export interface CbPanelMenuItem {
   label: string;
@@ -16,7 +16,7 @@ let nextPanelMenuId = 0;
   selector: 'cb-panelmenu',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
-  imports: [CbIconComponent],
+  imports: [CbIcon],
   host: { class: 'cb-panelmenu' },
   template: `
     <nav [attr.aria-label]="ariaLabel()">
@@ -62,7 +62,7 @@ let nextPanelMenuId = 0;
   `,
   styleUrl: './panelmenu.component.css',
 })
-export class CbPanelMenuComponent {
+export class CbPanelMenu {
   private readonly uid = ++nextPanelMenuId;
   readonly items = input<readonly CbPanelMenuItem[]>([]);
   readonly ariaLabel = input('Panel menu');

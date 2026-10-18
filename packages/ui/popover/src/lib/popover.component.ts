@@ -41,7 +41,7 @@ import { TemplatePortal } from '@angular/cdk/portal';
   `,
   styleUrl: './popover.component.css',
 })
-export class CbPopoverComponent {
+export class CbPopover {
   private readonly overlay = inject(Overlay);
   private readonly vcr = inject(ViewContainerRef);
 

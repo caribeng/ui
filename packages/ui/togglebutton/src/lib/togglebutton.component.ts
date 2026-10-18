@@ -10,7 +10,7 @@ import {
   signal,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
-import { CbIconComponent } from '@caribeng/ui/icon';
+import { CbIcon } from '@caribeng/ui/icon';
 import type { CbSize } from '@caribeng/ui';
 
 let nextUid = 0;
@@ -28,12 +28,12 @@ let nextUid = 0;
   selector: 'cb-togglebutton',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
-  imports: [CbIconComponent],
+  imports: [CbIcon],
   host: { class: 'cb-togglebutton-host' },
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => CbToggleButtonComponent),
+      useExisting: forwardRef(() => CbToggleButton),
       multi: true,
     },
   ],
@@ -58,7 +58,7 @@ let nextUid = 0;
   `,
   styleUrl: './togglebutton.component.css',
 })
-export class CbToggleButtonComponent implements ControlValueAccessor {
+export class CbToggleButton implements ControlValueAccessor {
   readonly onLabel = input<string>('Sí');
   readonly offLabel = input<string>('No');
   readonly onIcon = input<string>('');

@@ -5,7 +5,7 @@ import {
   computed,
   input,
 } from '@angular/core';
-import { CbIconComponent } from '@caribeng/ui/icon';
+import { CbIcon } from '@caribeng/ui/icon';
 
 export type CbInlineMessageSeverity = 'info' | 'success' | 'warn' | 'danger';
 
@@ -16,7 +16,7 @@ export type CbInlineMessageSeverity = 'info' | 'success' | 'warn' | 'danger';
   selector: 'cb-inline-message',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
-  imports: [CbIconComponent],
+  imports: [CbIcon],
   host: {
     class: 'cb-inline-message',
     role: 'alert',
@@ -31,7 +31,7 @@ export type CbInlineMessageSeverity = 'info' | 'success' | 'warn' | 'danger';
   `,
   styleUrl: './inlinemessage.component.css',
 })
-export class CbInlineMessageComponent {
+export class CbInlineMessage {
   readonly severity = input<CbInlineMessageSeverity>('info');
   readonly text = input<string>('');
 

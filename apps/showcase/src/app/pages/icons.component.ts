@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { CbIconComponent, cbCoreIcons } from '@caribeng/ui/icon';
+import { CbIcon, cbCoreIcons } from '@caribeng/ui/icon';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
@@ -9,7 +9,7 @@ import { TocService } from '../services/toc.service';
   selector: 'doc-icons-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    CbIconComponent,
+    CbIcon,
     DocSectionComponent,
     CodeBlockComponent,
     DocPageHeaderComponent,
@@ -166,10 +166,10 @@ bootstrapApplication(App, {
 
   protected readonly installCode = `npm install @caribeng/ui`;
 
-  protected readonly importCode = `import { CbIconComponent } from '@caribeng/ui/icon';
+  protected readonly importCode = `import { CbIcon } from '@caribeng/ui/icon';
 
 @Component({
-  imports: [CbIconComponent],
+  imports: [CbIcon],
   // ...
 })
 export class MyComponent {}`;

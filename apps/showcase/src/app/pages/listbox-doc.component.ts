@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { CbListBoxComponent } from '@caribeng/ui/listbox';
+import { CbListBox } from '@caribeng/ui/listbox';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
@@ -13,7 +13,7 @@ interface Ciudad {
 @Component({
   selector: 'doc-listbox-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbListBoxComponent, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
+  imports: [CbListBox, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
     <doc-page-header eyebrow="Form" title="ListBox" lead="Lista de opciones siempre visible. Simple o múltiple, con filtro." />
 
@@ -54,7 +54,7 @@ export class ListboxDocComponent {
   protected readonly seleccion = signal<unknown[]>([1, 3]);
 
   protected readonly installCode = `npm install @caribeng/ui`;
-  protected readonly importCode = `import { CbListBoxComponent } from '@caribeng/ui/listbox';`;
+  protected readonly importCode = `import { CbListBox } from '@caribeng/ui/listbox';`;
   protected readonly dataTs = `ciudades = [{ nombre: 'Barranquilla', id: 1 }, /* … */];`;
   protected readonly singleCode = `<cb-listbox [(value)]="ciudad" [options]="ciudades"
   optionLabel="nombre" optionValue="id" />`;

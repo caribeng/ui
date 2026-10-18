@@ -39,7 +39,7 @@ import type { CbSeverity } from '@caribeng/ui';
   `,
   styleUrl: './spinner.component.css',
 })
-export class CbSpinnerComponent {
+export class CbSpinner {
   /** Tamaño en píxeles. */
   readonly size = input<number>(32);
   /** Grosor del trazo. */

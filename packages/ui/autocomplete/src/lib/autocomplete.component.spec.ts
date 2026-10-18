@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { CbAutocompleteComponent } from './autocomplete.component';
+import { CbAutocomplete } from './autocomplete.component';
 
 @Component({
-  imports: [ReactiveFormsModule, CbAutocompleteComponent],
+  imports: [ReactiveFormsModule, CbAutocomplete],
   template: `<cb-autocomplete
     [formControl]="ctrl"
     [suggestions]="sug"
@@ -20,7 +20,7 @@ class HostComponent {
   lastQuery: string | null = null;
 }
 
-describe('CbAutocompleteComponent', () => {
+describe('CbAutocomplete', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({ imports: [HostComponent] });
   });

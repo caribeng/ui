@@ -24,7 +24,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => CbEditorComponent),
+      useExisting: forwardRef(() => CbEditor),
       multi: true,
     },
   ],
@@ -61,7 +61,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
   `,
   styleUrl: './editor.component.css',
 })
-export class CbEditorComponent implements ControlValueAccessor {
+export class CbEditor implements ControlValueAccessor {
   readonly placeholder = input<string>('Escribe aquí…');
   readonly height = input<string>('140px');
   readonly disabled = input<boolean>(false);

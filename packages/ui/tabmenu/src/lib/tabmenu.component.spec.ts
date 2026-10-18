@@ -1,15 +1,15 @@
 import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { CbTabMenuComponent, type CbTabMenuItem } from './tabmenu.component';
+import { CbTabMenu, type CbTabMenuItem } from './tabmenu.component';
 
-@Component({ imports: [CbTabMenuComponent], template: `<cb-tabmenu [items]="items" [(activeIndex)]="active" />` })
+@Component({ imports: [CbTabMenu], template: `<cb-tabmenu [items]="items" [(activeIndex)]="active" />` })
 class HostComponent {
   items: CbTabMenuItem[] = [{ label: 'Resumen' }, { label: 'Detalles', url: '#details' }, { label: 'Bloqueado', disabled: true }];
   active = signal(0);
 }
 
-describe('CbTabMenuComponent', () => {
+describe('CbTabMenu', () => {
   beforeEach(() => TestBed.configureTestingModule({ imports: [HostComponent] }));
   it('renders navigation and marks the current item', () => {
     const fixture = TestBed.createComponent(HostComponent); fixture.detectChanges();

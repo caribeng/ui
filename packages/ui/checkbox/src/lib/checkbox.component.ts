@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
 import type { CbSize } from '@caribeng/ui';
-import { CbIconComponent } from '@caribeng/ui/icon';
+import { CbIcon } from '@caribeng/ui/icon';
 
 let nextUid = 0;
 
@@ -39,11 +39,11 @@ const ICON_PX: Record<string, number> = { sm: 12, md: 14, lg: 16 };
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
   host: { class: 'cb-checkbox-host' },
-  imports: [CbIconComponent],
+  imports: [CbIcon],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => CbCheckboxComponent),
+      useExisting: forwardRef(() => CbCheckbox),
       multi: true,
     },
   ],
@@ -81,7 +81,7 @@ const ICON_PX: Record<string, number> = { sm: 12, md: 14, lg: 16 };
   `,
   styleUrl: './checkbox.component.css',
 })
-export class CbCheckboxComponent implements ControlValueAccessor {
+export class CbCheckbox implements ControlValueAccessor {
   /** Etiqueta mostrada junto al control. */
   readonly label = input<string>('');
   /** `aria-label` cuando no hay `label` visible. */

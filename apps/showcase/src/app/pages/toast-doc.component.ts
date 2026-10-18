@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { CbButtonComponent } from '@caribeng/ui/button';
-import { CbToastComponent, CbToastService } from '@caribeng/ui/toast';
+import { CbButton } from '@caribeng/ui/button';
+import { CbToast, CbToastService } from '@caribeng/ui/toast';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
@@ -10,8 +10,8 @@ import { TocService } from '../services/toc.service';
   selector: 'doc-toast-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    CbButtonComponent,
-    CbToastComponent,
+    CbButton,
+    CbToast,
     DocSectionComponent,
     CodeBlockComponent,
     DocPageHeaderComponent,
@@ -79,10 +79,10 @@ export class ToastDocComponent {
 
   protected readonly installCode = `npm install @caribeng/ui`;
 
-  protected readonly importCode = `import { CbToastComponent, CbToastService } from '@caribeng/ui/toast';
+  protected readonly importCode = `import { CbToast, CbToastService } from '@caribeng/ui/toast';
 
 @Component({
-  imports: [CbToastComponent],
+  imports: [CbToast],
   // ...
 })
 export class MyComponent {

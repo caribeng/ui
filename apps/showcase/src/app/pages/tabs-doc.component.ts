@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { CbTabsComponent, CbTabComponent } from '@caribeng/ui/tabs';
+import { CbTabs, CbTab } from '@caribeng/ui/tabs';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
@@ -9,8 +9,8 @@ import { TocService } from '../services/toc.service';
   selector: 'doc-tabs-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    CbTabsComponent,
-    CbTabComponent,
+    CbTabs,
+    CbTab,
     DocSectionComponent,
     CodeBlockComponent,
     DocPageHeaderComponent,
@@ -52,7 +52,7 @@ export class TabsDocComponent {
     inject(TocService).reset();
   }
   protected readonly installCode = `npm install @caribeng/ui`;
-  protected readonly importCode = `import { CbTabsComponent, CbTabComponent } from '@caribeng/ui/tabs';`;
+  protected readonly importCode = `import { CbTabs, CbTab } from '@caribeng/ui/tabs';`;
   protected readonly basicCode = `<cb-tabs>
   <cb-tab label="Resumen">…</cb-tab>
   <cb-tab label="Actividad">…</cb-tab>

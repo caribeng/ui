@@ -1,4 +1,4 @@
 export {
-  CbCascadeSelectComponent,
+  CbCascadeSelect,
   type CbCascadeOption,
 } from './lib/cascadeselect.component';

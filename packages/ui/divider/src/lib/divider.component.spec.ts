@@ -1,14 +1,14 @@
 import { TestBed } from '@angular/core/testing';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { CbDividerComponent } from './divider.component';
+import { CbDivider } from './divider.component';
 
-describe('CbDividerComponent', () => {
+describe('CbDivider', () => {
   beforeEach(() => {
-    TestBed.configureTestingModule({ imports: [CbDividerComponent] });
+    TestBed.configureTestingModule({ imports: [CbDivider] });
   });
 
   function setup() {
-    const fixture = TestBed.createComponent(CbDividerComponent);
+    const fixture = TestBed.createComponent(CbDivider);
     const host = (): HTMLElement => fixture.nativeElement;
     return { fixture, host };
   }

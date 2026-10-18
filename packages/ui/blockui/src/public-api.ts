@@ -1,1 +1,1 @@
-export { CbBlockUiComponent } from './lib/blockui.component';
+export { CbBlockUi } from './lib/blockui.component';

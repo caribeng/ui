@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { CbToolbarComponent } from '@caribeng/ui/toolbar';
-import { CbButtonComponent } from '@caribeng/ui/button';
-import { CbIconComponent } from '@caribeng/ui/icon';
+import { CbToolbar } from '@caribeng/ui/toolbar';
+import { CbButton } from '@caribeng/ui/button';
+import { CbIcon } from '@caribeng/ui/icon';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
@@ -11,9 +11,9 @@ import { TocService } from '../services/toc.service';
   selector: 'doc-toolbar-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    CbToolbarComponent,
-    CbButtonComponent,
-    CbIconComponent,
+    CbToolbar,
+    CbButton,
+    CbIcon,
     DocSectionComponent,
     CodeBlockComponent,
     DocPageHeaderComponent,
@@ -54,7 +54,7 @@ export class ToolbarDocComponent {
   }
 
   protected readonly installCode = `npm install @caribeng/ui`;
-  protected readonly importCode = `import { CbToolbarComponent } from '@caribeng/ui/toolbar';`;
+  protected readonly importCode = `import { CbToolbar } from '@caribeng/ui/toolbar';`;
   protected readonly basicCode = `<cb-toolbar ariaLabel="Acciones del proyecto">
   <div cb-toolbar-start>
     <cb-button size="sm">Nuevo</cb-button>

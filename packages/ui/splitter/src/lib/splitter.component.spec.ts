@@ -1,9 +1,9 @@
 import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { CbSplitterComponent, CbSplitterPanelComponent } from './splitter.component';
+import { CbSplitter, CbSplitterPanel } from './splitter.component';
 
 @Component({
-  imports: [CbSplitterComponent, CbSplitterPanelComponent],
+  imports: [CbSplitter, CbSplitterPanel],
   template: `
     <cb-splitter [layout]="layout()" [step]="10">
       <cb-splitter-panel [size]="30" [minSize]="15">Panel A</cb-splitter-panel>
@@ -15,7 +15,7 @@ class HostComponent {
   layout = signal<'horizontal' | 'vertical'>('horizontal');
 }
 
-describe('CbSplitterComponent', () => {
+describe('CbSplitter', () => {
   it('renderiza paneles con flex-basis inicial y un separador accesible', () => {
     const fixture = TestBed.createComponent(HostComponent);
     fixture.detectChanges();

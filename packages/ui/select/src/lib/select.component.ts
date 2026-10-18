@@ -14,7 +14,7 @@ import {
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
 import { OverlayModule, type ConnectedPosition } from '@angular/cdk/overlay';
 import type { CbSize } from '@caribeng/ui';
-import { CbIconComponent } from '@caribeng/ui/icon';
+import { CbIcon } from '@caribeng/ui/icon';
 
 let nextUid = 0;
 
@@ -33,12 +33,12 @@ let nextUid = 0;
   selector: 'cb-select',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
-  imports: [OverlayModule, CbIconComponent],
+  imports: [OverlayModule, CbIcon],
   host: { class: 'cb-select-host' },
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => CbSelectComponent),
+      useExisting: forwardRef(() => CbSelect),
       multi: true,
     },
   ],
@@ -124,7 +124,7 @@ let nextUid = 0;
   `,
   styleUrl: './select.component.css',
 })
-export class CbSelectComponent implements ControlValueAccessor {
+export class CbSelect implements ControlValueAccessor {
   // --- Inputs ----------------------------------------------------------------
   readonly options = input<readonly unknown[]>([]);
   readonly optionLabel = input<string>('label');

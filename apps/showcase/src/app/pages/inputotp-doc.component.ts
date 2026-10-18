@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { CbInputOtpComponent } from '@caribeng/ui/inputotp';
+import { CbInputOtp } from '@caribeng/ui/inputotp';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
@@ -8,7 +8,7 @@ import { TocService } from '../services/toc.service';
 @Component({
   selector: 'doc-inputotp-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbInputOtpComponent, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
+  imports: [CbInputOtp, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
     <doc-page-header eyebrow="Form" title="InputOTP" lead="Entrada de código de verificación en casillas individuales con avance automático." />
     <doc-section id="import" title="Import">
@@ -24,6 +24,6 @@ export class InputotpDocComponent {
     inject(TocService).reset();
   }
   protected readonly code = signal('');
-  protected readonly importCode = `import { CbInputOtpComponent } from '@caribeng/ui/inputotp';`;
+  protected readonly importCode = `import { CbInputOtp } from '@caribeng/ui/inputotp';`;
   protected readonly basicCode = `<cb-input-otp [length]="6" [integerOnly]="true" [(value)]="code" />`;
 }

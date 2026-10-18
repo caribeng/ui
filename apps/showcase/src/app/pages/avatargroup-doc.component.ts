@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { CbAvatarGroupComponent } from '@caribeng/ui/avatargroup';
-import { CbAvatarComponent } from '@caribeng/ui/avatar';
+import { CbAvatarGroup } from '@caribeng/ui/avatargroup';
+import { CbAvatar } from '@caribeng/ui/avatar';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
@@ -10,8 +10,8 @@ import { TocService } from '../services/toc.service';
   selector: 'doc-avatargroup-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    CbAvatarGroupComponent,
-    CbAvatarComponent,
+    CbAvatarGroup,
+    CbAvatar,
     DocSectionComponent,
     CodeBlockComponent,
     DocPageHeaderComponent,
@@ -35,7 +35,7 @@ export class AvatargroupDocComponent {
   constructor() {
     inject(TocService).reset();
   }
-  protected readonly importCode = `import { CbAvatarGroupComponent } from '@caribeng/ui/avatargroup';`;
+  protected readonly importCode = `import { CbAvatarGroup } from '@caribeng/ui/avatargroup';`;
   protected readonly basicCode = `<cb-avatar-group>
   <cb-avatar label="OZ" severity="primary" />
   <cb-avatar label="CL" severity="info" />

@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { CbMenubarComponent, type CbMenubarItem } from './menubar.component';
+import { CbMenubar, type CbMenubarItem } from './menubar.component';
 
 @Component({
-  imports: [CbMenubarComponent],
+  imports: [CbMenubar],
   template: `<cb-menubar [items]="items" (itemSelect)="selected = $event" />`,
 })
 class HostComponent {
@@ -16,7 +16,7 @@ class HostComponent {
   selected: CbMenubarItem | null = null;
 }
 
-describe('CbMenubarComponent', () => {
+describe('CbMenubar', () => {
   beforeEach(() => TestBed.configureTestingModule({ imports: [HostComponent] }));
 
   it('renderiza navegación accesible con enlaces y submenús', () => {

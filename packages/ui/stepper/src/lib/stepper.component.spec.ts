@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { CbStepperComponent, CbStepComponent } from './stepper.component';
+import { CbStepper, CbStep } from './stepper.component';
 
 @Component({
-  imports: [CbStepperComponent, CbStepComponent],
+  imports: [CbStepper, CbStep],
   template: `
     <cb-stepper>
       <cb-step label="Cuenta"><p class="s1">Paso 1</p></cb-step>
@@ -15,7 +15,7 @@ import { CbStepperComponent, CbStepComponent } from './stepper.component';
 })
 class HostComponent {}
 
-describe('CbStepperComponent', () => {
+describe('CbStepper', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({ imports: [HostComponent] });
   });

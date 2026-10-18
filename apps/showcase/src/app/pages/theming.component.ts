@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CB_COLOR_PRESETS, CbColorPreset, CbThemeService } from '@caribeng/ui';
-import { CbButtonComponent } from '@caribeng/ui/button';
+import { CbButton } from '@caribeng/ui/button';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
@@ -9,7 +9,7 @@ import { TocService } from '../services/toc.service';
 @Component({
   selector: 'doc-theming',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent, CbButtonComponent],
+  imports: [DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent, CbButton],
   template: `
     <doc-page-header
       eyebrow="Foundations"

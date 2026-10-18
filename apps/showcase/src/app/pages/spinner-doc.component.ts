@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { CbSpinnerComponent } from '@caribeng/ui/spinner';
+import { CbSpinner } from '@caribeng/ui/spinner';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
@@ -8,7 +8,7 @@ import { TocService } from '../services/toc.service';
 @Component({
   selector: 'doc-spinner-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbSpinnerComponent, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
+  imports: [CbSpinner, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
     <doc-page-header eyebrow="Misc" title="Spinner" lead="Indicador de carga circular." />
 
@@ -41,7 +41,7 @@ export class SpinnerDocComponent {
     inject(TocService).reset();
   }
   protected readonly installCode = `npm install @caribeng/ui`;
-  protected readonly importCode = `import { CbSpinnerComponent } from '@caribeng/ui/spinner';`;
+  protected readonly importCode = `import { CbSpinner } from '@caribeng/ui/spinner';`;
   protected readonly sizeCode = `<cb-spinner [size]="24" />
 <cb-spinner [size]="48" />`;
   protected readonly sevCode = `<cb-spinner severity="success" />`;

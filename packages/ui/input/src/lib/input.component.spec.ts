@@ -2,10 +2,10 @@ import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { CbInputComponent } from './input.component';
+import { CbInput } from './input.component';
 
 @Component({
-  imports: [ReactiveFormsModule, CbInputComponent],
+  imports: [ReactiveFormsModule, CbInput],
   template: `<cb-input
     [formControl]="control"
     [label]="label()"
@@ -20,7 +20,7 @@ class HostComponent {
   invalid = signal(false);
 }
 
-describe('CbInputComponent', () => {
+describe('CbInput', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({ imports: [HostComponent] });
   });

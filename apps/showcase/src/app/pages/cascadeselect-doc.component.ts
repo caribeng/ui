@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { CbCascadeOption, CbCascadeSelectComponent } from '@caribeng/ui/cascadeselect';
+import { CbCascadeOption, CbCascadeSelect } from '@caribeng/ui/cascadeselect';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
@@ -8,7 +8,7 @@ import { TocService } from '../services/toc.service';
 @Component({
   selector: 'doc-cascadeselect-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbCascadeSelectComponent, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
+  imports: [CbCascadeSelect, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
     <doc-page-header eyebrow="Form" title="CascadeSelect" lead="Selector multinivel en cascada para estructuras anidadas." />
     <doc-section id="import" title="Import">
@@ -39,6 +39,6 @@ export class CascadeselectDocComponent {
       children: [{ label: 'Ciudad de México', value: 'CDMX' }],
     },
   ];
-  protected readonly importCode = `import { CbCascadeSelectComponent } from '@caribeng/ui/cascadeselect';`;
+  protected readonly importCode = `import { CbCascadeSelect } from '@caribeng/ui/cascadeselect';`;
   protected readonly basicCode = `<cb-cascade-select [options]="options" [(value)]="selected" />`;
 }

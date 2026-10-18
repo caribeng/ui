@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, DestroyRef, TemplateRef, ViewContainerRef, ViewEncapsulation, inject, input, output, signal, viewChild } from '@angular/core';
 import { Overlay, type ConnectedPosition, type OverlayRef } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
-import { CbIconComponent } from '@caribeng/ui/icon';
+import { CbIcon } from '@caribeng/ui/icon';
 
 export interface CbTieredMenuItem {
   label: string;
@@ -17,7 +17,7 @@ export interface CbTieredMenuItem {
   selector: 'cb-tieredmenu',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
-  imports: [CbIconComponent],
+  imports: [CbIcon],
   template: `
     <button class="cb-tieredmenu__trigger" type="button" [attr.aria-expanded]="isOpen()" aria-haspopup="menu" (click)="toggle($event)">{{ triggerLabel() }}</button>
     <ng-template #content>
@@ -65,7 +65,7 @@ export interface CbTieredMenuItem {
   `,
   styleUrl: './tieredmenu.component.css',
 })
-export class CbTieredMenuComponent {
+export class CbTieredMenu {
   private readonly overlay = inject(Overlay);
   private readonly vcr = inject(ViewContainerRef);
   private readonly destroyRef = inject(DestroyRef);

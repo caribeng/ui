@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { CbTagComponent } from '@caribeng/ui/tag';
+import { CbTag } from '@caribeng/ui/tag';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
@@ -8,7 +8,7 @@ import { TocService } from '../services/toc.service';
 @Component({
   selector: 'doc-tag-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbTagComponent, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
+  imports: [CbTag, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
     <doc-page-header eyebrow="Messages" title="Tag" lead="Etiqueta para categorizar o marcar estado, con icono opcional." />
 
@@ -52,7 +52,7 @@ export class TagDocComponent {
     inject(TocService).reset();
   }
   protected readonly installCode = `npm install @caribeng/ui`;
-  protected readonly importCode = `import { CbTagComponent } from '@caribeng/ui/tag';`;
+  protected readonly importCode = `import { CbTag } from '@caribeng/ui/tag';`;
   protected readonly sevCode = `<cb-tag value="Success" severity="success" />
 <cb-tag value="Danger" severity="danger" />`;
   protected readonly iconCode = `<cb-tag value="Verificado" severity="success" icon="circle-check" />`;

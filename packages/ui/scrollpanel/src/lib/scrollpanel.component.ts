@@ -42,7 +42,7 @@ import {
   `,
   styleUrl: './scrollpanel.component.css',
 })
-export class CbScrollPanelComponent {
+export class CbScrollPanel {
   /** Ancho CSS del contenedor (ej. `'100%'`, `'320px'`). */
   readonly width = input<string>('100%');
   /** Alto CSS del contenedor (ej. `'200px'`). */

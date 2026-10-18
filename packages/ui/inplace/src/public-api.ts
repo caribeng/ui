@@ -1,1 +1,1 @@
-export { CbInplaceComponent } from './lib/inplace.component';
+export { CbInplace } from './lib/inplace.component';

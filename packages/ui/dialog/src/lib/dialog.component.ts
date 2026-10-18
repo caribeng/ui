@@ -15,7 +15,7 @@ import {
 import { A11yModule } from '@angular/cdk/a11y';
 import { Overlay, type OverlayRef } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
-import { CbIconComponent } from '@caribeng/ui/icon';
+import { CbIcon } from '@caribeng/ui/icon';
 
 let nextUid = 0;
 
@@ -39,7 +39,7 @@ let nextUid = 0;
   selector: 'cb-dialog',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
-  imports: [A11yModule, CbIconComponent],
+  imports: [A11yModule, CbIcon],
   template: `
     <ng-template #tpl>
       <div class="cb-dialog__mask">
@@ -82,7 +82,7 @@ let nextUid = 0;
   `,
   styleUrl: './dialog.component.css',
 })
-export class CbDialogComponent {
+export class CbDialog {
   private readonly overlay = inject(Overlay);
   private readonly vcr = inject(ViewContainerRef);
   private readonly document = inject(DOCUMENT);

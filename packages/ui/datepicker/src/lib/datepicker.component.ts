@@ -14,7 +14,7 @@ import {
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
 import { OverlayModule, type ConnectedPosition } from '@angular/cdk/overlay';
 import type { CbSize } from '@caribeng/ui';
-import { CbIconComponent } from '@caribeng/ui/icon';
+import { CbIcon } from '@caribeng/ui/icon';
 
 let nextUid = 0;
 
@@ -43,12 +43,12 @@ interface DayCell {
   selector: 'cb-datepicker',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
-  imports: [OverlayModule, CbIconComponent],
+  imports: [OverlayModule, CbIcon],
   host: { class: 'cb-datepicker-host' },
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => CbDatepickerComponent),
+      useExisting: forwardRef(() => CbDatepicker),
       multi: true,
     },
   ],
@@ -195,7 +195,7 @@ interface DayCell {
   `,
   styleUrl: './datepicker.component.css',
 })
-export class CbDatepickerComponent implements ControlValueAccessor {
+export class CbDatepicker implements ControlValueAccessor {
   /** Fecha seleccionada (two-way opcional fuera de Angular Forms). */
   readonly value = model<Date | null>(null);
 

@@ -12,7 +12,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
-import { CbIconComponent } from '@caribeng/ui/icon';
+import { CbIcon } from '@caribeng/ui/icon';
 import type { CbSize } from '@caribeng/ui';
 
 let nextUid = 0;
@@ -30,7 +30,7 @@ let nextUid = 0;
   selector: 'cb-chips',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
-  imports: [CbIconComponent],
+  imports: [CbIcon],
   host: { class: 'cb-chips-host' },
   template: `
     <div
@@ -75,12 +75,12 @@ let nextUid = 0;
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => CbChipsComponent),
+      useExisting: forwardRef(() => CbChips),
       multi: true,
     },
   ],
 })
-export class CbChipsComponent implements ControlValueAccessor {
+export class CbChips implements ControlValueAccessor {
   readonly value = model<string[]>([]);
 
   readonly placeholder = input<string>('');

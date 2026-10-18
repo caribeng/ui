@@ -12,7 +12,7 @@ import {
 } from '@angular/core';
 import { Overlay, type ConnectedPosition, type OverlayRef } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
-import { CbIconComponent } from '@caribeng/ui/icon';
+import { CbIcon } from '@caribeng/ui/icon';
 
 export interface CbMenuItem {
   label: string;
@@ -28,7 +28,7 @@ export interface CbMenuItem {
   selector: 'cb-menu',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
-  imports: [CbIconComponent],
+  imports: [CbIcon],
   template: `
     <ng-template #content>
       <div class="cb-menu__panel" role="menu" [attr.aria-label]="ariaLabel() || null" (click)="onPanelClick($event)">
@@ -68,7 +68,7 @@ export interface CbMenuItem {
   `,
   styleUrl: './menu.component.css',
 })
-export class CbMenuComponent {
+export class CbMenu {
   private readonly overlay = inject(Overlay);
   private readonly vcr = inject(ViewContainerRef);
   private readonly destroyRef = inject(DestroyRef);

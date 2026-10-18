@@ -9,7 +9,7 @@ import {
   signal,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { CbIconComponent } from '@caribeng/ui/icon';
+import { CbIcon } from '@caribeng/ui/icon';
 
 export interface CbTreeSelectNode {
   key: string;
@@ -32,11 +32,11 @@ interface FlatTreeSelectNode {
   selector: 'cb-tree-select',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
-  imports: [CbIconComponent],
+  imports: [CbIcon],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => CbTreeSelectComponent),
+      useExisting: forwardRef(() => CbTreeSelect),
       multi: true,
     },
   ],
@@ -105,7 +105,7 @@ interface FlatTreeSelectNode {
   `,
   styleUrl: './treeselect.component.css',
 })
-export class CbTreeSelectComponent implements ControlValueAccessor {
+export class CbTreeSelect implements ControlValueAccessor {
   readonly nodes = input<CbTreeSelectNode[]>([]);
   readonly placeholder = input<string>('Seleccionar nodo…');
   readonly disabled = input<boolean>(false);

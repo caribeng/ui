@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { CbDatepickerComponent } from './datepicker.component';
+import { CbDatepicker } from './datepicker.component';
 
 @Component({
-  imports: [ReactiveFormsModule, CbDatepickerComponent],
+  imports: [ReactiveFormsModule, CbDatepicker],
   template: `<cb-datepicker
     [formControl]="ctrl"
     locale="es-CO"
@@ -20,7 +20,7 @@ class HostComponent {
   max: Date | null = null;
 }
 
-describe('CbDatepickerComponent', () => {
+describe('CbDatepicker', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({ imports: [HostComponent] });
   });

@@ -52,8 +52,8 @@ let nextUid = 0;
   `,
   styleUrl: './tabs.component.css',
 })
-export class CbTabsComponent {
-  readonly tabs = contentChildren(CbTabComponent);
+export class CbTabs {
+  readonly tabs = contentChildren(CbTab);
 
   private readonly activeId = signal<number | null>(null);
   private readonly effectiveActive = computed(
@@ -97,8 +97,8 @@ export class CbTabsComponent {
     }
   `,
 })
-export class CbTabComponent {
-  private readonly parent = inject(CbTabsComponent);
+export class CbTab {
+  private readonly parent = inject(CbTabs);
 
   readonly tabId = ++nextUid;
   readonly label = input<string>('');

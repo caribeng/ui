@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CbTooltipDirective } from '@caribeng/ui/tooltip';
-import { CbButtonComponent } from '@caribeng/ui/button';
+import { CbButton } from '@caribeng/ui/button';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
@@ -11,7 +11,7 @@ import { TocService } from '../services/toc.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CbTooltipDirective,
-    CbButtonComponent,
+    CbButton,
     DocSectionComponent,
     CodeBlockComponent,
     DocPageHeaderComponent,

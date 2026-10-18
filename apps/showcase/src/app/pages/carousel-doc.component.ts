@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { CbCarouselComponent, CbCarouselItem } from '@caribeng/ui/carousel';
+import { CbCarousel, CbCarouselItem } from '@caribeng/ui/carousel';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
@@ -8,7 +8,7 @@ import { TocService } from '../services/toc.service';
 @Component({
   selector: 'doc-carousel-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbCarouselComponent, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
+  imports: [CbCarousel, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
     <doc-page-header eyebrow="Media" title="Carousel" lead="Carrusel accesible de contenido con navegación e indicadores." />
     <doc-section id="import" title="Import">
@@ -28,6 +28,6 @@ export class CarouselDocComponent {
     { badge: 'Aura', title: 'Tokens CSS y Dark Mode', description: 'Paleta esmeralda adaptable sin dependencias externas.' },
     { badge: 'WCAG 2.2', title: 'Accesibilidad nativa', description: 'Navegación por teclado y roles ARIA en todo el catálogo.' },
   ];
-  protected readonly importCode = `import { CbCarouselComponent } from '@caribeng/ui/carousel';`;
+  protected readonly importCode = `import { CbCarousel } from '@caribeng/ui/carousel';`;
   protected readonly basicCode = `<cb-carousel [items]="items" />`;
 }

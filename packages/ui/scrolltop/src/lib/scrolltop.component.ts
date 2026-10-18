@@ -11,7 +11,7 @@ import {
   input,
   signal,
 } from '@angular/core';
-import { CbIconComponent } from '@caribeng/ui/icon';
+import { CbIcon } from '@caribeng/ui/icon';
 
 export type CbScrollTopTarget = 'window' | 'parent';
 
@@ -33,7 +33,7 @@ export type CbScrollTopTarget = 'window' | 'parent';
   selector: 'cb-scroll-top',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
-  imports: [CbIconComponent],
+  imports: [CbIcon],
   host: {
     class: 'cb-scroll-top',
     '[class.cb-scroll-top--parent]': 'target() === "parent"',
@@ -53,7 +53,7 @@ export type CbScrollTopTarget = 'window' | 'parent';
   `,
   styleUrl: './scrolltop.component.css',
 })
-export class CbScrollTopComponent {
+export class CbScrollTop {
   private readonly doc = inject(DOCUMENT);
   private readonly hostRef = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly destroyRef = inject(DestroyRef);

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, ElementRef, ViewEncapsulation, inject, input, output, signal } from '@angular/core';
-import { CbIconComponent } from '@caribeng/ui/icon';
+import { CbIcon } from '@caribeng/ui/icon';
 
 export interface CbMegaMenuLink { label: string; url?: string; icon?: string; disabled?: boolean; }
 export interface CbMegaMenuGroup { label: string; items: readonly CbMegaMenuLink[]; }
@@ -10,7 +10,7 @@ export interface CbMegaMenuItem { label: string; icon?: string; groups: readonly
   selector: 'cb-megamenu',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
-  imports: [CbIconComponent],
+  imports: [CbIcon],
   host: { class: 'cb-megamenu', '(document:click)': 'onDocumentClick($event)', '(keydown.escape)': 'close()' },
   template: `
     <nav [attr.aria-label]="ariaLabel()">
@@ -34,7 +34,7 @@ export interface CbMegaMenuItem { label: string; icon?: string; groups: readonly
   `,
   styleUrl: './megamenu.component.css',
 })
-export class CbMegaMenuComponent {
+export class CbMegaMenu {
   private readonly host = inject(ElementRef<HTMLElement>);
   readonly items = input<readonly CbMegaMenuItem[]>([]);
   readonly ariaLabel = input('Categories');

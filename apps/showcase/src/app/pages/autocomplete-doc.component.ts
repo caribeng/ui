@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { CbAutocompleteComponent } from '@caribeng/ui/autocomplete';
+import { CbAutocomplete } from '@caribeng/ui/autocomplete';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
@@ -18,7 +18,7 @@ const PAISES = [
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule,
-    CbAutocompleteComponent,
+    CbAutocomplete,
     DocSectionComponent,
     CodeBlockComponent,
     DocPageHeaderComponent,
@@ -128,10 +128,10 @@ export class AutocompleteDocComponent {
 
   protected readonly installCode = `npm install @caribeng/ui`;
 
-  protected readonly importCode = `import { CbAutocompleteComponent } from '@caribeng/ui/autocomplete';
+  protected readonly importCode = `import { CbAutocomplete } from '@caribeng/ui/autocomplete';
 
 @Component({
-  imports: [CbAutocompleteComponent],
+  imports: [CbAutocomplete],
   // ...
 })
 export class MyComponent {}`;

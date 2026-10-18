@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { CbDrawerComponent } from '@caribeng/ui/drawer';
-import { CbButtonComponent } from '@caribeng/ui/button';
+import { CbDrawer } from '@caribeng/ui/drawer';
+import { CbButton } from '@caribeng/ui/button';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
@@ -10,8 +10,8 @@ import { TocService } from '../services/toc.service';
   selector: 'doc-drawer-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    CbDrawerComponent,
-    CbButtonComponent,
+    CbDrawer,
+    CbButton,
     DocSectionComponent,
     CodeBlockComponent,
     DocPageHeaderComponent,
@@ -61,7 +61,7 @@ export class DrawerDocComponent {
   protected readonly pos = signal<'left' | 'right' | 'top' | 'bottom'>('left');
 
   protected readonly installCode = `npm install @caribeng/ui @angular/cdk`;
-  protected readonly importCode = `import { CbDrawerComponent } from '@caribeng/ui/drawer';`;
+  protected readonly importCode = `import { CbDrawer } from '@caribeng/ui/drawer';`;
   protected readonly basicCode = `<cb-button (click)="open.set(true)">Abrir drawer</cb-button>
 <cb-drawer [(visible)]="open" header="Filtros" position="right">
   <p>Contenido…</p>

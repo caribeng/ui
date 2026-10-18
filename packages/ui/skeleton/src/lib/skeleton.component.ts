@@ -30,7 +30,7 @@ import {
   template: ``,
   styleUrl: './skeleton.component.css',
 })
-export class CbSkeletonComponent {
+export class CbSkeleton {
   /** Ancho CSS (p. ej. `100%`, `12rem`). */
   readonly width = input<string>('100%');
   /** Alto CSS. En `circle` se iguala al ancho. */

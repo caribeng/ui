@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
-  CbInputGroupComponent,
-  CbInputGroupAddonComponent,
+  CbInputGroup,
+  CbInputGroupAddon,
 } from '@caribeng/ui/inputgroup';
-import { CbInputComponent } from '@caribeng/ui/input';
-import { CbButtonComponent } from '@caribeng/ui/button';
-import { CbIconComponent } from '@caribeng/ui/icon';
+import { CbInput } from '@caribeng/ui/input';
+import { CbButton } from '@caribeng/ui/button';
+import { CbIcon } from '@caribeng/ui/icon';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
@@ -15,11 +15,11 @@ import { TocService } from '../services/toc.service';
   selector: 'doc-inputgroup-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    CbInputGroupComponent,
-    CbInputGroupAddonComponent,
-    CbInputComponent,
-    CbButtonComponent,
-    CbIconComponent,
+    CbInputGroup,
+    CbInputGroupAddon,
+    CbInput,
+    CbButton,
+    CbIcon,
     DocSectionComponent,
     CodeBlockComponent,
     DocPageHeaderComponent,
@@ -76,7 +76,7 @@ export class InputgroupDocComponent {
   }
 
   protected readonly installCode = `npm install @caribeng/ui`;
-  protected readonly importCode = `import { CbInputGroupComponent, CbInputGroupAddonComponent } from '@caribeng/ui/inputgroup';`;
+  protected readonly importCode = `import { CbInputGroup, CbInputGroupAddon } from '@caribeng/ui/inputgroup';`;
   protected readonly basicCode = `<cb-input-group>
   <cb-input-group-addon>@</cb-input-group-addon>
   <cb-input placeholder="usuario" />

@@ -13,7 +13,7 @@ import {
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
 import { OverlayModule, type ConnectedPosition } from '@angular/cdk/overlay';
-import { CbIconComponent } from '@caribeng/ui/icon';
+import { CbIcon } from '@caribeng/ui/icon';
 import type { CbSize } from '@caribeng/ui';
 
 let nextUid = 0;
@@ -33,12 +33,12 @@ let nextUid = 0;
   selector: 'cb-multiselect',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
-  imports: [OverlayModule, CbIconComponent],
+  imports: [OverlayModule, CbIcon],
   host: { class: 'cb-multiselect-host' },
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => CbMultiSelectComponent),
+      useExisting: forwardRef(() => CbMultiSelect),
       multi: true,
     },
   ],
@@ -133,7 +133,7 @@ let nextUid = 0;
   `,
   styleUrl: './multiselect.component.css',
 })
-export class CbMultiSelectComponent implements ControlValueAccessor {
+export class CbMultiSelect implements ControlValueAccessor {
   readonly options = input<readonly unknown[]>([]);
   readonly optionLabel = input<string>('label');
   readonly optionValue = input<string | null>(null);

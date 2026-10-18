@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { CbInlineMessageComponent } from './inlinemessage.component';
+import { CbInlineMessage } from './inlinemessage.component';
 
 @Component({
-  imports: [CbInlineMessageComponent],
+  imports: [CbInlineMessage],
   template: `<cb-inline-message severity="danger" text="Campo obligatorio" />`,
 })
 class HostComponent {}
 
-describe('CbInlineMessageComponent', () => {
+describe('CbInlineMessage', () => {
   it('renderiza role="alert", clase de severidad y texto', () => {
     const fixture = TestBed.createComponent(HostComponent);
     fixture.detectChanges();

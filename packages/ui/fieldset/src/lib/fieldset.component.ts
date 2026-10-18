@@ -5,7 +5,7 @@ import {
   input,
   model,
 } from '@angular/core';
-import { CbIconComponent } from '@caribeng/ui/icon';
+import { CbIcon } from '@caribeng/ui/icon';
 
 let nextFieldsetUid = 0;
 
@@ -24,7 +24,7 @@ let nextFieldsetUid = 0;
   selector: 'cb-fieldset',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
-  imports: [CbIconComponent],
+  imports: [CbIcon],
   host: {
     class: 'cb-fieldset',
     '[class.cb-fieldset--toggleable]': 'toggleable()',
@@ -67,7 +67,7 @@ let nextFieldsetUid = 0;
   `,
   styleUrl: './fieldset.component.css',
 })
-export class CbFieldsetComponent {
+export class CbFieldset {
   private readonly uid = ++nextFieldsetUid;
 
   /** Texto de la leyenda del fieldset. */

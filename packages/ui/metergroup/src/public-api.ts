@@ -1,4 +1,4 @@
 export {
-  CbMeterGroupComponent,
+  CbMeterGroup,
   type CbMeterItem,
 } from './lib/metergroup.component';

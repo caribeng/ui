@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, ViewEncapsulation, input, model, output } from '@angular/core';
-import { CbIconComponent } from '@caribeng/ui/icon';
+import { CbIcon } from '@caribeng/ui/icon';
 
 export interface CbTabMenuItem {
   label: string;
@@ -13,7 +13,7 @@ export interface CbTabMenuItem {
   selector: 'cb-tabmenu',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
-  imports: [CbIconComponent],
+  imports: [CbIcon],
   host: { class: 'cb-tabmenu' },
   template: `
     <nav [attr.aria-label]="ariaLabel()">
@@ -38,7 +38,7 @@ export interface CbTabMenuItem {
   `,
   styleUrl: './tabmenu.component.css',
 })
-export class CbTabMenuComponent {
+export class CbTabMenu {
   readonly items = input<readonly CbTabMenuItem[]>([]);
   readonly activeIndex = model(0);
   readonly ariaLabel = input('Section navigation');

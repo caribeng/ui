@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CbButtonGroup } from '@caribeng/ui/caribe/button-group';
-import { CbButtonComponent } from '@caribeng/ui/button';
+import { CbButton } from '@caribeng/ui/button';
 import { CbDocApiRow, CbDocPageComponent } from '../components/doc-page.component';
 import { CbDocExampleComponent } from '../components/doc-example.component';
 
 @Component({
   selector: 'cb-button-group-doc',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbDocPageComponent, CbDocExampleComponent, CbButtonGroup, CbButtonComponent],
+  imports: [CbDocPageComponent, CbDocExampleComponent, CbButtonGroup, CbButton],
   template: `
     <cb-doc-page
       category="Caribe Design · Acciones"

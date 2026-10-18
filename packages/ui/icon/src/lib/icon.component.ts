@@ -45,7 +45,7 @@ const warned = new Set<string>();
   template: `<span class="cb-icon__box" [innerHTML]="svg()"></span>`,
   styleUrl: './icon.component.css',
 })
-export class CbIconComponent {
+export class CbIcon {
   private readonly registry = inject(CbIconRegistry);
   private readonly sanitizer = inject(DomSanitizer);
 

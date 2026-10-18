@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { CbScrollTopComponent } from './scrolltop.component';
+import { CbScrollTop } from './scrolltop.component';
 
 @Component({
-  imports: [CbScrollTopComponent],
+  imports: [CbScrollTop],
   template: `
     <div class="scroll-box" style="height: 120px; overflow: auto">
       <div style="height: 600px">Contenido largo</div>
@@ -13,7 +13,7 @@ import { CbScrollTopComponent } from './scrolltop.component';
 })
 class HostComponent {}
 
-describe('CbScrollTopComponent', () => {
+describe('CbScrollTop', () => {
   it('permanece oculto bajo el umbral y aparece al hacer scroll sobre el padre', () => {
     const fixture = TestBed.createComponent(HostComponent);
     fixture.detectChanges();

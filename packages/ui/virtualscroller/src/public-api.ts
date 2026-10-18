@@ -1,1 +1,1 @@
-export { CbVirtualScrollerComponent } from './lib/virtualscroller.component';
+export { CbVirtualScroller } from './lib/virtualscroller.component';

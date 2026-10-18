@@ -1,9 +1,9 @@
 import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { CbFieldsetComponent } from './fieldset.component';
+import { CbFieldset } from './fieldset.component';
 
 @Component({
-  imports: [CbFieldsetComponent],
+  imports: [CbFieldset],
   template: `
     <cb-fieldset
       [legend]="legend()"
@@ -20,7 +20,7 @@ class HostComponent {
   collapsed = signal(false);
 }
 
-describe('CbFieldsetComponent', () => {
+describe('CbFieldset', () => {
   it('renderiza legend estático y contenido por defecto', () => {
     const fixture = TestBed.createComponent(HostComponent);
     fixture.detectChanges();

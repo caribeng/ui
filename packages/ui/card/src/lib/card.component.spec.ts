@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { CbCardComponent } from './card.component';
+import { CbCard } from './card.component';
 
 @Component({
-  imports: [CbCardComponent],
+  imports: [CbCard],
   template: `
     <cb-card header="Título" subtitle="Subtítulo">
       <p class="cuerpo">Contenido</p>
@@ -14,7 +14,7 @@ import { CbCardComponent } from './card.component';
 })
 class HostComponent {}
 
-describe('CbCardComponent', () => {
+describe('CbCard', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({ imports: [HostComponent] });
   });
@@ -35,7 +35,7 @@ describe('CbCardComponent', () => {
 
   it('sin header no renderiza el encabezado', () => {
     @Component({
-      imports: [CbCardComponent],
+      imports: [CbCard],
       template: `<cb-card><p>solo cuerpo</p></cb-card>`,
     })
     class Plain {}

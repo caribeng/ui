@@ -8,7 +8,7 @@ import {
   output,
   signal,
 } from '@angular/core';
-import { CbIconComponent } from '@caribeng/ui/icon';
+import { CbIcon } from '@caribeng/ui/icon';
 
 export interface CbMenubarItem {
   label: string;
@@ -24,7 +24,7 @@ export interface CbMenubarItem {
   selector: 'cb-menubar',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
-  imports: [CbIconComponent],
+  imports: [CbIcon],
   host: {
     class: 'cb-menubar',
     '(keydown)': 'onKeydown($event)',
@@ -86,7 +86,7 @@ export interface CbMenubarItem {
   `,
   styleUrl: './menubar.component.css',
 })
-export class CbMenubarComponent {
+export class CbMenubar {
   private readonly host = inject(ElementRef<HTMLElement>);
   readonly items = input<readonly CbMenubarItem[]>([]);
   readonly ariaLabel = input('Main navigation');

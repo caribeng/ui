@@ -1,7 +1,7 @@
 import { Injectable, signal } from '@angular/core';
 import type { CbSeverity } from '@caribeng/ui';
 
-export interface CbToast {
+export interface CbToastMessage {
   readonly id: number;
   readonly severity: CbSeverity;
   readonly summary: string;
@@ -34,7 +34,7 @@ let nextId = 0;
  */
 @Injectable({ providedIn: 'root' })
 export class CbToastService {
-  private readonly _toasts = signal<CbToast[]>([]);
+  private readonly _toasts = signal<CbToastMessage[]>([]);
   /** Lista reactiva de toasts activos. */
   readonly toasts = this._toasts.asReadonly();
 
@@ -42,7 +42,7 @@ export class CbToastService {
 
   /** Agrega un toast y devuelve su id. */
   add(options: CbToastOptions): number {
-    const toast: CbToast = {
+    const toast: CbToastMessage = {
       id: ++nextId,
       severity: options.severity ?? 'info',
       summary: options.summary,

@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { CbBreadcrumbComponent, type CbBreadcrumbItem } from './breadcrumb.component';
+import { CbBreadcrumb, type CbBreadcrumbItem } from './breadcrumb.component';
 
 const ITEMS: CbBreadcrumbItem[] = [
   { label: 'Inicio', url: '/', icon: 'house' },
@@ -8,13 +8,13 @@ const ITEMS: CbBreadcrumbItem[] = [
   { label: 'Detalle' },
 ];
 
-describe('CbBreadcrumbComponent', () => {
+describe('CbBreadcrumb', () => {
   beforeEach(() => {
-    TestBed.configureTestingModule({ imports: [CbBreadcrumbComponent] });
+    TestBed.configureTestingModule({ imports: [CbBreadcrumb] });
   });
 
   function setup() {
-    const fixture = TestBed.createComponent(CbBreadcrumbComponent);
+    const fixture = TestBed.createComponent(CbBreadcrumb);
     fixture.componentRef.setInput('items', ITEMS);
     fixture.detectChanges();
     const host = (): HTMLElement => fixture.nativeElement;

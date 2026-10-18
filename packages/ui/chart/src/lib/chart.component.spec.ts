@@ -1,14 +1,14 @@
 import { TestBed } from '@angular/core/testing';
-import { CbChartComponent } from './chart.component';
+import { CbChart } from './chart.component';
 
-describe('CbChartComponent', () => {
+describe('CbChart', () => {
   const sampleData = {
     labels: ['Ene', 'Feb', 'Mar'],
     datasets: [{ label: 'Ventas', data: [120, 190, 150] }],
   };
 
   it('renderiza barras SVG para el tipo bar', () => {
-    const fixture = TestBed.createComponent(CbChartComponent);
+    const fixture = TestBed.createComponent(CbChart);
     fixture.componentRef.setInput('type', 'bar');
     fixture.componentRef.setInput('data', sampleData);
     fixture.detectChanges();
@@ -18,7 +18,7 @@ describe('CbChartComponent', () => {
   });
 
   it('renderiza segmentos circulares para el tipo doughnut', () => {
-    const fixture = TestBed.createComponent(CbChartComponent);
+    const fixture = TestBed.createComponent(CbChart);
     fixture.componentRef.setInput('type', 'doughnut');
     fixture.componentRef.setInput('data', sampleData);
     fixture.detectChanges();

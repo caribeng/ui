@@ -1,1 +1,1 @@
-export { CbImageComponent } from './lib/image.component';
+export { CbImage } from './lib/image.component';

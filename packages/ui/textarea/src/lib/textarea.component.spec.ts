@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { CbTextareaComponent } from './textarea.component';
+import { CbTextarea } from './textarea.component';
 
 @Component({
-  imports: [ReactiveFormsModule, CbTextareaComponent],
+  imports: [ReactiveFormsModule, CbTextarea],
   template: `<cb-textarea
     [formControl]="control"
     label="Biografía"
@@ -17,7 +17,7 @@ class HostComponent {
   control = new FormControl('');
 }
 
-describe('CbTextareaComponent', () => {
+describe('CbTextarea', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({ imports: [HostComponent] });
   });

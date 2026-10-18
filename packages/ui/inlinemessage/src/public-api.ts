@@ -1,4 +1,4 @@
 export {
-  CbInlineMessageComponent,
+  CbInlineMessage,
   type CbInlineMessageSeverity,
 } from './lib/inlinemessage.component';

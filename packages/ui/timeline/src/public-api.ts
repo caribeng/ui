@@ -1,1 +1,1 @@
-export { CbTimelineComponent, type CbTimelineEvent } from './lib/timeline.component';
+export { CbTimeline, type CbTimelineEvent } from './lib/timeline.component';

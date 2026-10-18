@@ -1,4 +1,4 @@
 /*
  * Public API Surface de @caribeng/ui/spinner
  */
-export { CbSpinnerComponent } from './lib/spinner.component';
+export { CbSpinner } from './lib/spinner.component';

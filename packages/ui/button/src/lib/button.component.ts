@@ -6,7 +6,7 @@ import {
   input,
 } from '@angular/core';
 import type { CbSeverity, CbSize } from '@caribeng/ui';
-import { CbIconComponent } from '@caribeng/ui/icon';
+import { CbIcon } from '@caribeng/ui/icon';
 
 export type CbButtonVariant = 'solid' | 'outlined' | 'text';
 export type CbButtonType = 'button' | 'submit' | 'reset';
@@ -28,7 +28,7 @@ export type CbButtonType = 'button' | 'submit' | 'reset';
   selector: 'cb-button',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
-  imports: [CbIconComponent],
+  imports: [CbIcon],
   host: {
     class: 'cb-button-host',
     '[class.cb-button-host--block]': 'fullWidth()',
@@ -53,7 +53,7 @@ export type CbButtonType = 'button' | 'submit' | 'reset';
   `,
   styleUrl: './button.component.css',
 })
-export class CbButtonComponent {
+export class CbButton {
   /** Severidad semántica (color). */
   readonly severity = input<CbSeverity>('primary');
   /** Variante visual. */
@@ -85,7 +85,7 @@ export class CbButtonComponent {
       `cb-button--${this.variant()}`,
       `cb-button--${this.size()}`,
     ];
-    if (CbButtonComponent.CHROMATIC.has(severity)) {
+    if (CbButton.CHROMATIC.has(severity)) {
       classes.push('cb-button--chromatic');
     }
     return classes;

@@ -6,7 +6,7 @@ import {
   output,
   signal,
 } from '@angular/core';
-import { CbIconComponent } from '@caribeng/ui/icon';
+import { CbIcon } from '@caribeng/ui/icon';
 
 /**
  * Chip de CaribeNG: píldora compacta para representar entidades, filtros o etiquetas
@@ -16,7 +16,7 @@ import { CbIconComponent } from '@caribeng/ui/icon';
   selector: 'cb-chip',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
-  imports: [CbIconComponent],
+  imports: [CbIcon],
   host: {
     class: 'cb-chip',
     '[style.display]': 'visible() ? "inline-flex" : "none"',
@@ -41,7 +41,7 @@ import { CbIconComponent } from '@caribeng/ui/icon';
   `,
   styleUrl: './chip.component.css',
 })
-export class CbChipComponent {
+export class CbChip {
   readonly label = input<string>('');
   readonly icon = input<string>('');
   readonly image = input<string>('');

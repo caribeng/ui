@@ -7,7 +7,7 @@ import {
   model,
   output,
 } from '@angular/core';
-import { CbIconComponent } from '@caribeng/ui/icon';
+import { CbIcon } from '@caribeng/ui/icon';
 import type { CbSeverity } from '@caribeng/ui';
 
 const SEVERITY_ICON: Record<string, string> = {
@@ -34,7 +34,7 @@ const SEVERITY_ICON: Record<string, string> = {
   selector: 'cb-message',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
-  imports: [CbIconComponent],
+  imports: [CbIcon],
   host: { class: 'cb-message-host' },
   template: `
     @if (visible()) {
@@ -53,7 +53,7 @@ const SEVERITY_ICON: Record<string, string> = {
   `,
   styleUrl: './message.component.css',
 })
-export class CbMessageComponent {
+export class CbMessage {
   readonly severity = input<CbSeverity>('info');
   /** Muestra el botón de cerrar. */
   readonly closable = input<boolean, unknown>(false, { transform: toBoolean });

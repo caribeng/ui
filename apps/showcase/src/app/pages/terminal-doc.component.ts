@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, viewChild } from '@angular/core';
-import { CbTerminalComponent } from '@caribeng/ui/terminal';
+import { CbTerminal } from '@caribeng/ui/terminal';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
@@ -8,7 +8,7 @@ import { TocService } from '../services/toc.service';
 @Component({
   selector: 'doc-terminal-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbTerminalComponent, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
+  imports: [CbTerminal, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
     <doc-page-header eyebrow="Misc" title="Terminal" lead="Emulador de consola interactivo con historial de comandos." />
     <doc-section id="import" title="Import">
@@ -25,7 +25,7 @@ import { TocService } from '../services/toc.service';
   `,
 })
 export class TerminalDocComponent {
-  protected readonly term = viewChild.required(CbTerminalComponent);
+  protected readonly term = viewChild.required(CbTerminal);
 
   constructor() {
     inject(TocService).reset();
@@ -41,6 +41,6 @@ export class TerminalDocComponent {
     this.term().sendResponse(resp);
   }
 
-  protected readonly importCode = `import { CbTerminalComponent } from '@caribeng/ui/terminal';`;
+  protected readonly importCode = `import { CbTerminal } from '@caribeng/ui/terminal';`;
   protected readonly basicCode = `<cb-terminal welcomeMessage="CaribeNG CLI" (commandEntered)="handleCmd($event)" />`;
 }

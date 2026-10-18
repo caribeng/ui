@@ -42,7 +42,7 @@ let nextUid = 0;
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => CbInputComponent),
+      useExisting: forwardRef(() => CbInput),
       multi: true,
     },
   ],
@@ -87,7 +87,7 @@ let nextUid = 0;
   `,
   styleUrl: './input.component.css',
 })
-export class CbInputComponent implements ControlValueAccessor {
+export class CbInput implements ControlValueAccessor {
   /** Valor del control (two-way opcional fuera de Angular Forms). */
   readonly value = model<string>('');
 

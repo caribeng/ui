@@ -7,7 +7,7 @@ import {
   input,
   signal,
 } from '@angular/core';
-import { CbIconComponent } from '@caribeng/ui/icon';
+import { CbIcon } from '@caribeng/ui/icon';
 
 let nextUid = 0;
 
@@ -31,7 +31,7 @@ let nextUid = 0;
   template: `<ng-content />`,
   styleUrl: './accordion.component.css',
 })
-export class CbAccordionComponent {
+export class CbAccordion {
   /** Permite varios paneles abiertos a la vez. */
   readonly multiple = input<boolean, unknown>(false, { transform: toBoolean });
 
@@ -55,7 +55,7 @@ export class CbAccordionComponent {
   selector: 'cb-accordion-panel',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
-  imports: [CbIconComponent],
+  imports: [CbIcon],
   host: {
     class: 'cb-accordion-panel',
     '[class.cb-is-open]': 'open()',
@@ -89,8 +89,8 @@ export class CbAccordionComponent {
   `,
   styleUrl: './accordion-panel.component.css',
 })
-export class CbAccordionPanelComponent {
-  private readonly accordion = inject(CbAccordionComponent);
+export class CbAccordionPanel {
+  private readonly accordion = inject(CbAccordion);
   private readonly id = ++nextUid;
 
   readonly header = input<string>('');

@@ -8,7 +8,7 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
-import { CbIconComponent } from '@caribeng/ui/icon';
+import { CbIcon } from '@caribeng/ui/icon';
 
 export interface CbFileUploadEvent {
   files: File[];
@@ -22,7 +22,7 @@ export interface CbFileUploadEvent {
   selector: 'cb-file-upload',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
-  imports: [CbIconComponent],
+  imports: [CbIcon],
   host: {
     class: 'cb-file-upload',
     '[class.cb-is-dragover]': 'dragging()',
@@ -99,7 +99,7 @@ export interface CbFileUploadEvent {
   `,
   styleUrl: './fileupload.component.css',
 })
-export class CbFileUploadComponent {
+export class CbFileUpload {
   readonly accept = input<string>('');
   readonly multiple = input<boolean>(false);
   readonly maxFileSize = input<number | null>(null);

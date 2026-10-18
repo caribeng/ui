@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { CbContextMenuComponent } from './contextmenu.component';
+import { CbContextMenu } from './contextmenu.component';
 
-@Component({ imports: [CbContextMenuComponent], template: `<cb-contextmenu [items]="[{label:'Copiar'}, {label:'Bloqueado',disabled:true}]" (itemSelect)="selected=$event.label">Zona de contexto</cb-contextmenu>` })
+@Component({ imports: [CbContextMenu], template: `<cb-contextmenu [items]="[{label:'Copiar'}, {label:'Bloqueado',disabled:true}]" (itemSelect)="selected=$event.label">Zona de contexto</cb-contextmenu>` })
 class HostComponent { selected = ''; }
 
-describe('CbContextMenuComponent', () => {
+describe('CbContextMenu', () => {
   beforeEach(() => TestBed.configureTestingModule({ imports: [HostComponent] }));
   it('opens at a contextmenu event and presents enabled actions', () => {
     const fixture = TestBed.createComponent(HostComponent); fixture.detectChanges();

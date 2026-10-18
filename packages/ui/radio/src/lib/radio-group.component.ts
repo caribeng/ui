@@ -38,14 +38,14 @@ let nextUid = 0;
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => CbRadioGroupComponent),
+      useExisting: forwardRef(() => CbRadioGroup),
       multi: true,
     },
   ],
   template: `<ng-content />`,
   styleUrl: './radio-group.component.css',
 })
-export class CbRadioGroupComponent implements ControlValueAccessor {
+export class CbRadioGroup implements ControlValueAccessor {
   /** `aria-label` del grupo (recomendado para accesibilidad). */
   readonly ariaLabel = input<string>('');
   /** Nombre compartido por los radios nativos; se genera uno si se omite. */

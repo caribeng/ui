@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, input, output } from '@angular/core';
 import { CbThemeService } from '@caribeng/ui';
-import { CbIconComponent } from '@caribeng/ui/icon';
+import { CbIcon } from '@caribeng/ui/icon';
 import { ConfiguratorService } from '../services/configurator.service';
 import {
   PRIMARY_NAMES,
@@ -12,7 +12,7 @@ import {
 @Component({
   selector: 'doc-configurator',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbIconComponent],
+  imports: [CbIcon],
   template: `
     @if (open()) {
       <div class="cfg__backdrop" (click)="close.emit()"></div>

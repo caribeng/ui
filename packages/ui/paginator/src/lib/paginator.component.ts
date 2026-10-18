@@ -7,7 +7,7 @@ import {
   model,
   output,
 } from '@angular/core';
-import { CbIconComponent } from '@caribeng/ui/icon';
+import { CbIcon } from '@caribeng/ui/icon';
 
 export interface CbPaginatorState {
   /** Índice del primer registro de la página. */
@@ -34,7 +34,7 @@ export interface CbPaginatorState {
   selector: 'cb-paginator',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
-  imports: [CbIconComponent],
+  imports: [CbIcon],
   host: { class: 'cb-paginator', role: 'navigation', 'aria-label': 'Paginación' },
   template: `
     @if (showReport()) {
@@ -106,7 +106,7 @@ export interface CbPaginatorState {
   `,
   styleUrl: './paginator.component.css',
 })
-export class CbPaginatorComponent {
+export class CbPaginator {
   readonly totalRecords = input<number>(0);
   readonly rows = model<number>(10);
   readonly first = model<number>(0);

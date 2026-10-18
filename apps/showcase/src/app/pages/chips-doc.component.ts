@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CbChipsComponent } from '@caribeng/ui/chips';
+import { CbChips } from '@caribeng/ui/chips';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
@@ -11,7 +11,7 @@ import { TocService } from '../services/toc.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule,
-    CbChipsComponent,
+    CbChips,
     DocSectionComponent,
     CodeBlockComponent,
     DocPageHeaderComponent,
@@ -68,7 +68,7 @@ export class ChipsDocComponent {
   });
 
   protected readonly installCode = `npm install @caribeng/ui`;
-  protected readonly importCode = `import { CbChipsComponent } from '@caribeng/ui/chips';`;
+  protected readonly importCode = `import { CbChips } from '@caribeng/ui/chips';`;
   protected readonly basicCode = `<cb-chips [(value)]="tags" placeholder="Añade una etiqueta…" />`;
   protected readonly maxCode = `<cb-chips [(value)]="tags" [max]="3" [allowDuplicate]="false" />`;
   protected readonly validationCode = `<cb-chips

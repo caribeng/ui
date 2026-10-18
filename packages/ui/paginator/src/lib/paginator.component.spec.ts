@@ -1,14 +1,14 @@
 import { TestBed } from '@angular/core/testing';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { CbPaginatorComponent, type CbPaginatorState } from './paginator.component';
+import { CbPaginator, type CbPaginatorState } from './paginator.component';
 
-describe('CbPaginatorComponent', () => {
+describe('CbPaginator', () => {
   beforeEach(() => {
-    TestBed.configureTestingModule({ imports: [CbPaginatorComponent] });
+    TestBed.configureTestingModule({ imports: [CbPaginator] });
   });
 
   function setup(total = 25) {
-    const fixture = TestBed.createComponent(CbPaginatorComponent);
+    const fixture = TestBed.createComponent(CbPaginator);
     fixture.componentRef.setInput('totalRecords', total);
     fixture.detectChanges();
     const el = fixture.nativeElement as HTMLElement;

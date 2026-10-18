@@ -1,4 +1,4 @@
 /*
  * Public API Surface de @caribeng/ui/textarea
  */
-export { CbTextareaComponent } from './lib/textarea.component';
+export { CbTextarea } from './lib/textarea.component';

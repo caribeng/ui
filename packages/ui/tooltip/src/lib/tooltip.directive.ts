@@ -11,7 +11,7 @@ import {
   type ConnectedPosition,
 } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
-import { CbTooltipContentComponent } from './tooltip-content.component';
+import { CbTooltipContent } from './tooltip-content.component';
 
 type CbTooltipPosition = 'top' | 'bottom' | 'left' | 'right';
 
@@ -70,7 +70,7 @@ export class CbTooltipDirective implements OnDestroy {
       scrollStrategy: this.overlay.scrollStrategies.close(),
     });
 
-    const ref = this.overlayRef.attach(new ComponentPortal(CbTooltipContentComponent));
+    const ref = this.overlayRef.attach(new ComponentPortal(CbTooltipContent));
     ref.setInput('text', this.text());
     ref.setInput('position', pos);
   }

@@ -1,9 +1,9 @@
 import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { CbCascadeOption, CbCascadeSelectComponent } from './cascadeselect.component';
+import { CbCascadeOption, CbCascadeSelect } from './cascadeselect.component';
 
 @Component({
-  imports: [CbCascadeSelectComponent],
+  imports: [CbCascadeSelect],
   template: `<cb-cascade-select [options]="opts()" [(value)]="val" />`,
 })
 class HostComponent {
@@ -16,7 +16,7 @@ class HostComponent {
   ]);
 }
 
-describe('CbCascadeSelectComponent', () => {
+describe('CbCascadeSelect', () => {
   it('abre el grupo y selecciona una opción hija en cascada', () => {
     const fixture = TestBed.createComponent(HostComponent);
     fixture.detectChanges();

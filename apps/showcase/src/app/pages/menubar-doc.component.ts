@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { CbMenubarComponent, type CbMenubarItem } from '@caribeng/ui/menubar';
+import { CbMenubar, type CbMenubarItem } from '@caribeng/ui/menubar';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
@@ -8,7 +8,7 @@ import { TocService } from '../services/toc.service';
 @Component({
   selector: 'doc-menubar-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbMenubarComponent, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
+  imports: [CbMenubar, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
     <doc-page-header eyebrow="Menu" title="Menubar" lead="Barra horizontal de navegación con submenús y soporte de teclado." />
 
@@ -39,7 +39,7 @@ export class MenubarDocComponent {
   ];
 
   protected readonly installCode = `npm install @caribeng/ui @angular/cdk`;
-  protected readonly importCode = `import { CbMenubarComponent, CbMenubarItem } from '@caribeng/ui/menubar';`;
+  protected readonly importCode = `import { CbMenubar, CbMenubarItem } from '@caribeng/ui/menubar';`;
   protected readonly basicCode = `<cb-menubar [items]="items" ariaLabel="Navegación principal" />`;
   protected readonly itemsCode = `items: CbMenubarItem[] = [
   { label: 'Inicio', url: '/' },

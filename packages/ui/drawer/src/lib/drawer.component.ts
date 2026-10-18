@@ -15,7 +15,7 @@ import {
 import { A11yModule } from '@angular/cdk/a11y';
 import { Overlay, type OverlayRef } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
-import { CbIconComponent } from '@caribeng/ui/icon';
+import { CbIcon } from '@caribeng/ui/icon';
 
 type CbDrawerPosition = 'left' | 'right' | 'top' | 'bottom';
 
@@ -35,7 +35,7 @@ type CbDrawerPosition = 'left' | 'right' | 'top' | 'bottom';
   selector: 'cb-drawer',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
-  imports: [A11yModule, CbIconComponent],
+  imports: [A11yModule, CbIcon],
   template: `
     <ng-template #tpl>
       <div
@@ -67,7 +67,7 @@ type CbDrawerPosition = 'left' | 'right' | 'top' | 'bottom';
   `,
   styleUrl: './drawer.component.css',
 })
-export class CbDrawerComponent {
+export class CbDrawer {
   private readonly overlay = inject(Overlay);
   private readonly vcr = inject(ViewContainerRef);
   private readonly document = inject(DOCUMENT);

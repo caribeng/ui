@@ -6,7 +6,7 @@ import {
   input,
 } from '@angular/core';
 import type { CbSeverity } from '@caribeng/ui';
-import { CbIconComponent } from '@caribeng/ui/icon';
+import { CbIcon } from '@caribeng/ui/icon';
 import { CbToastService } from './toast.service';
 
 export type CbToastPosition =
@@ -41,7 +41,7 @@ const ICONS: Record<string, string> = {
   selector: 'cb-toast',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
-  imports: [CbIconComponent],
+  imports: [CbIcon],
   template: `
     <div
       class="cb-toast-wrap"
@@ -77,7 +77,7 @@ const ICONS: Record<string, string> = {
   `,
   styleUrl: './toast.component.css',
 })
-export class CbToastComponent {
+export class CbToast {
   protected readonly service = inject(CbToastService);
   readonly position = input<CbToastPosition>('top-right');
 

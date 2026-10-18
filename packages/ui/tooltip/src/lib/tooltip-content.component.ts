@@ -18,7 +18,7 @@ import {
   template: `{{ text() }}`,
   styleUrl: './tooltip-content.component.css',
 })
-export class CbTooltipContentComponent {
+export class CbTooltipContent {
   readonly text = input<string>('');
   readonly position = input<'top' | 'bottom' | 'left' | 'right'>('top');
 }

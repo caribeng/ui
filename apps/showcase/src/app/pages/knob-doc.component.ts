@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { CbKnobComponent } from '@caribeng/ui/knob';
+import { CbKnob } from '@caribeng/ui/knob';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
@@ -8,7 +8,7 @@ import { TocService } from '../services/toc.service';
 @Component({
   selector: 'doc-knob-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbKnobComponent, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
+  imports: [CbKnob, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
     <doc-page-header eyebrow="Form" title="Knob" lead="Dial circular para elegir un número. Arrastre con el puntero o teclado." />
 
@@ -49,7 +49,7 @@ export class KnobDocComponent {
   protected readonly temp = signal(22);
 
   protected readonly installCode = `npm install @caribeng/ui`;
-  protected readonly importCode = `import { CbKnobComponent } from '@caribeng/ui/knob';`;
+  protected readonly importCode = `import { CbKnob } from '@caribeng/ui/knob';`;
   protected readonly basicCode = `<cb-knob [(value)]="volumen" suffix="%" />`;
   protected readonly sevCode = `<cb-knob [(value)]="v" severity="success" [size]="80" />
 <cb-knob [(value)]="v" severity="danger" [size]="120" />`;

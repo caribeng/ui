@@ -8,8 +8,8 @@ import {
   input,
   signal,
 } from '@angular/core';
-import { CbIconComponent } from '@caribeng/ui/icon';
-import { CbButtonComponent } from '@caribeng/ui/button';
+import { CbIcon } from '@caribeng/ui/icon';
+import { CbButton } from '@caribeng/ui/button';
 
 let nextUid = 0;
 
@@ -30,7 +30,7 @@ let nextUid = 0;
   selector: 'cb-stepper',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
-  imports: [CbIconComponent, CbButtonComponent],
+  imports: [CbIcon, CbButton],
   host: { class: 'cb-stepper' },
   template: `
     <ol class="cb-stepper__header">
@@ -78,17 +78,17 @@ let nextUid = 0;
   `,
   styleUrl: './stepper.component.css',
 })
-export class CbStepperComponent {
-  readonly steps = contentChildren(CbStepComponent);
+export class CbStepper {
+  readonly steps = contentChildren(CbStep);
   /** Muestra los botones Atrás/Siguiente integrados. */
   readonly showNav = input<boolean, unknown>(true, { transform: toBoolean });
 
   readonly activeIndex = signal(0);
 
-  isActive(step: CbStepComponent): boolean {
+  isActive(step: CbStep): boolean {
     return this.steps()[this.activeIndex()] === step;
   }
-  isComplete(step: CbStepComponent): boolean {
+  isComplete(step: CbStep): boolean {
     return this.steps().indexOf(step) < this.activeIndex();
   }
 
@@ -116,8 +116,8 @@ export class CbStepperComponent {
     }
   `,
 })
-export class CbStepComponent {
-  private readonly stepper = inject(CbStepperComponent);
+export class CbStep {
+  private readonly stepper = inject(CbStepper);
 
   readonly stepId = ++nextUid;
   readonly label = input<string>('');

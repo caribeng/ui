@@ -1,10 +1,10 @@
 import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { CbDialogComponent } from './dialog.component';
+import { CbDialog } from './dialog.component';
 
 @Component({
-  imports: [CbDialogComponent],
+  imports: [CbDialog],
   template: `
     <cb-dialog
       [visible]="open()"
@@ -21,7 +21,7 @@ class HostComponent {
   hidden = false;
 }
 
-describe('CbDialogComponent', () => {
+describe('CbDialog', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({ imports: [HostComponent] });
   });

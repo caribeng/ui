@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { CbPopoverComponent } from '@caribeng/ui/popover';
-import { CbButtonComponent } from '@caribeng/ui/button';
+import { CbPopover } from '@caribeng/ui/popover';
+import { CbButton } from '@caribeng/ui/button';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
@@ -10,8 +10,8 @@ import { TocService } from '../services/toc.service';
   selector: 'doc-popover-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    CbPopoverComponent,
-    CbButtonComponent,
+    CbPopover,
+    CbButton,
     DocSectionComponent,
     CodeBlockComponent,
     DocPageHeaderComponent,
@@ -54,7 +54,7 @@ export class PopoverDocComponent {
     inject(TocService).reset();
   }
   protected readonly installCode = `npm install @caribeng/ui @angular/cdk`;
-  protected readonly importCode = `import { CbPopoverComponent } from '@caribeng/ui/popover';`;
+  protected readonly importCode = `import { CbPopover } from '@caribeng/ui/popover';`;
   protected readonly basicCode = `<cb-button (click)="op.toggle($event)">Opciones</cb-button>
 <cb-popover #op>
   <div style="padding: 1rem">…</div>

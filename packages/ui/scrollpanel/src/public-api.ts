@@ -1,1 +1,1 @@
-export { CbScrollPanelComponent } from './lib/scrollpanel.component';
+export { CbScrollPanel } from './lib/scrollpanel.component';

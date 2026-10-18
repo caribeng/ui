@@ -4,7 +4,7 @@ import {
   ViewEncapsulation,
   input,
 } from '@angular/core';
-import { CbIconComponent } from '@caribeng/ui/icon';
+import { CbIcon } from '@caribeng/ui/icon';
 
 /**
  * BlockUI de CaribeNG: bloquea la interacción sobre el contenido proyectado
@@ -14,7 +14,7 @@ import { CbIconComponent } from '@caribeng/ui/icon';
   selector: 'cb-block-ui',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
-  imports: [CbIconComponent],
+  imports: [CbIcon],
   host: {
     class: 'cb-block-ui',
     '[class.cb-is-blocked]': 'blocked()',
@@ -32,6 +32,6 @@ import { CbIconComponent } from '@caribeng/ui/icon';
   `,
   styleUrl: './blockui.component.css',
 })
-export class CbBlockUiComponent {
+export class CbBlockUi {
   readonly blocked = input<boolean>(false);
 }

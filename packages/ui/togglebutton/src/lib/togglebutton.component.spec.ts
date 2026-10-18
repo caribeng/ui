@@ -2,17 +2,17 @@ import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { CbToggleButtonComponent } from './togglebutton.component';
+import { CbToggleButton } from './togglebutton.component';
 
 @Component({
-  imports: [ReactiveFormsModule, CbToggleButtonComponent],
+  imports: [ReactiveFormsModule, CbToggleButton],
   template: `<cb-togglebutton [formControl]="control" onLabel="Encendido" offLabel="Apagado" />`,
 })
 class HostComponent {
   control = new FormControl(false);
 }
 
-describe('CbToggleButtonComponent', () => {
+describe('CbToggleButton', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({ imports: [HostComponent] });
   });

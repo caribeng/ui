@@ -1,1 +1,1 @@
-export { CbConfirmDialogComponent } from './lib/confirmdialog.component';
+export { CbConfirmDialog } from './lib/confirmdialog.component';

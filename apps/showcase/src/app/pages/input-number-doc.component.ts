@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CbInputNumberComponent } from '@caribeng/ui/input-number';
+import { CbInputNumber } from '@caribeng/ui/input-number';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
@@ -11,7 +11,7 @@ import { TocService } from '../services/toc.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule,
-    CbInputNumberComponent,
+    CbInputNumber,
     DocSectionComponent,
     CodeBlockComponent,
     DocPageHeaderComponent,
@@ -123,10 +123,10 @@ export class InputNumberDocComponent {
 
   protected readonly installCode = `npm install @caribeng/ui`;
 
-  protected readonly importCode = `import { CbInputNumberComponent } from '@caribeng/ui/input-number';
+  protected readonly importCode = `import { CbInputNumber } from '@caribeng/ui/input-number';
 
 @Component({
-  imports: [CbInputNumberComponent],
+  imports: [CbInputNumber],
   // ...
 })
 export class MyComponent {}`;

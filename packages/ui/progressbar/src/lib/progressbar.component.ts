@@ -40,7 +40,7 @@ import type { CbSeverity } from '@caribeng/ui';
   `,
   styleUrl: './progressbar.component.css',
 })
-export class CbProgressBarComponent {
+export class CbProgressBar {
   /** Valor 0–100. `null` activa el modo indeterminado. */
   readonly value = input<number | null>(0);
   /** Muestra el porcentaje a la derecha. */

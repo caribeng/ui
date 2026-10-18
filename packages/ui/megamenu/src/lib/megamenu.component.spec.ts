@@ -1,15 +1,15 @@
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { CbMegaMenuComponent, type CbMegaMenuItem } from './megamenu.component';
+import { CbMegaMenu, type CbMegaMenuItem } from './megamenu.component';
 
-@Component({ imports: [CbMegaMenuComponent], template: `<cb-megamenu [items]="items" (itemSelect)="selected=$event.label" />` })
+@Component({ imports: [CbMegaMenu], template: `<cb-megamenu [items]="items" (itemSelect)="selected=$event.label" />` })
 class HostComponent {
   items: CbMegaMenuItem[] = [{ label: 'Productos', groups: [{ label: 'Audio', items: [{ label: 'Auriculares' }] }, { label: 'Video', items: [{ label: 'Monitores', url: '/monitors' }] }] }];
   selected = '';
 }
 
-describe('CbMegaMenuComponent', () => {
+describe('CbMegaMenu', () => {
   beforeEach(() => TestBed.configureTestingModule({ imports: [HostComponent] }));
   it('opens category panels with grouped columns', () => {
     const fixture = TestBed.createComponent(HostComponent); fixture.detectChanges();

@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { CbAvatarComponent } from '@caribeng/ui/avatar';
-import { CbAvatarGroupComponent } from './avatargroup.component';
+import { CbAvatar } from '@caribeng/ui/avatar';
+import { CbAvatarGroup } from './avatargroup.component';
 
 @Component({
-  imports: [CbAvatarGroupComponent, CbAvatarComponent],
+  imports: [CbAvatarGroup, CbAvatar],
   template: `
     <cb-avatar-group>
       <cb-avatar label="OZ" />
@@ -14,7 +14,7 @@ import { CbAvatarGroupComponent } from './avatargroup.component';
 })
 class HostComponent {}
 
-describe('CbAvatarGroupComponent', () => {
+describe('CbAvatarGroup', () => {
   it('renderiza role="group" y proyecta avatares hijos', () => {
     const fixture = TestBed.createComponent(HostComponent);
     fixture.detectChanges();

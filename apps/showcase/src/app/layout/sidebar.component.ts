@@ -12,13 +12,13 @@ import {
 import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { filter } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { CbIconComponent } from '@caribeng/ui/icon';
+import { CbIcon } from '@caribeng/ui/icon';
 import { NAV_MENU, type NavItem } from '../data/nav';
 
 @Component({
   selector: 'doc-sidebar',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, RouterLinkActive, CbIconComponent],
+  imports: [RouterLink, RouterLinkActive, CbIcon],
   template: `
     <div class="sidebar">
       <div class="sidebar__search">

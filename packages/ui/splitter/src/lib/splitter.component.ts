@@ -63,7 +63,7 @@ let nextSplitterPanelUid = 0;
   `,
   styleUrl: './splitter.component.css',
 })
-export class CbSplitterComponent {
+export class CbSplitter {
   protected readonly Math = Math;
   private readonly hostRef = inject<ElementRef<HTMLElement>>(ElementRef);
 
@@ -76,7 +76,7 @@ export class CbSplitterComponent {
   /** Emitido al finalizar un ajuste de tamaño. */
   readonly resizeEnd = output<CbSplitterResizeEndEvent>();
 
-  readonly panels = contentChildren(CbSplitterPanelComponent);
+  readonly panels = contentChildren(CbSplitterPanel);
 
   private readonly customSizes = signal<number[] | null>(null);
 
@@ -197,8 +197,8 @@ export class CbSplitterComponent {
   template: `<ng-content />`,
   styleUrl: './splitter-panel.component.css',
 })
-export class CbSplitterPanelComponent {
-  private readonly splitter = inject(CbSplitterComponent);
+export class CbSplitterPanel {
+  private readonly splitter = inject(CbSplitter);
 
   readonly panelId = ++nextSplitterPanelUid;
   /** Tamaño inicial del panel en porcentaje (0–100). */

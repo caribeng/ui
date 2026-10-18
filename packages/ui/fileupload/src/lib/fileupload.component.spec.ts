@@ -1,19 +1,19 @@
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { CbFileUploadComponent } from './fileupload.component';
+import { CbFileUpload } from './fileupload.component';
 
 @Component({
-  imports: [CbFileUploadComponent],
+  imports: [CbFileUpload],
   template: `<cb-file-upload [multiple]="true" />`,
 })
 class HostComponent {}
 
-describe('CbFileUploadComponent', () => {
+describe('CbFileUpload', () => {
   it('agrega y elimina archivos de la lista', () => {
     const fixture = TestBed.createComponent(HostComponent);
     fixture.detectChanges();
 
-    const cmp = fixture.debugElement.children[0].componentInstance as CbFileUploadComponent;
+    const cmp = fixture.debugElement.children[0].componentInstance as CbFileUpload;
     cmp.addFiles([new File(['hola'], 'reporte.txt', { type: 'text/plain' })]);
     fixture.detectChanges();
 

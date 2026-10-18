@@ -1,4 +1,4 @@
 /*
  * Public API Surface de @caribeng/ui/progressbar
  */
-export { CbProgressBarComponent } from './lib/progressbar.component';
+export { CbProgressBar } from './lib/progressbar.component';

@@ -1,14 +1,14 @@
 import { TestBed } from '@angular/core/testing';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { CbBadgeComponent } from './badge.component';
+import { CbBadge } from './badge.component';
 
-describe('CbBadgeComponent', () => {
+describe('CbBadge', () => {
   beforeEach(() => {
-    TestBed.configureTestingModule({ imports: [CbBadgeComponent] });
+    TestBed.configureTestingModule({ imports: [CbBadge] });
   });
 
   function setup() {
-    const fixture = TestBed.createComponent(CbBadgeComponent);
+    const fixture = TestBed.createComponent(CbBadge);
     const host = (): HTMLElement => fixture.nativeElement;
     return { fixture, host };
   }

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { CbSliderComponent } from '@caribeng/ui/slider';
+import { CbSlider } from '@caribeng/ui/slider';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
@@ -11,7 +11,7 @@ import { TocService } from '../services/toc.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule,
-    CbSliderComponent,
+    CbSlider,
     DocSectionComponent,
     CodeBlockComponent,
     DocPageHeaderComponent,
@@ -75,7 +75,7 @@ export class SliderDocComponent {
   protected readonly bloqueado = new FormControl({ value: 60, disabled: true });
 
   protected readonly installCode = `npm install @caribeng/ui`;
-  protected readonly importCode = `import { CbSliderComponent } from '@caribeng/ui/slider';`;
+  protected readonly importCode = `import { CbSlider } from '@caribeng/ui/slider';`;
   protected readonly basicCode = `<cb-slider [(value)]="volumen" ariaLabel="Volumen" />`;
   protected readonly stepCode = `<cb-slider [(value)]="temp" [min]="16" [max]="30" [step]="0.5" />`;
   protected readonly sizesCode = `<cb-slider [(value)]="v" size="sm" />

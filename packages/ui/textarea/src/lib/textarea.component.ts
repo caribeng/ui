@@ -35,7 +35,7 @@ let nextUid = 0;
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => CbTextareaComponent),
+      useExisting: forwardRef(() => CbTextarea),
       multi: true,
     },
   ],
@@ -91,7 +91,7 @@ let nextUid = 0;
   `,
   styleUrl: './textarea.component.css',
 })
-export class CbTextareaComponent implements ControlValueAccessor {
+export class CbTextarea implements ControlValueAccessor {
   /** Valor del control (two-way opcional fuera de Angular Forms). */
   readonly value = model<string>('');
 

@@ -18,4 +18,4 @@ import {
   template: `<ng-content />`,
   styleUrl: './avatargroup.component.css',
 })
-export class CbAvatarGroupComponent {}
+export class CbAvatarGroup {}

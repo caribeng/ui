@@ -6,7 +6,7 @@ import {
   input,
   model,
 } from '@angular/core';
-import { CbIconComponent } from '@caribeng/ui/icon';
+import { CbIcon } from '@caribeng/ui/icon';
 
 export interface CbGalleriaItem {
   itemImageSrc: string;
@@ -23,7 +23,7 @@ export interface CbGalleriaItem {
   selector: 'cb-galleria',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
-  imports: [CbIconComponent],
+  imports: [CbIcon],
   host: { class: 'cb-galleria' },
   template: `
     @if (activeItem(); as current) {
@@ -77,7 +77,7 @@ export interface CbGalleriaItem {
   `,
   styleUrl: './galleria.component.css',
 })
-export class CbGalleriaComponent {
+export class CbGalleria {
   readonly value = input<CbGalleriaItem[]>([]);
   readonly showThumbnails = input<boolean>(true);
   readonly circular = input<boolean>(true);

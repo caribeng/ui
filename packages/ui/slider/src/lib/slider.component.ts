@@ -60,12 +60,12 @@ let nextUid = 0;
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => CbSliderComponent),
+      useExisting: forwardRef(() => CbSlider),
       multi: true,
     },
   ],
 })
-export class CbSliderComponent implements ControlValueAccessor {
+export class CbSlider implements ControlValueAccessor {
   readonly value = model<number>(0);
 
   readonly min = input<number>(0);

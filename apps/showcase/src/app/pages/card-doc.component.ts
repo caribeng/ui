@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { CbCardComponent } from '@caribeng/ui/card';
-import { CbButtonComponent } from '@caribeng/ui/button';
+import { CbCard } from '@caribeng/ui/card';
+import { CbButton } from '@caribeng/ui/button';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
@@ -10,8 +10,8 @@ import { TocService } from '../services/toc.service';
   selector: 'doc-card-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    CbCardComponent,
-    CbButtonComponent,
+    CbCard,
+    CbButton,
     DocSectionComponent,
     CodeBlockComponent,
     DocPageHeaderComponent,
@@ -63,7 +63,7 @@ export class CardDocComponent {
     inject(TocService).reset();
   }
   protected readonly installCode = `npm install @caribeng/ui`;
-  protected readonly importCode = `import { CbCardComponent } from '@caribeng/ui/card';`;
+  protected readonly importCode = `import { CbCard } from '@caribeng/ui/card';`;
   protected readonly basicCode = `<cb-card header="Plan Pro" subtitle="Facturación mensual">
   <p>Acceso completo a todos los componentes.</p>
 </cb-card>`;

@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { CbOffCanvas } from '@caribeng/ui/caribe/off-canvas';
-import { CbButtonComponent } from '@caribeng/ui/button';
+import { CbButton } from '@caribeng/ui/button';
 import { CbDocApiRow, CbDocPageComponent } from '../components/doc-page.component';
 import { CbDocExampleComponent } from '../components/doc-example.component';
 
 @Component({
   selector: 'cb-off-canvas-doc',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbDocPageComponent, CbDocExampleComponent, CbOffCanvas, CbButtonComponent],
+  imports: [CbDocPageComponent, CbDocExampleComponent, CbOffCanvas, CbButton],
   template: `
     <cb-doc-page
       category="Caribe Design · Paneles"

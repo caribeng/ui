@@ -2,6 +2,6 @@
  * Public API Surface de @caribeng/ui/inputgroup
  */
 export {
-  CbInputGroupComponent,
-  CbInputGroupAddonComponent,
+  CbInputGroup,
+  CbInputGroupAddon,
 } from './lib/input-group.component';

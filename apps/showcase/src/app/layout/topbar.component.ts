@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, inject, output } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CbThemeService } from '@caribeng/ui';
-import { CbIconComponent } from '@caribeng/ui/icon';
+import { CbIcon } from '@caribeng/ui/icon';
 
 @Component({
   selector: 'doc-topbar',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, CbIconComponent],
+  imports: [RouterLink, CbIcon],
   template: `
     <div class="topbar">
       <a routerLink="/" class="topbar__brand">

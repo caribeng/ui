@@ -1,1 +1,1 @@
-export { CbInputMaskComponent } from './lib/inputmask.component';
+export { CbInputMask } from './lib/inputmask.component';

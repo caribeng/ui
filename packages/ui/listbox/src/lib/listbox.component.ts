@@ -9,7 +9,7 @@ import {
   signal,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
-import { CbIconComponent } from '@caribeng/ui/icon';
+import { CbIcon } from '@caribeng/ui/icon';
 
 let nextUid = 0;
 
@@ -28,12 +28,12 @@ let nextUid = 0;
   selector: 'cb-listbox',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
-  imports: [CbIconComponent],
+  imports: [CbIcon],
   host: { class: 'cb-listbox-host' },
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => CbListBoxComponent),
+      useExisting: forwardRef(() => CbListBox),
       multi: true,
     },
   ],
@@ -93,7 +93,7 @@ let nextUid = 0;
   `,
   styleUrl: './listbox.component.css',
 })
-export class CbListBoxComponent implements ControlValueAccessor {
+export class CbListBox implements ControlValueAccessor {
   readonly options = input<readonly unknown[]>([]);
   readonly optionLabel = input<string>('label');
   readonly optionValue = input<string | null>(null);

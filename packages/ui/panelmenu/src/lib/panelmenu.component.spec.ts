@@ -1,15 +1,15 @@
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { CbPanelMenuComponent, type CbPanelMenuItem } from './panelmenu.component';
+import { CbPanelMenu, type CbPanelMenuItem } from './panelmenu.component';
 
-@Component({ imports: [CbPanelMenuComponent], template: `<cb-panelmenu [items]="items" (itemSelect)="selected=$event.label" />` })
+@Component({ imports: [CbPanelMenu], template: `<cb-panelmenu [items]="items" (itemSelect)="selected=$event.label" />` })
 class HostComponent {
   items: CbPanelMenuItem[] = [{ label: 'Cuenta', items: [{ label: 'Perfil', url: '/profile' }, { label: 'Salir' }] }, { label: 'Ayuda' }];
   selected = '';
 }
 
-describe('CbPanelMenuComponent', () => {
+describe('CbPanelMenu', () => {
   beforeEach(() => TestBed.configureTestingModule({ imports: [HostComponent] }));
   it('expands and collapses a section with the proper aria state', () => {
     const fixture = TestBed.createComponent(HostComponent); fixture.detectChanges();

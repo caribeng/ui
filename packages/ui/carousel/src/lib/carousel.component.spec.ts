@@ -1,9 +1,9 @@
 import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { CbCarouselComponent, CbCarouselItem } from './carousel.component';
+import { CbCarousel, CbCarouselItem } from './carousel.component';
 
 @Component({
-  imports: [CbCarouselComponent],
+  imports: [CbCarousel],
   template: `<cb-carousel [items]="items()" [(page)]="page" />`,
 })
 class HostComponent {
@@ -14,7 +14,7 @@ class HostComponent {
   ]);
 }
 
-describe('CbCarouselComponent', () => {
+describe('CbCarousel', () => {
   it('navega entre diapositivas con los botones siguiente y anterior', () => {
     const fixture = TestBed.createComponent(HostComponent);
     fixture.detectChanges();

@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { CbTieredMenuComponent, type CbTieredMenuItem } from '@caribeng/ui/tieredmenu';
+import { CbTieredMenu, type CbTieredMenuItem } from '@caribeng/ui/tieredmenu';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
 import { TocService } from '../services/toc.service';
 
-@Component({ selector: 'doc-tieredmenu-page', changeDetection: ChangeDetectionStrategy.OnPush, imports: [CbTieredMenuComponent, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent], template: `
+@Component({ selector: 'doc-tieredmenu-page', changeDetection: ChangeDetectionStrategy.OnPush, imports: [CbTieredMenu, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent], template: `
   <doc-page-header eyebrow="Menu" title="TieredMenu" lead="Menú emergente con submenús en cascada." />
   <doc-section id="import" title="Import"><doc-code-block [code]="installCode" lang="bash" /><br /><doc-code-block [code]="importCode" lang="typescript" /></doc-section>
   <doc-section id="basic" title="Basic" description="Abre el menú y pasa sobre una categoría para ver las opciones anidadas." [code]="basicCode">
@@ -22,6 +22,6 @@ export class TieredmenuDocComponent {
     { label: 'Guardar', icon: 'save' },
   ];
   protected readonly installCode = `npm install @caribeng/ui @angular/cdk`;
-  protected readonly importCode = `import { CbTieredMenuComponent } from '@caribeng/ui/tieredmenu';`;
+  protected readonly importCode = `import { CbTieredMenu } from '@caribeng/ui/tieredmenu';`;
   protected readonly basicCode = `<cb-tieredmenu [items]="items" triggerLabel="Archivo" />`;
 }

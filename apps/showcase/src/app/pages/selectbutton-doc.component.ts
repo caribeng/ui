@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { CbSelectButtonComponent } from '@caribeng/ui/selectbutton';
+import { CbSelectButton } from '@caribeng/ui/selectbutton';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
@@ -8,7 +8,7 @@ import { TocService } from '../services/toc.service';
 @Component({
   selector: 'doc-selectbutton-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbSelectButtonComponent, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
+  imports: [CbSelectButton, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
     <doc-page-header eyebrow="Form" title="SelectButton" lead="Grupo de botones segmentados para elegir una o varias opciones." />
 
@@ -43,7 +43,7 @@ export class SelectbuttonDocComponent {
   protected readonly dias = signal<unknown[]>(['L', 'X']);
 
   protected readonly installCode = `npm install @caribeng/ui`;
-  protected readonly importCode = `import { CbSelectButtonComponent } from '@caribeng/ui/selectbutton';`;
+  protected readonly importCode = `import { CbSelectButton } from '@caribeng/ui/selectbutton';`;
   protected readonly singleCode = `<cb-selectbutton [(value)]="vista" [options]="['Día','Semana','Mes']" />`;
   protected readonly multiCode = `<cb-selectbutton [(value)]="dias" [options]="opciones" multiple />`;
 }

@@ -1,12 +1,12 @@
 import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { CbStepsComponent, type CbStepItem } from './steps.component';
+import { CbSteps, type CbStepItem } from './steps.component';
 
-@Component({ imports: [CbStepsComponent], template: `<cb-steps [steps]="steps" [(activeIndex)]="active" />` })
+@Component({ imports: [CbSteps], template: `<cb-steps [steps]="steps" [(activeIndex)]="active" />` })
 class HostComponent { steps: CbStepItem[] = [{ label: 'Cuenta' }, { label: 'Entrega' }, { label: 'Pago', disabled: true }]; active = signal(0); }
 
-describe('CbStepsComponent', () => {
+describe('CbSteps', () => {
   beforeEach(() => TestBed.configureTestingModule({ imports: [HostComponent] }));
   it('marks the active step accessibly', () => {
     const fixture = TestBed.createComponent(HostComponent); fixture.detectChanges();

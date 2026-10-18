@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { CbToolbarComponent } from './toolbar.component';
+import { CbToolbar } from './toolbar.component';
 
 @Component({
-  imports: [CbToolbarComponent],
+  imports: [CbToolbar],
   template: `
     <cb-toolbar ariaLabel="Acciones del editor">
       <div cb-toolbar-start><button class="btn-start">Nuevo</button></div>
@@ -14,7 +14,7 @@ import { CbToolbarComponent } from './toolbar.component';
 })
 class HostComponent {}
 
-describe('CbToolbarComponent', () => {
+describe('CbToolbar', () => {
   it('renderiza role="toolbar", aria-label y los tres grupos proyectados', () => {
     const fixture = TestBed.createComponent(HostComponent);
     fixture.detectChanges();

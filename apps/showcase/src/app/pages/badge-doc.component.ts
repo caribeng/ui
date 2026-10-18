@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { CbBadgeComponent } from '@caribeng/ui/badge';
+import { CbBadge } from '@caribeng/ui/badge';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
@@ -8,7 +8,7 @@ import { TocService } from '../services/toc.service';
 @Component({
   selector: 'doc-badge-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbBadgeComponent, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
+  imports: [CbBadge, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
     <doc-page-header eyebrow="Messages" title="Badge" lead="Indicador compacto de conteo o estado." />
 
@@ -53,7 +53,7 @@ export class BadgeDocComponent {
     inject(TocService).reset();
   }
   protected readonly installCode = `npm install @caribeng/ui`;
-  protected readonly importCode = `import { CbBadgeComponent } from '@caribeng/ui/badge';`;
+  protected readonly importCode = `import { CbBadge } from '@caribeng/ui/badge';`;
   protected readonly sevCode = `<cb-badge [value]="8" />
 <cb-badge [value]="99" severity="danger" />
 <cb-badge value="new" severity="contrast" />`;

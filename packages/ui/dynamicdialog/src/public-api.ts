@@ -1,1 +1,1 @@
-export { CbDynamicDialogComponent } from './lib/dynamicdialog.component';
+export { CbDynamicDialog } from './lib/dynamicdialog.component';

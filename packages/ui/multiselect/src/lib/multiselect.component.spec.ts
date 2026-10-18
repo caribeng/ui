@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { CbMultiSelectComponent } from './multiselect.component';
+import { CbMultiSelect } from './multiselect.component';
 
 interface Ciudad {
   nombre: string;
@@ -10,7 +10,7 @@ interface Ciudad {
 }
 
 @Component({
-  imports: [ReactiveFormsModule, CbMultiSelectComponent],
+  imports: [ReactiveFormsModule, CbMultiSelect],
   template: `<cb-multiselect
     [formControl]="control"
     [options]="ciudades"
@@ -28,7 +28,7 @@ class HostComponent {
   ];
 }
 
-describe('CbMultiSelectComponent', () => {
+describe('CbMultiSelect', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({ imports: [HostComponent] });
   });

@@ -1,10 +1,10 @@
 import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { CbMessageComponent } from './message.component';
+import { CbMessage } from './message.component';
 
 @Component({
-  imports: [CbMessageComponent],
+  imports: [CbMessage],
   template: `
     <cb-message
       [severity]="severity()"
@@ -23,7 +23,7 @@ class HostComponent {
   closedCount = 0;
 }
 
-describe('CbMessageComponent', () => {
+describe('CbMessage', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({ imports: [HostComponent] });
   });

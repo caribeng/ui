@@ -2,17 +2,17 @@ import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { CbKnobComponent } from './knob.component';
+import { CbKnob } from './knob.component';
 
 @Component({
-  imports: [ReactiveFormsModule, CbKnobComponent],
+  imports: [ReactiveFormsModule, CbKnob],
   template: `<cb-knob [formControl]="control" [min]="0" [max]="100" [step]="5" ariaLabel="Volumen" />`,
 })
 class HostComponent {
   control = new FormControl(0);
 }
 
-describe('CbKnobComponent', () => {
+describe('CbKnob', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({ imports: [HostComponent] });
   });

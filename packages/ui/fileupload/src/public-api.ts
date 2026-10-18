@@ -1,4 +1,4 @@
 export {
-  CbFileUploadComponent,
+  CbFileUpload,
   type CbFileUploadEvent,
 } from './lib/fileupload.component';

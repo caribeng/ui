@@ -14,7 +14,7 @@ import {
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
 import { OverlayModule, type ConnectedPosition } from '@angular/cdk/overlay';
 import type { CbSize } from '@caribeng/ui';
-import { CbIconComponent } from '@caribeng/ui/icon';
+import { CbIcon } from '@caribeng/ui/icon';
 
 let nextUid = 0;
 
@@ -37,12 +37,12 @@ let nextUid = 0;
   selector: 'cb-autocomplete',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
-  imports: [OverlayModule, CbIconComponent],
+  imports: [OverlayModule, CbIcon],
   host: { class: 'cb-autocomplete-host' },
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => CbAutocompleteComponent),
+      useExisting: forwardRef(() => CbAutocomplete),
       multi: true,
     },
   ],
@@ -147,7 +147,7 @@ let nextUid = 0;
   `,
   styleUrl: './autocomplete.component.css',
 })
-export class CbAutocompleteComponent implements ControlValueAccessor {
+export class CbAutocomplete implements ControlValueAccessor {
   /** Valor seleccionado (two-way opcional fuera de Angular Forms). */
   readonly value = model<unknown>(null);
 

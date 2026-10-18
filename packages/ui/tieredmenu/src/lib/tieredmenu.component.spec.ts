@@ -1,15 +1,15 @@
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { CbTieredMenuComponent, type CbTieredMenuItem } from './tieredmenu.component';
+import { CbTieredMenu, type CbTieredMenuItem } from './tieredmenu.component';
 
-@Component({ imports: [CbTieredMenuComponent], template: `<cb-tieredmenu [items]="items" (itemSelect)="selected=$event.label" />` })
+@Component({ imports: [CbTieredMenu], template: `<cb-tieredmenu [items]="items" (itemSelect)="selected=$event.label" />` })
 class HostComponent {
   items: CbTieredMenuItem[] = [{ label: 'Archivo', items: [{ label: 'Nuevo', items: [{ label: 'Proyecto' }] }, { label: 'Abrir' }] }];
   selected = '';
 }
 
-describe('CbTieredMenuComponent', () => {
+describe('CbTieredMenu', () => {
   beforeEach(() => TestBed.configureTestingModule({ imports: [HostComponent] }));
   it('opens the popup and cascades into nested levels', () => {
     const fixture = TestBed.createComponent(HostComponent); fixture.detectChanges();

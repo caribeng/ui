@@ -1,9 +1,9 @@
 import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { CbPanelComponent } from './panel.component';
+import { CbPanel } from './panel.component';
 
 @Component({
-  imports: [CbPanelComponent],
+  imports: [CbPanel],
   template: `
     <cb-panel
       [header]="header()"
@@ -21,7 +21,7 @@ class HostComponent {
   collapsed = signal(false);
 }
 
-describe('CbPanelComponent', () => {
+describe('CbPanel', () => {
   it('renderiza encabezado, cuerpo y pie cuando no está colapsado', () => {
     const fixture = TestBed.createComponent(HostComponent);
     fixture.detectChanges();

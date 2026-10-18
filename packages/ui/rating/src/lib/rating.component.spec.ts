@@ -2,17 +2,17 @@ import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { CbRatingComponent } from './rating.component';
+import { CbRating } from './rating.component';
 
 @Component({
-  imports: [ReactiveFormsModule, CbRatingComponent],
+  imports: [ReactiveFormsModule, CbRating],
   template: `<cb-rating [formControl]="control" [stars]="5" ariaLabel="Puntuación" />`,
 })
 class HostComponent {
   control = new FormControl(0);
 }
 
-describe('CbRatingComponent', () => {
+describe('CbRating', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({ imports: [HostComponent] });
   });

@@ -1,14 +1,14 @@
 import { TestBed } from '@angular/core/testing';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { CbAvatarComponent } from './avatar.component';
+import { CbAvatar } from './avatar.component';
 
-describe('CbAvatarComponent', () => {
+describe('CbAvatar', () => {
   beforeEach(() => {
-    TestBed.configureTestingModule({ imports: [CbAvatarComponent] });
+    TestBed.configureTestingModule({ imports: [CbAvatar] });
   });
 
   function setup() {
-    const fixture = TestBed.createComponent(CbAvatarComponent);
+    const fixture = TestBed.createComponent(CbAvatar);
     const host = (): HTMLElement => fixture.nativeElement;
     return { fixture, host };
   }

@@ -37,7 +37,7 @@ let nextUid = 0;
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => CbSelectButtonComponent),
+      useExisting: forwardRef(() => CbSelectButton),
       multi: true,
     },
   ],
@@ -58,7 +58,7 @@ let nextUid = 0;
   `,
   styleUrl: './selectbutton.component.css',
 })
-export class CbSelectButtonComponent implements ControlValueAccessor {
+export class CbSelectButton implements ControlValueAccessor {
   readonly options = input<readonly unknown[]>([]);
   readonly optionLabel = input<string>('label');
   readonly optionValue = input<string | null>(null);

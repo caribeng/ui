@@ -137,7 +137,7 @@ const DEFAULT_PALETTE = [
   `,
   styleUrl: './chart.component.css',
 })
-export class CbChartComponent {
+export class CbChart {
   readonly type = input<CbChartType>('bar');
   readonly data = input<CbChartData>({ labels: [], datasets: [] });
   readonly height = input<number>(220);

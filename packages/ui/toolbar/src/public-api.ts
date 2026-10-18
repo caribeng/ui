@@ -1,1 +1,1 @@
-export { CbToolbarComponent } from './lib/toolbar.component';
+export { CbToolbar } from './lib/toolbar.component';

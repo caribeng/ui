@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { CbGalleriaComponent, CbGalleriaItem } from '@caribeng/ui/galleria';
+import { CbGalleria, CbGalleriaItem } from '@caribeng/ui/galleria';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
@@ -8,7 +8,7 @@ import { TocService } from '../services/toc.service';
 @Component({
   selector: 'doc-galleria-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbGalleriaComponent, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
+  imports: [CbGalleria, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
     <doc-page-header eyebrow="Media" title="Galleria" lead="Galería fotográfica con visor principal y tira de miniaturas." />
     <doc-section id="import" title="Import">
@@ -33,6 +33,6 @@ export class GalleriaDocComponent {
       title: 'Atardecer Tropical',
     },
   ];
-  protected readonly importCode = `import { CbGalleriaComponent } from '@caribeng/ui/galleria';`;
+  protected readonly importCode = `import { CbGalleria } from '@caribeng/ui/galleria';`;
   protected readonly basicCode = `<cb-galleria [value]="images" />`;
 }

@@ -1,4 +1,4 @@
 export {
-  CbOrganizationChartComponent,
+  CbOrganizationChart,
   type CbOrganizationChartNode,
 } from './lib/organizationchart.component';

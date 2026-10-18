@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { CbStepperComponent, CbStepComponent } from '@caribeng/ui/stepper';
+import { CbStepper, CbStep } from '@caribeng/ui/stepper';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
@@ -9,8 +9,8 @@ import { TocService } from '../services/toc.service';
   selector: 'doc-stepper-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    CbStepperComponent,
-    CbStepComponent,
+    CbStepper,
+    CbStep,
     DocSectionComponent,
     CodeBlockComponent,
     DocPageHeaderComponent,
@@ -51,7 +51,7 @@ export class StepperDocComponent {
     inject(TocService).reset();
   }
   protected readonly installCode = `npm install @caribeng/ui`;
-  protected readonly importCode = `import { CbStepperComponent, CbStepComponent } from '@caribeng/ui/stepper';`;
+  protected readonly importCode = `import { CbStepper, CbStep } from '@caribeng/ui/stepper';`;
   protected readonly basicCode = `<cb-stepper>
   <cb-step label="Cuenta">…</cb-step>
   <cb-step label="Perfil">…</cb-step>

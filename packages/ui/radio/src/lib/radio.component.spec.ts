@@ -2,11 +2,11 @@ import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { CbRadioGroupComponent } from './radio-group.component';
-import { CbRadioComponent } from './radio.component';
+import { CbRadioGroup } from './radio-group.component';
+import { CbRadio } from './radio.component';
 
 @Component({
-  imports: [ReactiveFormsModule, CbRadioGroupComponent, CbRadioComponent],
+  imports: [ReactiveFormsModule, CbRadioGroup, CbRadio],
   template: `
     <cb-radio-group [formControl]="plan" ariaLabel="Plan">
       <cb-radio value="free" label="Gratis" />
@@ -18,7 +18,7 @@ class HostComponent {
   plan = new FormControl<string | null>(null);
 }
 
-describe('CbRadioGroupComponent + CbRadioComponent', () => {
+describe('CbRadioGroup + CbRadio', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({ imports: [HostComponent] });
   });

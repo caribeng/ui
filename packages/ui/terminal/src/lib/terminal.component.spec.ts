@@ -1,9 +1,9 @@
 import { Component, viewChild } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { CbTerminalComponent } from './terminal.component';
+import { CbTerminal } from './terminal.component';
 
 @Component({
-  imports: [CbTerminalComponent],
+  imports: [CbTerminal],
   template: `
     <cb-terminal
       welcomeMessage="Bienvenido"
@@ -13,13 +13,13 @@ import { CbTerminalComponent } from './terminal.component';
   `,
 })
 class HostComponent {
-  term = viewChild.required(CbTerminalComponent);
+  term = viewChild.required(CbTerminal);
   onCmd(cmd: string): void {
     this.term().sendResponse(`Ejecutado: ${cmd}`);
   }
 }
 
-describe('CbTerminalComponent', () => {
+describe('CbTerminal', () => {
   it('procesa un comando al pulsar Enter y muestra la respuesta', () => {
     const fixture = TestBed.createComponent(HostComponent);
     fixture.detectChanges();

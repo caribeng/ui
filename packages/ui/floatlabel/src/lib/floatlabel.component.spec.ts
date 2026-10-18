@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { CbFloatLabelComponent } from './floatlabel.component';
+import { CbFloatLabel } from './floatlabel.component';
 
 @Component({
-  imports: [CbFloatLabelComponent],
+  imports: [CbFloatLabel],
   template: `
     <cb-float-label>
       <input id="u" type="text" />
@@ -13,7 +13,7 @@ import { CbFloatLabelComponent } from './floatlabel.component';
 })
 class HostComponent {}
 
-describe('CbFloatLabelComponent', () => {
+describe('CbFloatLabel', () => {
   it('activa la clase cb-is-active al enfocar o escribir en el input hijo', () => {
     const fixture = TestBed.createComponent(HostComponent);
     fixture.detectChanges();

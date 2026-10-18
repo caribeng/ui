@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { CbTabsComponent, CbTabComponent } from './tabs.component';
+import { CbTabs, CbTab } from './tabs.component';
 
 @Component({
-  imports: [CbTabsComponent, CbTabComponent],
+  imports: [CbTabs, CbTab],
   template: `
     <cb-tabs>
       <cb-tab label="Uno"><p class="c1">Contenido 1</p></cb-tab>
@@ -15,7 +15,7 @@ import { CbTabsComponent, CbTabComponent } from './tabs.component';
 })
 class HostComponent {}
 
-describe('CbTabsComponent', () => {
+describe('CbTabs', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({ imports: [HostComponent] });
   });

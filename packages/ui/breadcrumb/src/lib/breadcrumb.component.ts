@@ -5,7 +5,7 @@ import {
   input,
   output,
 } from '@angular/core';
-import { CbIconComponent } from '@caribeng/ui/icon';
+import { CbIcon } from '@caribeng/ui/icon';
 
 export interface CbBreadcrumbItem {
   label: string;
@@ -31,7 +31,7 @@ export interface CbBreadcrumbItem {
   selector: 'cb-breadcrumb',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
-  imports: [CbIconComponent],
+  imports: [CbIcon],
   host: { class: 'cb-breadcrumb' },
   template: `
     <nav aria-label="Breadcrumb">
@@ -59,7 +59,7 @@ export interface CbBreadcrumbItem {
   `,
   styleUrl: './breadcrumb.component.css',
 })
-export class CbBreadcrumbComponent {
+export class CbBreadcrumb {
   readonly items = input<readonly CbBreadcrumbItem[]>([]);
   /** Icono separador entre elementos. */
   readonly separator = input<string>('chevron-right');

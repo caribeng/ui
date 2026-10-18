@@ -1,1 +1,1 @@
-export { CbInputOtpComponent } from './lib/inputotp.component';
+export { CbInputOtp } from './lib/inputotp.component';

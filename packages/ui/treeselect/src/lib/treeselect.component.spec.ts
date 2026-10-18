@@ -1,9 +1,9 @@
 import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { CbTreeSelectComponent, CbTreeSelectNode } from './treeselect.component';
+import { CbTreeSelect, CbTreeSelectNode } from './treeselect.component';
 
 @Component({
-  imports: [CbTreeSelectComponent],
+  imports: [CbTreeSelect],
   template: `<cb-tree-select [nodes]="nodes()" [(value)]="selected" />`,
 })
 class HostComponent {
@@ -17,7 +17,7 @@ class HostComponent {
   ]);
 }
 
-describe('CbTreeSelectComponent', () => {
+describe('CbTreeSelect', () => {
   it('abre el árbol, expande nodos hijos y selecciona un valor', () => {
     const fixture = TestBed.createComponent(HostComponent);
     fixture.detectChanges();

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { CbSkeletonComponent } from '@caribeng/ui/skeleton';
+import { CbSkeleton } from '@caribeng/ui/skeleton';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
@@ -8,7 +8,7 @@ import { TocService } from '../services/toc.service';
 @Component({
   selector: 'doc-skeleton-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbSkeletonComponent, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
+  imports: [CbSkeleton, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
     <doc-page-header eyebrow="Misc" title="Skeleton" lead="Marcador de posición animado mientras cargan los datos." />
 
@@ -43,7 +43,7 @@ export class SkeletonDocComponent {
     inject(TocService).reset();
   }
   protected readonly installCode = `npm install @caribeng/ui`;
-  protected readonly importCode = `import { CbSkeletonComponent } from '@caribeng/ui/skeleton';`;
+  protected readonly importCode = `import { CbSkeleton } from '@caribeng/ui/skeleton';`;
   protected readonly shapesCode = `<cb-skeleton width="60%" />
 <cb-skeleton shape="rect" height="6rem" />
 <cb-skeleton shape="circle" width="3rem" />`;

@@ -23,7 +23,7 @@ export type CbIconFieldPosition = 'left' | 'right';
   template: `<ng-content />`,
   styleUrl: './iconfield.component.css',
 })
-export class CbIconFieldComponent {
+export class CbIconField {
   readonly iconPosition = input<CbIconFieldPosition>('left');
 }
 
@@ -37,4 +37,4 @@ export class CbIconFieldComponent {
   },
   template: `<ng-content />`,
 })
-export class CbInputIconComponent {}
+export class CbInputIcon {}

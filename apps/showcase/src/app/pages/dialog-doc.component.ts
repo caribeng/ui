@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { CbButtonComponent } from '@caribeng/ui/button';
-import { CbDialogComponent } from '@caribeng/ui/dialog';
+import { CbButton } from '@caribeng/ui/button';
+import { CbDialog } from '@caribeng/ui/dialog';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
@@ -10,8 +10,8 @@ import { TocService } from '../services/toc.service';
   selector: 'doc-dialog-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    CbButtonComponent,
-    CbDialogComponent,
+    CbButton,
+    CbDialog,
     DocSectionComponent,
     CodeBlockComponent,
     DocPageHeaderComponent,
@@ -98,10 +98,10 @@ export class DialogDocComponent {
 
   protected readonly installCode = `npm install @caribeng/ui`;
 
-  protected readonly importCode = `import { CbDialogComponent } from '@caribeng/ui/dialog';
+  protected readonly importCode = `import { CbDialog } from '@caribeng/ui/dialog';
 
 @Component({
-  imports: [CbDialogComponent],
+  imports: [CbDialog],
   // ...
 })
 export class MyComponent {}`;

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { CbButtonComponent } from '@caribeng/ui/button';
+import { CbButton } from '@caribeng/ui/button';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
@@ -9,7 +9,7 @@ import { TocService } from '../services/toc.service';
   selector: 'doc-button-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    CbButtonComponent,
+    CbButton,
     DocSectionComponent,
     CodeBlockComponent,
     DocPageHeaderComponent,
@@ -112,10 +112,10 @@ export class ButtonDocComponent {
 
   protected readonly installCode = `npm install @caribeng/ui`;
 
-  protected readonly importCode = `import { CbButtonComponent } from '@caribeng/ui/button';
+  protected readonly importCode = `import { CbButton } from '@caribeng/ui/button';
 
 @Component({
-  imports: [CbButtonComponent],
+  imports: [CbButton],
   // ...
 })
 export class MyComponent {}`;

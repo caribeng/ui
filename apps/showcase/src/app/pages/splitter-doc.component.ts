@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { CbSplitterComponent, CbSplitterPanelComponent } from '@caribeng/ui/splitter';
+import { CbSplitter, CbSplitterPanel } from '@caribeng/ui/splitter';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
@@ -9,8 +9,8 @@ import { TocService } from '../services/toc.service';
   selector: 'doc-splitter-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    CbSplitterComponent,
-    CbSplitterPanelComponent,
+    CbSplitter,
+    CbSplitterPanel,
     DocSectionComponent,
     CodeBlockComponent,
     DocPageHeaderComponent,
@@ -68,7 +68,7 @@ export class SplitterDocComponent {
   }
 
   protected readonly installCode = `npm install @caribeng/ui`;
-  protected readonly importCode = `import { CbSplitterComponent, CbSplitterPanelComponent } from '@caribeng/ui/splitter';`;
+  protected readonly importCode = `import { CbSplitter, CbSplitterPanel } from '@caribeng/ui/splitter';`;
   protected readonly horizontalCode = `<cb-splitter style="height: 180px">
   <cb-splitter-panel [size]="35">Panel izquierdo</cb-splitter-panel>
   <cb-splitter-panel [size]="65">Panel derecho</cb-splitter-panel>

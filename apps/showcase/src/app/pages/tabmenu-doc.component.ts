@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { CbTabMenuComponent, type CbTabMenuItem } from '@caribeng/ui/tabmenu';
+import { CbTabMenu, type CbTabMenuItem } from '@caribeng/ui/tabmenu';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
 import { TocService } from '../services/toc.service';
 
-@Component({ selector: 'doc-tabmenu-page', changeDetection: ChangeDetectionStrategy.OnPush, imports: [CbTabMenuComponent, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent], template: `
+@Component({ selector: 'doc-tabmenu-page', changeDetection: ChangeDetectionStrategy.OnPush, imports: [CbTabMenu, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent], template: `
   <doc-page-header eyebrow="Menu" title="TabMenu" lead="Navegación entre secciones con el elemento actual resaltado." />
   <doc-section id="import" title="Import"><doc-code-block [code]="installCode" lang="bash" /><br /><doc-code-block [code]="importCode" lang="typescript" /></doc-section>
   <doc-section id="basic" title="Basic" description="El índice activo se puede enlazar con [(activeIndex)]." [code]="basicCode" [codeTs]="itemsCode">
@@ -19,7 +19,7 @@ export class TabmenuDocComponent {
   protected readonly selected = signal('');
   protected readonly items: CbTabMenuItem[] = [{ label: 'Resumen', icon: 'house' }, { label: 'Actividad', icon: 'clock' }, { label: 'Ajustes', icon: 'settings' }];
   protected readonly installCode = `npm install @caribeng/ui`;
-  protected readonly importCode = `import { CbTabMenuComponent } from '@caribeng/ui/tabmenu';`;
+  protected readonly importCode = `import { CbTabMenu } from '@caribeng/ui/tabmenu';`;
   protected readonly basicCode = `<cb-tabmenu [items]="items" [(activeIndex)]="activeIndex" />`;
   protected readonly itemsCode = `items: CbTabMenuItem[] = [
   { label: 'Resumen', url: '/summary' },

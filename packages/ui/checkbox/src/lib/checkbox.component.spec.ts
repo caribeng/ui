@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { CbCheckboxComponent } from './checkbox.component';
+import { CbCheckbox } from './checkbox.component';
 
 @Component({
-  imports: [ReactiveFormsModule, CbCheckboxComponent],
+  imports: [ReactiveFormsModule, CbCheckbox],
   template: `
     <cb-checkbox [formControl]="binario" label="Acepto" />
     <cb-checkbox [formControl]="listaAdd" value="te" label="Té" />
@@ -19,7 +19,7 @@ class HostComponent {
   listaRemove = new FormControl<string[]>(['cafe', 'te']);
 }
 
-describe('CbCheckboxComponent', () => {
+describe('CbCheckbox', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({ imports: [HostComponent] });
   });

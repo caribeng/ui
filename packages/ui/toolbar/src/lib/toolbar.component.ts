@@ -42,7 +42,7 @@ import {
   `,
   styleUrl: './toolbar.component.css',
 })
-export class CbToolbarComponent {
+export class CbToolbar {
   /** Etiqueta accesible para el contenedor `role="toolbar"`. */
   readonly ariaLabel = input<string>('Barra de herramientas');
 }

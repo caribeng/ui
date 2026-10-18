@@ -1,9 +1,9 @@
 import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { CbBlockUiComponent } from './blockui.component';
+import { CbBlockUi } from './blockui.component';
 
 @Component({
-  imports: [CbBlockUiComponent],
+  imports: [CbBlockUi],
   template: `
     <cb-block-ui [blocked]="blocked()">
       <p>Contenido protegido</p>
@@ -14,7 +14,7 @@ class HostComponent {
   blocked = signal(false);
 }
 
-describe('CbBlockUiComponent', () => {
+describe('CbBlockUi', () => {
   it('muestra la máscara y aria-busy cuando blocked es true', () => {
     const fixture = TestBed.createComponent(HostComponent);
     fixture.detectChanges();

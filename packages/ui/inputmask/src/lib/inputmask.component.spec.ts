@@ -1,9 +1,9 @@
 import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { CbInputMaskComponent } from './inputmask.component';
+import { CbInputMask } from './inputmask.component';
 
 @Component({
-  imports: [CbInputMaskComponent],
+  imports: [CbInputMask],
   template: `<cb-input-mask [mask]="mask()" [(value)]="val" />`,
 })
 class HostComponent {
@@ -11,7 +11,7 @@ class HostComponent {
   val = signal('');
 }
 
-describe('CbInputMaskComponent', () => {
+describe('CbInputMask', () => {
   it('aplica la máscara numérica e ignora letras', () => {
     const fixture = TestBed.createComponent(HostComponent);
     fixture.detectChanges();

@@ -42,7 +42,7 @@ const START = 135; // ángulo de pantalla donde empieza el arco (abajo-izquierda
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => CbKnobComponent),
+      useExisting: forwardRef(() => CbKnob),
       multi: true,
     },
   ],
@@ -90,7 +90,7 @@ const START = 135; // ángulo de pantalla donde empieza el arco (abajo-izquierda
   `,
   styleUrl: './knob.component.css',
 })
-export class CbKnobComponent implements ControlValueAccessor {
+export class CbKnob implements ControlValueAccessor {
   readonly min = input<number>(0);
   readonly max = input<number>(100);
   readonly step = input<number>(1);

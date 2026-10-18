@@ -6,7 +6,7 @@ import {
   model,
   signal,
 } from '@angular/core';
-import { CbIconComponent } from '@caribeng/ui/icon';
+import { CbIcon } from '@caribeng/ui/icon';
 
 export interface CbOrganizationChartNode {
   key: string;
@@ -21,7 +21,7 @@ export interface CbOrganizationChartNode {
   selector: 'cb-organization-chart',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgTemplateOutlet, CbIconComponent],
+  imports: [NgTemplateOutlet, CbIcon],
   template: `
     <div class="cb-organization-chart" role="tree" [attr.aria-label]="ariaLabel()">
       <ng-container
@@ -119,7 +119,7 @@ export interface CbOrganizationChartNode {
     `,
   ],
 })
-export class CbOrganizationChartComponent {
+export class CbOrganizationChart {
   readonly value = input<readonly CbOrganizationChartNode[]>([]);
   readonly selection = model<CbOrganizationChartNode | null>(null);
   readonly ariaLabel = input('Organigrama');

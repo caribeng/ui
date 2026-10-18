@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { CbFieldsetComponent } from '@caribeng/ui/fieldset';
+import { CbFieldset } from '@caribeng/ui/fieldset';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
@@ -9,7 +9,7 @@ import { TocService } from '../services/toc.service';
   selector: 'doc-fieldset-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    CbFieldsetComponent,
+    CbFieldset,
     DocSectionComponent,
     CodeBlockComponent,
     DocPageHeaderComponent,
@@ -55,7 +55,7 @@ export class FieldsetDocComponent {
   }
 
   protected readonly installCode = `npm install @caribeng/ui`;
-  protected readonly importCode = `import { CbFieldsetComponent } from '@caribeng/ui/fieldset';`;
+  protected readonly importCode = `import { CbFieldset } from '@caribeng/ui/fieldset';`;
   protected readonly basicCode = `<cb-fieldset legend="Información general">
   <p>Contenido agrupado…</p>
 </cb-fieldset>`;

@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { CbMenuComponent, type CbMenuItem } from './menu.component';
+import { CbMenu, type CbMenuItem } from './menu.component';
 
 @Component({
-  imports: [CbMenuComponent],
+  imports: [CbMenu],
   template: `<button id="trigger" (click)="menu.toggle($event)">Opciones</button><cb-menu #menu [items]="items" (itemSelect)="selected = $event" />`,
 })
 class HostComponent {
@@ -17,7 +17,7 @@ class HostComponent {
   selected: CbMenuItem | null = null;
 }
 
-describe('CbMenuComponent', () => {
+describe('CbMenu', () => {
   beforeEach(() => TestBed.configureTestingModule({ imports: [HostComponent] }));
 
   it('abre un popup accesible y renderiza acciones y separadores', async () => {

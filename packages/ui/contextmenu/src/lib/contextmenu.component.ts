@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, DestroyRef, TemplateRef, ViewContainerRef, ViewEncapsulation, inject, input, output, viewChild } from '@angular/core';
 import { Overlay, type ConnectedPosition, type OverlayRef } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
-import { CbIconComponent } from '@caribeng/ui/icon';
+import { CbIcon } from '@caribeng/ui/icon';
 
 export interface CbContextMenuItem {
   label: string;
@@ -15,7 +15,7 @@ export interface CbContextMenuItem {
   selector: 'cb-contextmenu',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
-  imports: [CbIconComponent],
+  imports: [CbIcon],
   host: { class: 'cb-contextmenu', '(contextmenu)': 'open($event)' },
   template: `
     <ng-content />
@@ -35,7 +35,7 @@ export interface CbContextMenuItem {
   `,
   styleUrl: './contextmenu.component.css',
 })
-export class CbContextMenuComponent {
+export class CbContextMenu {
   private readonly overlay = inject(Overlay);
   private readonly vcr = inject(ViewContainerRef);
   private readonly destroyRef = inject(DestroyRef);

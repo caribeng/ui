@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { CbButtonComponent } from '@caribeng/ui/button';
-import { CbMenuComponent, type CbMenuItem } from '@caribeng/ui/menu';
+import { CbButton } from '@caribeng/ui/button';
+import { CbMenu, type CbMenuItem } from '@caribeng/ui/menu';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
@@ -9,7 +9,7 @@ import { TocService } from '../services/toc.service';
 @Component({
   selector: 'doc-menu-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbMenuComponent, CbButtonComponent, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
+  imports: [CbMenu, CbButton, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
     <doc-page-header eyebrow="Menu" title="Menu" lead="Menú emergente de acciones con iconos, separadores y atajos de teclado." />
 
@@ -41,7 +41,7 @@ export class MenuDocComponent {
   ];
 
   protected readonly installCode = `npm install @caribeng/ui @angular/cdk`;
-  protected readonly importCode = `import { CbMenuComponent, CbMenuItem } from '@caribeng/ui/menu';`;
+  protected readonly importCode = `import { CbMenu, CbMenuItem } from '@caribeng/ui/menu';`;
   protected readonly basicCode = `<cb-button label="Acciones" (click)="menu.toggle($event)" />
 <cb-menu #menu [items]="items" (itemSelect)="onSelect($event)" />`;
   protected readonly itemsCode = `items: CbMenuItem[] = [

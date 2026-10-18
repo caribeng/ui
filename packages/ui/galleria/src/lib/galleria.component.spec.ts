@@ -1,9 +1,9 @@
 import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { CbGalleriaComponent, CbGalleriaItem } from './galleria.component';
+import { CbGalleria, CbGalleriaItem } from './galleria.component';
 
 @Component({
-  imports: [CbGalleriaComponent],
+  imports: [CbGalleria],
   template: `<cb-galleria [value]="images()" [(activeIndex)]="idx" />`,
 })
 class HostComponent {
@@ -14,7 +14,7 @@ class HostComponent {
   ]);
 }
 
-describe('CbGalleriaComponent', () => {
+describe('CbGalleria', () => {
   it('cambia la imagen activa al hacer clic en una miniatura', () => {
     const fixture = TestBed.createComponent(HostComponent);
     fixture.detectChanges();

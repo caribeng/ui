@@ -1,16 +1,16 @@
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { CbChipComponent } from './chip.component';
+import { CbChip } from './chip.component';
 
 @Component({
-  imports: [CbChipComponent],
+  imports: [CbChip],
   template: `<cb-chip label="Angular 22" [removable]="true" (removed)="count = count + 1" />`,
 })
 class HostComponent {
   count = 0;
 }
 
-describe('CbChipComponent', () => {
+describe('CbChip', () => {
   it('renderiza la etiqueta y emite removed al cerrar', () => {
     const fixture = TestBed.createComponent(HostComponent);
     fixture.detectChanges();

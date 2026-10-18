@@ -30,7 +30,7 @@ let nextUid = 0;
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => CbToggleComponent),
+      useExisting: forwardRef(() => CbToggle),
       multi: true,
     },
   ],
@@ -62,7 +62,7 @@ let nextUid = 0;
   `,
   styleUrl: './toggle.component.css',
 })
-export class CbToggleComponent implements ControlValueAccessor {
+export class CbToggle implements ControlValueAccessor {
   /** Etiqueta mostrada junto al control. */
   readonly label = input<string>('');
   /** `aria-label` cuando no hay `label` visible. */

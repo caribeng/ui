@@ -1,18 +1,18 @@
 import { TestBed } from '@angular/core/testing';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { CbIconComponent } from './icon.component';
+import { CbIcon } from './icon.component';
 import { CbIconRegistry, provideCbIcons } from './icon-registry';
 
-describe('CbIconComponent', () => {
+describe('CbIcon', () => {
   function setup() {
-    const fixture = TestBed.createComponent(CbIconComponent);
+    const fixture = TestBed.createComponent(CbIcon);
     const svg = (): SVGElement | null => fixture.nativeElement.querySelector('svg');
     return { fixture, svg };
   }
 
   describe('render', () => {
     beforeEach(() => {
-      TestBed.configureTestingModule({ imports: [CbIconComponent] });
+      TestBed.configureTestingModule({ imports: [CbIcon] });
     });
 
     it('pinta un SVG del set núcleo por nombre', () => {
@@ -73,7 +73,7 @@ describe('CbIconComponent', () => {
   describe('registro extensible', () => {
     it('provideCbIcons registra iconos propios del consumidor', () => {
       TestBed.configureTestingModule({
-        imports: [CbIconComponent],
+        imports: [CbIcon],
         providers: [provideCbIcons({ 'mi-logo': '<path d="M4 4h16v16H4z"/>' })],
       });
       const registry = TestBed.inject(CbIconRegistry);
@@ -81,7 +81,7 @@ describe('CbIconComponent', () => {
       // el núcleo sigue presente
       expect(registry.has('check')).toBe(true);
 
-      const fixture = TestBed.createComponent(CbIconComponent);
+      const fixture = TestBed.createComponent(CbIcon);
       fixture.componentRef.setInput('name', 'mi-logo');
       fixture.detectChanges();
       expect(fixture.nativeElement.querySelector('svg path')).toBeTruthy();

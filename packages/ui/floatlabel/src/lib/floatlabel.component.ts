@@ -33,7 +33,7 @@ export type CbFloatLabelVariant = 'over' | 'in' | 'on';
   template: `<ng-content />`,
   styleUrl: './floatlabel.component.css',
 })
-export class CbFloatLabelComponent {
+export class CbFloatLabel {
   private readonly hostRef = inject<ElementRef<HTMLElement>>(ElementRef);
 
   readonly variant = input<CbFloatLabelVariant>('on');

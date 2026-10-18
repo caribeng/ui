@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { CbTableCellDirective, CbTableComponent, type CbTableColumn } from '@caribeng/ui/table';
+import { CbTableCellDirective, CbTable, type CbTableColumn } from '@caribeng/ui/table';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
@@ -16,7 +16,7 @@ interface Producto {
 @Component({
   selector: 'doc-table-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbTableComponent, CbTableCellDirective, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
+  imports: [CbTable, CbTableCellDirective, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
     <doc-page-header eyebrow="Data" title="Table" lead="Tabla de datos con columnas declarativas, ordenación, paginación y selección." />
 
@@ -83,7 +83,7 @@ export class TableDocComponent {
   protected readonly seleccion = signal<Producto[]>([]);
 
   protected readonly installCode = `npm install @caribeng/ui @angular/cdk`;
-  protected readonly importCode = `import { CbTableComponent, CbTableColumn } from '@caribeng/ui/table';`;
+  protected readonly importCode = `import { CbTable, CbTableColumn } from '@caribeng/ui/table';`;
   protected readonly dataTs = `columns: CbTableColumn[] = [
   { field: 'nombre', header: 'Producto', sortable: true },
   { field: 'precio', header: 'Precio', sortable: true, align: 'right' },

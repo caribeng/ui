@@ -4,7 +4,7 @@ import {
   ViewEncapsulation,
   input,
 } from '@angular/core';
-import { CbIconComponent } from '@caribeng/ui/icon';
+import { CbIcon } from '@caribeng/ui/icon';
 
 export interface CbMeterItem {
   label: string;
@@ -20,7 +20,7 @@ export interface CbMeterItem {
   selector: 'cb-meter-group',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
-  imports: [CbIconComponent],
+  imports: [CbIcon],
   host: {
     class: 'cb-meter-group',
     role: 'meter',
@@ -55,7 +55,7 @@ export interface CbMeterItem {
   `,
   styleUrl: './metergroup.component.css',
 })
-export class CbMeterGroupComponent {
+export class CbMeterGroup {
   readonly values = input<CbMeterItem[]>([]);
   readonly max = input<number>(100);
 

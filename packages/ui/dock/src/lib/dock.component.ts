@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, ViewEncapsulation, input, output } from '@angular/core';
-import { CbIconComponent } from '@caribeng/ui/icon';
+import { CbIcon } from '@caribeng/ui/icon';
 
 export type CbDockPosition = 'top' | 'right' | 'bottom' | 'left';
 export interface CbDockItem { label: string; icon: string; url?: string; disabled?: boolean; }
@@ -9,7 +9,7 @@ export interface CbDockItem { label: string; icon: string; url?: string; disable
   selector: 'cb-dock',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
-  imports: [CbIconComponent],
+  imports: [CbIcon],
   host: {
     class: 'cb-dock',
     '[class.cb-dock--top]': 'position() === "top"',
@@ -34,7 +34,7 @@ export interface CbDockItem { label: string; icon: string; url?: string; disable
   `,
   styleUrl: './dock.component.css',
 })
-export class CbDockComponent {
+export class CbDock {
   readonly items = input<readonly CbDockItem[]>([]);
   readonly position = input<CbDockPosition>('bottom');
   readonly ariaLabel = input('Application dock');

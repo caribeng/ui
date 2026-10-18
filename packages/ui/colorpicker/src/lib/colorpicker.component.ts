@@ -41,7 +41,7 @@ const DEFAULT_PRESETS = [
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => CbColorPickerComponent),
+      useExisting: forwardRef(() => CbColorPicker),
       multi: true,
     },
   ],
@@ -135,7 +135,7 @@ const DEFAULT_PRESETS = [
   `,
   styleUrl: './colorpicker.component.css',
 })
-export class CbColorPickerComponent implements ControlValueAccessor {
+export class CbColorPicker implements ControlValueAccessor {
   /** Color seleccionado (hex `#rrggbb`). Two-way opcional fuera de Forms. */
   readonly value = model<string>('#10b981');
 

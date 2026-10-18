@@ -1,14 +1,14 @@
 import { TestBed } from '@angular/core/testing';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { CbSpinnerComponent } from './spinner.component';
+import { CbSpinner } from './spinner.component';
 
-describe('CbSpinnerComponent', () => {
+describe('CbSpinner', () => {
   beforeEach(() => {
-    TestBed.configureTestingModule({ imports: [CbSpinnerComponent] });
+    TestBed.configureTestingModule({ imports: [CbSpinner] });
   });
 
   function setup() {
-    const fixture = TestBed.createComponent(CbSpinnerComponent);
+    const fixture = TestBed.createComponent(CbSpinner);
     const host = (): HTMLElement => fixture.nativeElement;
     return { fixture, host };
   }

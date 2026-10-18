@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { CbPopoverComponent } from './popover.component';
+import { CbPopover } from './popover.component';
 
 @Component({
-  imports: [CbPopoverComponent],
+  imports: [CbPopover],
   template: `
     <button class="trigger" (click)="op.toggle($event)">Abrir</button>
     <cb-popover #op ariaLabel="Opciones">
@@ -14,7 +14,7 @@ import { CbPopoverComponent } from './popover.component';
 })
 class HostComponent {}
 
-describe('CbPopoverComponent', () => {
+describe('CbPopover', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({ imports: [HostComponent] });
   });

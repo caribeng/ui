@@ -1,1 +1,1 @@
-export { CbPickListComponent } from './lib/picklist.component';
+export { CbPickList } from './lib/picklist.component';

@@ -1,15 +1,15 @@
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { CbButtonComponent } from './button.component';
+import { CbButton } from './button.component';
 
-describe('CbButtonComponent', () => {
+describe('CbButton', () => {
   beforeEach(() => {
-    TestBed.configureTestingModule({ imports: [CbButtonComponent] });
+    TestBed.configureTestingModule({ imports: [CbButton] });
   });
 
   function setup() {
-    const fixture = TestBed.createComponent(CbButtonComponent);
+    const fixture = TestBed.createComponent(CbButton);
     const btn = (): HTMLButtonElement =>
       fixture.nativeElement.querySelector('button.cb-button');
     fixture.detectChanges();
@@ -18,7 +18,7 @@ describe('CbButtonComponent', () => {
 
   it('renderiza un <button> con el contenido proyectado', () => {
     @Component({
-      imports: [CbButtonComponent],
+      imports: [CbButton],
       template: `<cb-button>Texto</cb-button>`,
     })
     class HostComponent {}

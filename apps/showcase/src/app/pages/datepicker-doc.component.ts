@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CbDatepickerComponent } from '@caribeng/ui/datepicker';
+import { CbDatepicker } from '@caribeng/ui/datepicker';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
@@ -11,7 +11,7 @@ import { TocService } from '../services/toc.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule,
-    CbDatepickerComponent,
+    CbDatepicker,
     DocSectionComponent,
     CodeBlockComponent,
     DocPageHeaderComponent,
@@ -107,10 +107,10 @@ export class DatepickerDocComponent {
 
   protected readonly installCode = `npm install @caribeng/ui`;
 
-  protected readonly importCode = `import { CbDatepickerComponent } from '@caribeng/ui/datepicker';
+  protected readonly importCode = `import { CbDatepicker } from '@caribeng/ui/datepicker';
 
 @Component({
-  imports: [CbDatepickerComponent],
+  imports: [CbDatepicker],
   // ...
 })
 export class MyComponent {}`;

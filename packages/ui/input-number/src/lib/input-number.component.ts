@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
 import type { CbSize } from '@caribeng/ui';
-import { CbIconComponent } from '@caribeng/ui/icon';
+import { CbIcon } from '@caribeng/ui/icon';
 
 let nextUid = 0;
 
@@ -30,11 +30,11 @@ let nextUid = 0;
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
   host: { class: 'cb-input-number-host' },
-  imports: [CbIconComponent],
+  imports: [CbIcon],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => CbInputNumberComponent),
+      useExisting: forwardRef(() => CbInputNumber),
       multi: true,
     },
   ],
@@ -116,7 +116,7 @@ let nextUid = 0;
   `,
   styleUrl: './input-number.component.css',
 })
-export class CbInputNumberComponent implements ControlValueAccessor {
+export class CbInputNumber implements ControlValueAccessor {
   /** Valor numérico (two-way opcional fuera de Angular Forms). */
   readonly value = model<number | null>(null);
 

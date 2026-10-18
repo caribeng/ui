@@ -1,1 +1,1 @@
-export { CbFloatLabelComponent, type CbFloatLabelVariant } from './lib/floatlabel.component';
+export { CbFloatLabel, type CbFloatLabelVariant } from './lib/floatlabel.component';

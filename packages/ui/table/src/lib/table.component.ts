@@ -13,8 +13,8 @@ import {
   signal,
 } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
-import { CbIconComponent } from '@caribeng/ui/icon';
-import { CbPaginatorComponent, type CbPaginatorState } from '@caribeng/ui/paginator';
+import { CbIcon } from '@caribeng/ui/icon';
+import { CbPaginator, type CbPaginatorState } from '@caribeng/ui/paginator';
 
 export interface CbTableColumn {
   /** Propiedad de la fila a mostrar. */
@@ -59,7 +59,7 @@ export class CbTableCellDirective {
   selector: 'cb-table',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
-  imports: [CbIconComponent, CbPaginatorComponent, NgTemplateOutlet],
+  imports: [CbIcon, CbPaginator, NgTemplateOutlet],
   host: { class: 'cb-table-host' },
   template: `
     <div class="cb-table__wrap">
@@ -153,7 +153,7 @@ export class CbTableCellDirective {
   `,
   styleUrl: './table.component.css',
 })
-export class CbTableComponent {
+export class CbTable {
   private readonly cellTemplates = contentChildren(CbTableCellDirective);
   readonly value = input<readonly unknown[]>([]);
   readonly columns = input<readonly CbTableColumn[]>([]);

@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { CbDockComponent, type CbDockItem } from './dock.component';
+import { CbDock, type CbDockItem } from './dock.component';
 
-@Component({ imports: [CbDockComponent], template: `<cb-dock [items]="items" position="left" (itemSelect)="selected=$event.label" />` })
+@Component({ imports: [CbDock], template: `<cb-dock [items]="items" position="left" (itemSelect)="selected=$event.label" />` })
 class HostComponent { items: CbDockItem[] = [{ label: 'Inicio', icon: 'house' }, { label: 'Ayuda', icon: 'info', disabled: true }]; selected = ''; }
 
-describe('CbDockComponent', () => {
+describe('CbDock', () => {
   beforeEach(() => TestBed.configureTestingModule({ imports: [HostComponent] }));
   it('exposes vertical orientation for side dock positions', () => {
     const fixture = TestBed.createComponent(HostComponent); fixture.detectChanges();

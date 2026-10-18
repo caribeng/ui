@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { CbMultiSelectComponent } from '@caribeng/ui/multiselect';
+import { CbMultiSelect } from '@caribeng/ui/multiselect';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
@@ -16,7 +16,7 @@ interface Ciudad {
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule,
-    CbMultiSelectComponent,
+    CbMultiSelect,
     DocSectionComponent,
     CodeBlockComponent,
     DocPageHeaderComponent,
@@ -97,7 +97,7 @@ export class MultiselectDocComponent {
   });
 
   protected readonly installCode = `npm install @caribeng/ui`;
-  protected readonly importCode = `import { CbMultiSelectComponent } from '@caribeng/ui/multiselect';`;
+  protected readonly importCode = `import { CbMultiSelect } from '@caribeng/ui/multiselect';`;
   protected readonly dataTs = `ciudades = [{ nombre: 'Barranquilla', id: 1 }, /* … */];
 seleccion = signal<number[]>([1]);`;
   protected readonly basicCode = `<cb-multiselect

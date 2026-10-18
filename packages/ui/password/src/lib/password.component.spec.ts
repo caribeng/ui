@@ -1,19 +1,19 @@
 import { TestBed } from '@angular/core/testing';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Component } from '@angular/core';
-import { CbPasswordComponent } from './password.component';
+import { CbPassword } from './password.component';
 
 @Component({
-  imports: [CbPasswordComponent, ReactiveFormsModule],
+  imports: [CbPassword, ReactiveFormsModule],
   template: `<cb-password [formControl]="ctrl" />`,
 })
 class HostComponent {
   ctrl = new FormControl('ClaveSegura123!');
 }
 
-describe('CbPasswordComponent', () => {
+describe('CbPassword', () => {
   it('alterna entre tipo password y text al pulsar el botón de visibilidad', () => {
-    const fixture = TestBed.createComponent(CbPasswordComponent);
+    const fixture = TestBed.createComponent(CbPassword);
     fixture.componentRef.setInput('value', 'secreto');
     fixture.detectChanges();
 

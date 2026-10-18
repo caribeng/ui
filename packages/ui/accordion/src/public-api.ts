@@ -2,6 +2,6 @@
  * Public API Surface de @caribeng/ui/accordion
  */
 export {
-  CbAccordionComponent,
-  CbAccordionPanelComponent,
+  CbAccordion,
+  CbAccordionPanel,
 } from './lib/accordion.component';

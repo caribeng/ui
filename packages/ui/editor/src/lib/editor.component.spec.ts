@@ -1,16 +1,16 @@
 import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { CbEditorComponent } from './editor.component';
+import { CbEditor } from './editor.component';
 
 @Component({
-  imports: [CbEditorComponent],
+  imports: [CbEditor],
   template: `<cb-editor [(value)]="html" />`,
 })
 class HostComponent {
   html = signal('<p>Hola</p>');
 }
 
-describe('CbEditorComponent', () => {
+describe('CbEditor', () => {
   it('sincroniza el valor inicial y actualiza el modelo al editar', () => {
     const fixture = TestBed.createComponent(HostComponent);
     fixture.detectChanges();

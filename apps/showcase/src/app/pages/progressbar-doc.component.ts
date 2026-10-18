@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { CbProgressBarComponent } from '@caribeng/ui/progressbar';
+import { CbProgressBar } from '@caribeng/ui/progressbar';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
@@ -8,7 +8,7 @@ import { TocService } from '../services/toc.service';
 @Component({
   selector: 'doc-progressbar-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbProgressBarComponent, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
+  imports: [CbProgressBar, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
     <doc-page-header eyebrow="Misc" title="ProgressBar" lead="Barra de progreso determinada o indeterminada." />
 
@@ -45,7 +45,7 @@ export class ProgressbarDocComponent {
     inject(TocService).reset();
   }
   protected readonly installCode = `npm install @caribeng/ui`;
-  protected readonly importCode = `import { CbProgressBarComponent } from '@caribeng/ui/progressbar';`;
+  protected readonly importCode = `import { CbProgressBar } from '@caribeng/ui/progressbar';`;
   protected readonly basicCode = `<cb-progressbar [value]="35" />
 <cb-progressbar [value]="70" showValue />`;
   protected readonly indCode = `<cb-progressbar [value]="null" />`;

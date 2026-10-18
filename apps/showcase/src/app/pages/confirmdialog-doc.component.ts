@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { signal } from '@angular/core';
-import { CbConfirmDialogComponent } from '@caribeng/ui/confirmdialog';
+import { CbConfirmDialog } from '@caribeng/ui/confirmdialog';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
 import { TocService } from '../services/toc.service';
-@Component({selector:'doc-confirmdialog-page',changeDetection:ChangeDetectionStrategy.OnPush,imports:[CbConfirmDialogComponent,DocSectionComponent,DocPageHeaderComponent],template:`
+@Component({selector:'doc-confirmdialog-page',changeDetection:ChangeDetectionStrategy.OnPush,imports:[CbConfirmDialog,DocSectionComponent,DocPageHeaderComponent],template:`
 <doc-page-header eyebrow="Overlay" title="Confirmdialog" lead="Componente Confirmdialog de CaribeNG." />
 <doc-section id="import" title="Import">Consulta el entry point del componente en @caribeng/ui.</doc-section>
 <doc-section id="basic" title="Basic" [code]="example"><div style="width:100%"><cb-confirm-dialog [(visible)]="visible" header="Eliminar" /></div></doc-section>`})

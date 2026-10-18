@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { CbToggleComponent } from '@caribeng/ui/toggle';
+import { CbToggle } from '@caribeng/ui/toggle';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
@@ -11,7 +11,7 @@ import { TocService } from '../services/toc.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule,
-    CbToggleComponent,
+    CbToggle,
     DocSectionComponent,
     CodeBlockComponent,
     DocPageHeaderComponent,
@@ -81,10 +81,10 @@ export class ToggleDocComponent {
 
   protected readonly installCode = `npm install @caribeng/ui`;
 
-  protected readonly importCode = `import { CbToggleComponent } from '@caribeng/ui/toggle';
+  protected readonly importCode = `import { CbToggle } from '@caribeng/ui/toggle';
 
 @Component({
-  imports: [CbToggleComponent],
+  imports: [CbToggle],
   // ...
 })
 export class MyComponent {}`;

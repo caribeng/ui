@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { CbScrollPanelComponent } from './scrollpanel.component';
+import { CbScrollPanel } from './scrollpanel.component';
 
 @Component({
-  imports: [CbScrollPanelComponent],
+  imports: [CbScrollPanel],
   template: `
     <cb-scroll-panel width="300px" height="160px" ariaLabel="Historial">
       <p class="scroll-inner">Línea 1</p>
@@ -12,7 +12,7 @@ import { CbScrollPanelComponent } from './scrollpanel.component';
 })
 class HostComponent {}
 
-describe('CbScrollPanelComponent', () => {
+describe('CbScrollPanel', () => {
   it('aplica dimensiones, role="region", aria-label y proyecta contenido', () => {
     const fixture = TestBed.createComponent(HostComponent);
     fixture.detectChanges();

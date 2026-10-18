@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { CbInlineMessageComponent } from '@caribeng/ui/inlinemessage';
+import { CbInlineMessage } from '@caribeng/ui/inlinemessage';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
@@ -8,7 +8,7 @@ import { TocService } from '../services/toc.service';
 @Component({
   selector: 'doc-inlinemessage-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbInlineMessageComponent, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
+  imports: [CbInlineMessage, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
     <doc-page-header eyebrow="Messages" title="InlineMessage" lead="Mensaje compacto en línea para retroalimentación inmediata de formularios." />
     <doc-section id="import" title="Import">
@@ -28,6 +28,6 @@ export class InlinemessageDocComponent {
   constructor() {
     inject(TocService).reset();
   }
-  protected readonly importCode = `import { CbInlineMessageComponent } from '@caribeng/ui/inlinemessage';`;
+  protected readonly importCode = `import { CbInlineMessage } from '@caribeng/ui/inlinemessage';`;
   protected readonly basicCode = `<cb-inline-message severity="danger" text="Campo requerido" />`;
 }

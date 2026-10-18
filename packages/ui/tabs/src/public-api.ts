@@ -1,4 +1,4 @@
 /*
  * Public API Surface de @caribeng/ui/tabs
  */
-export { CbTabsComponent, CbTabComponent } from './lib/tabs.component';
+export { CbTabs, CbTab } from './lib/tabs.component';

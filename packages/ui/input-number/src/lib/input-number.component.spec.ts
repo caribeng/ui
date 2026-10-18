@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { CbInputNumberComponent } from './input-number.component';
+import { CbInputNumber } from './input-number.component';
 
 @Component({
-  imports: [ReactiveFormsModule, CbInputNumberComponent],
+  imports: [ReactiveFormsModule, CbInputNumber],
   template: `
     <cb-input-number
       [formControl]="decimal"
@@ -29,7 +29,7 @@ class HostComponent {
   precio = new FormControl<number | null>(null);
 }
 
-describe('CbInputNumberComponent', () => {
+describe('CbInputNumber', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({ imports: [HostComponent] });
   });

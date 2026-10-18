@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, ViewEncapsulation, input, model, output } from '@angular/core';
-import { CbIconComponent } from '@caribeng/ui/icon';
+import { CbIcon } from '@caribeng/ui/icon';
 
 export interface CbStepItem { label: string; icon?: string; disabled?: boolean; }
 
@@ -8,7 +8,7 @@ export interface CbStepItem { label: string; icon?: string; disabled?: boolean; 
   selector: 'cb-steps',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
-  imports: [CbIconComponent],
+  imports: [CbIcon],
   host: { class: 'cb-steps' },
   template: `
     <nav [attr.aria-label]="ariaLabel()">
@@ -27,7 +27,7 @@ export interface CbStepItem { label: string; icon?: string; disabled?: boolean; 
   `,
   styleUrl: './steps.component.css',
 })
-export class CbStepsComponent {
+export class CbSteps {
   readonly steps = input<readonly CbStepItem[]>([]);
   readonly activeIndex = model(0);
   readonly ariaLabel = input('Steps');

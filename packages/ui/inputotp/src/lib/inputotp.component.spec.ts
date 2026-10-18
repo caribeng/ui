@@ -1,16 +1,16 @@
 import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { CbInputOtpComponent } from './inputotp.component';
+import { CbInputOtp } from './inputotp.component';
 
 @Component({
-  imports: [CbInputOtpComponent],
+  imports: [CbInputOtp],
   template: `<cb-input-otp [length]="4" [integerOnly]="true" [(value)]="code" />`,
 })
 class HostComponent {
   code = signal('');
 }
 
-describe('CbInputOtpComponent', () => {
+describe('CbInputOtp', () => {
   it('renderiza N casillas y concatena el código ingresado', () => {
     const fixture = TestBed.createComponent(HostComponent);
     fixture.detectChanges();

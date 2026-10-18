@@ -1,7 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { CbTableCellDirective, CbTableComponent, type CbTableColumn } from './table.component';
+import { CbTableCellDirective, CbTable, type CbTableColumn } from './table.component';
 
 interface Row {
   id: number;
@@ -21,7 +21,7 @@ const DATA: Row[] = [
 ];
 
 @Component({
-  imports: [CbTableComponent],
+  imports: [CbTable],
   template: `
     <cb-table
       [value]="data"
@@ -43,7 +43,7 @@ class HostComponent {
 }
 
 @Component({
-  imports: [CbTableComponent, CbTableCellDirective],
+  imports: [CbTable, CbTableCellDirective],
   template: `
     <cb-table [value]="data" [columns]="cols">
       <ng-template cbTableCell="nombre" let-row let-value="value" let-col="col">
@@ -57,7 +57,7 @@ class TemplateHostComponent {
   cols = COLS;
 }
 
-describe('CbTableComponent', () => {
+describe('CbTable', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({ imports: [HostComponent, TemplateHostComponent] });
   });

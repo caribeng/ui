@@ -1,5 +1,5 @@
 export {
-  CbIconFieldComponent,
-  CbInputIconComponent,
+  CbIconField,
+  CbInputIcon,
   type CbIconFieldPosition,
 } from './lib/iconfield.component';

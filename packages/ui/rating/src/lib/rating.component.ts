@@ -10,7 +10,7 @@ import {
   signal,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
-import { CbIconComponent } from '@caribeng/ui/icon';
+import { CbIcon } from '@caribeng/ui/icon';
 import type { CbSize } from '@caribeng/ui';
 
 let nextUid = 0;
@@ -28,7 +28,7 @@ let nextUid = 0;
   selector: 'cb-rating',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
-  imports: [CbIconComponent],
+  imports: [CbIcon],
   host: {
     class: 'cb-rating',
     role: 'slider',
@@ -65,12 +65,12 @@ let nextUid = 0;
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => CbRatingComponent),
+      useExisting: forwardRef(() => CbRating),
       multi: true,
     },
   ],
 })
-export class CbRatingComponent implements ControlValueAccessor {
+export class CbRating implements ControlValueAccessor {
   /** Valor seleccionado (two-way opcional fuera de Angular Forms). */
   readonly value = model<number>(0);
 

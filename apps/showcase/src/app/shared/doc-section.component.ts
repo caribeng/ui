@@ -7,7 +7,7 @@ import {
   input,
   signal,
 } from '@angular/core';
-import { CbIconComponent } from '@caribeng/ui/icon';
+import { CbIcon } from '@caribeng/ui/icon';
 import { CodeBlockComponent } from './code-block.component';
 import { TocService } from '../services/toc.service';
 
@@ -15,7 +15,7 @@ import { TocService } from '../services/toc.service';
 @Component({
   selector: 'doc-section',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CodeBlockComponent, CbIconComponent],
+  imports: [CodeBlockComponent, CbIcon],
   template: `
     <section [id]="id()" class="doc-section">
       <h2 class="doc-section__title">

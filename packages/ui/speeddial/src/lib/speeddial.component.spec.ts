@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { CbSpeedDialComponent, type CbSpeedDialItem } from './speeddial.component';
+import { CbSpeedDial, type CbSpeedDialItem } from './speeddial.component';
 
 @Component({
-  imports: [CbSpeedDialComponent],
+  imports: [CbSpeedDial],
   template: `<cb-speed-dial [items]="items" direction="right" (itemSelect)="selected = $event.label" />`,
 })
 class HostComponent {
@@ -15,7 +15,7 @@ class HostComponent {
   selected = '';
 }
 
-describe('CbSpeedDialComponent', () => {
+describe('CbSpeedDial', () => {
   beforeEach(() => TestBed.configureTestingModule({ imports: [HostComponent] }));
 
   it('opens the action list and emits the chosen action', () => {

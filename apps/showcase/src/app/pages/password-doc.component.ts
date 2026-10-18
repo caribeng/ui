@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
-import { CbPasswordComponent } from '@caribeng/ui/password';
+import { CbPassword } from '@caribeng/ui/password';
 import { CbDocApiRow, CbDocPageComponent } from '../components/doc-page.component';
 import { CbDocExampleComponent } from '../components/doc-example.component';
 
@@ -8,13 +8,13 @@ const BASIC_CODE = `<cb-password [(value)]="secret" placeholder="Introduce tu co
 @Component({
   selector: 'cb-password-doc',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbDocPageComponent, CbDocExampleComponent, CbPasswordComponent],
+  imports: [CbDocPageComponent, CbDocExampleComponent, CbPassword],
   template: `
     <cb-doc-page
       category="Form"
       title="Password"
       subtitle="Campo de contraseña con alternancia de visibilidad, medidor de fortaleza e integración CVA."
-      importCode="import { CbPasswordComponent } from '@caribeng/ui/password';"
+      importCode="import { CbPassword } from '@caribeng/ui/password';"
       [api]="api"
     >
       <cb-doc-example

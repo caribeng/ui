@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { CbMeterGroupComponent, CbMeterItem } from './metergroup.component';
+import { CbMeterGroup, CbMeterItem } from './metergroup.component';
 
 @Component({
-  imports: [CbMeterGroupComponent],
+  imports: [CbMeterGroup],
   template: `<cb-meter-group [values]="items" />`,
 })
 class HostComponent {
@@ -13,7 +13,7 @@ class HostComponent {
   ];
 }
 
-describe('CbMeterGroupComponent', () => {
+describe('CbMeterGroup', () => {
   it('renderiza segmentos y elementos de leyenda', () => {
     const fixture = TestBed.createComponent(HostComponent);
     fixture.detectChanges();

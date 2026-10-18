@@ -6,7 +6,7 @@ import {
   inject,
   input,
 } from '@angular/core';
-import { CbRadioGroupComponent } from './radio-group.component';
+import { CbRadioGroup } from './radio-group.component';
 
 let nextUid = 0;
 
@@ -44,9 +44,9 @@ let nextUid = 0;
   `,
   styleUrl: './radio.component.css',
 })
-export class CbRadioComponent {
+export class CbRadio {
   /** Grupo contenedor (obligatorio). */
-  protected readonly group = inject(CbRadioGroupComponent);
+  protected readonly group = inject(CbRadioGroup);
 
   /** Valor que representa este radio. */
   readonly value = input.required<unknown>();

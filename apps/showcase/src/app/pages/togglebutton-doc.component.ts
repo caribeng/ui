@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { CbToggleButtonComponent } from '@caribeng/ui/togglebutton';
+import { CbToggleButton } from '@caribeng/ui/togglebutton';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
@@ -8,7 +8,7 @@ import { TocService } from '../services/toc.service';
 @Component({
   selector: 'doc-togglebutton-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbToggleButtonComponent, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
+  imports: [CbToggleButton, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
     <doc-page-header eyebrow="Form" title="ToggleButton" lead="Botón de dos estados (on/off) con etiqueta e icono por estado." />
 
@@ -42,7 +42,7 @@ export class TogglebuttonDocComponent {
   protected readonly fav = signal(false);
 
   protected readonly installCode = `npm install @caribeng/ui`;
-  protected readonly importCode = `import { CbToggleButtonComponent } from '@caribeng/ui/togglebutton';`;
+  protected readonly importCode = `import { CbToggleButton } from '@caribeng/ui/togglebutton';`;
   protected readonly basicCode = `<cb-togglebutton [(value)]="activo" onLabel="Activado" offLabel="Desactivado" />`;
   protected readonly iconsCode = `<cb-togglebutton [(value)]="wifi" onIcon="check" offIcon="x" onLabel="WiFi" offLabel="WiFi" />`;
 }

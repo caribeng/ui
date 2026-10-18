@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
-import { CbChartComponent, CbChartData, CbChartType } from '@caribeng/ui/chart';
-import { CbButtonComponent } from '@caribeng/ui/button';
+import { CbChart, CbChartData, CbChartType } from '@caribeng/ui/chart';
+import { CbButton } from '@caribeng/ui/button';
 import { CbDocApiRow, CbDocPageComponent } from '../components/doc-page.component';
 import { CbDocExampleComponent } from '../components/doc-example.component';
 
@@ -9,13 +9,13 @@ const BASIC_CODE = `<cb-chart [type]="chartType()" [data]="salesData" />`;
 @Component({
   selector: 'cb-chart-doc',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbDocPageComponent, CbDocExampleComponent, CbChartComponent, CbButtonComponent],
+  imports: [CbDocPageComponent, CbDocExampleComponent, CbChart, CbButton],
   template: `
     <cb-doc-page
       category="Data & Media"
       title="Chart"
       subtitle="Gráficos vectoriales SVG accesibles sin dependencias externas (bar, line, doughnut, pie)."
-      importCode="import { CbChartComponent } from '@caribeng/ui/chart';"
+      importCode="import { CbChart } from '@caribeng/ui/chart';"
       [api]="api"
     >
       <cb-doc-example

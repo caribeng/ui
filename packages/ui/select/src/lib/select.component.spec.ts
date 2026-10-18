@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { CbSelectComponent } from './select.component';
+import { CbSelect } from './select.component';
 
 interface Ciudad {
   nombre: string;
@@ -10,7 +10,7 @@ interface Ciudad {
 }
 
 @Component({
-  imports: [ReactiveFormsModule, CbSelectComponent],
+  imports: [ReactiveFormsModule, CbSelect],
   template: `<cb-select
     [formControl]="control"
     [options]="ciudades"
@@ -28,7 +28,7 @@ class HostComponent {
   ];
 }
 
-describe('CbSelectComponent', () => {
+describe('CbSelect', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({ imports: [HostComponent] });
   });

@@ -9,7 +9,7 @@ import {
   signal,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { CbIconComponent } from '@caribeng/ui/icon';
+import { CbIcon } from '@caribeng/ui/icon';
 
 export interface CbCascadeOption {
   label: string;
@@ -24,11 +24,11 @@ export interface CbCascadeOption {
   selector: 'cb-cascade-select',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
-  imports: [CbIconComponent],
+  imports: [CbIcon],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => CbCascadeSelectComponent),
+      useExisting: forwardRef(() => CbCascadeSelect),
       multi: true,
     },
   ],
@@ -91,7 +91,7 @@ export interface CbCascadeOption {
   `,
   styleUrl: './cascadeselect.component.css',
 })
-export class CbCascadeSelectComponent implements ControlValueAccessor {
+export class CbCascadeSelect implements ControlValueAccessor {
   readonly options = input<CbCascadeOption[]>([]);
   readonly placeholder = input<string>('Seleccionar opción…');
   readonly disabled = input<boolean>(false);

@@ -1,14 +1,14 @@
 import { TestBed } from '@angular/core/testing';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { CbTagComponent } from './tag.component';
+import { CbTag } from './tag.component';
 
-describe('CbTagComponent', () => {
+describe('CbTag', () => {
   beforeEach(() => {
-    TestBed.configureTestingModule({ imports: [CbTagComponent] });
+    TestBed.configureTestingModule({ imports: [CbTag] });
   });
 
   function setup() {
-    const fixture = TestBed.createComponent(CbTagComponent);
+    const fixture = TestBed.createComponent(CbTag);
     const host = (): HTMLElement => fixture.nativeElement;
     return { fixture, host };
   }

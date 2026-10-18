@@ -24,7 +24,7 @@ export type CbPasswordStrength = 'none' | 'weak' | 'medium' | 'strong';
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => CbPasswordComponent),
+      useExisting: forwardRef(() => CbPassword),
       multi: true,
     },
   ],
@@ -100,7 +100,7 @@ export type CbPasswordStrength = 'none' | 'weak' | 'medium' | 'strong';
   `,
   styleUrl: './password.component.css',
 })
-export class CbPasswordComponent implements ControlValueAccessor {
+export class CbPassword implements ControlValueAccessor {
   readonly placeholder = input<string>('');
   readonly disabled = input<boolean>(false);
   readonly invalid = input<boolean>(false);

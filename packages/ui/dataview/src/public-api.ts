@@ -1,1 +1,1 @@
-export { CbDataViewComponent } from './lib/dataview.component';
+export { CbDataView } from './lib/dataview.component';

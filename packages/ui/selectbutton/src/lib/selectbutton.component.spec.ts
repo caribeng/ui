@@ -2,10 +2,10 @@ import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { CbSelectButtonComponent } from './selectbutton.component';
+import { CbSelectButton } from './selectbutton.component';
 
 @Component({
-  imports: [ReactiveFormsModule, CbSelectButtonComponent],
+  imports: [ReactiveFormsModule, CbSelectButton],
   template: `<cb-selectbutton [formControl]="control" [options]="opts" [multiple]="multiple()" />`,
 })
 class HostComponent {
@@ -14,7 +14,7 @@ class HostComponent {
   multiple = signal(false);
 }
 
-describe('CbSelectButtonComponent', () => {
+describe('CbSelectButton', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({ imports: [HostComponent] });
   });

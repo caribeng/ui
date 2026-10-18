@@ -6,14 +6,14 @@ import {
   input,
   signal,
 } from '@angular/core';
-import { CbIconComponent } from '@caribeng/ui/icon';
+import { CbIcon } from '@caribeng/ui/icon';
 import { HighlightService, type CodeLang } from './highlight.service';
 
 /** Bloque de código resaltado con botón de copiar. */
 @Component({
   selector: 'doc-code-block',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbIconComponent],
+  imports: [CbIcon],
   template: `
     <div class="doc-code">
       <button

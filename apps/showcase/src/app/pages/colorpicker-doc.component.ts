@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { CbColorPickerComponent } from '@caribeng/ui/colorpicker';
+import { CbColorPicker } from '@caribeng/ui/colorpicker';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
@@ -11,7 +11,7 @@ import { TocService } from '../services/toc.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule,
-    CbColorPickerComponent,
+    CbColorPicker,
     DocSectionComponent,
     CodeBlockComponent,
     DocPageHeaderComponent,
@@ -70,7 +70,7 @@ export class ColorpickerDocComponent {
   ];
 
   protected readonly installCode = `npm install @caribeng/ui`;
-  protected readonly importCode = `import { CbColorPickerComponent } from '@caribeng/ui/colorpicker';`;
+  protected readonly importCode = `import { CbColorPicker } from '@caribeng/ui/colorpicker';`;
   protected readonly basicCode = `<cb-colorpicker [(value)]="color" />`;
   protected readonly presetsCode = `<cb-colorpicker [(value)]="color" [presets]="['#0ea5e9', '#14b8a6', '#22c55e', '#eab308', '#f97316', '#e11d48']" />`;
   protected readonly compactCode = `<cb-colorpicker [(value)]="color" [showValue]="false" size="sm" />

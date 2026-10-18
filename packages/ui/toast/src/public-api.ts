@@ -3,10 +3,10 @@
  */
 export {
   CbToastService,
-  type CbToast,
+  type CbToastMessage,
   type CbToastOptions,
 } from './lib/toast.service';
 export {
-  CbToastComponent,
+  CbToast,
   type CbToastPosition,
 } from './lib/toast.component';

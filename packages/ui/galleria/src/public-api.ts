@@ -1,4 +1,4 @@
 export {
-  CbGalleriaComponent,
+  CbGalleria,
   type CbGalleriaItem,
 } from './lib/galleria.component';
