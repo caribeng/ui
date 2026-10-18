@@ -96,6 +96,22 @@ import { AnimateonscrollDocComponent } from './pages/animateonscroll-doc.compone
 import { StyleclassDocComponent } from './pages/styleclass-doc.component';
 import { AutofocusDocComponent } from './pages/autofocus-doc.component';
 
+import { ButtonGroupDocComponent } from './pages/button-group-doc.component';
+import { IconButtonDocComponent } from './pages/icon-button-doc.component';
+import { TagButtonDocComponent } from './pages/tag-button-doc.component';
+import { FabMenuDocComponent } from './pages/fab-menu-doc.component';
+import { FloatMenuDocComponent } from './pages/float-menu-doc.component';
+import { HeaderDocComponent } from './pages/header-doc.component';
+import { FooterDocComponent } from './pages/footer-doc.component';
+import { LinkDocComponent } from './pages/link-doc.component';
+import { ShortcutDocComponent } from './pages/shortcut-doc.component';
+import { ExpansionPanelDocComponent } from './pages/expansion-panel-doc.component';
+import { OffCanvasDocComponent } from './pages/off-canvas-doc.component';
+import { DotsIndicatorDocComponent } from './pages/dots-indicator-doc.component';
+import { StepIndicatorDocComponent } from './pages/step-indicator-doc.component';
+import { SwitchDocComponent } from './pages/switch-doc.component';
+import { ProgressBarCaribeDocComponent } from './pages/progress-bar-doc.component';
+
 export const routes: Routes = [
   { path: '', redirectTo: 'introduction', pathMatch: 'full' },
   { path: 'introduction', component: IntroductionComponent, title: 'CaribeNG' },
@@ -194,5 +210,20 @@ export const routes: Routes = [
   { path: 'components/dynamicdialog', component: DynamicdialogDocComponent, title: 'DynamicDialog · CaribeNG' },
   { path: 'components/organizationchart', component: OrganizationChartDocComponent, title: 'OrganizationChart · CaribeNG' },
   { path: 'components/speeddial', component: SpeedDialDocComponent, title: 'SpeedDial · CaribeNG' },
+  { path: 'components/button-group', component: ButtonGroupDocComponent, title: 'ButtonGroup · CaribeNG' },
+  { path: 'components/icon-button', component: IconButtonDocComponent, title: 'IconButton · CaribeNG' },
+  { path: 'components/tag-button', component: TagButtonDocComponent, title: 'TagButton · CaribeNG' },
+  { path: 'components/fab-menu', component: FabMenuDocComponent, title: 'FabMenu · CaribeNG' },
+  { path: 'components/float-menu', component: FloatMenuDocComponent, title: 'FloatMenu · CaribeNG' },
+  { path: 'components/header', component: HeaderDocComponent, title: 'Header · CaribeNG' },
+  { path: 'components/footer', component: FooterDocComponent, title: 'Footer · CaribeNG' },
+  { path: 'components/link', component: LinkDocComponent, title: 'Link · CaribeNG' },
+  { path: 'components/shortcut', component: ShortcutDocComponent, title: 'Shortcut · CaribeNG' },
+  { path: 'components/expansion-panel', component: ExpansionPanelDocComponent, title: 'ExpansionPanel · CaribeNG' },
+  { path: 'components/off-canvas', component: OffCanvasDocComponent, title: 'OffCanvas · CaribeNG' },
+  { path: 'components/dots-indicator', component: DotsIndicatorDocComponent, title: 'DotsIndicator · CaribeNG' },
+  { path: 'components/step-indicator', component: StepIndicatorDocComponent, title: 'StepIndicator · CaribeNG' },
+  { path: 'components/switch', component: SwitchDocComponent, title: 'Switch · CaribeNG' },
+  { path: 'components/progress-bar', component: ProgressBarCaribeDocComponent, title: 'ProgressBar · CaribeNG' },
   { path: '**', redirectTo: 'introduction' },
 ];
