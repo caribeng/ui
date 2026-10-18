@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { DocPlaygroundComponent } from '../components/doc-playground.component';
+import { DOC_API } from '../components/doc-api-registry';
 import { CB_COLOR_PRESETS, CbColorPreset, CbThemeService } from '@caribeng/ui';
 import { CbButton } from '@caribeng/ui/button';
 import { DocSectionComponent } from '../shared/doc-section.component';
@@ -9,13 +11,15 @@ import { TocService } from '../services/toc.service';
 @Component({
   selector: 'doc-theming',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent, CbButton],
+  imports: [DocPlaygroundComponent, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent, CbButton],
   template: `
     <doc-page-header
       eyebrow="Foundations"
       title="Theming"
       lead="El tema se controla con variables CSS --cb-*, presets de paleta en vivo y el atributo data-theme. Personaliza sin tocar la librería."
     />
+
+    <doc-playground [api]="docApi" />
 
     <doc-section id="presets" title="Presets de paleta en vivo">
       <div style="display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; margin-bottom: 1rem">
@@ -51,6 +55,8 @@ import { TocService } from '../services/toc.service';
   styles: [`:host { display: block; }`],
 })
 export class ThemingComponent {
+  protected readonly docApi = DOC_API['cb-button'];
+
   protected readonly theme = inject(CbThemeService);
 
   protected readonly presets: { id: CbColorPreset; label: string; swatch: string }[] = [
