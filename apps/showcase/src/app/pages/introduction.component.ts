@@ -5,6 +5,7 @@ import { CbIcon } from '@caribeng/ui/icon';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
 import { TocService } from '../services/toc.service';
+import { I18nService } from '../services/i18n.service';
 
 @Component({
   selector: 'doc-introduction',
@@ -18,9 +19,9 @@ import { TocService } from '../services/toc.service';
     />
 
     <div class="intro-actions">
-      <cb-button routerLink="/components/button">Explorar Button</cb-button>
+      <cb-button routerLink="/components/button">{{ i18n.t('Explorar Button', 'Explore Button') }}</cb-button>
       <cb-button variant="outlined" severity="secondary" routerLink="/foundations/colors">
-        Ver Colors
+        {{ i18n.t('Ver Colors', 'View Colors') }}
       </cb-button>
     </div>
 
@@ -28,21 +29,26 @@ import { TocService } from '../services/toc.service';
       @for (f of features; track f.title) {
         <article class="intro-feature">
           <cb-icon class="intro-feature__icon" [name]="f.icon" [size]="28" aria-hidden="true" />
-          <h3 class="intro-feature__title">{{ f.title }}</h3>
-          <p class="intro-feature__text">{{ f.text }}</p>
+          <h3 class="intro-feature__title">{{ i18n.auto(f.title) }}</h3>
+          <p class="intro-feature__text">{{ i18n.auto(f.text) }}</p>
         </article>
       }
     </section>
 
     <section id="install" class="intro-block">
-      <h2 class="intro-h2">Instalación</h2>
+      <h2 class="intro-h2">{{ i18n.t('Instalación', 'Installation') }}</h2>
       <doc-code-block [code]="installCode" lang="bash" />
     </section>
 
     <section id="setup" class="intro-block">
-      <h2 class="intro-h2">Configuración</h2>
+      <h2 class="intro-h2">{{ i18n.t('Configuración', 'Setup') }}</h2>
       <p class="intro-p">
-        Registra CaribeNG en el arranque. Funciona con Zone.js y zoneless.
+        {{
+          i18n.t(
+            'Registra CaribeNG en el arranque. Funciona con Zone.js y zoneless.',
+            'Register CaribeNG at bootstrap. Works with Zone.js and zoneless.'
+          )
+        }}
       </p>
       <doc-code-block [code]="setupCode" lang="typescript" />
     </section>
@@ -95,6 +101,8 @@ import { TocService } from '../services/toc.service';
   ],
 })
 export class IntroductionComponent {
+  protected readonly i18n = inject(I18nService);
+
   constructor() {
     inject(TocService).reset();
   }

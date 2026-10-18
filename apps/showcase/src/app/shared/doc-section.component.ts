@@ -20,10 +20,10 @@ import { I18nService } from '../services/i18n.service';
   template: `
     <section [id]="id()" class="doc-section">
       <h2 class="doc-section__title">
-        <a [href]="'#' + id()" class="doc-section__anchor">{{ title() }}</a>
+        <a [href]="'#' + id()" class="doc-section__anchor">{{ i18n.auto(title()) }}</a>
       </h2>
       @if (description()) {
-        <p class="doc-section__desc">{{ description() }}</p>
+        <p class="doc-section__desc">{{ i18n.auto(description()) }}</p>
       }
 
       <div class="doc-card">
@@ -95,7 +95,7 @@ export class DocSectionComponent {
 
   constructor() {
     afterNextRender(() => {
-      this.toc.register({ id: this.id(), label: this.title() });
+      this.toc.register({ id: this.id(), label: this.i18n.auto(this.title()) });
     });
   }
 }

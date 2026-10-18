@@ -234,4 +234,50 @@ export const ES_EN: Record<string, string> = {
   'Valor actual del campo de contraseña.': 'Current value of the password field.',
   'Valor seleccionado.': 'Selected value.',
   'Índice activo (base 0).': 'Active index (0-based).',
+
+  // --- Foundations: Introduction / Colors / Theming / Icons ---
+  'Sistema de diseño y librería de componentes para Angular 22+, independiente de terceros. Signals, OnPush, standalone y tree-shaking por componente.':
+    'Design system and component library for Angular 22+, independent of third parties. Signals, OnPush, standalone and per-component tree-shaking.',
+  'Paleta de design tokens (--cb-color-*). Cámbiala en vivo con el configurador de la barra superior.':
+    'Design-token palette (--cb-color-*). Change it live with the configurator in the top bar.',
+  'El tema se controla con variables CSS --cb-*, presets de paleta en vivo y el atributo data-theme. Personaliza sin tocar la librería.':
+    'The theme is driven by --cb-* CSS variables, live palette presets and the data-theme attribute. Customize without touching the library.',
+  'Personalizar tokens': 'Customize tokens',
+  'Presets de paleta en vivo': 'Live palette presets',
+  'Iconos de CaribeNG (derivados de Lucide, ISC) en SVG inline. Heredan el color del texto (currentColor) y escalan con el tamaño. Sin dependencia en runtime.':
+    'CaribeNG icons (derived from Lucide, ISC) as inline SVG. They inherit the text color (currentColor) and scale with size. No runtime dependency.',
+  'El registro es extensible: registra tus SVG con provideCbIcons.':
+    'The registry is extensible: register your SVGs with provideCbIcons.',
+  'Usa name con cualquier icono del set núcleo. Toma el color del texto.':
+    'Use name with any icon from the core set. It takes the text color.',
+  'currentColor hace que el icono tome el color del contenedor.':
+    'currentColor makes the icon take the container color.',
+  'size = sm (16) · md (20) · lg (24) · xl (32) o un número en px.':
+    'size = sm (16) · md (20) · lg (24) · xl (32) or a number in px.',
+  "spin gira el icono; ideal para 'loader'.":
+    "spin rotates the icon; ideal for a 'loader'.",
+  '¿Falta uno? Importa cualquiera de los 1891 iconos desde @caribeng/ui/icons (tree-shakeable: solo entra al bundle lo que importas) y regístralo.':
+    'Missing one? Import any of the 1891 icons from @caribeng/ui/icons (tree-shakeable: only what you import enters the bundle) and register it.',
+  'Añadir iconos propios': 'Add your own icons',
+  'Catálogo completo (1891)': 'Full catalog (1891)',
+  'Color por severidad': 'Color by severity',
+  'Set núcleo': 'Core set',
+  Tamaños: 'Sizes',
+  'Animación (spin)': 'Animation (spin)',
+
+  // --- Introduction: tarjetas de características ---
+  Independiente: 'Independent',
+  Accesible: 'Accessible',
+  'Reactividad moderna con input(), model() y computed() en todos los componentes.':
+    'Modern reactivity with input(), model() and computed() across all components.',
+  'Cero dependencias de PrimeNG o Material. Solo @angular/cdk.':
+    'Zero dependencies on PrimeNG or Material. Only @angular/cdk.',
+  'Personaliza con variables CSS --cb-*. Tema claro y oscuro integrados.':
+    'Customize with --cb-* CSS variables. Light and dark themes built in.',
+  'Un solo paquete @caribeng/ui con entry points por componente: incluye solo lo que usas.':
+    'A single @caribeng/ui package with per-component entry points: ship only what you use.',
+  'Objetivo WCAG 2.2 AA: teclado, foco visible y ARIA correcto.':
+    'WCAG 2.2 AA target: keyboard, visible focus and correct ARIA.',
+  'Compatible con zoneless y Zone.js sin configuración global.':
+    'Works with zoneless and Zone.js without global configuration.',
 };

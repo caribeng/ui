@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
+import { I18nService } from '../services/i18n.service';
 
 @Component({
   selector: 'doc-page-header',
@@ -6,11 +7,11 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
   template: `
     <header class="page-head">
       @if (eyebrow()) {
-        <p class="page-head__eyebrow">{{ eyebrow() }}</p>
+        <p class="page-head__eyebrow">{{ i18n.auto(eyebrow()) }}</p>
       }
-      <h1 class="page-head__title">{{ title() }}</h1>
+      <h1 class="page-head__title">{{ i18n.auto(title()) }}</h1>
       @if (lead()) {
-        <p class="page-head__lead">{{ lead() }}</p>
+        <p class="page-head__lead">{{ i18n.auto(lead()) }}</p>
       }
     </header>
   `,
@@ -48,6 +49,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
   ],
 })
 export class DocPageHeaderComponent {
+  protected readonly i18n = inject(I18nService);
   readonly eyebrow = input<string>('');
   readonly title = input.required<string>();
   readonly lead = input<string>('');
