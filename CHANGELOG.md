@@ -4,6 +4,19 @@ Todos los cambios notables en `@caribeng/ui` se documentan en este archivo sigui
 
 ---
 
+## [1.1.0] - 2026-10-17
+
+### Added
+- **Catálogo Caribe Design integrado en `@caribeng/ui` (+45 nuevos secondary entry points, total 138):**
+  - **Cards, Transacciones y Alertas (15 — Lote Codex):** `alert`, `inline-alert`, `card-content`, `card-move`, `card-primary`, `card-select`, `coachmark`, `onboarding`, `status`, `tracker`, `transaction-status`, `voucher`, `data-table`, `modal`, `pop-over`.
+  - **Navegación, Botones y Paneles (15 — Lote Claude):** `button-group`, `icon-button`, `tag-button`, `fab-menu`, `float-menu`, `header`, `footer`, `link`, `shortcut`, `expansion-panel`, `off-canvas`, `dots-indicator`, `step-indicator`, `switch`, `progress-bar`.
+  - **Identidad, Loaders, Archivos y Formularios (15 — Lote Gemini):** `animation-lottie`, `circle-loading`, `loader`, `preloader`, `logo`, `illustration`, `pictogram`, `stroke`, `file-download`, `file-select`, `input-search`, `input-token`, `input-date`, `input-select`, `calendar`.
+- **Calidad y Showcase:**
+  - **140 suites de prueba** (**280 tests unitarios** en verde con Vitest).
+  - **138 páginas de documentación** interactiva en `apps/showcase`.
+
+---
+
 ## [1.0.0] - 2026-10-17
 
 ### Added

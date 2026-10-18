@@ -10,12 +10,12 @@
 
 | Métrica | Valor |
 |---|---|
-| Componentes y directivas de UI | **93** (objetivo SPEC: **75** — **100 % completado + extras**) |
-| Tests unitarios | **235** en verde (**95** suites, 0 warnings en stderr) |
-| Entry points publicables | `@caribeng/ui` + 93 por componente/directiva + `@caribeng/ui/icons` |
+| Componentes y directivas de UI | **138** (objetivo SPEC: **75** + **45** Caribe Design — **100 % completado**) |
+| Tests unitarios | **280** en verde (**140** suites, 0 warnings en stderr) |
+| Entry points publicables | `@caribeng/ui` + 138 por componente/directiva + `@caribeng/ui/icons` |
 | Build | Limpio (ng-packagr / APF) |
 | Iconos | **361** núcleo + **1891** catálogo (Lucide, ISC) |
-| App de docs | `showcase` (sitio enrutado estilo PrimeNG con 93 páginas de componentes) |
+| App de docs | `showcase` (sitio enrutado estilo PrimeNG con 138 páginas de componentes) |
 
 **Stack:** Angular 22 · Nx 23 · pnpm 11 · TypeScript 6 · ng-packagr 22 ·
 vitest · zoneless · signals · OnPush · standalone · CSS custom properties.
