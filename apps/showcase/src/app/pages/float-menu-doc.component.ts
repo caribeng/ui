@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { DocPlaygroundComponent } from '../components/doc-playground.component';
+import { DOC_API } from '../components/doc-api-registry';
 import { CbFloatMenu } from '@caribeng/ui/caribe/float-menu';
 import { CbDocApiRow, CbDocPageComponent } from '../components/doc-page.component';
 import { CbDocExampleComponent } from '../components/doc-example.component';
@@ -6,7 +8,7 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
 @Component({
   selector: 'cb-float-menu-doc',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbDocPageComponent, CbDocExampleComponent, CbFloatMenu],
+  imports: [DocPlaygroundComponent, CbDocPageComponent, CbDocExampleComponent, CbFloatMenu],
   template: `
     <cb-doc-page
       category="Caribe Design · Navegación"
@@ -18,10 +20,14 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
       <cb-doc-example title="Barra flotante" code='<cb-float-menu [items]="items" [activeId]="active()" />'>
         <cb-float-menu [items]="items" [activeId]="active()" (select)="active.set($event.id)" />
       </cb-doc-example>
+    
+      <doc-playground [api]="docApi" />
     </cb-doc-page>
   `,
 })
 export class FloatMenuDocComponent {
+  protected readonly docApi = DOC_API['cb-float-menu'];
+
   protected readonly active = signal('home');
   protected readonly items = [
     { id: 'home', label: 'Inicio' },

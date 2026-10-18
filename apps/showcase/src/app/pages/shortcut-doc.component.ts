@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { DocPlaygroundComponent } from '../components/doc-playground.component';
+import { DOC_API } from '../components/doc-api-registry';
 import { CbShortcut } from '@caribeng/ui/caribe/shortcut';
 import { CbDocApiRow, CbDocPageComponent } from '../components/doc-page.component';
 import { CbDocExampleComponent } from '../components/doc-example.component';
@@ -6,7 +8,7 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
 @Component({
   selector: 'cb-shortcut-doc',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbDocPageComponent, CbDocExampleComponent, CbShortcut],
+  imports: [DocPlaygroundComponent, CbDocPageComponent, CbDocExampleComponent, CbShortcut],
   template: `
     <cb-doc-page
       category="Caribe Design · Navegación"
@@ -21,10 +23,14 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
           <cb-shortcut label="Certificados" icon="check" />
         </div>
       </cb-doc-example>
+    
+      <doc-playground [api]="docApi" />
     </cb-doc-page>
   `,
 })
 export class ShortcutDocComponent {
+  protected readonly docApi = DOC_API['cb-shortcut'];
+
   protected readonly api: CbDocApiRow[] = [
     { name: 'label', type: 'string', default: "'Transferir'", description: 'Texto del atajo.' },
     { name: 'icon', type: 'string', default: "'arrow-right'", description: 'Icono superior.' },

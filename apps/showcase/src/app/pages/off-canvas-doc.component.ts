@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { DocPlaygroundComponent } from '../components/doc-playground.component';
+import { DOC_API } from '../components/doc-api-registry';
 import { CbOffCanvas } from '@caribeng/ui/caribe/off-canvas';
 import { CbButton } from '@caribeng/ui/button';
 import { CbDocApiRow, CbDocPageComponent } from '../components/doc-page.component';
@@ -7,7 +9,7 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
 @Component({
   selector: 'cb-off-canvas-doc',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbDocPageComponent, CbDocExampleComponent, CbOffCanvas, CbButton],
+  imports: [DocPlaygroundComponent, CbDocPageComponent, CbDocExampleComponent, CbOffCanvas, CbButton],
   template: `
     <cb-doc-page
       category="Caribe Design · Paneles"
@@ -24,10 +26,14 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
           </cb-off-canvas>
         </div>
       </cb-doc-example>
+    
+      <doc-playground [api]="docApi" />
     </cb-doc-page>
   `,
 })
 export class OffCanvasDocComponent {
+  protected readonly docApi = DOC_API['cb-off-canvas'];
+
   protected readonly visible = signal(true);
   protected readonly api: CbDocApiRow[] = [
     { name: 'title', type: 'string', default: "'Panel lateral'", description: 'Encabezado del panel.' },

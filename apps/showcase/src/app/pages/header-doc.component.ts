@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { DocPlaygroundComponent } from '../components/doc-playground.component';
+import { DOC_API } from '../components/doc-api-registry';
 import { CbHeader } from '@caribeng/ui/caribe/header';
 import { CbDocApiRow, CbDocPageComponent } from '../components/doc-page.component';
 import { CbDocExampleComponent } from '../components/doc-example.component';
@@ -6,7 +8,7 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
 @Component({
   selector: 'cb-header-doc',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbDocPageComponent, CbDocExampleComponent, CbHeader],
+  imports: [DocPlaygroundComponent, CbDocPageComponent, CbDocExampleComponent, CbHeader],
   template: `
     <cb-doc-page
       category="Caribe Design · Navegación"
@@ -18,10 +20,14 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
       <cb-doc-example title="Encabezado de flujo" code='<cb-header title="Transferencias" subtitle="Paso 1 de 3" [showBack]="true" />'>
         <cb-header title="Transferencias" subtitle="Paso 1 de 3" [showBack]="true" />
       </cb-doc-example>
+    
+      <doc-playground [api]="docApi" />
     </cb-doc-page>
   `,
 })
 export class HeaderDocComponent {
+  protected readonly docApi = DOC_API['cb-header'];
+
   protected readonly api: CbDocApiRow[] = [
     { name: 'title', type: 'string', default: "'CaribeNG'", description: 'Título principal.' },
     { name: 'subtitle', type: 'string', default: "''", description: 'Subtítulo opcional.' },

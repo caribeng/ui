@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { DocPlaygroundComponent } from '../components/doc-playground.component';
+import { DOC_API } from '../components/doc-api-registry';
 import { CbTagButton } from '@caribeng/ui/caribe/tag-button';
 import { CbDocApiRow, CbDocPageComponent } from '../components/doc-page.component';
 import { CbDocExampleComponent } from '../components/doc-example.component';
@@ -6,7 +8,7 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
 @Component({
   selector: 'cb-tag-button-doc',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbDocPageComponent, CbDocExampleComponent, CbTagButton],
+  imports: [DocPlaygroundComponent, CbDocPageComponent, CbDocExampleComponent, CbTagButton],
   template: `
     <cb-doc-page
       category="Caribe Design · Acciones"
@@ -21,10 +23,14 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
           <cb-tag-button label="Pagos QR" />
         </div>
       </cb-doc-example>
+    
+      <doc-playground [api]="docApi" />
     </cb-doc-page>
   `,
 })
 export class TagButtonDocComponent {
+  protected readonly docApi = DOC_API['cb-tag-button'];
+
   protected readonly active = signal(true);
   protected readonly api: CbDocApiRow[] = [
     { name: 'label', type: 'string', default: "'Filtro'", description: 'Texto visible del tag.' },

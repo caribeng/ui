@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { DocPlaygroundComponent } from '../components/doc-playground.component';
+import { DOC_API } from '../components/doc-api-registry';
 import { CbLogo } from '@caribeng/ui/caribe/logo';
 import { CbDocApiRow, CbDocPageComponent } from '../components/doc-page.component';
 import { CbDocExampleComponent } from '../components/doc-example.component';
@@ -6,7 +8,7 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
 @Component({
   selector: 'cb-logo-doc',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbDocPageComponent, CbDocExampleComponent, CbLogo],
+  imports: [DocPlaygroundComponent, CbDocPageComponent, CbDocExampleComponent, CbLogo],
   template: `
     <cb-doc-page
       category="Caribe Design · Identidad"
@@ -23,10 +25,14 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
           </div>
         </div>
       </cb-doc-example>
+    
+      <doc-playground [api]="docApi" />
     </cb-doc-page>
   `,
 })
 export class LogoDocComponent {
+  protected readonly docApi = DOC_API['cb-logo'];
+
   protected readonly api: CbDocApiRow[] = [
     { name: 'name', type: 'string', default: "'caribe-horizontal'", description: 'Identificador del logotipo.' },
     { name: 'size', type: 'string', default: "'160px'", description: 'Ancho CSS del logotipo (px, rem, em, %).' },

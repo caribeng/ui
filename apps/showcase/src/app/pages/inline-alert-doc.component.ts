@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { DocPlaygroundComponent } from '../components/doc-playground.component';
+import { DOC_API } from '../components/doc-api-registry';
 import { CbInlineAlert } from '@caribeng/ui/caribe/inline-alert';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
@@ -7,14 +9,18 @@ import { TocService } from '../services/toc.service';
 
 @Component({
   selector: 'doc-inline-alert-page', changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbInlineAlert, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
+  imports: [DocPlaygroundComponent, CbInlineAlert, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
     <doc-page-header eyebrow="Caribe Design" title="Inline Alert" lead="Inline Alert para interfaces accesibles, con estilos basados en tokens CaribeNG." />
+    <doc-playground [api]="docApi" />
+
     <doc-section id="import" title="Import"><doc-code-block [code]="importCode" lang="typescript" /></doc-section>
     <doc-section id="basic" title="Uso basico" [code]="exampleCode"><cb-inline-alert title="Informacion" status="info">Puedes continuar con el proceso.</cb-inline-alert></doc-section>
   `,
 })
 export class InlineAlertDocComponent {
+  protected readonly docApi = DOC_API['cb-inline-alert'];
+
   constructor() { inject(TocService).reset(); }
   protected readonly importCode = `import { CbInlineAlert } from '@caribeng/ui/caribe/inline-alert';`;
   protected readonly exampleCode = `<cb-inline-alert title="Informacion" status="info">Puedes continuar con el proceso.</cb-inline-alert>`;

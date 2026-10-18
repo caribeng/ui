@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { DocPlaygroundComponent } from '../components/doc-playground.component';
+import { DOC_API } from '../components/doc-api-registry';
 import { CbExpansionPanel } from '@caribeng/ui/caribe/expansion-panel';
 import { CbDocApiRow, CbDocPageComponent } from '../components/doc-page.component';
 import { CbDocExampleComponent } from '../components/doc-example.component';
@@ -6,7 +8,7 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
 @Component({
   selector: 'cb-expansion-panel-doc',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbDocPageComponent, CbDocExampleComponent, CbExpansionPanel],
+  imports: [DocPlaygroundComponent, CbDocPageComponent, CbDocExampleComponent, CbExpansionPanel],
   template: `
     <cb-doc-page
       category="Caribe Design · Paneles"
@@ -20,10 +22,14 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
           Exento de cuota de manejo durante los primeros 12 meses.
         </cb-expansion-panel>
       </cb-doc-example>
+    
+      <doc-playground [api]="docApi" />
     </cb-doc-page>
   `,
 })
 export class ExpansionPanelDocComponent {
+  protected readonly docApi = DOC_API['cb-expansion-panel'];
+
   protected readonly api: CbDocApiRow[] = [
     { name: 'title', type: 'string', default: "'Detalles'", description: 'Título del encabezado.' },
     { name: 'expanded', type: 'boolean (model)', default: 'false', description: 'Estado desplegado.' },
