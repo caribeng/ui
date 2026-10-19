@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { CbIcon, cbCoreIcons } from '@caribeng/ui/icon';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
@@ -101,18 +101,66 @@ import { TocService } from '../services/toc.service';
       title="Set núcleo"
       [description]="galleryDescription"
     >
+      <div class="icon-search-wrap">
+        <cb-icon name="search" [size]="16" aria-hidden="true" />
+        <input
+          type="search"
+          class="icon-search"
+          placeholder="Buscar icono por nombre…"
+          [value]="query()"
+          (input)="query.set($any($event.target).value)"
+          aria-label="Buscar icono"
+        />
+        <span class="icon-search-count">{{ filtered().length }}</span>
+      </div>
       <div class="icon-gallery">
-        @for (name of iconNames; track name) {
+        @for (name of filtered(); track name) {
           <figure class="icon-cell">
             <cb-icon [name]="name" size="lg" />
             <figcaption>{{ name }}</figcaption>
           </figure>
+        } @empty {
+          <p class="icon-empty">Sin resultados para «{{ query() }}».</p>
         }
       </div>
     </doc-section>
   `,
   styles: [
     `
+      .icon-search-wrap {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        width: 100%;
+        margin-bottom: 1rem;
+        padding: 0.5rem 0.85rem;
+        border: 1px solid var(--cb-color-border-strong, var(--cb-color-border));
+        border-radius: var(--cb-radius-md);
+        background: var(--cb-color-bg);
+        color: var(--cb-color-text-muted);
+      }
+      .icon-search {
+        flex: 1;
+        min-width: 0;
+        border: 0;
+        outline: 0;
+        background: transparent;
+        color: var(--cb-color-text);
+        font: inherit;
+      }
+      .icon-search-count {
+        flex: none;
+        font-size: 0.8rem;
+        color: var(--cb-color-text-muted);
+        font-variant-numeric: tabular-nums;
+      }
+      .icon-empty {
+        grid-column: 1 / -1;
+        margin: 0;
+        padding: 1.5rem;
+        text-align: center;
+        color: var(--cb-color-text-muted);
+      }
       .icon-gallery {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
@@ -151,6 +199,12 @@ export class IconsComponent {
 
   protected readonly iconNames = Object.keys(cbCoreIcons).sort();
   protected readonly galleryDescription = `${this.iconNames.length} iconos en el set núcleo (auto-registrados) · 1891 disponibles en el catálogo. Usa cualquiera del núcleo por su nombre.`;
+
+  protected readonly query = signal('');
+  protected readonly filtered = computed(() => {
+    const q = this.query().trim().toLowerCase();
+    return q ? this.iconNames.filter((n) => n.includes(q)) : this.iconNames;
+  });
 
   protected readonly catalogCode = `import { heartPulse, wifi } from '@caribeng/ui/icons';
 import { provideCbIcons } from '@caribeng/ui/icon';
