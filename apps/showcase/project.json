@@ -13,7 +13,12 @@
         "index": "apps/showcase/src/index.html",
         "browser": "apps/showcase/src/main.ts",
         "tsConfig": "apps/showcase/tsconfig.app.json",
-        "assets": [],
+        "assets": [
+          {
+            "glob": "**/*",
+            "input": "apps/showcase/public"
+          }
+        ],
         "styles": [
           "node_modules/@angular/cdk/overlay-prebuilt.css",
           "apps/showcase/src/styles.scss"

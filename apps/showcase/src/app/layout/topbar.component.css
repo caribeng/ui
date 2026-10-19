@@ -24,25 +24,25 @@
   color: var(--cb-color-text-strong);
 }
 
-.topbar__logo {
-  display: grid;
-  place-items: center;
-  width: 2rem;
-  height: 2rem;
-  border-radius: var(--cb-radius-md);
-  background: linear-gradient(
-    135deg,
-    var(--cb-color-primary-500),
-    var(--cb-color-primary-700)
-  );
-  color: #fff;
-  font-weight: var(--cb-font-weight-bold);
-  font-size: var(--cb-text-sm);
+.topbar__shield {
+  display: block;
+  flex-shrink: 0;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.12));
+  transition: transform 0.2s ease;
+}
+
+.topbar__brand:hover .topbar__shield {
+  transform: scale(1.05);
 }
 
 .topbar__name {
-  font-weight: var(--cb-font-weight-bold);
+  font-weight: 800;
   font-size: var(--cb-text-lg);
+  letter-spacing: -0.02em;
+}
+
+.topbar__name-accent {
+  color: var(--cb-color-primary-500);
 }
 
 .topbar__version {

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 68" fill="none">
+  <g>
+    <path d="M32 2L3 12.5L7.6 51.5L32 65.5L56.4 51.5L61 12.5L32 2Z" fill="currentColor"/>
+    <path d="M32 13L18.5 41H24.2L27.1 34.4H36.9L39.8 41H45.5L32 13ZM29.3 29.2L32 22.8L34.7 29.2H29.3Z" fill="#ffffff"/>
+    <path d="M15 46.5C19.5 43.5 24.5 43.5 29 46.5C33.5 49.5 38.5 49.5 43 46.5C45.5 44.8 47.5 44.2 49.5 44.5" stroke="#ffffff" stroke-width="3.2" stroke-linecap="round"/>
+    <path d="M19 52.5C23 50 27.5 50 31.5 52.5C35.5 55 40 55 44.5 52.2" stroke="#ffffff" stroke-width="2.6" stroke-linecap="round"/>
+  </g>
+  <text x="74" y="44" font-family="Inter, system-ui, -apple-system, sans-serif" font-size="31" font-weight="800" letter-spacing="-0.03em" fill="currentColor">CaribeNG</text>
+</svg>

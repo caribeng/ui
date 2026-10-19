@@ -13,19 +13,52 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
     <cb-doc-page
       category="Caribe Design · Identidad"
       title="Logo"
-      subtitle="Logotipo vectorial escalable con soporte de versión positiva/negativa y tamaño personalizable."
+      subtitle="Identidad corporativa vectorial de CaribeNG en múltiples formatos (Horizontal, Isotipo/Escudo, Vertical, Monocromático y Negativo), inspirada en PrimeNG y NG-ZORRO."
       importCode="import { CbLogo } from '@caribeng/ui/caribe/logo';"
       [api]="api"
     >
-      <cb-doc-example title="Tamaños y variantes" code='<cb-logo name="caribe-horizontal" size="180px" />'>
-        <div style="display: flex; gap: 1.5rem; align-items: center; flex-wrap: wrap">
-          <cb-logo name="caribe-horizontal" size="150px" />
-          <div style="background: #0f172a; padding: 0.5rem 1rem; border-radius: 0.5rem">
-            <cb-logo name="caribe-horizontal" size="150px" [negative]="true" />
+      <cb-doc-example
+        title="Formatos del Logo Corporativo"
+        description="Soporta versión horizontal completa, isotipo (escudo Angular-Caribe para favicons y barras compactas), vertical apilada y monocromática."
+        code='<cb-logo name="caribe-horizontal" size="180px" />
+<cb-logo name="caribe-icon" size="48px" />
+<cb-logo name="caribe-vertical" size="110px" />
+<cb-logo name="caribe-mono" size="180px" />'
+      >
+        <div style="display: flex; gap: 2rem; align-items: center; flex-wrap: wrap">
+          <div style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem">
+            <cb-logo name="caribe-horizontal" size="170px" />
+            <small style="color: var(--cb-color-text-muted)">caribe-horizontal</small>
+          </div>
+          <div style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem">
+            <cb-logo name="caribe-icon" size="48px" />
+            <small style="color: var(--cb-color-text-muted)">caribe-icon (Isotipo / Favicon)</small>
+          </div>
+          <div style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem">
+            <cb-logo name="caribe-vertical" size="105px" />
+            <small style="color: var(--cb-color-text-muted)">caribe-vertical</small>
+          </div>
+          <div style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem">
+            <cb-logo name="caribe-mono" size="170px" />
+            <small style="color: var(--cb-color-text-muted)">caribe-mono</small>
           </div>
         </div>
       </cb-doc-example>
-    
+
+      <cb-doc-example
+        title="Versión Negativa (Fondos Oscuros)"
+        code='<cb-logo name="caribe-horizontal" size="170px" [negative]="true" />
+<cb-logo name="caribe-mono" size="170px" [negative]="true" />'
+      >
+        <div
+          style="display: flex; gap: 2rem; align-items: center; flex-wrap: wrap; background: #0f172a; padding: 1.25rem 1.5rem; border-radius: 0.75rem"
+        >
+          <cb-logo name="caribe-horizontal" size="170px" [negative]="true" />
+          <cb-logo name="caribe-vertical" size="100px" [negative]="true" />
+          <cb-logo name="caribe-mono" size="170px" [negative]="true" />
+        </div>
+      </cb-doc-example>
+
       <doc-playground [api]="docApi" />
     </cb-doc-page>
   `,
@@ -34,9 +67,14 @@ export class LogoDocComponent {
   protected readonly docApi = DOC_API['cb-logo'];
 
   protected readonly api: CbDocApiRow[] = [
-    { name: 'name', type: 'string', default: "'caribe-horizontal'", description: 'Identificador del logotipo.' },
+    {
+      name: 'name',
+      type: "'caribe-horizontal' | 'caribe-icon' | 'caribe-vertical' | 'caribe-mono'",
+      default: "'caribe-horizontal'",
+      description: 'Formato del logotipo corporativo.',
+    },
     { name: 'size', type: 'string', default: "'160px'", description: 'Ancho CSS del logotipo (px, rem, em, %).' },
     { name: 'negative', type: 'boolean', default: 'false', description: 'Activa la variante clara para fondos oscuros.' },
-    { name: 'alt', type: 'string', default: "'Logo Caribe'", description: 'Texto alternativo para lectores de pantalla.' },
+    { name: 'alt', type: 'string', default: "'Logo CaribeNG'", description: 'Texto alternativo para lectores de pantalla.' },
   ];
 }
