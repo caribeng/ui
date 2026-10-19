@@ -48,6 +48,7 @@ const MUST_HAVE = [
   'star', 'heart', 'file', 'folder', 'image', 'lock', 'log-out', 'sun', 'moon',
   'palette', 'circle', 'arrow-up', 'arrow-down', 'arrow-left', 'arrow-right',
   'trash', 'pencil', 'download', 'upload', 'clipboard', 'save', 'refresh-cw',
+  'rotate-cw', 'rotate-ccw', 'flip-horizontal', 'flip-vertical',
   // Tarjetas del showcase:
   'zap', 'puzzle', 'accessibility', 'plug', 'tree-pine', 'sparkles', 'shield-check',
 ];

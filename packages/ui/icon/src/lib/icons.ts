@@ -12,6 +12,8 @@
 export type CbIconSet = Record<string, string>;
 
 export const cbCoreIcons: CbIconSet = {
+  "flip-horizontal": "<path d=\"M8 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h3\" /><path d=\"M16 3h3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-3\" /><path d=\"M12 20v2\" /><path d=\"M12 14v2\" /><path d=\"M12 8v2\" /><path d=\"M12 2v2\" />",
+  "flip-vertical": "<path d=\"M21 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v3\" /><path d=\"M21 16v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-3\" /><path d=\"M4 12H2\" /><path d=\"M10 12H8\" /><path d=\"M16 12h-2\" /><path d=\"M22 12h-2\" />",
   "accessibility": "<circle cx=\"16\" cy=\"4\" r=\"1\" /><path d=\"m18 19 1-7-6 1\" /><path d=\"m5 8 3-3 5.5 3-2.36 3.5\" /><path d=\"M4.24 14.5a5 5 0 0 0 6.88 6\" /><path d=\"M13.76 17.5a5 5 0 0 0-6.88-6\" />",
   "arrow-big-down": "<path d=\"M9 5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v6a1 1 0 0 0 1 1h3.293a.707.707 0 0 1 .5 1.207l-7.086 7.086a1 1 0 0 1-1.414 0l-7.086-7.086a.707.707 0 0 1 .5-1.207H8a1 1 0 0 0 1-1z\" />",
   "arrow-big-down-dash": "<path d=\"M14 8a1 1 0 0 1 1 1v2a1 1 0 0 0 1 1h3.293a.707.707 0 0 1 .5 1.207l-6.939 6.939a1.207 1.207 0 0 1-1.708 0l-6.94-6.94a.707.707 0 0 1 .5-1.206H8a1 1 0 0 0 1-1V9a1 1 0 0 1 1-1z\" /><path d=\"M9 4h6\" />",

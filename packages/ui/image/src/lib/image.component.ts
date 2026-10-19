@@ -60,6 +60,12 @@ import { CbIcon } from '@caribeng/ui/icon';
           <button type="button" class="cb-image__tool" (click)="rotateRight()" aria-label="Rotar a la derecha">
             <cb-icon name="rotate-cw" [size]="18" aria-hidden="true" />
           </button>
+          <button type="button" class="cb-image__tool" (click)="flipHorizontal()" aria-label="Voltear horizontal">
+            <cb-icon name="flip-horizontal" [size]="18" aria-hidden="true" />
+          </button>
+          <button type="button" class="cb-image__tool" (click)="flipVertical()" aria-label="Voltear vertical">
+            <cb-icon name="flip-vertical" [size]="18" aria-hidden="true" />
+          </button>
           <button type="button" class="cb-image__tool" (click)="zoomIn()" aria-label="Acercar">
             <cb-icon name="plus" [size]="18" aria-hidden="true" />
           </button>
@@ -109,11 +115,15 @@ export class CbImage {
   readonly lightboxOpen = signal(false);
   readonly scale = signal(1);
   readonly rotation = signal(0);
+  readonly flipX = signal(false);
+  readonly flipY = signal(false);
 
-  /** Transform combinado (rotación + escala) de la imagen en el lightbox. */
-  readonly transform = computed(
-    () => `rotate(${this.rotation()}deg) scale(${this.scale()})`,
-  );
+  /** Transform combinado (rotación + escala + volteo) de la imagen. */
+  readonly transform = computed(() => {
+    const sx = this.flipX() ? -this.scale() : this.scale();
+    const sy = this.flipY() ? -this.scale() : this.scale();
+    return `rotate(${this.rotation()}deg) scale(${sx}, ${sy})`;
+  });
 
   openPreview(): void {
     if (!this.preview()) return;
@@ -141,9 +151,19 @@ export class CbImage {
     this.rotation.update((r) => r + 90);
   }
 
+  flipHorizontal(): void {
+    this.flipX.update((v) => !v);
+  }
+
+  flipVertical(): void {
+    this.flipY.update((v) => !v);
+  }
+
   reset(): void {
     this.scale.set(1);
     this.rotation.set(0);
+    this.flipX.set(false);
+    this.flipY.set(false);
   }
 
   download(): void {
