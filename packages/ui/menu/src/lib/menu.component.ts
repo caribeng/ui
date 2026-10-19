@@ -114,7 +114,7 @@ export class CbMenu {
     ref.attach(new TemplatePortal(this.content(), this.vcr));
     ref.backdropClick().subscribe(() => this.hide());
     ref.keydownEvents().subscribe((event) => this.onKeydown(event));
-    queueMicrotask(() => ref.overlayElement.querySelector<HTMLElement>('[role="menuitem"]:not([aria-disabled="true"]):not(:disabled)')?.focus());
+    queueMicrotask(() => ref.overlayElement?.querySelector<HTMLElement>('[role="menuitem"]:not([aria-disabled="true"]):not(:disabled)')?.focus());
   }
 
   hide(): void {

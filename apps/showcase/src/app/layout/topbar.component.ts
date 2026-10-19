@@ -1,8 +1,9 @@
-import { ChangeDetectionStrategy, Component, inject, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, output, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CbThemeService } from '@caribeng/ui';
 import { CbIcon } from '@caribeng/ui/icon';
 import { I18nService } from '../services/i18n.service';
+import { CURRENT_DOC_VERSION, DOC_VERSIONS } from '../data/versions';
 
 @Component({
   selector: 'doc-topbar',
@@ -51,8 +52,47 @@ import { I18nService } from '../services/i18n.service';
           />
         </svg>
         <span class="topbar__name">Caribe<span class="topbar__name-accent">NG</span></span>
-        <span class="topbar__version">v1.1</span>
       </a>
+
+      <div class="topbar__version-wrap">
+        <button
+          type="button"
+          class="topbar__version"
+          [class.topbar__version--open]="versionOpen()"
+          [attr.aria-expanded]="versionOpen()"
+          aria-haspopup="listbox"
+          [attr.aria-label]="i18n.t('Cambiar versión de documentación', 'Change documentation version')"
+          (click)="versionOpen.set(!versionOpen())"
+        >
+          {{ current.label }}
+          <cb-icon name="chevron-down" [size]="14" aria-hidden="true" />
+        </button>
+        @if (versionOpen()) {
+          <div class="topbar__version-backdrop" (click)="versionOpen.set(false)"></div>
+          <ul class="topbar__version-menu" role="listbox">
+            @for (v of versions; track v.label) {
+              <li role="presentation">
+                <a
+                  class="topbar__version-item"
+                  [class.topbar__version-item--active]="v.current"
+                  role="option"
+                  [attr.aria-selected]="v.current"
+                  [href]="v.url"
+                  (click)="versionOpen.set(false)"
+                >
+                  <span class="topbar__version-item-label">{{ v.label }}</span>
+                  <span class="topbar__version-item-meta">{{ v.angular }}</span>
+                  @if (v.status === 'latest') {
+                    <span class="topbar__version-tag">latest</span>
+                  } @else if (v.status === 'maintenance') {
+                    <span class="topbar__version-tag topbar__version-tag--muted">{{ i18n.t('mantenimiento', 'maintenance') }}</span>
+                  }
+                </a>
+              </li>
+            }
+          </ul>
+        }
+      </div>
 
       <button
         type="button"
@@ -115,4 +155,8 @@ export class TopbarComponent {
   protected readonly i18n = inject(I18nService);
   readonly toggleConfig = output<void>();
   readonly toggleMenu = output<void>();
+
+  protected readonly versions = DOC_VERSIONS;
+  protected readonly current = CURRENT_DOC_VERSION;
+  protected readonly versionOpen = signal(false);
 }

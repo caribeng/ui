@@ -45,12 +45,97 @@
   color: var(--cb-color-primary-500);
 }
 
+.topbar__version-wrap {
+  position: relative;
+}
+
 .topbar__version {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--cb-space-1);
+  font: inherit;
   font-size: var(--cb-text-xs);
+  font-weight: var(--cb-font-weight-medium);
   color: var(--cb-color-text-muted);
+  background: transparent;
   border: 1px solid var(--cb-color-border);
   border-radius: var(--cb-radius-full);
-  padding: 0 var(--cb-space-2);
+  padding: 0.125rem var(--cb-space-2);
+  cursor: pointer;
+  transition: background var(--cb-duration-fast) var(--cb-ease);
+}
+.topbar__version:hover,
+.topbar__version--open {
+  color: var(--cb-color-text);
+  background: var(--cb-color-surface);
+  border-color: var(--cb-color-border-strong);
+}
+.topbar__version cb-icon {
+  transition: transform var(--cb-duration-fast) var(--cb-ease);
+}
+.topbar__version--open cb-icon {
+  transform: rotate(180deg);
+}
+
+.topbar__version-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: var(--cb-z-dropdown);
+}
+
+.topbar__version-menu {
+  position: absolute;
+  top: calc(100% + var(--cb-space-2));
+  left: 0;
+  z-index: calc(var(--cb-z-dropdown) + 1);
+  min-width: 13rem;
+  margin: 0;
+  padding: var(--cb-space-1);
+  list-style: none;
+  background: var(--cb-color-surface-raised);
+  border: 1px solid var(--cb-color-border);
+  border-radius: var(--cb-radius-md);
+  box-shadow: var(--cb-shadow-lg);
+}
+
+.topbar__version-item {
+  display: flex;
+  align-items: center;
+  gap: var(--cb-space-2);
+  padding: var(--cb-space-2) var(--cb-space-3);
+  border-radius: var(--cb-radius-sm);
+  text-decoration: none;
+  color: var(--cb-color-text);
+}
+.topbar__version-item:hover {
+  background: var(--cb-color-surface);
+}
+.topbar__version-item--active {
+  background: color-mix(in srgb, var(--cb-color-primary-500) 12%, transparent);
+}
+
+.topbar__version-item-label {
+  font-weight: var(--cb-font-weight-bold);
+  font-size: var(--cb-text-sm);
+}
+.topbar__version-item-meta {
+  font-size: var(--cb-text-xs);
+  color: var(--cb-color-text-muted);
+}
+.topbar__version-tag {
+  margin-left: auto;
+  font-size: 0.625rem;
+  font-weight: var(--cb-font-weight-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--cb-color-primary-600);
+  background: color-mix(in srgb, var(--cb-color-primary-500) 14%, transparent);
+  border-radius: var(--cb-radius-full);
+  padding: 0.05rem var(--cb-space-2);
+}
+.topbar__version-tag--muted {
+  color: var(--cb-color-text-muted);
+  background: var(--cb-color-surface);
 }
 
 .topbar__nav {

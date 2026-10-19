@@ -74,7 +74,7 @@ export class CbContextMenu {
         keyEvent.preventDefault(); options[next]?.focus();
       }
     });
-    queueMicrotask(() => ref.overlayElement.querySelector<HTMLElement>('[role="menuitem"]:not(:disabled)')?.focus());
+    queueMicrotask(() => ref.overlayElement?.querySelector<HTMLElement>('[role="menuitem"]:not(:disabled)')?.focus());
   }
 
   select(item: CbContextMenuItem): void {

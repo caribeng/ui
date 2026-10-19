@@ -23,13 +23,29 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
           <cb-shortcut label="Certificados" icon="check" />
         </div>
       </cb-doc-example>
-    
+
+      <cb-doc-example title="Panel de accesos rápidos" [code]="composedCode">
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.75rem; width: 100%; max-width: 28rem">
+          <cb-shortcut icon="arrow-right" label="Transfer" />
+          <cb-shortcut icon="plus" label="Top up" />
+          <cb-shortcut icon="search" label="Find" />
+          <cb-shortcut icon="settings" label="Settings" />
+        </div>
+      </cb-doc-example>
+
       <doc-playground [api]="docApi" />
     </cb-doc-page>
   `,
 })
 export class ShortcutDocComponent {
   protected readonly docApi = DOC_API['cb-shortcut'];
+
+  protected readonly composedCode = `<div class="shortcuts-grid">
+  <cb-shortcut icon="arrow-right" label="Transfer" />
+  <cb-shortcut icon="plus" label="Top up" />
+  <cb-shortcut icon="search" label="Find" />
+  <cb-shortcut icon="settings" label="Settings" />
+</div>`;
 
   protected readonly api: CbDocApiRow[] = [
     { name: 'label', type: 'string', default: "'Transferir'", description: 'Texto del atajo.' },

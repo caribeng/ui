@@ -110,6 +110,11 @@
 .cfg__swatch:hover {
   transform: scale(1.1);
 }
+/* Superficie: chip ancho con mini-rampa (estilo página Colores). */
+.cfg__swatch--ramp {
+  width: 3rem;
+  border-radius: var(--cb-radius-sm);
+}
 .cfg__swatch--active {
   border-color: var(--cb-color-text);
   box-shadow: 0 0 0 2px var(--cb-color-surface-raised),
