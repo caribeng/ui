@@ -270,6 +270,7 @@ export const NAV_MENU: NavItem[] = [
       { label: 'Register', route: '/templates/register' },
       { label: 'Dashboard', route: '/templates/dashboard' },
       { label: 'Navbar', route: '/templates/navbar' },
+      { label: 'File Manager', route: '/templates/file-manager' },
     ],
   },
   {
