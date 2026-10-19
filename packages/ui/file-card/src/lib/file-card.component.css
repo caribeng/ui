@@ -1,0 +1,64 @@
+:host {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--cb-space-3, 0.75rem);
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--cb-color-border);
+  border-radius: var(--cb-radius-lg, 14px);
+  background: var(--cb-color-surface);
+  font-family: var(--cb-font-sans);
+  color: var(--cb-color-text);
+}
+
+.cb-file-card__left {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.cb-file-card__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  border-radius: var(--cb-radius-md, 10px);
+  flex: none;
+  color: var(--cb-color-primary-600, #059669);
+}
+
+.cb-file-card__text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.cb-file-card__title {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.cb-file-card__subtitle {
+  font-size: 0.8rem;
+  color: var(--cb-color-text-muted);
+}
+
+.cb-file-card__values {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+  flex: none;
+}
+
+.cb-file-card__value {
+  font-size: 0.85rem;
+  color: var(--cb-color-text-muted);
+}
+
+.cb-file-card__value-sub {
+  font-size: 0.85rem;
+  color: var(--cb-color-text-muted);
+}

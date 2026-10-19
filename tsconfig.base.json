@@ -348,6 +348,15 @@
       "@caribeng/ui/popover": [
         "./packages/ui/popover/src/public-api.ts"
       ],
+      "@caribeng/ui/pricing": [
+        "./packages/ui/pricing/src/public-api.ts"
+      ],
+      "@caribeng/ui/file-card": [
+        "./packages/ui/file-card/src/public-api.ts"
+      ],
+      "@caribeng/ui/folder-card": [
+        "./packages/ui/folder-card/src/public-api.ts"
+      ],
       "@caribeng/ui/progressbar": [
         "./packages/ui/progressbar/src/public-api.ts"
       ],

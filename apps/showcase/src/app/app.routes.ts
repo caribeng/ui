@@ -260,8 +260,9 @@ export const routes: Routes = [
   { path: 'templates/register', loadComponent: () => import('./pages/register-template.component').then((m) => m.RegisterTemplateComponent), title: 'Register · Templates · CaribeNG' },
   { path: 'templates/dashboard', loadComponent: () => import('./pages/dashboard-template.component').then((m) => m.DashboardTemplateComponent), title: 'Dashboard · Templates · CaribeNG' },
   { path: 'templates/navbar', loadComponent: () => import('./pages/navbar-template.component').then((m) => m.NavbarTemplateComponent), title: 'Navbar · Templates · CaribeNG' },
-  { path: 'templates/file-manager', loadComponent: () => import('./pages/file-manager-template.component').then((m) => m.FileManagerTemplateComponent), title: 'File Manager · Templates · CaribeNG' },
-  { path: 'templates/pricing', loadComponent: () => import('./pages/pricing-template.component').then((m) => m.PricingTemplateComponent), title: 'Pricing · Templates · CaribeNG' },
   { path: 'templates/auth', loadComponent: () => import('./pages/auth-template.component').then((m) => m.AuthTemplateComponent), title: 'Auth · Templates · CaribeNG' },
+  { path: 'components/pricing', loadComponent: () => import('./pages/pricing-doc.component').then((m) => m.PricingDocComponent), title: 'Pricing · CaribeNG' },
+  { path: 'components/file-card', loadComponent: () => import('./pages/file-card-doc.component').then((m) => m.FileCardDocComponent), title: 'FileCard · CaribeNG' },
+  { path: 'components/folder-card', loadComponent: () => import('./pages/folder-card-doc.component').then((m) => m.FolderCardDocComponent), title: 'FolderCard · CaribeNG' },
   { path: '**', redirectTo: 'introduction' },
 ];

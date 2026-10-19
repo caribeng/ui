@@ -1,0 +1,38 @@
+:host {
+  display: block;
+  padding: 1rem;
+  border: 1px solid var(--cb-color-border);
+  border-radius: var(--cb-radius-lg, 14px);
+  background: var(--cb-color-surface);
+  font-family: var(--cb-font-sans);
+  color: var(--cb-color-text);
+}
+
+.cb-folder-card__top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.cb-folder-card__icon {
+  color: #f5b301;
+}
+
+.cb-folder-card__actions {
+  color: var(--cb-color-text-muted);
+  line-height: 1;
+}
+
+.cb-folder-card__name {
+  margin: 0.75rem 0 0.25rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.cb-folder-card__meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--cb-color-text-muted);
+}

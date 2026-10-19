@@ -87,6 +87,7 @@ export const NAV_MENU: NavItem[] = [
           { label: 'OrganizationChart', route: '/components/organizationchart' },
           { label: 'Paginator', route: '/components/paginator' },
           { label: 'PickList', route: '/components/picklist' },
+          { label: 'Pricing', route: '/components/pricing', badge: 'NEW' },
           { label: 'Table', route: '/components/table' },
           { label: 'Timeline', route: '/components/timeline' },
           { label: 'Tree', route: '/components/tree' },
@@ -126,6 +127,8 @@ export const NAV_MENU: NavItem[] = [
         label: 'File',
         children: [
           { label: 'FileUpload', route: '/components/fileupload' },
+          { label: 'FileCard', route: '/components/file-card', badge: 'NEW' },
+          { label: 'FolderCard', route: '/components/folder-card', badge: 'NEW' },
         ],
       },
       {
@@ -270,8 +273,6 @@ export const NAV_MENU: NavItem[] = [
       { label: 'Register', route: '/templates/register' },
       { label: 'Dashboard', route: '/templates/dashboard' },
       { label: 'Navbar', route: '/templates/navbar' },
-      { label: 'File Manager', route: '/templates/file-manager' },
-      { label: 'Pricing', route: '/templates/pricing' },
       { label: 'Auth (split)', route: '/templates/auth' },
     ],
   },
