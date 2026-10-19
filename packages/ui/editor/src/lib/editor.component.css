@@ -12,10 +12,30 @@
 .cb-editor__toolbar {
   display: flex;
   align-items: center;
-  gap: 0.25rem;
+  flex-wrap: wrap;
+  gap: 0.2rem;
   padding: var(--cb-space-2) var(--cb-space-3);
   border-bottom: var(--cb-border-width) solid var(--cb-color-border);
   background: var(--cb-color-surface-subtle, var(--cb-color-surface));
+}
+
+.cb-editor__select {
+  height: 1.75rem;
+  padding: 0 0.4rem;
+  border: 1px solid var(--cb-color-border);
+  border-radius: var(--cb-radius-sm);
+  background: var(--cb-color-bg);
+  color: var(--cb-color-text);
+  font: inherit;
+  font-size: var(--cb-text-sm);
+  cursor: pointer;
+}
+
+.cb-editor__sep {
+  width: 1px;
+  height: 1.1rem;
+  margin: 0 0.25rem;
+  background: var(--cb-color-border);
 }
 
 .cb-editor__tool {
@@ -35,14 +55,52 @@
   background: color-mix(in srgb, var(--cb-color-primary-500) 12%, transparent);
 }
 
+.cb-editor__tool:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
 .cb-editor__surface {
   padding: var(--cb-space-3);
   font-size: var(--cb-text-sm);
   line-height: 1.6;
   outline: none;
+  overflow-y: auto;
 }
 
 .cb-editor__surface:empty::before {
   content: attr(data-placeholder);
   color: var(--cb-color-text-muted);
+}
+
+/* Contenido enriquecido dentro del área editable */
+.cb-editor__surface h1 {
+  font-size: 1.5rem;
+  margin: 0.4em 0;
+}
+.cb-editor__surface h2 {
+  font-size: 1.25rem;
+  margin: 0.4em 0;
+}
+.cb-editor__surface h3 {
+  font-size: 1.1rem;
+  margin: 0.4em 0;
+}
+.cb-editor__surface p {
+  margin: 0.4em 0;
+}
+.cb-editor__surface ul,
+.cb-editor__surface ol {
+  margin: 0.4em 0;
+  padding-left: 1.5rem;
+}
+.cb-editor__surface blockquote {
+  margin: 0.5em 0;
+  padding: 0.25em 0.9em;
+  border-left: 3px solid var(--cb-color-primary-400, var(--cb-color-border));
+  color: var(--cb-color-text-muted);
+}
+.cb-editor__surface a {
+  color: var(--cb-color-primary-600, #059669);
+  text-decoration: underline;
 }
