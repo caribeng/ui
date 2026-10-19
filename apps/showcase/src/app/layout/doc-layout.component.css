@@ -8,7 +8,7 @@
   display: grid;
   grid-template-columns: 260px minmax(0, 1fr) 240px;
   gap: var(--cb-space-8);
-  max-width: 1440px;
+  max-width: 1728px;
   margin: 0 auto;
   padding: 0 var(--cb-space-6);
   align-items: start;

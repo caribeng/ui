@@ -84,6 +84,8 @@
 
 /* Panel ----------------------------------------------------------------------*/
 .cb-select__panel {
+  box-sizing: border-box;
+  width: 100%;
   background-color: var(--cb-color-surface-raised);
   border: 1px solid var(--cb-color-border);
   border-radius: var(--cb-radius-md);

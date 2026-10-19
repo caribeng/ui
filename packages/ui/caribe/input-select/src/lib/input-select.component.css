@@ -1,7 +1,6 @@
 :host {
-  display: inline-block;
+  display: block;
   width: 100%;
-  max-width: 18rem;
 }
 
 .cb-input-select {

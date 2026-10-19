@@ -2,12 +2,12 @@
   display: inline-flex;
 }
 
-.cb-button-host--block {
+:host(.cb-button-host--block) {
   display: flex;
   width: 100%;
 }
 
-.cb-button-host--block .cb-button {
+:host(.cb-button-host--block) .cb-button {
   width: 100%;
 }
 
