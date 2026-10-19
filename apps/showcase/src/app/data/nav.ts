@@ -272,6 +272,7 @@ export const NAV_MENU: NavItem[] = [
       { label: 'Navbar', route: '/templates/navbar' },
       { label: 'File Manager', route: '/templates/file-manager' },
       { label: 'Pricing', route: '/templates/pricing' },
+      { label: 'Auth (split)', route: '/templates/auth' },
     ],
   },
   {
