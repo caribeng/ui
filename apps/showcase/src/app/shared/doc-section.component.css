@@ -36,11 +36,50 @@
 }
 
 .doc-card__demo {
+  position: relative;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: var(--cb-space-3);
   padding: var(--cb-space-6);
+}
+
+.doc-card__fs-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 2;
+  display: inline-flex;
+  padding: 6px;
+  border: 1px solid var(--cb-color-border);
+  border-radius: var(--cb-radius-sm, 6px);
+  background: var(--cb-color-surface-raised, #fff);
+  color: var(--cb-color-text-muted);
+  cursor: pointer;
+  opacity: 0.55;
+  transition: opacity 0.15s ease;
+}
+
+.doc-card__fs-btn:hover {
+  opacity: 1;
+  color: var(--cb-color-text);
+}
+
+.doc-card__demo--fs {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  margin: 0;
+  overflow: auto;
+  align-content: flex-start;
+  background: var(--cb-color-bg);
+}
+
+.doc-card__demo--fs .doc-card__fs-btn {
+  position: fixed;
+  top: 12px;
+  right: 12px;
+  opacity: 1;
 }
 
 .doc-card__toolbar {

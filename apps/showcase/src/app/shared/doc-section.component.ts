@@ -16,6 +16,7 @@ import { I18nService } from '../services/i18n.service';
 @Component({
   selector: 'doc-section',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { '(document:keydown.escape)': 'fsOpen.set(false)' },
   imports: [CodeBlockComponent, CbIcon],
   template: `
     <section [id]="id()" class="doc-section">
@@ -27,7 +28,15 @@ import { I18nService } from '../services/i18n.service';
       }
 
       <div class="doc-card">
-        <div class="doc-card__demo">
+        <div class="doc-card__demo" [class.doc-card__demo--fs]="fsOpen()">
+          <button
+            type="button"
+            class="doc-card__fs-btn"
+            [attr.aria-label]="fsOpen() ? i18n.t('Salir de pantalla completa', 'Exit full screen') : i18n.t('Pantalla completa', 'Full screen')"
+            (click)="fsOpen.set(!fsOpen())"
+          >
+            <cb-icon [name]="fsOpen() ? 'x' : 'expand'" [size]="16" aria-hidden="true" />
+          </button>
           <ng-content />
         </div>
 
@@ -88,6 +97,7 @@ export class DocSectionComponent {
   readonly codeTs = input<string>('');
 
   protected readonly showCode = signal(false);
+  protected readonly fsOpen = signal(false);
   protected readonly tab = signal<'html' | 'ts'>('html');
   protected readonly currentTab = computed(() =>
     this.code() ? this.tab() : 'ts',
