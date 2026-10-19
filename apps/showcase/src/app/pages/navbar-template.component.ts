@@ -84,6 +84,12 @@ import { TocService } from '../services/toc.service';
       .nb__menu {
         display: block;
       }
+      /* El menubar embebido se funde con la barra: sin caja propia (ul) */
+      .nb__menu ::ng-deep .cb-menubar__list {
+        background: transparent;
+        border: 0;
+        padding: 0;
+      }
       .nb__actions {
         display: flex;
         align-items: center;
