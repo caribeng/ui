@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CbButton } from '@caribeng/ui/button';
+import { CbIcon } from '@caribeng/ui/icon';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { TocService } from '../services/toc.service';
@@ -11,7 +12,7 @@ import { TocService } from '../services/toc.service';
 @Component({
   selector: 'doc-error-template-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbButton, DocPageHeaderComponent, DocSectionComponent],
+  imports: [CbButton, CbIcon, DocPageHeaderComponent, DocSectionComponent],
   template: `
     <doc-page-header
       eyebrow="Template"
@@ -38,6 +39,29 @@ import { TocService } from '../services/toc.service';
           ERROR<span class="err__sub">algo salió mal</span>
         </h2>
         <cb-button>Volver al inicio</cb-button>
+        <div class="err__brand">◆ CaribeNG</div>
+      </div>
+    </doc-section>
+
+    <doc-section id="notfound" title="404 · Not Found" [code]="notFoundCode">
+      <div class="err">
+        <div class="err__scales"></div>
+        <h2 class="err__big err__big--brand">404</h2>
+        <p class="err__text">Página no encontrada. El enlace puede estar roto o la página fue movida.</p>
+        <cb-button>Volver al inicio</cb-button>
+        <div class="err__brand">◆ CaribeNG</div>
+      </div>
+    </doc-section>
+
+    <doc-section id="maintenance" title="Maintenance" [code]="maintenanceCode">
+      <div class="err">
+        <div class="err__scales"></div>
+        <span class="err__icon" aria-hidden="true">
+          <cb-icon name="settings" [size]="64" spin />
+        </span>
+        <h2 class="err__title">En mantenimiento</h2>
+        <p class="err__text">Estamos haciendo mejoras. Volvemos en un momento.</p>
+        <cb-button variant="outlined">Reintentar</cb-button>
         <div class="err__brand">◆ CaribeNG</div>
       </div>
     </doc-section>
@@ -80,6 +104,20 @@ import { TocService } from '../services/toc.service';
       .err__big--danger {
         color: #f87171;
       }
+      .err__big--brand {
+        color: var(--cb-color-primary-400, #34d399);
+      }
+      .err__icon {
+        position: relative;
+        display: inline-flex;
+        color: var(--cb-color-primary-400, #34d399);
+      }
+      .err__title {
+        position: relative;
+        margin: 0;
+        font-size: 1.6rem;
+        text-align: center;
+      }
       .err__sub {
         position: absolute;
         left: 50%;
@@ -121,5 +159,18 @@ export class ErrorTemplateComponent {
   protected readonly errorCode = `<div class="err">
   <h2 class="err__big err__big--danger">ERROR<span class="err__sub">algo salió mal</span></h2>
   <cb-button>Volver al inicio</cb-button>
+</div>`;
+
+  protected readonly notFoundCode = `<div class="err">
+  <h2 class="err__big err__big--brand">404</h2>
+  <p>Página no encontrada.</p>
+  <cb-button>Volver al inicio</cb-button>
+</div>`;
+
+  protected readonly maintenanceCode = `<div class="err">
+  <cb-icon name="settings" [size]="64" spin />
+  <h2>En mantenimiento</h2>
+  <p>Estamos haciendo mejoras. Volvemos en un momento.</p>
+  <cb-button variant="outlined">Reintentar</cb-button>
 </div>`;
 }
