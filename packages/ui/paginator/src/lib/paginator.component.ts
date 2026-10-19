@@ -99,7 +99,7 @@ export interface CbPaginatorState {
         (change)="onRowsChange($event)"
       >
         @for (r of rowsPerPageOptions(); track r) {
-          <option [value]="r">{{ r }} / pág.</option>
+          <option [value]="r">{{ r }}</option>
         }
       </select>
     }
