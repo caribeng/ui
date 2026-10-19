@@ -53,7 +53,10 @@ export interface CbPricingPlan {
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
   imports: [CbIcon, CbButton],
-  host: { class: 'cb-pricing' },
+  host: {
+    class: 'cb-pricing',
+    '[class.cb-pricing--horizontal]': "layout() === 'horizontal'",
+  },
   template: `
     @if (title()) {
       <h2 class="cb-pricing__title">{{ title() }}</h2>
@@ -86,19 +89,21 @@ export interface CbPricingPlan {
     <div class="cb-pricing__grid">
       @for (p of plans(); track p.name) {
         <div class="cb-pricing__plan" [class.cb-pricing__plan--featured]="p.featured">
-          <span class="cb-pricing__plan-name">{{ p.name }}</span>
-          <div class="cb-pricing__price-row">
-            <div class="cb-pricing__price">
-              <strong>{{ currency() }}{{ priceOf(p) }}</strong>
-              <span class="cb-pricing__per">{{ billing() === 'annual' ? perYearLabel() : perMonthLabel() }}</span>
+          <div class="cb-pricing__head">
+            <span class="cb-pricing__plan-name">{{ p.name }}</span>
+            <div class="cb-pricing__price-row">
+              <div class="cb-pricing__price">
+                <strong>{{ currency() }}{{ priceOf(p) }}</strong>
+                <span class="cb-pricing__per">{{ billing() === 'annual' ? perYearLabel() : perMonthLabel() }}</span>
+              </div>
+              @if (oldPriceOf(p); as old) {
+                <span class="cb-pricing__old">{{ currency() }}{{ old }}</span>
+              }
             </div>
-            @if (oldPriceOf(p); as old) {
-              <span class="cb-pricing__old">{{ currency() }}{{ old }}</span>
+            @if (p.description) {
+              <p class="cb-pricing__desc">{{ p.description }}</p>
             }
           </div>
-          @if (p.description) {
-            <p class="cb-pricing__desc">{{ p.description }}</p>
-          }
           <div class="cb-pricing__divider"></div>
           @if (p.features?.length) {
             <ul class="cb-pricing__features">
@@ -132,6 +137,8 @@ export class CbPricing {
   readonly billing = model<CbPricingBilling>('monthly');
   /** Muestra el selector Mensual/Anual. */
   readonly showToggle = input<boolean>(true);
+  /** Disposición de los planes: 'grid' (tarjetas) u 'horizontal' (filas). */
+  readonly layout = input<'grid' | 'horizontal'>('grid');
   /** Título opcional sobre la tabla. */
   readonly title = input<string>('');
   /** Símbolo de moneda. */

@@ -271,9 +271,14 @@ export const NAV_MENU: NavItem[] = [
     children: [
       { label: 'Login', route: '/templates/login' },
       { label: 'Register', route: '/templates/register' },
+      { label: 'Forgot Password', route: '/templates/forgot-password' },
+      { label: 'Verification', route: '/templates/verification' },
+      { label: 'Lock Screen', route: '/templates/lock-screen' },
+      { label: 'Error Pages', route: '/templates/error' },
       { label: 'Dashboard', route: '/templates/dashboard' },
       { label: 'Navbar', route: '/templates/navbar' },
-      { label: 'Auth (split)', route: '/templates/auth' },
+      { label: 'File Manager', route: '/templates/file-manager' },
+      { label: 'Pricing', route: '/templates/pricing' },
     ],
   },
   {

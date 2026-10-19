@@ -164,3 +164,56 @@
 .cb-pricing__plan--featured .cb-pricing__check {
   color: #fff;
 }
+
+/* --- Layout horizontal (planes en filas) ---------------------------------- */
+:host(.cb-pricing--horizontal) .cb-pricing__grid {
+  grid-template-columns: 1fr;
+}
+
+:host(.cb-pricing--horizontal) .cb-pricing__plan {
+  flex-direction: row;
+  align-items: center;
+  gap: 1.75rem;
+}
+
+:host(.cb-pricing--horizontal) .cb-pricing__head {
+  flex: 0 0 210px;
+}
+
+:host(.cb-pricing--horizontal) .cb-pricing__plan-name {
+  margin-bottom: 0.5rem;
+}
+
+:host(.cb-pricing--horizontal) .cb-pricing__divider {
+  display: none;
+}
+
+:host(.cb-pricing--horizontal) .cb-pricing__features {
+  flex: 1;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem 1.25rem;
+}
+
+:host(.cb-pricing--horizontal) .cb-pricing__cta {
+  flex: 0 0 170px;
+  align-self: center;
+}
+
+@media (max-width: 720px) {
+  :host(.cb-pricing--horizontal) .cb-pricing__plan {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+  :host(.cb-pricing--horizontal) .cb-pricing__head {
+    flex: none;
+  }
+  :host(.cb-pricing--horizontal) .cb-pricing__features {
+    grid-template-columns: 1fr;
+  }
+  :host(.cb-pricing--horizontal) .cb-pricing__cta {
+    flex: none;
+  }
+}

@@ -39,6 +39,15 @@ import { TocService } from '../services/toc.service';
     </doc-section>
 
     <doc-section
+      id="horizontal"
+      title="Horizontal"
+      description="layout=&quot;horizontal&quot; dispone cada plan como una fila: cabecera y precio a la izquierda, características en el centro y CTA a la derecha."
+      [code]="horizontalCode"
+    >
+      <cb-pricing [plans]="plans" [(billing)]="billing" layout="horizontal" />
+    </doc-section>
+
+    <doc-section
       id="no-toggle"
       title="Sin selector"
       description="Con showToggle=false se ocultan Mensual/Anual y se muestran los precios mensuales."
@@ -112,6 +121,8 @@ readonly plans: CbPricingPlan[] = [
 ];
 
 onSelect(plan: CbPricingPlan) { /* … */ }`;
+
+  protected readonly horizontalCode = `<cb-pricing [plans]="plans" [(billing)]="billing" layout="horizontal" />`;
 
   protected readonly noToggleCode = `<cb-pricing [plans]="plans" [showToggle]="false" />`;
 }
