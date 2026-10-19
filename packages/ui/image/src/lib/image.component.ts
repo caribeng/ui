@@ -2,8 +2,11 @@ import {
   ChangeDetectionStrategy,
   Component,
   ViewEncapsulation,
+  computed,
   input,
   signal,
+  viewChild,
+  type ElementRef,
 } from '@angular/core';
 import { CbIcon } from '@caribeng/ui/icon';
 
@@ -43,6 +46,7 @@ import { CbIcon } from '@caribeng/ui/icon';
 
     @if (lightboxOpen()) {
       <div
+        #lightbox
         class="cb-image__lightbox"
         role="dialog"
         aria-modal="true"
@@ -50,11 +54,32 @@ import { CbIcon } from '@caribeng/ui/icon';
         (click)="closePreview()"
       >
         <div class="cb-image__toolbar" (click)="$event.stopPropagation()">
+          <button type="button" class="cb-image__tool" (click)="rotateLeft()" aria-label="Rotar a la izquierda">
+            <cb-icon name="rotate-ccw" [size]="18" aria-hidden="true" />
+          </button>
+          <button type="button" class="cb-image__tool" (click)="rotateRight()" aria-label="Rotar a la derecha">
+            <cb-icon name="rotate-cw" [size]="18" aria-hidden="true" />
+          </button>
           <button type="button" class="cb-image__tool" (click)="zoomIn()" aria-label="Acercar">
             <cb-icon name="plus" [size]="18" aria-hidden="true" />
           </button>
-          <button type="button" class="cb-image__tool" (click)="zoomOut()" aria-label="Alejar">
+          <button
+            type="button"
+            class="cb-image__tool"
+            (click)="zoomOut()"
+            [disabled]="scale() <= 0.5"
+            aria-label="Alejar"
+          >
             <cb-icon name="minus" [size]="18" aria-hidden="true" />
+          </button>
+          <button type="button" class="cb-image__tool" (click)="reset()" aria-label="Restablecer">
+            <cb-icon name="refresh-cw" [size]="18" aria-hidden="true" />
+          </button>
+          <button type="button" class="cb-image__tool" (click)="download()" aria-label="Descargar">
+            <cb-icon name="download" [size]="18" aria-hidden="true" />
+          </button>
+          <button type="button" class="cb-image__tool" (click)="toggleFullscreen()" aria-label="Pantalla completa">
+            <cb-icon name="expand" [size]="18" aria-hidden="true" />
           </button>
           <button type="button" class="cb-image__tool" (click)="closePreview()" aria-label="Cerrar">
             <cb-icon name="x" [size]="18" aria-hidden="true" />
@@ -64,7 +89,7 @@ import { CbIcon } from '@caribeng/ui/icon';
           class="cb-image__lightbox-img"
           [src]="src()"
           [alt]="alt()"
-          [style.transform]="'scale(' + scale() + ')'"
+          [style.transform]="transform()"
           (click)="$event.stopPropagation()"
         />
       </div>
@@ -79,12 +104,20 @@ export class CbImage {
   readonly height = input<string>('');
   readonly preview = input<boolean>(false);
 
+  private readonly lightboxEl = viewChild<ElementRef<HTMLElement>>('lightbox');
+
   readonly lightboxOpen = signal(false);
   readonly scale = signal(1);
+  readonly rotation = signal(0);
+
+  /** Transform combinado (rotación + escala) de la imagen en el lightbox. */
+  readonly transform = computed(
+    () => `rotate(${this.rotation()}deg) scale(${this.scale()})`,
+  );
 
   openPreview(): void {
     if (!this.preview()) return;
-    this.scale.set(1);
+    this.reset();
     this.lightboxOpen.set(true);
   }
 
@@ -93,10 +126,41 @@ export class CbImage {
   }
 
   zoomIn(): void {
-    this.scale.set(Math.min(2.5, Number((this.scale() + 0.25).toFixed(2))));
+    this.scale.set(Math.min(3, Number((this.scale() + 0.25).toFixed(2))));
   }
 
   zoomOut(): void {
     this.scale.set(Math.max(0.5, Number((this.scale() - 0.25).toFixed(2))));
+  }
+
+  rotateLeft(): void {
+    this.rotation.update((r) => r - 90);
+  }
+
+  rotateRight(): void {
+    this.rotation.update((r) => r + 90);
+  }
+
+  reset(): void {
+    this.scale.set(1);
+    this.rotation.set(0);
+  }
+
+  download(): void {
+    const link = document.createElement('a');
+    link.href = this.src();
+    link.download = this.alt() || 'image';
+    link.rel = 'noopener';
+    link.click();
+  }
+
+  toggleFullscreen(): void {
+    const el = this.lightboxEl()?.nativeElement;
+    if (!el) return;
+    if (document.fullscreenElement) {
+      void document.exitFullscreen();
+    } else {
+      void el.requestFullscreen?.();
+    }
   }
 }
