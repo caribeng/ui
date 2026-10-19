@@ -1,12 +1,16 @@
 /**
  * Versionado de CaribeNG alineado al major de Angular soportado:
- * el major de la librería = major de Angular (v21 = Angular 21+, v22 = Angular 22…),
- * igual que Angular Material / PrimeNG. Minor = features, patch = correcciones
- * (p. ej. 21.1.2). La doc se despliega por major y este selector cambia entre ellas.
+ * el major de la librería = major de Angular (v22 = Angular 22, v21 = Angular 21…),
+ * igual que Angular Material / PrimeNG / NG-ZORRO. Minor = features,
+ * patch = correcciones (p. ej. 22.1.2). La doc se despliega por major y este
+ * selector cambia entre ellas.
  *
- * Línea de tiempo: v21 es la versión ACTUAL (primer release, Angular 21+).
- * v22 se publicará más adelante (previsto 2027); al hacerlo se añade su entrada
- * aquí, pasa a `latest`/`current` y v21 queda en `maintenance` con su propia URL.
+ * Modelo de líneas (como las librerías grandes):
+ * - Una sola línea ACTIVA, pegada al Angular más reciente (hoy v22 = Angular 22):
+ *   recibe todas las features. Es `latest`/`current`.
+ * - Los majors anteriores quedan en MANTENIMIENTO (`maintenance`): solo reciben
+ *   bugfixes/seguridad (cherry-pick desde la activa), sin features nuevas.
+ *   Hoy: v21 (Angular 21) para quien aún no ha migrado.
  */
 export interface CbDocVersion {
   /** Etiqueta visible del major, p. ej. "v22". */
@@ -22,19 +26,16 @@ export interface CbDocVersion {
 }
 
 /** Versión exacta del paquete @caribeng/ui que documenta este sitio. */
-export const CARIBENG_VERSION = '21.0.0';
+export const CARIBENG_VERSION = '22.0.0';
 
 /**
- * Versiones de documentación disponibles (más reciente primero). Al publicar un
- * nuevo major se añade su entrada con la URL de su despliegue y se marca
- * `current` la que sirve este sitio; los majors anteriores quedan en
+ * Versiones de documentación disponibles (más reciente primero). La línea activa
+ * se marca `current`/`latest` (sirve este sitio); los majors anteriores quedan en
  * `maintenance` apuntando a su propio despliegue (p. ej. https://v21.caribeng.dev).
  */
 export const DOC_VERSIONS: CbDocVersion[] = [
-  { label: 'v21', angular: 'Angular 21+', url: '/', current: true, status: 'latest' },
-  // v22 (Angular 22) — previsto 2027. Al publicarlo:
-  // { label: 'v22', angular: 'Angular 22+', url: 'https://v22.caribeng.dev', current: true, status: 'latest' },
-  // y v21 pasa a: { label: 'v21', angular: 'Angular 21+', url: 'https://v21.caribeng.dev', status: 'maintenance' },
+  { label: 'v22', angular: 'Angular 22+', url: '/', current: true, status: 'latest' },
+  { label: 'v21', angular: 'Angular 21', url: 'https://v21.caribeng.dev', status: 'maintenance' },
 ];
 
 /** Entrada marcada como actual (fallback: la primera). */

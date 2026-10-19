@@ -2,20 +2,6 @@ packages:
   - 'packages/*'
   - 'apps/*'
 
-# Fuerza una sola versión de Angular en el workspace de desarrollo (v21).
-# El contrato publicado de @caribeng/ui sigue siendo peerDeps ^21 || ^22;
-# esto solo evita que pnpm instale una 2.ª copia (Angular 22) y rompa el
-# brand de los InputSignal en los imports entre entry points.
-overrides:
-  '@angular/core': '21.2.25'
-  '@angular/common': '21.2.25'
-  '@angular/compiler': '21.2.25'
-  '@angular/forms': '21.2.25'
-  '@angular/platform-browser': '21.2.25'
-  '@angular/animations': '21.2.25'
-  '@angular/router': '21.2.25'
-  '@angular/cdk': '21.2.14'
-
 allowBuilds:
   '@parcel/watcher': true
   esbuild: true
