@@ -31,13 +31,15 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
   styles: [
     `
       :host {
-        display: block;
+        display: flex;
+        flex-direction: column;
         width: 100%;
       }
       .auth {
         display: flex;
         width: 100%;
-        height: 520px;
+        flex: 1 1 auto;
+        min-height: 520px;
         overflow: hidden;
         border: 1px solid var(--cb-color-border);
         border-radius: var(--cb-radius-lg, 14px);

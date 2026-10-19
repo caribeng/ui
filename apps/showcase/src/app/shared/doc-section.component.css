@@ -70,9 +70,16 @@
   inset: 0;
   z-index: 9999;
   margin: 0;
+  padding: 0;
   overflow: auto;
-  align-content: flex-start;
+  align-items: stretch;
+  align-content: stretch;
   background: var(--cb-color-bg);
+}
+
+.doc-card__demo--fs > :not(.doc-card__fs-btn) {
+  width: 100%;
+  min-height: 100vh;
 }
 
 .doc-card__demo--fs .doc-card__fs-btn {
