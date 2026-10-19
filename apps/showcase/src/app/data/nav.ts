@@ -262,6 +262,17 @@ export const NAV_MENU: NavItem[] = [
     ],
   },
   {
+    label: 'Templates',
+    icon: 'sparkles',
+    badge: 'NEW',
+    children: [
+      { label: 'Login', route: '/templates/login' },
+      { label: 'Register', route: '/templates/register' },
+      { label: 'Dashboard', route: '/templates/dashboard' },
+      { label: 'Navbar', route: '/templates/navbar' },
+    ],
+  },
+  {
     label: 'Icons',
     icon: 'eye',
     children: [

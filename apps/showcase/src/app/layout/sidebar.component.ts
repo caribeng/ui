@@ -24,6 +24,7 @@ const NAV_LABEL_ES: Record<string, string> = {
   Colors: 'Colores',
   'Theming & Presets': 'Temas y presets',
   Components: 'Componentes',
+  Templates: 'Plantillas',
   Form: 'Formulario',
   Button: 'Botones',
   Data: 'Datos',

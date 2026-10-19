@@ -256,5 +256,9 @@ export const routes: Routes = [
   { path: 'components/input-date', loadComponent: () => import('./pages/input-date-doc.component').then((m) => m.InputDateDocComponent), title: 'InputDate · CaribeNG' },
   { path: 'components/input-select', loadComponent: () => import('./pages/input-select-doc.component').then((m) => m.InputSelectDocComponent), title: 'InputSelect · CaribeNG' },
   { path: 'components/calendar', loadComponent: () => import('./pages/calendar-doc.component').then((m) => m.CalendarDocComponent), title: 'Calendar · CaribeNG' },
+  { path: 'templates/login', loadComponent: () => import('./pages/login-template.component').then((m) => m.LoginTemplateComponent), title: 'Login · Templates · CaribeNG' },
+  { path: 'templates/register', loadComponent: () => import('./pages/register-template.component').then((m) => m.RegisterTemplateComponent), title: 'Register · Templates · CaribeNG' },
+  { path: 'templates/dashboard', loadComponent: () => import('./pages/dashboard-template.component').then((m) => m.DashboardTemplateComponent), title: 'Dashboard · Templates · CaribeNG' },
+  { path: 'templates/navbar', loadComponent: () => import('./pages/navbar-template.component').then((m) => m.NavbarTemplateComponent), title: 'Navbar · Templates · CaribeNG' },
   { path: '**', redirectTo: 'introduction' },
 ];
