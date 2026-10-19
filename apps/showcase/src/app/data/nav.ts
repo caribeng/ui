@@ -271,6 +271,7 @@ export const NAV_MENU: NavItem[] = [
       { label: 'Dashboard', route: '/templates/dashboard' },
       { label: 'Navbar', route: '/templates/navbar' },
       { label: 'File Manager', route: '/templates/file-manager' },
+      { label: 'Pricing', route: '/templates/pricing' },
     ],
   },
   {

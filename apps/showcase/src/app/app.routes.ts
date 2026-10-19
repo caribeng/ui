@@ -261,5 +261,6 @@ export const routes: Routes = [
   { path: 'templates/dashboard', loadComponent: () => import('./pages/dashboard-template.component').then((m) => m.DashboardTemplateComponent), title: 'Dashboard · Templates · CaribeNG' },
   { path: 'templates/navbar', loadComponent: () => import('./pages/navbar-template.component').then((m) => m.NavbarTemplateComponent), title: 'Navbar · Templates · CaribeNG' },
   { path: 'templates/file-manager', loadComponent: () => import('./pages/file-manager-template.component').then((m) => m.FileManagerTemplateComponent), title: 'File Manager · Templates · CaribeNG' },
+  { path: 'templates/pricing', loadComponent: () => import('./pages/pricing-template.component').then((m) => m.PricingTemplateComponent), title: 'Pricing · Templates · CaribeNG' },
   { path: '**', redirectTo: 'introduction' },
 ];
