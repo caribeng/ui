@@ -12,7 +12,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
-import type { CbSize } from '@caribeng/ui';
+import { cbFieldState, type CbSize } from '@caribeng/ui';
 
 let nextUid = 0;
 
@@ -43,7 +43,7 @@ let nextUid = 0;
     @if (label()) {
       <label class="cb-textarea__label" [attr.for]="inputId()">
         {{ label() }}
-        @if (required()) {
+        @if (fieldState.required()) {
           <span class="cb-textarea__required" aria-hidden="true">*</span>
         }
       </label>
@@ -53,7 +53,7 @@ let nextUid = 0;
       #field
       class="cb-textarea__field"
       [class]="'cb-textarea__field--' + size()"
-      [class.cb-is-invalid]="invalid()"
+      [class.cb-is-invalid]="fieldState.invalid()"
       [class.cb-is-disabled]="isDisabled()"
       [class.cb-textarea__field--auto]="autoResize()"
       [id]="inputId()"
@@ -61,17 +61,17 @@ let nextUid = 0;
       [placeholder]="placeholder()"
       [disabled]="isDisabled()"
       [readonly]="readonly()"
-      [required]="required()"
+      [required]="fieldState.required()"
       [rows]="rows()"
       [attr.maxlength]="maxlength()"
-      [attr.aria-invalid]="invalid() ? 'true' : null"
+      [attr.aria-invalid]="fieldState.invalid() ? 'true' : null"
       [attr.aria-describedby]="describedBy()"
       (input)="handleInput($event)"
       (blur)="handleBlur()"
     ></textarea>
 
     <div class="cb-textarea__footer">
-      @if (invalid() && error()) {
+      @if (fieldState.invalid() && error()) {
         <p class="cb-textarea__message cb-textarea__message--error" [id]="errorId()" role="alert">
           {{ error() }}
         </p>
@@ -117,6 +117,11 @@ export class CbTextarea implements ControlValueAccessor {
   readonly readonly = input<boolean, unknown>(false, { transform: toBoolean });
   /** Marca el campo como requerido (atributo + indicador visual). */
   readonly required = input<boolean, unknown>(false, { transform: toBoolean });
+  /** Estado de validación: inputs manuales + estado de Angular Forms. */
+  protected readonly fieldState = cbFieldState({
+    invalid: () => this.invalid(),
+    required: () => this.required(),
+  });
   /** Deshabilitado de forma declarativa (se combina con Angular Forms). */
   readonly disabled = input<boolean, unknown>(false, { transform: toBoolean });
   /** Id del textarea; se genera uno estable si no se provee. */
@@ -132,7 +137,7 @@ export class CbTextarea implements ControlValueAccessor {
   protected readonly errorId = computed(() => `${this.inputId()}-error`);
   protected readonly hintId = computed(() => `${this.inputId()}-hint`);
   protected readonly describedBy = computed(() => {
-    if (this.invalid() && this.error()) return this.errorId();
+    if (this.fieldState.invalid() && this.error()) return this.errorId();
     if (this.hint()) return this.hintId();
     return null;
   });

@@ -7,8 +7,10 @@ import {
   model,
   output,
   signal,
+  booleanAttribute,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { cbFieldState } from '@caribeng/ui';
 
 /**
  * Input-search de Caribe Design: campo de búsqueda con icono, botón de limpiar
@@ -32,10 +34,16 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
   ],
   host: { class: 'cb-input-search-host' },
   template: `
-    <div class="cb-input-search" [class.cb-is-disabled]="disabled() || cvaDisabled()">
+    <div
+      class="cb-input-search"
+      [class.cb-is-invalid]="fieldState.invalid()"
+      [class.cb-is-disabled]="disabled() || cvaDisabled()"
+    >
       <span class="cb-input-search__icon" aria-hidden="true">⌕</span>
       <input
         class="cb-input-search__field"
+        [attr.aria-invalid]="fieldState.invalid() ? 'true' : null"
+        [attr.aria-required]="fieldState.required() || null"
         type="search"
         [value]="value()"
         [placeholder]="placeholder()"
@@ -63,6 +71,10 @@ export class CbInputSearch implements ControlValueAccessor {
   readonly placeholder = input<string>('Buscar…');
   readonly clearable = input<boolean>(true);
   readonly disabled = input<boolean>(false);
+  /** Marca visual y ARIA de estado inválido (también se activa con Angular Forms). */
+  readonly invalid = input(false, { transform: booleanAttribute });
+  /** Estado de validación: inputs manuales + estado de Angular Forms. */
+  protected readonly fieldState = cbFieldState({ invalid: () => this.invalid() });
 
   readonly value = model<string>('');
   readonly search = output<string>();

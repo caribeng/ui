@@ -7,9 +7,11 @@ import {
   input,
   model,
   signal,
+  booleanAttribute,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { CbIcon } from '@caribeng/ui/icon';
+import { cbFieldState } from '@caribeng/ui';
 
 export interface CbTreeSelectNode {
   key: string;
@@ -49,6 +51,9 @@ interface FlatTreeSelectNode {
     <button
       type="button"
       class="cb-tree-select__trigger"
+      [class.cb-is-invalid]="fieldState.invalid()"
+      [attr.aria-invalid]="fieldState.invalid() ? 'true' : null"
+      [attr.aria-required]="fieldState.required() || null"
       role="combobox"
       [attr.aria-expanded]="open()"
       aria-haspopup="tree"
@@ -109,6 +114,10 @@ export class CbTreeSelect implements ControlValueAccessor {
   readonly nodes = input<CbTreeSelectNode[]>([]);
   readonly placeholder = input<string>('Seleccionar nodo…');
   readonly disabled = input<boolean>(false);
+  /** Marca visual y ARIA de estado inválido (también se activa con Angular Forms). */
+  readonly invalid = input(false, { transform: booleanAttribute });
+  /** Estado de validación: inputs manuales + estado de Angular Forms. */
+  protected readonly fieldState = cbFieldState({ invalid: () => this.invalid() });
 
   readonly value = model<string | null>(null);
   readonly open = signal(false);

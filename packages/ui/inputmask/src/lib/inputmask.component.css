@@ -28,3 +28,11 @@
   opacity: 0.6;
   cursor: not-allowed;
 }
+
+/* Estado inválido (manual o Angular Forms) */
+.cb-input-mask__field.cb-is-invalid {
+  border-color: var(--cb-color-danger);
+}
+.cb-input-mask__field.cb-is-invalid:focus {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--cb-color-danger) 25%, transparent);
+}

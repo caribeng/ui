@@ -73,8 +73,6 @@ import { DOC_A11Y } from '../components/doc-a11y-registry';
           type="email"
           label="Correo"
           placeholder="correo@dominio.com"
-          [required]="true"
-          [invalid]="email.invalid && email.touched"
           error="Ingresa un correo válido."
         />
       </div>
@@ -145,8 +143,6 @@ export class MyComponent {}`;
   type="email"
   label="Correo"
   placeholder="correo@dominio.com"
-  [required]="true"
-  [invalid]="email.invalid && email.touched"
   error="Ingresa un correo válido." />`;
 
   protected readonly validationTs = `email = new FormControl('', {

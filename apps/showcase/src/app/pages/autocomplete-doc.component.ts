@@ -88,8 +88,6 @@ const PAISES = [
           [suggestions]="sugeridos3()"
           label="País"
           placeholder="Elige un país"
-          [required]="true"
-          [invalid]="paisCtrl.invalid && paisCtrl.touched"
           error="Selecciona un país de la lista."
           (complete)="buscar3($event)"
         />
@@ -163,8 +161,7 @@ buscar(q: string) {
   protected readonly validationCode = `<cb-autocomplete
   [formControl]="paisCtrl"
   [suggestions]="sugeridos()"
-  label="País" [required]="true"
-  [invalid]="paisCtrl.invalid && paisCtrl.touched"
+  label="País"
   error="Selecciona un país de la lista."
   (complete)="buscar($event)" />`;
   protected readonly validationTs = `// forceSelection=true (por defecto): si el texto no coincide

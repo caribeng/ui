@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
 import { CbIcon } from '@caribeng/ui/icon';
-import type { CbSize } from '@caribeng/ui';
+import { cbFieldState, type CbSize } from '@caribeng/ui';
 
 let nextUid = 0;
 
@@ -31,6 +31,8 @@ let nextUid = 0;
   imports: [CbIcon],
   host: {
     class: 'cb-rating',
+    '[class.cb-is-invalid]': 'fieldState.invalid()',
+    '[attr.aria-invalid]': "fieldState.invalid() ? 'true' : null",
     role: 'slider',
     'aria-valuemin': '0',
     '[attr.aria-valuemax]': 'stars()',
@@ -82,6 +84,10 @@ export class CbRating implements ControlValueAccessor {
   readonly readonly = input<boolean, unknown>(false, { transform: toBoolean });
   /** Deshabilitado declarativo (se combina con Angular Forms). */
   readonly disabled = input<boolean, unknown>(false, { transform: toBoolean });
+  /** Marca visual y ARIA de estado inválido (también se activa con Angular Forms). */
+  readonly invalid = input<boolean, unknown>(false, { transform: toBoolean });
+  /** Estado de validación: inputs manuales + estado de Angular Forms. */
+  protected readonly fieldState = cbFieldState({ invalid: () => this.invalid() });
   /** Etiqueta accesible del control. */
   readonly ariaLabel = input<string>('');
   /** Id (reservado para uso futuro / asociación de label externa). */

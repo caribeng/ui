@@ -9,7 +9,7 @@ import {
   signal,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
-import type { CbSize } from '@caribeng/ui';
+import { cbFieldState, type CbSize } from '@caribeng/ui';
 
 let nextUid = 0;
 
@@ -31,6 +31,9 @@ let nextUid = 0;
   encapsulation: ViewEncapsulation.Emulated,
   host: {
     class: 'cb-radio-group',
+    '[class.cb-is-invalid]': 'fieldState.invalid()',
+    '[attr.aria-invalid]': "fieldState.invalid() ? 'true' : null",
+    '[attr.aria-required]': 'fieldState.required() || null',
     role: 'radiogroup',
     '[class.cb-radio-group--horizontal]': "orientation() === 'horizontal'",
     '[attr.aria-label]': 'ariaLabel() || null',
@@ -56,6 +59,10 @@ export class CbRadioGroup implements ControlValueAccessor {
   readonly orientation = input<'vertical' | 'horizontal'>('vertical');
   /** Deshabilita todo el grupo. */
   readonly disabled = input<boolean, unknown>(false, { transform: toBoolean });
+  /** Marca visual y ARIA de estado inválido (también se activa con Angular Forms). */
+  readonly invalid = input<boolean, unknown>(false, { transform: toBoolean });
+  /** Estado de validación: inputs manuales + estado de Angular Forms. */
+  readonly fieldState = cbFieldState({ invalid: () => this.invalid() });
 
   /** Emite el nuevo valor seleccionado. */
   readonly changed = output<unknown>();

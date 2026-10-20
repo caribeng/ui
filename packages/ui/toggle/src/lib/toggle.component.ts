@@ -9,7 +9,7 @@ import {
   signal,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
-import type { CbSize } from '@caribeng/ui';
+import { cbFieldState, type CbSize } from '@caribeng/ui';
 
 let nextUid = 0;
 
@@ -37,12 +37,15 @@ let nextUid = 0;
   template: `
     <label
       class="cb-toggle"
+      [class.cb-is-invalid]="fieldState.invalid()"
       [class]="'cb-toggle--' + size()"
       [class.cb-is-disabled]="isDisabled()"
     >
       <input
         type="checkbox"
         class="cb-toggle__input"
+        [attr.aria-invalid]="fieldState.invalid() ? 'true' : null"
+        [attr.aria-required]="fieldState.required() || null"
         role="switch"
         [id]="inputId()"
         [checked]="checked()"
@@ -71,6 +74,10 @@ export class CbToggle implements ControlValueAccessor {
   readonly size = input<CbSize>('md');
   /** Deshabilitado de forma declarativa (se combina con Angular Forms). */
   readonly disabled = input<boolean, unknown>(false, { transform: toBoolean });
+  /** Marca visual y ARIA de estado inválido (también se activa con Angular Forms). */
+  readonly invalid = input<boolean, unknown>(false, { transform: toBoolean });
+  /** Estado de validación: inputs manuales + estado de Angular Forms. */
+  protected readonly fieldState = cbFieldState({ invalid: () => this.invalid() });
   /** Id del input; se genera uno estable si no se provee. */
   readonly inputId = input<string>(`cb-toggle-${++nextUid}`);
 

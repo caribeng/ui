@@ -7,8 +7,10 @@ import {
   input,
   model,
   signal,
+  booleanAttribute,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { cbFieldState } from '@caribeng/ui';
 
 /**
  * Input-token de Caribe Design: entrada de código OTP con casillas por dígito,
@@ -41,6 +43,8 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
         @for (slot of slots(); track slot) {
           <input
             class="cb-input-token__slot"
+            [class.cb-is-invalid]="fieldState.invalid()"
+            [attr.aria-invalid]="fieldState.invalid() ? 'true' : null"
             [type]="unmasked() ? 'text' : 'password'"
             maxlength="1"
             inputmode="numeric"
@@ -64,6 +68,10 @@ export class CbInputToken implements ControlValueAccessor {
   readonly unmasked = input<boolean>(false);
   readonly helpText = input<string>('');
   readonly disabled = input<boolean>(false);
+  /** Marca visual y ARIA de estado inválido (también se activa con Angular Forms). */
+  readonly invalid = input(false, { transform: booleanAttribute });
+  /** Estado de validación: inputs manuales + estado de Angular Forms. */
+  protected readonly fieldState = cbFieldState({ invalid: () => this.invalid() });
 
   readonly value = model<string>('');
   protected readonly cvaDisabled = signal(false);

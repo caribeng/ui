@@ -83,3 +83,8 @@
   text-align: left;
   cursor: pointer;
 }
+
+/* Estado inválido (manual o Angular Forms) */
+.cb-tree-select__trigger.cb-is-invalid {
+  border-color: var(--cb-color-danger);
+}

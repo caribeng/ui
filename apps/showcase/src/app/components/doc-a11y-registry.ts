@@ -25,7 +25,7 @@ const TAB_FOCUS = (what: string): DocA11yKey => ({ keys: 'Tab', action: `Mueve e
 
 const FIELD_SR = [
   'Usa el elemento nativo, por lo que se anuncia como campo de texto. Con `label` se muestra una etiqueta asociada al campo; si no hay etiqueta visible, añade `aria-label`.',
-  'Cuando `invalid` es true se aplica `aria-invalid="true"`, y `aria-describedby` enlaza el texto de ayuda o el mensaje de error, que se anuncia con `role="alert"`.',
+  'Cuando el campo es inválido (por `invalid` o porque su FormControl es inválido y ya fue tocado) se aplica `aria-invalid="true"`, y `aria-describedby` enlaza el texto de ayuda o el mensaje de error, que se anuncia con `role="alert"`.',
 ];
 
 export const DOC_A11Y: Record<string, DocA11y> = {

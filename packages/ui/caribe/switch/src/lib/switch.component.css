@@ -104,3 +104,8 @@
   ~ .cb-switch__track {
   background-color: var(--cb-color-primary-500, #10b981);
 }
+
+/* Estado inválido (manual o Angular Forms) */
+.cb-switch.cb-is-invalid .cb-switch__track {
+  box-shadow: 0 0 0 2px var(--cb-color-danger);
+}

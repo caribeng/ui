@@ -9,7 +9,7 @@ import {
   signal,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
-import type { CbSize } from '@caribeng/ui';
+import { cbFieldState, type CbSize } from '@caribeng/ui';
 import { CbIcon } from '@caribeng/ui/icon';
 
 let nextUid = 0;
@@ -52,7 +52,7 @@ const ICON_PX: Record<string, number> = { sm: 12, md: 14, lg: 16 };
       class="cb-checkbox"
       [class]="'cb-checkbox--' + size()"
       [class.cb-is-disabled]="isDisabled()"
-      [class.cb-is-invalid]="invalid()"
+      [class.cb-is-invalid]="fieldState.invalid()"
     >
       <input
         type="checkbox"
@@ -60,9 +60,9 @@ const ICON_PX: Record<string, number> = { sm: 12, md: 14, lg: 16 };
         [id]="inputId()"
         [checked]="checked()"
         [disabled]="isDisabled()"
-        [required]="required()"
+        [required]="fieldState.required()"
         [attr.aria-checked]="indeterminate() ? 'mixed' : checked()"
-        [attr.aria-invalid]="invalid() ? 'true' : null"
+        [attr.aria-invalid]="fieldState.invalid() ? 'true' : null"
         [attr.aria-label]="label() ? null : ariaLabel()"
         (change)="toggle()"
         (blur)="handleBlur()"
@@ -75,7 +75,12 @@ const ICON_PX: Record<string, number> = { sm: 12, md: 14, lg: 16 };
         }
       </span>
       @if (label()) {
-        <span class="cb-checkbox__label">{{ label() }}</span>
+        <span class="cb-checkbox__label">
+          {{ label() }}
+          @if (fieldState.required()) {
+            <span class="cb-checkbox__required" aria-hidden="true">*</span>
+          }
+        </span>
       }
     </label>
   `,
@@ -96,6 +101,11 @@ export class CbCheckbox implements ControlValueAccessor {
   readonly invalid = input<boolean, unknown>(false, { transform: toBoolean });
   /** Requerido. */
   readonly required = input<boolean, unknown>(false, { transform: toBoolean });
+  /** Estado de validación: inputs manuales + estado de Angular Forms. */
+  protected readonly fieldState = cbFieldState({
+    invalid: () => this.invalid(),
+    required: () => this.required(),
+  });
   /** Deshabilitado de forma declarativa (se combina con Angular Forms). */
   readonly disabled = input<boolean, unknown>(false, { transform: toBoolean });
   /** Id del input; se genera uno estable si no se provee. */

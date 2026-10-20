@@ -14,7 +14,7 @@ import {
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
 import { OverlayModule, type ConnectedPosition } from '@angular/cdk/overlay';
 import { CbIcon } from '@caribeng/ui/icon';
-import type { CbSize } from '@caribeng/ui';
+import { cbFieldState, type CbSize } from '@caribeng/ui';
 
 let nextUid = 0;
 
@@ -48,7 +48,7 @@ let nextUid = 0;
       class="cb-multiselect__trigger"
       [class]="'cb-multiselect__trigger--' + size()"
       [class.cb-is-open]="open()"
-      [class.cb-is-invalid]="invalid()"
+      [class.cb-is-invalid]="fieldState.invalid()"
       [class.cb-is-disabled]="isDisabled()"
       role="combobox"
       [id]="inputId()"
@@ -59,7 +59,8 @@ let nextUid = 0;
       [attr.aria-expanded]="open()"
       [attr.aria-controls]="listboxId"
       [attr.aria-disabled]="isDisabled() ? 'true' : null"
-      [attr.aria-invalid]="invalid() ? 'true' : null"
+      [attr.aria-invalid]="fieldState.invalid() ? 'true' : null"
+      [attr.aria-required]="fieldState.required() || null"
       (click)="toggleOpen()"
       (keydown)="onTriggerKeydown($event)"
       (blur)="onBlur()"
@@ -150,6 +151,8 @@ export class CbMultiSelect implements ControlValueAccessor {
   /** Nº máx. de etiquetas antes de mostrar "N seleccionados". */
   readonly maxSelectedLabels = input<number>(3);
   readonly invalid = input<boolean, unknown>(false, { transform: toBoolean });
+  /** Estado de validación: inputs manuales + estado de Angular Forms. */
+  protected readonly fieldState = cbFieldState({ invalid: () => this.invalid() });
   readonly disabled = input<boolean, unknown>(false, { transform: toBoolean });
   readonly inputId = input<string>(`cb-multiselect-${++nextUid}`);
   /** Nombre accesible del disparador cuando no hay etiqueta visible. */

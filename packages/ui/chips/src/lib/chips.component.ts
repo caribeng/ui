@@ -13,7 +13,7 @@ import {
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
 import { CbIcon } from '@caribeng/ui/icon';
-import type { CbSize } from '@caribeng/ui';
+import { cbFieldState, type CbSize } from '@caribeng/ui';
 
 let nextUid = 0;
 
@@ -36,7 +36,7 @@ let nextUid = 0;
     <div
       class="cb-chips"
       [class]="'cb-chips--' + size()"
-      [class.cb-is-invalid]="invalid()"
+      [class.cb-is-invalid]="fieldState.invalid()"
       [class.cb-is-disabled]="isDisabled()"
       (click)="focusInput()"
     >
@@ -64,7 +64,8 @@ let nextUid = 0;
         [disabled]="isDisabled()"
         [readonly]="readonly()"
         [attr.aria-label]="ariaLabel() || null"
-        [attr.aria-invalid]="invalid() ? 'true' : null"
+        [attr.aria-invalid]="fieldState.invalid() ? 'true' : null"
+        [attr.aria-required]="fieldState.required() || null"
         autocomplete="off"
         (keydown)="onKeydown($event)"
         (blur)="onBlur()"
@@ -86,6 +87,8 @@ export class CbChips implements ControlValueAccessor {
   readonly placeholder = input<string>('');
   readonly size = input<CbSize>('md');
   readonly invalid = input<boolean, unknown>(false, { transform: toBoolean });
+  /** Estado de validación: inputs manuales + estado de Angular Forms. */
+  protected readonly fieldState = cbFieldState({ invalid: () => this.invalid() });
   readonly readonly = input<boolean, unknown>(false, { transform: toBoolean });
   readonly disabled = input<boolean, unknown>(false, { transform: toBoolean });
   /** Máximo de chips (0 = sin límite). */

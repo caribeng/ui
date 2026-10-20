@@ -7,8 +7,10 @@ import {
   input,
   model,
   signal,
+  booleanAttribute,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { cbFieldState } from '@caribeng/ui';
 
 /**
  * InputMask de CaribeNG: campo de texto con máscara de formato (`9` = dígito,
@@ -33,6 +35,9 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
     <input
       type="text"
       class="cb-input-mask__field"
+      [class.cb-is-invalid]="fieldState.invalid()"
+      [attr.aria-invalid]="fieldState.invalid() ? 'true' : null"
+      [attr.aria-required]="fieldState.required() || null"
       [value]="displayValue()"
       [placeholder]="placeholder() || mask()"
       [disabled]="isDisabled()"
@@ -50,6 +55,10 @@ export class CbInputMask implements ControlValueAccessor {
   readonly unmask = input<boolean>(false);
   readonly placeholder = input<string>('');
   readonly disabled = input<boolean>(false);
+  /** Marca visual y ARIA de estado inválido (también se activa con Angular Forms). */
+  readonly invalid = input(false, { transform: booleanAttribute });
+  /** Estado de validación: inputs manuales + estado de Angular Forms. */
+  protected readonly fieldState = cbFieldState({ invalid: () => this.invalid() });
   readonly ariaLabel = input<string>('');
 
   readonly value = model<string>('');

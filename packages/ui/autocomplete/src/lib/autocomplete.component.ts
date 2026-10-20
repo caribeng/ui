@@ -13,7 +13,7 @@ import {
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
 import { OverlayModule, type ConnectedPosition } from '@angular/cdk/overlay';
-import type { CbSize } from '@caribeng/ui';
+import { cbFieldState, type CbSize } from '@caribeng/ui';
 import { CbIcon } from '@caribeng/ui/icon';
 
 let nextUid = 0;
@@ -50,7 +50,7 @@ let nextUid = 0;
     @if (label()) {
       <label class="cb-autocomplete__label" [attr.for]="inputId()">
         {{ label() }}
-        @if (required()) {
+        @if (fieldState.required()) {
           <span class="cb-autocomplete__required" aria-hidden="true">*</span>
         }
       </label>
@@ -61,7 +61,7 @@ let nextUid = 0;
       class="cb-autocomplete"
       [class]="'cb-autocomplete--' + size()"
       [class.cb-is-open]="open()"
-      [class.cb-is-invalid]="invalid()"
+      [class.cb-is-invalid]="fieldState.invalid()"
       [class.cb-is-disabled]="isDisabled()"
       [class.cb-autocomplete--dropdown]="dropdown()"
     >
@@ -76,12 +76,12 @@ let nextUid = 0;
         [attr.aria-expanded]="open()"
         [attr.aria-controls]="listboxId"
         [attr.aria-activedescendant]="activeDescendant()"
-        [attr.aria-invalid]="invalid() ? 'true' : null"
+        [attr.aria-invalid]="fieldState.invalid() ? 'true' : null"
         [attr.aria-describedby]="describedBy()"
         [value]="query()"
         [placeholder]="placeholder()"
         [disabled]="isDisabled()"
-        [required]="required()"
+        [required]="fieldState.required()"
         (input)="onInput($event)"
         (focus)="onFocus()"
         (blur)="onBlur()"
@@ -135,7 +135,7 @@ let nextUid = 0;
       </div>
     </ng-template>
 
-    @if (invalid() && error()) {
+    @if (fieldState.invalid() && error()) {
       <p class="cb-autocomplete__message cb-autocomplete__message--error" [id]="errorId()" role="alert">
         {{ error() }}
       </p>
@@ -171,6 +171,11 @@ export class CbAutocomplete implements ControlValueAccessor {
   readonly error = input<string>('');
   readonly invalid = input<boolean, unknown>(false, { transform: toBoolean });
   readonly required = input<boolean, unknown>(false, { transform: toBoolean });
+  /** Estado de validación: inputs manuales + estado de Angular Forms. */
+  protected readonly fieldState = cbFieldState({
+    invalid: () => this.invalid(),
+    required: () => this.required(),
+  });
   readonly disabled = input<boolean, unknown>(false, { transform: toBoolean });
   readonly inputId = input<string>(`cb-autocomplete-${++nextUid}`);
 
@@ -198,7 +203,7 @@ export class CbAutocomplete implements ControlValueAccessor {
   protected readonly errorId = computed(() => `${this.inputId()}-error`);
   protected readonly hintId = computed(() => `${this.inputId()}-hint`);
   protected readonly describedBy = computed(() => {
-    if (this.invalid() && this.error()) return this.errorId();
+    if (this.fieldState.invalid() && this.error()) return this.errorId();
     if (this.hint()) return this.hintId();
     return null;
   });

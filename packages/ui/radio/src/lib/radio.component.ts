@@ -22,6 +22,7 @@ let nextUid = 0;
   template: `
     <label
       class="cb-radio"
+      [class.cb-is-invalid]="group.fieldState.invalid()"
       [class]="'cb-radio--' + group.size()"
       [class.cb-is-disabled]="isDisabled()"
     >

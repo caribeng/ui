@@ -10,6 +10,7 @@ import {
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
 import { CbIcon } from '@caribeng/ui/icon';
+import { cbFieldState } from '@caribeng/ui';
 
 let nextUid = 0;
 
@@ -38,7 +39,7 @@ let nextUid = 0;
     },
   ],
   template: `
-    <div class="cb-listbox" [class.cb-is-disabled]="isDisabled()">
+    <div class="cb-listbox" [class.cb-is-invalid]="fieldState.invalid()" [class.cb-is-disabled]="isDisabled()">
       @if (filter()) {
         <div class="cb-listbox__filter">
           <input
@@ -55,6 +56,8 @@ let nextUid = 0;
       <ul
         class="cb-listbox__list"
         role="listbox"
+        [attr.aria-invalid]="fieldState.invalid() ? 'true' : null"
+        [attr.aria-required]="fieldState.required() || null"
         [id]="listboxId"
         [attr.aria-multiselectable]="multiple() ? 'true' : null"
         [attr.aria-label]="ariaLabel() || null"
@@ -103,6 +106,10 @@ export class CbListBox implements ControlValueAccessor {
   readonly filterPlaceholder = input<string>('Buscar…');
   readonly emptyMessage = input<string>('Sin resultados');
   readonly disabled = input<boolean, unknown>(false, { transform: toBoolean });
+  /** Marca visual y ARIA de estado inválido (también se activa con Angular Forms). */
+  readonly invalid = input<boolean, unknown>(false, { transform: toBoolean });
+  /** Estado de validación: inputs manuales + estado de Angular Forms. */
+  protected readonly fieldState = cbFieldState({ invalid: () => this.invalid() });
   readonly ariaLabel = input<string>('');
   readonly inputId = input<string>(`cb-listbox-${++nextUid}`);
 

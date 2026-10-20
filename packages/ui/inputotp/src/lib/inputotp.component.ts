@@ -9,8 +9,10 @@ import {
   input,
   model,
   signal,
+  booleanAttribute,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { cbFieldState } from '@caribeng/ui';
 
 /**
  * InputOTP de CaribeNG: entrada de código de verificación en casillas individuales
@@ -37,6 +39,8 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
       <input
         [type]="mask() ? 'password' : 'text'"
         class="cb-input-otp__slot"
+        [class.cb-is-invalid]="fieldState.invalid()"
+        [attr.aria-invalid]="fieldState.invalid() ? 'true' : null"
         maxlength="1"
         [attr.inputmode]="integerOnly() ? 'numeric' : 'text'"
         [value]="charAt(idx)"
@@ -58,6 +62,10 @@ export class CbInputOtp implements ControlValueAccessor {
   readonly integerOnly = input<boolean>(false);
   readonly mask = input<boolean>(false);
   readonly disabled = input<boolean>(false);
+  /** Marca visual y ARIA de estado inválido (también se activa con Angular Forms). */
+  readonly invalid = input(false, { transform: booleanAttribute });
+  /** Estado de validación: inputs manuales + estado de Angular Forms. */
+  protected readonly fieldState = cbFieldState({ invalid: () => this.invalid() });
   readonly ariaLabel = input<string>('Código de verificación');
 
   readonly value = model<string>('');

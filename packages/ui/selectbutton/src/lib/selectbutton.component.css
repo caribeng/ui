@@ -50,3 +50,8 @@
   opacity: var(--cb-opacity-disabled, 0.55);
   cursor: default;
 }
+
+/* Estado inválido (manual o Angular Forms) */
+:host(.cb-is-invalid) .cb-selectbutton__btn {
+  border-color: var(--cb-color-danger);
+}

@@ -66,7 +66,7 @@ interface Ciudad {
       </div>
     </doc-section>
 
-    <doc-section id="validation" title="Validación · Reactive Forms" description="Funciona con formControl; usa invalid para reflejar el estado de validación." [code]="validationCode" [codeTs]="validationTs">
+    <doc-section id="validation" title="Validación · Reactive Forms" description="Con formControl el estado de error se aplica automáticamente cuando el control es inválido y el usuario ya lo tocó." [code]="validationCode" [codeTs]="validationTs">
       <div style="width: 100%; max-width: 320px">
         <cb-multiselect
           [formControl]="requeridas"
@@ -74,7 +74,6 @@ interface Ciudad {
           optionLabel="nombre"
           optionValue="id"
           placeholder="Elige al menos una"
-          [invalid]="requeridas.invalid && requeridas.touched"
         />
       </div>
     </doc-section>
@@ -123,8 +122,7 @@ seleccion = signal<number[]>([1]);`;
   filter placeholder="Busca y elige" />`;
   protected readonly validationCode = `<cb-multiselect
   [formControl]="requeridas"
-  [options]="ciudades" optionLabel="nombre" optionValue="id"
-  [invalid]="requeridas.invalid && requeridas.touched" />`;
+  [options]="ciudades" optionLabel="nombre" optionValue="id" />`;
   protected readonly validationTs = `requeridas = new FormControl<number[]>([], { nonNullable: true,
   validators: [c => c.value?.length ? null : { required: true }] });`;
 }

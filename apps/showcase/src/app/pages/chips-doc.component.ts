@@ -46,12 +46,11 @@ import { TocService } from '../services/toc.service';
       </div>
     </doc-section>
 
-    <doc-section id="validation" title="Validación · Reactive Forms" description="Funciona con formControl; usa invalid para reflejar el estado de validación." [code]="validationCode" [codeTs]="validationTs">
+    <doc-section id="validation" title="Validación · Reactive Forms" description="Con formControl el estado de error se aplica automáticamente cuando el control es inválido y el usuario ya lo tocó." [code]="validationCode" [codeTs]="validationTs">
       <div style="max-width: 420px">
         <cb-chips
           [formControl]="skills"
           placeholder="Añade al menos una skill"
-          [invalid]="skills.invalid && skills.touched"
         />
       </div>
     </doc-section>
@@ -78,8 +77,7 @@ export class ChipsDocComponent {
   protected readonly basicCode = `<cb-chips [(value)]="tags" placeholder="Añade una etiqueta…" />`;
   protected readonly maxCode = `<cb-chips [(value)]="tags" [max]="3" [allowDuplicate]="false" />`;
   protected readonly validationCode = `<cb-chips
-  [formControl]="skills"
-  [invalid]="skills.invalid && skills.touched" />`;
+  [formControl]="skills" />`;
   protected readonly validationTs = `skills = new FormControl<string[]>([], { nonNullable: true,
   validators: [c => c.value?.length ? null : { required: true }] });`;
 }

@@ -85,7 +85,7 @@ import { DOC_A11Y } from '../components/doc-a11y-registry';
     <doc-section
       id="validation"
       title="Validación · Reactive Forms"
-      description="Con formControl, min, max y required se valida el rango; error muestra el mensaje."
+      description="min y max validan el rango; con formControl, el * y el mensaje de error aparecen solos."
       [code]="validationCode"
       [codeTs]="validationTs"
     >
@@ -95,8 +95,6 @@ import { DOC_A11Y } from '../components/doc-a11y-registry';
           label="Edad"
           [min]="0"
           [max]="120"
-          [required]="true"
-          [invalid]="edad.invalid && edad.touched"
           error="Ingresa una edad válida (18+)."
         />
       </div>
@@ -156,8 +154,7 @@ export class MyComponent {}`;
 
   protected readonly validationCode = `<cb-input-number
   [formControl]="edad"
-  label="Edad" [min]="0" [max]="120" [required]="true"
-  [invalid]="edad.invalid && edad.touched"
+  label="Edad" [min]="0" [max]="120"
   error="Ingresa una edad válida (18+)." />`;
   protected readonly validationTs = `edad = new FormControl<number | null>(null, [
   Validators.required, Validators.min(18),

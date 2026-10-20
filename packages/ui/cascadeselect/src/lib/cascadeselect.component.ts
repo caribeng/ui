@@ -7,9 +7,11 @@ import {
   input,
   model,
   signal,
+  booleanAttribute,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { CbIcon } from '@caribeng/ui/icon';
+import { cbFieldState } from '@caribeng/ui';
 
 export interface CbCascadeOption {
   label: string;
@@ -40,6 +42,9 @@ export interface CbCascadeOption {
     <button
       type="button"
       class="cb-cascade-select__trigger"
+      [class.cb-is-invalid]="fieldState.invalid()"
+      [attr.aria-invalid]="fieldState.invalid() ? 'true' : null"
+      [attr.aria-required]="fieldState.required() || null"
       role="combobox"
       [attr.aria-expanded]="open()"
       [disabled]="isDisabled()"
@@ -95,6 +100,10 @@ export class CbCascadeSelect implements ControlValueAccessor {
   readonly options = input<CbCascadeOption[]>([]);
   readonly placeholder = input<string>('Seleccionar opción…');
   readonly disabled = input<boolean>(false);
+  /** Marca visual y ARIA de estado inválido (también se activa con Angular Forms). */
+  readonly invalid = input(false, { transform: booleanAttribute });
+  /** Estado de validación: inputs manuales + estado de Angular Forms. */
+  protected readonly fieldState = cbFieldState({ invalid: () => this.invalid() });
 
   readonly value = model<string | null>(null);
   readonly open = signal(false);

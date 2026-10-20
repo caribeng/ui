@@ -13,7 +13,7 @@ import {
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
 import { OverlayModule, type ConnectedPosition } from '@angular/cdk/overlay';
-import type { CbSize } from '@caribeng/ui';
+import { cbFieldState, type CbSize } from '@caribeng/ui';
 import { CbIcon } from '@caribeng/ui/icon';
 
 let nextUid = 0;
@@ -48,7 +48,7 @@ let nextUid = 0;
       class="cb-select__trigger"
       [class]="'cb-select__trigger--' + size()"
       [class.cb-is-open]="open()"
-      [class.cb-is-invalid]="invalid()"
+      [class.cb-is-invalid]="fieldState.invalid()"
       [class.cb-is-disabled]="isDisabled()"
       role="combobox"
       [id]="inputId()"
@@ -60,7 +60,8 @@ let nextUid = 0;
       [attr.aria-controls]="listboxId"
       [attr.aria-activedescendant]="activeDescendant()"
       [attr.aria-disabled]="isDisabled() ? 'true' : null"
-      [attr.aria-invalid]="invalid() ? 'true' : null"
+      [attr.aria-invalid]="fieldState.invalid() ? 'true' : null"
+      [attr.aria-required]="fieldState.required() || null"
       (click)="toggle()"
       (keydown)="onTriggerKeydown($event)"
       (blur)="onBlur()"
@@ -139,6 +140,8 @@ export class CbSelect implements ControlValueAccessor {
   readonly filterPlaceholder = input<string>('Buscar…');
   readonly emptyMessage = input<string>('Sin resultados');
   readonly invalid = input<boolean, unknown>(false, { transform: toBoolean });
+  /** Estado de validación: inputs manuales + estado de Angular Forms. */
+  protected readonly fieldState = cbFieldState({ invalid: () => this.invalid() });
   readonly disabled = input<boolean, unknown>(false, { transform: toBoolean });
   readonly inputId = input<string>(`cb-select-${++nextUid}`);
   /** Nombre accesible del disparador cuando no hay etiqueta visible. */

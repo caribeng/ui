@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
 import { CbIcon } from '@caribeng/ui/icon';
-import type { CbSize } from '@caribeng/ui';
+import { cbFieldState, type CbSize } from '@caribeng/ui';
 
 let nextUid = 0;
 
@@ -41,6 +41,7 @@ let nextUid = 0;
     <button
       type="button"
       class="cb-togglebutton"
+      [class.cb-is-invalid]="fieldState.invalid()"
       [class]="'cb-togglebutton--' + size()"
       [class.cb-is-on]="checked()"
       [id]="inputId()"
@@ -65,6 +66,10 @@ export class CbToggleButton implements ControlValueAccessor {
   readonly offIcon = input<string>('');
   readonly size = input<CbSize>('md');
   readonly disabled = input<boolean, unknown>(false, { transform: toBoolean });
+  /** Marca visual y ARIA de estado inválido (también se activa con Angular Forms). */
+  readonly invalid = input<boolean, unknown>(false, { transform: toBoolean });
+  /** Estado de validación: inputs manuales + estado de Angular Forms. */
+  protected readonly fieldState = cbFieldState({ invalid: () => this.invalid() });
   readonly ariaLabel = input<string>('');
   readonly inputId = input<string>(`cb-togglebutton-${++nextUid}`);
 

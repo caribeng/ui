@@ -352,6 +352,7 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "options", kind: "string", type: "CbCascadeOption[]", default: [{ label: 'Americas', children: [{ label: 'Colombia', value: 'co' }, { label: 'United States', value: 'us' }] }, { label: 'Europe', children: [{ label: 'Spain', value: 'es' }] }], description: "", control: false },
       { name: "placeholder", kind: "string", type: "string", default: "Seleccionar opción…", description: "" },
       { name: "disabled", kind: "boolean", type: "boolean", default: false, description: "" },
+      { name: "invalid", kind: "boolean", type: "boolean", default: false, description: "Marca visual y ARIA de estado inválido (también se activa con Angular Forms)." },
       { name: "value", kind: "string", type: "string | null (model)", default: "", description: "" }
     ]
   },
@@ -619,6 +620,7 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "placeholder", kind: "string", type: "string", default: "Escribe aquí…", description: "" },
       { name: "height", kind: "string", type: "string", default: "140px", description: "" },
       { name: "disabled", kind: "boolean", type: "boolean", default: false, description: "" },
+      { name: "invalid", kind: "boolean", type: "boolean", default: false, description: "Marca visual y ARIA de estado inválido (también se activa con Angular Forms)." },
       { name: "value", kind: "string", type: "string (model)", default: "", description: "" }
     ]
   },
@@ -859,6 +861,7 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "min", kind: "string", type: "string", default: "", description: "" },
       { name: "max", kind: "string", type: "string", default: "", description: "" },
       { name: "disabled", kind: "boolean", type: "boolean", default: false, description: "" },
+      { name: "invalid", kind: "boolean", type: "boolean", default: false, description: "Marca visual y ARIA de estado inválido (también se activa con Angular Forms)." },
       { name: "value", kind: "string", type: "string (model)", default: "", description: "" }
     ]
   },
@@ -878,6 +881,7 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "unmask", kind: "boolean", type: "boolean", default: false, description: "Si es true, el valor del modelo excluye los literales de la máscara." },
       { name: "placeholder", kind: "string", type: "string", default: "", description: "" },
       { name: "disabled", kind: "boolean", type: "boolean", default: false, description: "" },
+      { name: "invalid", kind: "boolean", type: "boolean", default: false, description: "Marca visual y ARIA de estado inválido (también se activa con Angular Forms)." },
       { name: "ariaLabel", kind: "string", type: "string", default: "", description: "" },
       { name: "value", kind: "string", type: "string (model)", default: "", description: "" }
     ]
@@ -919,6 +923,7 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "integerOnly", kind: "boolean", type: "boolean", default: false, description: "" },
       { name: "mask", kind: "boolean", type: "boolean", default: false, description: "" },
       { name: "disabled", kind: "boolean", type: "boolean", default: false, description: "" },
+      { name: "invalid", kind: "boolean", type: "boolean", default: false, description: "Marca visual y ARIA de estado inválido (también se activa con Angular Forms)." },
       { name: "ariaLabel", kind: "string", type: "string", default: "Código de verificación", description: "" },
       { name: "value", kind: "string", type: "string (model)", default: "", description: "" }
     ]
@@ -930,6 +935,7 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "placeholder", kind: "string", type: "string", default: "Buscar…", description: "" },
       { name: "clearable", kind: "boolean", type: "boolean", default: true, description: "" },
       { name: "disabled", kind: "boolean", type: "boolean", default: false, description: "" },
+      { name: "invalid", kind: "boolean", type: "boolean", default: false, description: "Marca visual y ARIA de estado inválido (también se activa con Angular Forms)." },
       { name: "value", kind: "string", type: "string (model)", default: "", description: "" }
     ],
     events: [
@@ -944,6 +950,7 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "placeholder", kind: "string", type: "string", default: "Seleccione una opción", description: "" },
       { name: "options", kind: "string", type: "readonly CbInputSelectOption[]", default: [{ label: 'Red', value: 'red' }, { label: 'Green', value: 'green' }, { label: 'Blue', value: 'blue' }, { label: 'Amber', value: 'amber' }], description: "", control: false },
       { name: "disabled", kind: "boolean", type: "boolean", default: false, description: "" },
+      { name: "invalid", kind: "boolean", type: "boolean", default: false, description: "Marca visual y ARIA de estado inválido (también se activa con Angular Forms)." },
       { name: "value", kind: "string", type: "string (model)", default: "", description: "" }
     ]
   },
@@ -955,6 +962,7 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "unmasked", kind: "boolean", type: "boolean", default: false, description: "" },
       { name: "helpText", kind: "string", type: "string", default: "", description: "" },
       { name: "disabled", kind: "boolean", type: "boolean", default: false, description: "" },
+      { name: "invalid", kind: "boolean", type: "boolean", default: false, description: "Marca visual y ARIA de estado inválido (también se activa con Angular Forms)." },
       { name: "value", kind: "string", type: "string (model)", default: "", description: "" }
     ]
   },
@@ -971,6 +979,7 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "showValue", kind: "boolean", type: "boolean", default: true, description: "" },
       { name: "suffix", kind: "string", type: "string", default: "", description: "Sufijo del texto central (p. ej. `%`)." },
       { name: "disabled", kind: "boolean", type: "boolean", default: false, description: "" },
+      { name: "invalid", kind: "boolean", type: "boolean", default: false, description: "Marca visual y ARIA de estado inválido (también se activa con Angular Forms)." },
       { name: "ariaLabel", kind: "string", type: "string", default: "", description: "" },
       { name: "inputId", kind: "string", type: "string", default: "", description: "", control: false },
       { name: "value", kind: "number", type: "number (model)", default: 0, description: "" }
@@ -1003,6 +1012,7 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "filterPlaceholder", kind: "string", type: "string", default: "Buscar…", description: "" },
       { name: "emptyMessage", kind: "string", type: "string", default: "Sin resultados", description: "" },
       { name: "disabled", kind: "boolean", type: "boolean", default: false, description: "" },
+      { name: "invalid", kind: "boolean", type: "boolean", default: false, description: "Marca visual y ARIA de estado inválido (también se activa con Angular Forms)." },
       { name: "ariaLabel", kind: "string", type: "string", default: "", description: "" },
       { name: "inputId", kind: "string", type: "string", default: "", description: "", control: false },
       { name: "value", kind: "string", type: "unknown (model)", default: "", description: "", control: false }
@@ -1302,7 +1312,8 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "name", kind: "string", type: "string", default: "", description: "Nombre compartido por los radios nativos; se genera uno si se omite.", control: false },
       { name: "size", kind: "enum", type: "CbSize", options: ["sm", "md", "lg"], default: "md", description: "Tamaño aplicado a los radios hijos." },
       { name: "orientation", kind: "enum", type: "'vertical' | 'horizontal'", options: ["vertical", "horizontal"], default: "vertical", description: "Disposición de los items." },
-      { name: "disabled", kind: "boolean", type: "boolean", default: false, description: "Deshabilita todo el grupo." }
+      { name: "disabled", kind: "boolean", type: "boolean", default: false, description: "Deshabilita todo el grupo." },
+      { name: "invalid", kind: "boolean", type: "boolean", default: false, description: "Marca visual y ARIA de estado inválido (también se activa con Angular Forms)." },
     ],
     events: [
       { name: "changed", type: "unknown", description: "Emite el nuevo valor seleccionado." }
@@ -1317,6 +1328,7 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "size", kind: "enum", type: "CbSize", options: ["sm", "md", "lg"], default: "md", description: "Tamaño." },
       { name: "readonly", kind: "boolean", type: "boolean", default: false, description: "Solo lectura (no editable, pero muestra el valor)." },
       { name: "disabled", kind: "boolean", type: "boolean", default: false, description: "Deshabilitado declarativo (se combina con Angular Forms)." },
+      { name: "invalid", kind: "boolean", type: "boolean", default: false, description: "Marca visual y ARIA de estado inválido (también se activa con Angular Forms)." },
       { name: "ariaLabel", kind: "string", type: "string", default: "", description: "Etiqueta accesible del control." },
       { name: "inputId", kind: "string", type: "string", default: "", description: "Id (reservado para uso futuro / asociación de label externa).", control: false }
     ],
@@ -1377,6 +1389,7 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "multiple", kind: "boolean", type: "boolean", default: false, description: "" },
       { name: "size", kind: "enum", type: "CbSize", options: ["sm", "md", "lg"], default: "md", description: "" },
       { name: "disabled", kind: "boolean", type: "boolean", default: false, description: "" },
+      { name: "invalid", kind: "boolean", type: "boolean", default: false, description: "Marca visual y ARIA de estado inválido (también se activa con Angular Forms)." },
       { name: "ariaLabel", kind: "string", type: "string", default: "", description: "" },
       { name: "inputId", kind: "string", type: "string", default: "", description: "", control: false },
       { name: "value", kind: "string", type: "unknown (model)", default: "", description: "", control: false }
@@ -1417,6 +1430,7 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "step", kind: "number", type: "number", default: 1, description: "" },
       { name: "size", kind: "enum", type: "CbSize", options: ["sm", "md", "lg"], default: "md", description: "" },
       { name: "disabled", kind: "boolean", type: "boolean", default: false, description: "" },
+      { name: "invalid", kind: "boolean", type: "boolean", default: false, description: "Marca visual y ARIA de estado inválido (también se activa con Angular Forms)." },
       { name: "ariaLabel", kind: "string", type: "string", default: "", description: "" },
       { name: "inputId", kind: "string", type: "string", default: "", description: "", control: false }
     ],
@@ -1524,6 +1538,7 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "leftLabel", kind: "boolean", type: "boolean", default: false, description: "Coloca la etiqueta a la izquierda del control." },
       { name: "required", kind: "boolean", type: "boolean", default: false, description: "Marca el control como requerido (`aria-required`)." },
       { name: "disabled", kind: "boolean", type: "boolean", default: false, description: "Deshabilitado declarativo (se combina con Angular Forms)." },
+      { name: "invalid", kind: "boolean", type: "boolean", default: false, description: "Marca visual y ARIA de estado inválido (también se activa con Angular Forms)." },
       { name: "inputId", kind: "string", type: "string", default: "", description: "Id del input; se genera uno estable si no se provee.", control: false },
       { name: "checked", kind: "boolean", type: "boolean (model)", default: false, description: "Estado del switch (two-way: `[(checked)]`)." }
     ],
@@ -1642,6 +1657,7 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "ariaLabel", kind: "string", type: "string", default: "", description: "`aria-label` cuando no hay `label` visible." },
       { name: "size", kind: "enum", type: "CbSize", options: ["sm", "md", "lg"], default: "md", description: "Tamaño." },
       { name: "disabled", kind: "boolean", type: "boolean", default: false, description: "Deshabilitado de forma declarativa (se combina con Angular Forms)." },
+      { name: "invalid", kind: "boolean", type: "boolean", default: false, description: "Marca visual y ARIA de estado inválido (también se activa con Angular Forms)." },
       { name: "inputId", kind: "string", type: "string", default: "", description: "Id del input; se genera uno estable si no se provee.", control: false }
     ],
     events: [
@@ -1658,6 +1674,7 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "offIcon", kind: "string", type: "string", default: "", description: "" },
       { name: "size", kind: "enum", type: "CbSize", options: ["sm", "md", "lg"], default: "md", description: "" },
       { name: "disabled", kind: "boolean", type: "boolean", default: false, description: "" },
+      { name: "invalid", kind: "boolean", type: "boolean", default: false, description: "Marca visual y ARIA de estado inválido (también se activa con Angular Forms)." },
       { name: "ariaLabel", kind: "string", type: "string", default: "", description: "" },
       { name: "inputId", kind: "string", type: "string", default: "", description: "", control: false },
       { name: "value", kind: "boolean", type: "boolean (model)", default: false, description: "" }
@@ -1713,6 +1730,7 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "nodes", kind: "string", type: "CbTreeSelectNode[]", default: [{ key: '1', label: 'Documents', icon: 'folder', children: [{ key: '1-1', label: 'Invoices' }, { key: '1-2', label: 'Reports' }] }, { key: '2', label: 'Pictures' }, { key: '3', label: 'Movies' }], description: "", control: false },
       { name: "placeholder", kind: "string", type: "string", default: "Seleccionar nodo…", description: "" },
       { name: "disabled", kind: "boolean", type: "boolean", default: false, description: "" },
+      { name: "invalid", kind: "boolean", type: "boolean", default: false, description: "Marca visual y ARIA de estado inválido (también se activa con Angular Forms)." },
       { name: "value", kind: "string", type: "string | null (model)", default: "", description: "" }
     ]
   },

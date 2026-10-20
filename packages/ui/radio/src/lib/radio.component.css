@@ -104,3 +104,8 @@
 .cb-radio__label {
   line-height: var(--cb-line-height-normal);
 }
+
+/* Estado inválido (manual o Angular Forms) */
+.cb-radio.cb-is-invalid .cb-radio__circle {
+  border-color: var(--cb-color-danger);
+}

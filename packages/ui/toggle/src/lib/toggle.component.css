@@ -119,3 +119,8 @@
 .cb-toggle__label {
   line-height: var(--cb-line-height-normal);
 }
+
+/* Estado inválido (manual o Angular Forms) */
+.cb-toggle.cb-is-invalid .cb-toggle__track {
+  box-shadow: 0 0 0 2px var(--cb-color-danger);
+}

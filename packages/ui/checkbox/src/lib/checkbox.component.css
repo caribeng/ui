@@ -104,3 +104,8 @@
 .cb-checkbox__label {
   line-height: var(--cb-line-height-normal);
 }
+
+.cb-checkbox__required {
+  color: var(--cb-color-danger);
+  margin-left: 2px;
+}

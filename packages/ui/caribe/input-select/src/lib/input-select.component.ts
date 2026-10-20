@@ -6,8 +6,10 @@ import {
   input,
   model,
   signal,
+  booleanAttribute,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { cbFieldState } from '@caribeng/ui';
 
 export interface CbInputSelectOption {
   label: string;
@@ -43,6 +45,9 @@ export interface CbInputSelectOption {
       <div class="cb-input-select__wrap">
         <select
           class="cb-input-select__field"
+          [class.cb-is-invalid]="fieldState.invalid()"
+          [attr.aria-invalid]="fieldState.invalid() ? 'true' : null"
+          [attr.aria-required]="fieldState.required() || null"
           [value]="value()"
           [disabled]="disabled() || cvaDisabled()"
           (change)="onSelect($event)"
@@ -66,6 +71,10 @@ export class CbInputSelect implements ControlValueAccessor {
   readonly placeholder = input<string>('Seleccione una opción');
   readonly options = input<readonly CbInputSelectOption[]>([]);
   readonly disabled = input<boolean>(false);
+  /** Marca visual y ARIA de estado inválido (también se activa con Angular Forms). */
+  readonly invalid = input(false, { transform: booleanAttribute });
+  /** Estado de validación: inputs manuales + estado de Angular Forms. */
+  protected readonly fieldState = cbFieldState({ invalid: () => this.invalid() });
 
   readonly value = model<string>('');
   protected readonly cvaDisabled = signal(false);

@@ -9,7 +9,7 @@ import {
   signal,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
-import type { CbSize } from '@caribeng/ui';
+import { cbFieldState, type CbSize } from '@caribeng/ui';
 
 export type CbInputType =
   | 'text'
@@ -50,7 +50,7 @@ let nextUid = 0;
     @if (label()) {
       <label class="cb-input__label" [attr.for]="inputId()">
         {{ label() }}
-        @if (required()) {
+        @if (fieldState.required()) {
           <span class="cb-input__required" aria-hidden="true">*</span>
         }
       </label>
@@ -59,7 +59,7 @@ let nextUid = 0;
     <input
       class="cb-input__field"
       [class]="'cb-input__field--' + size()"
-      [class.cb-is-invalid]="invalid()"
+      [class.cb-is-invalid]="fieldState.invalid()"
       [class.cb-is-disabled]="isDisabled()"
       [id]="inputId()"
       [type]="type()"
@@ -67,15 +67,15 @@ let nextUid = 0;
       [placeholder]="placeholder()"
       [disabled]="isDisabled()"
       [readonly]="readonly()"
-      [required]="required()"
+      [required]="fieldState.required()"
       [attr.inputmode]="inputmode()"
-      [attr.aria-invalid]="invalid() ? 'true' : null"
+      [attr.aria-invalid]="fieldState.invalid() ? 'true' : null"
       [attr.aria-describedby]="describedBy()"
       (input)="handleInput($event)"
       (blur)="handleBlur()"
     />
 
-    @if (invalid() && error()) {
+    @if (fieldState.invalid() && error()) {
       <p class="cb-input__message cb-input__message--error" [id]="errorId()" role="alert">
         {{ error() }}
       </p>
@@ -109,6 +109,11 @@ export class CbInput implements ControlValueAccessor {
   readonly readonly = input<boolean, unknown>(false, { transform: toBoolean });
   /** Marca el campo como requerido (atributo + indicador visual). */
   readonly required = input<boolean, unknown>(false, { transform: toBoolean });
+  /** Estado de validación: inputs manuales + estado de Angular Forms. */
+  protected readonly fieldState = cbFieldState({
+    invalid: () => this.invalid(),
+    required: () => this.required(),
+  });
   /** `inputmode` para teclados móviles. */
   readonly inputmode = input<string | null>(null);
   /** Deshabilitado de forma declarativa (se combina con Angular Forms). */
@@ -124,7 +129,7 @@ export class CbInput implements ControlValueAccessor {
   protected readonly errorId = computed(() => `${this.inputId()}-error`);
   protected readonly hintId = computed(() => `${this.inputId()}-hint`);
   protected readonly describedBy = computed(() => {
-    if (this.invalid() && this.error()) return this.errorId();
+    if (this.fieldState.invalid() && this.error()) return this.errorId();
     if (this.hint()) return this.hintId();
     return null;
   });

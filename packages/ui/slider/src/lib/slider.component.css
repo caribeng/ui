@@ -64,3 +64,8 @@
 :host-context([data-theme='dark']) .cb-slider__track {
   background-color: var(--cb-color-surface-300);
 }
+
+/* Estado inválido (manual o Angular Forms) */
+:host(.cb-is-invalid) .cb-slider__track {
+  box-shadow: 0 0 0 2px var(--cb-color-danger);
+}

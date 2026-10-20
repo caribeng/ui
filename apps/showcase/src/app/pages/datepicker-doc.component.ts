@@ -72,7 +72,7 @@ import { DOC_A11Y } from '../components/doc-a11y-registry';
     <doc-section
       id="validation"
       title="Validación · Reactive Forms"
-      description="Con formControl, required y error se muestra el mensaje cuando la fecha falta; minDate limita las fechas anteriores."
+      description="Con formControl y Validators.required, el * y el mensaje de error aparecen solos; minDate limita las fechas anteriores."
       [code]="validationCode"
       [codeTs]="validationTs"
     >
@@ -82,8 +82,6 @@ import { DOC_A11Y } from '../components/doc-a11y-registry';
           label="Fecha de la cita"
           placeholder="Selecciona una fecha"
           [minDate]="hoy"
-          [required]="true"
-          [invalid]="cita.invalid && cita.touched"
           error="La fecha es obligatoria."
         />
       </div>
@@ -136,8 +134,7 @@ export class MyComponent {}`;
 
   protected readonly validationCode = `<cb-datepicker
   [formControl]="cita"
-  label="Fecha de la cita" [minDate]="hoy" [required]="true"
-  [invalid]="cita.invalid && cita.touched"
+  label="Fecha de la cita" [minDate]="hoy"
   error="La fecha es obligatoria." />`;
   protected readonly validationTs = `cita = new FormControl<Date | null>(null, [Validators.required]);`;
 

@@ -24,3 +24,11 @@
   border-color: var(--cb-color-primary-500);
   box-shadow: 0 0 0 2px color-mix(in srgb, var(--cb-color-primary-500) 20%, transparent);
 }
+
+/* Estado inválido (manual o Angular Forms) */
+.cb-input-otp__slot.cb-is-invalid {
+  border-color: var(--cb-color-danger);
+}
+.cb-input-otp__slot.cb-is-invalid:focus {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--cb-color-danger) 25%, transparent);
+}

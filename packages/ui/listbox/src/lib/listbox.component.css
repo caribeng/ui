@@ -96,3 +96,8 @@
 :host-context([data-theme='dark']) .cb-listbox__option.cb-is-selected:not(.cb-is-active) {
   background-color: color-mix(in srgb, var(--cb-color-primary-500) 18%, transparent);
 }
+
+/* Estado inválido (manual o Angular Forms) */
+.cb-listbox.cb-is-invalid {
+  border-color: var(--cb-color-danger);
+}

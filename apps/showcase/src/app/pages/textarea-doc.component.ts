@@ -73,8 +73,6 @@ import { DOC_A11Y } from '../components/doc-a11y-registry';
           [formControl]="mensaje"
           label="Mensaje"
           placeholder="Mínimo 10 caracteres"
-          [required]="true"
-          [invalid]="mensaje.invalid && mensaje.touched"
           error="El mensaje debe tener al menos 10 caracteres."
         />
       </div>
@@ -145,8 +143,6 @@ export class MyComponent {}`;
   [formControl]="mensaje"
   label="Mensaje"
   placeholder="Mínimo 10 caracteres"
-  [required]="true"
-  [invalid]="mensaje.invalid && mensaje.touched"
   error="El mensaje debe tener al menos 10 caracteres." />`;
 
   protected readonly validationTs = `mensaje = new FormControl('', {

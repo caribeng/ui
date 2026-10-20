@@ -12,7 +12,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
-import type { CbSeverity } from '@caribeng/ui';
+import { cbFieldState, type CbSeverity } from '@caribeng/ui';
 
 let nextUid = 0;
 
@@ -36,6 +36,7 @@ const START = 135; // ángulo de pantalla donde empieza el arco (abajo-izquierda
   encapsulation: ViewEncapsulation.Emulated,
   host: {
     class: 'cb-knob',
+    '[class.cb-is-invalid]': 'fieldState.invalid()',
     '[class]': "'cb-knob cb-knob--' + severity()",
     '[class.cb-is-disabled]': 'isDisabled()',
   },
@@ -54,6 +55,7 @@ const START = 135; // ángulo de pantalla donde empieza el arco (abajo-izquierda
       [attr.height]="size()"
       viewBox="0 0 100 100"
       role="slider"
+      [attr.aria-invalid]="fieldState.invalid() ? 'true' : null"
       [attr.tabindex]="isDisabled() ? -1 : 0"
       [attr.aria-valuemin]="min()"
       [attr.aria-valuemax]="max()"
@@ -101,6 +103,10 @@ export class CbKnob implements ControlValueAccessor {
   /** Sufijo del texto central (p. ej. `%`). */
   readonly suffix = input<string>('');
   readonly disabled = input<boolean, unknown>(false, { transform: toBoolean });
+  /** Marca visual y ARIA de estado inválido (también se activa con Angular Forms). */
+  readonly invalid = input<boolean, unknown>(false, { transform: toBoolean });
+  /** Estado de validación: inputs manuales + estado de Angular Forms. */
+  protected readonly fieldState = cbFieldState({ invalid: () => this.invalid() });
   readonly ariaLabel = input<string>('');
   readonly inputId = input<string>(`cb-knob-${++nextUid}`);
 

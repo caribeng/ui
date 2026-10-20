@@ -44,3 +44,8 @@
 :host-context([data-theme='dark']) .cb-knob__track {
   stroke: var(--cb-color-surface-300);
 }
+
+/* Estado inválido (manual o Angular Forms) */
+:host(.cb-is-invalid) {
+  --_color: var(--cb-color-danger-500);
+}

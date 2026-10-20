@@ -1144,8 +1144,8 @@ export const ES_EN: Record<string, string> = {
     'invalid sets the visual and ARIA error state; disabled prevents interaction.',
   'icon añade un icono al chip y removable muestra un botón para quitarlo.':
     'icon adds an icon to the chip and removable shows a button to remove it.',
-  'Funciona con formControl; usa invalid para reflejar el estado de validación.':
-    'Works with formControl; use invalid to reflect the validation state.',
+  'Con formControl el estado de error se aplica automáticamente cuando el control es inválido y el usuario ya lo tocó.':
+    'With formControl the error state is applied automatically once the control is invalid and the user has touched it.',
   'progress indica el porcentaje completado y label el texto accesible.':
     'progress sets the completed percentage and label the accessible text.',
   'Guía paso a paso que resalta elementos de la interfaz a partir del arreglo steps.':
@@ -1160,8 +1160,8 @@ export const ES_EN: Record<string, string> = {
     'columns defines the columns and rows the data of each row.',
   'Muestra el arreglo value en una vista de lista o cuadrícula.':
     'Shows the value array in a list or grid layout.',
-  'Con formControl, required y error se muestra el mensaje cuando la fecha falta; minDate limita las fechas anteriores.':
-    'With formControl, required and error the message is shown when the date is missing; minDate blocks earlier dates.',
+  'Con formControl y Validators.required, el * y el mensaje de error aparecen solos; minDate limita las fechas anteriores.':
+    'With formControl and Validators.required, the * and the error message appear automatically; minDate blocks earlier dates.',
   'disabled muestra el valor sin permitir cambiarlo.':
     'disabled shows the value without allowing changes.',
   'Separa contenido con una línea horizontal.': 'Separates content with a horizontal line.',
@@ -1226,8 +1226,8 @@ export const ES_EN: Record<string, string> = {
     'Toggles between a display content (cb-inplace-display) and an editable one (cb-inplace-content).',
   'label define la etiqueta y la fecha se enlaza con [(value)].':
     'label sets the label and the date is bound with [(value)].',
-  'Con formControl, min, max y required se valida el rango; error muestra el mensaje.':
-    'With formControl, min, max and required the range is validated; error shows the message.',
+  'min y max validan el rango; con formControl, el * y el mensaje de error aparecen solos.':
+    'min and max validate the range; with formControl, the * and the error message appear automatically.',
   'disabled muestra el valor sin permitir editarlo, incluidos los botones.':
     'disabled shows the value without allowing edits, buttons included.',
   'El texto de búsqueda se enlaza con [(value)] para filtrar en tiempo real.':
@@ -1349,11 +1349,11 @@ export const ES_EN: Record<string, string> = {
     'title sets the header and rows the receipt data.',
 
   // --- Accesibilidad (doc-a11y-registry) ---
+  'Cuando el campo es inválido (por `invalid` o porque su FormControl es inválido y ya fue tocado) se aplica `aria-invalid="true"`, y `aria-describedby` enlaza el texto de ayuda o el mensaje de error, que se anuncia con `role="alert"`.':
+    'When the field is invalid (through `invalid`, or because its FormControl is invalid and has been touched), `aria-invalid="true"` is applied, and `aria-describedby` links the help text or the error message, which is announced with `role="alert"`.',
   'Accesibilidad': 'Accessibility',
   'Usa el elemento nativo, por lo que se anuncia como campo de texto. Con `label` se muestra una etiqueta asociada al campo; si no hay etiqueta visible, añade `aria-label`.':
     'Uses the native element, so it is announced as a text field. With `label` a label associated with the field is shown; if there is no visible label, add `aria-label`.',
-  'Cuando `invalid` es true se aplica `aria-invalid="true"`, y `aria-describedby` enlaza el texto de ayuda o el mensaje de error, que se anuncia con `role="alert"`.':
-    'When `invalid` is true `aria-invalid="true"` is applied, and `aria-describedby` links the help text or the error message, which is announced with `role="alert"`.',
   'Mueve el foco al campo.': 'Moves focus to the field.',
   'El panel usa `role="listbox"`; cada opción tiene `role="option"` con `aria-selected` y `aria-disabled`. `aria-activedescendant` indica la opción activa mientras se navega con el teclado.':
     'The panel uses `role="listbox"`; each option has `role="option"` with `aria-selected` and `aria-disabled`. `aria-activedescendant` points to the active option while navigating with the keyboard.',
@@ -1519,6 +1519,9 @@ export const ES_EN: Record<string, string> = {
   'Activa y enfoca la pestaña siguiente o anterior (de forma circular), omitiendo las deshabilitadas.':
     'Activates and focuses the next or previous tab (wrapping around), skipping disabled ones.',
   'Activa y enfoca la primera o la última pestaña.': 'Activates and focuses the first or last tab.',
+  // --- API: estado de validación automático ---
+  'Marca visual y ARIA de estado inválido (también se activa con Angular Forms).':
+    'Visual and ARIA invalid state (also enabled automatically by Angular Forms).',
 
   // --- API de Select / MultiSelect (etiquetado accesible) ---
   'Nombre accesible del disparador cuando no hay etiqueta visible.':

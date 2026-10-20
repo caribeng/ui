@@ -43,3 +43,8 @@
 :host-context([data-theme='dark']) .cb-rating__star--on {
   color: var(--cb-color-warning-400);
 }
+
+/* Estado inválido (manual o Angular Forms) */
+:host(.cb-is-invalid) .cb-rating__star:not(.cb-rating__star--on) {
+  color: var(--cb-color-danger);
+}

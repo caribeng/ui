@@ -6,8 +6,10 @@ import {
   input,
   model,
   signal,
+  booleanAttribute,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { cbFieldState } from '@caribeng/ui';
 
 /**
  * Input-date de Caribe Design: campo de fecha nativo estilizado con etiqueta,
@@ -37,6 +39,9 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
       }
       <input
         class="cb-input-date__field"
+        [class.cb-is-invalid]="fieldState.invalid()"
+        [attr.aria-invalid]="fieldState.invalid() ? 'true' : null"
+        [attr.aria-required]="fieldState.required() || null"
         type="date"
         [value]="value()"
         [attr.min]="min() || null"
@@ -54,6 +59,10 @@ export class CbInputDate implements ControlValueAccessor {
   readonly min = input<string>('');
   readonly max = input<string>('');
   readonly disabled = input<boolean>(false);
+  /** Marca visual y ARIA de estado inválido (también se activa con Angular Forms). */
+  readonly invalid = input(false, { transform: booleanAttribute });
+  /** Estado de validación: inputs manuales + estado de Angular Forms. */
+  protected readonly fieldState = cbFieldState({ invalid: () => this.invalid() });
 
   readonly value = model<string>('');
   protected readonly cvaDisabled = signal(false);

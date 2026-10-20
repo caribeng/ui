@@ -12,7 +12,7 @@ import {
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
 import { OverlayModule, type ConnectedPosition } from '@angular/cdk/overlay';
-import type { CbSize } from '@caribeng/ui';
+import { cbFieldState, type CbSize } from '@caribeng/ui';
 
 let nextUid = 0;
 
@@ -52,7 +52,7 @@ const DEFAULT_PRESETS = [
       class="cb-colorpicker__trigger"
       [class]="'cb-colorpicker__trigger--' + size()"
       [class.cb-is-open]="open()"
-      [class.cb-is-invalid]="invalid()"
+      [class.cb-is-invalid]="fieldState.invalid()"
       [class.cb-is-disabled]="isDisabled()"
       [disabled]="isDisabled()"
       [attr.aria-haspopup]="'dialog'"
@@ -145,6 +145,8 @@ export class CbColorPicker implements ControlValueAccessor {
   /** Colores predefinidos; `[]` los oculta. */
   readonly presets = input<readonly string[]>(DEFAULT_PRESETS);
   readonly invalid = input<boolean, unknown>(false, { transform: toBoolean });
+  /** Estado de validación: inputs manuales + estado de Angular Forms. */
+  protected readonly fieldState = cbFieldState({ invalid: () => this.invalid() });
   readonly disabled = input<boolean, unknown>(false, { transform: toBoolean });
   readonly ariaLabel = input<string>('');
   readonly inputId = input<string>(`cb-colorpicker-${++nextUid}`);

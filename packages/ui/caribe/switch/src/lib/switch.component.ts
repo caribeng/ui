@@ -10,6 +10,7 @@ import {
   signal,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
+import { cbFieldState } from '@caribeng/ui';
 
 let nextUid = 0;
 
@@ -39,18 +40,20 @@ let nextUid = 0;
   template: `
     <label
       class="cb-switch"
+      [class.cb-is-invalid]="fieldState.invalid()"
       [class.cb-switch--left-label]="leftLabel()"
       [class.cb-is-disabled]="isDisabled()"
     >
       <input
         type="checkbox"
         class="cb-switch__input"
+        [attr.aria-invalid]="fieldState.invalid() ? 'true' : null"
         role="switch"
         [id]="inputId()"
         [checked]="checked()"
         [disabled]="isDisabled()"
         [attr.aria-checked]="checked()"
-        [attr.aria-required]="required() || null"
+        [attr.aria-required]="fieldState.required() || null"
         [attr.aria-label]="label() ? null : 'Interruptor'"
         (change)="toggle()"
         (blur)="handleBlur()"
@@ -74,6 +77,13 @@ export class CbSwitch implements ControlValueAccessor {
   readonly required = input(false, { transform: booleanAttr });
   /** Deshabilitado declarativo (se combina con Angular Forms). */
   readonly disabled = input(false, { transform: booleanAttr });
+  /** Marca visual y ARIA de estado inválido (también se activa con Angular Forms). */
+  readonly invalid = input(false, { transform: booleanAttr });
+  /** Estado de validación: inputs manuales + estado de Angular Forms. */
+  protected readonly fieldState = cbFieldState({
+    invalid: () => this.invalid(),
+    required: () => this.required(),
+  });
   /** Id del input; se genera uno estable si no se provee. */
   readonly inputId = input<string>(`cb-switch-${++nextUid}`);
 

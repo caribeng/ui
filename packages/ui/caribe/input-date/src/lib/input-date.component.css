@@ -50,3 +50,8 @@
   border-color: var(--cb-color-surface-600, #475569);
   color-scheme: dark;
 }
+
+/* Estado inválido (manual o Angular Forms) */
+.cb-input-date__field.cb-is-invalid {
+  border-color: var(--cb-color-danger);
+}

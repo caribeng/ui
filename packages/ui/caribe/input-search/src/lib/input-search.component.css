@@ -72,3 +72,8 @@
   background-color: var(--cb-color-surface-900, #0f172a);
   border-color: var(--cb-color-surface-600, #475569);
 }
+
+/* Estado inválido (manual o Angular Forms) */
+.cb-input-search.cb-is-invalid {
+  border-color: var(--cb-color-danger);
+}

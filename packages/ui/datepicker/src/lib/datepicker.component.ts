@@ -13,7 +13,7 @@ import {
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
 import { OverlayModule, type ConnectedPosition } from '@angular/cdk/overlay';
-import type { CbSize } from '@caribeng/ui';
+import { cbFieldState, type CbSize } from '@caribeng/ui';
 import { CbIcon } from '@caribeng/ui/icon';
 
 let nextUid = 0;
@@ -56,7 +56,7 @@ interface DayCell {
     @if (label()) {
       <label class="cb-datepicker__label" [attr.for]="inputId()">
         {{ label() }}
-        @if (required()) {
+        @if (fieldState.required()) {
           <span class="cb-datepicker__required" aria-hidden="true">*</span>
         }
       </label>
@@ -67,7 +67,7 @@ interface DayCell {
       class="cb-datepicker"
       [class]="'cb-datepicker--' + size()"
       [class.cb-is-open]="open()"
-      [class.cb-is-invalid]="invalid()"
+      [class.cb-is-invalid]="fieldState.invalid()"
       [class.cb-is-disabled]="isDisabled()"
     >
       <input
@@ -79,12 +79,12 @@ interface DayCell {
         role="combobox"
         aria-haspopup="dialog"
         [attr.aria-expanded]="open()"
-        [attr.aria-invalid]="invalid() ? 'true' : null"
+        [attr.aria-invalid]="fieldState.invalid() ? 'true' : null"
         [attr.aria-describedby]="describedBy()"
         [value]="display()"
         [placeholder]="placeholder()"
         [disabled]="isDisabled()"
-        [required]="required()"
+        [required]="fieldState.required()"
         (click)="toggle()"
         (keydown)="onFieldKeydown($event)"
         (blur)="onBlur()"
@@ -183,7 +183,7 @@ interface DayCell {
       </div>
     </ng-template>
 
-    @if (invalid() && error()) {
+    @if (fieldState.invalid() && error()) {
       <p class="cb-datepicker__message cb-datepicker__message--error" [id]="errorId()" role="alert">
         {{ error() }}
       </p>
@@ -206,6 +206,11 @@ export class CbDatepicker implements ControlValueAccessor {
   readonly size = input<CbSize>('md');
   readonly invalid = input<boolean, unknown>(false, { transform: toBoolean });
   readonly required = input<boolean, unknown>(false, { transform: toBoolean });
+  /** Estado de validación: inputs manuales + estado de Angular Forms. */
+  protected readonly fieldState = cbFieldState({
+    invalid: () => this.invalid(),
+    required: () => this.required(),
+  });
   readonly disabled = input<boolean, unknown>(false, { transform: toBoolean });
   readonly inputId = input<string>(`cb-datepicker-${++nextUid}`);
 
@@ -236,7 +241,7 @@ export class CbDatepicker implements ControlValueAccessor {
   protected readonly errorId = computed(() => `${this.inputId()}-error`);
   protected readonly hintId = computed(() => `${this.inputId()}-hint`);
   protected readonly describedBy = computed(() => {
-    if (this.invalid() && this.error()) return this.errorId();
+    if (this.fieldState.invalid() && this.error()) return this.errorId();
     if (this.hint()) return this.hintId();
     return null;
   });

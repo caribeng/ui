@@ -70,3 +70,8 @@
 .cb-cascade-select__option.cb-is-selected {
   background: color-mix(in srgb, var(--cb-color-primary-500) 14%, transparent);
 }
+
+/* Estado inválido (manual o Angular Forms) */
+.cb-cascade-select__trigger.cb-is-invalid {
+  border-color: var(--cb-color-danger);
+}

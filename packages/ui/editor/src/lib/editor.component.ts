@@ -10,9 +10,11 @@ import {
   model,
   signal,
   viewChild,
+  booleanAttribute,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { CbIcon } from '@caribeng/ui/icon';
+import { cbFieldState } from '@caribeng/ui';
 
 /**
  * Editor de CaribeNG: editor de texto enriquecido sin dependencias de terceros,
@@ -33,6 +35,7 @@ import { CbIcon } from '@caribeng/ui/icon';
   ],
   host: {
     class: 'cb-editor',
+    '[class.cb-is-invalid]': 'fieldState.invalid()',
     '[class.cb-is-disabled]': 'isDisabled()',
   },
   template: `
@@ -113,6 +116,8 @@ import { CbIcon } from '@caribeng/ui/icon';
       #surface
       class="cb-editor__surface"
       role="textbox"
+      [attr.aria-invalid]="fieldState.invalid() ? 'true' : null"
+      [attr.aria-required]="fieldState.required() || null"
       aria-multiline="true"
       [attr.contenteditable]="!isDisabled()"
       [attr.data-placeholder]="placeholder()"
@@ -134,6 +139,10 @@ export class CbEditor implements ControlValueAccessor {
   readonly placeholder = input<string>('Escribe aquí…');
   readonly height = input<string>('180px');
   readonly disabled = input<boolean>(false);
+  /** Marca visual y ARIA de estado inválido (también se activa con Angular Forms). */
+  readonly invalid = input(false, { transform: booleanAttribute });
+  /** Estado de validación: inputs manuales + estado de Angular Forms. */
+  protected readonly fieldState = cbFieldState({ invalid: () => this.invalid() });
 
   readonly value = model<string>('');
 

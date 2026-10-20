@@ -10,7 +10,7 @@ import {
   signal,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
-import type { CbSize } from '@caribeng/ui';
+import { cbFieldState, type CbSize } from '@caribeng/ui';
 
 let nextUid = 0;
 
@@ -30,6 +30,7 @@ let nextUid = 0;
   encapsulation: ViewEncapsulation.Emulated,
   host: {
     class: 'cb-selectbutton',
+    '[class.cb-is-invalid]': 'fieldState.invalid()',
     role: 'group',
     '[attr.aria-label]': 'ariaLabel() || null',
     '[attr.aria-disabled]': 'isDisabled() ? "true" : null',
@@ -66,6 +67,10 @@ export class CbSelectButton implements ControlValueAccessor {
   readonly multiple = input<boolean, unknown>(false, { transform: toBoolean });
   readonly size = input<CbSize>('md');
   readonly disabled = input<boolean, unknown>(false, { transform: toBoolean });
+  /** Marca visual y ARIA de estado inválido (también se activa con Angular Forms). */
+  readonly invalid = input<boolean, unknown>(false, { transform: toBoolean });
+  /** Estado de validación: inputs manuales + estado de Angular Forms. */
+  protected readonly fieldState = cbFieldState({ invalid: () => this.invalid() });
   readonly ariaLabel = input<string>('');
   readonly inputId = input<string>(`cb-selectbutton-${++nextUid}`);
 

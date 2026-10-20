@@ -9,6 +9,7 @@ import {
   signal,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { cbFieldState } from '@caribeng/ui';
 
 export type CbPasswordSize = 'sm' | 'md' | 'lg';
 export type CbPasswordStrength = 'none' | 'weak' | 'medium' | 'strong';
@@ -34,7 +35,7 @@ export type CbPasswordStrength = 'none' | 'weak' | 'medium' | 'strong';
     '[class.cb-password--md]': 'size() === "md"',
     '[class.cb-password--lg]': 'size() === "lg"',
     '[class.cb-is-disabled]': 'isDisabled()',
-    '[class.cb-is-invalid]': 'invalid()',
+    '[class.cb-is-invalid]': 'fieldState.invalid()',
   },
   template: `
     <div class="cb-password__field">
@@ -45,7 +46,8 @@ export type CbPasswordStrength = 'none' | 'weak' | 'medium' | 'strong';
         [value]="value()"
         [placeholder]="placeholder()"
         [disabled]="isDisabled()"
-        [attr.aria-invalid]="invalid() ? 'true' : null"
+        [attr.aria-invalid]="fieldState.invalid() ? 'true' : null"
+        [attr.aria-required]="fieldState.required() || null"
         [attr.autocomplete]="autocomplete()"
         (input)="onInput($event)"
         (blur)="onBlur()"
@@ -104,6 +106,8 @@ export class CbPassword implements ControlValueAccessor {
   readonly placeholder = input<string>('');
   readonly disabled = input<boolean>(false);
   readonly invalid = input<boolean>(false);
+  /** Estado de validación: inputs manuales + estado de Angular Forms. */
+  protected readonly fieldState = cbFieldState({ invalid: () => this.invalid() });
   readonly toggleMask = input<boolean>(true);
   readonly feedback = input<boolean>(true);
   readonly size = input<CbPasswordSize>('md');

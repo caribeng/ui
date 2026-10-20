@@ -109,3 +109,8 @@
   height: auto;
   border-radius: var(--cb-radius-sm, 4px);
 }
+
+/* Estado inválido (manual o Angular Forms) */
+:host(.cb-is-invalid) {
+  border-color: var(--cb-color-danger);
+}

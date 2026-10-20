@@ -92,7 +92,6 @@ import { DOC_A11Y } from '../components/doc-a11y-registry';
           [options]="colores"
           [formControl]="colorCtrl"
           placeholder="Requerido"
-          [invalid]="colorCtrl.invalid && colorCtrl.touched"
         />
       </div>
     </doc-section>
@@ -182,8 +181,7 @@ color = signal<string | null>(null);`;
   protected readonly validationCode = `<cb-select
   [options]="colores"
   [formControl]="colorCtrl"
-  placeholder="Requerido"
-  [invalid]="colorCtrl.invalid && colorCtrl.touched" />`;
+  placeholder="Requerido" />`;
   protected readonly validationTs = `colorCtrl = new FormControl<string | null>(null, {
   validators: [Validators.required],
 });`;
