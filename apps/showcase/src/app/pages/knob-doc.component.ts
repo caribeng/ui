@@ -57,7 +57,7 @@ export class KnobDocComponent {
   protected readonly installCode = `npm install @caribeng/ui`;
   protected readonly importCode = `import { CbKnob } from '@caribeng/ui/knob';`;
   protected readonly basicCode = `<cb-knob [(value)]="volumen" suffix="%" />`;
-  protected readonly sevCode = `<cb-knob [(value)]="v" severity="success" [size]="80" />
-<cb-knob [(value)]="v" severity="danger" [size]="120" />`;
+  protected readonly sevCode = `<cb-knob [(value)]="a" severity="success" [size]="80" />
+<cb-knob [(value)]="b" severity="danger" [size]="120" />`;
   protected readonly rangeCode = `<cb-knob [(value)]="temp" [min]="16" [max]="30" [step]="0.5" suffix="°" />`;
 }

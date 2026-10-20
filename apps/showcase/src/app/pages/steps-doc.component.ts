@@ -26,5 +26,5 @@ export class StepsDocComponent {
   protected readonly steps: CbStepItem[] = [{ label: 'Cuenta' }, { label: 'Entrega' }, { label: 'Pago' }, { label: 'Confirmación' }];
   protected readonly installCode = `npm install @caribeng/ui`;
   protected readonly importCode = `import { CbSteps } from '@caribeng/ui/steps';`;
-  protected readonly basicCode = `<cb-steps [steps]="steps" [(activeIndex)]="activeIndex" />`;
+  protected readonly basicCode = `<cb-steps [steps]="steps" [(activeIndex)]="active" />`;
 }

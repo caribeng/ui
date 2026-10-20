@@ -51,5 +51,5 @@ export class SelectbuttonDocComponent {
   protected readonly installCode = `npm install @caribeng/ui`;
   protected readonly importCode = `import { CbSelectButton } from '@caribeng/ui/selectbutton';`;
   protected readonly singleCode = `<cb-selectbutton [(value)]="vista" [options]="['Día','Semana','Mes']" />`;
-  protected readonly multiCode = `<cb-selectbutton [(value)]="dias" [options]="opciones" multiple />`;
+  protected readonly multiCode = `<cb-selectbutton [(value)]="dias" [options]="opcionesDias" multiple />`;
 }

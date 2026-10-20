@@ -5,6 +5,18 @@
   "sourceRoot": "apps/showcase/src",
   "tags": ["type:app", "scope:showcase"],
   "targets": {
+    "doc-code": {
+      "executor": "nx:run-commands",
+      "inputs": [
+        "{projectRoot}/src/app/pages/**/*.ts",
+        "{projectRoot}/scripts/gen-doc-code.mjs",
+        "{workspaceRoot}/packages/ui/**/*.ts"
+      ],
+      "outputs": ["{projectRoot}/public/doc-code.json"],
+      "options": {
+        "command": "node apps/showcase/scripts/gen-doc-code.mjs"
+      }
+    },
     "build": {
       "executor": "@angular/build:application",
       "outputs": ["{workspaceRoot}/dist/apps/showcase"],
@@ -35,7 +47,8 @@
           "sourceMap": true
         }
       },
-      "defaultConfiguration": "production"
+      "defaultConfiguration": "production",
+      "dependsOn": ["doc-code"]
     },
     "serve": {
       "executor": "@angular/build:dev-server",

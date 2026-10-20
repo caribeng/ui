@@ -26,7 +26,7 @@ export class TabmenuDocComponent {
   protected readonly items: CbTabMenuItem[] = [{ label: 'Resumen', icon: 'house' }, { label: 'Actividad', icon: 'clock' }, { label: 'Ajustes', icon: 'settings' }];
   protected readonly installCode = `npm install @caribeng/ui`;
   protected readonly importCode = `import { CbTabMenu } from '@caribeng/ui/tabmenu';`;
-  protected readonly basicCode = `<cb-tabmenu [items]="items" [(activeIndex)]="activeIndex" />`;
+  protected readonly basicCode = `<cb-tabmenu [items]="items" [(activeIndex)]="active" />`;
   protected readonly itemsCode = `items: CbTabMenuItem[] = [
   { label: 'Resumen', url: '/summary' },
   { label: 'Actividad', url: '/activity' },

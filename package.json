@@ -17,7 +17,8 @@
     "pack:verify": "npm pack --dry-run ./dist/packages/ui",
     "lint": "nx run-many -t lint",
     "showcase": "nx serve showcase",
-    "showcase:build": "nx build showcase"
+    "showcase:build": "nx build showcase",
+    "docs:code": "node apps/showcase/scripts/gen-doc-code.mjs"
   },
   "devDependencies": {
     "@angular/build": "22.0.5",

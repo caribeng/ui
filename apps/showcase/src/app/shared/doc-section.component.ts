@@ -10,9 +10,15 @@ import {
 import { CbIcon } from '@caribeng/ui/icon';
 import { CodeBlockComponent } from './code-block.component';
 import { TocService } from '../services/toc.service';
+import { DocCodeService } from '../services/doc-code.service';
 import { I18nService } from '../services/i18n.service';
 
-/** Bloque de documentación: título anclado, demo en vivo y código (Template/Component). */
+/**
+ * Bloque de documentación: título anclado, demo en vivo y código (HTML/TypeScript).
+ * La pestaña TypeScript muestra el componente standalone completo generado por
+ * `scripts/gen-doc-code.mjs`; un `codeTs` manual solo se usa si no hay generado
+ * o si ya es un componente completo (`@Component`).
+ */
 @Component({
   selector: 'doc-section',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -40,9 +46,9 @@ import { I18nService } from '../services/i18n.service';
           <ng-content />
         </div>
 
-        @if (code() || codeTs()) {
+        @if (code() || tsCode()) {
           <div class="doc-card__toolbar">
-            @if (code() && codeTs()) {
+            @if (code() && tsCode()) {
               <div class="doc-card__tabs">
                 <button
                   type="button"
@@ -50,7 +56,7 @@ import { I18nService } from '../services/i18n.service';
                   [class.doc-card__tab--active]="tab() === 'html'"
                   (click)="tab.set('html')"
                 >
-                  Template
+                  HTML
                 </button>
                 <button
                   type="button"
@@ -58,7 +64,7 @@ import { I18nService } from '../services/i18n.service';
                   [class.doc-card__tab--active]="tab() === 'ts'"
                   (click)="tab.set('ts')"
                 >
-                  Component
+                  TypeScript
                 </button>
               </div>
             }
@@ -76,8 +82,8 @@ import { I18nService } from '../services/i18n.service';
           @if (showCode()) {
             @if (currentTab() === 'html' && code()) {
               <doc-code-block [code]="code()!" lang="markup" />
-            } @else if (codeTs()) {
-              <doc-code-block [code]="codeTs()!" lang="typescript" />
+            } @else if (tsCode()) {
+              <doc-code-block [code]="tsCode()" lang="typescript" />
             }
           }
         }
@@ -88,6 +94,7 @@ import { I18nService } from '../services/i18n.service';
 })
 export class DocSectionComponent {
   private readonly toc = inject(TocService);
+  private readonly docCode = inject(DocCodeService);
   protected readonly i18n = inject(I18nService);
 
   readonly id = input.required<string>();
@@ -99,12 +106,18 @@ export class DocSectionComponent {
   protected readonly showCode = signal(false);
   protected readonly fsOpen = signal(false);
   protected readonly tab = signal<'html' | 'ts'>('html');
+  protected readonly tsCode = computed(() => {
+    const manual = this.codeTs();
+    if (manual.includes('@Component')) return manual;
+    return this.docCode.forHtml(this.code()) || manual;
+  });
   protected readonly currentTab = computed(() =>
     this.code() ? this.tab() : 'ts',
   );
 
   constructor() {
     afterNextRender(() => {
+      this.docCode.load();
       this.toc.register({ id: this.id(), label: this.i18n.auto(this.title()) });
     });
   }

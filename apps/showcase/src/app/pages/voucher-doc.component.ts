@@ -113,7 +113,7 @@ export class VoucherDocComponent {
   protected readonly exampleCode = `<cb-voucher title="Comprobante de pago" [rows]="details" />`;
   protected readonly composedCode = `<cb-transaction-status status="success" label="Transfer completed" />
 
-<cb-voucher title="Payment receipt" [rows]="rows" actionLabel="Share receipt">
+<cb-voucher title="Payment receipt" [rows]="advancedRows" actionLabel="Share receipt">
   Sent to savings account **** 4829.
 </cb-voucher>
 

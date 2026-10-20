@@ -84,9 +84,9 @@ export class SliderDocComponent {
   protected readonly importCode = `import { CbSlider } from '@caribeng/ui/slider';`;
   protected readonly basicCode = `<cb-slider [(value)]="volumen" ariaLabel="Volumen" />`;
   protected readonly stepCode = `<cb-slider [(value)]="temp" [min]="16" [max]="30" [step]="0.5" />`;
-  protected readonly sizesCode = `<cb-slider [(value)]="v" size="sm" />
-<cb-slider [(value)]="v" />
-<cb-slider [(value)]="v" size="lg" />`;
+  protected readonly sizesCode = `<cb-slider [(value)]="a" size="sm" />
+<cb-slider [(value)]="b" />
+<cb-slider [(value)]="c" size="lg" />`;
   protected readonly disabledCode = `<cb-slider [formControl]="bloqueado" />`;
   protected readonly disabledTs = `bloqueado = new FormControl({ value: 60, disabled: true });`;
 }

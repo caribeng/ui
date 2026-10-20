@@ -29,5 +29,5 @@ export class MegamenuDocComponent {
   ] }, { label: 'Servicios', groups: [{ label: 'Soporte', items: [{ label: 'Centro de ayuda' }] }] }];
   protected readonly installCode = `npm install @caribeng/ui`;
   protected readonly importCode = `import { CbMegaMenu } from '@caribeng/ui/megamenu';`;
-  protected readonly basicCode = `<cb-megamenu [items]="categories" (itemSelect)="onNavigate($event)" />`;
+  protected readonly basicCode = `<cb-megamenu [items]="items" (itemSelect)="onNavigate($event)" />`;
 }

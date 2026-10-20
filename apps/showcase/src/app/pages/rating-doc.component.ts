@@ -78,9 +78,9 @@ export class RatingDocComponent {
   protected readonly importCode = `import { CbRating } from '@caribeng/ui/rating';`;
   protected readonly basicCode = `<cb-rating formControlName="puntuacion" />`;
   protected readonly starsCode = `<cb-rating formControlName="puntuacion" [stars]="10" />`;
-  protected readonly sizesCode = `<cb-rating [(value)]="v" size="sm" />
-<cb-rating [(value)]="v" />
-<cb-rating [(value)]="v" size="lg" />`;
-  protected readonly readonlyCode = `<cb-rating [(value)]="v" [readonly]="true" />
-<cb-rating [(value)]="v" [disabled]="true" />`;
+  protected readonly sizesCode = `<cb-rating [(value)]="sm" size="sm" />
+<cb-rating [(value)]="md" />
+<cb-rating [(value)]="lg" size="lg" />`;
+  protected readonly readonlyCode = `<cb-rating [(value)]="fijo" [readonly]="true" />
+<cb-rating [(value)]="fijo" [disabled]="true" />`;
 }
