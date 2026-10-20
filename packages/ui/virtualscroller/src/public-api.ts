@@ -1,1 +1,5 @@
-export { CbVirtualScroller } from './lib/virtualscroller.component';
+export {
+  CbVirtualItemTemplate,
+  CbVirtualScroller,
+  type CbVirtualItemContext,
+} from './lib/virtualscroller.component';

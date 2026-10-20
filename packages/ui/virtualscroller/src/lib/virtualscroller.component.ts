@@ -1,2 +1,125 @@
-import{ChangeDetectionStrategy,Component,computed,input,signal}from'@angular/core';
-@Component({selector:'cb-virtualscroller',standalone:true,changeDetection:ChangeDetectionStrategy.OnPush,template:`<div class="cb-virtualscroller" [style.height.px]="viewportHeight()" (scroll)="onScroll($event)" role="list"><div [style.height.px]="offset()"></div>@for(item of visibleItems();track $index){<div class="cb-virtualscroller__item" role="listitem" [style.height.px]="itemSize()">{{item}}</div>}<div [style.height.px]="bottomSpace()"></div></div>`,styles:[`:host{display:block}.cb-virtualscroller{overflow:auto;border:1px solid var(--cb-color-border,#d1d5db);border-radius:.5rem}.cb-virtualscroller__item{box-sizing:border-box;display:flex;align-items:center;padding:0 .75rem;border-bottom:1px solid var(--cb-color-border,#e5e7eb);color:var(--cb-color-text,#111827)}`]})export class CbVirtualScroller{readonly items=input<readonly unknown[]>([]);readonly itemSize=input(40);readonly viewportHeight=input(240);private readonly start=signal(0);protected readonly visibleItems=computed(()=>{const count=Math.ceil(this.viewportHeight()/this.itemSize())+2;return this.items().slice(this.start(),this.start()+count)});protected readonly offset=computed(()=>this.start()*this.itemSize());protected readonly bottomSpace=computed(()=>Math.max(0,this.items().length-this.start()-this.visibleItems().length)*this.itemSize());protected onScroll(e:Event){this.start.set(Math.floor((e.target as HTMLElement).scrollTop/this.itemSize()));}}
+import { NgTemplateOutlet } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Directive,
+  ElementRef,
+  TemplateRef,
+  ViewEncapsulation,
+  computed,
+  contentChild,
+  inject,
+  input,
+  signal,
+  viewChild,
+} from '@angular/core';
+
+/** Contexto de `<ng-template cbVirtualItem let-item let-index="index">`. */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- como PrimeNG: la plantilla recibe el elemento sin tipar.
+export interface CbVirtualItemContext<T = any> {
+  $implicit: T;
+  index: number;
+}
+
+/** Plantilla de cada elemento de un `<cb-virtualscroller>`. */
+@Directive({ selector: 'ng-template[cbVirtualItem]' })
+export class CbVirtualItemTemplate {
+  readonly template = inject<TemplateRef<CbVirtualItemContext>>(TemplateRef);
+
+  static ngTemplateContextGuard(_dir: CbVirtualItemTemplate, ctx: unknown): ctx is CbVirtualItemContext {
+    return true;
+  }
+}
+
+/**
+ * Lista virtualizada de CaribeNG: solo pinta los elementos visibles (más un
+ * margen) aunque la lista tenga miles. Cada elemento expone `aria-setsize` y
+ * `aria-posinset`, así el lector de pantalla conoce el total.
+ *
+ * @example
+ * ```html
+ * <cb-virtualscroller [items]="clientes" [itemSize]="48" [viewportHeight]="320" ariaLabel="Clientes">
+ *   <ng-template cbVirtualItem let-cliente let-i="index">{{ i + 1 }}. {{ cliente.nombre }}</ng-template>
+ * </cb-virtualscroller>
+ * ```
+ */
+@Component({
+  selector: 'cb-virtualscroller',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.Emulated,
+  imports: [NgTemplateOutlet],
+  host: { class: 'cb-virtualscroller-host' },
+  template: `
+    <div
+      #viewport
+      class="cb-virtualscroller"
+      role="list"
+      tabindex="0"
+      [attr.aria-label]="ariaLabel() || null"
+      [style.height.px]="viewportHeight()"
+      (scroll)="onScroll($event)"
+    >
+      <div class="cb-virtualscroller__spacer" [style.height.px]="totalHeight()">
+        <div class="cb-virtualscroller__window" [style.transform]="'translateY(' + offset() + 'px)'">
+          @for (item of visibleItems(); track start() + $index; let i = $index) {
+            <div
+              class="cb-virtualscroller__item"
+              role="listitem"
+              [attr.aria-setsize]="items().length"
+              [attr.aria-posinset]="start() + i + 1"
+              [style.height.px]="itemSize()"
+            >
+              @if (itemTemplate(); as tpl) {
+                <ng-container *ngTemplateOutlet="tpl.template; context: { $implicit: item, index: start() + i }" />
+              } @else {
+                {{ item }}
+              }
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  `,
+  styleUrl: './virtualscroller.component.css',
+})
+export class CbVirtualScroller {
+  /** Elementos de la lista. */
+  readonly items = input<readonly unknown[]>([]);
+  /** Alto fijo de cada elemento, en píxeles. */
+  readonly itemSize = input<number>(40);
+  /** Alto visible de la lista, en píxeles. */
+  readonly viewportHeight = input<number>(240);
+  /** Elementos extra que se pintan por encima y por debajo de lo visible (evita parpadeos al hacer scroll). */
+  readonly buffer = input<number>(4);
+  /** Nombre accesible de la lista. */
+  readonly ariaLabel = input<string>('');
+
+  protected readonly itemTemplate = contentChild(CbVirtualItemTemplate);
+  private readonly viewport = viewChild.required<ElementRef<HTMLElement>>('viewport');
+  private readonly scrollTop = signal(0);
+
+  /** Índice del primer elemento pintado. */
+  protected readonly start = computed(() =>
+    Math.max(0, Math.floor(this.scrollTop() / this.itemSize()) - this.buffer()),
+  );
+  private readonly end = computed(() =>
+    Math.min(
+      this.items().length,
+      Math.ceil((this.scrollTop() + this.viewportHeight()) / this.itemSize()) + this.buffer(),
+    ),
+  );
+  protected readonly visibleItems = computed(() => this.items().slice(this.start(), this.end()));
+  protected readonly offset = computed(() => this.start() * this.itemSize());
+  protected readonly totalHeight = computed(() => this.items().length * this.itemSize());
+
+  /** Desplaza la lista hasta el elemento indicado (lo deja arriba). */
+  scrollToIndex(index: number): void {
+    const top = Math.max(0, Math.min(index, this.items().length - 1)) * this.itemSize();
+    this.viewport().nativeElement.scrollTop = top;
+    this.scrollTop.set(top);
+  }
+
+  protected onScroll(event: Event): void {
+    this.scrollTop.set((event.target as HTMLElement).scrollTop);
+  }
+}

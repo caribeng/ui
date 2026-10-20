@@ -1,1 +1,6 @@
-export { CbTree, type CbTreeNode } from './lib/tree.component';
+export {
+  CbTree,
+  CbTreeNodeTemplate,
+  type CbTreeNode,
+  type CbTreeNodeContext,
+} from './lib/tree.component';

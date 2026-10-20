@@ -1,0 +1,98 @@
+:host {
+  display: block;
+  color: var(--cb-color-text);
+  font-size: var(--cb-text-sm, 0.875rem);
+}
+
+.cb-tree,
+.cb-tree__group {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.cb-tree__item {
+  outline: none;
+}
+
+.cb-tree__row {
+  display: flex;
+  align-items: center;
+  gap: var(--cb-space-1, 0.25rem);
+  min-height: 2.25rem;
+  padding-inline-end: var(--cb-space-2, 0.5rem);
+  border-radius: var(--cb-radius-md, 0.5rem);
+  cursor: pointer;
+  transition: background var(--cb-duration-fast, 120ms) var(--cb-ease, ease);
+}
+
+.cb-tree__row:hover {
+  background: var(--cb-color-surface-100);
+}
+
+.cb-tree__row.cb-is-selected {
+  color: var(--cb-color-primary-700);
+  background: color-mix(in srgb, var(--cb-color-primary-500) 14%, transparent);
+  font-weight: var(--cb-font-weight-medium, 500);
+}
+
+.cb-tree__row.cb-is-disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+/* Foco visible en la fila del treeitem enfocado (el li no muestra su propio contorno). */
+.cb-tree__item:focus-visible > .cb-tree__row {
+  box-shadow: 0 0 0 2px var(--cb-color-focus-ring, var(--cb-color-primary-500));
+}
+
+.cb-tree__toggler {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  flex: none;
+  padding: 0;
+  border: 0;
+  border-radius: var(--cb-radius-sm, 4px);
+  background: transparent;
+  color: var(--cb-color-text-muted);
+  cursor: pointer;
+}
+
+.cb-tree__toggler:hover {
+  color: var(--cb-color-text);
+  background: color-mix(in srgb, var(--cb-color-text) 8%, transparent);
+}
+
+.cb-tree__toggler cb-icon {
+  transition: transform var(--cb-duration-fast, 120ms) var(--cb-ease, ease);
+}
+
+.cb-tree__toggler cb-icon.cb-is-open {
+  transform: rotate(90deg);
+}
+
+.cb-tree__spacer {
+  width: 1.5rem;
+  flex: none;
+}
+
+.cb-tree__icon {
+  flex: none;
+  color: var(--cb-color-text-muted);
+}
+
+.cb-tree__label {
+  flex: 1;
+  min-width: 0;
+}
+
+:host-context([data-theme='dark']) .cb-tree__row:hover {
+  background: color-mix(in srgb, var(--cb-color-text) 8%, transparent);
+}
+
+:host-context([data-theme='dark']) .cb-tree__row.cb-is-selected {
+  color: var(--cb-color-primary-300);
+}

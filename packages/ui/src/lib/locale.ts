@@ -142,6 +142,9 @@ export interface CbTranslation {
   selected: string;
   sortableList: string;
   orgChart: string;
+  changeLayout: string;
+  listView: string;
+  gridView: string;
   timeline: string;
   chart: string;
   chartLegend: string;
@@ -334,6 +337,9 @@ export const CB_LOCALE_ES: CbTranslation = {
   selected: 'Seleccionados',
   sortableList: 'Lista ordenable',
   orgChart: 'Organigrama',
+  changeLayout: 'Cambiar vista',
+  listView: 'Vista de lista',
+  gridView: 'Vista de cuadrícula',
   timeline: 'Cronología',
   chart: 'Gráfico de datos',
   chartLegend: 'Leyenda del gráfico',
@@ -517,6 +523,9 @@ export const CB_LOCALE_EN: CbTranslation = {
   selected: 'Selected',
   sortableList: 'Sortable list',
   orgChart: 'Organization chart',
+  changeLayout: 'Change layout',
+  listView: 'List view',
+  gridView: 'Grid view',
   timeline: 'Timeline',
   chart: 'Data chart',
   chartLegend: 'Chart legend',

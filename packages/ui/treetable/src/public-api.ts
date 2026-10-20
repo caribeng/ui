@@ -1,1 +1,7 @@
-export { CbTreeTable, type CbTreeTableColumn, type CbTreeTableNode } from './lib/treetable.component';
+export {
+  CbTreeTable,
+  CbTreeTableCellTemplate,
+  type CbTreeTableCellContext,
+  type CbTreeTableColumn,
+  type CbTreeTableNode,
+} from './lib/treetable.component';
