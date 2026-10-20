@@ -7,11 +7,13 @@ import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
 import { TocService } from '../services/toc.service';
+import { DocA11yComponent } from '../components/doc-a11y.component';
+import { DOC_A11Y } from '../components/doc-a11y-registry';
 
 @Component({
   selector: 'doc-menu-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [DocPlaygroundComponent, CbMenu, CbButton, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
+  imports: [DocA11yComponent, DocPlaygroundComponent, CbMenu, CbButton, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
     <doc-page-header eyebrow="Menús" title="Menu" lead="Menú emergente de acciones con iconos, separadores y atajos de teclado." />
 
@@ -29,10 +31,13 @@ import { TocService } from '../services/toc.service';
       <cb-menu #menu [items]="items" ariaLabel="Acciones de producto" (itemSelect)="selected.set($event.label)" />
     </doc-section>
 
+    <doc-a11y [data]="a11y" />
+
     <doc-playground [api]="docApi" />
   `,
 })
 export class MenuDocComponent {
+  protected readonly a11y = DOC_A11Y['cb-menu'];
   protected readonly docApi = DOC_API['cb-menu'];
 
   constructor() { inject(TocService).reset(); }

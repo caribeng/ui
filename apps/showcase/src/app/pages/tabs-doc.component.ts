@@ -4,11 +4,13 @@ import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
 import { TocService } from '../services/toc.service';
+import { DocA11yComponent } from '../components/doc-a11y.component';
+import { DOC_A11Y } from '../components/doc-a11y-registry';
 
 @Component({
   selector: 'doc-tabs-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbTabs,
+  imports: [DocA11yComponent, CbTabs,
     CbTab,
     DocSectionComponent,
     CodeBlockComponent,
@@ -44,9 +46,12 @@ import { TocService } from '../services/toc.service';
         <cb-tab label="Otra"><p style="margin: 0">Más contenido.</p></cb-tab>
       </cb-tabs>
     </doc-section>
+
+    <doc-a11y [data]="a11y" />
   `,
 })
 export class TabsDocComponent {
+  protected readonly a11y = DOC_A11Y['cb-tabs'];
 
   constructor() {
     inject(TocService).reset();

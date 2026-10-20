@@ -6,11 +6,13 @@ import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
 import { TocService } from '../services/toc.service';
+import { DocA11yComponent } from '../components/doc-a11y.component';
+import { DOC_A11Y } from '../components/doc-a11y-registry';
 
 @Component({
   selector: 'doc-inputotp-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [DocPlaygroundComponent, CbInputOtp, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
+  imports: [DocA11yComponent, DocPlaygroundComponent, CbInputOtp, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
     <doc-page-header eyebrow="Formulario" title="InputOTP" lead="Entrada de código de verificación en casillas individuales con avance automático." />
 
@@ -21,10 +23,13 @@ import { TocService } from '../services/toc.service';
       <cb-input-otp [length]="6" [integerOnly]="true" [(value)]="code" />
     </doc-section>
 
+    <doc-a11y [data]="a11y" />
+
     <doc-playground [api]="docApi" />
   `,
 })
 export class InputotpDocComponent {
+  protected readonly a11y = DOC_A11Y['cb-input-otp'];
   protected readonly docApi = DOC_API['cb-input-otp'];
 
   constructor() {

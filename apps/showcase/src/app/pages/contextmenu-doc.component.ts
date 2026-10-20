@@ -6,8 +6,10 @@ import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
 import { TocService } from '../services/toc.service';
+import { DocA11yComponent } from '../components/doc-a11y.component';
+import { DOC_A11Y } from '../components/doc-a11y-registry';
 
-@Component({ selector: 'doc-contextmenu-page', changeDetection: ChangeDetectionStrategy.OnPush, imports: [DocPlaygroundComponent, CbContextMenu, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent], template: `
+@Component({ selector: 'doc-contextmenu-page', changeDetection: ChangeDetectionStrategy.OnPush, imports: [DocA11yComponent, DocPlaygroundComponent, CbContextMenu, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent], template: `
   <doc-page-header eyebrow="Menús" title="ContextMenu" lead="Menú de acciones situado en el punto donde se hace clic derecho." />
 
     <doc-section id="import" title="Importación"><doc-code-block [code]="installCode" lang="bash" /><br /><doc-code-block [code]="importCode" lang="typescript" /></doc-section>
@@ -17,9 +19,12 @@ import { TocService } from '../services/toc.service';
     </cb-contextmenu>
   </doc-section>
 
+  <doc-a11y [data]="a11y" />
+
   <doc-playground [api]="docApi" />
 ` })
 export class ContextmenuDocComponent {
+  protected readonly a11y = DOC_A11Y['cb-contextmenu'];
   protected readonly docApi = DOC_API['cb-contextmenu'];
 
   constructor() { inject(TocService).reset(); }

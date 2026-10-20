@@ -5,6 +5,8 @@ import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
 import { TocService } from '../services/toc.service';
+import { DocA11yComponent } from '../components/doc-a11y.component';
+import { DOC_A11Y } from '../components/doc-a11y-registry';
 
 const PAISES = [
   'Argentina', 'Bolivia', 'Brasil', 'Chile', 'Colombia', 'Costa Rica', 'Cuba',
@@ -16,7 +18,7 @@ const PAISES = [
 @Component({
   selector: 'doc-autocomplete-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
+  imports: [DocA11yComponent, 
     ReactiveFormsModule,
     CbAutocomplete,
     DocSectionComponent,
@@ -93,9 +95,12 @@ const PAISES = [
         />
       </div>
     </doc-section>
+
+    <doc-a11y [data]="a11y" />
   `,
 })
 export class AutocompleteDocComponent {
+  protected readonly a11y = DOC_A11Y['cb-autocomplete'];
   constructor() {
     inject(TocService).reset();
   }

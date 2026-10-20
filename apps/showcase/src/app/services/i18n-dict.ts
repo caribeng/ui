@@ -1347,4 +1347,168 @@ export const ES_EN: Record<string, string> = {
     'Renders only the visible items for very long lists.',
   'title define el encabezado y rows los datos del comprobante.':
     'title sets the header and rows the receipt data.',
+
+  // --- Accesibilidad (doc-a11y-registry) ---
+  'Accesibilidad': 'Accessibility',
+  'Usa el elemento nativo, por lo que se anuncia como campo de texto. Con `label` se muestra una etiqueta asociada al campo; si no hay etiqueta visible, añade `aria-label`.':
+    'Uses the native element, so it is announced as a text field. With `label` a label associated with the field is shown; if there is no visible label, add `aria-label`.',
+  'Cuando `invalid` es true se aplica `aria-invalid="true"`, y `aria-describedby` enlaza el texto de ayuda o el mensaje de error, que se anuncia con `role="alert"`.':
+    'When `invalid` is true `aria-invalid="true"` is applied, and `aria-describedby` links the help text or the error message, which is announced with `role="alert"`.',
+  'Mueve el foco al campo.': 'Moves focus to the field.',
+  'El disparador tiene `role="combobox"` con `aria-haspopup="listbox"` y `aria-expanded`, y se relaciona con el panel mediante `aria-controls`. Su nombre accesible es el texto visible (valor seleccionado o placeholder).':
+    'The trigger has `role="combobox"` with `aria-haspopup="listbox"` and `aria-expanded`, and is linked to the panel through `aria-controls`. Its accessible name is the visible text (selected value or placeholder).',
+  'El panel usa `role="listbox"`; cada opción tiene `role="option"` con `aria-selected` y `aria-disabled`. `aria-activedescendant` indica la opción activa mientras se navega con el teclado.':
+    'The panel uses `role="listbox"`; each option has `role="option"` with `aria-selected` and `aria-disabled`. `aria-activedescendant` points to the active option while navigating with the keyboard.',
+  'Mueve el foco al select.': 'Moves focus to the select.',
+  'Enter / Espacio / Flecha abajo / Flecha arriba': 'Enter / Space / Down arrow / Up arrow',
+  'Con el panel cerrado, lo abre.': 'When the panel is closed, opens it.',
+  'Flecha abajo / Flecha arriba': 'Down arrow / Up arrow',
+  'Mueve la opción activa a la siguiente o a la anterior.':
+    'Moves the active option to the next or previous one.',
+  'Inicio / Fin': 'Home / End',
+  'Va a la primera o a la última opción habilitada.': 'Goes to the first or last enabled option.',
+  'Selecciona la opción activa y cierra el panel.':
+    'Selects the active option and closes the panel.',
+  'Cierra el panel.': 'Closes the panel.',
+  'Con el panel abierto, lo cierra y pasa al siguiente elemento.':
+    'When the panel is open, closes it and moves to the next element.',
+  'El disparador tiene `role="combobox"` con `aria-haspopup="listbox"` y `aria-expanded`, y se relaciona con el panel mediante `aria-controls`. Su nombre accesible es el texto visible (selección o placeholder).':
+    'The trigger has `role="combobox"` with `aria-haspopup="listbox"` and `aria-expanded`, and is linked to the panel through `aria-controls`. Its accessible name is the visible text (selection or placeholder).',
+  'El panel usa `role="listbox"` con `aria-multiselectable="true"`; cada opción tiene `role="option"` con `aria-selected` y `aria-disabled`.':
+    'The panel uses `role="listbox"` with `aria-multiselectable="true"`; each option has `role="option"` with `aria-selected` and `aria-disabled`.',
+  'Mueve el foco al multiselect.': 'Moves focus to the multiselect.',
+  'Va a la primera o a la última opción.': 'Goes to the first or last option.',
+  'Enter / Espacio': 'Enter / Space',
+  'Marca o desmarca la opción activa; el panel sigue abierto.':
+    'Checks or unchecks the active option; the panel stays open.',
+  'La lista usa `role="listbox"` (con `aria-multiselectable` en modo `multiple`) y su nombre accesible se define con `ariaLabel`.':
+    'The list uses `role="listbox"` (with `aria-multiselectable` in `multiple` mode) and its accessible name is set with `ariaLabel`.',
+  'Cada opción tiene `role="option"` con `aria-selected` y `aria-disabled`; `aria-activedescendant` indica la opción activa.':
+    'Each option has `role="option"` with `aria-selected` and `aria-disabled`; `aria-activedescendant` points to the active option.',
+  'Mueve el foco a la lista.': 'Moves focus to the list.',
+  'Selecciona la opción activa (en modo multiple, la marca o desmarca).':
+    'Selects the active option (in multiple mode, checks or unchecks it).',
+  'El campo tiene `role="combobox"` con `aria-autocomplete`, `aria-expanded` y `aria-controls`; `aria-activedescendant` indica la sugerencia activa.':
+    'The field has `role="combobox"` with `aria-autocomplete`, `aria-expanded` and `aria-controls`; `aria-activedescendant` points to the active suggestion.',
+  'Las sugerencias usan `role="listbox"` y `role="option"`. Con `invalid` se aplica `aria-invalid` y `aria-describedby` enlaza la ayuda o el error, que se anuncia con `role="alert"`.':
+    'Suggestions use `role="listbox"` and `role="option"`. With `invalid`, `aria-invalid` is applied and `aria-describedby` links the help text or the error, which is announced with `role="alert"`.',
+  'Flecha abajo': 'Down arrow',
+  'Abre las sugerencias (si hay) y mueve a la siguiente.':
+    'Opens the suggestions (if any) and moves to the next one.',
+  'Flecha arriba': 'Up arrow',
+  'Mueve a la sugerencia anterior.': 'Moves to the previous suggestion.',
+  'Elige la sugerencia activa.': 'Picks the active suggestion.',
+  'Cierra las sugerencias.': 'Closes the suggestions.',
+  'Cierra las sugerencias y pasa al siguiente elemento.':
+    'Closes the suggestions and moves to the next element.',
+  'El campo indica con `aria-haspopup="dialog"` y `aria-expanded` que abre un calendario. Con `invalid` se aplica `aria-invalid` y el error se anuncia con `role="alert"`.':
+    'The field signals with `aria-haspopup="dialog"` and `aria-expanded` that it opens a calendar. With `invalid`, `aria-invalid` is applied and the error is announced with `role="alert"`.',
+  'El calendario es un `role="dialog"` con `aria-modal="true"`; los días forman un `role="grid"` donde el día elegido tiene `aria-selected` y el de hoy `aria-current="date"`. El mes visible se anuncia con `aria-live`.':
+    'The calendar is a `role="dialog"` with `aria-modal="true"`; the days form a `role="grid"` where the selected day has `aria-selected` and today has `aria-current="date"`. The visible month is announced with `aria-live`.',
+  'Enter / Espacio / Flecha abajo': 'Enter / Space / Down arrow',
+  'En el campo, abre el calendario.': 'On the field, opens the calendar.',
+  'Flecha izquierda / Flecha derecha': 'Left arrow / Right arrow',
+  'Día anterior o siguiente.': 'Previous or next day.',
+  'Flecha arriba / Flecha abajo': 'Up arrow / Down arrow',
+  'Mismo día de la semana anterior o siguiente.': 'Same weekday of the previous or next week.',
+  'Primer o último día de la semana.': 'First or last day of the week.',
+  'Re Pág / Av Pág': 'Page Up / Page Down',
+  'Mes anterior o siguiente.': 'Previous or next month.',
+  'Selecciona el día activo.': 'Selects the active day.',
+  'Cierra el calendario.': 'Closes the calendar.',
+  'El campo tiene `role="spinbutton"` con `aria-valuenow`, `aria-valuemin` y `aria-valuemax`. Con `invalid` se aplica `aria-invalid` y `aria-describedby` enlaza la ayuda o el error.':
+    'The field has `role="spinbutton"` with `aria-valuenow`, `aria-valuemin` and `aria-valuemax`. With `invalid`, `aria-invalid` is applied and `aria-describedby` links the help text or the error.',
+  'Incrementa el valor en `step`.': 'Increases the value by `step`.',
+  'Decrementa el valor en `step`.': 'Decreases the value by `step`.',
+  'El control tiene `role="slider"` con `aria-valuemin`, `aria-valuemax` y `aria-valuenow`, y `aria-disabled` cuando está deshabilitado. Define su nombre con `ariaLabel`.':
+    'The control has `role="slider"` with `aria-valuemin`, `aria-valuemax` and `aria-valuenow`, and `aria-disabled` when disabled. Set its name with `ariaLabel`.',
+  'Mueve el foco al control.': 'Moves focus to the control.',
+  'Flecha derecha / Flecha arriba': 'Right arrow / Up arrow',
+  'Aumenta el valor en `step`.': 'Increases the value by `step`.',
+  'Flecha izquierda / Flecha abajo': 'Left arrow / Down arrow',
+  'Disminuye el valor en `step`.': 'Decreases the value by `step`.',
+  'Aumenta o disminuye 10 pasos.': 'Increases or decreases by 10 steps.',
+  'Va al valor mínimo o al máximo.': 'Goes to the minimum or maximum value.',
+  'El control tiene `role="slider"`: `aria-valuenow` es la puntuación, `aria-valuemin` es 0 y `aria-valuemax` el número de estrellas. Las estrellas son decorativas (`aria-hidden`). Define su nombre con `ariaLabel`.':
+    'The control has `role="slider"`: `aria-valuenow` is the rating, `aria-valuemin` is 0 and `aria-valuemax` the number of stars. The stars are decorative (`aria-hidden`). Set its name with `ariaLabel`.',
+  'Suma una estrella.': 'Adds one star.',
+  'Resta una estrella.': 'Removes one star.',
+  'Puntuación 0 o máxima.': 'Rating 0 or maximum.',
+  'Las casillas se agrupan en un `role="group"` cuyo nombre se define con `ariaLabel`; cada casilla es un input nativo.':
+    'The boxes are grouped in a `role="group"` whose name is set with `ariaLabel`; each box is a native input.',
+  'Mueve el foco a la casilla.': 'Moves focus to the box.',
+  'Pasa a la casilla anterior o siguiente.': 'Moves to the previous or next box.',
+  'Retroceso': 'Backspace',
+  'En una casilla vacía, vuelve a la anterior.': 'On an empty box, goes back to the previous one.',
+  'Usa un `input type="checkbox"` nativo, asociado a su `label`; sin etiqueta visible, define `ariaLabel`. El estado indeterminado se anuncia con `aria-checked="mixed"` y el inválido con `aria-invalid`.':
+    'Uses a native `input type="checkbox"` associated with its `label`; without a visible label, set `ariaLabel`. The indeterminate state is announced with `aria-checked="mixed"` and the invalid one with `aria-invalid`.',
+  'Espacio': 'Space',
+  'Marca o desmarca la casilla.': 'Checks or unchecks the box.',
+  'El grupo tiene `role="radiogroup"` y su nombre se define con `ariaLabel`. Cada opción es un `input type="radio"` nativo que comparte `name` con las demás.':
+    'The group has `role="radiogroup"` and its name is set with `ariaLabel`. Each option is a native `input type="radio"` that shares its `name` with the others.',
+  'Entra al grupo en la opción seleccionada (o en la primera).':
+    'Enters the group on the selected option (or the first one).',
+  'Flechas': 'Arrow keys',
+  'Mueve a la opción anterior o siguiente y la selecciona.':
+    'Moves to the previous or next option and selects it.',
+  'Selecciona la opción enfocada.': 'Selects the focused option.',
+  'Usa un `input type="checkbox"` nativo con `role="switch"`, de modo que se anuncia como interruptor encendido o apagado. Sin etiqueta visible, define `ariaLabel`.':
+    'Uses a native `input type="checkbox"` with `role="switch"`, so it is announced as a switch that is on or off. Without a visible label, set `ariaLabel`.',
+  'Mueve el foco al interruptor.': 'Moves focus to the switch.',
+  'Cambia el estado.': 'Toggles the state.',
+  'Las opciones se agrupan en un `role="group"` cuyo nombre se define con `ariaLabel`. Cada opción es un botón con `aria-pressed` que indica si está activa.':
+    'The options are grouped in a `role="group"` whose name is set with `ariaLabel`. Each option is a button with `aria-pressed` indicating whether it is active.',
+  'Mueve el foco entre las opciones.': 'Moves focus between the options.',
+  'Activa o desactiva la opción enfocada.': 'Turns the focused option on or off.',
+  'El panel tiene `role="dialog"` con `aria-modal="true"` y se nombra con el título (`aria-labelledby` hacia `header`) o, si no hay título, con `ariaLabel`.':
+    'The panel has `role="dialog"` with `aria-modal="true"` and is named by its title (`aria-labelledby` pointing to `header`) or, if there is no title, by `ariaLabel`.',
+  'Al abrirse, el foco queda atrapado dentro del diálogo; al cerrarse vuelve al elemento que lo abrió.':
+    'When opened, focus is trapped inside the dialog; when closed, it returns to the element that opened it.',
+  'Tab / Mayús + Tab': 'Tab / Shift + Tab',
+  'Mueve el foco entre los elementos del diálogo sin salir de él.':
+    'Moves focus between the dialog elements without leaving it.',
+  'Cierra el diálogo (si `closeOnEscape` es true).':
+    'Closes the dialog (if `closeOnEscape` is true).',
+  'Al abrirse, el foco queda atrapado dentro del panel; al cerrarse vuelve al elemento que lo abrió.':
+    'When opened, focus is trapped inside the panel; when closed, it returns to the element that opened it.',
+  'Mueve el foco entre los elementos del panel sin salir de él.':
+    'Moves focus between the panel elements without leaving it.',
+  'Cierra el panel (si `closeOnEscape` es true).': 'Closes the panel (if `closeOnEscape` is true).',
+  'El contenido flotante tiene `role="dialog"` y su nombre se define con `ariaLabel`. Se abre junto al elemento que lo dispara.':
+    'The floating content has `role="dialog"` and its name is set with `ariaLabel`. It opens next to the element that triggers it.',
+  'Cierra el popover.': 'Closes the popover.',
+  'El texto flotante tiene `role="tooltip"` y aparece al pasar el puntero y al enfocar el elemento. Como el tooltip no se enlaza al elemento con `aria-describedby`, en botones solo con icono define también un `aria-label`.':
+    'The floating text has `role="tooltip"` and appears on hover and when the element is focused. Since the tooltip is not linked to the element with `aria-describedby`, also set an `aria-label` on icon-only buttons.',
+  'Al enfocar el elemento se muestra el tooltip; al salir del foco se oculta.':
+    'Focusing the element shows the tooltip; leaving focus hides it.',
+  'El panel tiene `role="menu"` y su nombre se define con `ariaLabel`. Cada acción es un `role="menuitem"` (con `aria-disabled` si está deshabilitada) y los separadores usan `role="separator"`.':
+    'The panel has `role="menu"` and its name is set with `ariaLabel`. Each action is a `role="menuitem"` (with `aria-disabled` when disabled) and separators use `role="separator"`.',
+  'Mueve el foco a la acción siguiente o anterior (de forma circular).':
+    'Moves focus to the next or previous action (wrapping around).',
+  'Va a la primera o a la última acción.': 'Goes to the first or last action.',
+  'Ejecuta la acción enfocada o abre su enlace (`url`).':
+    'Runs the focused action or opens its link (`url`).',
+  'Ejecuta la acción enfocada (en las que no son enlaces).':
+    'Runs the focused action (for those that are not links).',
+  'Cierra el menú.': 'Closes the menu.',
+  'Se abre con clic derecho en la posición del puntero. El panel tiene `role="menu"` y cada acción `role="menuitem"`; al abrirse, el foco pasa a la primera acción habilitada.':
+    'It opens with a right click at the pointer position. The panel has `role="menu"` and each action `role="menuitem"`; when opened, focus moves to the first enabled action.',
+  'Ejecuta la acción enfocada.': 'Runs the focused action.',
+  'El contenedor es una región `role="log"` con `aria-live="polite"`: cada mensaje nuevo se anuncia sin mover el foco. Cada mensaje tiene `role="alert"` y su botón de cierre `aria-label="Cerrar"`.':
+    'The container is a `role="log"` region with `aria-live="polite"`: each new message is announced without moving focus. Each message has `role="alert"` and its close button `aria-label="Cerrar"`.',
+  'Mueve el foco al botón de cerrar de cada mensaje.':
+    'Moves focus to the close button of each message.',
+  'Cierra el mensaje.': 'Closes the message.',
+  'El panel tiene `role="alertdialog"` con `aria-modal="true"` y se nombra con `header`; el mensaje y los botones de aceptar y cancelar están dentro del diálogo.':
+    'The panel has `role="alertdialog"` with `aria-modal="true"` and is named by `header`; the message and the accept and cancel buttons are inside the dialog.',
+  'Mueve el foco entre los botones.': 'Moves focus between the buttons.',
+  'Activa el botón enfocado.': 'Activates the focused button.',
+  'Las pestañas usan `role="tablist"`, `role="tab"` (con `aria-selected`) y `role="tabpanel"`. Solo la pestaña activa entra en el orden de tabulación.':
+    'Tabs use `role="tablist"`, `role="tab"` (with `aria-selected`) and `role="tabpanel"`. Only the active tab is part of the tab order.',
+  'Mueve el foco a la pestaña activa y luego al contenido.':
+    'Moves focus to the active tab and then to the content.',
+  'Flecha derecha / Flecha izquierda': 'Right arrow / Left arrow',
+  'Activa la pestaña siguiente o anterior (de forma circular), omitiendo las deshabilitadas.':
+    'Activates the next or previous tab (wrapping around), skipping disabled ones.',
+  'Activa la primera o la última pestaña.': 'Activates the first or last tab.',
 };

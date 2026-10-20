@@ -1,0 +1,269 @@
+/**
+ * Documentación de accesibilidad por componente (sección "Accesibilidad" de cada
+ * página, al estilo de PrimeNG): roles/atributos ARIA y soporte de teclado.
+ *
+ * Los textos están en español y se traducen con `I18nService.auto()` (ver
+ * `i18n-dict.ts`). Lo que va entre comillas invertidas se muestra como código.
+ * Cada entrada describe el comportamiento real del componente: al cambiar su
+ * ARIA o su manejo de teclado, actualiza también esta ficha.
+ */
+export interface DocA11yKey {
+  /** Tecla o combinación (ej. "Flecha abajo", "Enter / Espacio"). */
+  keys: string;
+  /** Qué hace. */
+  action: string;
+}
+
+export interface DocA11y {
+  /** Párrafos sobre lector de pantalla (roles, atributos, etiquetado). */
+  screenReader: readonly string[];
+  /** Tabla de soporte de teclado. */
+  keyboard?: readonly DocA11yKey[];
+}
+
+const TAB_FOCUS = (what: string): DocA11yKey => ({ keys: 'Tab', action: `Mueve el foco ${what}.` });
+
+const FIELD_SR = [
+  'Usa el elemento nativo, por lo que se anuncia como campo de texto. Con `label` se muestra una etiqueta asociada al campo; si no hay etiqueta visible, añade `aria-label`.',
+  'Cuando `invalid` es true se aplica `aria-invalid="true"`, y `aria-describedby` enlaza el texto de ayuda o el mensaje de error, que se anuncia con `role="alert"`.',
+];
+
+export const DOC_A11Y: Record<string, DocA11y> = {
+  'cb-input': {
+    screenReader: FIELD_SR,
+    keyboard: [TAB_FOCUS('al campo')],
+  },
+  'cb-textarea': {
+    screenReader: FIELD_SR,
+    keyboard: [TAB_FOCUS('al campo')],
+  },
+  'cb-select': {
+    screenReader: [
+      'El disparador tiene `role="combobox"` con `aria-haspopup="listbox"` y `aria-expanded`, y se relaciona con el panel mediante `aria-controls`. Su nombre accesible es el texto visible (valor seleccionado o placeholder).',
+      'El panel usa `role="listbox"`; cada opción tiene `role="option"` con `aria-selected` y `aria-disabled`. `aria-activedescendant` indica la opción activa mientras se navega con el teclado.',
+    ],
+    keyboard: [
+      TAB_FOCUS('al select'),
+      { keys: 'Enter / Espacio / Flecha abajo / Flecha arriba', action: 'Con el panel cerrado, lo abre.' },
+      { keys: 'Flecha abajo / Flecha arriba', action: 'Mueve la opción activa a la siguiente o a la anterior.' },
+      { keys: 'Inicio / Fin', action: 'Va a la primera o a la última opción habilitada.' },
+      { keys: 'Enter', action: 'Selecciona la opción activa y cierra el panel.' },
+      { keys: 'Escape', action: 'Cierra el panel.' },
+      { keys: 'Tab', action: 'Con el panel abierto, lo cierra y pasa al siguiente elemento.' },
+    ],
+  },
+  'cb-multiselect': {
+    screenReader: [
+      'El disparador tiene `role="combobox"` con `aria-haspopup="listbox"` y `aria-expanded`, y se relaciona con el panel mediante `aria-controls`. Su nombre accesible es el texto visible (selección o placeholder).',
+      'El panel usa `role="listbox"` con `aria-multiselectable="true"`; cada opción tiene `role="option"` con `aria-selected` y `aria-disabled`.',
+    ],
+    keyboard: [
+      TAB_FOCUS('al multiselect'),
+      { keys: 'Enter / Espacio / Flecha abajo / Flecha arriba', action: 'Con el panel cerrado, lo abre.' },
+      { keys: 'Flecha abajo / Flecha arriba', action: 'Mueve la opción activa a la siguiente o a la anterior.' },
+      { keys: 'Inicio / Fin', action: 'Va a la primera o a la última opción.' },
+      { keys: 'Enter / Espacio', action: 'Marca o desmarca la opción activa; el panel sigue abierto.' },
+      { keys: 'Escape', action: 'Cierra el panel.' },
+      { keys: 'Tab', action: 'Con el panel abierto, lo cierra y pasa al siguiente elemento.' },
+    ],
+  },
+  'cb-listbox': {
+    screenReader: [
+      'La lista usa `role="listbox"` (con `aria-multiselectable` en modo `multiple`) y su nombre accesible se define con `ariaLabel`.',
+      'Cada opción tiene `role="option"` con `aria-selected` y `aria-disabled`; `aria-activedescendant` indica la opción activa.',
+    ],
+    keyboard: [
+      TAB_FOCUS('a la lista'),
+      { keys: 'Flecha abajo / Flecha arriba', action: 'Mueve la opción activa a la siguiente o a la anterior.' },
+      { keys: 'Inicio / Fin', action: 'Va a la primera o a la última opción.' },
+      { keys: 'Enter / Espacio', action: 'Selecciona la opción activa (en modo multiple, la marca o desmarca).' },
+    ],
+  },
+  'cb-autocomplete': {
+    screenReader: [
+      'El campo tiene `role="combobox"` con `aria-autocomplete`, `aria-expanded` y `aria-controls`; `aria-activedescendant` indica la sugerencia activa.',
+      'Las sugerencias usan `role="listbox"` y `role="option"`. Con `invalid` se aplica `aria-invalid` y `aria-describedby` enlaza la ayuda o el error, que se anuncia con `role="alert"`.',
+    ],
+    keyboard: [
+      TAB_FOCUS('al campo'),
+      { keys: 'Flecha abajo', action: 'Abre las sugerencias (si hay) y mueve a la siguiente.' },
+      { keys: 'Flecha arriba', action: 'Mueve a la sugerencia anterior.' },
+      { keys: 'Enter', action: 'Elige la sugerencia activa.' },
+      { keys: 'Escape', action: 'Cierra las sugerencias.' },
+      { keys: 'Tab', action: 'Cierra las sugerencias y pasa al siguiente elemento.' },
+    ],
+  },
+  'cb-datepicker': {
+    screenReader: [
+      'El campo indica con `aria-haspopup="dialog"` y `aria-expanded` que abre un calendario. Con `invalid` se aplica `aria-invalid` y el error se anuncia con `role="alert"`.',
+      'El calendario es un `role="dialog"` con `aria-modal="true"`; los días forman un `role="grid"` donde el día elegido tiene `aria-selected` y el de hoy `aria-current="date"`. El mes visible se anuncia con `aria-live`.',
+    ],
+    keyboard: [
+      { keys: 'Enter / Espacio / Flecha abajo', action: 'En el campo, abre el calendario.' },
+      { keys: 'Flecha izquierda / Flecha derecha', action: 'Día anterior o siguiente.' },
+      { keys: 'Flecha arriba / Flecha abajo', action: 'Mismo día de la semana anterior o siguiente.' },
+      { keys: 'Inicio / Fin', action: 'Primer o último día de la semana.' },
+      { keys: 'Re Pág / Av Pág', action: 'Mes anterior o siguiente.' },
+      { keys: 'Enter / Espacio', action: 'Selecciona el día activo.' },
+      { keys: 'Escape', action: 'Cierra el calendario.' },
+    ],
+  },
+  'cb-input-number': {
+    screenReader: [
+      'El campo tiene `role="spinbutton"` con `aria-valuenow`, `aria-valuemin` y `aria-valuemax`. Con `invalid` se aplica `aria-invalid` y `aria-describedby` enlaza la ayuda o el error.',
+    ],
+    keyboard: [
+      TAB_FOCUS('al campo'),
+      { keys: 'Flecha arriba', action: 'Incrementa el valor en `step`.' },
+      { keys: 'Flecha abajo', action: 'Decrementa el valor en `step`.' },
+    ],
+  },
+  'cb-slider': {
+    screenReader: [
+      'El control tiene `role="slider"` con `aria-valuemin`, `aria-valuemax` y `aria-valuenow`, y `aria-disabled` cuando está deshabilitado. Define su nombre con `ariaLabel`.',
+    ],
+    keyboard: [
+      TAB_FOCUS('al control'),
+      { keys: 'Flecha derecha / Flecha arriba', action: 'Aumenta el valor en `step`.' },
+      { keys: 'Flecha izquierda / Flecha abajo', action: 'Disminuye el valor en `step`.' },
+      { keys: 'Re Pág / Av Pág', action: 'Aumenta o disminuye 10 pasos.' },
+      { keys: 'Inicio / Fin', action: 'Va al valor mínimo o al máximo.' },
+    ],
+  },
+  'cb-rating': {
+    screenReader: [
+      'El control tiene `role="slider"`: `aria-valuenow` es la puntuación, `aria-valuemin` es 0 y `aria-valuemax` el número de estrellas. Las estrellas son decorativas (`aria-hidden`). Define su nombre con `ariaLabel`.',
+    ],
+    keyboard: [
+      TAB_FOCUS('al control'),
+      { keys: 'Flecha derecha / Flecha arriba', action: 'Suma una estrella.' },
+      { keys: 'Flecha izquierda / Flecha abajo', action: 'Resta una estrella.' },
+      { keys: 'Inicio / Fin', action: 'Puntuación 0 o máxima.' },
+    ],
+  },
+  'cb-input-otp': {
+    screenReader: [
+      'Las casillas se agrupan en un `role="group"` cuyo nombre se define con `ariaLabel`; cada casilla es un input nativo.',
+    ],
+    keyboard: [
+      TAB_FOCUS('a la casilla'),
+      { keys: 'Flecha izquierda / Flecha derecha', action: 'Pasa a la casilla anterior o siguiente.' },
+      { keys: 'Retroceso', action: 'En una casilla vacía, vuelve a la anterior.' },
+    ],
+  },
+  'cb-checkbox': {
+    screenReader: [
+      'Usa un `input type="checkbox"` nativo, asociado a su `label`; sin etiqueta visible, define `ariaLabel`. El estado indeterminado se anuncia con `aria-checked="mixed"` y el inválido con `aria-invalid`.',
+    ],
+    keyboard: [TAB_FOCUS('a la casilla'), { keys: 'Espacio', action: 'Marca o desmarca la casilla.' }],
+  },
+  'cb-radio-group': {
+    screenReader: [
+      'El grupo tiene `role="radiogroup"` y su nombre se define con `ariaLabel`. Cada opción es un `input type="radio"` nativo que comparte `name` con las demás.',
+    ],
+    keyboard: [
+      { keys: 'Tab', action: 'Entra al grupo en la opción seleccionada (o en la primera).' },
+      { keys: 'Flechas', action: 'Mueve a la opción anterior o siguiente y la selecciona.' },
+      { keys: 'Espacio', action: 'Selecciona la opción enfocada.' },
+    ],
+  },
+  'cb-toggle': {
+    screenReader: [
+      'Usa un `input type="checkbox"` nativo con `role="switch"`, de modo que se anuncia como interruptor encendido o apagado. Sin etiqueta visible, define `ariaLabel`.',
+    ],
+    keyboard: [TAB_FOCUS('al interruptor'), { keys: 'Espacio', action: 'Cambia el estado.' }],
+  },
+  'cb-selectbutton': {
+    screenReader: [
+      'Las opciones se agrupan en un `role="group"` cuyo nombre se define con `ariaLabel`. Cada opción es un botón con `aria-pressed` que indica si está activa.',
+    ],
+    keyboard: [
+      { keys: 'Tab', action: 'Mueve el foco entre las opciones.' },
+      { keys: 'Enter / Espacio', action: 'Activa o desactiva la opción enfocada.' },
+    ],
+  },
+  'cb-dialog': {
+    screenReader: [
+      'El panel tiene `role="dialog"` con `aria-modal="true"` y se nombra con el título (`aria-labelledby` hacia `header`) o, si no hay título, con `ariaLabel`.',
+      'Al abrirse, el foco queda atrapado dentro del diálogo; al cerrarse vuelve al elemento que lo abrió.',
+    ],
+    keyboard: [
+      { keys: 'Tab / Mayús + Tab', action: 'Mueve el foco entre los elementos del diálogo sin salir de él.' },
+      { keys: 'Escape', action: 'Cierra el diálogo (si `closeOnEscape` es true).' },
+    ],
+  },
+  'cb-drawer': {
+    screenReader: [
+      'El panel tiene `role="dialog"` con `aria-modal="true"` y se nombra con el título (`aria-labelledby` hacia `header`) o, si no hay título, con `ariaLabel`.',
+      'Al abrirse, el foco queda atrapado dentro del panel; al cerrarse vuelve al elemento que lo abrió.',
+    ],
+    keyboard: [
+      { keys: 'Tab / Mayús + Tab', action: 'Mueve el foco entre los elementos del panel sin salir de él.' },
+      { keys: 'Escape', action: 'Cierra el panel (si `closeOnEscape` es true).' },
+    ],
+  },
+  'cb-popover': {
+    screenReader: [
+      'El contenido flotante tiene `role="dialog"` y su nombre se define con `ariaLabel`. Se abre junto al elemento que lo dispara.',
+    ],
+    keyboard: [{ keys: 'Escape', action: 'Cierra el popover.' }],
+  },
+  'cb-tooltip': {
+    screenReader: [
+      'El texto flotante tiene `role="tooltip"` y aparece al pasar el puntero y al enfocar el elemento. Como el tooltip no se enlaza al elemento con `aria-describedby`, en botones solo con icono define también un `aria-label`.',
+    ],
+    keyboard: [
+      { keys: 'Tab', action: 'Al enfocar el elemento se muestra el tooltip; al salir del foco se oculta.' },
+    ],
+  },
+  'cb-menu': {
+    screenReader: [
+      'El panel tiene `role="menu"` y su nombre se define con `ariaLabel`. Cada acción es un `role="menuitem"` (con `aria-disabled` si está deshabilitada) y los separadores usan `role="separator"`.',
+    ],
+    keyboard: [
+      { keys: 'Flecha abajo / Flecha arriba', action: 'Mueve el foco a la acción siguiente o anterior (de forma circular).' },
+      { keys: 'Inicio / Fin', action: 'Va a la primera o a la última acción.' },
+      { keys: 'Enter', action: 'Ejecuta la acción enfocada o abre su enlace (`url`).' },
+      { keys: 'Espacio', action: 'Ejecuta la acción enfocada (en las que no son enlaces).' },
+      { keys: 'Escape', action: 'Cierra el menú.' },
+    ],
+  },
+  'cb-contextmenu': {
+    screenReader: [
+      'Se abre con clic derecho en la posición del puntero. El panel tiene `role="menu"` y cada acción `role="menuitem"`; al abrirse, el foco pasa a la primera acción habilitada.',
+    ],
+    keyboard: [
+      { keys: 'Flecha abajo / Flecha arriba', action: 'Mueve el foco a la acción siguiente o anterior (de forma circular).' },
+      { keys: 'Enter / Espacio', action: 'Ejecuta la acción enfocada.' },
+      { keys: 'Escape', action: 'Cierra el menú.' },
+    ],
+  },
+  'cb-toast': {
+    screenReader: [
+      'El contenedor es una región `role="log"` con `aria-live="polite"`: cada mensaje nuevo se anuncia sin mover el foco. Cada mensaje tiene `role="alert"` y su botón de cierre `aria-label="Cerrar"`.',
+    ],
+    keyboard: [
+      TAB_FOCUS('al botón de cerrar de cada mensaje'),
+      { keys: 'Enter / Espacio', action: 'Cierra el mensaje.' },
+    ],
+  },
+  'cb-confirm-dialog': {
+    screenReader: [
+      'El panel tiene `role="alertdialog"` con `aria-modal="true"` y se nombra con `header`; el mensaje y los botones de aceptar y cancelar están dentro del diálogo.',
+    ],
+    keyboard: [
+      { keys: 'Tab', action: 'Mueve el foco entre los botones.' },
+      { keys: 'Enter / Espacio', action: 'Activa el botón enfocado.' },
+    ],
+  },
+  'cb-tabs': {
+    screenReader: [
+      'Las pestañas usan `role="tablist"`, `role="tab"` (con `aria-selected`) y `role="tabpanel"`. Solo la pestaña activa entra en el orden de tabulación.',
+    ],
+    keyboard: [
+      { keys: 'Tab', action: 'Mueve el foco a la pestaña activa y luego al contenido.' },
+      { keys: 'Flecha derecha / Flecha izquierda', action: 'Activa la pestaña siguiente o anterior (de forma circular), omitiendo las deshabilitadas.' },
+      { keys: 'Inicio / Fin', action: 'Activa la primera o la última pestaña.' },
+    ],
+  },
+};

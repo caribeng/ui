@@ -6,6 +6,8 @@ import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
 import { TocService } from '../services/toc.service';
+import { DocA11yComponent } from '../components/doc-a11y.component';
+import { DOC_A11Y } from '../components/doc-a11y-registry';
 
 interface Ciudad {
   nombre: string;
@@ -15,7 +17,7 @@ interface Ciudad {
 @Component({
   selector: 'doc-listbox-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [DocPlaygroundComponent, CbListBox, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
+  imports: [DocA11yComponent, DocPlaygroundComponent, CbListBox, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
     <doc-page-header eyebrow="Formulario" title="ListBox" lead="Lista de opciones siempre visible. Simple o múltiple, con filtro." />
 
@@ -40,10 +42,13 @@ interface Ciudad {
       </div>
     </doc-section>
 
+    <doc-a11y [data]="a11y" />
+
     <doc-playground [api]="docApi" />
   `,
 })
 export class ListboxDocComponent {
+  protected readonly a11y = DOC_A11Y['cb-listbox'];
   protected readonly docApi = DOC_API['cb-listbox'];
 
   constructor() {

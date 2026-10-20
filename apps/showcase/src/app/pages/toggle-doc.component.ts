@@ -7,11 +7,13 @@ import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
 import { TocService } from '../services/toc.service';
+import { DocA11yComponent } from '../components/doc-a11y.component';
+import { DOC_A11Y } from '../components/doc-a11y-registry';
 
 @Component({
   selector: 'doc-toggle-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [DocPlaygroundComponent, 
+  imports: [DocA11yComponent, DocPlaygroundComponent, 
     ReactiveFormsModule,
     CbToggle,
     DocSectionComponent,
@@ -69,10 +71,13 @@ import { TocService } from '../services/toc.service';
       </div>
     </doc-section>
 
+    <doc-a11y [data]="a11y" />
+
     <doc-playground [api]="docApi" />
   `,
 })
 export class ToggleDocComponent {
+  protected readonly a11y = DOC_A11Y['cb-toggle'];
   protected readonly docApi = DOC_API['cb-toggle'];
 
   constructor() {
