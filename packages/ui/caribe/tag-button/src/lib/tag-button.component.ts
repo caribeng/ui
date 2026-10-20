@@ -37,7 +37,7 @@ import {
 })
 export class CbTagButton {
   /** Texto del tag. */
-  readonly label = input<string>('Filtro');
+  readonly label = input<string>('');
   /** Deshabilita la interacción. */
   readonly disabled = input<boolean>(false);
   /** Estado seleccionado (two-way: `[(selected)]`). */

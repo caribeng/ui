@@ -1,1 +1,6 @@
-export { CbPickList } from './lib/picklist.component';
+export {
+  CbPickList,
+  CbPickListItemTemplate,
+  type CbPickListItemContext,
+  type CbPickListMoveEvent,
+} from './lib/picklist.component';

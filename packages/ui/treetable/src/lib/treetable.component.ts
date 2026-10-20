@@ -30,7 +30,8 @@ export interface CbTreeTableNode {
 
 /** Contexto de `<ng-template cbTreeTableCell="campo" let-value let-node="node">`. */
 export interface CbTreeTableCellContext {
-  $implicit: unknown;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- como PrimeNG: la plantilla recibe el valor sin tipar.
+  $implicit: any;
   node: CbTreeTableNode;
   level: number;
 }

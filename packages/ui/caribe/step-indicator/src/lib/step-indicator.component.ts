@@ -60,7 +60,7 @@ export class CbStepIndicator {
   /** Número total de pasos. */
   readonly totalSteps = input<number>(4);
   /** Leyenda del paso actual. */
-  readonly label = input<string>('Datos de destino');
+  readonly label = input<string>('');
 
   protected readonly total = computed(() => Math.max(1, this.totalSteps()));
   protected readonly current = computed(() =>

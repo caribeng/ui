@@ -136,8 +136,12 @@ export interface CbTranslation {
   noRecords: string;
   moveUp: string;
   moveDown: string;
+  moveTop: string;
+  moveBottom: string;
   moveToTarget: string;
+  moveAllToTarget: string;
   moveToSource: string;
+  moveAllToSource: string;
   available: string;
   selected: string;
   sortableList: string;
@@ -331,8 +335,12 @@ export const CB_LOCALE_ES: CbTranslation = {
   noRecords: '0 registros',
   moveUp: 'Subir',
   moveDown: 'Bajar',
+  moveTop: 'Mover al inicio',
+  moveBottom: 'Mover al final',
   moveToTarget: 'Mover a seleccionados',
+  moveAllToTarget: 'Mover todos a seleccionados',
   moveToSource: 'Devolver a disponibles',
+  moveAllToSource: 'Devolver todos a disponibles',
   available: 'Disponibles',
   selected: 'Seleccionados',
   sortableList: 'Lista ordenable',
@@ -517,8 +525,12 @@ export const CB_LOCALE_EN: CbTranslation = {
   noRecords: '0 records',
   moveUp: 'Move up',
   moveDown: 'Move down',
+  moveTop: 'Move to top',
+  moveBottom: 'Move to bottom',
   moveToTarget: 'Move to selected',
+  moveAllToTarget: 'Move all to selected',
   moveToSource: 'Move back to available',
+  moveAllToSource: 'Move all back to available',
   available: 'Available',
   selected: 'Selected',
   sortableList: 'Sortable list',

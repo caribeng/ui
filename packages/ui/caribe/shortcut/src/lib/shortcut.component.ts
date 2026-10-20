@@ -39,7 +39,7 @@ import { CbIcon } from '@caribeng/ui/icon';
 })
 export class CbShortcut {
   /** Texto del acceso directo. */
-  readonly label = input<string>('Transferir');
+  readonly label = input<string>('');
   /** Icono del set núcleo. */
   readonly icon = input<string>('arrow-right');
   /** Deshabilita el acceso. */

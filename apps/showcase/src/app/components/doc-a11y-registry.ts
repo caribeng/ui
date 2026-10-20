@@ -271,4 +271,97 @@ export const DOC_A11Y: Record<string, DocA11y> = {
       { keys: 'Inicio / Fin', action: 'Activa y enfoca la primera o la última pestaña.' },
     ],
   },
+  'cb-tree': {
+    screenReader: [
+      'El árbol tiene `role="tree"` y su nombre se define con `ariaLabel`. Cada nodo es un `role="treeitem"` con `aria-level`, `aria-setsize` y `aria-posinset`; los que tienen hijos exponen `aria-expanded` y el elegido `aria-selected`.',
+      'Solo un nodo entra en el orden de tabulación (el activo, el seleccionado o el primero); los botones de expandir no reciben foco con Tab.',
+    ],
+    keyboard: [
+      { keys: 'Tab', action: 'Mueve el foco al árbol.' },
+      { keys: 'Flecha abajo / Flecha arriba', action: 'Mueve el foco al nodo visible siguiente o anterior.' },
+      { keys: 'Flecha derecha', action: 'Expande el nodo; si ya está expandido, pasa a su primer hijo.' },
+      { keys: 'Flecha izquierda', action: 'Contrae el nodo; si ya está contraído, sube a su padre.' },
+      { keys: 'Inicio / Fin', action: 'Va al primer o al último nodo visible.' },
+      { keys: 'Enter / Espacio', action: 'Selecciona el nodo enfocado.' },
+    ],
+  },
+  'cb-treetable': {
+    screenReader: [
+      'La tabla tiene `role="treegrid"` y su nombre se define con `ariaLabel`. Cada fila expone `aria-level`, `aria-setsize`, `aria-posinset` y, si tiene hijos, `aria-expanded`.',
+    ],
+    keyboard: [
+      { keys: 'Tab', action: 'Mueve el foco a la tabla.' },
+      { keys: 'Flecha abajo / Flecha arriba', action: 'Mueve el foco a la fila visible siguiente o anterior.' },
+      { keys: 'Flecha derecha', action: 'Expande la fila; si ya está expandida, pasa a su primera fila hija.' },
+      { keys: 'Flecha izquierda', action: 'Contrae la fila; si ya está contraída, sube a la fila padre.' },
+      { keys: 'Inicio / Fin', action: 'Va a la primera o a la última fila visible.' },
+      { keys: 'Enter / Espacio', action: 'Expande o contrae la fila enfocada.' },
+    ],
+  },
+  'cb-orderlist': {
+    screenReader: [
+      'La lista tiene `role="listbox"` y se nombra con `header` (mediante `aria-labelledby`) o, si no hay, con `ariaLabel`. El elemento elegido tiene `aria-selected`.',
+      'Los botones de mover tienen etiquetas accesibles y se deshabilitan cuando el movimiento no es posible.',
+    ],
+    keyboard: [
+      { keys: 'Tab', action: 'Mueve el foco a la lista.' },
+      { keys: 'Flecha abajo / Flecha arriba', action: 'Mueve el foco al elemento siguiente o anterior.' },
+      { keys: 'Inicio / Fin', action: 'Va al primer o al último elemento.' },
+      { keys: 'Enter / Espacio', action: 'Selecciona el elemento enfocado.' },
+      { keys: 'Alt + Flecha arriba / Alt + Flecha abajo', action: 'Sube o baja el elemento seleccionado.' },
+    ],
+  },
+  'cb-picklist': {
+    screenReader: [
+      'Cada lista tiene `role="listbox"` con `aria-multiselectable="true"` y se nombra con su cabecera; los elementos marcados tienen `aria-selected`.',
+    ],
+    keyboard: [
+      { keys: 'Tab', action: 'Pasa entre la lista de origen, los botones y la lista de destino.' },
+      { keys: 'Flecha abajo / Flecha arriba', action: 'Mueve el foco dentro de la lista.' },
+      { keys: 'Espacio', action: 'Marca o desmarca el elemento enfocado.' },
+      { keys: 'Enter', action: 'Transfiere los elementos marcados (o el enfocado) a la otra lista.' },
+    ],
+  },
+  'cb-megamenu': {
+    screenReader: [
+      'Sigue el patrón *disclosure navigation*: una `nav` nombrada con `ariaLabel` y botones de categoría con `aria-expanded` que apuntan a su panel con `aria-controls`.',
+    ],
+    keyboard: [
+      { keys: 'Flecha derecha / Flecha izquierda', action: 'Mueve el foco a la categoría siguiente o anterior (de forma circular).' },
+      { keys: 'Inicio / Fin', action: 'Va a la primera o a la última categoría.' },
+      { keys: 'Enter / Espacio', action: 'Abre o cierra el panel de la categoría.' },
+      { keys: 'Flecha abajo', action: 'Abre el panel y mueve el foco a su primer enlace; dentro del panel, al siguiente enlace.' },
+      { keys: 'Flecha arriba', action: 'Dentro del panel, va al enlace anterior (desde el primero, vuelve a la categoría).' },
+      { keys: 'Escape', action: 'Cierra el panel y devuelve el foco a su categoría.' },
+    ],
+  },
+  'cb-confirm-popup': {
+    screenReader: [
+      'El panel tiene `role="alertdialog"` y `aria-describedby` apunta al mensaje. Abierto con `confirm($event)`, el foco pasa al botón de cancelar y vuelve al disparador al cerrarse.',
+    ],
+    keyboard: [
+      { keys: 'Tab / Mayús + Tab', action: 'Mueve el foco entre los botones.' },
+      { keys: 'Enter / Espacio', action: 'Activa el botón enfocado.' },
+      { keys: 'Escape', action: 'Cancela y cierra la confirmación (emite `rejected`).' },
+    ],
+  },
+  'cb-dynamic-dialog': {
+    screenReader: [
+      'El panel tiene `role="dialog"` con `aria-modal="true"` y se nombra con `header` (`aria-labelledby`) o, si no hay título, con `ariaLabel` de la configuración.',
+      'Al abrirse, el foco queda atrapado dentro del diálogo; al cerrarse vuelve al elemento que lo abrió.',
+    ],
+    keyboard: [
+      { keys: 'Tab / Mayús + Tab', action: 'Mueve el foco entre los elementos del diálogo sin salir de él.' },
+      { keys: 'Escape', action: 'Cierra el diálogo (si `closeOnEscape` no es false).' },
+    ],
+  },
+  'cb-virtualscroller': {
+    screenReader: [
+      'La lista tiene `role="list"` y su nombre se define con `ariaLabel`. Aunque solo se pintan los elementos visibles, cada uno expone `aria-setsize` (el total) y `aria-posinset` (su posición real).',
+    ],
+    keyboard: [
+      { keys: 'Tab', action: 'Mueve el foco a la lista.' },
+      { keys: 'Flecha abajo / Flecha arriba / Re Pág / Av Pág', action: 'Desplaza la lista.' },
+    ],
+  },
 };

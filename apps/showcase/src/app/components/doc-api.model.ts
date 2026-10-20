@@ -23,6 +23,8 @@ export interface DocProp {
    * (p. ej. `select` para el placeholder de Select). La tabla muestra ese texto.
    */
   localeKey?: string;
+  /** Valor con el que arranca la demo del playground cuando el default real es vacío. */
+  example?: unknown;
 }
 
 export interface DocEvent {

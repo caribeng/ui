@@ -21,7 +21,9 @@ import {
   host: { class: 'cb-footer-host' },
   template: `
     <footer class="cb-footer">
-      <span class="cb-footer__copy">{{ copyright() }}</span>
+      @if (copyright()) {
+        <span class="cb-footer__copy">{{ copyright() }}</span>
+      }
       <div class="cb-footer__links">
         <ng-content />
       </div>
@@ -31,7 +33,5 @@ import {
 })
 export class CbFooter {
   /** Texto de copyright. */
-  readonly copyright = input<string>(
-    '© 2026 CaribeNG Design System. Todos los derechos reservados.',
-  );
+  readonly copyright = input<string>('');
 }

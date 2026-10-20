@@ -37,6 +37,6 @@ export class CbPreloader {
   /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
   protected readonly t = injectCbTranslation();
   readonly active = input<boolean>(true);
-  readonly title = input<string>('CaribeNG');
+  readonly title = input<string>('');
   readonly label = input<string | undefined>(undefined);
 }

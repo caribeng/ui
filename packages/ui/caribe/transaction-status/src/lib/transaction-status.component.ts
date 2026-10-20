@@ -28,7 +28,7 @@ import {
 })
 export class CbTransactionStatus {
   readonly status = input<'success' | 'warning' | 'error' | 'info'>('success');
-  readonly label = input('Transacción completada');
+  readonly label = input('');
 
   protected glyph(): string {
     switch (this.status()) {

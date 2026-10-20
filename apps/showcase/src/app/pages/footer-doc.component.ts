@@ -16,8 +16,8 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
       subtitle="Pie de página institucional con texto legal y ranura para enlaces."
       importCode="import { CbFooter } from '@caribeng/ui/caribe/footer';"
     >
-      <cb-doc-example title="Pie institucional" description="Pie de página institucional listo para usar." code='<cb-footer />'>
-        <cb-footer />
+      <cb-doc-example title="Pie institucional" description="copyright define el texto legal; los enlaces se proyectan como contenido." code='<cb-footer copyright="© 2026 CaribeNG. Todos los derechos reservados." />'>
+        <cb-footer copyright="© 2026 CaribeNG. Todos los derechos reservados." />
       </cb-doc-example>
     
       <doc-playground [api]="docApi" />

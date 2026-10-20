@@ -1,4 +1,5 @@
 import {
+  computed,
   ChangeDetectionStrategy,
   Component,
   ViewEncapsulation,
@@ -23,7 +24,7 @@ import { injectCbTranslation } from '@caribeng/ui';
   host: { class: 'cb-file-download-host' },
   template: `
     <div class="cb-file-download">
-      <span class="cb-file-download__icon" aria-hidden="true">PDF</span>
+      <span class="cb-file-download__icon" aria-hidden="true">{{ extension() }}</span>
       <div class="cb-file-download__meta">
         <strong class="cb-file-download__name">{{ fileName() }}</strong>
         <span class="cb-file-download__size">{{ fileSize() }}</span>
@@ -43,8 +44,14 @@ import { injectCbTranslation } from '@caribeng/ui';
 export class CbFileDownload {
   /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
   protected readonly t = injectCbTranslation();
-  readonly fileName = input<string>('Certificado_Bancario.pdf');
-  readonly fileSize = input<string>('420 KB');
+  readonly fileName = input<string>('');
+  readonly fileSize = input<string>('');
+  /** Tipo de archivo mostrado en la insignia, a partir de la extensión (p. ej. PDF, XLSX). */
+  protected readonly extension = computed(() => {
+    const name = this.fileName();
+    const dot = name.lastIndexOf('.');
+    return dot > 0 ? name.slice(dot + 1, dot + 5).toUpperCase() : '';
+  });
   readonly href = input<string>('');
   readonly buttonLabel = input<string | undefined>(undefined);
   readonly disabled = input<boolean>(false);

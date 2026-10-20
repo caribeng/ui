@@ -1,1 +1,6 @@
-export { CbOrderList } from './lib/orderlist.component';
+export {
+  CbOrderList,
+  CbOrderListItemTemplate,
+  type CbOrderListItemContext,
+  type CbOrderListReorderEvent,
+} from './lib/orderlist.component';

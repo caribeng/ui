@@ -52,7 +52,7 @@ export class CbHeader {
   /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
   protected readonly t = injectCbTranslation();
   /** Título principal. */
-  readonly title = input<string>('CaribeNG');
+  readonly title = input<string>('');
   /** Subtítulo opcional. */
   readonly subtitle = input<string>('');
   /** Muestra el botón de retroceso. */

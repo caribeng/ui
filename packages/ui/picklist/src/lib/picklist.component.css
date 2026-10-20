@@ -1,0 +1,115 @@
+:host {
+  display: block;
+  color: var(--cb-color-text);
+}
+
+.cb-picklist {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  gap: var(--cb-space-3, 0.75rem);
+  align-items: stretch;
+}
+
+.cb-picklist__controls {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--cb-space-2, 0.5rem);
+}
+
+.cb-picklist__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+  border: 1px solid var(--cb-color-border);
+  border-radius: var(--cb-radius-md, 0.5rem);
+  background: var(--cb-color-surface-raised);
+  color: var(--cb-color-text);
+  cursor: pointer;
+}
+
+.cb-picklist__btn:hover:not(:disabled) {
+  border-color: var(--cb-color-primary-500);
+  color: var(--cb-color-primary-600);
+}
+
+.cb-picklist__btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.cb-picklist__btn:focus-visible {
+  outline: 2px solid var(--cb-color-focus-ring, var(--cb-color-primary-500));
+  outline-offset: 2px;
+}
+
+.cb-picklist__panel {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  border: 1px solid var(--cb-color-border);
+  border-radius: var(--cb-radius-lg, 0.75rem);
+  background: var(--cb-color-surface-raised);
+  overflow: hidden;
+}
+
+.cb-picklist__header {
+  padding: 0.65rem 0.85rem;
+  font-weight: var(--cb-font-weight-semibold, 600);
+  border-bottom: 1px solid var(--cb-color-border);
+}
+
+.cb-picklist__list {
+  flex: 1;
+  height: 14rem;
+  margin: 0;
+  padding: var(--cb-space-1, 0.25rem);
+  list-style: none;
+  overflow-y: auto;
+}
+
+.cb-picklist__item {
+  padding: 0.6rem 0.75rem;
+  border-radius: var(--cb-radius-md, 0.5rem);
+  cursor: pointer;
+  outline: none;
+  font-size: var(--cb-text-sm, 0.875rem);
+  user-select: none;
+}
+
+.cb-picklist__item:hover {
+  background: color-mix(in srgb, var(--cb-color-text) 6%, transparent);
+}
+
+.cb-picklist__item[aria-selected='true'] {
+  color: var(--cb-color-primary-700);
+  background: color-mix(in srgb, var(--cb-color-primary-500) 14%, transparent);
+  font-weight: var(--cb-font-weight-medium, 500);
+}
+
+.cb-picklist__item:focus-visible {
+  box-shadow: inset 0 0 0 2px var(--cb-color-focus-ring, var(--cb-color-primary-500));
+}
+
+/* En pantallas estrechas, las listas se apilan y los botones quedan en fila. */
+@media (max-width: 640px) {
+  .cb-picklist {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .cb-picklist__controls {
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  .cb-picklist__controls cb-icon {
+    transform: rotate(90deg);
+  }
+}
+
+:host-context([data-theme='dark']) .cb-picklist__item[aria-selected='true'] {
+  color: var(--cb-color-primary-300);
+}

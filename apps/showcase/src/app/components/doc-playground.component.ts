@@ -181,7 +181,8 @@ export class DocPlaygroundComponent {
   /** Valores actuales de cada prop; se reinicia si cambia la API. */
   protected readonly model = linkedSignal<Record<string, unknown>>(() => {
     const rec: Record<string, unknown> = {};
-    for (const p of this.api().props) rec[p.name] = p.default;
+    // La demo arranca con el valor de ejemplo (si lo hay); la tabla muestra el default real.
+    for (const p of this.api().props) rec[p.name] = p.example !== undefined ? p.example : p.default;
     return rec;
   });
 

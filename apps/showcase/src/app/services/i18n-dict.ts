@@ -1559,6 +1559,175 @@ export const ES_EN: Record<string, string> = {
   'Indicador de obligatoriedad en la etiqueta; si se omite usa el global de provideCaribeNG().':
     'Required indicator in the label; if omitted, the global one from provideCaribeNG() is used.',
 
+  // --- Componentes reescritos (Tree, TreeTable, VirtualScroller, DataView, Timeline, OrderList, PickList, overlays) ---
+  'Diálogo modal para confirmar una acción antes de ejecutarla; atrapa el foco y se cancela con Escape.':
+    'Modal dialog to confirm an action before running it; it traps focus and is cancelled with Escape.',
+  'Se abre con [(visible)]; accepted y rejected avisan de la decisión. Sin textos propios, usa los del idioma activo.':
+    'Opens with [(visible)]; accepted and rejected report the decision. Without custom texts, it uses those of the active language.',
+  'header, message y los textos de los botones se personalizan; acceptSeverity="danger" marca el botón de aceptar como peligroso.':
+    'header, message and the button texts can be customized; acceptSeverity="danger" marks the accept button as dangerous.',
+  'Acción destructiva': 'Destructive action',
+  'Confirmación breve que aparece junto al botón que la dispara, sin bloquear el resto de la página.':
+    'Short confirmation shown next to the button that triggers it, without blocking the rest of the page.',
+  'confirm($event) la abre anclada al botón pulsado; accepted y rejected avisan de la decisión. Escape o un clic fuera la cancelan.':
+    'confirm($event) opens it anchored to the clicked button; accepted and rejected report the decision. Escape or an outside click cancel it.',
+  'Con [(visible)] se muestra dentro del flujo de la página, donde esté el componente.':
+    'With [(visible)] it is shown inline in the page flow, wherever the component is placed.',
+  'En línea': 'Inline',
+  'Sin cuota de manejo y con retiros gratis.': 'No fees and free withdrawals.',
+  'Compra en cuotas y acumula puntos.': 'Pay in installments and earn points.',
+  'Rentabilidad fija a 90, 180 o 360 días.': 'Fixed return at 90, 180 or 360 days.',
+  'Muestra una colección en lista o cuadrícula con la plantilla que definas, paginación y cambio de vista.':
+    'Displays a collection as a list or grid with your own template, pagination and layout switching.',
+  'Sin plantilla, cada elemento (con id, title, category y description) se muestra como tarjeta con un botón de selección.':
+    'Without a template, each item (with id, title, category and description) is shown as a card with a select button.',
+  'cbDataViewItem define cada elemento y recibe la vista activa; showLayoutToggle añade los botones lista/cuadrícula y rows activa el paginador.':
+    'cbDataViewItem defines each item and receives the active layout; showLayoutToggle adds the list/grid buttons and rows enables the paginator.',
+  'Plantilla, vistas y paginación': 'Template, layouts and pagination',
+  'Abre cualquier componente dentro de un diálogo desde código, le pasa datos y recibe un resultado al cerrarse.':
+    'Opens any component inside a dialog from code, passes it data and receives a result when it closes.',
+  'open() recibe el componente y la configuración (header, data, width) y devuelve una referencia; onClose emite el resultado.':
+    'open() takes the component and the configuration (header, data, width) and returns a reference; onClose emits the result.',
+  'El componente abierto inyecta CB_DYNAMIC_DIALOG_DATA para leer los datos y CbDynamicDialogRef para cerrarse con close(resultado).':
+    'The opened component injects CB_DYNAMIC_DIALOG_DATA to read the data and CbDynamicDialogRef to close itself with close(result).',
+  'Para mensajes simples, cb-dynamic-dialog muestra header y content y se controla con [(visible)].':
+    'For simple messages, cb-dynamic-dialog shows header and content and is controlled with [(visible)].',
+  'Con CbDialogService': 'With CbDialogService',
+  'Componente abierto': 'Opened component',
+  'Declarativo': 'Declarative',
+  'copyright define el texto legal; los enlaces se proyectan como contenido.':
+    'copyright sets the legal text; links are projected as content.',
+  'Cada categoría agrupa enlaces en columnas (groups). itemSelect emite el enlace elegido; ariaLabel nombra la navegación.':
+    'Each category groups links in columns (groups). itemSelect emits the chosen link; ariaLabel names the navigation.',
+  'Lista reordenable: selecciona un elemento y muévelo con los botones o con Alt + flechas.':
+    'Reorderable list: select an item and move it with the buttons or with Alt + arrows.',
+  'El orden se enlaza con [(value)]; header pone un título visible que también nombra la lista.':
+    'The order is bound with [(value)]; header adds a visible title that also names the list.',
+  'cbOrderListItem define cada elemento y reorder emite la posición de origen, la de destino y la lista nueva.':
+    'cbOrderListItem defines each item and reorder emits the source position, the target position and the new list.',
+  'Plantilla y evento reorder': 'Template and reorder event',
+  'Transfiere elementos entre una lista de disponibles y otra de seleccionados con botones, doble clic o teclado.':
+    'Transfers items between an available list and a selected list with buttons, double click or keyboard.',
+  '[(source)] y [(target)] enlazan las dos listas. Marca elementos y transfiérelos con los botones, o haz doble clic en uno.':
+    '[(source)] and [(target)] bind both lists. Mark items and transfer them with the buttons, or double-click one.',
+  'cbPickListItem define cada elemento; sourceHeader y targetHeader cambian los títulos y moved emite los elementos transferidos.':
+    'cbPickListItem defines each item; sourceHeader and targetHeader change the titles and moved emits the transferred items.',
+  'Plantilla, cabeceras y evento moved': 'Template, headers and moved event',
+  'Salió del centro de distribución.': 'Left the distribution center.',
+  'Validamos tus datos.': 'We are validating your data.',
+  'Un asesor revisa tu caso.': 'An advisor is reviewing your case.',
+  'Sube tu certificado laboral.': 'Upload your employment certificate.',
+  'Muestra una secuencia de eventos en el tiempo, en vertical u horizontal, con plantillas para el contenido.':
+    'Displays a sequence of events over time, vertically or horizontally, with templates for the content.',
+  'Cada evento tiene title y, opcionalmente, date, datetime (fecha legible por máquina) y description.':
+    'Each event has a title and, optionally, date, datetime (machine-readable date) and description.',
+  'icon muestra un icono dentro del marcador y color cambia su color.':
+    'icon shows an icon inside the marker and color changes its color.',
+  'align coloca el contenido a la izquierda (left), a la derecha (right) o alternado (alternate). La plantilla cbTimelineOpposite rellena el lado contrario.':
+    'align places the content on the left, on the right or alternating (alternate). The cbTimelineOpposite template fills the opposite side.',
+  'orientation="horizontal" dispone los eventos en fila, útil para seguimientos cortos.':
+    'orientation="horizontal" lays the events out in a row, useful for short tracking flows.',
+  'cbTimelineContent sustituye el contenido de cada evento por el tuyo, por ejemplo una tarjeta.':
+    'cbTimelineContent replaces the content of each event with yours, for example a card.',
+  'Iconos y colores': 'Icons and colors',
+  'Alineación': 'Alignment',
+  'Plantilla de contenido': 'Content template',
+  'Estructura jerárquica con niveles ilimitados, selección y navegación completa con teclado.':
+    'Hierarchical structure with unlimited levels, selection and full keyboard navigation.',
+  'value recibe los nodos raíz; cada nodo puede tener children con más niveles. El nodo elegido se enlaza con [(selection)].':
+    'value takes the root nodes; each node can have children with more levels. The chosen node is bound with [(selection)].',
+  'icon muestra un icono junto al nodo y disabled impide seleccionarlo (sí se puede expandir).':
+    'icon shows an icon next to the node and disabled prevents selecting it (it can still be expanded).',
+  'expandAll() y collapseAll() se llaman a través de una referencia de plantilla.':
+    'expandAll() and collapseAll() are called through a template reference.',
+  'Con ng-template cbTreeNode personalizas el contenido de cada nodo; recibe el nodo, su nivel y si está expandido o seleccionado.':
+    'With ng-template cbTreeNode you customize each node; it receives the node, its level and whether it is expanded or selected.',
+  'Iconos y nodos deshabilitados': 'Icons and disabled nodes',
+  'Expandir y contraer todo': 'Expand and collapse all',
+  'Plantilla de nodo': 'Node template',
+  'Tabla jerárquica: filas con hijos expandibles en niveles ilimitados, con sangría y navegación con teclado.':
+    'Hierarchical table: rows with expandable children at unlimited levels, with indentation and keyboard navigation.',
+  'columns define las columnas (la primera muestra la jerarquía) y value los nodos, cada uno con data y, opcionalmente, children.':
+    'columns defines the columns (the first shows the hierarchy) and value the nodes, each with data and, optionally, children.',
+  'ng-template cbTreeTableCell="campo" personaliza las celdas de una columna; recibe el valor, el nodo y su nivel.':
+    'ng-template cbTreeTableCell="field" customizes the cells of a column; it receives the value, the node and its level.',
+  'Plantilla de celda': 'Cell template',
+  'Lista virtualizada: muestra miles de elementos pintando solo los visibles, para que el desplazamiento sea fluido.':
+    'Virtualized list: shows thousands of items rendering only the visible ones, so scrolling stays smooth.',
+  'items recibe la lista completa; itemSize es el alto fijo de cada fila y viewportHeight el alto visible, ambos en píxeles.':
+    'items takes the full list; itemSize is the fixed height of each row and viewportHeight the visible height, both in pixels.',
+  'ng-template cbVirtualItem define cómo se pinta cada elemento; recibe el elemento y su índice real. Aquí, 10 000 clientes.':
+    'ng-template cbVirtualItem defines how each item is rendered; it receives the item and its real index. Here, 10,000 customers.',
+  'scrollToIndex() desplaza la lista hasta el elemento indicado, a través de una referencia de plantilla.':
+    'scrollToIndex() scrolls the list to the given item, through a template reference.',
+  'Plantilla de elemento': 'Item template',
+  'Ir a un elemento': 'Go to an item',
+
+  // --- Accesibilidad de los componentes reescritos ---
+  'El árbol tiene `role="tree"` y su nombre se define con `ariaLabel`. Cada nodo es un `role="treeitem"` con `aria-level`, `aria-setsize` y `aria-posinset`; los que tienen hijos exponen `aria-expanded` y el elegido `aria-selected`.':
+    'The tree has `role="tree"` and its name is set with `ariaLabel`. Each node is a `role="treeitem"` with `aria-level`, `aria-setsize` and `aria-posinset`; nodes with children expose `aria-expanded` and the chosen one `aria-selected`.',
+  'Solo un nodo entra en el orden de tabulación (el activo, el seleccionado o el primero); los botones de expandir no reciben foco con Tab.':
+    'Only one node is in the tab order (the active, the selected or the first one); the expand buttons do not receive focus with Tab.',
+  'Mueve el foco al árbol.': 'Moves focus to the tree.',
+  'Mueve el foco al nodo visible siguiente o anterior.': 'Moves focus to the next or previous visible node.',
+  'Flecha derecha': 'Right arrow',
+  'Expande el nodo; si ya está expandido, pasa a su primer hijo.':
+    'Expands the node; if it is already expanded, moves to its first child.',
+  'Flecha izquierda': 'Left arrow',
+  'Contrae el nodo; si ya está contraído, sube a su padre.':
+    'Collapses the node; if it is already collapsed, moves up to its parent.',
+  'Va al primer o al último nodo visible.': 'Goes to the first or last visible node.',
+  'Selecciona el nodo enfocado.': 'Selects the focused node.',
+  'La tabla tiene `role="treegrid"` y su nombre se define con `ariaLabel`. Cada fila expone `aria-level`, `aria-setsize`, `aria-posinset` y, si tiene hijos, `aria-expanded`.':
+    'The table has `role="treegrid"` and its name is set with `ariaLabel`. Each row exposes `aria-level`, `aria-setsize`, `aria-posinset` and, if it has children, `aria-expanded`.',
+  'Mueve el foco a la tabla.': 'Moves focus to the table.',
+  'Mueve el foco a la fila visible siguiente o anterior.': 'Moves focus to the next or previous visible row.',
+  'Expande la fila; si ya está expandida, pasa a su primera fila hija.':
+    'Expands the row; if it is already expanded, moves to its first child row.',
+  'Contrae la fila; si ya está contraída, sube a la fila padre.':
+    'Collapses the row; if it is already collapsed, moves up to the parent row.',
+  'Va a la primera o a la última fila visible.': 'Goes to the first or last visible row.',
+  'Expande o contrae la fila enfocada.': 'Expands or collapses the focused row.',
+  'La lista tiene `role="listbox"` y se nombra con `header` (mediante `aria-labelledby`) o, si no hay, con `ariaLabel`. El elemento elegido tiene `aria-selected`.':
+    'The list has `role="listbox"` and is named by `header` (through `aria-labelledby`) or, if there is none, by `ariaLabel`. The chosen item has `aria-selected`.',
+  'Los botones de mover tienen etiquetas accesibles y se deshabilitan cuando el movimiento no es posible.':
+    'The move buttons have accessible labels and are disabled when the move is not possible.',
+  'Mueve el foco al elemento siguiente o anterior.': 'Moves focus to the next or previous item.',
+  'Va al primer o al último elemento.': 'Goes to the first or last item.',
+  'Selecciona el elemento enfocado.': 'Selects the focused item.',
+  'Alt + Flecha arriba / Alt + Flecha abajo': 'Alt + Up arrow / Alt + Down arrow',
+  'Sube o baja el elemento seleccionado.': 'Moves the selected item up or down.',
+  'Cada lista tiene `role="listbox"` con `aria-multiselectable="true"` y se nombra con su cabecera; los elementos marcados tienen `aria-selected`.':
+    'Each list has `role="listbox"` with `aria-multiselectable="true"` and is named by its header; marked items have `aria-selected`.',
+  'Pasa entre la lista de origen, los botones y la lista de destino.':
+    'Moves between the source list, the buttons and the target list.',
+  'Mueve el foco dentro de la lista.': 'Moves focus within the list.',
+  'Marca o desmarca el elemento enfocado.': 'Marks or unmarks the focused item.',
+  'Transfiere los elementos marcados (o el enfocado) a la otra lista.':
+    'Transfers the marked items (or the focused one) to the other list.',
+  'Sigue el patrón *disclosure navigation*: una `nav` nombrada con `ariaLabel` y botones de categoría con `aria-expanded` que apuntan a su panel con `aria-controls`.':
+    'Follows the *disclosure navigation* pattern: a `nav` named with `ariaLabel` and category buttons with `aria-expanded` pointing to their panel with `aria-controls`.',
+  'Mueve el foco a la categoría siguiente o anterior (de forma circular).':
+    'Moves focus to the next or previous category (wrapping around).',
+  'Va a la primera o a la última categoría.': 'Goes to the first or last category.',
+  'Abre o cierra el panel de la categoría.': 'Opens or closes the category panel.',
+  'Abre el panel y mueve el foco a su primer enlace; dentro del panel, al siguiente enlace.':
+    'Opens the panel and moves focus to its first link; inside the panel, to the next link.',
+  'Dentro del panel, va al enlace anterior (desde el primero, vuelve a la categoría).':
+    'Inside the panel, goes to the previous link (from the first one, returns to the category).',
+  'Cierra el panel y devuelve el foco a su categoría.': 'Closes the panel and returns focus to its category.',
+  'El panel tiene `role="alertdialog"` y `aria-describedby` apunta al mensaje. Abierto con `confirm($event)`, el foco pasa al botón de cancelar y vuelve al disparador al cerrarse.':
+    'The panel has `role="alertdialog"` and `aria-describedby` points to the message. When opened with `confirm($event)`, focus moves to the cancel button and returns to the trigger on close.',
+  'Mueve el foco entre los botones.': 'Moves focus between the buttons.',
+  'Cancela y cierra la confirmación (emite `rejected`).': 'Cancels and closes the confirmation (emits `rejected`).',
+  'El panel tiene `role="dialog"` con `aria-modal="true"` y se nombra con `header` (`aria-labelledby`) o, si no hay título, con `ariaLabel` de la configuración.':
+    'The panel has `role="dialog"` with `aria-modal="true"` and is named by `header` (`aria-labelledby`) or, without a title, by the configuration `ariaLabel`.',
+  'Cierra el diálogo (si `closeOnEscape` no es false).': 'Closes the dialog (unless `closeOnEscape` is false).',
+  'La lista tiene `role="list"` y su nombre se define con `ariaLabel`. Aunque solo se pintan los elementos visibles, cada uno expone `aria-setsize` (el total) y `aria-posinset` (su posición real).':
+    'The list has `role="list"` and its name is set with `ariaLabel`. Although only visible items are rendered, each exposes `aria-setsize` (the total) and `aria-posinset` (its real position).',
+  'Flecha abajo / Flecha arriba / Re Pág / Av Pág': 'Down arrow / Up arrow / Page Up / Page Down',
+  'Desplaza la lista.': 'Scrolls the list.',
+
   // --- API de Select / MultiSelect (etiquetado accesible) ---
   'Nombre accesible del disparador cuando no hay etiqueta visible.':
     'Accessible name of the trigger when there is no visible label.',

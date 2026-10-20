@@ -1,0 +1,26 @@
+:host {
+  display: inline-block;
+}
+
+.cb-confirm-popup {
+  min-width: 15rem;
+  max-width: 22rem;
+  padding: var(--cb-space-4, 1rem);
+  border: 1px solid var(--cb-color-border);
+  border-radius: var(--cb-radius-lg, 0.75rem);
+  background: var(--cb-color-surface-raised);
+  color: var(--cb-color-text);
+  box-shadow: 0 0.75rem 2rem color-mix(in srgb, #000 18%, transparent);
+}
+
+.cb-confirm-popup__message {
+  margin: 0 0 var(--cb-space-3, 0.75rem);
+  font-size: var(--cb-text-sm, 0.875rem);
+  line-height: 1.5;
+}
+
+.cb-confirm-popup__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--cb-space-2, 0.5rem);
+}

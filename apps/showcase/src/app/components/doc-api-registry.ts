@@ -277,7 +277,7 @@ export const DOC_API: Record<string, DocApi> = {
     component: CbCalendar,
     selector: "cb-calendar",
     props: [
-      { name: "monthLabel", kind: "string", type: "string", default: "Octubre 2026", description: "" },
+      { name: "monthLabel", kind: "string", type: "string", default: "", example: "Octubre 2026", description: "" },
       { name: "totalDays", kind: "number", type: "number", default: 31, description: "" },
       { name: "selectedDay", kind: "number", type: "number (model)", default: 17, description: "" }
     ]
@@ -662,8 +662,8 @@ export const DOC_API: Record<string, DocApi> = {
     component: CbFileDownload,
     selector: "cb-file-download",
     props: [
-      { name: "fileName", kind: "string", type: "string", default: "Certificado_Bancario.pdf", description: "" },
-      { name: "fileSize", kind: "string", type: "string", default: "420 KB", description: "" },
+      { name: "fileName", kind: "string", type: "string", default: "", example: "Certificado_Bancario.pdf", description: "" },
+      { name: "fileSize", kind: "string", type: "string", default: "", example: "420 KB", description: "" },
       { name: "href", kind: "string", type: "string", default: "", description: "" },
       { name: "buttonLabel", kind: "string", type: "string", default: undefined, localeKey: "download", description: "" },
       { name: "disabled", kind: "boolean", type: "boolean", default: false, description: "" }
@@ -727,7 +727,7 @@ export const DOC_API: Record<string, DocApi> = {
     selector: "cb-footer",
     content: { default: "Content" },
     props: [
-      { name: "copyright", kind: "string", type: "string", default: "© 2026 CaribeNG Design System. Todos los derechos reservados.", description: "Texto de copyright." }
+      { name: "copyright", kind: "string", type: "string", default: "", example: "© 2026 CaribeNG Design System. Todos los derechos reservados.", description: "Texto de copyright." }
     ]
   },
   "cb-galleria": {
@@ -745,7 +745,7 @@ export const DOC_API: Record<string, DocApi> = {
     selector: "cb-header",
     content: { default: "Content" },
     props: [
-      { name: "title", kind: "string", type: "string", default: "CaribeNG", description: "Título principal." },
+      { name: "title", kind: "string", type: "string", default: "", example: "CaribeNG", description: "Título principal." },
       { name: "subtitle", kind: "string", type: "string", default: "", description: "Subtítulo opcional." },
       { name: "showBack", kind: "boolean", type: "boolean", default: false, description: "Muestra el botón de retroceso." }
     ],
@@ -1275,7 +1275,7 @@ export const DOC_API: Record<string, DocApi> = {
     selector: "cb-preloader",
     props: [
       { name: "active", kind: "boolean", type: "boolean", default: true, description: "" },
-      { name: "title", kind: "string", type: "string", default: "CaribeNG", description: "" },
+      { name: "title", kind: "string", type: "string", default: "", example: "CaribeNG", description: "" },
       { name: "label", kind: "string", type: "string", default: undefined, localeKey: "preparingSession", description: "" }
     ]
   },
@@ -1409,7 +1409,7 @@ export const DOC_API: Record<string, DocApi> = {
     component: CbShortcut,
     selector: "cb-shortcut",
     props: [
-      { name: "label", kind: "string", type: "string", default: "Transferir", description: "Texto del acceso directo." },
+      { name: "label", kind: "string", type: "string", default: "", example: "Transferir", description: "Texto del acceso directo." },
       { name: "icon", kind: "string", type: "string", default: "arrow-right", description: "Icono del set núcleo." },
       { name: "disabled", kind: "boolean", type: "boolean", default: false, description: "Deshabilita el acceso." }
     ],
@@ -1501,7 +1501,7 @@ export const DOC_API: Record<string, DocApi> = {
     props: [
       { name: "currentStep", kind: "number", type: "number", default: 1, description: "Paso actual (1-based)." },
       { name: "totalSteps", kind: "number", type: "number", default: 4, description: "Número total de pasos." },
-      { name: "label", kind: "string", type: "string", default: "Datos de destino", description: "Leyenda del paso actual." }
+      { name: "label", kind: "string", type: "string", default: "", example: "Datos de destino", description: "Leyenda del paso actual." }
     ]
   },
   "cb-stepper": {
@@ -1590,7 +1590,7 @@ export const DOC_API: Record<string, DocApi> = {
     component: CbTagButton,
     selector: "cb-tag-button",
     props: [
-      { name: "label", kind: "string", type: "string", default: "Filtro", description: "Texto del tag." },
+      { name: "label", kind: "string", type: "string", default: "", example: "Filtro", description: "Texto del tag." },
       { name: "disabled", kind: "boolean", type: "boolean", default: false, description: "Deshabilita la interacción." },
       { name: "selected", kind: "boolean", type: "boolean (model)", default: false, description: "Estado seleccionado (two-way: `[(selected)]`)." }
     ],
@@ -1722,7 +1722,7 @@ export const DOC_API: Record<string, DocApi> = {
     selector: "cb-transaction-status",
     props: [
       { name: "status", kind: "enum", type: "'success' | 'warning' | 'error' | 'info'", options: ["success", "warning", "error", "info"], default: "success", description: "" },
-      { name: "label", kind: "string", type: "string", default: "Transacción completada", description: "" }
+      { name: "label", kind: "string", type: "string", default: "", example: "Transacción completada", description: "" }
     ]
   },
   "cb-tree": {

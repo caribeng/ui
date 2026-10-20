@@ -10,7 +10,24 @@ Desde la 22.0.0 el major de la librería coincide con el de Angular (22.x = Angu
 
 ## [Unreleased]
 
+### Breaking
+- **Caribe Design:** los textos de contenido de ejemplo ya no se muestran por defecto: `title` de Header y Preloader, `label` de Shortcut, StepIndicator, TagButton y TransactionStatus, `monthLabel` de Calendar, `fileName` / `fileSize` de FileDownload y `copyright` de Footer pasan a ser `''`. Pasa el texto que necesites.
+- **OrderList:** la selección pasa a ser por posición y se añaden los botones de mover al inicio y al final.
+- **DynamicDialog:** `cb-dynamic-dialog` ahora se apoya en `cb-dialog` (trampa de foco, Escape y devolución del foco).
+
 ### Added
+- **DynamicDialog:** `CbDialogService.open(Componente, { header, data, width })` abre cualquier componente en un diálogo; el componente recibe `CB_DYNAMIC_DIALOG_DATA` y se cierra con `CbDynamicDialogRef.close(resultado)`, que llega por `onClose`.
+- **Tree:** niveles ilimitados, plantilla `cbTreeNode`, navegación con teclado (patrón WAI-ARIA *tree*), nodos deshabilitados, `expandAll()` / `collapseAll()` y eventos `nodeExpand`, `nodeCollapse` y `nodeSelect`.
+- **TreeTable:** niveles ilimitados, `role="treegrid"` con navegación con teclado y plantilla de celda `cbTreeTableCell`.
+- **VirtualScroller:** plantilla `cbVirtualItem`, `buffer`, `scrollToIndex()` y `aria-setsize` / `aria-posinset` en cada elemento.
+- **DataView:** plantilla `cbDataViewItem`, cabecera `cbDataViewHeader`, cambio de vista lista/cuadrícula (`showLayoutToggle`) y paginación con `rows`.
+- **Timeline:** `align` (`left`, `right`, `alternate`), plantillas `cbTimelineContent`, `cbTimelineOpposite` y `cbTimelineMarker`, e `icon` / `color` por evento.
+- **OrderList:** plantilla `cbOrderListItem`, cabecera `header`, reordenado con Alt + flechas y evento `reorder`.
+- **PickList:** selección múltiple, mover todos, doble clic, teclado, plantilla `cbPickListItem`, `sourceHeader` / `targetHeader` y evento `moved`.
+- **ConfirmPopup:** `confirm($event)` la abre anclada al botón que la dispara; Escape o un clic fuera la cancelan y el foco vuelve al disparador. `acceptSeverity` para acciones destructivas.
+- **ConfirmDialog:** `acceptSeverity` para marcar el botón de aceptar como peligroso.
+- **MegaMenu:** navegación con teclado (flechas, Inicio/Fin, Escape) según el patrón *disclosure navigation*.
+- **Showcase:** páginas de Tree, TreeTable, VirtualScroller, DataView, Timeline, OrderList, PickList, ConfirmDialog, ConfirmPopup, DynamicDialog y MegaMenu reescritas con ejemplos por funcionalidad y sección de accesibilidad.
 - **Idioma (i18n):** sistema de traducción de los textos de interfaz (etiquetas accesibles, botones, placeholders y mensajes) en español e inglés, con `provideCaribeNG({ locale, translation })`, cambio en caliente con `CbLocaleService.use()` y `setTranslation()`, y `cbFormat()` para textos con valores. Aplica a 79 componentes.
 - **Showcase:** página Idioma (i18n) con todas las claves; el selector ES/EN del sitio cambia también el idioma de los componentes.
 
@@ -19,6 +36,7 @@ Desde la 22.0.0 el major de la librería coincide con el de Angular (22.x = Angu
 - **ConfirmPopup:** el mensaje por defecto se unifica con el de ConfirmDialog ("¿Deseas continuar?").
 - **CascadeSelect / TreeSelect / InputSelect:** el placeholder por defecto se unifica en "Seleccionar".
 - **Formularios:** `requiredText` y `optionalText` de `provideCaribeNG()` pasan a ser opcionales; si se omiten, se usan los del idioma activo.
+- **ConfirmDialog / ConfirmPopup / OrderList / PickList:** los botones usan `cb-button` y el código de los 11 componentes reescritos es legible (antes estaba minificado).
 
 ---
 

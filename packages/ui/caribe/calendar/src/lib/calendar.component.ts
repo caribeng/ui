@@ -48,7 +48,7 @@ import {
   styleUrl: './calendar.component.css',
 })
 export class CbCalendar {
-  readonly monthLabel = input<string>('Octubre 2026');
+  readonly monthLabel = input<string>('');
   readonly totalDays = input<number>(31);
   readonly selectedDay = model<number>(17);
 

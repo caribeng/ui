@@ -1,5 +1,43 @@
+import { ChangeDetectionStrategy, Component, ViewEncapsulation, input, model, output } from '@angular/core';
 import { injectCbTranslation } from '@caribeng/ui';
-import{ChangeDetectionStrategy,Component,input,model,output}from'@angular/core';@Component({selector:'cb-dynamic-dialog',standalone:true,changeDetection:ChangeDetectionStrategy.OnPush,template:`@if(visible()){<div class="cb-dynamic-dialog__mask"><section role="dialog" aria-modal="true" [attr.aria-label]="(header() ?? t().dialog)"><header><h2>{{(header() ?? t().dialog)}}</h2><button type="button" [attr.aria-label]="t().close" (click)="close()">×</button></header><div class="cb-dynamic-dialog__content">{{content()}}</div><ng-content /></section></div>}`,styles:[`:host{display:contents}.cb-dynamic-dialog__mask{position:fixed;inset:0;z-index:1000;display:grid;place-items:center;background:#0006}.cb-dynamic-dialog section{width:min(36rem,calc(100vw - 2rem));padding:1.25rem;border-radius:.75rem;background:var(--cb-color-surface,#fff);color:var(--cb-color-text,#111827);box-shadow:0 1rem 3rem #0003}.cb-dynamic-dialog header{display:flex;justify-content:space-between;align-items:center}.cb-dynamic-dialog h2{font-size:1.15rem;margin:0}.cb-dynamic-dialog header button{border:0;background:transparent;font-size:1.5rem;cursor:pointer}.cb-dynamic-dialog__content{padding:1rem 0}`]})export class CbDynamicDialog{
-  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+import { CbDialog } from '@caribeng/ui/dialog';
+
+/**
+ * Variante declarativa del diálogo dinámico: un `cb-dialog` con título y
+ * texto, para casos simples. Para abrir **componentes** con datos y recibir un
+ * resultado, usa `CbDialogService.open()`.
+ *
+ * @example
+ * ```html
+ * <cb-dynamic-dialog [(visible)]="visible" header="Detalle" content="Tu solicitud fue enviada." />
+ * ```
+ */
+@Component({
+  selector: 'cb-dynamic-dialog',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.Emulated,
+  imports: [CbDialog],
+  host: { style: 'display: contents' },
+  template: `
+    <cb-dialog [(visible)]="visible" [header]="header() ?? t().dialog" (onHide)="closed.emit()">
+      @if (content()) {
+        <p class="cb-dynamic-dialog__text">{{ content() }}</p>
+      }
+      <ng-content />
+    </cb-dialog>
+  `,
+  styles: [`.cb-dynamic-dialog__text { margin: 0; }`],
+})
+export class CbDynamicDialog {
   protected readonly t = injectCbTranslation();
-readonly visible=model(false);readonly header=input<string | undefined>(undefined);readonly content=input('');readonly closed=output<void>();protected close(){this.visible.set(false);this.closed.emit();}}
+
+  /** Visibilidad (two-way). */
+  readonly visible = model(false);
+  /** Título. Por defecto, "Diálogo" del idioma activo. */
+  readonly header = input<string | undefined>(undefined);
+  /** Texto del cuerpo (también se puede proyectar contenido). */
+  readonly content = input('');
+
+  /** Se emite al cerrarse. */
+  readonly closed = output<void>();
+}
