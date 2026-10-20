@@ -89,4 +89,24 @@ describe('CbMultiSelect', () => {
     fixture.detectChanges();
     expect(label()).toBe('Barranquilla, Santa Marta');
   });
+
+  it('names the combobox with ariaLabel', () => {
+    const fixture = TestBed.createComponent(CbMultiSelect);
+    fixture.componentRef.setInput('ariaLabel', 'Ciudad de destino');
+    fixture.detectChanges();
+    const combobox: HTMLElement = fixture.nativeElement.querySelector('[role="combobox"]');
+    expect(combobox.getAttribute('aria-label')).toBe('Ciudad de destino');
+    expect(combobox.hasAttribute('aria-labelledby')).toBe(false);
+  });
+
+  it('links the combobox to a visible label with ariaLabelledBy', () => {
+    const fixture = TestBed.createComponent(CbMultiSelect);
+    fixture.componentRef.setInput('ariaLabelledBy', 'city-label');
+    fixture.componentRef.setInput('inputId', 'city');
+    fixture.detectChanges();
+    const combobox: HTMLElement = fixture.nativeElement.querySelector('[role="combobox"]');
+    expect(combobox.getAttribute('aria-labelledby')).toBe('city-label');
+    expect(combobox.hasAttribute('aria-label')).toBe(false);
+    expect(combobox.id).toBe('city');
+  });
 });

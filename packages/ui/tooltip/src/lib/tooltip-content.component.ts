@@ -14,11 +14,14 @@ import {
     class: 'cb-tooltip',
     '[class]': "'cb-tooltip cb-tooltip--' + position()",
     role: 'tooltip',
+    '[id]': 'tooltipId() || null',
   },
   template: `{{ text() }}`,
   styleUrl: './tooltip-content.component.css',
 })
 export class CbTooltipContent {
   readonly text = input<string>('');
+  /** Id que el disparador referencia con `aria-describedby`. */
+  readonly tooltipId = input<string>('');
   readonly position = input<'top' | 'bottom' | 'left' | 'right'>('top');
 }

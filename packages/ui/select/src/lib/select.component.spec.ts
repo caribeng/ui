@@ -79,4 +79,24 @@ describe('CbSelect', () => {
     expect(fixture.componentInstance.control.value).toBe(3);
     expect(trigger().getAttribute('aria-expanded')).toBe('false');
   });
+
+  it('names the combobox with ariaLabel', () => {
+    const fixture = TestBed.createComponent(CbSelect);
+    fixture.componentRef.setInput('ariaLabel', 'Ciudad de destino');
+    fixture.detectChanges();
+    const combobox: HTMLElement = fixture.nativeElement.querySelector('.cb-select__trigger');
+    expect(combobox.getAttribute('aria-label')).toBe('Ciudad de destino');
+    expect(combobox.hasAttribute('aria-labelledby')).toBe(false);
+  });
+
+  it('links the combobox to a visible label with ariaLabelledBy', () => {
+    const fixture = TestBed.createComponent(CbSelect);
+    fixture.componentRef.setInput('ariaLabelledBy', 'city-label');
+    fixture.componentRef.setInput('inputId', 'city');
+    fixture.detectChanges();
+    const combobox: HTMLElement = fixture.nativeElement.querySelector('.cb-select__trigger');
+    expect(combobox.getAttribute('aria-labelledby')).toBe('city-label');
+    expect(combobox.hasAttribute('aria-label')).toBe(false);
+    expect(combobox.id).toBe('city');
+  });
 });

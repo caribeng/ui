@@ -51,6 +51,9 @@ let nextUid = 0;
       [class.cb-is-invalid]="invalid()"
       [class.cb-is-disabled]="isDisabled()"
       role="combobox"
+      [id]="inputId()"
+      [attr.aria-label]="ariaLabel() || null"
+      [attr.aria-labelledby]="ariaLabelledBy() || null"
       [attr.tabindex]="isDisabled() ? -1 : 0"
       [attr.aria-haspopup]="'listbox'"
       [attr.aria-expanded]="open()"
@@ -138,6 +141,10 @@ export class CbSelect implements ControlValueAccessor {
   readonly invalid = input<boolean, unknown>(false, { transform: toBoolean });
   readonly disabled = input<boolean, unknown>(false, { transform: toBoolean });
   readonly inputId = input<string>(`cb-select-${++nextUid}`);
+  /** Nombre accesible del disparador cuando no hay etiqueta visible. */
+  readonly ariaLabel = input<string>('');
+  /** Id del elemento que etiqueta al disparador (p. ej. un `<label>` o título visible). */
+  readonly ariaLabelledBy = input<string>('');
 
   /** Valor seleccionado (two-way opcional fuera de Angular Forms). */
   readonly value = model<unknown>(null);

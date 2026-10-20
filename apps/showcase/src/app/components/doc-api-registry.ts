@@ -1114,6 +1114,8 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "invalid", kind: "boolean", type: "boolean", default: false, description: "" },
       { name: "disabled", kind: "boolean", type: "boolean", default: false, description: "" },
       { name: "inputId", kind: "string", type: "string", default: "", description: "", control: false },
+      { name: "ariaLabel", kind: "string", type: "string", default: "", description: "Nombre accesible del disparador cuando no hay etiqueta visible.", control: false },
+      { name: "ariaLabelledBy", kind: "string", type: "string", default: "", description: "Id del elemento que etiqueta al disparador (p. ej. un label visible).", control: false },
       { name: "value", kind: "string", type: "unknown[] (model)", default: ['green', 'blue'], description: "", control: false }
     ]
   },
@@ -1359,6 +1361,8 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "invalid", kind: "boolean", type: "boolean", default: false, description: "" },
       { name: "disabled", kind: "boolean", type: "boolean", default: false, description: "" },
       { name: "inputId", kind: "string", type: "string", default: "", description: "", control: false },
+      { name: "ariaLabel", kind: "string", type: "string", default: "", description: "Nombre accesible del disparador cuando no hay etiqueta visible.", control: false },
+      { name: "ariaLabelledBy", kind: "string", type: "string", default: "", description: "Id del elemento que etiqueta al disparador (p. ej. un label visible).", control: false },
       { name: "value", kind: "string", type: "unknown (model)", default: "", description: "Valor seleccionado (two-way opcional fuera de Angular Forms).", control: false }
     ]
   },

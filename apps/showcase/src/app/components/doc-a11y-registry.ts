@@ -39,7 +39,7 @@ export const DOC_A11Y: Record<string, DocA11y> = {
   },
   'cb-select': {
     screenReader: [
-      'El disparador tiene `role="combobox"` con `aria-haspopup="listbox"` y `aria-expanded`, y se relaciona con el panel mediante `aria-controls`. Su nombre accesible es el texto visible (valor seleccionado o placeholder).',
+      'El disparador tiene `role="combobox"` con `aria-haspopup="listbox"` y `aria-expanded`, y se relaciona con el panel mediante `aria-controls`. Nómbralo con `ariaLabelledBy` (id de una etiqueta visible) o con `ariaLabel`.',
       'El panel usa `role="listbox"`; cada opción tiene `role="option"` con `aria-selected` y `aria-disabled`. `aria-activedescendant` indica la opción activa mientras se navega con el teclado.',
     ],
     keyboard: [
@@ -54,7 +54,7 @@ export const DOC_A11Y: Record<string, DocA11y> = {
   },
   'cb-multiselect': {
     screenReader: [
-      'El disparador tiene `role="combobox"` con `aria-haspopup="listbox"` y `aria-expanded`, y se relaciona con el panel mediante `aria-controls`. Su nombre accesible es el texto visible (selección o placeholder).',
+      'El disparador tiene `role="combobox"` con `aria-haspopup="listbox"` y `aria-expanded`, y se relaciona con el panel mediante `aria-controls`. Nómbralo con `ariaLabelledBy` (id de una etiqueta visible) o con `ariaLabel`.',
       'El panel usa `role="listbox"` con `aria-multiselectable="true"`; cada opción tiene `role="option"` con `aria-selected` y `aria-disabled`.',
     ],
     keyboard: [
@@ -210,10 +210,12 @@ export const DOC_A11Y: Record<string, DocA11y> = {
   },
   'cb-tooltip': {
     screenReader: [
-      'El texto flotante tiene `role="tooltip"` y aparece al pasar el puntero y al enfocar el elemento. Como el tooltip no se enlaza al elemento con `aria-describedby`, en botones solo con icono define también un `aria-label`.',
+      'El texto flotante tiene `role="tooltip"` y aparece al pasar el puntero y al enfocar el elemento. Mientras está visible, el elemento lo referencia con `aria-describedby` (conservando los ids que ya tuviera), así que el lector de pantalla lo anuncia como descripción.',
+      'El tooltip describe, no nombra: en botones solo con icono define también un `aria-label`.',
     ],
     keyboard: [
       { keys: 'Tab', action: 'Al enfocar el elemento se muestra el tooltip; al salir del foco se oculta.' },
+      { keys: 'Escape', action: 'Oculta el tooltip sin mover el foco.' },
     ],
   },
   'cb-menu': {
@@ -249,21 +251,24 @@ export const DOC_A11Y: Record<string, DocA11y> = {
   },
   'cb-confirm-dialog': {
     screenReader: [
-      'El panel tiene `role="alertdialog"` con `aria-modal="true"` y se nombra con `header`; el mensaje y los botones de aceptar y cancelar están dentro del diálogo.',
+      'El panel tiene `role="alertdialog"` con `aria-modal="true"`; `aria-labelledby` apunta al título (`header`) y `aria-describedby` al mensaje.',
+      'Al abrirse, el foco pasa al primer botón (cancelar) y queda atrapado dentro del diálogo; al cerrarse vuelve al elemento que lo abrió.',
     ],
     keyboard: [
-      { keys: 'Tab', action: 'Mueve el foco entre los botones.' },
+      { keys: 'Tab / Mayús + Tab', action: 'Mueve el foco entre los botones sin salir del diálogo.' },
       { keys: 'Enter / Espacio', action: 'Activa el botón enfocado.' },
+      { keys: 'Escape', action: 'Cancela y cierra el diálogo (emite `rejected`).' },
     ],
   },
   'cb-tabs': {
     screenReader: [
-      'Las pestañas usan `role="tablist"`, `role="tab"` (con `aria-selected`) y `role="tabpanel"`. Solo la pestaña activa entra en el orden de tabulación.',
+      'Las pestañas usan `role="tablist"`, `role="tab"` (con `aria-selected`) y `role="tabpanel"`. La pestaña activa apunta a su panel con `aria-controls` y el panel se nombra con `aria-labelledby`.',
+      'Solo la pestaña activa entra en el orden de tabulación; al cambiar con las flechas, el foco se mueve con ella.',
     ],
     keyboard: [
-      { keys: 'Tab', action: 'Mueve el foco a la pestaña activa y luego al contenido.' },
-      { keys: 'Flecha derecha / Flecha izquierda', action: 'Activa la pestaña siguiente o anterior (de forma circular), omitiendo las deshabilitadas.' },
-      { keys: 'Inicio / Fin', action: 'Activa la primera o la última pestaña.' },
+      { keys: 'Tab', action: 'Mueve el foco a la pestaña activa y luego al panel.' },
+      { keys: 'Flecha derecha / Flecha izquierda', action: 'Activa y enfoca la pestaña siguiente o anterior (de forma circular), omitiendo las deshabilitadas.' },
+      { keys: 'Inicio / Fin', action: 'Activa y enfoca la primera o la última pestaña.' },
     ],
   },
 };

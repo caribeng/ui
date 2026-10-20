@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   ViewEncapsulation,
   computed,
   contentChildren,
@@ -13,7 +14,9 @@ let nextUid = 0;
 
 /**
  * Tabs de CaribeNG: interfaz por pestañas. Coloca varios `<cb-tab>` dentro de
- * `<cb-tabs>`.
+ * `<cb-tabs>`. Sigue el patrón WAI-ARIA de pestañas: cada `tab` controla su
+ * `tabpanel` (`aria-controls` / `aria-labelledby`) y las flechas mueven el foco
+ * junto con la selección.
  *
  * @example
  * ```html
@@ -35,6 +38,8 @@ let nextUid = 0;
           type="button"
           class="cb-tabs__tab"
           role="tab"
+          [id]="tab.tabDomId"
+          [attr.aria-controls]="isActive(tab.tabId) ? tab.panelDomId : null"
           [class.cb-is-active]="isActive(tab.tabId)"
           [attr.aria-selected]="isActive(tab.tabId)"
           [attr.tabindex]="isActive(tab.tabId) ? 0 : -1"
@@ -53,6 +58,7 @@ let nextUid = 0;
   styleUrl: './tabs.component.css',
 })
 export class CbTabs {
+  private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
   readonly tabs = contentChildren(CbTab);
 
   private readonly activeId = signal<number | null>(null);
@@ -82,6 +88,8 @@ export class CbTabs {
     }
     event.preventDefault();
     this.select(tabs[next].tabId);
+    // El foco acompaña a la pestaña activa (roving tabindex).
+    this.host.nativeElement.querySelector<HTMLElement>(`#${tabs[next].tabDomId}`)?.focus();
   }
 }
 
@@ -93,7 +101,15 @@ export class CbTabs {
   host: { class: 'cb-tab' },
   template: `
     @if (active()) {
-      <div class="cb-tab__panel" role="tabpanel"><ng-content /></div>
+      <div
+        class="cb-tab__panel"
+        role="tabpanel"
+        tabindex="0"
+        [id]="panelDomId"
+        [attr.aria-labelledby]="tabDomId"
+      >
+        <ng-content />
+      </div>
     }
   `,
 })
@@ -101,6 +117,10 @@ export class CbTab {
   private readonly parent = inject(CbTabs);
 
   readonly tabId = ++nextUid;
+  /** Id del botón `role="tab"`. */
+  readonly tabDomId = `cb-tab-${this.tabId}`;
+  /** Id del `role="tabpanel"`. */
+  readonly panelDomId = `cb-tabpanel-${this.tabId}`;
   readonly label = input<string>('');
   readonly disabled = input<boolean, unknown>(false, { transform: toBoolean });
 

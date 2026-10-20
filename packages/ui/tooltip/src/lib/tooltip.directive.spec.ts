@@ -40,6 +40,33 @@ describe('CbTooltipDirective', () => {
     expect(tip()).toBeNull();
   });
 
+  it('enlaza el tooltip con aria-describedby mientras está visible', () => {
+    const { fixture, btn, tip } = setup();
+    btn().setAttribute('aria-describedby', 'hint');
+
+    btn().dispatchEvent(new FocusEvent('focus'));
+    fixture.detectChanges();
+    const ids = btn().getAttribute('aria-describedby')!.split(' ');
+    expect(ids).toContain('hint');
+    expect(ids).toContain(tip()!.id);
+
+    btn().dispatchEvent(new FocusEvent('blur'));
+    fixture.detectChanges();
+    expect(btn().getAttribute('aria-describedby')).toBe('hint');
+  });
+
+  it('se oculta con Escape', () => {
+    const { fixture, btn, tip } = setup();
+    btn().dispatchEvent(new FocusEvent('focus'));
+    fixture.detectChanges();
+    expect(tip()).toBeTruthy();
+
+    btn().dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
+    fixture.detectChanges();
+    expect(tip()).toBeNull();
+    expect(btn().hasAttribute('aria-describedby')).toBe(false);
+  });
+
   it('no muestra nada cuando está deshabilitado', () => {
     const { fixture, btn, tip } = setup();
     fixture.componentInstance.disabled.set(true);

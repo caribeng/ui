@@ -52,4 +52,23 @@ describe('CbTabs', () => {
     fixture.detectChanges();
     expect(el.querySelector('.c2')).toBeTruthy();
   });
+
+  it('el foco acompaña a la pestaña activa al usar las flechas', () => {
+    const { fixture, el, tabs } = setup();
+    document.body.appendChild(el);
+    tabs()[0].focus();
+    tabs()[0].dispatchEvent(new KeyboardEvent('keydown', { key: 'End' }));
+    fixture.detectChanges();
+    expect(document.activeElement).toBe(tabs()[2]);
+    expect(tabs()[2].getAttribute('tabindex')).toBe('0');
+    el.remove();
+  });
+
+  it('relaciona la pestaña activa con su panel', () => {
+    const { el, tabs } = setup();
+    const panel = el.querySelector<HTMLElement>('[role="tabpanel"]')!;
+    expect(tabs()[0].getAttribute('aria-controls')).toBe(panel.id);
+    expect(panel.getAttribute('aria-labelledby')).toBe(tabs()[0].id);
+    expect(tabs()[1].hasAttribute('aria-controls')).toBe(false);
+  });
 });

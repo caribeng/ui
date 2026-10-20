@@ -13,6 +13,8 @@ import {
 import { ComponentPortal } from '@angular/cdk/portal';
 import { CbTooltipContent } from './tooltip-content.component';
 
+let nextUid = 0;
+
 type CbTooltipPosition = 'top' | 'bottom' | 'left' | 'right';
 
 const POSITIONS: Record<CbTooltipPosition, ConnectedPosition> = {
@@ -24,6 +26,8 @@ const POSITIONS: Record<CbTooltipPosition, ConnectedPosition> = {
 
 /**
  * Tooltip de CaribeNG: muestra un texto flotante al pasar el cursor o enfocar.
+ * Mientras está visible, el disparador lo referencia con `aria-describedby` para
+ * que los lectores de pantalla lo anuncien; Escape lo oculta (WCAG 1.4.13).
  *
  * @example
  * ```html
@@ -38,6 +42,7 @@ const POSITIONS: Record<CbTooltipPosition, ConnectedPosition> = {
     '(mouseleave)': 'hide()',
     '(focus)': 'show()',
     '(blur)': 'hide()',
+    '(keydown.escape)': 'hide()',
   },
 })
 export class CbTooltipDirective implements OnDestroy {
@@ -55,6 +60,7 @@ export class CbTooltipDirective implements OnDestroy {
   });
 
   private overlayRef: OverlayRef | null = null;
+  private readonly tooltipId = `cb-tooltip-${++nextUid}`;
 
   show(): void {
     if (this.disabled() || !this.text() || this.overlayRef) return;
@@ -73,11 +79,26 @@ export class CbTooltipDirective implements OnDestroy {
     const ref = this.overlayRef.attach(new ComponentPortal(CbTooltipContent));
     ref.setInput('text', this.text());
     ref.setInput('position', pos);
+    ref.setInput('tooltipId', this.tooltipId);
+    this.setDescribedBy(true);
   }
 
   hide(): void {
-    this.overlayRef?.dispose();
+    if (!this.overlayRef) return;
+    this.overlayRef.dispose();
     this.overlayRef = null;
+    this.setDescribedBy(false);
+  }
+
+  /** Añade o quita el id del tooltip en `aria-describedby`, respetando los ids existentes. */
+  private setDescribedBy(on: boolean): void {
+    const el = this.host.nativeElement;
+    const ids = (el.getAttribute('aria-describedby') ?? '')
+      .split(/\s+/)
+      .filter((id) => id && id !== this.tooltipId);
+    if (on) ids.push(this.tooltipId);
+    if (ids.length) el.setAttribute('aria-describedby', ids.join(' '));
+    else el.removeAttribute('aria-describedby');
   }
 
   ngOnDestroy(): void {

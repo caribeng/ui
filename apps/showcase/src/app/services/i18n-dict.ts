@@ -1355,8 +1355,6 @@ export const ES_EN: Record<string, string> = {
   'Cuando `invalid` es true se aplica `aria-invalid="true"`, y `aria-describedby` enlaza el texto de ayuda o el mensaje de error, que se anuncia con `role="alert"`.':
     'When `invalid` is true `aria-invalid="true"` is applied, and `aria-describedby` links the help text or the error message, which is announced with `role="alert"`.',
   'Mueve el foco al campo.': 'Moves focus to the field.',
-  'El disparador tiene `role="combobox"` con `aria-haspopup="listbox"` y `aria-expanded`, y se relaciona con el panel mediante `aria-controls`. Su nombre accesible es el texto visible (valor seleccionado o placeholder).':
-    'The trigger has `role="combobox"` with `aria-haspopup="listbox"` and `aria-expanded`, and is linked to the panel through `aria-controls`. Its accessible name is the visible text (selected value or placeholder).',
   'El panel usa `role="listbox"`; cada opción tiene `role="option"` con `aria-selected` y `aria-disabled`. `aria-activedescendant` indica la opción activa mientras se navega con el teclado.':
     'The panel uses `role="listbox"`; each option has `role="option"` with `aria-selected` and `aria-disabled`. `aria-activedescendant` points to the active option while navigating with the keyboard.',
   'Mueve el foco al select.': 'Moves focus to the select.',
@@ -1372,8 +1370,6 @@ export const ES_EN: Record<string, string> = {
   'Cierra el panel.': 'Closes the panel.',
   'Con el panel abierto, lo cierra y pasa al siguiente elemento.':
     'When the panel is open, closes it and moves to the next element.',
-  'El disparador tiene `role="combobox"` con `aria-haspopup="listbox"` y `aria-expanded`, y se relaciona con el panel mediante `aria-controls`. Su nombre accesible es el texto visible (selección o placeholder).':
-    'The trigger has `role="combobox"` with `aria-haspopup="listbox"` and `aria-expanded`, and is linked to the panel through `aria-controls`. Its accessible name is the visible text (selection or placeholder).',
   'El panel usa `role="listbox"` con `aria-multiselectable="true"`; cada opción tiene `role="option"` con `aria-selected` y `aria-disabled`.':
     'The panel uses `role="listbox"` with `aria-multiselectable="true"`; each option has `role="option"` with `aria-selected` and `aria-disabled`.',
   'Mueve el foco al multiselect.': 'Moves focus to the multiselect.',
@@ -1477,8 +1473,6 @@ export const ES_EN: Record<string, string> = {
   'El contenido flotante tiene `role="dialog"` y su nombre se define con `ariaLabel`. Se abre junto al elemento que lo dispara.':
     'The floating content has `role="dialog"` and its name is set with `ariaLabel`. It opens next to the element that triggers it.',
   'Cierra el popover.': 'Closes the popover.',
-  'El texto flotante tiene `role="tooltip"` y aparece al pasar el puntero y al enfocar el elemento. Como el tooltip no se enlaza al elemento con `aria-describedby`, en botones solo con icono define también un `aria-label`.':
-    'The floating text has `role="tooltip"` and appears on hover and when the element is focused. Since the tooltip is not linked to the element with `aria-describedby`, also set an `aria-label` on icon-only buttons.',
   'Al enfocar el elemento se muestra el tooltip; al salir del foco se oculta.':
     'Focusing the element shows the tooltip; leaving focus hides it.',
   'El panel tiene `role="menu"` y su nombre se define con `ariaLabel`. Cada acción es un `role="menuitem"` (con `aria-disabled` si está deshabilitada) y los separadores usan `role="separator"`.':
@@ -1499,16 +1493,36 @@ export const ES_EN: Record<string, string> = {
   'Mueve el foco al botón de cerrar de cada mensaje.':
     'Moves focus to the close button of each message.',
   'Cierra el mensaje.': 'Closes the message.',
-  'El panel tiene `role="alertdialog"` con `aria-modal="true"` y se nombra con `header`; el mensaje y los botones de aceptar y cancelar están dentro del diálogo.':
-    'The panel has `role="alertdialog"` with `aria-modal="true"` and is named by `header`; the message and the accept and cancel buttons are inside the dialog.',
-  'Mueve el foco entre los botones.': 'Moves focus between the buttons.',
   'Activa el botón enfocado.': 'Activates the focused button.',
-  'Las pestañas usan `role="tablist"`, `role="tab"` (con `aria-selected`) y `role="tabpanel"`. Solo la pestaña activa entra en el orden de tabulación.':
-    'Tabs use `role="tablist"`, `role="tab"` (with `aria-selected`) and `role="tabpanel"`. Only the active tab is part of the tab order.',
-  'Mueve el foco a la pestaña activa y luego al contenido.':
-    'Moves focus to the active tab and then to the content.',
   'Flecha derecha / Flecha izquierda': 'Right arrow / Left arrow',
-  'Activa la pestaña siguiente o anterior (de forma circular), omitiendo las deshabilitadas.':
-    'Activates the next or previous tab (wrapping around), skipping disabled ones.',
-  'Activa la primera o la última pestaña.': 'Activates the first or last tab.',
+  'El disparador tiene `role="combobox"` con `aria-haspopup="listbox"` y `aria-expanded`, y se relaciona con el panel mediante `aria-controls`. Nómbralo con `ariaLabelledBy` (id de una etiqueta visible) o con `ariaLabel`.':
+    'The trigger has `role="combobox"` with `aria-haspopup="listbox"` and `aria-expanded`, and is linked to the panel through `aria-controls`. Name it with `ariaLabelledBy` (id of a visible label) or with `ariaLabel`.',
+  'El texto flotante tiene `role="tooltip"` y aparece al pasar el puntero y al enfocar el elemento. Mientras está visible, el elemento lo referencia con `aria-describedby` (conservando los ids que ya tuviera), así que el lector de pantalla lo anuncia como descripción.':
+    'The floating text has `role="tooltip"` and appears on hover and when the element is focused. While visible, the element references it with `aria-describedby` (keeping any ids it already had), so the screen reader announces it as a description.',
+  'El tooltip describe, no nombra: en botones solo con icono define también un `aria-label`.':
+    'A tooltip describes, it does not name: on icon-only buttons also set an `aria-label`.',
+  'Oculta el tooltip sin mover el foco.': 'Hides the tooltip without moving focus.',
+  'El panel tiene `role="alertdialog"` con `aria-modal="true"`; `aria-labelledby` apunta al título (`header`) y `aria-describedby` al mensaje.':
+    'The panel has `role="alertdialog"` with `aria-modal="true"`; `aria-labelledby` points to the title (`header`) and `aria-describedby` to the message.',
+  'Al abrirse, el foco pasa al primer botón (cancelar) y queda atrapado dentro del diálogo; al cerrarse vuelve al elemento que lo abrió.':
+    'When opened, focus moves to the first button (cancel) and is trapped inside the dialog; when closed, it returns to the element that opened it.',
+  'Mueve el foco entre los botones sin salir del diálogo.':
+    'Moves focus between the buttons without leaving the dialog.',
+  'Cancela y cierra el diálogo (emite `rejected`).':
+    'Cancels and closes the dialog (emits `rejected`).',
+  'Las pestañas usan `role="tablist"`, `role="tab"` (con `aria-selected`) y `role="tabpanel"`. La pestaña activa apunta a su panel con `aria-controls` y el panel se nombra con `aria-labelledby`.':
+    'Tabs use `role="tablist"`, `role="tab"` (with `aria-selected`) and `role="tabpanel"`. The active tab points to its panel with `aria-controls` and the panel is named with `aria-labelledby`.',
+  'Solo la pestaña activa entra en el orden de tabulación; al cambiar con las flechas, el foco se mueve con ella.':
+    'Only the active tab is part of the tab order; when switching with the arrow keys, focus moves with it.',
+  'Mueve el foco a la pestaña activa y luego al panel.':
+    'Moves focus to the active tab and then to the panel.',
+  'Activa y enfoca la pestaña siguiente o anterior (de forma circular), omitiendo las deshabilitadas.':
+    'Activates and focuses the next or previous tab (wrapping around), skipping disabled ones.',
+  'Activa y enfoca la primera o la última pestaña.': 'Activates and focuses the first or last tab.',
+
+  // --- API de Select / MultiSelect (etiquetado accesible) ---
+  'Nombre accesible del disparador cuando no hay etiqueta visible.':
+    'Accessible name of the trigger when there is no visible label.',
+  'Id del elemento que etiqueta al disparador (p. ej. un label visible).':
+    'Id of the element that labels the trigger (e.g. a visible label).',
 };
