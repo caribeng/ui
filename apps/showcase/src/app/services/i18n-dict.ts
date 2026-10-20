@@ -1523,6 +1523,12 @@ export const ES_EN: Record<string, string> = {
   'Marca visual y ARIA de estado inválido (también se activa con Angular Forms).':
     'Visual and ARIA invalid state (also enabled automatically by Angular Forms).',
 
+  // --- Changelog ---
+  Versiones: 'Releases',
+  'Novedades, mejoras y correcciones de cada versión de CaribeNG. Busca por palabra clave o filtra por tipo de cambio.':
+    'New features, enhancements and defect fixes in each CaribeNG release. Search by keyword or filter by change type.',
+  'Próxima versión': 'Next release',
+
   // --- Indicador de obligatoriedad (requiredIndicator) ---
   'Indicador de obligatoriedad': 'Required indicator',
   'Indicador global': 'Global indicator',

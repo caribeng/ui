@@ -18,7 +18,8 @@
     "lint": "nx run-many -t lint",
     "showcase": "nx serve showcase",
     "showcase:build": "nx build showcase",
-    "docs:code": "node apps/showcase/scripts/gen-doc-code.mjs"
+    "docs:code": "node apps/showcase/scripts/gen-doc-code.mjs",
+    "docs:changelog": "node apps/showcase/scripts/gen-changelog.mjs"
   },
   "devDependencies": {
     "@angular/build": "22.0.5",

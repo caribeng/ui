@@ -17,6 +17,14 @@
         "command": "node apps/showcase/scripts/gen-doc-code.mjs"
       }
     },
+    "changelog": {
+      "executor": "nx:run-commands",
+      "inputs": ["{workspaceRoot}/CHANGELOG.md", "{projectRoot}/scripts/gen-changelog.mjs"],
+      "outputs": ["{projectRoot}/src/app/data/changelog.generated.ts"],
+      "options": {
+        "command": "node apps/showcase/scripts/gen-changelog.mjs"
+      }
+    },
     "build": {
       "executor": "@angular/build:application",
       "outputs": ["{workspaceRoot}/dist/apps/showcase"],
@@ -48,7 +56,7 @@
         }
       },
       "defaultConfiguration": "production",
-      "dependsOn": ["doc-code"]
+      "dependsOn": ["doc-code", "changelog"]
     },
     "serve": {
       "executor": "@angular/build:dev-server",

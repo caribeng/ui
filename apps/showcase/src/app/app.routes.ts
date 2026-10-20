@@ -15,6 +15,7 @@ import { DataTableDocComponent } from './pages/data-table-doc.component';
 import { ModalDocComponent } from './pages/modal-doc.component';
 import { PopOverDocComponent } from './pages/pop-over-doc.component';
 import { IntroductionComponent } from './pages/introduction.component';
+import { ChangelogComponent } from './pages/changelog.component';
 import { ColorsComponent } from './pages/colors.component';
 import { ThemingComponent } from './pages/theming.component';
 import { UtilitiesComponent } from './pages/utilities.component';
@@ -115,6 +116,7 @@ import { AutofocusDocComponent } from './pages/autofocus-doc.component';
 export const routes: Routes = [
   { path: '', redirectTo: 'introduction', pathMatch: 'full' },
   { path: 'introduction', component: IntroductionComponent, title: 'CaribeNG' },
+  { path: 'changelog', component: ChangelogComponent, title: 'Changelog · CaribeNG' },
   { path: 'foundations/colors', component: ColorsComponent, title: 'Colors · CaribeNG' },
   { path: 'foundations/theming', component: ThemingComponent, title: 'Theming · CaribeNG' },
   { path: 'foundations/utilities', component: UtilitiesComponent, title: 'Utilities · CaribeNG' },

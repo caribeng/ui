@@ -64,6 +64,8 @@ echo.
 echo Generando el codigo TypeScript de los ejemplos...
 call node apps\showcase\scripts\gen-doc-code.mjs
 if errorlevel 1 echo [AVISO] No se pudo regenerar doc-code.json; se usara el existente.
+call node apps\showcase\scripts\gen-changelog.mjs
+if errorlevel 1 echo [AVISO] No se pudo regenerar el changelog; se usara el existente.
 
 echo.
 echo Iniciando showcase en http://localhost:%PORT% ...
