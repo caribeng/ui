@@ -10,6 +10,10 @@ Desde la 22.0.0 el major de la librería coincide con el de Angular (22.x = Angu
 
 ## [Unreleased]
 
+---
+
+## [22.1.0] - 2026-10-20
+
 ### Breaking
 - **Formularios:** el `*` de `[required]` ya no se muestra por defecto en Input, Textarea, Autocomplete, DatePicker e InputNumber (`requiredIndicator` es `'none'` por defecto). Para recuperarlo: `provideCaribeNG({ requiredIndicator: 'asterisk' })`.
 
@@ -31,6 +35,7 @@ Desde la 22.0.0 el major de la librería coincide con el de Angular (22.x = Angu
 ### Changed
 - **Showcase:** estructura única de páginas (Importación → Básico → ejemplos → Accesibilidad → Playground → API) con títulos y descripciones traducibles ES/EN.
 - **Checkbox:** muestra el indicador de obligatoriedad configurado.
+- **Distribución:** el paquete se publica sin source maps (solo el JavaScript compilado), como PrimeNG.
 
 ### Fixed
 - **ConfirmDialog:** atrapa el foco, Escape cancela y cierra, y el foco vuelve al elemento que lo abrió.

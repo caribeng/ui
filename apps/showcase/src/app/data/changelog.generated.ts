@@ -6,6 +6,11 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
   {
     "version": null,
     "date": null,
+    "sections": []
+  },
+  {
+    "version": "22.1.0",
+    "date": "2026-10-20",
     "sections": [
       {
         "type": "breaking",
@@ -83,6 +88,10 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
           {
             "component": "Checkbox",
             "text": "muestra el indicador de obligatoriedad configurado."
+          },
+          {
+            "component": "Distribución",
+            "text": "el paquete se publica sin source maps (solo el JavaScript compilado), como PrimeNG."
           }
         ]
       },

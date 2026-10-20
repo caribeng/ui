@@ -13,6 +13,13 @@
         "tsConfig": "packages/ui/tsconfig.lib.json"
       }
     },
+    "prepare-publish": {
+      "executor": "nx:run-commands",
+      "dependsOn": ["build"],
+      "options": {
+        "command": "node packages/ui/scripts/prepare-publish.mjs"
+      }
+    },
     "build-test": {
       "executor": "@angular/build:ng-packagr",
       "options": {

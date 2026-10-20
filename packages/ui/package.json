@@ -1,7 +1,7 @@
 {
   "name": "@caribeng/ui",
-  "version": "22.0.0",
-  "description": "CaribeNG — biblioteca de componentes y sistema de diseño para Angular 22+ (standalone, signals, OnPush, zoneless). 93 entry points tree-shakeables.",
+  "version": "22.1.0",
+  "description": "CaribeNG — sistema de diseño y librería de componentes para Angular 22+ (standalone, signals, OnPush, zoneless). 142 entry points tree-shakeables, accesibles (WCAG 2.2 AA) y tematizables.",
   "license": "MIT",
   "keywords": [
     "angular",
@@ -14,6 +14,9 @@
     "a11y"
   ],
   "sideEffects": false,
+  "publishConfig": {
+    "access": "public"
+  },
   "peerDependencies": {
     "@angular/common": "^22.0.0",
     "@angular/core": "^22.0.0",

@@ -185,7 +185,8 @@ export class ChangelogComponent {
   constructor() {
     this.toc.reset();
     afterNextRender(() => {
-      for (const r of this.releases) {
+      // [Unreleased] puede estar vacío entre versiones: no se muestra ni se indexa.
+      for (const r of this.releases.filter((x) => x.sections.length)) {
         this.toc.register({ id: r.anchor, label: r.version ?? 'Próxima versión' });
       }
     });

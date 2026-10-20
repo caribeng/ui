@@ -26,7 +26,7 @@ export interface CbDocVersion {
 }
 
 /** Versión exacta del paquete @caribeng/ui que documenta este sitio. */
-export const CARIBENG_VERSION = '22.0.0';
+export const CARIBENG_VERSION = '22.1.0';
 
 /**
  * Versiones de documentación disponibles (más reciente primero). La línea activa
