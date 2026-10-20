@@ -9,7 +9,7 @@ import {
   signal,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
-import { cbFieldState, type CbSize } from '@caribeng/ui';
+import { cbFieldState, type CbRequiredIndicator, type CbSize } from '@caribeng/ui';
 import { CbIcon } from '@caribeng/ui/icon';
 
 let nextUid = 0;
@@ -77,8 +77,11 @@ const ICON_PX: Record<string, number> = { sm: 12, md: 14, lg: 16 };
       @if (label()) {
         <span class="cb-checkbox__label">
           {{ label() }}
-          @if (fieldState.required()) {
-            <span class="cb-checkbox__required" aria-hidden="true">*</span>
+          @if (fieldState.indicator(); as mark) {
+            <span
+              [class]="'cb-checkbox__required cb-checkbox__required--' + mark.kind"
+              [attr.aria-hidden]="mark.kind === 'optional' ? null : 'true'"
+            >{{ mark.text }}</span>
           }
         </span>
       }
@@ -101,10 +104,13 @@ export class CbCheckbox implements ControlValueAccessor {
   readonly invalid = input<boolean, unknown>(false, { transform: toBoolean });
   /** Requerido. */
   readonly required = input<boolean, unknown>(false, { transform: toBoolean });
+  /** Indicador de obligatoriedad de este campo; si se omite usa el global de `provideCaribeNG()`. */
+  readonly requiredIndicator = input<CbRequiredIndicator | undefined>(undefined);
   /** Estado de validación: inputs manuales + estado de Angular Forms. */
   protected readonly fieldState = cbFieldState({
     invalid: () => this.invalid(),
     required: () => this.required(),
+    requiredIndicator: () => this.requiredIndicator(),
   });
   /** Deshabilitado de forma declarativa (se combina con Angular Forms). */
   readonly disabled = input<boolean, unknown>(false, { transform: toBoolean });

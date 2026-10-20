@@ -144,3 +144,12 @@
 .cb-input-number__message--error {
   color: var(--cb-color-danger);
 }
+
+/* Indicador de obligatoriedad: "(requerido)" / "(opcional)" */
+.cb-input-number__required--required,
+.cb-input-number__required--optional {
+  margin-left: 0.25rem;
+  color: var(--cb-color-text-muted);
+  font-size: 0.85em;
+  font-weight: var(--cb-font-weight-normal, 400);
+}

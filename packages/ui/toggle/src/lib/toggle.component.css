@@ -124,3 +124,16 @@
 .cb-toggle.cb-is-invalid .cb-toggle__track {
   box-shadow: 0 0 0 2px var(--cb-color-danger);
 }
+
+/* Indicador de obligatoriedad: "(requerido)" / "(opcional)" */
+.cb-toggle__required {
+  color: var(--cb-color-danger);
+  margin-left: 2px;
+}
+.cb-toggle__required--required,
+.cb-toggle__required--optional {
+  margin-left: 0.25rem;
+  color: var(--cb-color-text-muted);
+  font-size: 0.85em;
+  font-weight: var(--cb-font-weight-normal, 400);
+}

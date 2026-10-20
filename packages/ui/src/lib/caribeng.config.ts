@@ -112,7 +112,26 @@ export interface CaribeNgConfig {
   persistTheme: boolean;
   /** Clave de `localStorage` cuando `persistTheme` está activo. */
   storageKey: string;
+  /**
+   * Cómo se señala en la etiqueta si un campo es obligatorio. Por defecto
+   * `'none'` (solo `aria-required`). Cada campo puede sobrescribirlo con su
+   * input `requiredIndicator`.
+   */
+  requiredIndicator: CbRequiredIndicator;
+  /** Texto del modo `'text'`. Por defecto `'requerido'` → "(requerido)". */
+  requiredText: string;
+  /** Texto del modo `'optional'`. Por defecto `'opcional'` → "(opcional)". */
+  optionalText: string;
 }
+
+/**
+ * Indicador visual de obligatoriedad en la etiqueta de los campos:
+ * - `'asterisk'`: `*` junto a los obligatorios.
+ * - `'text'`: "(requerido)" junto a los obligatorios.
+ * - `'optional'`: "(opcional)" junto a los que no lo son.
+ * - `'none'`: nada visible (el estado se expone igualmente con `aria-required`).
+ */
+export type CbRequiredIndicator = 'asterisk' | 'text' | 'optional' | 'none';
 
 /** Valores por defecto de la configuración. */
 export const CB_DEFAULT_CONFIG: CaribeNgConfig = {
@@ -121,6 +140,9 @@ export const CB_DEFAULT_CONFIG: CaribeNgConfig = {
   themeAttribute: 'data-theme',
   persistTheme: false,
   storageKey: 'caribeng-theme',
+  requiredIndicator: 'none',
+  requiredText: 'requerido',
+  optionalText: 'opcional',
 };
 
 /** Token de inyección con la configuración resuelta de CaribeNG. */

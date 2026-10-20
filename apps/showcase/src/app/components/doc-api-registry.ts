@@ -191,6 +191,7 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "error", kind: "string", type: "string", default: "", description: "" },
       { name: "invalid", kind: "boolean", type: "boolean", default: false, description: "" },
       { name: "required", kind: "boolean", type: "boolean", default: false, description: "" },
+      { name: "requiredIndicator", kind: "enum", type: "'asterisk' | 'text' | 'optional' | 'none'", options: ["none", "asterisk", "text", "optional"], default: "none", description: "Indicador de obligatoriedad en la etiqueta; si se omite usa el global de provideCaribeNG()." },
       { name: "disabled", kind: "boolean", type: "boolean", default: false, description: "" },
       { name: "inputId", kind: "string", type: "string", default: "", description: "", control: false }
     ],
@@ -378,6 +379,7 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "indeterminate", kind: "boolean", type: "boolean", default: false, description: "Estado indeterminado (visual + `aria-checked=\"mixed\"`)." },
       { name: "invalid", kind: "boolean", type: "boolean", default: false, description: "Marca visual y ARIA de estado inválido." },
       { name: "required", kind: "boolean", type: "boolean", default: false, description: "Requerido." },
+      { name: "requiredIndicator", kind: "enum", type: "'asterisk' | 'text' | 'optional' | 'none'", options: ["none", "asterisk", "text", "optional"], default: "none", description: "Indicador de obligatoriedad en la etiqueta; si se omite usa el global de provideCaribeNG()." },
       { name: "disabled", kind: "boolean", type: "boolean", default: false, description: "Deshabilitado de forma declarativa (se combina con Angular Forms)." },
       { name: "inputId", kind: "string", type: "string", default: "", description: "Id del input; se genera uno estable si no se provee.", control: false }
     ],
@@ -526,6 +528,7 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "size", kind: "enum", type: "CbSize", options: ["sm", "md", "lg"], default: "md", description: "" },
       { name: "invalid", kind: "boolean", type: "boolean", default: false, description: "" },
       { name: "required", kind: "boolean", type: "boolean", default: false, description: "" },
+      { name: "requiredIndicator", kind: "enum", type: "'asterisk' | 'text' | 'optional' | 'none'", options: ["none", "asterisk", "text", "optional"], default: "none", description: "Indicador de obligatoriedad en la etiqueta; si se omite usa el global de provideCaribeNG()." },
       { name: "disabled", kind: "boolean", type: "boolean", default: false, description: "" },
       { name: "inputId", kind: "string", type: "string", default: "", description: "", control: false },
       { name: "locale", kind: "string", type: "string | undefined", default: "", description: "Locale BCP 47 para nombres y formato (por defecto el del navegador)." },
@@ -848,6 +851,7 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "size", kind: "enum", type: "CbSize", options: ["sm", "md", "lg"], default: "md", description: "Tamaño." },
       { name: "readonly", kind: "boolean", type: "boolean", default: false, description: "Solo lectura." },
       { name: "required", kind: "boolean", type: "boolean", default: false, description: "Marca el campo como requerido (atributo + indicador visual)." },
+      { name: "requiredIndicator", kind: "enum", type: "'asterisk' | 'text' | 'optional' | 'none'", options: ["none", "asterisk", "text", "optional"], default: "none", description: "Indicador de obligatoriedad en la etiqueta; si se omite usa el global de provideCaribeNG()." },
       { name: "inputmode", kind: "string", type: "string | null", default: "", description: "`inputmode` para teclados móviles." },
       { name: "disabled", kind: "boolean", type: "boolean", default: false, description: "Deshabilitado de forma declarativa (se combina con Angular Forms)." },
       { name: "inputId", kind: "string", type: "string", default: "", description: "Id del input; se genera uno estable si no se provee.", control: false }
@@ -862,6 +866,7 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "max", kind: "string", type: "string", default: "", description: "" },
       { name: "disabled", kind: "boolean", type: "boolean", default: false, description: "" },
       { name: "invalid", kind: "boolean", type: "boolean", default: false, description: "Marca visual y ARIA de estado inválido (también se activa con Angular Forms)." },
+      { name: "requiredIndicator", kind: "enum", type: "'asterisk' | 'text' | 'optional' | 'none'", options: ["none", "asterisk", "text", "optional"], default: "none", description: "Indicador de obligatoriedad en la etiqueta; si se omite usa el global de provideCaribeNG()." },
       { name: "value", kind: "string", type: "string (model)", default: "", description: "" }
     ]
   },
@@ -898,6 +903,7 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "size", kind: "enum", type: "CbSize", options: ["sm", "md", "lg"], default: "md", description: "" },
       { name: "invalid", kind: "boolean", type: "boolean", default: false, description: "" },
       { name: "required", kind: "boolean", type: "boolean", default: false, description: "" },
+      { name: "requiredIndicator", kind: "enum", type: "'asterisk' | 'text' | 'optional' | 'none'", options: ["none", "asterisk", "text", "optional"], default: "none", description: "Indicador de obligatoriedad en la etiqueta; si se omite usa el global de provideCaribeNG()." },
       { name: "readonly", kind: "boolean", type: "boolean", default: false, description: "" },
       { name: "disabled", kind: "boolean", type: "boolean", default: false, description: "" },
       { name: "inputId", kind: "string", type: "string", default: "", description: "", control: false },
@@ -951,6 +957,7 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "options", kind: "string", type: "readonly CbInputSelectOption[]", default: [{ label: 'Red', value: 'red' }, { label: 'Green', value: 'green' }, { label: 'Blue', value: 'blue' }, { label: 'Amber', value: 'amber' }], description: "", control: false },
       { name: "disabled", kind: "boolean", type: "boolean", default: false, description: "" },
       { name: "invalid", kind: "boolean", type: "boolean", default: false, description: "Marca visual y ARIA de estado inválido (también se activa con Angular Forms)." },
+      { name: "requiredIndicator", kind: "enum", type: "'asterisk' | 'text' | 'optional' | 'none'", options: ["none", "asterisk", "text", "optional"], default: "none", description: "Indicador de obligatoriedad en la etiqueta; si se omite usa el global de provideCaribeNG()." },
       { name: "value", kind: "string", type: "string (model)", default: "", description: "" }
     ]
   },
@@ -1537,6 +1544,7 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "label", kind: "string", type: "string", default: "", description: "Etiqueta visible junto al control." },
       { name: "leftLabel", kind: "boolean", type: "boolean", default: false, description: "Coloca la etiqueta a la izquierda del control." },
       { name: "required", kind: "boolean", type: "boolean", default: false, description: "Marca el control como requerido (`aria-required`)." },
+      { name: "requiredIndicator", kind: "enum", type: "'asterisk' | 'text' | 'optional' | 'none'", options: ["none", "asterisk", "text", "optional"], default: "none", description: "Indicador de obligatoriedad en la etiqueta; si se omite usa el global de provideCaribeNG()." },
       { name: "disabled", kind: "boolean", type: "boolean", default: false, description: "Deshabilitado declarativo (se combina con Angular Forms)." },
       { name: "invalid", kind: "boolean", type: "boolean", default: false, description: "Marca visual y ARIA de estado inválido (también se activa con Angular Forms)." },
       { name: "inputId", kind: "string", type: "string", default: "", description: "Id del input; se genera uno estable si no se provee.", control: false },
@@ -1617,6 +1625,7 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "maxlength", kind: "string", type: "number | null", default: "", description: "Límite de caracteres; muestra un contador cuando se define." },
       { name: "readonly", kind: "boolean", type: "boolean", default: false, description: "Solo lectura." },
       { name: "required", kind: "boolean", type: "boolean", default: false, description: "Marca el campo como requerido (atributo + indicador visual)." },
+      { name: "requiredIndicator", kind: "enum", type: "'asterisk' | 'text' | 'optional' | 'none'", options: ["none", "asterisk", "text", "optional"], default: "none", description: "Indicador de obligatoriedad en la etiqueta; si se omite usa el global de provideCaribeNG()." },
       { name: "disabled", kind: "boolean", type: "boolean", default: false, description: "Deshabilitado de forma declarativa (se combina con Angular Forms)." },
       { name: "inputId", kind: "string", type: "string", default: "", description: "Id del textarea; se genera uno estable si no se provee.", control: false }
     ]
@@ -1658,6 +1667,7 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "size", kind: "enum", type: "CbSize", options: ["sm", "md", "lg"], default: "md", description: "Tamaño." },
       { name: "disabled", kind: "boolean", type: "boolean", default: false, description: "Deshabilitado de forma declarativa (se combina con Angular Forms)." },
       { name: "invalid", kind: "boolean", type: "boolean", default: false, description: "Marca visual y ARIA de estado inválido (también se activa con Angular Forms)." },
+      { name: "requiredIndicator", kind: "enum", type: "'asterisk' | 'text' | 'optional' | 'none'", options: ["none", "asterisk", "text", "optional"], default: "none", description: "Indicador de obligatoriedad en la etiqueta; si se omite usa el global de provideCaribeNG()." },
       { name: "inputId", kind: "string", type: "string", default: "", description: "Id del input; se genera uno estable si no se provee.", control: false }
     ],
     events: [

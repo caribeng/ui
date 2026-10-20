@@ -1523,6 +1523,16 @@ export const ES_EN: Record<string, string> = {
   'Marca visual y ARIA de estado inválido (también se activa con Angular Forms).':
     'Visual and ARIA invalid state (also enabled automatically by Angular Forms).',
 
+  // --- Indicador de obligatoriedad (requiredIndicator) ---
+  'Indicador de obligatoriedad': 'Required indicator',
+  'Indicador global': 'Global indicator',
+  'requiredIndicator elige cómo se señala en la etiqueta: asterisk (*), text (requerido), optional (marca los opcionales) o none (nada visible). El campo siempre expone aria-required.':
+    'requiredIndicator chooses how the label signals it: asterisk (*), text (required), optional (marks optional fields) or none (nothing visible). The field always exposes aria-required.',
+  'Configúralo una vez para toda la app con provideCaribeNG(); por defecto es none. Cada campo puede sobrescribirlo con requiredIndicator.':
+    'Configure it once for the whole app with provideCaribeNG(); the default is none. Each field can override it with requiredIndicator.',
+  'Indicador de obligatoriedad en la etiqueta; si se omite usa el global de provideCaribeNG().':
+    'Required indicator in the label; if omitted, the global one from provideCaribeNG() is used.',
+
   // --- API de Select / MultiSelect (etiquetado accesible) ---
   'Nombre accesible del disparador cuando no hay etiqueta visible.':
     'Accessible name of the trigger when there is no visible label.',

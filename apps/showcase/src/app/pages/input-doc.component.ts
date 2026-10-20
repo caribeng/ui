@@ -102,6 +102,28 @@ import { DOC_A11Y } from '../components/doc-a11y-registry';
       </div>
     </doc-section>
 
+    <doc-section
+      id="required-indicator"
+      title="Indicador de obligatoriedad"
+      description="requiredIndicator elige cómo se señala en la etiqueta: asterisk (*), text (requerido), optional (marca los opcionales) o none (nada visible). El campo siempre expone aria-required."
+      [code]="indicatorCode"
+    >
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: 1rem; width: 100%">
+        <cb-input label="Correo" [required]="true" requiredIndicator="asterisk" />
+        <cb-input label="Correo" [required]="true" requiredIndicator="text" />
+        <cb-input label="Teléfono" requiredIndicator="optional" />
+        <cb-input label="Correo" [required]="true" requiredIndicator="none" />
+      </div>
+    </doc-section>
+
+    <doc-section
+      id="required-indicator-global"
+      title="Indicador global"
+      description="Configúralo una vez para toda la app con provideCaribeNG(); por defecto es none. Cada campo puede sobrescribirlo con requiredIndicator."
+    >
+      <doc-code-block [code]="indicatorConfigCode" lang="typescript" />
+    </doc-section>
+
     <doc-a11y [data]="a11y" />
 
     <doc-playground [api]="docApi" />
@@ -144,6 +166,24 @@ export class MyComponent {}`;
   label="Correo"
   placeholder="correo@dominio.com"
   error="Ingresa un correo válido." />`;
+
+  protected readonly indicatorCode = `<cb-input label="Correo" [required]="true" requiredIndicator="asterisk" />
+<cb-input label="Correo" [required]="true" requiredIndicator="text" />
+<cb-input label="Teléfono" requiredIndicator="optional" />
+<cb-input label="Correo" [required]="true" requiredIndicator="none" />`;
+
+  protected readonly indicatorConfigCode = `// app.config.ts
+import { provideCaribeNG } from '@caribeng/ui';
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideCaribeNG({
+      requiredIndicator: 'optional', // 'asterisk' | 'text' | 'optional' | 'none' (por defecto)
+      requiredText: 'requerido',     // texto del modo 'text'
+      optionalText: 'opcional',      // texto del modo 'optional'
+    }),
+  ],
+};`;
 
   protected readonly validationTs = `email = new FormControl('', {
   nonNullable: true,

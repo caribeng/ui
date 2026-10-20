@@ -13,7 +13,7 @@ import {
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
 import { OverlayModule, type ConnectedPosition } from '@angular/cdk/overlay';
-import { cbFieldState, type CbSize } from '@caribeng/ui';
+import { cbFieldState, type CbRequiredIndicator, type CbSize } from '@caribeng/ui';
 import { CbIcon } from '@caribeng/ui/icon';
 
 let nextUid = 0;
@@ -56,8 +56,11 @@ interface DayCell {
     @if (label()) {
       <label class="cb-datepicker__label" [attr.for]="inputId()">
         {{ label() }}
-        @if (fieldState.required()) {
-          <span class="cb-datepicker__required" aria-hidden="true">*</span>
+        @if (fieldState.indicator(); as mark) {
+          <span
+            [class]="'cb-datepicker__required cb-datepicker__required--' + mark.kind"
+            [attr.aria-hidden]="mark.kind === 'optional' ? null : 'true'"
+          >{{ mark.text }}</span>
         }
       </label>
     }
@@ -206,10 +209,13 @@ export class CbDatepicker implements ControlValueAccessor {
   readonly size = input<CbSize>('md');
   readonly invalid = input<boolean, unknown>(false, { transform: toBoolean });
   readonly required = input<boolean, unknown>(false, { transform: toBoolean });
+  /** Indicador de obligatoriedad de este campo; si se omite usa el global de `provideCaribeNG()`. */
+  readonly requiredIndicator = input<CbRequiredIndicator | undefined>(undefined);
   /** Estado de validación: inputs manuales + estado de Angular Forms. */
   protected readonly fieldState = cbFieldState({
     invalid: () => this.invalid(),
     required: () => this.required(),
+    requiredIndicator: () => this.requiredIndicator(),
   });
   readonly disabled = input<boolean, unknown>(false, { transform: toBoolean });
   readonly inputId = input<string>(`cb-datepicker-${++nextUid}`);

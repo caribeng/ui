@@ -9,7 +9,7 @@ import {
   signal,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
-import { cbFieldState, type CbSize } from '@caribeng/ui';
+import { cbFieldState, type CbRequiredIndicator, type CbSize } from '@caribeng/ui';
 
 let nextUid = 0;
 
@@ -59,7 +59,15 @@ let nextUid = 0;
         <span class="cb-toggle__thumb"></span>
       </span>
       @if (label()) {
-        <span class="cb-toggle__label">{{ label() }}</span>
+        <span class="cb-toggle__label">
+          {{ label() }}
+          @if (fieldState.indicator(); as mark) {
+            <span
+              [class]="'cb-toggle__required cb-toggle__required--' + mark.kind"
+              [attr.aria-hidden]="mark.kind === 'optional' ? null : 'true'"
+            >{{ mark.text }}</span>
+          }
+        </span>
       }
     </label>
   `,
@@ -76,8 +84,13 @@ export class CbToggle implements ControlValueAccessor {
   readonly disabled = input<boolean, unknown>(false, { transform: toBoolean });
   /** Marca visual y ARIA de estado inválido (también se activa con Angular Forms). */
   readonly invalid = input<boolean, unknown>(false, { transform: toBoolean });
+  /** Indicador de obligatoriedad de este campo; si se omite usa el global de `provideCaribeNG()`. */
+  readonly requiredIndicator = input<CbRequiredIndicator | undefined>(undefined);
   /** Estado de validación: inputs manuales + estado de Angular Forms. */
-  protected readonly fieldState = cbFieldState({ invalid: () => this.invalid() });
+  protected readonly fieldState = cbFieldState({
+    invalid: () => this.invalid(),
+    requiredIndicator: () => this.requiredIndicator(),
+  });
   /** Id del input; se genera uno estable si no se provee. */
   readonly inputId = input<string>(`cb-toggle-${++nextUid}`);
 

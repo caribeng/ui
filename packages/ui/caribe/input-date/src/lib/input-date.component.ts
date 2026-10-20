@@ -9,7 +9,7 @@ import {
   booleanAttribute,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { cbFieldState } from '@caribeng/ui';
+import { cbFieldState, type CbRequiredIndicator } from '@caribeng/ui';
 
 /**
  * Input-date de Caribe Design: campo de fecha nativo estilizado con etiqueta,
@@ -35,7 +35,15 @@ import { cbFieldState } from '@caribeng/ui';
   template: `
     <label class="cb-input-date">
       @if (label()) {
-        <span class="cb-input-date__label">{{ label() }}</span>
+        <span class="cb-input-date__label">
+          {{ label() }}
+          @if (fieldState.indicator(); as mark) {
+            <span
+              [class]="'cb-input-date__required cb-input-date__required--' + mark.kind"
+              [attr.aria-hidden]="mark.kind === 'optional' ? null : 'true'"
+            >{{ mark.text }}</span>
+          }
+        </span>
       }
       <input
         class="cb-input-date__field"
@@ -61,8 +69,13 @@ export class CbInputDate implements ControlValueAccessor {
   readonly disabled = input<boolean>(false);
   /** Marca visual y ARIA de estado inválido (también se activa con Angular Forms). */
   readonly invalid = input(false, { transform: booleanAttribute });
+  /** Indicador de obligatoriedad de este campo; si se omite usa el global de `provideCaribeNG()`. */
+  readonly requiredIndicator = input<CbRequiredIndicator | undefined>(undefined);
   /** Estado de validación: inputs manuales + estado de Angular Forms. */
-  protected readonly fieldState = cbFieldState({ invalid: () => this.invalid() });
+  protected readonly fieldState = cbFieldState({
+    invalid: () => this.invalid(),
+    requiredIndicator: () => this.requiredIndicator(),
+  });
 
   readonly value = model<string>('');
   protected readonly cvaDisabled = signal(false);

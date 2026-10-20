@@ -42,9 +42,9 @@ describe('CbInput + Angular Forms (automático)', () => {
     return { fixture, el, input };
   }
 
-  it('muestra el * cuando el control tiene Validators.required', () => {
+  it('por defecto (none) no pinta indicador, pero el campo sigue siendo requerido', () => {
     const { el, input } = setup();
-    expect(el.querySelector('.cb-input__required')).toBeTruthy();
+    expect(el.querySelector('.cb-input__required')).toBeNull();
     expect(input().required).toBe(true);
   });
 

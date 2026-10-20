@@ -109,3 +109,16 @@
 .cb-switch.cb-is-invalid .cb-switch__track {
   box-shadow: 0 0 0 2px var(--cb-color-danger);
 }
+
+/* Indicador de obligatoriedad: "(requerido)" / "(opcional)" */
+.cb-switch__required {
+  color: var(--cb-color-danger);
+  margin-left: 2px;
+}
+.cb-switch__required--required,
+.cb-switch__required--optional {
+  margin-left: 0.25rem;
+  color: var(--cb-color-text-muted);
+  font-size: 0.85em;
+  font-weight: var(--cb-font-weight-normal, 400);
+}
