@@ -39,20 +39,20 @@ Navegadores: los mismos que [soporta Angular](https://angular.dev/reference/vers
 ### Requisitos
 
 - Un proyecto **Angular 22** con `@angular/forms` (lo incluye cualquier proyecto creado con `ng new`).
-- **`@angular/cdk` 22**, que CaribeNG usa para overlays y accesibilidad.
+- `@angular/cdk` se instala automáticamente como dependencia (overlays y accesibilidad).
 - npm, yarn o pnpm.
 
 ### Descarga
 
 ```bash
 # npm
-npm install @caribeng/ui @angular/cdk
+npm install @caribeng/ui
 
 # yarn
-yarn add @caribeng/ui @angular/cdk
+yarn add @caribeng/ui
 
 # pnpm
-pnpm add @caribeng/ui @angular/cdk
+pnpm add @caribeng/ui
 ```
 
 ## 🔨 Uso

@@ -1,18 +1,27 @@
 {
   "name": "@caribeng/ui",
-  "version": "22.1.0",
+  "version": "22.1.1",
   "description": "CaribeNG — sistema de diseño y librería de componentes para Angular 22+ (standalone, signals, OnPush, zoneless). 142 entry points tree-shakeables, accesibles (WCAG 2.2 AA) y tematizables.",
-  "license": "MIT",
   "keywords": [
     "angular",
-    "design-system",
-    "components",
-    "signals",
-    "zoneless",
-    "ui",
-    "caribeng",
-    "a11y"
+    "ui library",
+    "component library",
+    "design",
+    "framework",
+    "frontend",
+    "caribeng"
   ],
+  "author": "CaribeNG",
+  "license": "MIT",
+  "homepage": "https://github.com/caribeng/ui#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/caribeng/ui.git",
+    "directory": "packages/ui"
+  },
+  "bugs": {
+    "url": "https://github.com/caribeng/ui/issues"
+  },
   "sideEffects": false,
   "publishConfig": {
     "access": "public"
@@ -21,10 +30,10 @@
     "@angular/common": "^22.0.0",
     "@angular/core": "^22.0.0",
     "@angular/forms": "^22.0.0",
-    "@angular/platform-browser": "^22.0.0",
-    "@angular/cdk": "^22.0.0"
+    "@angular/platform-browser": "^22.0.0"
   },
   "dependencies": {
+    "@angular/cdk": "^22.0.0",
     "tslib": "^2.8.1"
   }
 }

@@ -9,6 +9,25 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
     "sections": []
   },
   {
+    "version": "22.1.1",
+    "date": "2026-10-20",
+    "sections": [
+      {
+        "type": "changed",
+        "items": [
+          {
+            "component": "Dependencias",
+            "text": "`@angular/cdk` pasa de `peerDependencies` a `dependencies`, como en NG-ZORRO: ahora basta con `npm install @caribeng/ui`."
+          },
+          {
+            "component": "npm",
+            "text": "keywords, autor, repositorio, página y enlace de incidencias en la ficha del paquete."
+          }
+        ]
+      }
+    ]
+  },
+  {
     "version": "22.1.0",
     "date": "2026-10-20",
     "sections": [

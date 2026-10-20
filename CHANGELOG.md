@@ -12,6 +12,14 @@ Desde la 22.0.0 el major de la librería coincide con el de Angular (22.x = Angu
 
 ---
 
+## [22.1.1] - 2026-10-20
+
+### Changed
+- **Dependencias:** `@angular/cdk` pasa de `peerDependencies` a `dependencies`, como en NG-ZORRO: ahora basta con `npm install @caribeng/ui`.
+- **npm:** keywords, autor, repositorio, página y enlace de incidencias en la ficha del paquete.
+
+---
+
 ## [22.1.0] - 2026-10-20
 
 ### Breaking
