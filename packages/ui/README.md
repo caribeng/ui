@@ -1,123 +1,191 @@
-# CaribeNG (`@caribeng/ui`)
+<h1 align="center">CaribeNG</h1>
 
-**Sistema de diseño y librería de componentes para Angular 22+** — standalone, reactiva con Signals, `ChangeDetectionStrategy.OnPush`, zoneless-ready, con **93 entry points** tree-shakeables, tokens CSS (`--cb-*`) y accesibilidad WCAG 2.2 AA.
+<p align="center">
+  <strong>Sistema de diseño y librería de componentes para Angular.</strong><br />
+  Standalone, Signals, OnPush, tokens CSS y accesibilidad WCAG 2.2 AA.
+</p>
+
+<p align="center">
+  <img alt="Angular 22" src="https://img.shields.io/badge/Angular-22-dd0031.svg?style=flat-square" />
+  <img alt="Entry points" src="https://img.shields.io/badge/entry%20points-142-10b981.svg?style=flat-square" />
+  <img alt="Licencia MIT" src="https://img.shields.io/badge/licencia-MIT-blue.svg?style=flat-square" />
+</p>
 
 ---
 
-## Instalación
+## ✨ Características
+
+- **142 componentes y directivas** standalone, cada uno en su propio entry point (`@caribeng/ui/button`, `@caribeng/ui/table`…): solo empaquetas lo que importas.
+- **Angular moderno:** `input()` / `model()` / `output()` con Signals, `ChangeDetectionStrategy.OnPush` y compatible con apps zoneless.
+- **Formularios sin fricción:** `ControlValueAccessor` en todos los controles; el error y el indicador de obligatorio se sincronizan solos con Angular Forms.
+- **Accesibles:** roles y atributos ARIA, soporte de teclado y gestión de foco (WCAG 2.2 AA).
+- **Tematizables:** tokens CSS `--cb-*`, modo claro/oscuro y presets de color que se cambian en caliente.
+- **Caribe Design:** 45 componentes adicionales del sistema Caribe (`@caribeng/ui/caribe/*`).
+- **Iconos incluidos:** 361 iconos núcleo listos para usar y un catálogo opcional de 1891 iconos.
+
+## 🖥 Compatibilidad
+
+El major de CaribeNG coincide con el de Angular, igual que Angular Material, PrimeNG y NG-ZORRO. Instala la versión que corresponde a tu proyecto:
+
+| CaribeNG | Angular | Estado |
+| --- | --- | --- |
+| `22.x` | `^22.0.0` | Activa: nuevas funciones y correcciones |
+| `21.x` | `^21.0.0` | Mantenimiento: solo correcciones |
+
+Navegadores: los mismos que [soporta Angular](https://angular.dev/reference/versions#browser-support).
+
+## 📦 Instalación
+
+### Requisitos
+
+- Un proyecto **Angular 22** con `@angular/forms` (lo incluye cualquier proyecto creado con `ng new`).
+- **`@angular/cdk` 22**, que CaribeNG usa para overlays y accesibilidad.
+- npm, yarn o pnpm.
+
+### Descarga
 
 ```bash
-npm install @caribeng/ui
-# o con pnpm
-pnpm add @caribeng/ui
+# npm
+npm install @caribeng/ui @angular/cdk
+
+# yarn
+yarn add @caribeng/ui @angular/cdk
+
+# pnpm
+pnpm add @caribeng/ui @angular/cdk
 ```
 
----
+## 🔨 Uso
 
-## Configuración rápida
+### 1. Proveedor
 
-### 1. Proveedor global (`app.config.ts`)
+Añade `provideCaribeNG()` a los providers de tu `app.config.ts`. Todas las opciones son opcionales:
 
 ```ts
-import { ApplicationConfig, provideZonelessChangeDetection } from '@angular/core';
+import { ApplicationConfig } from '@angular/core';
 import { provideCaribeNG } from '@caribeng/ui';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideZonelessChangeDetection(),
     provideCaribeNG({
-      theme: 'system',     // 'light' | 'dark' | 'system'
-      preset: 'emerald',   // 'emerald' | 'ocean' | 'coral' | 'amber' | 'violet' | 'rose'
-      persistTheme: true,
+      theme: 'system',            // 'light' (por defecto) | 'dark' | 'system'
+      preset: 'emerald',          // 'emerald' | 'ocean' | 'coral' | 'amber' | 'violet' | 'rose'
+      persistTheme: true,         // recuerda la elección del usuario
+      requiredIndicator: 'none',  // 'asterisk' | 'text' | 'optional' | 'none'
     }),
   ],
 };
 ```
 
-### 2. Estilos y tokens CSS (`styles.css` o `angular.json`)
+### 2. Estilos
+
+Agrega la hoja de estilos (tokens `--cb-*`, tema y utilidades) en `angular.json`:
+
+```diff
+  "styles": [
++   "node_modules/@caribeng/ui/styles/caribeng.css",
+    "src/styles.css"
+  ]
+```
+
+o impórtala desde tu hoja global:
 
 ```css
+/* src/styles.css */
 @import '@caribeng/ui/styles.css';
 ```
 
-### 3. Importación granular por componente (tree-shakeable)
+### 3. Verifica la instalación
+
+Importa los componentes que vayas a usar desde su entry point. La ruta de importación de cada uno aparece en su página de documentación.
 
 ```ts
 import { Component, signal } from '@angular/core';
-import { CbButtonComponent } from '@caribeng/ui/button';
-import { CbInputComponent } from '@caribeng/ui/input';
-import { CbPasswordComponent } from '@caribeng/ui/password';
-import { CbChartComponent } from '@caribeng/ui/chart';
+import { CbButton } from '@caribeng/ui/button';
+import { CbInput } from '@caribeng/ui/input';
 
 @Component({
-  selector: 'app-demo',
-  imports: [CbButtonComponent, CbInputComponent, CbPasswordComponent, CbChartComponent],
+  selector: 'app-root',
+  imports: [CbButton, CbInput],
   template: `
-    <cb-input [(value)]="email" placeholder="correo@dominio.com" />
-    <cb-password [(value)]="secret" placeholder="Contraseña" />
-    <cb-button variant="primary">Continuar</cb-button>
+    <cb-input label="Correo" type="email" [(value)]="email" />
+    <cb-button (click)="enviar()">Continuar</cb-button>
   `,
 })
-export class DemoComponent {
+export class App {
   readonly email = signal('');
-  readonly secret = signal('');
+
+  enviar(): void {
+    console.log(this.email());
+  }
 }
 ```
 
----
+Si ves el campo y el botón con estilo, CaribeNG está listo.
 
-## Tema claro/oscuro y Presets de color en vivo
+### Formularios
+
+Todos los controles funcionan con Reactive Forms y con formularios por plantilla. El error se muestra solo cuando el control es inválido y el usuario lo tocó; el mensaje es opcional:
+
+```html
+<cb-input label="Correo" formControlName="email" error="Ingresa un correo válido" />
+```
+
+## 🎨 Tema claro/oscuro y presets
 
 ```ts
-import { Component, inject } from '@angular/core';
+import { inject } from '@angular/core';
 import { CbThemeService } from '@caribeng/ui';
 
-export class HeaderComponent {
-  readonly theme = inject(CbThemeService);
+export class Header {
+  private readonly theme = inject(CbThemeService);
 
   alternarTema(): void {
     this.theme.toggle(); // 'light' <-> 'dark'
   }
 
-  usarPresetOceano(): void {
-    this.theme.setPreset('ocean'); // 'emerald' | 'ocean' | 'coral' | 'amber' | 'violet' | 'rose'
+  usarOceano(): void {
+    this.theme.setPreset('ocean');
   }
 }
 ```
 
----
+## 🔣 Iconos
 
-## Sistema de Iconos (`@caribeng/ui/icon` y `@caribeng/ui/icons`)
+Los 361 iconos núcleo se registran solos:
 
-Incluye **361 iconos núcleo** auto-registrados y un catálogo completo de **1891 iconos** derivados de Lucide (licencia ISC) bajo demanda:
+```html
+<cb-icon name="house" [size]="20" />
+```
+
+Para usar otros del catálogo completo (1891 iconos derivados de Lucide), regístralos en los providers; solo se empaquetan los que importas:
 
 ```ts
 import { provideCbIcons } from '@caribeng/ui/icon';
 import { heartPulse, rocket } from '@caribeng/ui/icons';
 
-// En providers:
-provideCbIcons({ 'heart-pulse': heartPulse, rocket });
+providers: [provideCbIcons({ 'heart-pulse': heartPulse, rocket })];
 ```
 
-```html
-<cb-icon name="heart-pulse" [size]="20" />
-```
+## 📚 Catálogo
 
----
+- **Form:** `autocomplete`, `button`, `cascadeselect`, `checkbox`, `chips`, `colorpicker`, `datepicker`, `editor`, `fileupload`, `floatlabel`, `iconfield`, `input`, `input-number`, `inputgroup`, `inputmask`, `inputotp`, `knob`, `listbox`, `multiselect`, `password`, `radio`, `rating`, `select`, `selectbutton`, `slider`, `textarea`, `toggle`, `togglebutton`, `treeselect`.
+- **Data:** `dataview`, `orderlist`, `organizationchart`, `paginator`, `picklist`, `table`, `timeline`, `tree`, `treetable`, `virtualscroller`.
+- **Overlay:** `confirmdialog`, `confirmpopup`, `dialog`, `drawer`, `dynamicdialog`, `popover`, `tooltip`.
+- **Messages:** `badge`, `chip`, `inlinemessage`, `message`, `tag`, `toast`.
+- **Menu:** `breadcrumb`, `contextmenu`, `dock`, `megamenu`, `menu`, `menubar`, `panelmenu`, `speeddial`, `steps`, `tabmenu`, `tieredmenu`.
+- **Panel:** `accordion`, `card`, `divider`, `fieldset`, `panel`, `scrollpanel`, `scrolltop`, `splitter`, `stepper`, `tabs`, `toolbar`.
+- **Media:** `avatar`, `avatargroup`, `carousel`, `galleria`, `image`.
+- **Archivos y precios:** `file-card`, `folder-card`, `pricing`.
+- **Misc y directivas:** `animateonscroll`, `autofocus`, `blockui`, `chart`, `focustrap`, `icon`, `icons`, `inplace`, `metergroup`, `progressbar`, `ripple`, `skeleton`, `spinner`, `styleclass`, `terminal`.
+- **Caribe Design (`@caribeng/ui/caribe/*`):** `alert`, `animation-lottie`, `button-group`, `calendar`, `card-content`, `card-move`, `card-primary`, `card-select`, `circle-loading`, `coachmark`, `data-table`, `dots-indicator`, `expansion-panel`, `fab-menu`, `file-download`, `file-select`, `float-menu`, `footer`, `header`, `icon-button`, `illustration`, `inline-alert`, `input-date`, `input-search`, `input-select`, `input-token`, `link`, `loader`, `logo`, `modal`, `off-canvas`, `onboarding`, `pictogram`, `pop-over`, `preloader`, `progress-bar`, `shortcut`, `status`, `step-indicator`, `stroke`, `switch`, `tag-button`, `tracker`, `transaction-status`, `voucher`.
 
-## Catálogo completo (93 Secondary Entry Points)
+## 🧭 Próximos pasos
 
-- **Form (29):** `autocomplete`, `button`, `cascadeselect`, `checkbox`, `chips`, `colorpicker`, `datepicker`, `editor`, `fileupload`, `floatlabel`, `iconfield`, `input`, `input-number`, `inputgroup`, `inputmask`, `inputotp`, `knob`, `listbox`, `multiselect`, `password`, `radio`, `rating`, `select`, `selectbutton`, `slider`, `textarea`, `toggle`, `togglebutton`, `treeselect`.
-- **Data (10):** `dataview`, `orderlist`, `organizationchart`, `paginator`, `picklist`, `table`, `timeline`, `tree`, `treetable`, `virtualscroller`.
-- **Overlay (7):** `confirmdialog`, `confirmpopup`, `dialog`, `drawer`, `dynamicdialog`, `popover`, `tooltip`.
-- **Messages & Notification (6):** `badge`, `chip`, `inlinemessage`, `message`, `tag`, `toast`.
-- **Navigation / Menu (11):** `breadcrumb`, `contextmenu`, `dock`, `megamenu`, `menu`, `menubar`, `panelmenu`, `speeddial`, `steps`, `tabmenu`, `tieredmenu`.
-- **Panel / Layout (11):** `accordion`, `card`, `divider`, `fieldset`, `panel`, `scrollpanel`, `scrolltop`, `splitter`, `stepper`, `tabs`, `toolbar`.
-- **Media (5):** `avatar`, `avatargroup`, `carousel`, `galleria`, `image`.
-- **Misc & Directivas (14):** `animateonscroll`, `autofocus`, `blockui`, `chart`, `focustrap`, `icon`, `icons`, `inplace`, `metergroup`, `progressbar`, `ripple`, `skeleton`, `spinner`, `styleclass`, `terminal`.
+- Explora cada componente, con ejemplos en HTML y TypeScript, en el sitio de documentación (showcase).
+- Personaliza colores y tokens en la guía de Theming.
+- Consulta las novedades de cada versión en la página Changelog del sitio de documentación.
 
----
+## ☀️ Licencia
 
-## Licencia
-
-MIT © CaribeNG Contributors. Iconos derivados de Lucide (ISC) — ver `THIRD-PARTY-NOTICES.md`.
+MIT © CaribeNG Contributors. Iconos derivados de Lucide (ISC); ver `THIRD-PARTY-NOTICES.md`.
