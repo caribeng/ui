@@ -93,6 +93,9 @@ import { CbIcon } from '@caribeng/ui/icon';
       <button type="button" class="cb-editor__tool" [disabled]="isDisabled()" (mousedown)="hold($event)" (click)="insertLink()" aria-label="Insertar enlace">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
       </button>
+      <button type="button" class="cb-editor__tool" [disabled]="isDisabled()" (mousedown)="hold($event)" (click)="pickImage()" aria-label="Insertar imagen">
+        <cb-icon name="image" [size]="15" aria-hidden="true" />
+      </button>
       <button type="button" class="cb-editor__tool" [disabled]="isDisabled()" (mousedown)="hold($event)" (click)="exec('removeFormat')" aria-label="Limpiar formato">
         <span aria-hidden="true">T✕</span>
       </button>
@@ -117,6 +120,13 @@ import { CbIcon } from '@caribeng/ui/icon';
       (input)="onSurfaceInput()"
       (blur)="onBlur()"
     ></div>
+    <input
+      #imageInput
+      type="file"
+      accept="image/*"
+      hidden
+      (change)="onImageFile($event)"
+    />
   `,
   styleUrl: './editor.component.css',
 })
@@ -131,6 +141,8 @@ export class CbEditor implements ControlValueAccessor {
   protected readonly isDisabled = computed(() => this.disabled() || this.cvaDisabled());
 
   private readonly surfaceRef = viewChild<ElementRef<HTMLElement>>('surface');
+  private readonly imageInputRef = viewChild<ElementRef<HTMLInputElement>>('imageInput');
+  private savedRange: Range | null = null;
 
   private onChange: (val: string) => void = () => {};
   private onTouched: () => void = () => {};
@@ -186,6 +198,38 @@ export class CbEditor implements ControlValueAccessor {
     if (this.isDisabled()) return;
     const url = window.prompt('URL del enlace:', 'https://');
     if (url) this.exec('createLink', url);
+  }
+
+  /** Abre el selector de archivos guardando la posición del cursor. */
+  protected pickImage(): void {
+    if (this.isDisabled()) return;
+    const el = this.surfaceRef()?.nativeElement;
+    const sel = window.getSelection();
+    const range = sel?.rangeCount ? sel.getRangeAt(0) : null;
+    this.savedRange = el && range && el.contains(range.commonAncestorContainer) ? range.cloneRange() : null;
+    this.imageInputRef()?.nativeElement.click();
+  }
+
+  /** Inserta la imagen elegida (como data URL) donde estaba el cursor. */
+  protected onImageFile(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+    input.value = '';
+    if (!file || !file.type.startsWith('image/')) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      const el = this.surfaceRef()?.nativeElement;
+      if (!el) return;
+      el.focus();
+      if (this.savedRange) {
+        const sel = window.getSelection();
+        sel?.removeAllRanges();
+        sel?.addRange(this.savedRange);
+        this.savedRange = null;
+      }
+      this.exec('insertImage', reader.result as string);
+    };
+    reader.readAsDataURL(file);
   }
 
   protected onSurfaceInput(): void {

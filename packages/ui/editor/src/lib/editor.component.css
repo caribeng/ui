@@ -104,3 +104,8 @@
   color: var(--cb-color-primary-600, #059669);
   text-decoration: underline;
 }
+.cb-editor__surface img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--cb-radius-sm, 4px);
+}
