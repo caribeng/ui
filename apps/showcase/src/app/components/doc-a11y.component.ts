@@ -68,7 +68,7 @@ interface Part {
     .a11y__title a:hover { color:var(--cb-color-primary-500); }
     .a11y__subtitle { font-size:var(--cb-text-base, 1rem); font-weight:var(--cb-font-weight-semibold, 600); color:var(--cb-color-text-strong); margin:var(--cb-space-5, 1.25rem) 0 var(--cb-space-2, .5rem); }
     .a11y__text { color:var(--cb-color-text-muted); margin:0 0 var(--cb-space-3, .75rem); max-width:75ch; line-height:1.6; }
-    code { font-size:.85em; padding:.1em .35em; border-radius:var(--cb-radius-sm, 4px); background:var(--cb-color-surface-100); color:var(--cb-color-text); }
+    code { font-size:.85em; padding:.1em .35em; border-radius:var(--cb-radius-sm, 4px); background:color-mix(in srgb, var(--cb-color-text) 10%, transparent); color:var(--cb-color-text-strong); }
     .a11y__table-wrap { overflow-x:auto; border:1px solid var(--cb-color-border); border-radius:var(--cb-radius-lg, .75rem); }
     .a11y__table { width:100%; border-collapse:collapse; font-size:var(--cb-text-sm, .875rem); }
     .a11y__table th, .a11y__table td { padding:.6rem .85rem; text-align:left; border-bottom:1px solid var(--cb-color-border); vertical-align:top; }

@@ -132,7 +132,7 @@ interface Part {
     .cl-item:last-child { border-bottom:none; }
     .cl-item__component { font-weight:var(--cb-font-weight-semibold, 600); color:var(--cb-color-text-strong); }
     .cl-item__text { color:var(--cb-color-text-muted); line-height:1.55; }
-    code { font-size:.85em; padding:.1em .35em; border-radius:var(--cb-radius-sm, 4px); background:var(--cb-color-surface-100); color:var(--cb-color-text); }
+    code { font-size:.85em; padding:.1em .35em; border-radius:var(--cb-radius-sm, 4px); background:color-mix(in srgb, var(--cb-color-text) 10%, transparent); color:var(--cb-color-text-strong); }
     .cl-empty { color:var(--cb-color-text-muted); }
   `],
 })
