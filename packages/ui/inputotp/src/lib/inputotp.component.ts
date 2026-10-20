@@ -142,6 +142,7 @@ export class CbInputOtp implements ControlValueAccessor {
     const next = cleaned.slice(0, this.length());
     this.value.set(next);
     this.onChange(next);
+    if (next) this.focusSlot(Math.min(next.length, this.length()) - 1);
   }
 
   protected onBlur(): void {

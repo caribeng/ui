@@ -345,6 +345,67 @@ export const DOC_A11Y: Record<string, DocA11y> = {
       { keys: 'Escape', action: 'Cancela y cierra la confirmación (emite `rejected`).' },
     ],
   },
+  'cb-carousel': {
+    screenReader: [
+      'El carrusel es una región (`role="region"` con `aria-roledescription="carousel"`) nombrada con `ariaLabel`. Cada diapositiva es un `role="group"` con `aria-roledescription="slide"` y un nombre de posición ("1 de 3").',
+      'Los indicadores siguen el patrón *tabs*: `role="tab"` con `aria-selected`, y solo el activo entra en el orden de tabulación.',
+    ],
+    keyboard: [
+      { keys: 'Tab', action: 'Pasa por las flechas de navegación y el indicador activo.' },
+      { keys: 'Flecha derecha / Flecha izquierda', action: 'En los indicadores, va a la diapositiva siguiente o anterior (de forma circular).' },
+      { keys: 'Inicio / Fin', action: 'En los indicadores, va a la primera o a la última diapositiva.' },
+    ],
+  },
+  'cb-galleria': {
+    screenReader: [
+      'La imagen principal usa `alt` (o `title`) del elemento. Las miniaturas son `role="tab"` con `aria-selected` y se nombran con `title`, `alt` o su posición; su imagen es decorativa para no repetir el nombre.',
+    ],
+    keyboard: [
+      { keys: 'Tab', action: 'Pasa por las flechas de navegación y la miniatura activa.' },
+      { keys: 'Flecha derecha / Flecha izquierda', action: 'En las miniaturas, va a la imagen siguiente o anterior (de forma circular).' },
+      { keys: 'Inicio / Fin', action: 'En las miniaturas, va a la primera o a la última imagen.' },
+    ],
+  },
+  'cb-image': {
+    screenReader: [
+      'El botón de ampliar se nombra con el `alt` de la imagen. La previsualización es un `role="dialog"` con `aria-modal="true"` y cada herramienta (rotar, voltear, zoom, descargar) tiene su etiqueta.',
+      'Al abrirse, el foco pasa al botón de cerrar y queda atrapado en la previsualización; al cerrarse vuelve al botón de ampliar.',
+    ],
+    keyboard: [
+      { keys: 'Enter / Espacio', action: 'Abre la previsualización o activa la herramienta enfocada.' },
+      { keys: 'Tab / Mayús + Tab', action: 'Mueve el foco entre las herramientas sin salir de la previsualización.' },
+      { keys: 'Escape', action: 'Cierra la previsualización.' },
+    ],
+  },
+  'cb-inplace': {
+    screenReader: [
+      'La vista previa es un botón nativo. Al abrirse, el foco pasa al primer elemento enfocable del contenido; al cerrarse, vuelve a la vista previa.',
+    ],
+    keyboard: [
+      { keys: 'Enter / Espacio', action: 'Muestra el contenido.' },
+      { keys: 'Escape', action: 'Vuelve a la vista previa (si `closable` es true).' },
+    ],
+  },
+  'cb-cascade-select': {
+    screenReader: [
+      'El disparador es un `role="combobox"` con `aria-expanded`; refleja `aria-invalid` y `aria-required` del estado del formulario.',
+    ],
+    keyboard: [
+      { keys: 'Enter / Espacio', action: 'Abre o cierra el panel, o elige la opción enfocada.' },
+      { keys: 'Tab', action: 'Mueve el foco entre las opciones del panel.' },
+      { keys: 'Escape', action: 'Cierra el panel y devuelve el foco al disparador.' },
+    ],
+  },
+  'cb-tree-select': {
+    screenReader: [
+      'El disparador es un `role="combobox"` con `aria-haspopup="tree"`. El panel es un `role="tree"`: cada nodo es un `role="treeitem"` con `aria-selected` y, si tiene hijos, `aria-expanded`; el botón de expandir se nombra con el nodo.',
+    ],
+    keyboard: [
+      { keys: 'Enter / Espacio', action: 'Abre o cierra el panel, expande un nodo o elige el nodo enfocado.' },
+      { keys: 'Tab', action: 'Mueve el foco entre los nodos y sus botones de expandir.' },
+      { keys: 'Escape', action: 'Cierra el panel y devuelve el foco al disparador.' },
+    ],
+  },
   'cb-dynamic-dialog': {
     screenReader: [
       'El panel tiene `role="dialog"` con `aria-modal="true"` y se nombra con `header` (`aria-labelledby`) o, si no hay título, con `ariaLabel` de la configuración.',

@@ -381,6 +381,18 @@ Todos los lotes planificados en `SPEC.md` (75 componentes/directivas) y `PROGRES
 - [x] **Changelog / versionado**: `CHANGELOG.md` oficial para `v1.0.0` (SemVer + Keep a Changelog).
 - [x] **Theming avanzado**: presets de paleta en vivo (`emerald`, `ocean`, `coral`, `amber`, `violet`, `rose`) y escalas personalizadas en `CbThemeService` + selector interactivo en `/foundations/theming`.
 
+### Plan de mejora 22.x (acordado el 2026-10-20)
+
+> No se publica una versión nueva en npm hasta terminar los 4 puntos. Los cambios
+> se acumulan en `## [Unreleased]` del `CHANGELOG.md`.
+
+| # | Mejora | Por qué | Tamaño | Estado |
+|---|---|---|---|---|
+| 1 | **Sistema de idioma (i18n)**: `provideCaribeNG({ locale: 'en' })` con traducciones ES/EN de los textos de interfaz, sobrescribibles por cada app | Afecta a todos los que instalen el paquete; es lo más visible ahora que está en npm | Medio | ✅ Hecho |
+| 2 | **Reescribir los 11 componentes minificados** (Tree, TreeTable, VirtualScroller, DataView, Timeline, OrderList, PickList, ConfirmPopup, DynamicDialog, ConfirmDialog, MegaMenu) con formato legible, accesibilidad, documentación y tests | Calidad y mantenibilidad; elimina deuda técnica | Grande, por tandas | ✅ Hecho |
+| 3 | **Base de tests**: comportamiento, teclado y accesibilidad en los componentes con 1 test o menos (66 al empezar) | Red de seguridad para todo lo demás | Grande, por tandas | 🔄 En curso |
+| 4 | **Paridad con PrimeNG** en componentes clave: Table (filtros, redimensionar, expandir), Select/MultiSelect (agrupación, scroll virtual), DatePicker (rangos, hora) | Lo que más usará el equipo en el día a día | Grande, por componente | ⏳ Pendiente |
+
 ---
 
 ## 10. Historial de hitos

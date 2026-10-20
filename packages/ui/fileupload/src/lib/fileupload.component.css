@@ -50,6 +50,16 @@
   color: var(--cb-color-primary-contrast, #fff);
 }
 
+.cb-file-upload__errors {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.25rem;
+  font-size: var(--cb-text-sm);
+  color: var(--cb-color-danger);
+}
+
 .cb-file-upload__empty {
   margin: 0;
   font-size: var(--cb-text-sm);

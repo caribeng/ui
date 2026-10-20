@@ -2,11 +2,13 @@ import {
   ChangeDetectionStrategy,
   Component,
   ViewEncapsulation,
+  ElementRef,
   computed,
   forwardRef,
   input,
   model,
   signal,
+  viewChild,
   booleanAttribute,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -37,9 +39,11 @@ export interface CbCascadeOption {
   host: {
     class: 'cb-cascade-select',
     '[class.cb-is-open]': 'open()',
+    '(keydown.escape)': 'closeOnEscape($event)',
   },
   template: `
     <button
+      #trigger
       type="button"
       class="cb-cascade-select__trigger"
       [class.cb-is-invalid]="fieldState.invalid()"
@@ -143,6 +147,16 @@ export class CbCascadeSelect implements ControlValueAccessor {
 
   setDisabledState(isDisabled: boolean): void {
     this.cvaDisabled.set(isDisabled);
+  }
+
+  private readonly trigger = viewChild.required<ElementRef<HTMLButtonElement>>('trigger');
+
+  /** Escape cierra el panel y devuelve el foco al disparador. */
+  protected closeOnEscape(event: Event): void {
+    if (!this.open()) return;
+    event.preventDefault();
+    this.open.set(false);
+    this.trigger().nativeElement.focus();
   }
 
   toggleOpen(): void {

@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { DocPlaygroundComponent } from '../components/doc-playground.component';
 import { DOC_API } from '../components/doc-api-registry';
+import { DocA11yComponent } from '../components/doc-a11y.component';
+import { DOC_A11Y } from '../components/doc-a11y-registry';
 import { CbTreeSelect, CbTreeSelectNode } from '@caribeng/ui/treeselect';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
@@ -10,7 +12,7 @@ import { TocService } from '../services/toc.service';
 @Component({
   selector: 'doc-treeselect-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [DocPlaygroundComponent, CbTreeSelect, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
+  imports: [DocA11yComponent, DocPlaygroundComponent, CbTreeSelect, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
     <doc-page-header eyebrow="Formulario" title="TreeSelect" lead="Selector desplegable con estructura jerárquica de árbol." />
 
@@ -23,11 +25,14 @@ import { TocService } from '../services/toc.service';
       </div>
     </doc-section>
 
+    <doc-a11y [data]="a11y" />
+
     <doc-playground [api]="docApi" />
   `,
 })
 export class TreeselectDocComponent {
   protected readonly docApi = DOC_API['cb-tree-select'];
+  protected readonly a11y = DOC_A11Y['cb-tree-select'];
 
   constructor() {
     inject(TocService).reset();

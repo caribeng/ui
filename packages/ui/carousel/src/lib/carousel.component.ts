@@ -1,7 +1,9 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   ViewEncapsulation,
+  inject,
   computed,
   input,
   model,
@@ -46,7 +48,12 @@ export interface CbCarouselItem {
       }
       <div class="cb-carousel__viewport" aria-live="polite">
         @if (activeItem(); as item) {
-          <div class="cb-carousel__slide" role="group" aria-roledescription="slide">
+          <div
+            class="cb-carousel__slide"
+            role="group"
+            aria-roledescription="slide"
+            [attr.aria-label]="fmt(t().slideOf, page() + 1, items().length)"
+          >
             @if (item.image) {
               <img class="cb-carousel__img" [src]="item.image" [alt]="item.title" />
             }
@@ -76,15 +83,17 @@ export interface CbCarouselItem {
     </div>
     @if (showIndicators() && items().length > 1) {
       <div class="cb-carousel__indicators" role="tablist">
-        @for (item of items(); track item.title; let i = $index) {
+        @for (item of items(); track $index; let i = $index) {
           <button
             type="button"
             class="cb-carousel__dot"
             role="tab"
             [class.cb-is-active]="page() === i"
             [attr.aria-selected]="page() === i"
+            [attr.tabindex]="page() === i ? 0 : -1"
             [attr.aria-label]="fmt(t().slide, i + 1)"
             (click)="page.set(i)"
+            (keydown)="onDotKeydown($event)"
           ></button>
         }
       </div>
@@ -104,6 +113,8 @@ export class CbCarousel {
   readonly ariaLabel = input<string | undefined>(undefined);
 
   readonly page = model<number>(0);
+
+  private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
 
   protected readonly activeItem = computed<CbCarouselItem | null>(
     () => this.items()[this.page()] ?? this.items()[0] ?? null,
@@ -131,5 +142,21 @@ export class CbCarousel {
     const cur = this.page();
     if (cur < count - 1) this.page.set(cur + 1);
     else if (this.circular()) this.page.set(0);
+  }
+
+  /** Indicadores (patrón *tabs*): flechas, Inicio y Fin cambian de diapositiva y mueven el foco. */
+  protected onDotKeydown(event: KeyboardEvent): void {
+    const last = this.items().length - 1;
+    const cur = this.page();
+    const target =
+      event.key === 'ArrowRight' ? (cur < last ? cur + 1 : 0)
+      : event.key === 'ArrowLeft' ? (cur > 0 ? cur - 1 : last)
+      : event.key === 'Home' ? 0
+      : event.key === 'End' ? last
+      : null;
+    if (target === null) return;
+    event.preventDefault();
+    this.page.set(target);
+    this.host.nativeElement.querySelectorAll<HTMLElement>('.cb-carousel__dot')[target]?.focus();
   }
 }

@@ -15,6 +15,11 @@ export interface CbFileUploadEvent {
   files: File[];
 }
 
+/** Archivos descartados al elegirlos o soltarlos, con el motivo. */
+export interface CbFileRejectEvent {
+  files: { file: File; reason: 'size' | 'type' }[];
+}
+
 /**
  * FileUpload de CaribeNG: selector de archivos con arrastrar y soltar,
  * validación de tamaño máximo y lista de archivos seleccionados.
@@ -76,6 +81,20 @@ export interface CbFileUploadEvent {
         }
       </div>
 
+      @if (rejected().length) {
+        <ul class="cb-file-upload__errors" role="alert">
+          @for (r of rejected(); track $index) {
+            <li>
+              {{
+                r.reason === 'size'
+                  ? fmt(t().fileTooLarge, r.file.name, formatSize(maxFileSize() ?? 0))
+                  : fmt(t().fileTypeNotAllowed, r.file.name)
+              }}
+            </li>
+          }
+        </ul>
+      }
+
       @if (files().length === 0) {
         <p class="cb-file-upload__empty">{{ fmt(t().dropFiles, (chooseLabel() ?? t().chooseFile)) }}</p>
       } @else {
@@ -114,8 +133,12 @@ export class CbFileUpload {
 
   readonly selectFiles = output<CbFileUploadEvent>();
   readonly uploadHandler = output<CbFileUploadEvent>();
+  /** Se emite con los archivos descartados por tamaño (`maxFileSize`) o tipo (`accept`). */
+  readonly rejectFiles = output<CbFileRejectEvent>();
 
   readonly files = signal<File[]>([]);
+  /** Archivos descartados en la última selección (se muestran como aviso). */
+  protected readonly rejected = signal<CbFileRejectEvent['files']>([]);
   readonly dragging = signal(false);
 
   private readonly fileInputRef = viewChild<ElementRef<HTMLInputElement>>('fileInput');
@@ -153,10 +176,24 @@ export class CbFileUpload {
     }
   }
 
+  /** Añade archivos validando `accept` y `maxFileSize`; ignora los repetidos. */
   addFiles(incoming: File[]): void {
     const max = this.maxFileSize();
-    const valid = max != null ? incoming.filter((f) => f.size <= max) : incoming;
-    const next = this.multiple() ? [...this.files(), ...valid] : valid.slice(0, 1);
+    const valid: File[] = [];
+    const rejected: CbFileRejectEvent['files'] = [];
+    for (const file of incoming) {
+      if (!this.isAccepted(file)) rejected.push({ file, reason: 'type' });
+      else if (max != null && file.size > max) rejected.push({ file, reason: 'size' });
+      else valid.push(file);
+    }
+    this.rejected.set(rejected);
+    if (rejected.length) this.rejectFiles.emit({ files: rejected });
+    if (!valid.length) return;
+
+    const same = (a: File, b: File) => a.name === b.name && a.size === b.size && a.lastModified === b.lastModified;
+    const next = this.multiple()
+      ? [...this.files(), ...valid.filter((f, i) => !this.files().some((e) => same(e, f)) && valid.findIndex((v) => same(v, f)) === i)]
+      : valid.slice(0, 1);
     this.files.set(next);
     this.selectFiles.emit({ files: next });
   }
@@ -168,6 +205,7 @@ export class CbFileUpload {
 
   clear(): void {
     this.files.set([]);
+    this.rejected.set([]);
   }
 
   triggerUpload(): void {
@@ -176,6 +214,23 @@ export class CbFileUpload {
 
   protected formatSize(bytes: number): string {
     if (bytes < 1024) return `${bytes} B`;
-    return `${(bytes / 1024).toFixed(1)} KB`;
+    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+    return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+  }
+
+  /** Comprueba `accept` (extensiones `.pdf`, tipos `image/png` o comodines `image/*`). */
+  private isAccepted(file: File): boolean {
+    const rules = this.accept()
+      .split(',')
+      .map((r) => r.trim().toLowerCase())
+      .filter(Boolean);
+    if (!rules.length) return true;
+    const name = file.name.toLowerCase();
+    const type = (file.type || '').toLowerCase();
+    return rules.some((rule) => {
+      if (rule.startsWith('.')) return name.endsWith(rule);
+      if (rule.endsWith('/*')) return type.startsWith(rule.slice(0, -1));
+      return type === rule;
+    });
   }
 }

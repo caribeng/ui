@@ -1728,6 +1728,42 @@ export const ES_EN: Record<string, string> = {
   'Flecha abajo / Flecha arriba / Re Pág / Av Pág': 'Down arrow / Up arrow / Page Up / Page Down',
   'Desplaza la lista.': 'Scrolls the list.',
 
+  // --- Accesibilidad: base de tests (Carousel, Galleria, Image, Inplace, CascadeSelect, TreeSelect) ---
+  'El carrusel es una región (`role="region"` con `aria-roledescription="carousel"`) nombrada con `ariaLabel`. Cada diapositiva es un `role="group"` con `aria-roledescription="slide"` y un nombre de posición ("1 de 3").':
+    'The carousel is a region (`role="region"` with `aria-roledescription="carousel"`) named with `ariaLabel`. Each slide is a `role="group"` with `aria-roledescription="slide"` and a position name ("1 of 3").',
+  'Los indicadores siguen el patrón *tabs*: `role="tab"` con `aria-selected`, y solo el activo entra en el orden de tabulación.':
+    'The indicators follow the *tabs* pattern: `role="tab"` with `aria-selected`, and only the active one is in the tab order.',
+  'Pasa por las flechas de navegación y el indicador activo.': 'Moves through the navigation arrows and the active indicator.',
+  'En los indicadores, va a la diapositiva siguiente o anterior (de forma circular).':
+    'On the indicators, goes to the next or previous slide (wrapping around).',
+  'En los indicadores, va a la primera o a la última diapositiva.': 'On the indicators, goes to the first or last slide.',
+  'La imagen principal usa `alt` (o `title`) del elemento. Las miniaturas son `role="tab"` con `aria-selected` y se nombran con `title`, `alt` o su posición; su imagen es decorativa para no repetir el nombre.':
+    'The main image uses the item `alt` (or `title`). Thumbnails are `role="tab"` with `aria-selected` and are named by `title`, `alt` or their position; their image is decorative so the name is not repeated.',
+  'Pasa por las flechas de navegación y la miniatura activa.': 'Moves through the navigation arrows and the active thumbnail.',
+  'En las miniaturas, va a la imagen siguiente o anterior (de forma circular).':
+    'On the thumbnails, goes to the next or previous image (wrapping around).',
+  'En las miniaturas, va a la primera o a la última imagen.': 'On the thumbnails, goes to the first or last image.',
+  'El botón de ampliar se nombra con el `alt` de la imagen. La previsualización es un `role="dialog"` con `aria-modal="true"` y cada herramienta (rotar, voltear, zoom, descargar) tiene su etiqueta.':
+    'The enlarge button is named with the image `alt`. The preview is a `role="dialog"` with `aria-modal="true"` and each tool (rotate, flip, zoom, download) has its own label.',
+  'Al abrirse, el foco pasa al botón de cerrar y queda atrapado en la previsualización; al cerrarse vuelve al botón de ampliar.':
+    'When it opens, focus moves to the close button and stays trapped in the preview; on close it returns to the enlarge button.',
+  'Abre la previsualización o activa la herramienta enfocada.': 'Opens the preview or activates the focused tool.',
+  'Mueve el foco entre las herramientas sin salir de la previsualización.': 'Moves focus between the tools without leaving the preview.',
+  'Cierra la previsualización.': 'Closes the preview.',
+  'La vista previa es un botón nativo. Al abrirse, el foco pasa al primer elemento enfocable del contenido; al cerrarse, vuelve a la vista previa.':
+    'The display is a native button. When opened, focus moves to the first focusable element of the content; on close, it returns to the display.',
+  'Muestra el contenido.': 'Shows the content.',
+  'Vuelve a la vista previa (si `closable` es true).': 'Returns to the display (if `closable` is true).',
+  'El disparador es un `role="combobox"` con `aria-expanded`; refleja `aria-invalid` y `aria-required` del estado del formulario.':
+    'The trigger is a `role="combobox"` with `aria-expanded`; it reflects `aria-invalid` and `aria-required` from the form state.',
+  'Abre o cierra el panel, o elige la opción enfocada.': 'Opens or closes the panel, or chooses the focused option.',
+  'Mueve el foco entre las opciones del panel.': 'Moves focus between the panel options.',
+  'Cierra el panel y devuelve el foco al disparador.': 'Closes the panel and returns focus to the trigger.',
+  'El disparador es un `role="combobox"` con `aria-haspopup="tree"`. El panel es un `role="tree"`: cada nodo es un `role="treeitem"` con `aria-selected` y, si tiene hijos, `aria-expanded`; el botón de expandir se nombra con el nodo.':
+    'The trigger is a `role="combobox"` with `aria-haspopup="tree"`. The panel is a `role="tree"`: each node is a `role="treeitem"` with `aria-selected` and, if it has children, `aria-expanded`; the expand button is named after the node.',
+  'Abre o cierra el panel, expande un nodo o elige el nodo enfocado.': 'Opens or closes the panel, expands a node or chooses the focused node.',
+  'Mueve el foco entre los nodos y sus botones de expandir.': 'Moves focus between the nodes and their expand buttons.',
+
   // --- API de Select / MultiSelect (etiquetado accesible) ---
   'Nombre accesible del disparador cuando no hay etiqueta visible.':
     'Accessible name of the trigger when there is no visible label.',

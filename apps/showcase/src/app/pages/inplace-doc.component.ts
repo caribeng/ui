@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { DocPlaygroundComponent } from '../components/doc-playground.component';
 import { DOC_API } from '../components/doc-api-registry';
+import { DocA11yComponent } from '../components/doc-a11y.component';
+import { DOC_A11Y } from '../components/doc-a11y-registry';
 import { CbInplace } from '@caribeng/ui/inplace';
 import { CbInput } from '@caribeng/ui/input';
 import { DocSectionComponent } from '../shared/doc-section.component';
@@ -11,7 +13,7 @@ import { TocService } from '../services/toc.service';
 @Component({
   selector: 'doc-inplace-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [DocPlaygroundComponent, CbInplace, CbInput, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
+  imports: [DocA11yComponent, DocPlaygroundComponent, CbInplace, CbInput, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
     <doc-page-header eyebrow="Varios" title="Inplace" lead="Edición in-situ que alterna entre vista de lectura y control interactivo." />
 
@@ -25,11 +27,14 @@ import { TocService } from '../services/toc.service';
       </cb-inplace>
     </doc-section>
 
+    <doc-a11y [data]="a11y" />
+
     <doc-playground [api]="docApi" />
   `,
 })
 export class InplaceDocComponent {
   protected readonly docApi = DOC_API['cb-inplace'];
+  protected readonly a11y = DOC_A11Y['cb-inplace'];
 
   constructor() {
     inject(TocService).reset();

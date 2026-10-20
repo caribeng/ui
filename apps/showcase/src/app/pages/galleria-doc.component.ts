@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { DocPlaygroundComponent } from '../components/doc-playground.component';
 import { DOC_API } from '../components/doc-api-registry';
+import { DocA11yComponent } from '../components/doc-a11y.component';
+import { DOC_A11Y } from '../components/doc-a11y-registry';
 import { CbGalleria, CbGalleriaItem } from '@caribeng/ui/galleria';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
@@ -10,7 +12,7 @@ import { TocService } from '../services/toc.service';
 @Component({
   selector: 'doc-galleria-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [DocPlaygroundComponent, CbGalleria, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
+  imports: [DocA11yComponent, DocPlaygroundComponent, CbGalleria, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
     <doc-page-header eyebrow="Multimedia" title="Galleria" lead="Galería fotográfica con visor principal y tira de miniaturas." />
 
@@ -21,11 +23,14 @@ import { TocService } from '../services/toc.service';
       <cb-galleria [value]="images" style="width: 100%; max-width: 520px" />
     </doc-section>
 
+    <doc-a11y [data]="a11y" />
+
     <doc-playground [api]="docApi" />
   `,
 })
 export class GalleriaDocComponent {
   protected readonly docApi = DOC_API['cb-galleria'];
+  protected readonly a11y = DOC_A11Y['cb-galleria'];
 
   constructor() {
     inject(TocService).reset();

@@ -1,13 +1,17 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  Injector,
   ViewEncapsulation,
+  afterNextRender,
   computed,
+  inject,
   input,
   signal,
   viewChild,
   type ElementRef,
 } from '@angular/core';
+import { A11yModule } from '@angular/cdk/a11y';
 import { CbIcon } from '@caribeng/ui/icon';
 import { cbFormat, injectCbTranslation } from '@caribeng/ui';
 
@@ -19,7 +23,7 @@ import { cbFormat, injectCbTranslation } from '@caribeng/ui';
   selector: 'cb-image',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
-  imports: [CbIcon],
+  imports: [A11yModule, CbIcon],
   host: {
     class: 'cb-image',
     '[class.cb-image--preview]': 'preview()',
@@ -35,6 +39,7 @@ import { cbFormat, injectCbTranslation } from '@caribeng/ui';
       />
       @if (preview()) {
         <button
+          #overlay
           type="button"
           class="cb-image__overlay"
           [attr.aria-label]="fmt(t().enlargeImage, alt() || t().image)"
@@ -52,7 +57,9 @@ import { cbFormat, injectCbTranslation } from '@caribeng/ui';
         role="dialog"
         aria-modal="true"
         [attr.aria-label]="alt() || t().imagePreview"
+        cdkTrapFocus
         (click)="closePreview()"
+        (keydown.escape)="closePreview()"
       >
         <div class="cb-image__toolbar" (click)="$event.stopPropagation()">
           <button type="button" class="cb-image__tool" (click)="rotateLeft()" [attr.aria-label]="t().rotateLeft">
@@ -88,7 +95,7 @@ import { cbFormat, injectCbTranslation } from '@caribeng/ui';
           <button type="button" class="cb-image__tool" (click)="toggleFullscreen()" [attr.aria-label]="t().fullscreen">
             <cb-icon name="expand" [size]="18" aria-hidden="true" />
           </button>
-          <button type="button" class="cb-image__tool" (click)="closePreview()" [attr.aria-label]="t().close">
+          <button #closeBtn type="button" class="cb-image__tool" (click)="closePreview()" [attr.aria-label]="t().close">
             <cb-icon name="x" [size]="18" aria-hidden="true" />
           </button>
         </div>
@@ -116,6 +123,9 @@ export class CbImage {
   readonly preview = input<boolean>(false);
 
   private readonly lightboxEl = viewChild<ElementRef<HTMLElement>>('lightbox');
+  private readonly overlayBtn = viewChild<ElementRef<HTMLButtonElement>>('overlay');
+  private readonly closeBtn = viewChild<ElementRef<HTMLButtonElement>>('closeBtn');
+  private readonly injector = inject(Injector);
 
   readonly lightboxOpen = signal(false);
   readonly scale = signal(1);
@@ -134,10 +144,14 @@ export class CbImage {
     if (!this.preview()) return;
     this.reset();
     this.lightboxOpen.set(true);
+    afterNextRender(() => this.closeBtn()?.nativeElement.focus(), { injector: this.injector });
   }
 
+  /** Cierra la previsualización y devuelve el foco al botón que la abrió. */
   closePreview(): void {
+    if (!this.lightboxOpen()) return;
     this.lightboxOpen.set(false);
+    afterNextRender(() => this.overlayBtn()?.nativeElement.focus(), { injector: this.injector });
   }
 
   zoomIn(): void {

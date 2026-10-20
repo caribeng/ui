@@ -104,33 +104,35 @@ export class CbInputMask implements ControlValueAccessor {
     this.onTouched();
   }
 
+  /**
+   * Aplica la máscara. Los literales (`-`, `(`, espacios…) se escriben solo
+   * cuando llega el carácter siguiente: así un literal inicial aparece y
+   * Backspace puede borrar el último literal sin que vuelva a añadirse.
+   */
   private applyMask(raw: string, mask: string): { masked: string; unmasked: string } {
-    const cleanChars = Array.from(raw);
+    const chars = Array.from(raw);
     let rawIdx = 0;
     let masked = '';
     let unmasked = '';
+    let pending = '';
 
-    for (let mIdx = 0; mIdx < mask.length; mIdx++) {
-      const mChar = mask[mIdx];
+    for (const mChar of mask) {
       if (mChar === '9' || mChar === 'a' || mChar === '*') {
         let matched = '';
-        while (rawIdx < cleanChars.length) {
-          const candidate = cleanChars[rawIdx++];
+        while (rawIdx < chars.length) {
+          const candidate = chars[rawIdx++];
           if (this.matchesToken(candidate, mChar)) {
             matched = candidate;
             break;
           }
         }
         if (!matched) break;
-        masked += matched;
+        masked += pending + matched;
         unmasked += matched;
+        pending = '';
       } else {
-        if (rawIdx < cleanChars.length && cleanChars[rawIdx] === mChar) {
-          rawIdx++;
-        }
-        if (rawIdx <= cleanChars.length && unmasked.length > 0) {
-          masked += mChar;
-        }
+        if (chars[rawIdx] === mChar) rawIdx++;
+        pending += mChar;
       }
     }
 

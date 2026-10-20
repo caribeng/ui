@@ -27,6 +27,10 @@ Desde la 22.0.0 el major de la librería coincide con el de Angular (22.x = Angu
 - **ConfirmPopup:** `confirm($event)` la abre anclada al botón que la dispara; Escape o un clic fuera la cancelan y el foco vuelve al disparador. `acceptSeverity` para acciones destructivas.
 - **ConfirmDialog:** `acceptSeverity` para marcar el botón de aceptar como peligroso.
 - **MegaMenu:** navegación con teclado (flechas, Inicio/Fin, Escape) según el patrón *disclosure navigation*.
+- **FileUpload:** evento `rejectFiles` y aviso visible (`role="alert"`) con los archivos descartados por tamaño o tipo.
+- **Carousel / Galleria:** navegación con flechas, Inicio y Fin en los indicadores y miniaturas (patrón *tabs* con un solo tabindex activo); cada diapositiva se nombra por su posición ("1 de 3").
+- **CascadeSelect / TreeSelect / Image / Inplace:** Escape cierra el panel o la previsualización y devuelve el foco.
+- **Tests:** base de tests de comportamiento, teclado, accesibilidad y formularios en CascadeSelect, TreeSelect, InputMask, InputOtp, FileUpload, Image, Carousel, Galleria, Inplace y Chip.
 - **Showcase:** páginas de Tree, TreeTable, VirtualScroller, DataView, Timeline, OrderList, PickList, ConfirmDialog, ConfirmPopup, DynamicDialog y MegaMenu reescritas con ejemplos por funcionalidad y sección de accesibilidad.
 - **Idioma (i18n):** sistema de traducción de los textos de interfaz (etiquetas accesibles, botones, placeholders y mensajes) en español e inglés, con `provideCaribeNG({ locale, translation })`, cambio en caliente con `CbLocaleService.use()` y `setTranslation()`, y `cbFormat()` para textos con valores. Aplica a 79 componentes.
 - **Showcase:** página Idioma (i18n) con todas las claves; el selector ES/EN del sitio cambia también el idioma de los componentes.
@@ -36,7 +40,16 @@ Desde la 22.0.0 el major de la librería coincide con el de Angular (22.x = Angu
 - **ConfirmPopup:** el mensaje por defecto se unifica con el de ConfirmDialog ("¿Deseas continuar?").
 - **CascadeSelect / TreeSelect / InputSelect:** el placeholder por defecto se unifica en "Seleccionar".
 - **Formularios:** `requiredText` y `optionalText` de `provideCaribeNG()` pasan a ser opcionales; si se omiten, se usan los del idioma activo.
+- **Chip / Galleria:** las imágenes de los chips y de las miniaturas son decorativas (`alt=""`) para que el lector de pantalla no repita el nombre.
 - **ConfirmDialog / ConfirmPopup / OrderList / PickList:** los botones usan `cb-button` y el código de los 11 componentes reescritos es legible (antes estaba minificado).
+
+### Fixed
+- **InputMask:** los literales de la máscara (`-`, `(`…) se añadían antes de tiempo: Backspace no podía borrarlos y un literal inicial como `(` nunca aparecía.
+- **FileUpload:** los archivos arrastrados no se filtraban por `accept`, los que superaban `maxFileSize` se descartaban sin aviso, un mismo archivo podía añadirse dos veces y los tamaños grandes no se mostraban en MB.
+- **InputOtp:** al pegar un código, el foco pasa a la última casilla rellenada.
+- **Image:** la previsualización se declaraba modal pero no atrapaba el foco ni devolvía el foco al cerrarse.
+- **Inplace:** el foco se perdía al abrir o cerrar; ahora pasa al contenido y vuelve a la vista previa.
+- **Galleria:** las flechas se mostraban con una sola imagen y no se deshabilitaban en los extremos sin `circular`.
 
 ---
 

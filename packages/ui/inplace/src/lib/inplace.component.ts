@@ -1,7 +1,11 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
+  Injector,
   ViewEncapsulation,
+  afterNextRender,
+  inject,
   input,
   model,
 } from '@angular/core';
@@ -20,6 +24,7 @@ import { injectCbTranslation } from '@caribeng/ui';
   host: {
     class: 'cb-inplace',
     '[class.cb-is-active]': 'active()',
+    '(keydown.escape)': 'closable() && active() && close()',
   },
   template: `
     @if (!active()) {
@@ -57,11 +62,25 @@ export class CbInplace {
 
   readonly active = model<boolean>(false);
 
+  private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
+  private readonly injector = inject(Injector);
+
+  /** Muestra el contenido y mueve el foco a su primer elemento enfocable. */
   open(): void {
-    if (!this.disabled()) this.active.set(true);
+    if (this.disabled()) return;
+    this.active.set(true);
+    this.focusAfterRender('.cb-inplace__content :is(input, select, textarea, button, a[href], [tabindex]:not([tabindex="-1"]))');
   }
 
+  /** Vuelve a la vista previa y devuelve el foco a ella. */
   close(): void {
     this.active.set(false);
+    this.focusAfterRender('.cb-inplace__display');
+  }
+
+  private focusAfterRender(selector: string): void {
+    afterNextRender(() => this.host.nativeElement.querySelector<HTMLElement>(selector)?.focus(), {
+      injector: this.injector,
+    });
   }
 }

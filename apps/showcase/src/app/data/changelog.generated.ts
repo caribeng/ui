@@ -72,6 +72,22 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
             "text": "navegación con teclado (flechas, Inicio/Fin, Escape) según el patrón *disclosure navigation*."
           },
           {
+            "component": "FileUpload",
+            "text": "evento `rejectFiles` y aviso visible (`role=\"alert\"`) con los archivos descartados por tamaño o tipo."
+          },
+          {
+            "component": "Carousel / Galleria",
+            "text": "navegación con flechas, Inicio y Fin en los indicadores y miniaturas (patrón *tabs* con un solo tabindex activo); cada diapositiva se nombra por su posición (\"1 de 3\")."
+          },
+          {
+            "component": "CascadeSelect / TreeSelect / Image / Inplace",
+            "text": "Escape cierra el panel o la previsualización y devuelve el foco."
+          },
+          {
+            "component": "Tests",
+            "text": "base de tests de comportamiento, teclado, accesibilidad y formularios en CascadeSelect, TreeSelect, InputMask, InputOtp, FileUpload, Image, Carousel, Galleria, Inplace y Chip."
+          },
+          {
             "component": "Showcase",
             "text": "páginas de Tree, TreeTable, VirtualScroller, DataView, Timeline, OrderList, PickList, ConfirmDialog, ConfirmPopup, DynamicDialog y MegaMenu reescritas con ejemplos por funcionalidad y sección de accesibilidad."
           },
@@ -105,8 +121,41 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
             "text": "`requiredText` y `optionalText` de `provideCaribeNG()` pasan a ser opcionales; si se omiten, se usan los del idioma activo."
           },
           {
+            "component": "Chip / Galleria",
+            "text": "las imágenes de los chips y de las miniaturas son decorativas (`alt=\"\"`) para que el lector de pantalla no repita el nombre."
+          },
+          {
             "component": "ConfirmDialog / ConfirmPopup / OrderList / PickList",
             "text": "los botones usan `cb-button` y el código de los 11 componentes reescritos es legible (antes estaba minificado)."
+          }
+        ]
+      },
+      {
+        "type": "fixed",
+        "items": [
+          {
+            "component": "InputMask",
+            "text": "los literales de la máscara (`-`, `(`…) se añadían antes de tiempo: Backspace no podía borrarlos y un literal inicial como `(` nunca aparecía."
+          },
+          {
+            "component": "FileUpload",
+            "text": "los archivos arrastrados no se filtraban por `accept`, los que superaban `maxFileSize` se descartaban sin aviso, un mismo archivo podía añadirse dos veces y los tamaños grandes no se mostraban en MB."
+          },
+          {
+            "component": "InputOtp",
+            "text": "al pegar un código, el foco pasa a la última casilla rellenada."
+          },
+          {
+            "component": "Image",
+            "text": "la previsualización se declaraba modal pero no atrapaba el foco ni devolvía el foco al cerrarse."
+          },
+          {
+            "component": "Inplace",
+            "text": "el foco se perdía al abrir o cerrar; ahora pasa al contenido y vuelve a la vista previa."
+          },
+          {
+            "component": "Galleria",
+            "text": "las flechas se mostraban con una sola imagen y no se deshabilitaban en los extremos sin `circular`."
           }
         ]
       }

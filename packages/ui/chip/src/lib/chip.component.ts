@@ -24,7 +24,7 @@ import { cbFormat, injectCbTranslation } from '@caribeng/ui';
   },
   template: `
     @if (image()) {
-      <img class="cb-chip__img" [src]="image()" [alt]="label()" />
+      <img class="cb-chip__img" [src]="image()" alt="" />
     } @else if (icon()) {
       <cb-icon class="cb-chip__icon" [name]="icon()" [size]="14" aria-hidden="true" />
     }

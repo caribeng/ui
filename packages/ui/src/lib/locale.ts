@@ -119,6 +119,10 @@ export interface CbTranslation {
   upload: string;
   /** `{0}`: texto del botón de elegir. */
   dropFiles: string;
+  /** `{0}`: nombre del archivo; `{1}`: tamaño máximo. */
+  fileTooLarge: string;
+  /** `{0}`: nombre del archivo. */
+  fileTypeNotAllowed: string;
   selectDocument: string;
   /** `{0}`: tipos aceptados. */
   formats: string;
@@ -159,6 +163,8 @@ export interface CbTranslation {
   carousel: string;
   /** `{0}`: posición. */
   slide: string;
+  /** `{0}`: posición; `{1}`: total. Nombre de cada diapositiva. */
+  slideOf: string;
   previousImage: string;
   nextImage: string;
   /** `{0}`: posición. */
@@ -321,6 +327,8 @@ export const CB_LOCALE_ES: CbTranslation = {
   chooseFile: 'Elegir archivo',
   upload: 'Subir',
   dropFiles: 'Arrastra archivos aquí o pulsa "{0}".',
+  fileTooLarge: '{0}: supera el tamaño máximo de {1}.',
+  fileTypeNotAllowed: '{0}: tipo de archivo no permitido.',
   selectDocument: 'Seleccionar documento',
   formats: 'Formatos: {0}',
   filesSelected: '{0} archivo(s) seleccionado(s)',
@@ -355,6 +363,7 @@ export const CB_LOCALE_ES: CbTranslation = {
 
   carousel: 'Carrusel',
   slide: 'Diapositiva {0}',
+  slideOf: '{0} de {1}',
   previousImage: 'Imagen anterior',
   nextImage: 'Imagen siguiente',
   thumbnail: 'Miniatura {0}',
@@ -511,6 +520,8 @@ export const CB_LOCALE_EN: CbTranslation = {
   chooseFile: 'Choose file',
   upload: 'Upload',
   dropFiles: 'Drag files here or click "{0}".',
+  fileTooLarge: '{0}: exceeds the maximum size of {1}.',
+  fileTypeNotAllowed: '{0}: file type not allowed.',
   selectDocument: 'Select document',
   formats: 'Formats: {0}',
   filesSelected: '{0} file(s) selected',
@@ -545,6 +556,7 @@ export const CB_LOCALE_EN: CbTranslation = {
 
   carousel: 'Carousel',
   slide: 'Slide {0}',
+  slideOf: '{0} of {1}',
   previousImage: 'Previous image',
   nextImage: 'Next image',
   thumbnail: 'Thumbnail {0}',
