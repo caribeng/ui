@@ -20,14 +20,12 @@ import { TocService } from '../services/toc.service';
   ],
   template: `
     <doc-page-header
-      eyebrow="Form"
+      eyebrow="Formulario"
       title="Select"
       lead="Dropdown accesible (listbox) sobre CDK Overlay, con teclado, filtro y ControlValueAccessor."
     />
 
-    <doc-playground [api]="docApi" />
-
-    <doc-section id="import" title="Import">
+    <doc-section id="import" title="Importación">
       <doc-code-block [code]="installCode" lang="bash" />
       <br />
       <doc-code-block [code]="importCode" lang="typescript" />
@@ -35,7 +33,7 @@ import { TocService } from '../services/toc.service';
 
     <doc-section
       id="basic"
-      title="Basic"
+      title="Básico"
       description="Lista simple de strings. Usa teclado: ↑ ↓ Enter Esc."
       [code]="basicCode"
       [codeTs]="basicTs"
@@ -99,7 +97,7 @@ import { TocService } from '../services/toc.service';
 
     <doc-section
       id="disabled"
-      title="Disabled"
+      title="Deshabilitado"
       description="Deshabilita el control o una opción individual."
       [code]="disabledCode"
       [codeTs]="disabledTs"
@@ -109,6 +107,8 @@ import { TocService } from '../services/toc.service';
         <cb-select [options]="conDeshabilitada" optionLabel="nombre" placeholder="Opción deshabilitada" />
       </div>
     </doc-section>
+
+    <doc-playground [api]="docApi" />
   `,
 })
 export class SelectDocComponent {

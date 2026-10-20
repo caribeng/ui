@@ -10,8 +10,8 @@ import { TocService } from '../services/toc.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CbRippleDirective, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
-    <doc-page-header eyebrow="Misc" title="Ripple" lead="Directiva [cbRipple] para efecto visual de onda al hacer clic." />
-    <doc-section id="import" title="Import">
+    <doc-page-header eyebrow="Varios" title="Ripple" lead="Directiva [cbRipple] para efecto visual de onda al hacer clic." />
+    <doc-section id="import" title="Importación">
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
     <doc-section id="basic" title="Básico" [code]="basicCode">

@@ -8,14 +8,15 @@ import { DocPageHeaderComponent } from '../shared/page-header.component';
 import { TocService } from '../services/toc.service';
 
 @Component({ selector: 'doc-megamenu-page', changeDetection: ChangeDetectionStrategy.OnPush, imports: [DocPlaygroundComponent, CbMegaMenu, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent], template: `
-  <doc-page-header eyebrow="Menu" title="MegaMenu" lead="Navegación por categorías con enlaces organizados en columnas." />
-  <doc-playground [api]="docApi" />
+  <doc-page-header eyebrow="Menús" title="MegaMenu" lead="Navegación por categorías con enlaces organizados en columnas." />
 
-    <doc-section id="import" title="Import"><doc-code-block [code]="installCode" lang="bash" /><br /><doc-code-block [code]="importCode" lang="typescript" /></doc-section>
-  <doc-section id="basic" title="Basic" description="Pulsa una categoría para abrir o cerrar sus grupos." [code]="basicCode">
+    <doc-section id="import" title="Importación"><doc-code-block [code]="installCode" lang="bash" /><br /><doc-code-block [code]="importCode" lang="typescript" /></doc-section>
+  <doc-section id="basic" title="Básico" description="Pulsa una categoría para abrir o cerrar sus grupos." [code]="basicCode">
     <cb-megamenu [items]="items" (itemSelect)="selected.set($event.label)" />
     <p style="margin:.75rem 0 0;color:var(--cb-color-text-muted)">Selección: {{ selected() || 'ninguna' }}</p>
   </doc-section>
+
+  <doc-playground [api]="docApi" />
 ` })
 export class MegamenuDocComponent {
   protected readonly docApi = DOC_API['cb-megamenu'];

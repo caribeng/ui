@@ -17,11 +17,9 @@ interface Ciudad {
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [DocPlaygroundComponent, CbListBox, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
-    <doc-page-header eyebrow="Form" title="ListBox" lead="Lista de opciones siempre visible. Simple o múltiple, con filtro." />
+    <doc-page-header eyebrow="Formulario" title="ListBox" lead="Lista de opciones siempre visible. Simple o múltiple, con filtro." />
 
-    <doc-playground [api]="docApi" />
-
-    <doc-section id="import" title="Import">
+    <doc-section id="import" title="Importación">
       <doc-code-block [code]="installCode" lang="bash" />
       <br />
       <doc-code-block [code]="importCode" lang="typescript" />
@@ -41,6 +39,8 @@ interface Ciudad {
         <cb-listbox [(value)]="seleccion" [options]="ciudades" optionLabel="nombre" optionValue="id" multiple filter />
       </div>
     </doc-section>
+
+    <doc-playground [api]="docApi" />
   `,
 })
 export class ListboxDocComponent {

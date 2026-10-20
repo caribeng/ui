@@ -14,7 +14,7 @@ const BASIC_CODE = `<button type="button" cbStyleClass="@next" toggleClass="cb-h
   imports: [CbDocPageComponent, CbDocExampleComponent, CbStyleClassDirective],
   template: `
     <cb-doc-page
-      category="Misc"
+      category="Varios"
       title="StyleClass"
       subtitle="Directiva declarativa para alternar clases CSS sobre elementos relativos (@next, @prev, @parent) o selectores."
       importCode="import { CbStyleClassDirective } from '@caribeng/ui/styleclass';"

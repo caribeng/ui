@@ -12,7 +12,7 @@ import { TocService } from '../services/toc.service';
   imports: [CbButton, DocPageHeaderComponent, DocSectionComponent, AuthShellComponent],
   template: `
     <doc-page-header
-      eyebrow="Template"
+      eyebrow="Plantillas"
       title="Verification (OTP)"
       lead="Verificación por código de un solo uso con layout dividido estilo Atlantis: 4 dígitos, verificar o cancelar, reenviar."
     />

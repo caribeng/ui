@@ -12,11 +12,9 @@ import { TocService } from '../services/toc.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [DocPlaygroundComponent, CbAvatar, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
-    <doc-page-header eyebrow="Media" title="Avatar" lead="Imagen, iniciales o icono en círculo o cuadrado." />
+    <doc-page-header eyebrow="Multimedia" title="Avatar" lead="Imagen, iniciales o icono en círculo o cuadrado." />
 
-    <doc-playground [api]="docApi" />
-
-    <doc-section id="import" title="Import">
+    <doc-section id="import" title="Importación">
       <doc-code-block [code]="installCode" lang="bash" />
       <br />
       <doc-code-block [code]="importCode" lang="typescript" />
@@ -51,6 +49,8 @@ import { TocService } from '../services/toc.service';
         <cb-avatar label="C" severity="contrast" />
       </div>
     </doc-section>
+
+    <doc-playground [api]="docApi" />
   `,
 })
 export class AvatarDocComponent {

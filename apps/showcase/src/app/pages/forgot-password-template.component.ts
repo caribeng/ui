@@ -21,7 +21,7 @@ import { TocService } from '../services/toc.service';
   ],
   template: `
     <doc-page-header
-      eyebrow="Template"
+      eyebrow="Plantillas"
       title="Forgot Password"
       lead="Recuperar contraseña con layout dividido estilo Atlantis: ingresa el correo para recibir el enlace de restablecimiento."
     />

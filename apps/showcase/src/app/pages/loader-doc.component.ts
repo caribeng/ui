@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { DocPlaygroundComponent } from '../components/doc-playground.component';
 import { DOC_API } from '../components/doc-api-registry';
 import { CbLoader } from '@caribeng/ui/caribe/loader';
-import { CbDocApiRow, CbDocPageComponent } from '../components/doc-page.component';
+import { CbDocPageComponent } from '../components/doc-page.component';
 import { CbDocExampleComponent } from '../components/doc-example.component';
 
 @Component({
@@ -15,7 +15,6 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
       title="Loader"
       subtitle="Indicador compacto de espera con anuncio accesible en vivo."
       importCode="import { CbLoader } from '@caribeng/ui/caribe/loader';"
-      [api]="api"
     >
       <cb-doc-example title="Loader con mensaje" code='<cb-loader text="Consultando saldo…" />'>
         <cb-loader text="Consultando saldo…" />
@@ -28,8 +27,4 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
 export class LoaderDocComponent {
   protected readonly docApi = DOC_API['cb-loader'];
 
-  protected readonly api: CbDocApiRow[] = [
-    { name: 'text', type: 'string', default: "'Cargando información…'", description: 'Mensaje mostrado junto al indicador.' },
-    { name: 'size', type: "'sm' | 'md' | 'lg'", default: "'md'", description: 'Tamaño visual del loader.' },
-  ];
 }

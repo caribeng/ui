@@ -12,10 +12,11 @@ import { TocService } from '../services/toc.service';
   imports: [DocPlaygroundComponent, CbInlineAlert, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
     <doc-page-header eyebrow="Caribe Design" title="Inline Alert" lead="Inline Alert para interfaces accesibles, con estilos basados en tokens CaribeNG." />
-    <doc-playground [api]="docApi" />
 
-    <doc-section id="import" title="Import"><doc-code-block [code]="importCode" lang="typescript" /></doc-section>
-    <doc-section id="basic" title="Uso basico" [code]="exampleCode"><cb-inline-alert title="Informacion" status="info">Puedes continuar con el proceso.</cb-inline-alert></doc-section>
+    <doc-section id="import" title="Importación"><doc-code-block [code]="importCode" lang="typescript" /></doc-section>
+    <doc-section id="basic" title="Básico" [code]="exampleCode"><cb-inline-alert title="Informacion" status="info">Puedes continuar con el proceso.</cb-inline-alert></doc-section>
+
+    <doc-playground [api]="docApi" />
   `,
 })
 export class InlineAlertDocComponent {

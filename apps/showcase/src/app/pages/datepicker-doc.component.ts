@@ -20,14 +20,12 @@ import { TocService } from '../services/toc.service';
   ],
   template: `
     <doc-page-header
-      eyebrow="Form"
+      eyebrow="Formulario"
       title="DatePicker"
       lead="Selector de fecha con calendario en overlay, navegación por teclado y ControlValueAccessor."
     />
 
-    <doc-playground [api]="docApi" />
-
-    <doc-section id="import" title="Import">
+    <doc-section id="import" title="Importación">
       <doc-code-block [code]="installCode" lang="bash" />
       <br />
       <doc-code-block [code]="importCode" lang="typescript" />
@@ -35,7 +33,7 @@ import { TocService } from '../services/toc.service';
 
     <doc-section
       id="basic"
-      title="Basic"
+      title="Básico"
       description="El modelo es Date | null. Abre con clic o teclado (↓/Enter) y navega con las flechas."
       [code]="basicCode"
     >
@@ -88,11 +86,13 @@ import { TocService } from '../services/toc.service';
       </div>
     </doc-section>
 
-    <doc-section id="disabled" title="Disabled" [code]="disabledCode">
+    <doc-section id="disabled" title="Deshabilitado" [code]="disabledCode">
       <div style="width: 100%; max-width: 280px">
         <cb-datepicker [disabled]="true" [value]="hoy" label="No editable" />
       </div>
     </doc-section>
+
+    <doc-playground [api]="docApi" />
   `,
 })
 export class DatepickerDocComponent {

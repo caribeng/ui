@@ -8,14 +8,15 @@ import { DocPageHeaderComponent } from '../shared/page-header.component';
 import { TocService } from '../services/toc.service';
 
 @Component({ selector: 'doc-tieredmenu-page', changeDetection: ChangeDetectionStrategy.OnPush, imports: [DocPlaygroundComponent, CbTieredMenu, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent], template: `
-  <doc-page-header eyebrow="Menu" title="TieredMenu" lead="Menú emergente con submenús en cascada." />
-  <doc-playground [api]="docApi" />
+  <doc-page-header eyebrow="Menús" title="TieredMenu" lead="Menú emergente con submenús en cascada." />
 
-    <doc-section id="import" title="Import"><doc-code-block [code]="installCode" lang="bash" /><br /><doc-code-block [code]="importCode" lang="typescript" /></doc-section>
-  <doc-section id="basic" title="Basic" description="Abre el menú y pasa sobre una categoría para ver las opciones anidadas." [code]="basicCode">
+    <doc-section id="import" title="Importación"><doc-code-block [code]="installCode" lang="bash" /><br /><doc-code-block [code]="importCode" lang="typescript" /></doc-section>
+  <doc-section id="basic" title="Básico" description="Abre el menú y pasa sobre una categoría para ver las opciones anidadas." [code]="basicCode">
     <cb-tieredmenu [items]="items" triggerLabel="Archivo" (itemSelect)="selected.set($event.label)" />
     <span style="margin-left:.75rem;color:var(--cb-color-text-muted)">{{ selected() || 'sin acción' }}</span>
   </doc-section>
+
+  <doc-playground [api]="docApi" />
 ` })
 export class TieredmenuDocComponent {
   protected readonly docApi = DOC_API['cb-tieredmenu'];

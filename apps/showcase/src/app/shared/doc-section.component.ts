@@ -118,7 +118,8 @@ export class DocSectionComponent {
   constructor() {
     afterNextRender(() => {
       this.docCode.load();
-      this.toc.register({ id: this.id(), label: this.i18n.auto(this.title()) });
+      // La etiqueta se guarda en español; el TOC la traduce al renderizar.
+      this.toc.register({ id: this.id(), label: this.title() });
     });
   }
 }

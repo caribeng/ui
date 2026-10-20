@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { DocPlaygroundComponent } from '../components/doc-playground.component';
 import { DOC_API } from '../components/doc-api-registry';
 import { CbIconButton } from '@caribeng/ui/caribe/icon-button';
-import { CbDocApiRow, CbDocPageComponent } from '../components/doc-page.component';
+import { CbDocPageComponent } from '../components/doc-page.component';
 import { CbDocExampleComponent } from '../components/doc-example.component';
 
 @Component({
@@ -15,7 +15,6 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
       title="IconButton"
       subtitle="Botón compacto circular de icono con etiqueta accesible obligatoria."
       importCode="import { CbIconButton } from '@caribeng/ui/caribe/icon-button';"
-      [api]="api"
     >
       <cb-doc-example title="Botones de acción rápida" code='<cb-icon-button icon="plus" ariaLabel="Nuevo" />'>
         <div style="display: flex; gap: 0.75rem">
@@ -32,9 +31,4 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
 export class IconButtonDocComponent {
   protected readonly docApi = DOC_API['cb-icon-button'];
 
-  protected readonly api: CbDocApiRow[] = [
-    { name: 'icon', type: 'string', default: "'plus'", description: 'Nombre del icono del catálogo.' },
-    { name: 'ariaLabel', type: 'string', default: "'Acción'", description: 'Etiqueta accesible del botón.' },
-    { name: 'disabled', type: 'boolean', default: 'false', description: 'Deshabilita la interacción.' },
-  ];
 }

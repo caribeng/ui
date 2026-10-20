@@ -4,7 +4,7 @@ import { DOC_API } from '../components/doc-api-registry';
 import { CbButtonGroup } from '@caribeng/ui/caribe/button-group';
 import { CbButton } from '@caribeng/ui/button';
 import { CbIconButton } from '@caribeng/ui/caribe/icon-button';
-import { CbDocApiRow, CbDocPageComponent } from '../components/doc-page.component';
+import { CbDocPageComponent } from '../components/doc-page.component';
 import { CbDocExampleComponent } from '../components/doc-example.component';
 
 @Component({
@@ -17,7 +17,6 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
       title="ButtonGroup"
       subtitle="Agrupador accesible de botones con orientación horizontal o vertical."
       importCode="import { CbButtonGroup } from '@caribeng/ui/caribe/button-group';"
-      [api]="api"
     >
       <cb-doc-example title="Grupo horizontal" code='<cb-button-group><cb-button size="sm">Día</cb-button><cb-button size="sm" variant="outlined">Mes</cb-button></cb-button-group>'>
         <cb-button-group>
@@ -54,8 +53,4 @@ export class ButtonGroupDocComponent {
 <cb-icon-button icon="search" ariaLabel="Search" variant="ghost" />
 <cb-icon-button icon="settings" ariaLabel="Settings" variant="ghost" />`;
 
-  protected readonly api: CbDocApiRow[] = [
-    { name: 'orientation', type: "'horizontal' | 'vertical'", default: "'horizontal'", description: 'Dirección del grupo de botones.' },
-    { name: 'ariaLabel', type: 'string', default: "'Grupo de acciones'", description: 'Nombre accesible del grupo.' },
-  ];
 }

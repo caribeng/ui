@@ -3,7 +3,7 @@ import { DocPlaygroundComponent } from '../components/doc-playground.component';
 import { DOC_API } from '../components/doc-api-registry';
 import { CbFloatMenu } from '@caribeng/ui/caribe/float-menu';
 import { CbCardContent } from '@caribeng/ui/caribe/card-content';
-import { CbDocApiRow, CbDocPageComponent } from '../components/doc-page.component';
+import { CbDocPageComponent } from '../components/doc-page.component';
 import { CbDocExampleComponent } from '../components/doc-example.component';
 
 @Component({
@@ -16,7 +16,6 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
       title="FloatMenu"
       subtitle="Barra de navegación flotante tipo píldora para vistas móviles y web."
       importCode="import { CbFloatMenu } from '@caribeng/ui/caribe/float-menu';"
-      [api]="api"
     >
       <cb-doc-example title="Barra flotante" code='<cb-float-menu [items]="items" [activeId]="active()" />'>
         <cb-float-menu [items]="items" [activeId]="active()" (select)="active.set($event.id)" />
@@ -64,9 +63,5 @@ export class FloatMenuDocComponent {
     { id: 'home', label: 'Inicio' },
     { id: 'cards', label: 'Productos' },
     { id: 'profile', label: 'Perfil' },
-  ];
-  protected readonly api: CbDocApiRow[] = [
-    { name: 'items', type: 'readonly CbFloatMenuItem[]', default: '[]', description: 'Opciones de navegación.' },
-    { name: 'activeId', type: 'string', default: "''", description: 'Identificador del ítem activo.' },
   ];
 }

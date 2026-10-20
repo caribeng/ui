@@ -19,9 +19,9 @@ import { TocService } from '../services/toc.service';
     DocPageHeaderComponent,
   ],
   template: `
-    <doc-page-header eyebrow="Form" title="IconField" lead="Integra iconos informativos a la izquierda o derecha de un campo de entrada." />
+    <doc-page-header eyebrow="Formulario" title="IconField" lead="Integra iconos informativos a la izquierda o derecha de un campo de entrada." />
 
-    <doc-section id="import" title="Import">
+    <doc-section id="import" title="Importación">
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
     <doc-section id="basic" title="Básico" [code]="basicCode">

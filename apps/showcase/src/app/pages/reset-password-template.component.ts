@@ -34,7 +34,7 @@ function passwordsMatch(group: AbstractControl): ValidationErrors | null {
   ],
   template: `
     <doc-page-header
-      eyebrow="Template"
+      eyebrow="Plantillas"
       title="Reset Password"
       lead="Establecer una nueva contraseña (tras el enlace de recuperación), con layout dividido estilo Atlantis y validación de confirmación."
     />

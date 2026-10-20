@@ -20,12 +20,12 @@ interface Cat {
   imports: [CbFileCard, DocPageHeaderComponent, DocSectionComponent, CodeBlockComponent],
   template: `
     <doc-page-header
-      eyebrow="File"
+      eyebrow="Archivos"
       title="FileCard"
       lead="Tarjeta de categoría/almacenamiento genérica: icono con tinte, título y subtítulo, más dos valores a la derecha. Pieza base de un gestor de archivos tipo Drive."
     />
 
-    <doc-section id="import" title="Import">
+    <doc-section id="import" title="Importación">
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
 

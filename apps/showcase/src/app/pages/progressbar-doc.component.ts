@@ -12,17 +12,15 @@ import { TocService } from '../services/toc.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [DocPlaygroundComponent, CbProgressBar, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
-    <doc-page-header eyebrow="Misc" title="ProgressBar" lead="Barra de progreso determinada o indeterminada." />
+    <doc-page-header eyebrow="Varios" title="ProgressBar" lead="Barra de progreso determinada o indeterminada." />
 
-    <doc-playground [api]="docApi" />
-
-    <doc-section id="import" title="Import">
+    <doc-section id="import" title="Importación">
       <doc-code-block [code]="installCode" lang="bash" />
       <br />
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
 
-    <doc-section id="basic" title="Basic" [code]="basicCode">
+    <doc-section id="basic" title="Básico" [code]="basicCode">
       <div style="width: 100%; display: flex; flex-direction: column; gap: 1rem">
         <cb-progressbar [value]="35" />
         <cb-progressbar [value]="70" showValue />
@@ -42,6 +40,8 @@ import { TocService } from '../services/toc.service';
         <cb-progressbar [value]="60" severity="danger" size="lg" />
       </div>
     </doc-section>
+
+    <doc-playground [api]="docApi" />
   `,
 })
 export class ProgressbarDocComponent {

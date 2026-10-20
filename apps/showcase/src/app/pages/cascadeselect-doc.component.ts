@@ -12,10 +12,9 @@ import { TocService } from '../services/toc.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [DocPlaygroundComponent, CbCascadeSelect, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
-    <doc-page-header eyebrow="Form" title="CascadeSelect" lead="Selector multinivel en cascada para estructuras anidadas." />
-    <doc-playground [api]="docApi" />
+    <doc-page-header eyebrow="Formulario" title="CascadeSelect" lead="Selector multinivel en cascada para estructuras anidadas." />
 
-    <doc-section id="import" title="Import">
+    <doc-section id="import" title="Importación">
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
     <doc-section id="basic" title="Básico" [code]="basicCode">
@@ -23,6 +22,8 @@ import { TocService } from '../services/toc.service';
         <cb-cascade-select [options]="options" [(value)]="selected" />
       </div>
     </doc-section>
+
+    <doc-playground [api]="docApi" />
   `,
 })
 export class CascadeselectDocComponent {

@@ -15,10 +15,9 @@ import { I18nService } from '../services/i18n.service';
   imports: [DocPlaygroundComponent, CbTracker, CbTransactionStatus, CbButton, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
     <doc-page-header eyebrow="Caribe Design" title="Tracker" lead="Tracker para interfaces accesibles, con estilos basados en tokens CaribeNG." />
-    <doc-playground [api]="docApi" />
 
-    <doc-section id="import" title="Import"><doc-code-block [code]="importCode" lang="typescript" /></doc-section>
-    <doc-section id="basic" title="Uso basico" [code]="exampleCode"><cb-tracker [steps]="steps" [currentIndex]="1" /></doc-section>
+    <doc-section id="import" title="Importación"><doc-code-block [code]="importCode" lang="typescript" /></doc-section>
+    <doc-section id="basic" title="Básico" [code]="exampleCode"><cb-tracker [steps]="steps" [currentIndex]="1" /></doc-section>
 
     <doc-section
       id="composed"
@@ -37,6 +36,8 @@ import { I18nService } from '../services/i18n.service';
         <cb-button size="sm" (click)="advance()">{{ step() === 2 ? 'Reset' : 'Advance' }}</cb-button>
       </div>
     </doc-section>
+
+    <doc-playground [api]="docApi" />
   `,
 })
 export class TrackerDocComponent {

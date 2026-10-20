@@ -13,23 +13,23 @@ import { TocService } from '../services/toc.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [DocPlaygroundComponent, CbMenu, CbButton, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
-    <doc-page-header eyebrow="Menu" title="Menu" lead="Menú emergente de acciones con iconos, separadores y atajos de teclado." />
+    <doc-page-header eyebrow="Menús" title="Menu" lead="Menú emergente de acciones con iconos, separadores y atajos de teclado." />
 
-    <doc-playground [api]="docApi" />
-
-    <doc-section id="import" title="Import">
+    <doc-section id="import" title="Importación">
       <doc-code-block [code]="installCode" lang="bash" />
       <br />
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
 
-    <doc-section id="basic" title="Basic" description="Pulsa el botón para abrir el menú; Escape o un clic fuera lo cierra." [code]="basicCode" [codeTs]="itemsCode">
+    <doc-section id="basic" title="Básico" description="Pulsa el botón para abrir el menú; Escape o un clic fuera lo cierra." [code]="basicCode" [codeTs]="itemsCode">
       <div style="display: flex; align-items: center; gap: 1rem">
         <cb-button (click)="menu.toggle($event)">Acciones</cb-button>
         <span style="color: var(--cb-color-text-muted); font-size: 0.875rem">{{ selected() || 'Sin selección' }}</span>
       </div>
       <cb-menu #menu [items]="items" ariaLabel="Acciones de producto" (itemSelect)="selected.set($event.label)" />
     </doc-section>
+
+    <doc-playground [api]="docApi" />
   `,
 })
 export class MenuDocComponent {

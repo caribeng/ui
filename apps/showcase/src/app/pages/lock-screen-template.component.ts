@@ -14,7 +14,7 @@ import { TocService } from '../services/toc.service';
   imports: [CbInput, CbButton, CbAvatar, DocPageHeaderComponent, DocSectionComponent, AuthShellComponent],
   template: `
     <doc-page-header
-      eyebrow="Template"
+      eyebrow="Plantillas"
       title="Lock Screen"
       lead="Bloqueo de pantalla con layout dividido estilo Atlantis: avatar del usuario y contraseña para desbloquear."
     />

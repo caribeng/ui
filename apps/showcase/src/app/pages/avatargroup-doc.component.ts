@@ -19,10 +19,9 @@ import { TocService } from '../services/toc.service';
     DocPageHeaderComponent,
   ],
   template: `
-    <doc-page-header eyebrow="Media" title="AvatarGroup" lead="Agrupa múltiples avatares superpuestos." />
-    <doc-playground [api]="docApi" />
+    <doc-page-header eyebrow="Multimedia" title="AvatarGroup" lead="Agrupa múltiples avatares superpuestos." />
 
-    <doc-section id="import" title="Import">
+    <doc-section id="import" title="Importación">
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
     <doc-section id="basic" title="Básico" [code]="basicCode">
@@ -33,6 +32,8 @@ import { TocService } from '../services/toc.service';
         <cb-avatar label="+3" severity="secondary" />
       </cb-avatar-group>
     </doc-section>
+
+    <doc-playground [api]="docApi" />
   `,
 })
 export class AvatargroupDocComponent {

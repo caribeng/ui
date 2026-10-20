@@ -11,7 +11,7 @@ const BASIC_CODE = `<input cbAutoFocus placeholder="Recibe foco al montar" />`;
   imports: [CbDocPageComponent, CbDocExampleComponent, CbAutoFocusDirective],
   template: `
     <cb-doc-page
-      category="Misc"
+      category="Varios"
       title="AutoFocus"
       subtitle="Directiva que enfoca automáticamente el elemento anfitrión al montarse en la vista."
       importCode="import { CbAutoFocusDirective } from '@caribeng/ui/autofocus';"

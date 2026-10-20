@@ -20,20 +20,18 @@ import { TocService } from '../services/toc.service';
   ],
   template: `
     <doc-page-header
-      eyebrow="Form"
+      eyebrow="Formulario"
       title="Chips"
       lead="Entrada de etiquetas: Enter o coma añade; Backspace borra la última. ControlValueAccessor (string[])."
     />
 
-    <doc-playground [api]="docApi" />
-
-    <doc-section id="import" title="Import">
+    <doc-section id="import" title="Importación">
       <doc-code-block [code]="installCode" lang="bash" />
       <br />
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
 
-    <doc-section id="basic" title="Basic" description="Escribe y pulsa Enter (o coma) para crear una etiqueta." [code]="basicCode">
+    <doc-section id="basic" title="Básico" description="Escribe y pulsa Enter (o coma) para crear una etiqueta." [code]="basicCode">
       <div style="max-width: 420px">
         <cb-chips [(value)]="tags" placeholder="Añade una etiqueta…" />
       </div>
@@ -57,6 +55,8 @@ import { TocService } from '../services/toc.service';
         />
       </div>
     </doc-section>
+
+    <doc-playground [api]="docApi" />
   `,
 })
 export class ChipsDocComponent {

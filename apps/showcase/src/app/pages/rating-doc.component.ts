@@ -20,20 +20,18 @@ import { TocService } from '../services/toc.service';
   ],
   template: `
     <doc-page-header
-      eyebrow="Form"
+      eyebrow="Formulario"
       title="Rating"
       lead="Valoración con estrellas. ControlValueAccessor, teclado (flechas, Home/End) y vista previa al pasar el cursor."
     />
 
-    <doc-playground [api]="docApi" />
-
-    <doc-section id="import" title="Import">
+    <doc-section id="import" title="Importación">
       <doc-code-block [code]="installCode" lang="bash" />
       <br />
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
 
-    <doc-section id="basic" title="Basic" description="Haz clic en una estrella; vuelve a hacer clic en la misma para limpiar." [code]="basicCode">
+    <doc-section id="basic" title="Básico" description="Haz clic en una estrella; vuelve a hacer clic en la misma para limpiar." [code]="basicCode">
       <cb-rating [formControl]="valor" ariaLabel="Puntuación" />
       <p style="margin: 0.75rem 0 0; color: var(--cb-color-text-muted); font-size: 0.875rem">
         Valor: {{ valor.value }}
@@ -58,6 +56,8 @@ import { TocService } from '../services/toc.service';
         <cb-rating [(value)]="fijo" [disabled]="true" ariaLabel="Deshabilitado" />
       </div>
     </doc-section>
+
+    <doc-playground [api]="docApi" />
   `,
 })
 export class RatingDocComponent {

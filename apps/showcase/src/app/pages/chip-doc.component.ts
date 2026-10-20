@@ -12,10 +12,9 @@ import { TocService } from '../services/toc.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [DocPlaygroundComponent, CbChip, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
-    <doc-page-header eyebrow="Misc" title="Chip" lead="Píldora compacta para etiquetas individuales con icono o botón de cierre." />
-    <doc-playground [api]="docApi" />
+    <doc-page-header eyebrow="Varios" title="Chip" lead="Píldora compacta para etiquetas individuales con icono o botón de cierre." />
 
-    <doc-section id="import" title="Import">
+    <doc-section id="import" title="Importación">
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
     <doc-section id="basic" title="Básico" [code]="basicCode">
@@ -24,6 +23,8 @@ import { TocService } from '../services/toc.service';
         <cb-chip label="Signals" [removable]="true" />
       </div>
     </doc-section>
+
+    <doc-playground [api]="docApi" />
   `,
 })
 export class ChipDocComponent {

@@ -14,7 +14,7 @@ const BASIC_CODE = `<div cbFocusTrap>
   imports: [CbDocPageComponent, CbDocExampleComponent, CbFocusTrapDirective],
   template: `
     <cb-doc-page
-      category="Misc"
+      category="Varios"
       title="FocusTrap"
       subtitle="Directiva que confina el ciclo de navegación por teclado (Tab y Shift+Tab) dentro del contenedor anfitrión."
       importCode="import { CbFocusTrapDirective } from '@caribeng/ui/focustrap';"

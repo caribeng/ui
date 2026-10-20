@@ -8,14 +8,15 @@ import { DocPageHeaderComponent } from '../shared/page-header.component';
 import { TocService } from '../services/toc.service';
 
 @Component({ selector: 'doc-dock-page', changeDetection: ChangeDetectionStrategy.OnPush, imports: [DocPlaygroundComponent, CbDock, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent], template: `
-  <doc-page-header eyebrow="Menu" title="Dock" lead="Lanzador compacto de acciones con orientación configurable." />
-  <doc-playground [api]="docApi" />
+  <doc-page-header eyebrow="Menús" title="Dock" lead="Lanzador compacto de acciones con orientación configurable." />
 
-    <doc-section id="import" title="Import"><doc-code-block [code]="installCode" lang="bash" /><br /><doc-code-block [code]="importCode" lang="typescript" /></doc-section>
-  <doc-section id="basic" title="Basic" description="La orientación también puede ser top, left o right." [code]="basicCode">
+    <doc-section id="import" title="Importación"><doc-code-block [code]="installCode" lang="bash" /><br /><doc-code-block [code]="importCode" lang="typescript" /></doc-section>
+  <doc-section id="basic" title="Básico" description="La orientación también puede ser top, left o right." [code]="basicCode">
     <cb-dock style="width:100%" [items]="items" position="bottom" (itemSelect)="selected.set($event.label)" />
     <p style="margin:.75rem 0 0;color:var(--cb-color-text-muted)">Acción: {{ selected() || 'ninguna' }}</p>
   </doc-section>
+
+  <doc-playground [api]="docApi" />
 ` })
 export class DockDocComponent {
   protected readonly docApi = DOC_API['cb-dock'];

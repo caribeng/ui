@@ -12,17 +12,15 @@ import { TocService } from '../services/toc.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [DocPlaygroundComponent, CbKnob, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
-    <doc-page-header eyebrow="Form" title="Knob" lead="Dial circular para elegir un número. Arrastre con el puntero o teclado." />
+    <doc-page-header eyebrow="Formulario" title="Knob" lead="Dial circular para elegir un número. Arrastre con el puntero o teclado." />
 
-    <doc-playground [api]="docApi" />
-
-    <doc-section id="import" title="Import">
+    <doc-section id="import" title="Importación">
       <doc-code-block [code]="installCode" lang="bash" />
       <br />
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
 
-    <doc-section id="basic" title="Basic" description="Arrastra sobre el dial o usa las flechas." [code]="basicCode">
+    <doc-section id="basic" title="Básico" description="Arrastra sobre el dial o usa las flechas." [code]="basicCode">
       <cb-knob [(value)]="volumen" suffix="%" ariaLabel="Volumen" />
       <p style="margin: 0.75rem 0 0; color: var(--cb-color-text-muted); font-size: 0.875rem">
         Valor: {{ volumen() }}
@@ -40,6 +38,8 @@ import { TocService } from '../services/toc.service';
     <doc-section id="range" title="Rango y paso" description="min/max/step a medida." [code]="rangeCode">
       <cb-knob [(value)]="temp" [min]="16" [max]="30" [step]="0.5" suffix="°" severity="info" ariaLabel="Temperatura" />
     </doc-section>
+
+    <doc-playground [api]="docApi" />
   `,
 })
 export class KnobDocComponent {

@@ -12,10 +12,11 @@ import { TocService } from '../services/toc.service';
   imports: [DocPlaygroundComponent, CbAlert, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
     <doc-page-header eyebrow="Caribe Design" title="Alert" lead="Alert para interfaces accesibles, con estilos basados en tokens CaribeNG." />
-    <doc-playground [api]="docApi" />
 
-    <doc-section id="import" title="Import"><doc-code-block [code]="importCode" lang="typescript" /></doc-section>
-    <doc-section id="basic" title="Uso basico" [code]="exampleCode"><cb-alert title="Operacion exitosa" severity="success">El cambio se guardo correctamente.</cb-alert></doc-section>
+    <doc-section id="import" title="Importación"><doc-code-block [code]="importCode" lang="typescript" /></doc-section>
+    <doc-section id="basic" title="Básico" [code]="exampleCode"><cb-alert title="Operacion exitosa" severity="success">El cambio se guardo correctamente.</cb-alert></doc-section>
+
+    <doc-playground [api]="docApi" />
   `,
 })
 export class AlertDocComponent {

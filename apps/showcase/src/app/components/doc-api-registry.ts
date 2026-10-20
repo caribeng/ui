@@ -205,7 +205,7 @@ export const DOC_API: Record<string, DocApi> = {
     props: [
       { name: "image", kind: "string", type: "string", default: "", description: "URL de la imagen." },
       { name: "label", kind: "string", type: "string", default: "", description: "Iniciales o texto corto (si no hay imagen ni icono)." },
-      { name: "icon", kind: "string", type: "string", default: "", description: "Icono (nombre del set de" },
+      { name: "icon", kind: "string", type: "string", default: "", description: "Icono (nombre del set de iconos)." },
       { name: "size", kind: "enum", type: "'sm' | 'md' | 'lg' | 'xl' | number", options: ["sm", "md", "lg", "xl"], default: "md", description: "Tamaño: `sm` (28) · `md` (40) · `lg` (56) · `xl` (80) o un número en px." },
       { name: "shape", kind: "enum", type: "'circle' | 'square'", options: ["circle", "square"], default: "circle", description: "Forma." },
       { name: "severity", kind: "enum", type: "CbSeverity", options: ["primary", "secondary", "success", "warning", "danger", "info", "help", "contrast"], default: "secondary", description: "Color de fondo cuando se muestran iniciales/icono." },
@@ -1555,7 +1555,7 @@ export const DOC_API: Record<string, DocApi> = {
     props: [
       { name: "value", kind: "string", type: "string", default: "", description: "" },
       { name: "severity", kind: "enum", type: "CbSeverity", options: ["primary", "secondary", "success", "warning", "danger", "info", "help", "contrast"], default: "primary", description: "" },
-      { name: "icon", kind: "string", type: "string", default: "", description: "Icono (nombre del set de" },
+      { name: "icon", kind: "string", type: "string", default: "", description: "Icono (nombre del set de iconos)." },
       { name: "rounded", kind: "boolean", type: "boolean", default: false, description: "Esquinas totalmente redondeadas (pill)." }
     ]
   },

@@ -26,7 +26,7 @@ import { TocService } from '../services/toc.service';
   ],
   template: `
     <doc-page-header
-      eyebrow="Template"
+      eyebrow="Plantillas"
       title="Login"
       lead="Inicio de sesión con layout dividido (imagen + panel oscuro), estilo Atlantis. Hecho con componentes CaribeNG y Reactive Forms."
     />

@@ -13,10 +13,9 @@ import { TocService } from '../services/toc.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [DocPlaygroundComponent, CbInplace, CbInput, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
-    <doc-page-header eyebrow="Misc" title="Inplace" lead="Edición in-situ que alterna entre vista de lectura y control interactivo." />
-    <doc-playground [api]="docApi" />
+    <doc-page-header eyebrow="Varios" title="Inplace" lead="Edición in-situ que alterna entre vista de lectura y control interactivo." />
 
-    <doc-section id="import" title="Import">
+    <doc-section id="import" title="Importación">
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
     <doc-section id="basic" title="Básico" [code]="basicCode">
@@ -25,6 +24,8 @@ import { TocService } from '../services/toc.service';
         <cb-input cb-inplace-content value="CaribeNG v1.0" />
       </cb-inplace>
     </doc-section>
+
+    <doc-playground [api]="docApi" />
   `,
 })
 export class InplaceDocComponent {

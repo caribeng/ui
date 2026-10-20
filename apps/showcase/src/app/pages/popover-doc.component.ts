@@ -19,17 +19,15 @@ import { TocService } from '../services/toc.service';
     DocPageHeaderComponent,
   ],
   template: `
-    <doc-page-header eyebrow="Overlay" title="Popover" lead="Panel flotante con contenido libre, anclado a un disparador. Se cierra al hacer clic fuera o con Escape." />
+    <doc-page-header eyebrow="Overlays" title="Popover" lead="Panel flotante con contenido libre, anclado a un disparador. Se cierra al hacer clic fuera o con Escape." />
 
-    <doc-playground [api]="docApi" />
-
-    <doc-section id="import" title="Import">
+    <doc-section id="import" title="Importación">
       <doc-code-block [code]="installCode" lang="bash" />
       <br />
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
 
-    <doc-section id="basic" title="Basic" description="Llama a toggle($event) desde el disparador." [code]="basicCode">
+    <doc-section id="basic" title="Básico" description="Llama a toggle($event) desde el disparador." [code]="basicCode">
       <cb-button (click)="op.toggle($event)">Opciones</cb-button>
       <cb-popover #op ariaLabel="Opciones">
         <div style="padding: 1rem; display: flex; flex-direction: column; gap: 0.5rem; min-width: 12rem">
@@ -51,6 +49,8 @@ import { TocService } from '../services/toc.service';
         </div>
       </cb-popover>
     </doc-section>
+
+    <doc-playground [api]="docApi" />
   `,
 })
 export class PopoverDocComponent {

@@ -15,15 +15,15 @@ import { TocService } from '../services/toc.service';
     DocPageHeaderComponent,
   ],
   template: `
-    <doc-page-header eyebrow="Panel" title="Accordion" lead="Paneles colapsables. Por defecto solo uno abierto; multiple permite varios." />
+    <doc-page-header eyebrow="Paneles" title="Accordion" lead="Paneles colapsables. Por defecto solo uno abierto; multiple permite varios." />
 
-    <doc-section id="import" title="Import">
+    <doc-section id="import" title="Importación">
       <doc-code-block [code]="installCode" lang="bash" />
       <br />
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
 
-    <doc-section id="basic" title="Basic" [code]="basicCode">
+    <doc-section id="basic" title="Básico" [code]="basicCode">
       <cb-accordion style="width: 100%">
         <cb-accordion-panel header="¿Qué es CaribeNG?">
           Una librería de componentes Angular con signals, OnPush y tokens CSS.

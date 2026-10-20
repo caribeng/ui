@@ -25,20 +25,18 @@ interface Ciudad {
   ],
   template: `
     <doc-page-header
-      eyebrow="Form"
+      eyebrow="Formulario"
       title="MultiSelect"
       lead="Selección múltiple en overlay con casillas, filtro y seleccionar-todo. ControlValueAccessor (array)."
     />
 
-    <doc-playground [api]="docApi" />
-
-    <doc-section id="import" title="Import">
+    <doc-section id="import" title="Importación">
       <doc-code-block [code]="installCode" lang="bash" />
       <br />
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
 
-    <doc-section id="basic" title="Basic" description="optionLabel/optionValue para objetos." [code]="basicCode" [codeTs]="dataTs">
+    <doc-section id="basic" title="Básico" description="optionLabel/optionValue para objetos." [code]="basicCode" [codeTs]="dataTs">
       <div style="width: 100%; max-width: 320px">
         <cb-multiselect
           [(value)]="seleccion"
@@ -78,6 +76,8 @@ interface Ciudad {
         />
       </div>
     </doc-section>
+
+    <doc-playground [api]="docApi" />
   `,
 })
 export class MultiselectDocComponent {

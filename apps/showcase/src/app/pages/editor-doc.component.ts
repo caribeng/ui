@@ -12,15 +12,16 @@ import { TocService } from '../services/toc.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [DocPlaygroundComponent, CbEditor, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
-    <doc-page-header eyebrow="Form" title="Editor" lead="Editor de texto enriquecido ligero con barra de formato e integración CVA." />
-    <doc-playground [api]="docApi" />
+    <doc-page-header eyebrow="Formulario" title="Editor" lead="Editor de texto enriquecido ligero con barra de formato e integración CVA." />
 
-    <doc-section id="import" title="Import">
+    <doc-section id="import" title="Importación">
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
     <doc-section id="basic" title="Básico" [code]="basicCode">
       <cb-editor [(value)]="content" style="width: 100%" />
     </doc-section>
+
+    <doc-playground [api]="docApi" />
   `,
 })
 export class EditorDocComponent {

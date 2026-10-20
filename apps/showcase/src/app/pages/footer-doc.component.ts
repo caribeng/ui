@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { DocPlaygroundComponent } from '../components/doc-playground.component';
 import { DOC_API } from '../components/doc-api-registry';
 import { CbFooter } from '@caribeng/ui/caribe/footer';
-import { CbDocApiRow, CbDocPageComponent } from '../components/doc-page.component';
+import { CbDocPageComponent } from '../components/doc-page.component';
 import { CbDocExampleComponent } from '../components/doc-example.component';
 
 @Component({
@@ -15,7 +15,6 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
       title="Footer"
       subtitle="Pie de página institucional con texto legal y ranura para enlaces."
       importCode="import { CbFooter } from '@caribeng/ui/caribe/footer';"
-      [api]="api"
     >
       <cb-doc-example title="Pie institucional" code='<cb-footer />'>
         <cb-footer />
@@ -28,7 +27,4 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
 export class FooterDocComponent {
   protected readonly docApi = DOC_API['cb-footer'];
 
-  protected readonly api: CbDocApiRow[] = [
-    { name: 'copyright', type: 'string', default: "'© 2026 CaribeNG...'", description: 'Texto de derechos de autor.' },
-  ];
 }

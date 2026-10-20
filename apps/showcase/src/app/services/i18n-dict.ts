@@ -732,4 +732,366 @@ export const ES_EN: Record<string, string> = {
   'Id del input; se genera uno estable si no se provee.':
     'Input id; a stable one is generated if not provided.',
   'Emite el nuevo estado al cambiar.': 'Emits the new state on change.',
+
+  // --- Títulos de sección, categorías, ejemplos y API del playground ---
+  'Paneles': 'Panels',
+  'Importación': 'Import',
+  'Usa IntersectionObserver con degradación elegante en entornos sin soporte.':
+    'Uses IntersectionObserver with graceful degradation where it is not supported.',
+  'Animación en entrada al viewport': 'Animate on entering the viewport',
+  'Varios': 'Misc',
+  'Formulario': 'Form',
+  'Puedes pasar un booleano a [cbAutoFocus] para controlar si el enfoque automático está activo.':
+    'You can pass a boolean to [cbAutoFocus] to control whether autofocus is active.',
+  'Campo con enfoque inicial': 'Field with initial focus',
+  'Multimedia': 'Media',
+  'Mensajes': 'Messages',
+  'Menús': 'Menus',
+  'Severidad': 'Severity',
+  'Cargando': 'Loading',
+  'Barra de herramientas': 'Toolbar',
+  'Con pie de página': 'With footer',
+  'Componentes standalone con ChangeDetectionStrategy.OnPush.':
+    'Standalone components with ChangeDetectionStrategy.OnPush.',
+  'Paleta esmeralda adaptable sin dependencias externas.':
+    'Adaptive emerald palette with no external dependencies.',
+  'Navegación por teclado y roles ARIA en todo el catálogo.':
+    'Keyboard navigation and ARIA roles across the whole catalog.',
+  'Alterna entre barras, líneas y anillo usando el mismo dataset reactivo.':
+    'Switches between bars, lines and doughnut using the same reactive dataset.',
+  'Gráfico interactivo multimodo': 'Interactive multi-mode chart',
+  'Datos y multimedia': 'Data & Media',
+  'Fundamentos': 'Foundations',
+  'Plantillas': 'Templates',
+  'Shell de panel de administración: navbar superior, sidebar de navegación, tarjetas de métricas y tabla de actividad. Composición completa con componentes CaribeNG.':
+    'Admin dashboard shell: top navbar, navigation sidebar, metric cards and activity table. A complete composition built with CaribeNG components.',
+  'Vista previa': 'Preview',
+  'Vista adaptable': 'Adaptive view',
+  'Datos': 'Data',
+  'Permite varios paneles abiertos a la vez.': 'Allows several panels to be open at the same time.',
+  'Valor seleccionado (two-way opcional fuera de Angular Forms).':
+    'Selected value (optional two-way binding outside Angular Forms).',
+  'Sugerencias a mostrar (las provee y filtra el consumidor).':
+    'Suggestions to show (provided and filtered by the consumer).',
+  'Caracteres mínimos para disparar `complete`.': 'Minimum characters to trigger `complete`.',
+  'Debounce (ms) antes de emitir `complete`.': 'Debounce (ms) before emitting `complete`.',
+  'Exige elegir una opción de la lista (si no, al salir se limpia).':
+    'Requires picking an option from the list (otherwise it is cleared on blur).',
+  'Muestra un botón para desplegar todas las sugerencias.':
+    'Shows a button to expand all suggestions.',
+  'Emite el texto de búsqueda para que el consumidor filtre.':
+    'Emits the search text so the consumer can filter.',
+  'Emite la opción elegida.': 'Emits the chosen option.',
+  'URL de la imagen.': 'Image URL.',
+  'Iniciales o texto corto (si no hay imagen ni icono).':
+    'Initials or short text (when there is no image or icon).',
+  'Icono (nombre del set de iconos).': 'Icon (name from the icon set).',
+  'Tamaño: `sm` (28) · `md` (40) · `lg` (56) · `xl` (80) o un número en px.':
+    'Size: `sm` (28) · `md` (40) · `lg` (56) · `xl` (80) or a number in px.',
+  'Forma.': 'Shape.',
+  'Color de fondo cuando se muestran iniciales/icono.':
+    'Background color when initials/icon are shown.',
+  'Nombre accesible.': 'Accessible name.',
+  'Contenido (conteo o texto breve).': 'Content (count or short text).',
+  'Severidad semántica (color).': 'Semantic severity (color).',
+  'Tamaño.': 'Size.',
+  'Muestra solo un punto (sin texto).': 'Shows only a dot (no text).',
+  'Icono separador entre elementos.': 'Separator icon between items.',
+  'Se emite al hacer clic en un elemento con enlace.':
+    'Emitted when an item with a link is clicked.',
+  'Variante visual.': 'Visual variant.',
+  'Tipo nativo del botón.': 'Native button type.',
+  'Dirección del grupo.': 'Group direction.',
+  'Etiqueta accesible del grupo.': 'Accessible label of the group.',
+  'Subtítulo bajo el título.': 'Subtitle below the title.',
+  'Etiqueta mostrada junto al control.': 'Label shown next to the control.',
+  '`aria-label` cuando no hay `label` visible.': '`aria-label` when there is no visible `label`.',
+  'Valor que aporta a la lista cuando el modelo enlazado es un array.':
+    'Value added to the list when the bound model is an array.',
+  'Estado indeterminado (visual + `aria-checked="mixed"`).':
+    'Indeterminate state (visual + `aria-checked="mixed"`).',
+  'Marca visual y ARIA de estado inválido.': 'Visual and ARIA invalid state.',
+  'Requerido.': 'Required.',
+  'Deshabilitado de forma declarativa (se combina con Angular Forms).':
+    'Declarative disabled state (combined with Angular Forms).',
+  'Máximo de chips (0 = sin límite).': 'Maximum number of chips (0 = unlimited).',
+  'Permite valores repetidos.': 'Allows duplicate values.',
+  'Color seleccionado (hex `#rrggbb`). Two-way opcional fuera de Forms.':
+    'Selected color (hex `#rrggbb`). Optional two-way binding outside Forms.',
+  'Muestra el texto del hex junto al swatch del trigger.':
+    'Shows the hex text next to the trigger swatch.',
+  'Colores predefinidos; `[]` los oculta.': 'Preset colors; `[]` hides them.',
+  'Fecha seleccionada (two-way opcional fuera de Angular Forms).':
+    'Selected date (optional two-way binding outside Angular Forms).',
+  'Locale BCP 47 para nombres y formato (por defecto el del navegador).':
+    'BCP 47 locale for names and format (defaults to the browser locale).',
+  'Primer día de la semana: 0 = domingo (por defecto), 1 = lunes.':
+    'First day of the week: 0 = Sunday (default), 1 = Monday.',
+  'Fecha mínima seleccionable.': 'Minimum selectable date.',
+  'Fecha máxima seleccionable.': 'Maximum selectable date.',
+  'Visibilidad del diálogo (two-way).': 'Dialog visibility (two-way).',
+  'Título del encabezado. Si se omite, usa `ariaLabel`.':
+    'Header title. If omitted, `ariaLabel` is used.',
+  'Muestra el botón de cerrar (✕).': 'Shows the close button (✕).',
+  'Cierra al hacer clic en el backdrop.': 'Closes when the backdrop is clicked.',
+  'Cierra con la tecla Escape.': 'Closes with the Escape key.',
+  'Ancho del panel.': 'Panel width.',
+  'Nombre accesible cuando no hay `header`.': 'Accessible name when there is no `header`.',
+  'Se emite cuando el diálogo se cierra.': 'Emitted when the dialog closes.',
+  'Se emite cuando el diálogo se abre.': 'Emitted when the dialog opens.',
+  'Posición de la etiqueta (solo horizontal).': 'Label position (horizontal only).',
+  'Estilo de la línea.': 'Line style.',
+  'Número de puntos.': 'Number of dots.',
+  'Índice activo (two-way).': 'Active index (two-way).',
+  'Título de la cabecera.': 'Header title.',
+  'Estado abierto/cerrado (two-way).': 'Open/closed state (two-way).',
+  'Etiqueta accesible del botón flotante.': 'Accessible label of the floating button.',
+  'Estado desplegado (two-way).': 'Expanded state (two-way).',
+  'Emite la acción seleccionada.': 'Emits the selected action.',
+  'Texto de la leyenda del fieldset.': 'Fieldset legend text.',
+  'Si es true, la leyenda funciona como botón para colapsar/expandir.':
+    'When true, the legend works as a button to collapse/expand.',
+  'Estado colapsado (`[(collapsed)]`).': 'Collapsed state (`[(collapsed)]`).',
+  'Opciones del menú.': 'Menu options.',
+  'Id de la opción activa.': 'Id of the active option.',
+  'Emite la opción seleccionada.': 'Emits the selected option.',
+  'Texto de copyright.': 'Copyright text.',
+  'Muestra el botón de retroceso.': 'Shows the back button.',
+  'Emite al pulsar retroceso.': 'Emits when back is pressed.',
+  'Nombre del icono en el registro (p. ej. `chevron-down`).':
+    'Icon name in the registry (e.g. `chevron-down`).',
+  'Tamaño: `sm` (16) · `md` (20) · `lg` (24) · `xl` (32) o un número en px.':
+    'Size: `sm` (16) · `md` (20) · `lg` (24) · `xl` (32) or a number in px.',
+  'Anima el icono girando (útil con `loader`).': 'Spins the icon (useful with `loader`).',
+  'Nombre accesible. Si se omite, el icono es decorativo (`aria-hidden`).':
+    'Accessible name. If omitted, the icon is decorative (`aria-hidden`).',
+  'Nombre del icono del set núcleo.': 'Icon name from the core set.',
+  'Deshabilita la acción.': 'Disables the action.',
+  'Emite el evento de click.': 'Emits the click event.',
+  'Valor del control (two-way opcional fuera de Angular Forms).':
+    'Control value (optional two-way binding outside Angular Forms).',
+  'Etiqueta accesible. Si se omite, usa un `aria-label` externo.':
+    'Accessible label. If omitted, an external `aria-label` is used.',
+  'Texto de ayuda bajo el campo.': 'Help text below the field.',
+  'Mensaje de error (se muestra cuando `invalid` es true).':
+    'Error message (shown when `invalid` is true).',
+  'Tipo nativo del input.': 'Native input type.',
+  'Solo lectura.': 'Read-only.',
+  'Marca el campo como requerido (atributo + indicador visual).':
+    'Marks the field as required (attribute + visual indicator).',
+  '`inputmode` para teclados móviles.': '`inputmode` for mobile keyboards.',
+  'Estilo de addon "botón" (sin fondo de relleno).': '"Button" addon style (no fill background).',
+  'Patrón de máscara: `9` para números, `a` para letras, `*` alfanumérico.':
+    'Mask pattern: `9` for digits, `a` for letters, `*` for alphanumeric.',
+  'Si es true, el valor del modelo excluye los literales de la máscara.':
+    'When true, the model value excludes the mask literals.',
+  'Valor numérico (two-way opcional fuera de Angular Forms).':
+    'Numeric value (optional two-way binding outside Angular Forms).',
+  'Valor mínimo permitido.': 'Minimum allowed value.',
+  'Valor máximo permitido.': 'Maximum allowed value.',
+  'Incremento de los botones y de las flechas.': 'Step for the buttons and arrow keys.',
+  'Muestra los botones de incremento/decremento.': 'Shows the increment/decrement buttons.',
+  '\'decimal\' (por defecto) o \'currency\'.': '\'decimal\' (default) or \'currency\'.',
+  'Código ISO de moneda cuando mode=\'currency\' (p. ej. \'USD\', \'COP\', \'EUR\').':
+    'ISO currency code when mode=\'currency\' (e.g. \'USD\', \'COP\', \'EUR\').',
+  'Locale BCP 47 para el formato (por defecto el del navegador).':
+    'BCP 47 locale for formatting (defaults to the browser locale).',
+  'Agrupación de miles.': 'Thousands grouping.',
+  'Mínimo de decimales.': 'Minimum fraction digits.',
+  'Máximo de decimales.': 'Maximum fraction digits.',
+  'Texto antepuesto (solo visual, cuando no está enfocado).':
+    'Prefix text (visual only, when not focused).',
+  'Texto pospuesto (solo visual, cuando no está enfocado).':
+    'Suffix text (visual only, when not focused).',
+  'Sufijo del texto central (p. ej. `%`).': 'Suffix of the center text (e.g. `%`).',
+  'Destino del enlace.': 'Link target.',
+  'Texto del enlace (alternativa a proyectar contenido).':
+    'Link text (alternative to projected content).',
+  'Abre en una pestaña nueva y añade indicador visual.':
+    'Opens in a new tab and adds a visual indicator.',
+  'Deshabilita la navegación y atenúa el enlace.': 'Disables navigation and dims the link.',
+  'Muestra el botón de cerrar.': 'Shows the close button.',
+  'Icono (sobrescribe el de la severidad); `\'\'` para ocultarlo.':
+    'Icon (overrides the severity icon); `\'\'` hides it.',
+  'Visibilidad (two-way).': 'Visibility (two-way).',
+  'Se emite al cerrar.': 'Emitted on close.',
+  'Nº máx. de etiquetas antes de mostrar "N seleccionados".':
+    'Max number of labels before showing "N selected".',
+  'Título del panel.': 'Panel title.',
+  'Lado de aparición.': 'Side it slides in from.',
+  'Máximo de enlaces de página numerados visibles.':
+    'Maximum number of visible numbered page links.',
+  'Título mostrado en la cabecera del panel.': 'Title shown in the panel header.',
+  'Permite contraer/expandir el contenido desde la cabecera.':
+    'Allows collapsing/expanding the content from the header.',
+  'Estado colapsado (soporta two-way binding `[(collapsed)]`).':
+    'Collapsed state (supports two-way binding `[(collapsed)]`).',
+  'Emitido después de alternar el estado colapsado.': 'Emitted after toggling the collapsed state.',
+  'Cierra al hacer clic fuera.': 'Closes on outside click.',
+  'Nombre accesible del panel.': 'Accessible name of the panel.',
+  'Valor actual (0–100).': 'Current value (0–100).',
+  'Etiqueta mostrada sobre la barra.': 'Label shown above the bar.',
+  'Valor 0–100. `null` activa el modo indeterminado.':
+    'Value 0–100. `null` enables indeterminate mode.',
+  'Muestra el porcentaje a la derecha.': 'Shows the percentage on the right.',
+  'Valor que representa este radio.': 'Value this radio represents.',
+  'Deshabilita solo este radio (además del grupo).':
+    'Disables only this radio (in addition to the group).',
+  '`aria-label` del grupo (recomendado para accesibilidad).':
+    'Group `aria-label` (recommended for accessibility).',
+  'Nombre compartido por los radios nativos; se genera uno si se omite.':
+    'Name shared by the native radios; one is generated if omitted.',
+  'Tamaño aplicado a los radios hijos.': 'Size applied to the child radios.',
+  'Disposición de los items.': 'Layout of the items.',
+  'Deshabilita todo el grupo.': 'Disables the whole group.',
+  'Emite el nuevo valor seleccionado.': 'Emits the new selected value.',
+  'Número de estrellas.': 'Number of stars.',
+  'Solo lectura (no editable, pero muestra el valor).':
+    'Read-only (not editable, but shows the value).',
+  'Deshabilitado declarativo (se combina con Angular Forms).':
+    'Declarative disabled state (combined with Angular Forms).',
+  'Etiqueta accesible del control.': 'Accessible label of the control.',
+  'Id (reservado para uso futuro / asociación de label externa).':
+    'Id (reserved for future use / external label association).',
+  'Emite el nuevo valor al cambiar.': 'Emits the new value on change.',
+  'Ancho CSS del contenedor (ej. `\'100%\'`, `\'320px\'`).':
+    'Container CSS width (e.g. `\'100%\'`, `\'320px\'`).',
+  'Alto CSS del contenedor (ej. `\'200px\'`).': 'Container CSS height (e.g. `\'200px\'`).',
+  'Etiqueta accesible para la región con scroll.': 'Accessible label for the scrollable region.',
+  'Elemento cuyo desplazamiento se escucha: `\'window\'` o `\'parent\'`.':
+    'Element whose scroll is listened to: `\'window\'` or `\'parent\'`.',
+  'Píxeles desplazados a partir de los cuales se muestra el botón.':
+    'Scrolled pixels after which the button is shown.',
+  'Comportamiento del scroll al volver arriba.': 'Scroll behavior when going back to top.',
+  'Nombre del icono de `<cb-icon>`.': '`<cb-icon>` icon name.',
+  'Etiqueta accesible para el botón.': 'Accessible label for the button.',
+  'Texto del acceso directo.': 'Shortcut text.',
+  'Icono del set núcleo.': 'Icon from the core set.',
+  'Deshabilita el acceso.': 'Disables the shortcut.',
+  'Emite al activar el acceso.': 'Emits when the shortcut is activated.',
+  'Ancho CSS (p. ej. `100%`, `12rem`).': 'CSS width (e.g. `100%`, `12rem`).',
+  'Alto CSS. En `circle` se iguala al ancho.': 'CSS height. In `circle` it matches the width.',
+  'Tamaño en píxeles.': 'Size in pixels.',
+  'Grosor del trazo.': 'Stroke width.',
+  'Orientación de la división: `\'horizontal\'` (lado a lado) o `\'vertical\'` (apilados).':
+    'Split orientation: `\'horizontal\'` (side by side) or `\'vertical\'` (stacked).',
+  'Grosor del separador en píxeles.': 'Gutter thickness in pixels.',
+  'Paso porcentual al redimensionar con teclado.':
+    'Percentage step when resizing with the keyboard.',
+  'Tamaño inicial del panel en porcentaje (0–100).': 'Initial panel size as a percentage (0–100).',
+  'Tamaño mínimo permitido en porcentaje (0–100).': 'Minimum allowed size as a percentage (0–100).',
+  'Emitido al finalizar un ajuste de tamaño.': 'Emitted when a resize ends.',
+  'Paso actual (1-based).': 'Current step (1-based).',
+  'Número total de pasos.': 'Total number of steps.',
+  'Leyenda del paso actual.': 'Caption of the current step.',
+  'Muestra los botones Atrás/Siguiente integrados.': 'Shows the built-in Back/Next buttons.',
+  'Etiqueta visible junto al control.': 'Visible label next to the control.',
+  'Coloca la etiqueta a la izquierda del control.': 'Places the label on the left of the control.',
+  'Marca el control como requerido (`aria-required`).':
+    'Marks the control as required (`aria-required`).',
+  'Estado del switch (two-way: `[(checked)]`).': 'Switch state (two-way: `[(checked)]`).',
+  'Esquinas totalmente redondeadas (pill).': 'Fully rounded corners (pill).',
+  'Texto del tag.': 'Tag text.',
+  'Estado seleccionado (two-way: `[(selected)]`).': 'Selected state (two-way: `[(selected)]`).',
+  'Emite el nuevo estado al pulsar.': 'Emits the new state when pressed.',
+  'Número de filas inicial.': 'Initial number of rows.',
+  'Crece automáticamente con el contenido (ignora el scroll vertical).':
+    'Grows automatically with the content (ignores vertical scroll).',
+  'Límite de caracteres; muestra un contador cuando se define.':
+    'Character limit; shows a counter when set.',
+  'Id del textarea; se genera uno estable si no se provee.':
+    'Textarea id; a stable one is generated if not provided.',
+  'Etiqueta accesible para el contenedor `role="toolbar"`.':
+    'Accessible label for the `role="toolbar"` container.',
+  'Pantallas de estado estilo Atlantis: Access Denied y Error, con mensaje grande centrado sobre fondo oscuro y botón de regreso.':
+    'Atlantis-style status screens: Access Denied and Error, with a large centered message on a dark background and a back button.',
+  'Acceso denegado': 'Access denied',
+  '404 · No encontrada': '404 · Not found',
+  'Mantenimiento': 'Maintenance',
+  'Preguntas frecuentes': 'Frequently asked questions',
+  'Acciones rápidas sobre una tarjeta': 'Quick actions on a card',
+  'Archivos': 'Files',
+  'Tarjeta de categoría/almacenamiento genérica: icono con tinte, título y subtítulo, más dos valores a la derecha. Pieza base de un gestor de archivos tipo Drive.':
+    'Generic category/storage card: tinted icon, title and subtitle, plus two values on the right. The building block of a Drive-like file manager.',
+  'Icono con color, título + subtítulo a la izquierda y dos valores a la derecha.':
+    'Colored icon, title + subtitle on the left and two values on the right.',
+  'Varias file-card forman la sección \'All Media\' de un gestor de archivos.':
+    'Several file-cards make up the \'All Media\' section of a file manager.',
+  'Rejilla de categorías': 'Category grid',
+  'Gestor de archivos tipo Drive compuesto con cb-file-card y cb-folder-card, más un donut de almacenamiento y una tabla de archivos recientes.':
+    'Drive-like file manager composed with cb-file-card and cb-folder-card, plus a storage donut and a recent files table.',
+  'Navegación con vistas': 'Navigation with views',
+  'Pulsa Tab dentro del recuadro para comprobar cómo el foco cicla entre sus elementos.':
+    'Press Tab inside the box to see how focus cycles through its elements.',
+  'Contenedor con foco confinado': 'Container with trapped focus',
+  'Tarjeta de carpeta genérica: icono de carpeta, nombre y una fila con número de archivos y tamaño. Proyecta un menú de acciones por [cb-folder-actions].':
+    'Generic folder card: folder icon, name and a row with file count and size. Projects an actions menu through [cb-folder-actions].',
+  'Nombre, número de archivos y tamaño. Un botón de acciones proyectado en la esquina.':
+    'Name, file count and size. An actions button projected in the corner.',
+  'Varias folder-card forman la sección \'All Folders\' de un gestor de archivos.':
+    'Several folder-cards make up the \'All Folders\' section of a file manager.',
+  'Rejilla de carpetas': 'Folder grid',
+  'Recuperar contraseña con layout dividido estilo Atlantis: ingresa el correo para recibir el enlace de restablecimiento.':
+    'Atlantis-style split-layout password recovery: enter your email to receive the reset link.',
+  'App header con acciones': 'App header with actions',
+  'Camiseta verde': 'Green t-shirt',
+  'Control de juego': 'Game controller',
+  'Mini altavoces': 'Mini speakers',
+  'Factura / recibo imprimible: encabezado con empresa y datos, destinatario, tabla de conceptos y totales. Composición con componentes CaribeNG.':
+    'Printable invoice/receipt: header with company details, recipient, line items table and totals. Composed with CaribeNG components.',
+  'Bloqueo de pantalla con layout dividido estilo Atlantis: avatar del usuario y contraseña para desbloquear.':
+    'Atlantis-style split-layout lock screen: user avatar and password to unlock.',
+  'Inicio de sesión con layout dividido (imagen + panel oscuro), estilo Atlantis. Hecho con componentes CaribeNG y Reactive Forms.':
+    'Split-layout sign-in (image + dark panel), Atlantis style. Built with CaribeNG components and Reactive Forms.',
+  'Soporta versión horizontal completa, isotipo (escudo Angular-Caribe para favicons y barras compactas), vertical apilada y monocromática.':
+    'Supports the full horizontal version, the isotype (Angular-Caribe shield for favicons and compact bars), stacked vertical and monochrome.',
+  'Formatos del Logo Corporativo': 'Corporate logo formats',
+  'Versión Negativa (Fondos Oscuros)': 'Negative version (dark backgrounds)',
+  'Identidad corporativa vectorial de CaribeNG en múltiples formatos (Horizontal, Isotipo/Escudo, Vertical, Monocromático y Negativo), inspirada en PrimeNG y NG-ZORRO.':
+    'CaribeNG vector corporate identity in multiple formats (Horizontal, Isotype/Shield, Vertical, Monochrome and Negative), inspired by PrimeNG and NG-ZORRO.',
+  'Barra de navegación de aplicación: marca, menú principal con submenú desplegable (cb-menubar), búsqueda, notificaciones, CTA y avatar. Responsive.':
+    'Application navigation bar: brand, main menu with dropdown submenu (cb-menubar), search, notifications, CTA and avatar. Responsive.',
+  'Panel de filtros': 'Filters panel',
+  'Escribe para evaluar la complejidad de la contraseña en tiempo real.':
+    'Type to evaluate the password strength in real time.',
+  'Con medidor de fortaleza y máscara': 'With strength meter and mask',
+  'Para diseñadores y freelancers.': 'For designers and freelancers.',
+  'Para proyectos comerciales.': 'For commercial projects.',
+  'Para equipos de más de 5 personas.': 'For teams of more than 5 people.',
+  'Tabla de precios genérica y data-driven: selector Mensual/Anual opcional, planes con características, plan destacado y evento al elegir.':
+    'Generic, data-driven pricing table: optional Monthly/Yearly switch, plans with features, highlighted plan and an event when choosing.',
+  'Pasa los planes y enlaza billing con two-way binding para el selector Mensual/Anual.':
+    'Pass the plans and bind billing with two-way binding for the Monthly/Yearly switch.',
+  'layout="horizontal" dispone cada plan como una fila: cabecera y precio a la izquierda, características en el centro y CTA a la derecha.':
+    'layout="horizontal" lays out each plan as a row: header and price on the left, features in the middle and CTA on the right.',
+  'Con showToggle=false se ocultan Mensual/Anual y se muestran los precios mensuales.':
+    'With showToggle=false the Monthly/Yearly switch is hidden and monthly prices are shown.',
+  'Sin selector': 'Without switch',
+  'Página de precios lista para copiar, construida con el componente genérico cb-pricing: toggle Mensual/Anual, planes y plan destacado.':
+    'Copy-ready pricing page built with the generic cb-pricing component: Monthly/Yearly toggle, plans and highlighted plan.',
+  'Registro con layout dividido estilo Atlantis: usuario, correo, contraseña y aceptación de términos. Con componentes CaribeNG y Reactive Forms.':
+    'Atlantis-style split-layout sign-up: username, email, password and terms acceptance. With CaribeNG components and Reactive Forms.',
+  'Establecer una nueva contraseña (tras el enlace de recuperación), con layout dividido estilo Atlantis y validación de confirmación.':
+    'Set a new password (after the recovery link), with an Atlantis-style split layout and confirmation validation.',
+  'Panel de accesos rápidos': 'Quick access panel',
+  'Flujo de transferencia': 'Transfer flow',
+  'Haz clic en el botón para alternar la clase sobre el elemento @next.':
+    'Click the button to toggle the class on the @next element.',
+  'Alternar visibilidad sin código TypeScript': 'Toggle visibility without TypeScript code',
+  'Tabla de datos con columnas declarativas, ordenación, paginación, selección y celdas personalizadas (avatares, estados y acciones).':
+    'Data table with declarative columns, sorting, pagination, selection and custom cells (avatars, statuses and actions).',
+  'Celda de usuario con cb-avatar (imagen/iniciales) + nombre y correo, y estado con cb-tag coloreado por severidad.':
+    'User cell with cb-avatar (image/initials) + name and email, and a status with cb-tag colored by severity.',
+  'Columna de acciones con cb-icon-button (ver / editar / eliminar) usando plantilla de celda.':
+    'Actions column with cb-icon-button (view / edit / delete) using a cell template.',
+  'Tabla con cabecera (título, contador, búsqueda y acción), avatares, estados, acciones y paginación. Composición lista para producción.':
+    'Table with a header (title, counter, search and action), avatars, statuses, actions and pagination. A production-ready composition.',
+  'Con avatares y estados': 'With avatars and statuses',
+  'Con acciones (botones de icono)': 'With actions (icon buttons)',
+  'Completo (PRO) · con header/toolbar': 'Full (PRO) · with header/toolbar',
+  'Modo oscuro': 'Dark mode',
+  'Verificación en dos pasos con layout dividido estilo Atlantis: código de 6 dígitos de la app de autenticación.':
+    'Atlantis-style split-layout two-step verification: 6-digit code from the authenticator app.',
+  'Verificación por código de un solo uso con layout dividido estilo Atlantis: 4 dígitos, verificar o cancelar, reenviar.':
+    'Atlantis-style split-layout one-time code verification: 4 digits, verify or cancel, resend.',
 };

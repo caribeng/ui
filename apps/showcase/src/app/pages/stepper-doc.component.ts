@@ -15,15 +15,15 @@ import { TocService } from '../services/toc.service';
     DocPageHeaderComponent,
   ],
   template: `
-    <doc-page-header eyebrow="Panel" title="Stepper" lead="Asistente por pasos con indicadores, pasos completados y navegación integrada." />
+    <doc-page-header eyebrow="Paneles" title="Stepper" lead="Asistente por pasos con indicadores, pasos completados y navegación integrada." />
 
-    <doc-section id="import" title="Import">
+    <doc-section id="import" title="Importación">
       <doc-code-block [code]="installCode" lang="bash" />
       <br />
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
 
-    <doc-section id="basic" title="Basic" description="Usa los botones Atrás/Siguiente o haz clic en un indicador." [code]="basicCode">
+    <doc-section id="basic" title="Básico" description="Usa los botones Atrás/Siguiente o haz clic en un indicador." [code]="basicCode">
       <cb-stepper style="width: 100%">
         <cb-step label="Cuenta">
           <p style="margin: 0">Crea tu cuenta con correo y contraseña.</p>

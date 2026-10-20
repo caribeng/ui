@@ -19,17 +19,15 @@ import { TocService } from '../services/toc.service';
     DocPageHeaderComponent,
   ],
   template: `
-    <doc-page-header eyebrow="Panel" title="Card" lead="Contenedor con encabezado opcional, cuerpo y pie." />
+    <doc-page-header eyebrow="Paneles" title="Card" lead="Contenedor con encabezado opcional, cuerpo y pie." />
 
-    <doc-playground [api]="docApi" />
-
-    <doc-section id="import" title="Import">
+    <doc-section id="import" title="Importación">
       <doc-code-block [code]="installCode" lang="bash" />
       <br />
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
 
-    <doc-section id="basic" title="Basic" [code]="basicCode">
+    <doc-section id="basic" title="Básico" [code]="basicCode">
       <div style="max-width: 360px">
         <cb-card header="Plan Pro" subtitle="Facturación mensual">
           <p style="margin: 0; color: var(--cb-color-text-muted)">
@@ -39,7 +37,7 @@ import { TocService } from '../services/toc.service';
       </div>
     </doc-section>
 
-    <doc-section id="footer" title="Con pie (footer)" description="Proyecta acciones con el atributo cb-card-footer." [code]="footerCode">
+    <doc-section id="footer" title="Con pie de página" description="Proyecta acciones con el atributo cb-card-footer." [code]="footerCode">
       <div style="max-width: 360px">
         <cb-card header="¿Eliminar proyecto?" subtitle="Esta acción no se puede deshacer">
           <p style="margin: 0; color: var(--cb-color-text-muted)">
@@ -60,6 +58,8 @@ import { TocService } from '../services/toc.service';
         </cb-card>
       </div>
     </doc-section>
+
+    <doc-playground [api]="docApi" />
   `,
 })
 export class CardDocComponent {

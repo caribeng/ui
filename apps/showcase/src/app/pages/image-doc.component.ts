@@ -12,10 +12,9 @@ import { TocService } from '../services/toc.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [DocPlaygroundComponent, CbImage, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
-    <doc-page-header eyebrow="Media" title="Image" lead="Componente de imagen con visor lightbox y zoom integrado." />
-    <doc-playground [api]="docApi" />
+    <doc-page-header eyebrow="Multimedia" title="Image" lead="Componente de imagen con visor lightbox y zoom integrado." />
 
-    <doc-section id="import" title="Import">
+    <doc-section id="import" title="Importación">
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
     <doc-section id="basic" title="Con Preview" [code]="basicCode">
@@ -26,6 +25,8 @@ import { TocService } from '../services/toc.service';
         [preview]="true"
       />
     </doc-section>
+
+    <doc-playground [api]="docApi" />
   `,
 })
 export class ImageDocComponent {

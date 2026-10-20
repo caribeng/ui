@@ -12,20 +12,20 @@ import { TocService } from '../services/toc.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [DocPlaygroundComponent, CbMenubar, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
-    <doc-page-header eyebrow="Menu" title="Menubar" lead="Barra horizontal de navegación con submenús y soporte de teclado." />
+    <doc-page-header eyebrow="Menús" title="Menubar" lead="Barra horizontal de navegación con submenús y soporte de teclado." />
 
-    <doc-playground [api]="docApi" />
-
-    <doc-section id="import" title="Import">
+    <doc-section id="import" title="Importación">
       <doc-code-block [code]="installCode" lang="bash" />
       <br />
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
 
-    <doc-section id="basic" title="Basic" description="Usa las flechas para recorrer la barra y abrir un submenú." [code]="basicCode" [codeTs]="itemsCode">
+    <doc-section id="basic" title="Básico" description="Usa las flechas para recorrer la barra y abrir un submenú." [code]="basicCode" [codeTs]="itemsCode">
       <cb-menubar [items]="items" ariaLabel="Navegación de la tienda" (itemSelect)="selected.set($event.label)" />
       <p style="margin: 0.75rem 0 0; color: var(--cb-color-text-muted); font-size: 0.875rem">Selección: {{ selected() || 'ninguna' }}</p>
     </doc-section>
+
+    <doc-playground [api]="docApi" />
   `,
 })
 export class MenubarDocComponent {

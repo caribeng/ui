@@ -25,18 +25,18 @@ import { TocService } from '../services/toc.service';
   ],
   template: `
     <doc-page-header
-      eyebrow="Form"
+      eyebrow="Formulario"
       title="InputGroup"
       lead="Agrupa un control con addons (texto o icono) y botones, uniéndolos visualmente."
     />
 
-    <doc-section id="import" title="Import">
+    <doc-section id="import" title="Importación">
       <doc-code-block [code]="installCode" lang="bash" />
       <br />
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
 
-    <doc-section id="basic" title="Basic" description="Addon de texto o icono antes del control." [code]="basicCode">
+    <doc-section id="basic" title="Básico" description="Addon de texto o icono antes del control." [code]="basicCode">
       <div style="display: flex; flex-direction: column; gap: 1rem; max-width: 340px">
         <cb-input-group>
           <cb-input-group-addon>&#64;</cb-input-group-addon>

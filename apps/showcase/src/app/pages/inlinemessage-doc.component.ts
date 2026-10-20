@@ -12,10 +12,9 @@ import { TocService } from '../services/toc.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [DocPlaygroundComponent, CbInlineMessage, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
-    <doc-page-header eyebrow="Messages" title="InlineMessage" lead="Mensaje compacto en línea para retroalimentación inmediata de formularios." />
-    <doc-playground [api]="docApi" />
+    <doc-page-header eyebrow="Mensajes" title="InlineMessage" lead="Mensaje compacto en línea para retroalimentación inmediata de formularios." />
 
-    <doc-section id="import" title="Import">
+    <doc-section id="import" title="Importación">
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
     <doc-section id="basic" title="Severidades" [code]="basicCode">
@@ -26,6 +25,8 @@ import { TocService } from '../services/toc.service';
         <cb-inline-message severity="danger" text="Campo requerido" />
       </div>
     </doc-section>
+
+    <doc-playground [api]="docApi" />
   `,
 })
 export class InlinemessageDocComponent {

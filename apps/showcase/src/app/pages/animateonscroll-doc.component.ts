@@ -13,7 +13,7 @@ const BASIC_CODE = `<div cbAnimateOnScroll enterClass="cb-fade-in">
   imports: [CbDocPageComponent, CbDocExampleComponent, CbAnimateOnScrollDirective],
   template: `
     <cb-doc-page
-      category="Misc"
+      category="Varios"
       title="AnimateOnScroll"
       subtitle="Directiva que observa la intersección con el viewport y aplica clases CSS de entrada/salida."
       importCode="import { CbAnimateOnScrollDirective } from '@caribeng/ui/animateonscroll';"

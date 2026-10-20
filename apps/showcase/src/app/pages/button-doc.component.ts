@@ -19,20 +19,12 @@ import { TocService } from '../services/toc.service';
   ],
   template: `
     <doc-page-header
-      eyebrow="Form"
+      eyebrow="Formulario"
       title="Button"
       lead="Botón accesible con severidades, variantes, tamaños y estado de carga."
     />
 
-    <doc-section
-      id="playground"
-      title="Playground"
-      description="Ajusta las propiedades y observa el componente en vivo."
-    >
-      <doc-playground [api]="playground" />
-    </doc-section>
-
-    <doc-section id="import" title="Import">
+    <doc-section id="import" title="Importación">
       <doc-code-block [code]="installCode" lang="bash" />
       <br />
       <doc-code-block [code]="importCode" lang="typescript" />
@@ -40,7 +32,7 @@ import { TocService } from '../services/toc.service';
 
     <doc-section
       id="basic"
-      title="Basic"
+      title="Básico"
       description="El contenido se proyecta dentro del botón. El evento click nativo funciona con (click)."
       [code]="basicCode"
     >
@@ -49,7 +41,7 @@ import { TocService } from '../services/toc.service';
 
     <doc-section
       id="severity"
-      title="Severity"
+      title="Severidad"
       description="Ocho severidades semánticas alineadas con la paleta del tema."
       [code]="severityCode"
     >
@@ -71,7 +63,7 @@ import { TocService } from '../services/toc.service';
 
     <doc-section
       id="sizes"
-      title="Sizes"
+      title="Tamaños"
       description="Tres tamaños: sm, md (por defecto) y lg."
       [code]="sizesCode"
     >
@@ -82,7 +74,7 @@ import { TocService } from '../services/toc.service';
 
     <doc-section
       id="loading"
-      title="Loading"
+      title="Cargando"
       description="Muestra un spinner y bloquea la interacción (aria-busy)."
       [code]="loadingCode"
     >
@@ -94,7 +86,7 @@ import { TocService } from '../services/toc.service';
 
     <doc-section
       id="disabled"
-      title="Disabled"
+      title="Deshabilitado"
       description="El botón deshabilitado no es interactivo."
       [code]="disabledCode"
     >
@@ -103,6 +95,8 @@ import { TocService } from '../services/toc.service';
         Eliminar
       </cb-button>
     </doc-section>
+
+    <doc-playground [api]="playground" />
   `,
 })
 export class ButtonDocComponent {

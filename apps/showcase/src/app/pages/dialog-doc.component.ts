@@ -20,14 +20,12 @@ import { TocService } from '../services/toc.service';
   ],
   template: `
     <doc-page-header
-      eyebrow="Overlay"
+      eyebrow="Overlays"
       title="Dialog"
       lead="Modal sobre CDK Overlay con trampa de foco, bloqueo de scroll, cierre con Escape/backdrop y restauración de foco."
     />
 
-    <doc-playground [api]="docApi" />
-
-    <doc-section id="import" title="Import">
+    <doc-section id="import" title="Importación">
       <doc-code-block [code]="installCode" lang="bash" />
       <br />
       <doc-code-block [code]="importCode" lang="typescript" />
@@ -35,7 +33,7 @@ import { TocService } from '../services/toc.service';
 
     <doc-section
       id="basic"
-      title="Basic"
+      title="Básico"
       description="Controla la visibilidad con [(visible)]. Prueba Escape o clic en el fondo."
       [code]="basicCode"
       [codeTs]="basicTs"
@@ -51,7 +49,7 @@ import { TocService } from '../services/toc.service';
 
     <doc-section
       id="footer"
-      title="Con footer"
+      title="Con pie de página"
       description="Proyecta acciones con el atributo cb-dialog-footer."
       [code]="footerCode"
       [codeTs]="footerTs"
@@ -89,6 +87,8 @@ import { TocService } from '../services/toc.service';
         </div>
       </cb-dialog>
     </doc-section>
+
+    <doc-playground [api]="docApi" />
   `,
 })
 export class DialogDocComponent {

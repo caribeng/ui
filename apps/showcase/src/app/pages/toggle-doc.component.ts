@@ -20,14 +20,12 @@ import { TocService } from '../services/toc.service';
   ],
   template: `
     <doc-page-header
-      eyebrow="Form"
+      eyebrow="Formulario"
       title="Toggle"
       lead="Switch booleano con ControlValueAccessor y role=&quot;switch&quot; para accesibilidad."
     />
 
-    <doc-playground [api]="docApi" />
-
-    <doc-section id="import" title="Import">
+    <doc-section id="import" title="Importación">
       <doc-code-block [code]="installCode" lang="bash" />
       <br />
       <doc-code-block [code]="importCode" lang="typescript" />
@@ -35,7 +33,7 @@ import { TocService } from '../services/toc.service';
 
     <doc-section
       id="basic"
-      title="Basic"
+      title="Básico"
       description="Enlázalo con Angular Forms o two-way binding."
       [code]="basicCode"
       [codeTs]="basicTs"
@@ -48,7 +46,7 @@ import { TocService } from '../services/toc.service';
 
     <doc-section
       id="sizes"
-      title="Sizes"
+      title="Tamaños"
       description="sm, md (por defecto) y lg."
       [code]="sizesCode"
     >
@@ -70,6 +68,8 @@ import { TocService } from '../services/toc.service';
         <cb-toggle [formControl]="encendidoFijo" label="Encendido y deshabilitado" />
       </div>
     </doc-section>
+
+    <doc-playground [api]="docApi" />
   `,
 })
 export class ToggleDocComponent {

@@ -4,7 +4,7 @@ import { DOC_API } from '../components/doc-api-registry';
 import { CbStepIndicator } from '@caribeng/ui/caribe/step-indicator';
 import { CbCardContent } from '@caribeng/ui/caribe/card-content';
 import { CbButton } from '@caribeng/ui/button';
-import { CbDocApiRow, CbDocPageComponent } from '../components/doc-page.component';
+import { CbDocPageComponent } from '../components/doc-page.component';
 import { CbDocExampleComponent } from '../components/doc-example.component';
 
 @Component({
@@ -17,7 +17,6 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
       title="StepIndicator"
       subtitle="Indicador compacto del progreso por pasos en flujos asistidos."
       importCode="import { CbStepIndicator } from '@caribeng/ui/caribe/step-indicator';"
-      [api]="api"
     >
       <cb-doc-example title="Paso actual" code='<cb-step-indicator [currentStep]="2" [totalSteps]="4" label="Confirmación" />'>
         <cb-step-indicator [currentStep]="2" [totalSteps]="4" label="Confirmación" />
@@ -54,9 +53,4 @@ export class StepIndicatorDocComponent {
 <cb-button variant="outlined" [disabled]="current() === 1" (click)="prev()">Back</cb-button>
 <cb-button (click)="next()">{{ current() === 3 ? 'Finish' : 'Next' }}</cb-button>`;
 
-  protected readonly api: CbDocApiRow[] = [
-    { name: 'currentStep', type: 'number', default: '1', description: 'Número del paso actual.' },
-    { name: 'totalSteps', type: 'number', default: '4', description: 'Total de pasos del flujo.' },
-    { name: 'label', type: 'string', default: "'Datos de destino'", description: 'Título descriptivo del paso.' },
-  ];
 }

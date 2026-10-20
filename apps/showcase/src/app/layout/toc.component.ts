@@ -7,14 +7,15 @@ import {
   inject,
 } from '@angular/core';
 import { TocService } from '../services/toc.service';
+import { I18nService } from '../services/i18n.service';
 
 @Component({
   selector: 'doc-toc',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     @if (toc.entries().length) {
-      <nav class="toc" aria-label="En esta página">
-        <p class="toc__title">En esta página</p>
+      <nav class="toc" [attr.aria-label]="i18n.t('En esta página', 'On this page')">
+        <p class="toc__title">{{ i18n.t('En esta página', 'On this page') }}</p>
         <ul class="toc__list">
           @for (entry of toc.entries(); track entry.id) {
             <li>
@@ -24,7 +25,7 @@ import { TocService } from '../services/toc.service';
                 [href]="'#' + entry.id"
                 (click)="scrollTo($event, entry.id)"
               >
-                {{ entry.label }}
+                {{ i18n.auto(entry.label) }}
               </a>
             </li>
           }
@@ -36,6 +37,7 @@ import { TocService } from '../services/toc.service';
 })
 export class TocComponent {
   protected readonly toc = inject(TocService);
+  protected readonly i18n = inject(I18nService);
   private readonly document = inject(DOCUMENT);
   private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
   private observer?: IntersectionObserver;

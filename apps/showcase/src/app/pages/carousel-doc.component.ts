@@ -12,15 +12,16 @@ import { TocService } from '../services/toc.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [DocPlaygroundComponent, CbCarousel, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
-    <doc-page-header eyebrow="Media" title="Carousel" lead="Carrusel accesible de contenido con navegación e indicadores." />
-    <doc-playground [api]="docApi" />
+    <doc-page-header eyebrow="Multimedia" title="Carousel" lead="Carrusel accesible de contenido con navegación e indicadores." />
 
-    <doc-section id="import" title="Import">
+    <doc-section id="import" title="Importación">
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
     <doc-section id="basic" title="Básico" [code]="basicCode">
       <cb-carousel [items]="items" style="width: 100%" />
     </doc-section>
+
+    <doc-playground [api]="docApi" />
   `,
 })
 export class CarouselDocComponent {

@@ -18,14 +18,12 @@ import { TocService } from '../services/toc.service';
   ],
   template: `
     <doc-page-header
-      eyebrow="Panel"
+      eyebrow="Paneles"
       title="ScrollTop"
       lead="Botón flotante que aparece al superar un umbral de desplazamiento para volver rápidamente al inicio."
     />
 
-    <doc-playground [api]="docApi" />
-
-    <doc-section id="import" title="Import">
+    <doc-section id="import" title="Importación">
       <doc-code-block [code]="installCode" lang="bash" />
       <br />
       <doc-code-block [code]="importCode" lang="typescript" />
@@ -57,6 +55,8 @@ import { TocService } from '../services/toc.service';
         <cb-scroll-top target="parent" [threshold]="60" />
       </div>
     </doc-section>
+
+    <doc-playground [api]="docApi" />
   `,
 })
 export class ScrolltopDocComponent {

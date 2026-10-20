@@ -12,15 +12,16 @@ import { TocService } from '../services/toc.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [DocPlaygroundComponent, CbFileUpload, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
-    <doc-page-header eyebrow="Form" title="FileUpload" lead="Selector de archivos con soporte de arrastrar y soltar y lista de adjuntos." />
-    <doc-playground [api]="docApi" />
+    <doc-page-header eyebrow="Formulario" title="FileUpload" lead="Selector de archivos con soporte de arrastrar y soltar y lista de adjuntos." />
 
-    <doc-section id="import" title="Import">
+    <doc-section id="import" title="Importación">
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
     <doc-section id="basic" title="Básico" [code]="basicCode">
       <cb-file-upload [multiple]="true" style="width: 100%" />
     </doc-section>
+
+    <doc-playground [api]="docApi" />
   `,
 })
 export class FileuploadDocComponent {

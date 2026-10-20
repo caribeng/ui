@@ -49,7 +49,7 @@ interface UtilGroup {
   imports: [DocPageHeaderComponent, DocSectionComponent],
   template: `
     <doc-page-header
-      eyebrow="Foundations"
+      eyebrow="Fundamentos"
       [title]="i18n.t('Utilidades CSS', 'CSS Utilities')"
       [lead]="
         i18n.t(

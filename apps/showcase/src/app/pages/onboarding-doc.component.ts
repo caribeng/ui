@@ -14,10 +14,9 @@ import { I18nService } from '../services/i18n.service';
   imports: [DocPlaygroundComponent, CbOnboarding, CbIllustration, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
     <doc-page-header eyebrow="Caribe Design" title="Onboarding" lead="Onboarding para interfaces accesibles, con estilos basados en tokens CaribeNG." />
-    <doc-playground [api]="docApi" />
 
-    <doc-section id="import" title="Import"><doc-code-block [code]="importCode" lang="typescript" /></doc-section>
-    <doc-section id="basic" title="Uso basico" [code]="exampleCode"><cb-onboarding [steps]="steps" /></doc-section>
+    <doc-section id="import" title="Importación"><doc-code-block [code]="importCode" lang="typescript" /></doc-section>
+    <doc-section id="basic" title="Básico" [code]="exampleCode"><cb-onboarding [steps]="steps" /></doc-section>
 
     <doc-section
       id="composed"
@@ -35,6 +34,8 @@ import { I18nService } from '../services/i18n.service';
         <p>Manage your money securely from anywhere, anytime.</p>
       </cb-onboarding>
     </doc-section>
+
+    <doc-playground [api]="docApi" />
   `,
 })
 export class OnboardingDocComponent {

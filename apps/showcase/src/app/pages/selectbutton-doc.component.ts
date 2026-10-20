@@ -12,11 +12,9 @@ import { TocService } from '../services/toc.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [DocPlaygroundComponent, CbSelectButton, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
-    <doc-page-header eyebrow="Form" title="SelectButton" lead="Grupo de botones segmentados para elegir una o varias opciones." />
+    <doc-page-header eyebrow="Formulario" title="SelectButton" lead="Grupo de botones segmentados para elegir una o varias opciones." />
 
-    <doc-playground [api]="docApi" />
-
-    <doc-section id="import" title="Import">
+    <doc-section id="import" title="Importación">
       <doc-code-block [code]="installCode" lang="bash" />
       <br />
       <doc-code-block [code]="importCode" lang="typescript" />
@@ -35,6 +33,8 @@ import { TocService } from '../services/toc.service';
         {{ dias().join(', ') || '—' }}
       </p>
     </doc-section>
+
+    <doc-playground [api]="docApi" />
   `,
 })
 export class SelectbuttonDocComponent {

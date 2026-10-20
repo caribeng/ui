@@ -12,7 +12,7 @@ import { TocService } from '../services/toc.service';
   imports: [CbButton, DocPageHeaderComponent, DocSectionComponent, AuthShellComponent],
   template: `
     <doc-page-header
-      eyebrow="Template"
+      eyebrow="Plantillas"
       title="Two-Factor (2FA)"
       lead="Verificación en dos pasos con layout dividido estilo Atlantis: código de 6 dígitos de la app de autenticación."
     />

@@ -13,7 +13,7 @@ import { I18nService } from '../services/i18n.service';
   imports: [RouterLink, CbButton, CbIcon, CodeBlockComponent, DocPageHeaderComponent],
   template: `
     <doc-page-header
-      eyebrow="Foundations"
+      eyebrow="Fundamentos"
       title="CaribeNG"
       lead="Sistema de diseño y librería de componentes para Angular 22+, independiente de terceros. Signals, OnPush, standalone y tree-shaking por componente."
     />

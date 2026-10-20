@@ -20,14 +20,12 @@ import { TocService } from '../services/toc.service';
   ],
   template: `
     <doc-page-header
-      eyebrow="Form"
+      eyebrow="Formulario"
       title="InputNumber"
       lead="Campo numérico con botones de paso, formato por locale/moneda y ControlValueAccessor."
     />
 
-    <doc-playground [api]="docApi" />
-
-    <doc-section id="import" title="Import">
+    <doc-section id="import" title="Importación">
       <doc-code-block [code]="installCode" lang="bash" />
       <br />
       <doc-code-block [code]="importCode" lang="typescript" />
@@ -35,7 +33,7 @@ import { TocService } from '../services/toc.service';
 
     <doc-section
       id="basic"
-      title="Basic"
+      title="Básico"
       description="El modelo es number | null. Usa las flechas del teclado para subir/bajar."
       [code]="basicCode"
     >
@@ -101,11 +99,13 @@ import { TocService } from '../services/toc.service';
       </div>
     </doc-section>
 
-    <doc-section id="disabled" title="Disabled" [code]="disabledCode">
+    <doc-section id="disabled" title="Deshabilitado" [code]="disabledCode">
       <div style="width: 100%; max-width: 240px">
         <cb-input-number [disabled]="true" [value]="42" showButtons label="No editable" />
       </div>
     </doc-section>
+
+    <doc-playground [api]="docApi" />
   `,
 })
 export class InputNumberDocComponent {

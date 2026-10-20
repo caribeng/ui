@@ -15,10 +15,9 @@ import { I18nService } from '../services/i18n.service';
   imports: [DocPlaygroundComponent, CbCardPrimary, CbShortcut, CbProgressBar, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
     <doc-page-header eyebrow="Caribe Design" title="Card Primary" lead="Card Primary para interfaces accesibles, con estilos basados en tokens CaribeNG." />
-    <doc-playground [api]="docApi" />
 
-    <doc-section id="import" title="Import"><doc-code-block [code]="importCode" lang="typescript" /></doc-section>
-    <doc-section id="basic" title="Uso basico" [code]="exampleCode"><cb-card-primary title="Cuenta de ahorros" subtitle="**** 2048" value="$ 2.450.000" /></doc-section>
+    <doc-section id="import" title="Importación"><doc-code-block [code]="importCode" lang="typescript" /></doc-section>
+    <doc-section id="basic" title="Básico" [code]="exampleCode"><cb-card-primary title="Cuenta de ahorros" subtitle="**** 2048" value="$ 2.450.000" /></doc-section>
 
     <doc-section
       id="composed"
@@ -41,6 +40,8 @@ import { I18nService } from '../services/i18n.service';
         <cb-progress-bar [value]="68" label="Savings goal" />
       </div>
     </doc-section>
+
+    <doc-playground [api]="docApi" />
   `,
   styles: [
     `

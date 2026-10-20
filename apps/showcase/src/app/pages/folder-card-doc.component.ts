@@ -17,12 +17,12 @@ interface Folder {
   imports: [CbFolderCard, DocPageHeaderComponent, DocSectionComponent, CodeBlockComponent],
   template: `
     <doc-page-header
-      eyebrow="File"
+      eyebrow="Archivos"
       title="FolderCard"
       lead="Tarjeta de carpeta genérica: icono de carpeta, nombre y una fila con número de archivos y tamaño. Proyecta un menú de acciones por [cb-folder-actions]."
     />
 
-    <doc-section id="import" title="Import">
+    <doc-section id="import" title="Importación">
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
 

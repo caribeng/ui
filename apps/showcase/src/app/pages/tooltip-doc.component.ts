@@ -19,17 +19,15 @@ import { TocService } from '../services/toc.service';
     DocPageHeaderComponent,
   ],
   template: `
-    <doc-page-header eyebrow="Overlay" title="Tooltip" lead="Texto flotante al pasar el cursor o enfocar. Directiva [cbTooltip] sobre cualquier elemento." />
+    <doc-page-header eyebrow="Overlays" title="Tooltip" lead="Texto flotante al pasar el cursor o enfocar. Directiva [cbTooltip] sobre cualquier elemento." />
 
-    <doc-playground [api]="docApi" />
-
-    <doc-section id="import" title="Import">
+    <doc-section id="import" title="Importación">
       <doc-code-block [code]="installCode" lang="bash" />
       <br />
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
 
-    <doc-section id="basic" title="Basic" description="Añade cbTooltip a cualquier elemento interactivo." [code]="basicCode">
+    <doc-section id="basic" title="Básico" description="Añade cbTooltip a cualquier elemento interactivo." [code]="basicCode">
       <cb-button cbTooltip="Guarda los cambios">Guardar</cb-button>
     </doc-section>
 
@@ -41,6 +39,8 @@ import { TocService } from '../services/toc.service';
         <cb-button variant="outlined" cbTooltip="Derecha" cbTooltipPosition="right">Right</cb-button>
       </div>
     </doc-section>
+
+    <doc-playground [api]="docApi" />
   `,
 })
 export class TooltipDocComponent {

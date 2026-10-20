@@ -12,11 +12,9 @@ import { TocService } from '../services/toc.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [DocPlaygroundComponent, CbTag, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
-    <doc-page-header eyebrow="Messages" title="Tag" lead="Etiqueta para categorizar o marcar estado, con icono opcional." />
+    <doc-page-header eyebrow="Mensajes" title="Tag" lead="Etiqueta para categorizar o marcar estado, con icono opcional." />
 
-    <doc-playground [api]="docApi" />
-
-    <doc-section id="import" title="Import">
+    <doc-section id="import" title="Importación">
       <doc-code-block [code]="installCode" lang="bash" />
       <br />
       <doc-code-block [code]="importCode" lang="typescript" />
@@ -49,6 +47,8 @@ import { TocService } from '../services/toc.service';
         <cb-tag value="Beta" severity="info" rounded />
       </div>
     </doc-section>
+
+    <doc-playground [api]="docApi" />
   `,
 })
 export class TagDocComponent {

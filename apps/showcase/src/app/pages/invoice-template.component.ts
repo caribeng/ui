@@ -18,7 +18,7 @@ interface Line {
   imports: [CbIcon, CbButton, DocPageHeaderComponent, DocSectionComponent],
   template: `
     <doc-page-header
-      eyebrow="Template"
+      eyebrow="Plantillas"
       title="Invoice"
       lead="Factura / recibo imprimible: encabezado con empresa y datos, destinatario, tabla de conceptos y totales. Composición con componentes CaribeNG."
     />

@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { DocPlaygroundComponent } from '../components/doc-playground.component';
 import { DOC_API } from '../components/doc-api-registry';
 import { CbFileDownload } from '@caribeng/ui/caribe/file-download';
-import { CbDocApiRow, CbDocPageComponent } from '../components/doc-page.component';
+import { CbDocPageComponent } from '../components/doc-page.component';
 import { CbDocExampleComponent } from '../components/doc-example.component';
 
 @Component({
@@ -15,7 +15,6 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
       title="FileDownload"
       subtitle="Tarjeta de descarga de documentos, extractos y comprobantes."
       importCode="import { CbFileDownload } from '@caribeng/ui/caribe/file-download';"
-      [api]="api"
     >
       <cb-doc-example title="Descarga de certificado" code='<cb-file-download fileName="Extracto_Octubre.pdf" fileSize="1.2 MB" />'>
         <cb-file-download fileName="Extracto_Octubre.pdf" fileSize="1.2 MB" />
@@ -28,9 +27,4 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
 export class FileDownloadDocComponent {
   protected readonly docApi = DOC_API['cb-file-download'];
 
-  protected readonly api: CbDocApiRow[] = [
-    { name: 'fileName', type: 'string', default: "'Certificado_Bancario.pdf'", description: 'Nombre visible del archivo.' },
-    { name: 'fileSize', type: 'string', default: "'420 KB'", description: 'Tamaño formateado del archivo.' },
-    { name: 'download', type: 'OutputEmitterRef<string>', default: '—', description: 'Evento emitido al solicitar la descarga.' },
-  ];
 }

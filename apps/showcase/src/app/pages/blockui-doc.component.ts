@@ -21,10 +21,9 @@ import { TocService } from '../services/toc.service';
     DocPageHeaderComponent,
   ],
   template: `
-    <doc-page-header eyebrow="Misc" title="BlockUI" lead="Bloquea temporalmente un contenedor con una máscara accesible." />
-    <doc-playground [api]="docApi" />
+    <doc-page-header eyebrow="Varios" title="BlockUI" lead="Bloquea temporalmente un contenedor con una máscara accesible." />
 
-    <doc-section id="import" title="Import">
+    <doc-section id="import" title="Importación">
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
     <doc-section id="basic" title="Básico" [code]="basicCode">
@@ -41,6 +40,8 @@ import { TocService } from '../services/toc.service';
         </cb-block-ui>
       </div>
     </doc-section>
+
+    <doc-playground [api]="docApi" />
   `,
 })
 export class BlockuiDocComponent {

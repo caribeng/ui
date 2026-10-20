@@ -12,20 +12,21 @@ import { TocService } from '../services/toc.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [DocPlaygroundComponent, CbSpeedDial, CodeBlockComponent, DocPageHeaderComponent, DocSectionComponent],
   template: `
-    <doc-page-header eyebrow="Menu" title="SpeedDial" lead="Acciones rápidas que se despliegan desde un botón flotante." />
-    <doc-playground [api]="docApi" />
+    <doc-page-header eyebrow="Menús" title="SpeedDial" lead="Acciones rápidas que se despliegan desde un botón flotante." />
 
-    <doc-section id="import" title="Import">
+    <doc-section id="import" title="Importación">
       <doc-code-block [code]="installCode" lang="bash" />
       <br />
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
-    <doc-section id="basic" title="Basic" description="Pulsa el botón para desplegar acciones; elegir una acción cierra el menú." [code]="basicCode">
+    <doc-section id="basic" title="Básico" description="Pulsa el botón para desplegar acciones; elegir una acción cierra el menú." [code]="basicCode">
       <div style="display:flex;justify-content:center;align-items:center;min-height:14rem;width:100%">
         <cb-speed-dial [items]="items" direction="up" (itemSelect)="selected.set($event.label)" />
       </div>
       <p style="margin:.75rem 0 0;color:var(--cb-color-text-muted)">Acción: {{ selected() || 'ninguna' }}</p>
     </doc-section>
+
+    <doc-playground [api]="docApi" />
   `,
 })
 export class SpeedDialDocComponent {

@@ -20,14 +20,12 @@ import { TocService } from '../services/toc.service';
   ],
   template: `
     <doc-page-header
-      eyebrow="Panel"
+      eyebrow="Paneles"
       title="Panel"
       lead="Contenedor de agrupación con encabezado, cuerpo colapsable opcional y pie proyectado."
     />
 
-    <doc-playground [api]="docApi" />
-
-    <doc-section id="import" title="Import">
+    <doc-section id="import" title="Importación">
       <doc-code-block [code]="installCode" lang="bash" />
       <br />
       <doc-code-block [code]="importCode" lang="typescript" />
@@ -61,6 +59,8 @@ import { TocService } from '../services/toc.service';
         </div>
       </cb-panel>
     </doc-section>
+
+    <doc-playground [api]="docApi" />
   `,
 })
 export class PanelDocComponent {

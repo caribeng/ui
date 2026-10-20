@@ -25,12 +25,12 @@ const PAISES = [
   ],
   template: `
     <doc-page-header
-      eyebrow="Form"
+      eyebrow="Formulario"
       title="Autocomplete"
       lead="Campo de texto con sugerencias en overlay. El filtrado lo resuelve tu app vía (complete)."
     />
 
-    <doc-section id="import" title="Import">
+    <doc-section id="import" title="Importación">
       <doc-code-block [code]="installCode" lang="bash" />
       <br />
       <doc-code-block [code]="importCode" lang="typescript" />
@@ -38,7 +38,7 @@ const PAISES = [
 
     <doc-section
       id="basic"
-      title="Basic"
+      title="Básico"
       description="Escribe para disparar (complete); actualiza suggestions con el resultado filtrado."
       [code]="basicCode"
       [codeTs]="basicTs"

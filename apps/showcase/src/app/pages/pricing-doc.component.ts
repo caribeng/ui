@@ -11,12 +11,12 @@ import { TocService } from '../services/toc.service';
   imports: [CbPricing, DocPageHeaderComponent, DocSectionComponent, CodeBlockComponent],
   template: `
     <doc-page-header
-      eyebrow="Data"
+      eyebrow="Datos"
       title="Pricing"
       lead="Tabla de precios genérica y data-driven: selector Mensual/Anual opcional, planes con características, plan destacado y evento al elegir."
     />
 
-    <doc-section id="import" title="Import">
+    <doc-section id="import" title="Importación">
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
 

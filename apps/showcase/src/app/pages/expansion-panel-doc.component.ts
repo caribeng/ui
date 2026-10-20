@@ -3,7 +3,7 @@ import { DocPlaygroundComponent } from '../components/doc-playground.component';
 import { DOC_API } from '../components/doc-api-registry';
 import { CbExpansionPanel } from '@caribeng/ui/caribe/expansion-panel';
 import { CbInlineAlert } from '@caribeng/ui/caribe/inline-alert';
-import { CbDocApiRow, CbDocPageComponent } from '../components/doc-page.component';
+import { CbDocPageComponent } from '../components/doc-page.component';
 import { CbDocExampleComponent } from '../components/doc-example.component';
 
 @Component({
@@ -16,7 +16,6 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
       title="ExpansionPanel"
       subtitle="Panel desplegable para mostrar u ocultar detalles adicionales."
       importCode="import { CbExpansionPanel } from '@caribeng/ui/caribe/expansion-panel';"
-      [api]="api"
     >
       <cb-doc-example title="Panel desplegable" code='<cb-expansion-panel title="Condiciones del producto" [expanded]="true">Sin cuota de manejo.</cb-expansion-panel>'>
         <cb-expansion-panel title="Condiciones del producto" [expanded]="true">
@@ -55,8 +54,4 @@ export class ExpansionPanelDocComponent {
 <cb-expansion-panel title="How do I activate my card?">…</cb-expansion-panel>
 <cb-expansion-panel title="Can I set spending limits?">…</cb-expansion-panel>`;
 
-  protected readonly api: CbDocApiRow[] = [
-    { name: 'title', type: 'string', default: "'Detalles'", description: 'Título del encabezado.' },
-    { name: 'expanded', type: 'boolean (model)', default: 'false', description: 'Estado desplegado.' },
-  ];
 }

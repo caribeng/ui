@@ -12,10 +12,9 @@ import { TocService } from '../services/toc.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [DocPlaygroundComponent, CbTerminal, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
-    <doc-page-header eyebrow="Misc" title="Terminal" lead="Emulador de consola interactivo con historial de comandos." />
-    <doc-playground [api]="docApi" />
+    <doc-page-header eyebrow="Varios" title="Terminal" lead="Emulador de consola interactivo con historial de comandos." />
 
-    <doc-section id="import" title="Import">
+    <doc-section id="import" title="Importación">
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
     <doc-section id="basic" title="Interactivo" description="Escribe 'help', 'date' o 'clear' y pulsa Enter." [code]="basicCode">
@@ -26,6 +25,8 @@ import { TocService } from '../services/toc.service';
         style="width: 100%"
       />
     </doc-section>
+
+    <doc-playground [api]="docApi" />
   `,
 })
 export class TerminalDocComponent {

@@ -22,14 +22,12 @@ import { TocService } from '../services/toc.service';
     <cb-toast position="top-right" />
 
     <doc-page-header
-      eyebrow="Messages"
+      eyebrow="Mensajes"
       title="Toast"
       lead="Notificaciones no intrusivas con auto-cierre, gestionadas por CbToastService (signals)."
     />
 
-    <doc-playground [api]="docApi" />
-
-    <doc-section id="import" title="Import">
+    <doc-section id="import" title="Importación">
       <doc-code-block [code]="installCode" lang="bash" />
       <br />
       <doc-code-block [code]="importCode" lang="typescript" />
@@ -72,6 +70,8 @@ import { TocService } from '../services/toc.service';
         Limpiar todos
       </cb-button>
     </doc-section>
+
+    <doc-playground [api]="docApi" />
   `,
 })
 export class ToastDocComponent {

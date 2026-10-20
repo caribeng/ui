@@ -3,7 +3,7 @@ import { DocPlaygroundComponent } from '../components/doc-playground.component';
 import { DOC_API } from '../components/doc-api-registry';
 import { CbFabMenu } from '@caribeng/ui/caribe/fab-menu';
 import { CbCardPrimary } from '@caribeng/ui/caribe/card-primary';
-import { CbDocApiRow, CbDocPageComponent } from '../components/doc-page.component';
+import { CbDocPageComponent } from '../components/doc-page.component';
 import { CbDocExampleComponent } from '../components/doc-example.component';
 
 @Component({
@@ -16,7 +16,6 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
       title="FabMenu"
       subtitle="Botón de acción flotante (FAB) con menú desplegable de atajos."
       importCode="import { CbFabMenu } from '@caribeng/ui/caribe/fab-menu';"
-      [api]="api"
     >
       <cb-doc-example title="FAB interactivo" code='<cb-fab-menu [items]="items" />'>
         <cb-fab-menu [items]="items" />
@@ -53,8 +52,4 @@ export class FabMenuDocComponent {
     <cb-fab-menu triggerLabel="Quick actions" [items]="actions" />
   </div>
 </div>`;
-  protected readonly api: CbDocApiRow[] = [
-    { name: 'items', type: 'readonly CbFabMenuItem[]', default: '[]', description: 'Acciones del menú.' },
-    { name: 'open', type: 'boolean (model)', default: 'false', description: 'Estado de apertura.' },
-  ];
 }

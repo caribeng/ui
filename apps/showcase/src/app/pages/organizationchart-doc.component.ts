@@ -15,18 +15,19 @@ import { TocService } from '../services/toc.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [DocPlaygroundComponent, CbOrganizationChart, CodeBlockComponent, DocPageHeaderComponent, DocSectionComponent],
   template: `
-    <doc-page-header eyebrow="Data" title="OrganizationChart" lead="Organigrama jerárquico con expansión de ramas y selección de nodos." />
-    <doc-playground [api]="docApi" />
+    <doc-page-header eyebrow="Datos" title="OrganizationChart" lead="Organigrama jerárquico con expansión de ramas y selección de nodos." />
 
-    <doc-section id="import" title="Import">
+    <doc-section id="import" title="Importación">
       <doc-code-block [code]="installCode" lang="bash" />
       <br />
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
-    <doc-section id="basic" title="Basic" description="Expande los nodos para recorrer la estructura y selecciona una tarjeta." [code]="basicCode" [codeTs]="dataCode">
+    <doc-section id="basic" title="Básico" description="Expande los nodos para recorrer la estructura y selecciona una tarjeta." [code]="basicCode" [codeTs]="dataCode">
       <cb-organization-chart style="width:100%" [value]="organization" [(selection)]="selection" />
       <p style="margin:.75rem 0 0;color:var(--cb-color-text-muted)">Selección: {{ selection()?.label ?? 'ninguna' }}</p>
     </doc-section>
+
+    <doc-playground [api]="docApi" />
   `,
 })
 export class OrganizationChartDocComponent {

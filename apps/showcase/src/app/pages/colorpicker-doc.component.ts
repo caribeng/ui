@@ -20,20 +20,18 @@ import { TocService } from '../services/toc.service';
   ],
   template: `
     <doc-page-header
-      eyebrow="Form"
+      eyebrow="Formulario"
       title="ColorPicker"
       lead="Selector de color en overlay: área saturación/valor, barra de matiz, hex y presets. ControlValueAccessor (hex)."
     />
 
-    <doc-playground [api]="docApi" />
-
-    <doc-section id="import" title="Import">
+    <doc-section id="import" title="Importación">
       <doc-code-block [code]="installCode" lang="bash" />
       <br />
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
 
-    <doc-section id="basic" title="Basic" description="El modelo es un color hex. Arrastra en el área y el matiz, o escribe el hex." [code]="basicCode">
+    <doc-section id="basic" title="Básico" description="El modelo es un color hex. Arrastra en el área y el matiz, o escribe el hex." [code]="basicCode">
       <cb-colorpicker [(value)]="color" />
       <p style="margin: 0.75rem 0 0; color: var(--cb-color-text-muted); font-size: 0.875rem">
         Valor: {{ color() }}
@@ -55,6 +53,8 @@ import { TocService } from '../services/toc.service';
     <doc-section id="disabled" title="Deshabilitado · Reactive Forms" [code]="disabledCode" [codeTs]="disabledTs">
       <cb-colorpicker [formControl]="bloqueado" />
     </doc-section>
+
+    <doc-playground [api]="docApi" />
   `,
 })
 export class ColorpickerDocComponent {

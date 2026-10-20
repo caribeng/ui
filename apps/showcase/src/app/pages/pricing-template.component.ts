@@ -14,7 +14,7 @@ import { TocService } from '../services/toc.service';
   imports: [CbPricing, DocPageHeaderComponent, DocSectionComponent],
   template: `
     <doc-page-header
-      eyebrow="Template"
+      eyebrow="Plantillas"
       title="Pricing"
       lead="Página de precios lista para copiar, construida con el componente genérico cb-pricing: toggle Mensual/Anual, planes y plan destacado."
     />

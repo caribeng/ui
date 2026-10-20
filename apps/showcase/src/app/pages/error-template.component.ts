@@ -15,12 +15,12 @@ import { TocService } from '../services/toc.service';
   imports: [CbButton, CbIcon, DocPageHeaderComponent, DocSectionComponent],
   template: `
     <doc-page-header
-      eyebrow="Template"
+      eyebrow="Plantillas"
       title="Error Pages"
       lead="Pantallas de estado estilo Atlantis: Access Denied y Error, con mensaje grande centrado sobre fondo oscuro y botón de regreso."
     />
 
-    <doc-section id="denied" title="Access Denied" [code]="deniedCode">
+    <doc-section id="denied" title="Acceso denegado" [code]="deniedCode">
       <div class="err">
         <div class="err__scales"></div>
         <h2 class="err__big err__big--info">
@@ -43,7 +43,7 @@ import { TocService } from '../services/toc.service';
       </div>
     </doc-section>
 
-    <doc-section id="notfound" title="404 · Not Found" [code]="notFoundCode">
+    <doc-section id="notfound" title="404 · No encontrada" [code]="notFoundCode">
       <div class="err">
         <div class="err__scales"></div>
         <h2 class="err__big err__big--brand">404</h2>
@@ -53,7 +53,7 @@ import { TocService } from '../services/toc.service';
       </div>
     </doc-section>
 
-    <doc-section id="maintenance" title="Maintenance" [code]="maintenanceCode">
+    <doc-section id="maintenance" title="Mantenimiento" [code]="maintenanceCode">
       <div class="err">
         <div class="err__scales"></div>
         <span class="err__icon" aria-hidden="true">

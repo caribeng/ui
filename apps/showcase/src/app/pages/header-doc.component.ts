@@ -3,7 +3,7 @@ import { DocPlaygroundComponent } from '../components/doc-playground.component';
 import { DOC_API } from '../components/doc-api-registry';
 import { CbHeader } from '@caribeng/ui/caribe/header';
 import { CbIconButton } from '@caribeng/ui/caribe/icon-button';
-import { CbDocApiRow, CbDocPageComponent } from '../components/doc-page.component';
+import { CbDocPageComponent } from '../components/doc-page.component';
 import { CbDocExampleComponent } from '../components/doc-example.component';
 
 @Component({
@@ -16,7 +16,6 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
       title="Header"
       subtitle="Encabezado de aplicación o flujo con botón de retorno y proyección de acciones."
       importCode="import { CbHeader } from '@caribeng/ui/caribe/header';"
-      [api]="api"
     >
       <cb-doc-example title="Encabezado de flujo" code='<cb-header title="Transferencias" subtitle="Paso 1 de 3" [showBack]="true" />'>
         <cb-header title="Transferencias" subtitle="Paso 1 de 3" [showBack]="true" />
@@ -48,9 +47,4 @@ export class HeaderDocComponent {
   <cb-icon-button icon="user" ariaLabel="Profile" variant="ghost" />
 </cb-header>`;
 
-  protected readonly api: CbDocApiRow[] = [
-    { name: 'title', type: 'string', default: "'CaribeNG'", description: 'Título principal.' },
-    { name: 'subtitle', type: 'string', default: "''", description: 'Subtítulo opcional.' },
-    { name: 'showBack', type: 'boolean', default: 'false', description: 'Muestra botón de regreso.' },
-  ];
 }

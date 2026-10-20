@@ -12,10 +12,11 @@ import { TocService } from '../services/toc.service';
   imports: [DocPlaygroundComponent, CbTransactionStatus, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
     <doc-page-header eyebrow="Caribe Design" title="Transaction Status" lead="Transaction Status para interfaces accesibles, con estilos basados en tokens CaribeNG." />
-    <doc-playground [api]="docApi" />
 
-    <doc-section id="import" title="Import"><doc-code-block [code]="importCode" lang="typescript" /></doc-section>
-    <doc-section id="basic" title="Uso basico" [code]="exampleCode"><cb-transaction-status status="success" label="Transaccion aprobada" /></doc-section>
+    <doc-section id="import" title="Importación"><doc-code-block [code]="importCode" lang="typescript" /></doc-section>
+    <doc-section id="basic" title="Básico" [code]="exampleCode"><cb-transaction-status status="success" label="Transaccion aprobada" /></doc-section>
+
+    <doc-playground [api]="docApi" />
   `,
 })
 export class TransactionStatusDocComponent {

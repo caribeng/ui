@@ -16,12 +16,12 @@ import { TocService } from '../services/toc.service';
   ],
   template: `
     <doc-page-header
-      eyebrow="Panel"
+      eyebrow="Paneles"
       title="Splitter"
       lead="Divide un contenedor en múltiples paneles redimensionables mediante arrastre o teclado."
     />
 
-    <doc-section id="import" title="Import">
+    <doc-section id="import" title="Importación">
       <doc-code-block [code]="installCode" lang="bash" />
       <br />
       <doc-code-block [code]="importCode" lang="typescript" />

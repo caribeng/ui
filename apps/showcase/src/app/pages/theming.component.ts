@@ -14,12 +14,10 @@ import { TocService } from '../services/toc.service';
   imports: [DocPlaygroundComponent, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent, CbButton],
   template: `
     <doc-page-header
-      eyebrow="Foundations"
+      eyebrow="Fundamentos"
       title="Theming"
       lead="El tema se controla con variables CSS --cb-*, presets de paleta en vivo y el atributo data-theme. Personaliza sin tocar la librería."
     />
-
-    <doc-playground [api]="docApi" />
 
     <doc-section id="presets" title="Presets de paleta en vivo">
       <div style="display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; margin-bottom: 1rem">
@@ -40,7 +38,7 @@ import { TocService } from '../services/toc.service';
       <doc-code-block [code]="presetCode" lang="typescript" />
     </doc-section>
 
-    <doc-section id="dark" title="Dark mode">
+    <doc-section id="dark" title="Modo oscuro">
       <doc-code-block [code]="darkCode" lang="typescript" />
     </doc-section>
 
@@ -51,6 +49,8 @@ import { TocService } from '../services/toc.service';
     <doc-section id="service" title="CbThemeService">
       <doc-code-block [code]="serviceCode" lang="typescript" />
     </doc-section>
+
+    <doc-playground [api]="docApi" />
   `,
   styles: [`:host { display: block; }`],
 })

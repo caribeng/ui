@@ -45,15 +45,15 @@ interface Usuario {
     DocPageHeaderComponent,
   ],
   template: `
-    <doc-page-header eyebrow="Data" title="Table" lead="Tabla de datos con columnas declarativas, ordenación, paginación, selección y celdas personalizadas (avatares, estados y acciones)." />
+    <doc-page-header eyebrow="Datos" title="Table" lead="Tabla de datos con columnas declarativas, ordenación, paginación, selección y celdas personalizadas (avatares, estados y acciones)." />
 
-    <doc-section id="import" title="Import">
+    <doc-section id="import" title="Importación">
       <doc-code-block [code]="installCode" lang="bash" />
       <br />
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
 
-    <doc-section id="basic" title="Basic" description="Columnas con field/header; striped y ordenación por columna." [code]="basicCode" [codeTs]="dataTs">
+    <doc-section id="basic" title="Básico" description="Columnas con field/header; striped y ordenación por columna." [code]="basicCode" [codeTs]="dataTs">
       <cb-table style="width: 100%" [value]="productos" [columns]="columns" striped size="sm" />
     </doc-section>
 

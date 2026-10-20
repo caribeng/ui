@@ -20,20 +20,18 @@ import { TocService } from '../services/toc.service';
   ],
   template: `
     <doc-page-header
-      eyebrow="Form"
+      eyebrow="Formulario"
       title="Slider"
       lead="Control deslizante con arrastre de puntero y teclado (flechas, PageUp/Down, Home/End). ControlValueAccessor."
     />
 
-    <doc-playground [api]="docApi" />
-
-    <doc-section id="import" title="Import">
+    <doc-section id="import" title="Importación">
       <doc-code-block [code]="installCode" lang="bash" />
       <br />
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
 
-    <doc-section id="basic" title="Basic" description="Arrastra el thumb o usa las flechas." [code]="basicCode">
+    <doc-section id="basic" title="Básico" description="Arrastra el thumb o usa las flechas." [code]="basicCode">
       <div style="width: 320px">
         <cb-slider [(value)]="volumen" ariaLabel="Volumen" />
       </div>
@@ -64,6 +62,8 @@ import { TocService } from '../services/toc.service';
         <cb-slider [formControl]="bloqueado" ariaLabel="Deshabilitado" />
       </div>
     </doc-section>
+
+    <doc-playground [api]="docApi" />
   `,
 })
 export class SliderDocComponent {

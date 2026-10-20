@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { DocPlaygroundComponent } from '../components/doc-playground.component';
 import { DOC_API } from '../components/doc-api-registry';
 import { CbLogo } from '@caribeng/ui/caribe/logo';
-import { CbDocApiRow, CbDocPageComponent } from '../components/doc-page.component';
+import { CbDocPageComponent } from '../components/doc-page.component';
 import { CbDocExampleComponent } from '../components/doc-example.component';
 
 @Component({
@@ -15,7 +15,6 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
       title="Logo"
       subtitle="Identidad corporativa vectorial de CaribeNG en múltiples formatos (Horizontal, Isotipo/Escudo, Vertical, Monocromático y Negativo), inspirada en PrimeNG y NG-ZORRO."
       importCode="import { CbLogo } from '@caribeng/ui/caribe/logo';"
-      [api]="api"
     >
       <cb-doc-example
         title="Formatos del Logo Corporativo"
@@ -66,15 +65,4 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
 export class LogoDocComponent {
   protected readonly docApi = DOC_API['cb-logo'];
 
-  protected readonly api: CbDocApiRow[] = [
-    {
-      name: 'name',
-      type: "'caribe-horizontal' | 'caribe-icon' | 'caribe-vertical' | 'caribe-mono'",
-      default: "'caribe-horizontal'",
-      description: 'Formato del logotipo corporativo.',
-    },
-    { name: 'size', type: 'string', default: "'160px'", description: 'Ancho CSS del logotipo (px, rem, em, %).' },
-    { name: 'negative', type: 'boolean', default: 'false', description: 'Activa la variante clara para fondos oscuros.' },
-    { name: 'alt', type: 'string', default: "'Logo CaribeNG'", description: 'Texto alternativo para lectores de pantalla.' },
-  ];
 }

@@ -20,14 +20,12 @@ import { TocService } from '../services/toc.service';
   ],
   template: `
     <doc-page-header
-      eyebrow="Form"
+      eyebrow="Formulario"
       title="Textarea"
       lead="Área de texto multilínea con ControlValueAccessor, auto-resize y conteo de caracteres."
     />
 
-    <doc-playground [api]="docApi" />
-
-    <doc-section id="import" title="Import">
+    <doc-section id="import" title="Importación">
       <doc-code-block [code]="installCode" lang="bash" />
       <br />
       <doc-code-block [code]="importCode" lang="typescript" />
@@ -35,7 +33,7 @@ import { TocService } from '../services/toc.service';
 
     <doc-section
       id="basic"
-      title="Basic"
+      title="Básico"
       description="Enlázalo con two-way binding o con Angular Forms."
       [code]="basicCode"
     >
@@ -82,7 +80,7 @@ import { TocService } from '../services/toc.service';
 
     <doc-section
       id="sizes"
-      title="Sizes"
+      title="Tamaños"
       description="sm, md (por defecto) y lg."
       [code]="sizesCode"
     >
@@ -95,7 +93,7 @@ import { TocService } from '../services/toc.service';
 
     <doc-section
       id="disabled"
-      title="Disabled"
+      title="Deshabilitado"
       description="Respeta setDisabledState de Angular Forms."
       [code]="disabledCode"
     >
@@ -103,6 +101,8 @@ import { TocService } from '../services/toc.service';
         <cb-textarea [disabled]="true" value="No editable" [rows]="2" />
       </div>
     </doc-section>
+
+    <doc-playground [api]="docApi" />
   `,
 })
 export class TextareaDocComponent {

@@ -5,7 +5,7 @@ import { CbOffCanvas } from '@caribeng/ui/caribe/off-canvas';
 import { CbButton } from '@caribeng/ui/button';
 import { CbInputSearch } from '@caribeng/ui/caribe/input-search';
 import { CbTagButton } from '@caribeng/ui/caribe/tag-button';
-import { CbDocApiRow, CbDocPageComponent } from '../components/doc-page.component';
+import { CbDocPageComponent } from '../components/doc-page.component';
 import { CbDocExampleComponent } from '../components/doc-example.component';
 
 @Component({
@@ -18,7 +18,6 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
       title="OffCanvas"
       subtitle="Panel lateral deslizable para filtros, menús contextuales y formularios secundarios."
       importCode="import { CbOffCanvas } from '@caribeng/ui/caribe/off-canvas';"
-      [api]="api"
     >
       <cb-doc-example title="Panel lateral" code='<cb-off-canvas title="Filtros avanzados" [(open)]="visible">Contenido</cb-off-canvas>'>
         <div style="display: flex; flex-direction: column; gap: 0.75rem">
@@ -65,9 +64,4 @@ export class OffCanvasDocComponent {
   <cb-tag-button label="Expenses" />
   <cb-button (click)="filters.set(false)">Apply</cb-button>
 </cb-off-canvas>`;
-  protected readonly api: CbDocApiRow[] = [
-    { name: 'title', type: 'string', default: "'Panel lateral'", description: 'Encabezado del panel.' },
-    { name: 'position', type: "'left' | 'right' | 'bottom'", default: "'right'", description: 'Ubicación del panel.' },
-    { name: 'open', type: 'boolean (model)', default: 'false', description: 'Controla su visibilidad.' },
-  ];
 }

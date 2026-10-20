@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { DocPlaygroundComponent } from '../components/doc-playground.component';
 import { DOC_API } from '../components/doc-api-registry';
 import { CbInputDate } from '@caribeng/ui/caribe/input-date';
-import { CbDocApiRow, CbDocPageComponent } from '../components/doc-page.component';
+import { CbDocPageComponent } from '../components/doc-page.component';
 import { CbDocExampleComponent } from '../components/doc-example.component';
 
 @Component({
@@ -15,7 +15,6 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
       title="InputDate"
       subtitle="Campo de captura de fecha con límites min/max e integración CVA."
       importCode="import { CbInputDate } from '@caribeng/ui/caribe/input-date';"
-      [api]="api"
     >
       <cb-doc-example title="Selector de fecha" code='<cb-input-date label="Fecha de programación" [(value)]="date" />'>
         <cb-input-date label="Fecha de programación" [(value)]="date" />
@@ -29,10 +28,4 @@ export class InputDateDocComponent {
   protected readonly docApi = DOC_API['cb-input-date'];
 
   protected readonly date = signal('2026-10-17');
-  protected readonly api: CbDocApiRow[] = [
-    { name: 'label', type: 'string', default: "''", description: 'Etiqueta superior del campo.' },
-    { name: 'value', type: 'string (model)', default: "''", description: 'Fecha en formato ISO YYYY-MM-DD.' },
-    { name: 'min', type: 'string', default: "''", description: 'Fecha mínima permitida.' },
-    { name: 'max', type: 'string', default: "''", description: 'Fecha máxima permitida.' },
-  ];
 }

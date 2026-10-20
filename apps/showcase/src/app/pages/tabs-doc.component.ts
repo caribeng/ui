@@ -15,15 +15,15 @@ import { TocService } from '../services/toc.service';
     DocPageHeaderComponent,
   ],
   template: `
-    <doc-page-header eyebrow="Panel" title="Tabs" lead="Interfaz por pestañas con navegación por teclado (flechas, Home/End)." />
+    <doc-page-header eyebrow="Paneles" title="Tabs" lead="Interfaz por pestañas con navegación por teclado (flechas, Home/End)." />
 
-    <doc-section id="import" title="Import">
+    <doc-section id="import" title="Importación">
       <doc-code-block [code]="installCode" lang="bash" />
       <br />
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
 
-    <doc-section id="basic" title="Basic" [code]="basicCode">
+    <doc-section id="basic" title="Básico" [code]="basicCode">
       <cb-tabs style="width: 100%">
         <cb-tab label="Resumen">
           <p style="margin: 0">Vista general del proyecto y sus métricas principales.</p>

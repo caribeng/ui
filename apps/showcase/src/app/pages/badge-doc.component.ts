@@ -12,11 +12,9 @@ import { TocService } from '../services/toc.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [DocPlaygroundComponent, CbBadge, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
-    <doc-page-header eyebrow="Messages" title="Badge" lead="Indicador compacto de conteo o estado." />
+    <doc-page-header eyebrow="Mensajes" title="Badge" lead="Indicador compacto de conteo o estado." />
 
-    <doc-playground [api]="docApi" />
-
-    <doc-section id="import" title="Import">
+    <doc-section id="import" title="Importación">
       <doc-code-block [code]="installCode" lang="bash" />
       <br />
       <doc-code-block [code]="importCode" lang="typescript" />
@@ -50,6 +48,8 @@ import { TocService } from '../services/toc.service';
         <cb-badge dot severity="danger" />
       </div>
     </doc-section>
+
+    <doc-playground [api]="docApi" />
   `,
 })
 export class BadgeDocComponent {

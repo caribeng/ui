@@ -12,17 +12,15 @@ import { TocService } from '../services/toc.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [DocPlaygroundComponent, CbToggleButton, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
-    <doc-page-header eyebrow="Form" title="ToggleButton" lead="Botón de dos estados (on/off) con etiqueta e icono por estado." />
+    <doc-page-header eyebrow="Formulario" title="ToggleButton" lead="Botón de dos estados (on/off) con etiqueta e icono por estado." />
 
-    <doc-playground [api]="docApi" />
-
-    <doc-section id="import" title="Import">
+    <doc-section id="import" title="Importación">
       <doc-code-block [code]="installCode" lang="bash" />
       <br />
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
 
-    <doc-section id="basic" title="Basic" [code]="basicCode">
+    <doc-section id="basic" title="Básico" [code]="basicCode">
       <cb-togglebutton [(value)]="activo" onLabel="Activado" offLabel="Desactivado" />
       <p style="margin: 0.75rem 0 0; color: var(--cb-color-text-muted); font-size: 0.875rem">
         {{ activo() ? 'on' : 'off' }}
@@ -35,6 +33,8 @@ import { TocService } from '../services/toc.service';
         <cb-togglebutton [(value)]="fav" onIcon="heart" offIcon="heart" onLabel="Favorito" offLabel="Favorito" />
       </div>
     </doc-section>
+
+    <doc-playground [api]="docApi" />
   `,
 })
 export class TogglebuttonDocComponent {

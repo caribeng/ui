@@ -19,17 +19,15 @@ import { TocService } from '../services/toc.service';
     DocPageHeaderComponent,
   ],
   template: `
-    <doc-page-header eyebrow="Overlay" title="Drawer" lead="Panel lateral que se desliza desde un borde. Trampa de foco, bloqueo de scroll y cierre con Escape/backdrop." />
+    <doc-page-header eyebrow="Overlays" title="Drawer" lead="Panel lateral que se desliza desde un borde. Trampa de foco, bloqueo de scroll y cierre con Escape/backdrop." />
 
-    <doc-playground [api]="docApi" />
-
-    <doc-section id="import" title="Import">
+    <doc-section id="import" title="Importación">
       <doc-code-block [code]="installCode" lang="bash" />
       <br />
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
 
-    <doc-section id="basic" title="Basic" description="Controla la visibilidad con [(visible)]." [code]="basicCode">
+    <doc-section id="basic" title="Básico" description="Controla la visibilidad con [(visible)]." [code]="basicCode">
       <cb-button (click)="open.set(true)">Abrir drawer</cb-button>
       <cb-drawer [(visible)]="open" header="Filtros" position="right">
         <p style="margin: 0 0 1rem">Ajusta los filtros del listado.</p>
@@ -54,6 +52,8 @@ import { TocService } from '../services/toc.service';
         <p style="margin: 0">Drawer anclado al borde «{{ pos() }}».</p>
       </cb-drawer>
     </doc-section>
+
+    <doc-playground [api]="docApi" />
   `,
 })
 export class DrawerDocComponent {

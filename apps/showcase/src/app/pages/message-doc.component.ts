@@ -19,11 +19,9 @@ import { TocService } from '../services/toc.service';
     DocPageHeaderComponent,
   ],
   template: `
-    <doc-page-header eyebrow="Messages" title="Message" lead="Mensaje inline con severidad, icono y cierre opcional." />
+    <doc-page-header eyebrow="Mensajes" title="Message" lead="Mensaje inline con severidad, icono y cierre opcional." />
 
-    <doc-playground [api]="docApi" />
-
-    <doc-section id="import" title="Import">
+    <doc-section id="import" title="Importación">
       <doc-code-block [code]="installCode" lang="bash" />
       <br />
       <doc-code-block [code]="importCode" lang="typescript" />
@@ -47,6 +45,8 @@ import { TocService } from '../services/toc.service';
         <cb-button variant="outlined" size="sm" (click)="visible.set(true)">Mostrar de nuevo</cb-button>
       }
     </doc-section>
+
+    <doc-playground [api]="docApi" />
   `,
 })
 export class MessageDocComponent {

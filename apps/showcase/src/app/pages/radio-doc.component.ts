@@ -19,12 +19,12 @@ import { TocService } from '../services/toc.service';
   ],
   template: `
     <doc-page-header
-      eyebrow="Form"
+      eyebrow="Formulario"
       title="Radio"
       lead="Selección única con un grupo (CbRadioGroup) que actúa como ControlValueAccessor."
     />
 
-    <doc-section id="import" title="Import">
+    <doc-section id="import" title="Importación">
       <doc-code-block [code]="installCode" lang="bash" />
       <br />
       <doc-code-block [code]="importCode" lang="typescript" />
@@ -32,7 +32,7 @@ import { TocService } from '../services/toc.service';
 
     <doc-section
       id="basic"
-      title="Basic"
+      title="Básico"
       description="Coloca varios cb-radio dentro de un cb-radio-group. Navega con las flechas."
       [code]="basicCode"
       [codeTs]="basicTs"
@@ -61,7 +61,7 @@ import { TocService } from '../services/toc.service';
 
     <doc-section
       id="sizes"
-      title="Sizes"
+      title="Tamaños"
       description="El tamaño se define en el grupo y lo heredan los items."
       [code]="sizesCode"
     >

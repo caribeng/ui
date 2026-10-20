@@ -15,10 +15,9 @@ import { I18nService } from '../services/i18n.service';
   imports: [DocPlaygroundComponent, CbModal, CbButton, CbInlineAlert, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
     <doc-page-header eyebrow="Caribe Design" title="Modal" lead="Modal para interfaces accesibles, con estilos basados en tokens CaribeNG." />
-    <doc-playground [api]="docApi" />
 
-    <doc-section id="import" title="Import"><doc-code-block [code]="importCode" lang="typescript" /></doc-section>
-    <doc-section id="basic" title="Uso basico" [code]="exampleCode"><cb-modal title="Confirmar operacion" [visible]="true">Deseas continuar?</cb-modal></doc-section>
+    <doc-section id="import" title="Importación"><doc-code-block [code]="importCode" lang="typescript" /></doc-section>
+    <doc-section id="basic" title="Básico" [code]="exampleCode"><cb-modal title="Confirmar operacion" [visible]="true">Deseas continuar?</cb-modal></doc-section>
 
     <doc-section
       id="composed"
@@ -43,6 +42,8 @@ import { I18nService } from '../services/i18n.service';
         </cb-inline-alert>
       </cb-modal>
     </doc-section>
+
+    <doc-playground [api]="docApi" />
   `,
 })
 export class ModalDocComponent {

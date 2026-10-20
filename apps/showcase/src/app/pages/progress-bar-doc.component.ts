@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { DocPlaygroundComponent } from '../components/doc-playground.component';
 import { DOC_API } from '../components/doc-api-registry';
 import { CbProgressBar } from '@caribeng/ui/caribe/progress-bar';
-import { CbDocApiRow, CbDocPageComponent } from '../components/doc-page.component';
+import { CbDocPageComponent } from '../components/doc-page.component';
 import { CbDocExampleComponent } from '../components/doc-example.component';
 
 @Component({
@@ -15,7 +15,6 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
       title="ProgressBar (Caribe)"
       subtitle="Barra de progreso lineal con etiqueta y porcentaje integrado."
       importCode="import { CbProgressBar } from '@caribeng/ui/caribe/progress-bar';"
-      [api]="api"
     >
       <cb-doc-example title="Meta de ahorro" code='<cb-progress-bar label="Meta de ahorro" [value]="72" />'>
         <div style="width: 100%; max-width: 360px">
@@ -30,9 +29,4 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
 export class ProgressBarCaribeDocComponent {
   protected readonly docApi = DOC_API['cb-progress-bar'];
 
-  protected readonly api: CbDocApiRow[] = [
-    { name: 'value', type: 'number', default: '60', description: 'Porcentaje completado (0–100).' },
-    { name: 'label', type: 'string', default: "''", description: 'Etiqueta descriptiva.' },
-    { name: 'showValue', type: 'boolean', default: 'true', description: 'Muestra el porcentaje numérico.' },
-  ];
 }

@@ -12,23 +12,23 @@ import { TocService } from '../services/toc.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [DocPlaygroundComponent, CbBreadcrumb, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
-    <doc-page-header eyebrow="Menu" title="Breadcrumb" lead="Rastro de navegación jerárquica. El último elemento es la página actual." />
+    <doc-page-header eyebrow="Menús" title="Breadcrumb" lead="Rastro de navegación jerárquica. El último elemento es la página actual." />
 
-    <doc-playground [api]="docApi" />
-
-    <doc-section id="import" title="Import">
+    <doc-section id="import" title="Importación">
       <doc-code-block [code]="installCode" lang="bash" />
       <br />
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
 
-    <doc-section id="basic" title="Basic" [code]="basicCode" [codeTs]="basicTs">
+    <doc-section id="basic" title="Básico" [code]="basicCode" [codeTs]="basicTs">
       <cb-breadcrumb [items]="items" />
     </doc-section>
 
     <doc-section id="icons" title="Con iconos" [code]="iconsCode">
       <cb-breadcrumb [items]="withIcons" />
     </doc-section>
+
+    <doc-playground [api]="docApi" />
   `,
 })
 export class BreadcrumbDocComponent {
