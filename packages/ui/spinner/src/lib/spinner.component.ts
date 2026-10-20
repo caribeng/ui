@@ -4,7 +4,7 @@ import {
   ViewEncapsulation,
   input,
 } from '@angular/core';
-import type { CbSeverity } from '@caribeng/ui';
+import { injectCbTranslation, type CbSeverity } from '@caribeng/ui';
 
 /**
  * Spinner de CaribeNG: indicador de carga circular.
@@ -23,7 +23,7 @@ import type { CbSeverity } from '@caribeng/ui';
     class: 'cb-spinner',
     '[class]': "'cb-spinner cb-spinner--' + severity()",
     role: 'status',
-    '[attr.aria-label]': "ariaLabel() || 'Cargando'",
+    '[attr.aria-label]': 'ariaLabel() || t().loading',
   },
   template: `
     <svg
@@ -40,6 +40,8 @@ import type { CbSeverity } from '@caribeng/ui';
   styleUrl: './spinner.component.css',
 })
 export class CbSpinner {
+  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+  protected readonly t = injectCbTranslation();
   /** Tamaño en píxeles. */
   readonly size = input<number>(32);
   /** Grosor del trazo. */

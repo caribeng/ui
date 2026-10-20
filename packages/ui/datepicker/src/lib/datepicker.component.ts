@@ -13,7 +13,7 @@ import {
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
 import { OverlayModule, type ConnectedPosition } from '@angular/cdk/overlay';
-import { cbFieldState, type CbRequiredIndicator, type CbSize } from '@caribeng/ui';
+import { cbFieldState, type CbRequiredIndicator, type CbSize, injectCbTranslation } from '@caribeng/ui';
 import { CbIcon } from '@caribeng/ui/icon';
 
 let nextUid = 0;
@@ -96,7 +96,7 @@ interface DayCell {
         type="button"
         class="cb-datepicker__btn"
         tabindex="-1"
-        aria-label="Abrir calendario"
+        [attr.aria-label]="t().openCalendar"
         [disabled]="isDisabled()"
         (click)="toggle()"
       >
@@ -126,7 +126,7 @@ interface DayCell {
           <button
             type="button"
             class="cb-datepicker__nav"
-            aria-label="Mes anterior"
+            [attr.aria-label]="t().previousMonth"
             (click)="shiftMonth(-1)"
           >
             <cb-icon name="chevron-left" [size]="18" aria-hidden="true" />
@@ -135,7 +135,7 @@ interface DayCell {
           <button
             type="button"
             class="cb-datepicker__nav"
-            aria-label="Mes siguiente"
+            [attr.aria-label]="t().nextMonth"
             (click)="shiftMonth(1)"
           >
             <cb-icon name="chevron-right" [size]="18" aria-hidden="true" />
@@ -178,9 +178,9 @@ interface DayCell {
         </table>
 
         <div class="cb-datepicker__footer">
-          <button type="button" class="cb-datepicker__today" (click)="goToday()">Hoy</button>
+          <button type="button" class="cb-datepicker__today" (click)="goToday()">{{ t().today }}</button>
           @if (value()) {
-            <button type="button" class="cb-datepicker__clear" (click)="clear()">Limpiar</button>
+            <button type="button" class="cb-datepicker__clear" (click)="clear()">{{ t().clear }}</button>
           }
         </div>
       </div>
@@ -199,6 +199,8 @@ interface DayCell {
   styleUrl: './datepicker.component.css',
 })
 export class CbDatepicker implements ControlValueAccessor {
+  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+  protected readonly t = injectCbTranslation();
   /** Fecha seleccionada (two-way opcional fuera de Angular Forms). */
   readonly value = model<Date | null>(null);
 

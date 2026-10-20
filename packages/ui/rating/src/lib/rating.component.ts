@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
 import { CbIcon } from '@caribeng/ui/icon';
-import { cbFieldState, type CbSize } from '@caribeng/ui';
+import { cbFormat, cbFieldState, type CbSize, injectCbTranslation } from '@caribeng/ui';
 
 let nextUid = 0;
 
@@ -53,7 +53,7 @@ let nextUid = 0;
         class="cb-rating__star"
         [class]="'cb-rating__star--' + size()"
         [class.cb-rating__star--on]="i <= display()"
-        [attr.aria-label]="i + ' de ' + stars()"
+        [attr.aria-label]="fmt(t().ratingOf, i, stars())"
         tabindex="-1"
         [disabled]="isDisabled() || readonly()"
         (click)="pick(i)"
@@ -73,6 +73,10 @@ let nextUid = 0;
   ],
 })
 export class CbRating implements ControlValueAccessor {
+  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+  protected readonly t = injectCbTranslation();
+  /** Rellena `{0}`, `{1}`… de un texto traducido. */
+  protected readonly fmt = cbFormat;
   /** Valor seleccionado (two-way opcional fuera de Angular Forms). */
   readonly value = model<number>(0);
 

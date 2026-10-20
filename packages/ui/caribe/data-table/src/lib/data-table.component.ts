@@ -4,6 +4,7 @@ import {
   ViewEncapsulation,
   input,
 } from '@angular/core';
+import { injectCbTranslation } from '@caribeng/ui';
 
 /**
  * Data-table de Caribe Design: tabla simple de columnas y filas con mensaje de
@@ -38,7 +39,7 @@ import {
           } @empty {
             <tr>
               <td class="cb-data-table__empty" [attr.colspan]="columns().length">
-                {{ emptyMessage() }}
+                {{ (emptyMessage() ?? t().noData) }}
               </td>
             </tr>
           }
@@ -49,7 +50,9 @@ import {
   styleUrl: './data-table.component.css',
 })
 export class CbDataTable {
+  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+  protected readonly t = injectCbTranslation();
   readonly columns = input<readonly string[]>([]);
   readonly rows = input<readonly Record<string, unknown>[]>([]);
-  readonly emptyMessage = input('No hay datos');
+  readonly emptyMessage = input<string | undefined>(undefined);
 }

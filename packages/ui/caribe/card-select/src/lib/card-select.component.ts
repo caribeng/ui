@@ -7,6 +7,7 @@ import {
   model,
   output,
 } from '@angular/core';
+import { injectCbTranslation } from '@caribeng/ui';
 
 /**
  * Card-select de Caribe Design: tarjeta con buscador y lista de opciones
@@ -28,10 +29,10 @@ import {
         type="search"
         [value]="query()"
         (input)="query.set($any($event.target).value)"
-        aria-label="Buscar opciones"
-        placeholder="Buscar"
+        [attr.aria-label]="t().filterOptions"
+        [placeholder]="t().search"
       />
-      <div class="cb-card-select__list" role="listbox" [attr.aria-label]="label()">
+      <div class="cb-card-select__list" role="listbox" [attr.aria-label]="(label() ?? t().options)">
         @for (item of filtered(); track item) {
           <button
             type="button"
@@ -44,7 +45,7 @@ import {
             {{ item }}
           </button>
         } @empty {
-          <span class="cb-card-select__empty">Sin resultados</span>
+          <span class="cb-card-select__empty">{{ t().noResults }}</span>
         }
       </div>
     </section>
@@ -52,8 +53,10 @@ import {
   styleUrl: './card-select.component.css',
 })
 export class CbCardSelect {
+  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+  protected readonly t = injectCbTranslation();
   readonly items = input<readonly string[]>([]);
-  readonly label = input('Opciones');
+  readonly label = input<string | undefined>(undefined);
   readonly selected = model<string | null>(null);
   readonly selectionChange = output<string>();
   protected readonly query = model('');

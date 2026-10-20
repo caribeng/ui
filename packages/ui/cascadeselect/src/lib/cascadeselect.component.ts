@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { CbIcon } from '@caribeng/ui/icon';
-import { cbFieldState } from '@caribeng/ui';
+import { cbFieldState, injectCbTranslation } from '@caribeng/ui';
 
 export interface CbCascadeOption {
   label: string;
@@ -51,7 +51,7 @@ export interface CbCascadeOption {
       (click)="toggleOpen()"
     >
       <span class="cb-cascade-select__label" [class.cb-is-placeholder]="!selectedLabel()">
-        {{ selectedLabel() || placeholder() }}
+        {{ selectedLabel() || (placeholder() ?? t().select) }}
       </span>
       <cb-icon name="chevron-down" [size]="16" aria-hidden="true" />
     </button>
@@ -97,8 +97,10 @@ export interface CbCascadeOption {
   styleUrl: './cascadeselect.component.css',
 })
 export class CbCascadeSelect implements ControlValueAccessor {
+  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+  protected readonly t = injectCbTranslation();
   readonly options = input<CbCascadeOption[]>([]);
-  readonly placeholder = input<string>('Seleccionar opción…');
+  readonly placeholder = input<string | undefined>(undefined);
   readonly disabled = input<boolean>(false);
   /** Marca visual y ARIA de estado inválido (también se activa con Angular Forms). */
   readonly invalid = input(false, { transform: booleanAttribute });

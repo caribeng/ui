@@ -5,6 +5,7 @@ import {
   computed,
   input,
 } from '@angular/core';
+import { cbFormat, injectCbTranslation } from '@caribeng/ui';
 
 /**
  * Step-indicator de Caribe Design: progreso por segmentos para flujos de varios
@@ -28,7 +29,7 @@ import {
       [attr.aria-valuenow]="current()"
       aria-valuemin="1"
       [attr.aria-valuemax]="total()"
-      [attr.aria-label]="label() || 'Progreso de pasos'"
+      [attr.aria-label]="label() || t().stepsProgress"
     >
       <div class="cb-step-indicator__track" aria-hidden="true">
         @for (step of steps(); track step) {
@@ -40,7 +41,7 @@ import {
         }
       </div>
       <div class="cb-step-indicator__caption">
-        <strong class="cb-step-indicator__count">Paso {{ current() }} de {{ total() }}</strong>
+        <strong class="cb-step-indicator__count">{{ fmt(t().stepOf, current(), total()) }}</strong>
         @if (label()) {
           <span class="cb-step-indicator__label">· {{ label() }}</span>
         }
@@ -50,6 +51,10 @@ import {
   styleUrl: './step-indicator.component.css',
 })
 export class CbStepIndicator {
+  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+  protected readonly t = injectCbTranslation();
+  /** Rellena `{0}`, `{1}`… de un texto traducido. */
+  protected readonly fmt = cbFormat;
   /** Paso actual (1-based). */
   readonly currentStep = input<number>(1);
   /** Número total de pasos. */

@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, ViewEncapsulation, input, model, output } from '@angular/core';
 import { CbIcon } from '@caribeng/ui/icon';
+import { injectCbTranslation } from '@caribeng/ui';
 
 export interface CbStepItem { label: string; icon?: string; disabled?: boolean; }
 
@@ -11,7 +12,7 @@ export interface CbStepItem { label: string; icon?: string; disabled?: boolean; 
   imports: [CbIcon],
   host: { class: 'cb-steps' },
   template: `
-    <nav [attr.aria-label]="ariaLabel()">
+    <nav [attr.aria-label]="(ariaLabel() ?? t().steps)">
       <ol class="cb-steps__list">
         @for (step of steps(); track $index; let i = $index; let last = $last) {
           <li class="cb-steps__entry" [class.cb-steps__entry--complete]="i < activeIndex()" [class.cb-steps__entry--current]="i === activeIndex()">
@@ -28,9 +29,11 @@ export interface CbStepItem { label: string; icon?: string; disabled?: boolean; 
   styleUrl: './steps.component.css',
 })
 export class CbSteps {
+  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+  protected readonly t = injectCbTranslation();
   readonly steps = input<readonly CbStepItem[]>([]);
   readonly activeIndex = model(0);
-  readonly ariaLabel = input('Steps');
+  readonly ariaLabel = input<string | undefined>(undefined);
   readonly activeChange = output<number>();
   select(index: number): void {
     if (this.steps()[index]?.disabled) return;

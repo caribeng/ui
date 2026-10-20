@@ -13,6 +13,7 @@ import {
 import { Overlay, type ConnectedPosition, type OverlayRef } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 import { CbIcon } from '@caribeng/ui/icon';
+import { injectCbTranslation } from '@caribeng/ui';
 
 export interface CbMenuItem {
   label: string;
@@ -31,7 +32,7 @@ export interface CbMenuItem {
   imports: [CbIcon],
   template: `
     <ng-template #content>
-      <div class="cb-menu__panel" role="menu" [attr.aria-label]="ariaLabel() || null" (click)="onPanelClick($event)">
+      <div class="cb-menu__panel" role="menu" [attr.aria-label]="(ariaLabel() ?? t().menu) || null" (click)="onPanelClick($event)">
         @for (item of items(); track $index) {
           @if (item.separator) {
             <div class="cb-menu__separator" role="separator"></div>
@@ -69,12 +70,14 @@ export interface CbMenuItem {
   styleUrl: './menu.component.css',
 })
 export class CbMenu {
+  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+  protected readonly t = injectCbTranslation();
   private readonly overlay = inject(Overlay);
   private readonly vcr = inject(ViewContainerRef);
   private readonly destroyRef = inject(DestroyRef);
 
   readonly items = input<readonly CbMenuItem[]>([]);
-  readonly ariaLabel = input('Menu');
+  readonly ariaLabel = input<string | undefined>(undefined);
   readonly itemSelect = output<CbMenuItem>();
 
   private readonly content = viewChild.required<TemplateRef<unknown>>('content');

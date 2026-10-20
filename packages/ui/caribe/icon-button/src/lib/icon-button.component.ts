@@ -6,6 +6,7 @@ import {
   output,
 } from '@angular/core';
 import { CbIcon } from '@caribeng/ui/icon';
+import { injectCbTranslation } from '@caribeng/ui';
 
 /**
  * Icon-button de Caribe Design: botón circular con un único icono. Útil para
@@ -28,7 +29,7 @@ import { CbIcon } from '@caribeng/ui/icon';
       class="cb-icon-button"
       [class.cb-icon-button--ghost]="variant() === 'ghost'"
       [disabled]="disabled()"
-      [attr.aria-label]="ariaLabel() || icon()"
+      [attr.aria-label]="(ariaLabel() ?? t().action) || icon()"
       (click)="!disabled() && pressed.emit($event)"
     >
       <cb-icon [name]="icon()" [size]="18" aria-hidden="true" />
@@ -37,10 +38,12 @@ import { CbIcon } from '@caribeng/ui/icon';
   styleUrl: './icon-button.component.css',
 })
 export class CbIconButton {
+  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+  protected readonly t = injectCbTranslation();
   /** Nombre del icono del set núcleo. */
   readonly icon = input<string>('plus');
   /** Etiqueta accesible del botón. */
-  readonly ariaLabel = input<string>('Acción');
+  readonly ariaLabel = input<string | undefined>(undefined);
   /** Variante visual. */
   readonly variant = input<'solid' | 'ghost'>('solid');
   /** Deshabilita la acción. */

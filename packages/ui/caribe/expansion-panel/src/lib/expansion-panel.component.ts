@@ -5,6 +5,7 @@ import {
   input,
   model,
 } from '@angular/core';
+import { injectCbTranslation } from '@caribeng/ui';
 
 /**
  * Expansion-panel de Caribe Design: panel colapsable con cabecera pulsable y
@@ -28,7 +29,7 @@ import {
         [attr.aria-expanded]="expanded()"
         (click)="expanded.set(!expanded())"
       >
-        <span class="cb-expansion-panel__title">{{ title() }}</span>
+        <span class="cb-expansion-panel__title">{{ (title() ?? t().details) }}</span>
         <span class="cb-expansion-panel__chevron" aria-hidden="true">▾</span>
       </button>
       @if (expanded()) {
@@ -41,8 +42,10 @@ import {
   styleUrl: './expansion-panel.component.css',
 })
 export class CbExpansionPanel {
+  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+  protected readonly t = injectCbTranslation();
   /** Título de la cabecera. */
-  readonly title = input<string>('Detalles');
+  readonly title = input<string | undefined>(undefined);
   /** Estado abierto/cerrado (two-way). */
   readonly expanded = model<boolean>(false);
 }

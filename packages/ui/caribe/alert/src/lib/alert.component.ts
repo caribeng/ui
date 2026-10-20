@@ -6,6 +6,7 @@ import {
   model,
   output,
 } from '@angular/core';
+import { injectCbTranslation } from '@caribeng/ui';
 
 /**
  * Alert de Caribe Design: banner de notificación con severidad, título,
@@ -34,7 +35,7 @@ import {
           <button
             type="button"
             class="cb-alert__close"
-            aria-label="Cerrar"
+            [attr.aria-label]="t().close"
             (click)="close()"
           >
             ×
@@ -46,6 +47,8 @@ import {
   styleUrl: './alert.component.css',
 })
 export class CbAlert {
+  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+  protected readonly t = injectCbTranslation();
   readonly title = input('');
   readonly severity = input<'success' | 'warning' | 'error' | 'info'>('info');
   readonly closable = input(true);

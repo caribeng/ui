@@ -7,6 +7,7 @@ import {
   model,
 } from '@angular/core';
 import { CbIcon } from '@caribeng/ui/icon';
+import { cbFormat, injectCbTranslation } from '@caribeng/ui';
 
 export interface CbCarouselItem {
   title: string;
@@ -28,7 +29,7 @@ export interface CbCarouselItem {
     class: 'cb-carousel',
     role: 'region',
     'aria-roledescription': 'carousel',
-    '[attr.aria-label]': 'ariaLabel() || "Carrusel"',
+    '[attr.aria-label]': '(ariaLabel() ?? t().carousel)',
   },
   template: `
     <div class="cb-carousel__Stage">
@@ -37,7 +38,7 @@ export interface CbCarouselItem {
           type="button"
           class="cb-carousel__nav cb-carousel__nav--prev"
           [disabled]="!canPrev()"
-          aria-label="Anterior"
+          [attr.aria-label]="t().previous"
           (click)="prev()"
         >
           <cb-icon name="chevron-left" [size]="18" aria-hidden="true" />
@@ -66,7 +67,7 @@ export interface CbCarouselItem {
           type="button"
           class="cb-carousel__nav cb-carousel__nav--next"
           [disabled]="!canNext()"
-          aria-label="Siguiente"
+          [attr.aria-label]="t().next"
           (click)="next()"
         >
           <cb-icon name="chevron-right" [size]="18" aria-hidden="true" />
@@ -82,7 +83,7 @@ export interface CbCarouselItem {
             role="tab"
             [class.cb-is-active]="page() === i"
             [attr.aria-selected]="page() === i"
-            [attr.aria-label]="'Diapositiva ' + (i + 1)"
+            [attr.aria-label]="fmt(t().slide, i + 1)"
             (click)="page.set(i)"
           ></button>
         }
@@ -92,11 +93,15 @@ export interface CbCarouselItem {
   styleUrl: './carousel.component.css',
 })
 export class CbCarousel {
+  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+  protected readonly t = injectCbTranslation();
+  /** Rellena `{0}`, `{1}`… de un texto traducido. */
+  protected readonly fmt = cbFormat;
   readonly items = input<CbCarouselItem[]>([]);
   readonly circular = input<boolean>(true);
   readonly showNavigators = input<boolean>(true);
   readonly showIndicators = input<boolean>(true);
-  readonly ariaLabel = input<string>('Carrusel');
+  readonly ariaLabel = input<string | undefined>(undefined);
 
   readonly page = model<number>(0);
 

@@ -4,6 +4,7 @@ import {
   ViewEncapsulation,
   input,
 } from '@angular/core';
+import { injectCbTranslation } from '@caribeng/ui';
 
 /**
  * Toolbar de CaribeNG: contenedor horizontal accesible (`role="toolbar"`) para
@@ -26,7 +27,7 @@ import {
   host: {
     class: 'cb-toolbar',
     role: 'toolbar',
-    '[attr.aria-label]': 'ariaLabel() || null',
+    '[attr.aria-label]': '(ariaLabel() ?? t().toolbar) || null',
   },
   template: `
     <div class="cb-toolbar__group cb-toolbar__start">
@@ -43,6 +44,8 @@ import {
   styleUrl: './toolbar.component.css',
 })
 export class CbToolbar {
+  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+  protected readonly t = injectCbTranslation();
   /** Etiqueta accesible para el contenedor `role="toolbar"`. */
-  readonly ariaLabel = input<string>('Barra de herramientas');
+  readonly ariaLabel = input<string | undefined>(undefined);
 }

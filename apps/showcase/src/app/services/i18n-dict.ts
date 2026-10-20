@@ -1523,6 +1523,26 @@ export const ES_EN: Record<string, string> = {
   'Marca visual y ARIA de estado inválido (también se activa con Angular Forms).':
     'Visual and ARIA invalid state (also enabled automatically by Angular Forms).',
 
+  // --- Idioma (i18n) ---
+  Configuración: 'Configuration',
+  'Idioma (i18n)': 'Localization (i18n)',
+  'Los componentes traen sus textos de interfaz (etiquetas accesibles, botones, placeholders y mensajes) en español e inglés, y puedes traducirlos o personalizarlos.':
+    'Components ship their interface texts (accessible labels, buttons, placeholders and messages) in Spanish and English, and you can translate or customize them.',
+  'Elige el idioma una vez para toda la app con provideCaribeNG(). Por defecto es español (es).':
+    'Choose the language once for the whole app with provideCaribeNG(). The default is Spanish (es).',
+  'Cambio en caliente': 'Switch at runtime',
+  'CbLocaleService.use() cambia el idioma sin recargar: los componentes leen sus textos como signal. Pruébalo: el selector, el paginador y sus etiquetas accesibles cambian de idioma.':
+    'CbLocaleService.use() switches the language without reloading: components read their texts as a signal. Try it: the select, the paginator and their accessible labels change language.',
+  'Personalizar textos': 'Customize texts',
+  'translation sobrescribe solo las claves que indiques sobre el idioma elegido; en caliente, usa setTranslation().':
+    'translation overrides only the keys you specify on top of the chosen language; at runtime, use setTranslation().',
+  'Otro idioma': 'Another language',
+  'Para un idioma que no viene incluido, pasa un objeto CbTranslation completo. TypeScript te avisa si falta alguna clave.':
+    'For a language that is not included, pass a complete CbTranslation object. TypeScript warns you if a key is missing.',
+  'Claves disponibles': 'Available keys',
+  'Todos los textos que puedes traducir. Las partes {0}, {1}… se rellenan con valores como el número de página o el nombre de un elemento.':
+    'Every text you can translate. The {0}, {1}… parts are filled with values such as the page number or an item name.',
+
   // --- Changelog ---
   Versiones: 'Releases',
   'Novedades, mejoras y correcciones de cada versión de CaribeNG. Busca por palabra clave o filtra por tipo de cambio.':

@@ -5,6 +5,7 @@ import {
   computed,
   input,
 } from '@angular/core';
+import { cbFormat, injectCbTranslation } from '@caribeng/ui';
 
 export type CbChartType = 'bar' | 'line' | 'doughnut' | 'pie';
 
@@ -43,7 +44,7 @@ const DEFAULT_PALETTE = [
       class="cb-chart__svg"
       [attr.viewBox]="'0 0 520 ' + height()"
       role="img"
-      [attr.aria-label]="ariaLabel()"
+      [attr.aria-label]="(ariaLabel() ?? t().chart)"
     >
       @if (type() === 'bar' || type() === 'line') {
         @for (lineY of gridLines(); track lineY) {
@@ -125,7 +126,7 @@ const DEFAULT_PALETTE = [
     </svg>
 
     @if (showLegend() && legendItems().length > 0) {
-      <ul class="cb-chart__legend" aria-label="Leyenda del gráfico">
+      <ul class="cb-chart__legend" [attr.aria-label]="t().chartLegend">
         @for (item of legendItems(); track item.label) {
           <li class="cb-chart__legend-item">
             <span class="cb-chart__swatch" [style.background]="item.color"></span>
@@ -138,11 +139,15 @@ const DEFAULT_PALETTE = [
   styleUrl: './chart.component.css',
 })
 export class CbChart {
+  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+  protected readonly t = injectCbTranslation();
+  /** Rellena `{0}`, `{1}`… de un texto traducido. */
+  protected readonly fmt = cbFormat;
   readonly type = input<CbChartType>('bar');
   readonly data = input<CbChartData>({ labels: [], datasets: [] });
   readonly height = input<number>(220);
   readonly showLegend = input<boolean>(true);
-  readonly ariaLabel = input<string>('Gráfico de datos');
+  readonly ariaLabel = input<string | undefined>(undefined);
 
   protected readonly gridLines = computed(() => {
     const plotTop = 18;
@@ -267,7 +272,7 @@ export class CbChart {
       const len = (val / total) * circumference;
       const offset = -accumulated;
       accumulated += len;
-      const lbl = labels[idx] ?? `Item ${idx + 1}`;
+      const lbl = labels[idx] ?? cbFormat(this.t().chartItem, idx + 1);
       return {
         key: `${idx}-${lbl}`,
         color: DEFAULT_PALETTE[idx % DEFAULT_PALETTE.length],

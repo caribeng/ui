@@ -14,7 +14,7 @@ import {
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
 import { OverlayModule, type ConnectedPosition } from '@angular/cdk/overlay';
 import { CbIcon } from '@caribeng/ui/icon';
-import { cbFieldState, type CbSize } from '@caribeng/ui';
+import { cbFormat, cbFieldState, type CbSize, injectCbTranslation } from '@caribeng/ui';
 
 let nextUid = 0;
 
@@ -90,7 +90,7 @@ let nextUid = 0;
                 <span class="cb-multiselect__check" [class.cb-is-checked]="allSelected()">
                   @if (allSelected()) { <cb-icon name="check" [size]="14" aria-hidden="true" /> }
                 </span>
-                Todos
+                {{ t().selectAll }}
               </button>
             }
             @if (filter()) {
@@ -98,11 +98,11 @@ let nextUid = 0;
                 #filterInput
                 type="text"
                 class="cb-multiselect__filter-input"
-                [placeholder]="filterPlaceholder()"
+                [placeholder]="(filterPlaceholder() ?? t().search)"
                 [value]="filterText()"
                 (input)="onFilter($event)"
                 (keydown)="onTriggerKeydown($event)"
-                aria-label="Filtrar opciones"
+                [attr.aria-label]="t().filterOptions"
               />
             }
           </div>
@@ -128,7 +128,7 @@ let nextUid = 0;
             </li>
           } @empty {
             <li class="cb-multiselect__empty" role="option" aria-disabled="true">
-              {{ emptyMessage() }}
+              {{ (emptyMessage() ?? t().noResults) }}
             </li>
           }
         </ul>
@@ -138,15 +138,19 @@ let nextUid = 0;
   styleUrl: './multiselect.component.css',
 })
 export class CbMultiSelect implements ControlValueAccessor {
+  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+  protected readonly t = injectCbTranslation();
+  /** Rellena `{0}`, `{1}`… de un texto traducido. */
+  protected readonly fmt = cbFormat;
   readonly options = input<readonly unknown[]>([]);
   readonly optionLabel = input<string>('label');
   readonly optionValue = input<string | null>(null);
   readonly optionDisabled = input<string>('disabled');
-  readonly placeholder = input<string>('Seleccionar');
+  readonly placeholder = input<string | undefined>(undefined);
   readonly size = input<CbSize>('md');
   readonly filter = input<boolean, unknown>(false, { transform: toBoolean });
-  readonly filterPlaceholder = input<string>('Buscar…');
-  readonly emptyMessage = input<string>('Sin resultados');
+  readonly filterPlaceholder = input<string | undefined>(undefined);
+  readonly emptyMessage = input<string | undefined>(undefined);
   readonly showToggleAll = input<boolean, unknown>(true, { transform: toBoolean });
   /** Nº máx. de etiquetas antes de mostrar "N seleccionados". */
   readonly maxSelectedLabels = input<number>(3);
@@ -195,8 +199,8 @@ export class CbMultiSelect implements ControlValueAccessor {
 
   protected readonly displayLabel = computed(() => {
     const sel = this.selected();
-    if (!sel.length) return this.placeholder();
-    if (sel.length > this.maxSelectedLabels()) return `${sel.length} seleccionados`;
+    if (!sel.length) return (this.placeholder() ?? this.t().select);
+    if (sel.length > this.maxSelectedLabels()) return cbFormat(this.t().selectedCount, sel.length);
     return sel.map((o) => this.labelOf(o)).join(', ');
   });
 

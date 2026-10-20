@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, DestroyRef, TemplateRef, ViewContai
 import { Overlay, type ConnectedPosition, type OverlayRef } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 import { CbIcon } from '@caribeng/ui/icon';
+import { injectCbTranslation } from '@caribeng/ui';
 
 export interface CbTieredMenuItem {
   label: string;
@@ -19,9 +20,9 @@ export interface CbTieredMenuItem {
   encapsulation: ViewEncapsulation.Emulated,
   imports: [CbIcon],
   template: `
-    <button class="cb-tieredmenu__trigger" type="button" [attr.aria-expanded]="isOpen()" aria-haspopup="menu" (click)="toggle($event)">{{ triggerLabel() }}</button>
+    <button class="cb-tieredmenu__trigger" type="button" [attr.aria-expanded]="isOpen()" aria-haspopup="menu" (click)="toggle($event)">{{ (triggerLabel() ?? t().menu) }}</button>
     <ng-template #content>
-      <ul class="cb-tieredmenu__list" role="menu" [attr.aria-label]="ariaLabel()">
+      <ul class="cb-tieredmenu__list" role="menu" [attr.aria-label]="(ariaLabel() ?? t().menu)">
         @for (item of items(); track $index; let i = $index) {
           @if (item.separator) { <li class="cb-tieredmenu__separator" role="separator"></li> }
           @else {
@@ -66,12 +67,14 @@ export interface CbTieredMenuItem {
   styleUrl: './tieredmenu.component.css',
 })
 export class CbTieredMenu {
+  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+  protected readonly t = injectCbTranslation();
   private readonly overlay = inject(Overlay);
   private readonly vcr = inject(ViewContainerRef);
   private readonly destroyRef = inject(DestroyRef);
   readonly items = input<readonly CbTieredMenuItem[]>([]);
-  readonly ariaLabel = input('Menu');
-  readonly triggerLabel = input('Menu');
+  readonly ariaLabel = input<string | undefined>(undefined);
+  readonly triggerLabel = input<string | undefined>(undefined);
   readonly itemSelect = output<CbTieredMenuItem>();
   protected readonly isOpen = signal(false);
   protected readonly openIndex = signal<number | null>(null);

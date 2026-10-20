@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, ViewEncapsulation, input } from '@angular/core';
+import { injectCbTranslation } from '@caribeng/ui';
 
 @Component({
   selector: 'cb-illustration',
@@ -12,7 +13,7 @@ import { ChangeDetectionStrategy, Component, ViewEncapsulation, input } from '@a
     <svg
       viewBox="0 0 160 120"
       role="img"
-      [attr.aria-label]="alt() || name()"
+      [attr.aria-label]="(alt() ?? t().illustration) || name()"
       style="width: 100%; height: auto"
     >
       <rect x="12" y="14" width="136" height="92" rx="16" fill="var(--cb-color-primary-50, #ecfdf5)" />
@@ -24,7 +25,9 @@ import { ChangeDetectionStrategy, Component, ViewEncapsulation, input } from '@a
   styleUrl: './illustration.component.css',
 })
 export class CbIllustration {
+  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+  protected readonly t = injectCbTranslation();
   readonly name = input<string>('transfer-success');
   readonly size = input<string>('160px');
-  readonly alt = input<string>('Ilustración Caribe');
+  readonly alt = input<string | undefined>(undefined);
 }

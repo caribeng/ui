@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, ElementRef, ViewEncapsulation, inject, input, output, signal } from '@angular/core';
 import { CbIcon } from '@caribeng/ui/icon';
+import { injectCbTranslation } from '@caribeng/ui';
 
 export interface CbMegaMenuLink { label: string; url?: string; icon?: string; disabled?: boolean; }
 export interface CbMegaMenuGroup { label: string; items: readonly CbMegaMenuLink[]; }
@@ -13,7 +14,7 @@ export interface CbMegaMenuItem { label: string; icon?: string; groups: readonly
   imports: [CbIcon],
   host: { class: 'cb-megamenu', '(document:click)': 'onDocumentClick($event)', '(keydown.escape)': 'close()' },
   template: `
-    <nav [attr.aria-label]="ariaLabel()">
+    <nav [attr.aria-label]="(ariaLabel() ?? t().categories)">
       <ul class="cb-megamenu__bar">
         @for (item of items(); track $index; let i = $index) {
           <li><button class="cb-megamenu__trigger" type="button" [attr.aria-expanded]="openIndex() === i" aria-haspopup="true" (click)="toggle(i)">@if (item.icon) { <cb-icon [name]="item.icon" [size]="16" aria-hidden="true" /> }{{ item.label }}<cb-icon class="cb-megamenu__chevron" [class.cb-megamenu__chevron--open]="openIndex() === i" name="chevron-down" [size]="14" aria-hidden="true" /></button></li>
@@ -35,9 +36,11 @@ export interface CbMegaMenuItem { label: string; icon?: string; groups: readonly
   styleUrl: './megamenu.component.css',
 })
 export class CbMegaMenu {
+  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+  protected readonly t = injectCbTranslation();
   private readonly host = inject(ElementRef<HTMLElement>);
   readonly items = input<readonly CbMegaMenuItem[]>([]);
-  readonly ariaLabel = input('Categories');
+  readonly ariaLabel = input<string | undefined>(undefined);
   readonly itemSelect = output<CbMegaMenuLink>();
   protected readonly openIndex = signal<number | null>(null);
   toggle(index: number): void { this.openIndex.update((current) => current === index ? null : index); }

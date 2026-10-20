@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, ViewEncapsulation, input } from '@angular/core';
+import { injectCbTranslation } from '@caribeng/ui';
 
 @Component({
   selector: 'cb-pictogram',
@@ -13,7 +14,7 @@ import { ChangeDetectionStrategy, Component, ViewEncapsulation, input } from '@a
     <svg
       viewBox="0 0 64 64"
       role="img"
-      [attr.aria-label]="alt() || name()"
+      [attr.aria-label]="(alt() ?? t().pictogram) || name()"
       style="width: 100%; height: 100%"
     >
       <circle cx="32" cy="32" r="28" fill="var(--cb-color-primary-100, #d1fae5)" />
@@ -23,7 +24,9 @@ import { ChangeDetectionStrategy, Component, ViewEncapsulation, input } from '@a
   styleUrl: './pictogram.component.css',
 })
 export class CbPictogram {
+  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+  protected readonly t = injectCbTranslation();
   readonly name = input<string>('security-shield');
   readonly size = input<string>('56px');
-  readonly alt = input<string>('Pictograma');
+  readonly alt = input<string | undefined>(undefined);
 }

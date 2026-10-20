@@ -10,6 +10,7 @@ import {
   output,
   signal,
 } from '@angular/core';
+import { injectCbTranslation } from '@caribeng/ui';
 
 export type CbSplitterLayout = 'horizontal' | 'vertical';
 
@@ -53,7 +54,7 @@ let nextSplitterPanelUid = 0;
         [attr.aria-valuenow]="Math.round(effectiveSizes()[idx])"
         [attr.aria-valuemin]="panelMinSize(idx)"
         [attr.aria-valuemax]="100 - panelMinSize(idx + 1)"
-        aria-label="Redimensionar paneles"
+        [attr.aria-label]="t().resizePanels"
         (pointerdown)="onGutterPointerDown($event, idx)"
         (keydown)="onGutterKeydown($event, idx)"
       >
@@ -64,6 +65,8 @@ let nextSplitterPanelUid = 0;
   styleUrl: './splitter.component.css',
 })
 export class CbSplitter {
+  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+  protected readonly t = injectCbTranslation();
   protected readonly Math = Math;
   private readonly hostRef = inject<ElementRef<HTMLElement>>(ElementRef);
 

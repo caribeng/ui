@@ -7,6 +7,7 @@ import {
   output,
 } from '@angular/core';
 import { CbButton } from '@caribeng/ui/button';
+import { injectCbTranslation } from '@caribeng/ui';
 
 /**
  * Modal de Caribe Design: diálogo centrado con backdrop, cabecera, contenido y
@@ -37,7 +38,7 @@ import { CbButton } from '@caribeng/ui/button';
             <button
               type="button"
               class="cb-modal__close"
-              aria-label="Cerrar"
+              [attr.aria-label]="t().close"
               (click)="close()"
             >
               ×
@@ -46,9 +47,9 @@ import { CbButton } from '@caribeng/ui/button';
           <div class="cb-modal__body"><ng-content /></div>
           <footer class="cb-modal__foot">
             <cb-button variant="text" severity="secondary" (click)="close()">
-              Cancelar
+              {{ t().cancel }}
             </cb-button>
-            <cb-button (click)="confirm.emit()">{{ confirmLabel() }}</cb-button>
+            <cb-button (click)="confirm.emit()">{{ (confirmLabel() ?? t().accept) }}</cb-button>
           </footer>
         </div>
       </div>
@@ -57,8 +58,10 @@ import { CbButton } from '@caribeng/ui/button';
   styleUrl: './modal.component.css',
 })
 export class CbModal {
+  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+  protected readonly t = injectCbTranslation();
   readonly title = input('');
-  readonly confirmLabel = input('Aceptar');
+  readonly confirmLabel = input<string | undefined>(undefined);
   readonly visible = model(false);
   readonly confirm = output<void>();
   readonly closed = output<void>();

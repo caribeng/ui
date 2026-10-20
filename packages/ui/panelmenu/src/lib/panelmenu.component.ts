@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, ViewEncapsulation, input, output, signal } from '@angular/core';
 import { CbIcon } from '@caribeng/ui/icon';
+import { injectCbTranslation } from '@caribeng/ui';
 
 export interface CbPanelMenuItem {
   label: string;
@@ -19,7 +20,7 @@ let nextPanelMenuId = 0;
   imports: [CbIcon],
   host: { class: 'cb-panelmenu' },
   template: `
-    <nav [attr.aria-label]="ariaLabel()">
+    <nav [attr.aria-label]="(ariaLabel() ?? t().panelMenu)">
       <ul class="cb-panelmenu__list">
         @for (item of items(); track $index; let i = $index) {
           <li class="cb-panelmenu__entry">
@@ -63,9 +64,11 @@ let nextPanelMenuId = 0;
   styleUrl: './panelmenu.component.css',
 })
 export class CbPanelMenu {
+  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+  protected readonly t = injectCbTranslation();
   private readonly uid = ++nextPanelMenuId;
   readonly items = input<readonly CbPanelMenuItem[]>([]);
-  readonly ariaLabel = input('Panel menu');
+  readonly ariaLabel = input<string | undefined>(undefined);
   readonly multiple = input(false);
   readonly itemSelect = output<CbPanelMenuItem>();
   private readonly openItems = signal<ReadonlySet<number>>(new Set());

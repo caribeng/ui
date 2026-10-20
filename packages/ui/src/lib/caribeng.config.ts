@@ -1,4 +1,5 @@
 import { InjectionToken } from '@angular/core';
+import type { CbLocaleCode, CbTranslation } from './locale';
 
 /** Tema inicial de la aplicación. `system` sigue a `prefers-color-scheme`. */
 export type CbTheme = 'light' | 'dark';
@@ -118,10 +119,17 @@ export interface CaribeNgConfig {
    * input `requiredIndicator`.
    */
   requiredIndicator: CbRequiredIndicator;
-  /** Texto del modo `'text'`. Por defecto `'requerido'` → "(requerido)". */
-  requiredText: string;
-  /** Texto del modo `'optional'`. Por defecto `'opcional'` → "(opcional)". */
-  optionalText: string;
+  /** Texto del modo `'text'`. Si se omite, usa `required` del idioma ("requerido" / "required"). */
+  requiredText?: string;
+  /** Texto del modo `'optional'`. Si se omite, usa `optional` del idioma ("opcional" / "optional"). */
+  optionalText?: string;
+  /**
+   * Idioma de los textos de interfaz (etiquetas accesibles, botones, mensajes
+   * por defecto): `'es'` (por defecto), `'en'` o un objeto `CbTranslation` propio.
+   */
+  locale?: CbLocaleCode | CbTranslation;
+  /** Textos sueltos que sobrescriben los del idioma, p. ej. `{ close: 'Salir' }`. */
+  translation?: Partial<CbTranslation>;
 }
 
 /**
@@ -141,8 +149,7 @@ export const CB_DEFAULT_CONFIG: CaribeNgConfig = {
   persistTheme: false,
   storageKey: 'caribeng-theme',
   requiredIndicator: 'none',
-  requiredText: 'requerido',
-  optionalText: 'opcional',
+  locale: 'es',
 };
 
 /** Token de inyección con la configuración resuelta de CaribeNG. */

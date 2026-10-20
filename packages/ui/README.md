@@ -131,6 +131,28 @@ Todos los controles funcionan con Reactive Forms y con formularios por plantilla
 <cb-input label="Correo" formControlName="email" error="Ingresa un correo válido" />
 ```
 
+## 🌐 Idioma (i18n)
+
+Los textos de interfaz de los componentes (etiquetas accesibles, botones, placeholders y mensajes) vienen en **español** (por defecto) e **inglés**:
+
+```ts
+provideCaribeNG({
+  locale: 'en',                                   // 'es' | 'en' | objeto CbTranslation propio
+  translation: { noResults: 'Nothing here yet' }, // sobrescribe textos sueltos
+});
+```
+
+Cambio en caliente, sin recargar:
+
+```ts
+import { inject } from '@angular/core';
+import { CbLocaleService } from '@caribeng/ui';
+
+inject(CbLocaleService).use('en');
+```
+
+Un texto pasado por input (por ejemplo `placeholder` o `emptyMessage`) siempre tiene prioridad sobre el idioma.
+
 ## 🎨 Tema claro/oscuro y presets
 
 ```ts

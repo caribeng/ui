@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, ViewEncapsulation, input, output } from '@angular/core';
 import { CbIcon } from '@caribeng/ui/icon';
+import { injectCbTranslation } from '@caribeng/ui';
 
 export type CbDockPosition = 'top' | 'right' | 'bottom' | 'left';
 export interface CbDockItem { label: string; icon: string; url?: string; disabled?: boolean; }
@@ -18,7 +19,7 @@ export interface CbDockItem { label: string; icon: string; url?: string; disable
     '[class.cb-dock--left]': 'position() === "left"',
   },
   template: `
-    <nav [attr.aria-label]="ariaLabel()">
+    <nav [attr.aria-label]="(ariaLabel() ?? t().appDock)">
       <ul class="cb-dock__list" role="toolbar" [attr.aria-orientation]="position() === 'left' || position() === 'right' ? 'vertical' : 'horizontal'">
         @for (item of items(); track $index) {
           <li>
@@ -35,9 +36,11 @@ export interface CbDockItem { label: string; icon: string; url?: string; disable
   styleUrl: './dock.component.css',
 })
 export class CbDock {
+  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+  protected readonly t = injectCbTranslation();
   readonly items = input<readonly CbDockItem[]>([]);
   readonly position = input<CbDockPosition>('bottom');
-  readonly ariaLabel = input('Application dock');
+  readonly ariaLabel = input<string | undefined>(undefined);
   readonly itemSelect = output<CbDockItem>();
   select(item: CbDockItem): void { if (!item.disabled) this.itemSelect.emit(item); }
 }

@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
 import { CbIcon } from '@caribeng/ui/icon';
-import { cbFieldState } from '@caribeng/ui';
+import { cbFieldState, injectCbTranslation } from '@caribeng/ui';
 
 let nextUid = 0;
 
@@ -45,11 +45,11 @@ let nextUid = 0;
           <input
             type="text"
             class="cb-listbox__filter-input"
-            [placeholder]="filterPlaceholder()"
+            [placeholder]="(filterPlaceholder() ?? t().search)"
             [value]="filterText()"
             [disabled]="isDisabled()"
             (input)="onFilter($event)"
-            aria-label="Filtrar opciones"
+            [attr.aria-label]="t().filterOptions"
           />
         </div>
       }
@@ -88,7 +88,7 @@ let nextUid = 0;
           </li>
         } @empty {
           <li class="cb-listbox__empty" role="option" aria-disabled="true">
-            {{ emptyMessage() }}
+            {{ (emptyMessage() ?? t().noResults) }}
           </li>
         }
       </ul>
@@ -97,14 +97,16 @@ let nextUid = 0;
   styleUrl: './listbox.component.css',
 })
 export class CbListBox implements ControlValueAccessor {
+  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+  protected readonly t = injectCbTranslation();
   readonly options = input<readonly unknown[]>([]);
   readonly optionLabel = input<string>('label');
   readonly optionValue = input<string | null>(null);
   readonly optionDisabled = input<string>('disabled');
   readonly multiple = input<boolean, unknown>(false, { transform: toBoolean });
   readonly filter = input<boolean, unknown>(false, { transform: toBoolean });
-  readonly filterPlaceholder = input<string>('Buscar…');
-  readonly emptyMessage = input<string>('Sin resultados');
+  readonly filterPlaceholder = input<string | undefined>(undefined);
+  readonly emptyMessage = input<string | undefined>(undefined);
   readonly disabled = input<boolean, unknown>(false, { transform: toBoolean });
   /** Marca visual y ARIA de estado inválido (también se activa con Angular Forms). */
   readonly invalid = input<boolean, unknown>(false, { transform: toBoolean });

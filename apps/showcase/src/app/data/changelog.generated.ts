@@ -6,7 +6,42 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
   {
     "version": null,
     "date": null,
-    "sections": []
+    "sections": [
+      {
+        "type": "added",
+        "items": [
+          {
+            "component": "Idioma (i18n)",
+            "text": "sistema de traducción de los textos de interfaz (etiquetas accesibles, botones, placeholders y mensajes) en español e inglés, con `provideCaribeNG({ locale, translation })`, cambio en caliente con `CbLocaleService.use()` y `setTranslation()`, y `cbFormat()` para textos con valores. Aplica a 79 componentes."
+          },
+          {
+            "component": "Showcase",
+            "text": "página Idioma (i18n) con todas las claves; el selector ES/EN del sitio cambia también el idioma de los componentes."
+          }
+        ]
+      },
+      {
+        "type": "changed",
+        "items": [
+          {
+            "component": "Menús y navegación",
+            "text": "las etiquetas accesibles de Breadcrumb, Menu, Menubar, ContextMenu, MegaMenu, Dock, PanelMenu, TieredMenu, Steps y TabMenu estaban en inglés; ahora siguen el idioma activo (español por defecto)."
+          },
+          {
+            "component": "ConfirmPopup",
+            "text": "el mensaje por defecto se unifica con el de ConfirmDialog (\"¿Deseas continuar?\")."
+          },
+          {
+            "component": "CascadeSelect / TreeSelect / InputSelect",
+            "text": "el placeholder por defecto se unifica en \"Seleccionar\"."
+          },
+          {
+            "component": "Formularios",
+            "text": "`requiredText` y `optionalText` de `provideCaribeNG()` pasan a ser opcionales; si se omiten, se usan los del idioma activo."
+          }
+        ]
+      }
+    ]
   },
   {
     "version": "22.1.1",

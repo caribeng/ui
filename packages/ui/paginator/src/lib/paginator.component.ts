@@ -8,6 +8,7 @@ import {
   output,
 } from '@angular/core';
 import { CbIcon } from '@caribeng/ui/icon';
+import { injectCbTranslation } from '@caribeng/ui';
 
 export interface CbPaginatorState {
   /** Índice del primer registro de la página. */
@@ -35,7 +36,7 @@ export interface CbPaginatorState {
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
   imports: [CbIcon],
-  host: { class: 'cb-paginator', role: 'navigation', 'aria-label': 'Paginación' },
+  host: { class: 'cb-paginator', role: 'navigation', '[attr.aria-label]': 't().pagination' },
   template: `
     @if (showReport()) {
       <span class="cb-paginator__report">{{ report() }}</span>
@@ -44,7 +45,7 @@ export interface CbPaginatorState {
     <button
       type="button"
       class="cb-paginator__btn"
-      aria-label="Primera página"
+      [attr.aria-label]="t().firstPage"
       [disabled]="page() === 0"
       (click)="goToPage(0)"
     >
@@ -53,7 +54,7 @@ export interface CbPaginatorState {
     <button
       type="button"
       class="cb-paginator__btn"
-      aria-label="Página anterior"
+      [attr.aria-label]="t().previousPage"
       [disabled]="page() === 0"
       (click)="goToPage(page() - 1)"
     >
@@ -75,7 +76,7 @@ export interface CbPaginatorState {
     <button
       type="button"
       class="cb-paginator__btn"
-      aria-label="Página siguiente"
+      [attr.aria-label]="t().nextPage"
       [disabled]="page() >= pageCount() - 1"
       (click)="goToPage(page() + 1)"
     >
@@ -84,7 +85,7 @@ export interface CbPaginatorState {
     <button
       type="button"
       class="cb-paginator__btn"
-      aria-label="Última página"
+      [attr.aria-label]="t().lastPage"
       [disabled]="page() >= pageCount() - 1"
       (click)="goToPage(pageCount() - 1)"
     >
@@ -94,7 +95,7 @@ export interface CbPaginatorState {
     @if (rowsPerPageOptions().length) {
       <select
         class="cb-paginator__rows"
-        aria-label="Registros por página"
+        [attr.aria-label]="t().rowsPerPage"
         [value]="rows()"
         (change)="onRowsChange($event)"
       >
@@ -107,6 +108,8 @@ export interface CbPaginatorState {
   styleUrl: './paginator.component.css',
 })
 export class CbPaginator {
+  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+  protected readonly t = injectCbTranslation();
   readonly totalRecords = input<number>(0);
   readonly rows = model<number>(10);
   readonly first = model<number>(0);
@@ -135,7 +138,7 @@ export class CbPaginator {
 
   protected readonly report = computed(() => {
     const total = this.totalRecords();
-    if (total === 0) return '0 registros';
+    if (total === 0) return this.t().noRecords;
     const from = this.first() + 1;
     const to = Math.min(this.first() + this.rows(), total);
     return `${from}–${to} de ${total}`;

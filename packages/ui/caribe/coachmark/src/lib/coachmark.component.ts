@@ -6,6 +6,7 @@ import {
   model,
   output,
 } from '@angular/core';
+import { cbFormat, injectCbTranslation } from '@caribeng/ui';
 
 /**
  * Coachmark de Caribe Design: tarjeta de ayuda guiada paso a paso para resaltar
@@ -22,9 +23,9 @@ import {
   encapsulation: ViewEncapsulation.Emulated,
   template: `
     @if (visible() && steps().length) {
-      <aside class="cb-coachmark" role="dialog" aria-label="Ayuda guiada">
+      <aside class="cb-coachmark" role="dialog" [attr.aria-label]="t().guidedHelp">
         <span class="cb-coachmark__counter">
-          Paso {{ index() + 1 }} de {{ steps().length }}
+          {{ fmt(t().stepOf, index() + 1, steps().length) }}
         </span>
         <h3 class="cb-coachmark__title">{{ steps()[index()] }}</h3>
         <div class="cb-coachmark__actions">
@@ -33,7 +34,7 @@ import {
             class="cb-coachmark__btn cb-coachmark__btn--ghost"
             (click)="close()"
           >
-            Omitir
+            {{ t().skip }}
           </button>
           <button
             type="button"
@@ -41,14 +42,14 @@ import {
             (click)="previous()"
             [disabled]="index() === 0"
           >
-            Anterior
+            {{ t().previous }}
           </button>
           <button
             type="button"
             class="cb-coachmark__btn cb-coachmark__btn--primary"
             (click)="next()"
           >
-            {{ index() === steps().length - 1 ? 'Finalizar' : 'Siguiente' }}
+            {{ index() === steps().length - 1 ? t().finish : t().next }}
           </button>
         </div>
       </aside>
@@ -57,6 +58,10 @@ import {
   styleUrl: './coachmark.component.css',
 })
 export class CbCoachmark {
+  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+  protected readonly t = injectCbTranslation();
+  /** Rellena `{0}`, `{1}`… de un texto traducido. */
+  protected readonly fmt = cbFormat;
   readonly steps = input<readonly string[]>([]);
   readonly visible = model(true);
   readonly index = model(0);

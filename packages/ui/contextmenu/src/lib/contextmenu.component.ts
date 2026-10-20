@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, DestroyRef, TemplateRef, ViewContai
 import { Overlay, type ConnectedPosition, type OverlayRef } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 import { CbIcon } from '@caribeng/ui/icon';
+import { injectCbTranslation } from '@caribeng/ui';
 
 export interface CbContextMenuItem {
   label: string;
@@ -20,7 +21,7 @@ export interface CbContextMenuItem {
   template: `
     <ng-content />
     <ng-template #content>
-      <div class="cb-contextmenu__panel" role="menu" [attr.aria-label]="ariaLabel()">
+      <div class="cb-contextmenu__panel" role="menu" [attr.aria-label]="(ariaLabel() ?? t().contextMenu)">
         @for (item of items(); track $index) {
           @if (item.separator) { <div class="cb-contextmenu__separator" role="separator"></div> }
           @else {
@@ -36,11 +37,13 @@ export interface CbContextMenuItem {
   styleUrl: './contextmenu.component.css',
 })
 export class CbContextMenu {
+  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+  protected readonly t = injectCbTranslation();
   private readonly overlay = inject(Overlay);
   private readonly vcr = inject(ViewContainerRef);
   private readonly destroyRef = inject(DestroyRef);
   readonly items = input<readonly CbContextMenuItem[]>([]);
-  readonly ariaLabel = input('Context menu');
+  readonly ariaLabel = input<string | undefined>(undefined);
   readonly itemSelect = output<CbContextMenuItem>();
   private readonly content = viewChild.required<TemplateRef<unknown>>('content');
   private overlayRef: OverlayRef | null = null;

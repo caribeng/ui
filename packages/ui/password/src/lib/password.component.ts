@@ -9,7 +9,7 @@ import {
   signal,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { cbFieldState } from '@caribeng/ui';
+import { cbFieldState, injectCbTranslation } from '@caribeng/ui';
 
 export type CbPasswordSize = 'sm' | 'md' | 'lg';
 export type CbPasswordStrength = 'none' | 'weak' | 'medium' | 'strong';
@@ -57,7 +57,7 @@ export type CbPasswordStrength = 'none' | 'weak' | 'medium' | 'strong';
           type="button"
           class="cb-password__toggle"
           [disabled]="isDisabled()"
-          [attr.aria-label]="revealed() ? 'Ocultar contraseña' : 'Mostrar contraseña'"
+          [attr.aria-label]="revealed() ? t().hidePassword : t().showPassword"
           [attr.aria-pressed]="revealed()"
           (click)="toggleReveal()"
         >
@@ -103,6 +103,8 @@ export type CbPasswordStrength = 'none' | 'weak' | 'medium' | 'strong';
   styleUrl: './password.component.css',
 })
 export class CbPassword implements ControlValueAccessor {
+  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+  protected readonly t = injectCbTranslation();
   readonly placeholder = input<string>('');
   readonly disabled = input<boolean>(false);
   readonly invalid = input<boolean>(false);
@@ -141,11 +143,11 @@ export class CbPassword implements ControlValueAccessor {
   protected readonly strengthLabel = computed(() => {
     switch (this.strength()) {
       case 'weak':
-        return 'Fortaleza: Débil';
+        return this.t().passwordWeak;
       case 'medium':
-        return 'Fortaleza: Media';
+        return this.t().passwordMedium;
       case 'strong':
-        return 'Fortaleza: Fuerte';
+        return this.t().passwordStrong;
       default:
         return '';
     }

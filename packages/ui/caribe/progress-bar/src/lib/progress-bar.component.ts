@@ -5,6 +5,7 @@ import {
   computed,
   input,
 } from '@angular/core';
+import { injectCbTranslation } from '@caribeng/ui';
 
 /**
  * Progress-bar de Caribe Design: barra de progreso determinada (0–100) con
@@ -36,7 +37,7 @@ import {
         [attr.aria-valuenow]="clamped()"
         aria-valuemin="0"
         aria-valuemax="100"
-        [attr.aria-label]="label() || 'Progreso'"
+        [attr.aria-label]="label() || t().progress"
       >
         <div class="cb-progress-bar__fill" [style.width.%]="clamped()"></div>
       </div>
@@ -45,6 +46,8 @@ import {
   styleUrl: './progress-bar.component.css',
 })
 export class CbProgressBar {
+  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+  protected readonly t = injectCbTranslation();
   /** Valor actual (0–100). */
   readonly value = input<number>(60);
   /** Etiqueta mostrada sobre la barra. */

@@ -10,7 +10,7 @@ import {
   booleanAttribute,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { cbFieldState } from '@caribeng/ui';
+import { cbFieldState, injectCbTranslation } from '@caribeng/ui';
 
 /**
  * Input-search de Caribe Design: campo de búsqueda con icono, botón de limpiar
@@ -46,9 +46,9 @@ import { cbFieldState } from '@caribeng/ui';
         [attr.aria-required]="fieldState.required() || null"
         type="search"
         [value]="value()"
-        [placeholder]="placeholder()"
+        [placeholder]="(placeholder() ?? t().search)"
         [disabled]="disabled() || cvaDisabled()"
-        [attr.aria-label]="placeholder()"
+        [attr.aria-label]="(placeholder() ?? t().search)"
         (input)="onInput($event)"
         (blur)="onTouched()"
         (keydown.enter)="search.emit(value())"
@@ -57,7 +57,7 @@ import { cbFieldState } from '@caribeng/ui';
         <button
           type="button"
           class="cb-input-search__clear"
-          aria-label="Limpiar búsqueda"
+          [attr.aria-label]="t().clearSearch"
           (click)="clear()"
         >
           ×
@@ -68,7 +68,9 @@ import { cbFieldState } from '@caribeng/ui';
   styleUrl: './input-search.component.css',
 })
 export class CbInputSearch implements ControlValueAccessor {
-  readonly placeholder = input<string>('Buscar…');
+  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+  protected readonly t = injectCbTranslation();
+  readonly placeholder = input<string | undefined>(undefined);
   readonly clearable = input<boolean>(true);
   readonly disabled = input<boolean>(false);
   /** Marca visual y ARIA de estado inválido (también se activa con Angular Forms). */

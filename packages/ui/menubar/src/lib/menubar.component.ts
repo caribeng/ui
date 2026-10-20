@@ -9,6 +9,7 @@ import {
   signal,
 } from '@angular/core';
 import { CbIcon } from '@caribeng/ui/icon';
+import { injectCbTranslation } from '@caribeng/ui';
 
 export interface CbMenubarItem {
   label: string;
@@ -31,7 +32,7 @@ export interface CbMenubarItem {
     '(document:click)': 'onDocumentClick($event)',
   },
   template: `
-    <nav [attr.aria-label]="ariaLabel()">
+    <nav [attr.aria-label]="(ariaLabel() ?? t().mainNavigation)">
       <ul class="cb-menubar__list" role="menubar">
         @for (item of items(); track $index; let i = $index) {
           <li class="cb-menubar__entry" role="none">
@@ -87,9 +88,11 @@ export interface CbMenubarItem {
   styleUrl: './menubar.component.css',
 })
 export class CbMenubar {
+  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+  protected readonly t = injectCbTranslation();
   private readonly host = inject(ElementRef<HTMLElement>);
   readonly items = input<readonly CbMenubarItem[]>([]);
-  readonly ariaLabel = input('Main navigation');
+  readonly ariaLabel = input<string | undefined>(undefined);
   readonly itemSelect = output<CbMenubarItem>();
   protected readonly openIndex = signal<number | null>(null);
 

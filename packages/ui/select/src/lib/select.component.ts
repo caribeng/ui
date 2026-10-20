@@ -13,7 +13,7 @@ import {
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
 import { OverlayModule, type ConnectedPosition } from '@angular/cdk/overlay';
-import { cbFieldState, type CbSize } from '@caribeng/ui';
+import { cbFieldState, type CbSize, injectCbTranslation } from '@caribeng/ui';
 import { CbIcon } from '@caribeng/ui/icon';
 
 let nextUid = 0;
@@ -93,11 +93,11 @@ let nextUid = 0;
               #filterInput
               type="text"
               class="cb-select__filter-input"
-              [placeholder]="filterPlaceholder()"
+              [placeholder]="(filterPlaceholder() ?? t().search)"
               [value]="filterText()"
               (input)="onFilter($event)"
               (keydown)="onTriggerKeydown($event)"
-              aria-label="Filtrar opciones"
+              [attr.aria-label]="t().filterOptions"
             />
           </div>
         }
@@ -119,7 +119,7 @@ let nextUid = 0;
             </li>
           } @empty {
             <li class="cb-select__empty" role="option" aria-disabled="true">
-              {{ emptyMessage() }}
+              {{ (emptyMessage() ?? t().noResults) }}
             </li>
           }
         </ul>
@@ -129,16 +129,18 @@ let nextUid = 0;
   styleUrl: './select.component.css',
 })
 export class CbSelect implements ControlValueAccessor {
+  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+  protected readonly t = injectCbTranslation();
   // --- Inputs ----------------------------------------------------------------
   readonly options = input<readonly unknown[]>([]);
   readonly optionLabel = input<string>('label');
   readonly optionValue = input<string | null>(null);
   readonly optionDisabled = input<string>('disabled');
-  readonly placeholder = input<string>('Seleccionar');
+  readonly placeholder = input<string | undefined>(undefined);
   readonly size = input<CbSize>('md');
   readonly filter = input<boolean, unknown>(false, { transform: toBoolean });
-  readonly filterPlaceholder = input<string>('Buscar…');
-  readonly emptyMessage = input<string>('Sin resultados');
+  readonly filterPlaceholder = input<string | undefined>(undefined);
+  readonly emptyMessage = input<string | undefined>(undefined);
   readonly invalid = input<boolean, unknown>(false, { transform: toBoolean });
   /** Estado de validación: inputs manuales + estado de Angular Forms. */
   protected readonly fieldState = cbFieldState({ invalid: () => this.invalid() });
@@ -188,7 +190,7 @@ export class CbSelect implements ControlValueAccessor {
 
   protected readonly displayLabel = computed(() => {
     const selected = this.selectedOption();
-    return selected ? this.labelOf(selected) : this.placeholder();
+    return selected ? this.labelOf(selected) : (this.placeholder() ?? this.t().select);
   });
 
   protected readonly activeDescendant = computed(() =>

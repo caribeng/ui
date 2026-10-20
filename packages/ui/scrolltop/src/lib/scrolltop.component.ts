@@ -12,6 +12,7 @@ import {
   signal,
 } from '@angular/core';
 import { CbIcon } from '@caribeng/ui/icon';
+import { injectCbTranslation } from '@caribeng/ui';
 
 export type CbScrollTopTarget = 'window' | 'parent';
 
@@ -44,7 +45,7 @@ export type CbScrollTopTarget = 'window' | 'parent';
       <button
         type="button"
         class="cb-scroll-top__button"
-        [attr.aria-label]="ariaLabel()"
+        [attr.aria-label]="(ariaLabel() ?? t().scrollTop)"
         (click)="scrollToTop()"
       >
         <cb-icon [name]="icon()" [size]="18" aria-hidden="true" />
@@ -54,6 +55,8 @@ export type CbScrollTopTarget = 'window' | 'parent';
   styleUrl: './scrolltop.component.css',
 })
 export class CbScrollTop {
+  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+  protected readonly t = injectCbTranslation();
   private readonly doc = inject(DOCUMENT);
   private readonly hostRef = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly destroyRef = inject(DestroyRef);
@@ -67,7 +70,7 @@ export class CbScrollTop {
   /** Nombre del icono de `<cb-icon>`. */
   readonly icon = input<string>('chevron-up');
   /** Etiqueta accesible para el botón. */
-  readonly ariaLabel = input<string>('Volver arriba');
+  readonly ariaLabel = input<string | undefined>(undefined);
 
   readonly visible = signal<boolean>(false);
 

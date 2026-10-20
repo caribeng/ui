@@ -9,7 +9,7 @@ import {
   signal,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
-import { cbFieldState, type CbRequiredIndicator, type CbSize } from '@caribeng/ui';
+import { cbFieldState, type CbRequiredIndicator, type CbSize, injectCbTranslation } from '@caribeng/ui';
 import { CbIcon } from '@caribeng/ui/icon';
 
 let nextUid = 0;
@@ -87,7 +87,7 @@ let nextUid = 0;
             type="button"
             class="cb-input-number__btn cb-input-number__btn--up"
             tabindex="-1"
-            aria-label="Incrementar"
+            [attr.aria-label]="t().increment"
             [disabled]="isDisabled() || readonly() || isAtMax()"
             (click)="increment()"
           >
@@ -97,7 +97,7 @@ let nextUid = 0;
             type="button"
             class="cb-input-number__btn cb-input-number__btn--down"
             tabindex="-1"
-            aria-label="Decrementar"
+            [attr.aria-label]="t().decrement"
             [disabled]="isDisabled() || readonly() || isAtMin()"
             (click)="decrement()"
           >
@@ -120,6 +120,8 @@ let nextUid = 0;
   styleUrl: './input-number.component.css',
 })
 export class CbInputNumber implements ControlValueAccessor {
+  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+  protected readonly t = injectCbTranslation();
   /** Valor numérico (two-way opcional fuera de Angular Forms). */
   readonly value = model<number | null>(null);
 

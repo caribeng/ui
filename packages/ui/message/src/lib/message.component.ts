@@ -8,7 +8,7 @@ import {
   output,
 } from '@angular/core';
 import { CbIcon } from '@caribeng/ui/icon';
-import type { CbSeverity } from '@caribeng/ui';
+import { injectCbTranslation, type CbSeverity } from '@caribeng/ui';
 
 const SEVERITY_ICON: Record<string, string> = {
   success: 'circle-check',
@@ -44,7 +44,7 @@ const SEVERITY_ICON: Record<string, string> = {
         }
         <div class="cb-message__content"><ng-content /></div>
         @if (closable()) {
-          <button type="button" class="cb-message__close" aria-label="Cerrar" (click)="close()">
+          <button type="button" class="cb-message__close" [attr.aria-label]="t().close" (click)="close()">
             <cb-icon name="x" [size]="16" aria-hidden="true" />
           </button>
         }
@@ -54,6 +54,8 @@ const SEVERITY_ICON: Record<string, string> = {
   styleUrl: './message.component.css',
 })
 export class CbMessage {
+  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+  protected readonly t = injectCbTranslation();
   readonly severity = input<CbSeverity>('info');
   /** Muestra el botón de cerrar. */
   readonly closable = input<boolean, unknown>(false, { transform: toBoolean });

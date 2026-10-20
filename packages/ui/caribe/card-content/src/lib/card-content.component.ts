@@ -5,6 +5,7 @@ import {
   input,
   output,
 } from '@angular/core';
+import { injectCbTranslation } from '@caribeng/ui';
 
 /**
  * Card-content de Caribe Design: tarjeta de contenido con título, subtítulo,
@@ -34,7 +35,7 @@ import {
           class="cb-card-content__action"
           (click)="action.emit()"
         >
-          {{ actionLabel() }}
+          {{ (actionLabel() ?? t().viewDetails) }}
         </button>
       </footer>
     </article>
@@ -42,8 +43,10 @@ import {
   styleUrl: './card-content.component.css',
 })
 export class CbCardContent {
+  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+  protected readonly t = injectCbTranslation();
   readonly title = input('');
   readonly subtitle = input('');
-  readonly actionLabel = input('Ver detalle');
+  readonly actionLabel = input<string | undefined>(undefined);
   readonly action = output<void>();
 }

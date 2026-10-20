@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, ViewEncapsulation, input } from '@angular/core';
+import { injectCbTranslation } from '@caribeng/ui';
 
 @Component({
   selector: 'cb-stroke',
@@ -14,7 +15,7 @@ import { ChangeDetectionStrategy, Component, ViewEncapsulation, input } from '@a
       viewBox="0 0 240 36"
       [attr.role]="ariaHidden() ? null : 'img'"
       [attr.aria-hidden]="ariaHidden() ? 'true' : null"
-      [attr.aria-label]="ariaHidden() ? null : alt()"
+      [attr.aria-label]="ariaHidden() ? null : (alt() ?? t().decorativeStroke)"
       style="width: 100%; height: auto"
     >
       <path
@@ -29,9 +30,11 @@ import { ChangeDetectionStrategy, Component, ViewEncapsulation, input } from '@a
   styleUrl: './stroke.component.css',
 })
 export class CbStroke {
+  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+  protected readonly t = injectCbTranslation();
   readonly name = input<string>('01');
   readonly size = input<string>('220px');
   readonly color = input<string>('var(--cb-color-primary-500, #10b981)');
   readonly ariaHidden = input<boolean>(true);
-  readonly alt = input<string>('Trazo decorativo');
+  readonly alt = input<string | undefined>(undefined);
 }

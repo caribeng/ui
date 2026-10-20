@@ -13,7 +13,7 @@ import {
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
 import { CbIcon } from '@caribeng/ui/icon';
-import { cbFieldState, type CbSize } from '@caribeng/ui';
+import { cbFormat, cbFieldState, type CbSize, injectCbTranslation } from '@caribeng/ui';
 
 let nextUid = 0;
 
@@ -47,7 +47,7 @@ let nextUid = 0;
             <button
               type="button"
               class="cb-chips__remove"
-              [attr.aria-label]="'Quitar ' + chip"
+              [attr.aria-label]="fmt(t().removeItem, chip)"
               (click)="remove($index); $event.stopPropagation()"
             >
               <cb-icon name="x" [size]="14" aria-hidden="true" />
@@ -82,6 +82,10 @@ let nextUid = 0;
   ],
 })
 export class CbChips implements ControlValueAccessor {
+  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+  protected readonly t = injectCbTranslation();
+  /** Rellena `{0}`, `{1}`… de un texto traducido. */
+  protected readonly fmt = cbFormat;
   readonly value = model<string[]>([]);
 
   readonly placeholder = input<string>('');

@@ -10,7 +10,7 @@ import {
   signal,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
-import { cbFieldState, type CbRequiredIndicator } from '@caribeng/ui';
+import { cbFieldState, type CbRequiredIndicator, injectCbTranslation } from '@caribeng/ui';
 
 let nextUid = 0;
 
@@ -54,7 +54,7 @@ let nextUid = 0;
         [disabled]="isDisabled()"
         [attr.aria-checked]="checked()"
         [attr.aria-required]="fieldState.required() || null"
-        [attr.aria-label]="label() ? null : 'Interruptor'"
+        [attr.aria-label]="label() ? null : t().switch"
         (change)="toggle()"
         (blur)="handleBlur()"
       />
@@ -77,6 +77,8 @@ let nextUid = 0;
   styleUrl: './switch.component.css',
 })
 export class CbSwitch implements ControlValueAccessor {
+  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+  protected readonly t = injectCbTranslation();
   /** Etiqueta visible junto al control. */
   readonly label = input<string>('');
   /** Coloca la etiqueta a la izquierda del control. */

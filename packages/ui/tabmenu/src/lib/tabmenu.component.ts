@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, ViewEncapsulation, input, model, output } from '@angular/core';
 import { CbIcon } from '@caribeng/ui/icon';
+import { injectCbTranslation } from '@caribeng/ui';
 
 export interface CbTabMenuItem {
   label: string;
@@ -16,7 +17,7 @@ export interface CbTabMenuItem {
   imports: [CbIcon],
   host: { class: 'cb-tabmenu' },
   template: `
-    <nav [attr.aria-label]="ariaLabel()">
+    <nav [attr.aria-label]="(ariaLabel() ?? t().sectionNavigation)">
       <ul class="cb-tabmenu__list">
         @for (item of items(); track $index; let i = $index) {
           <li class="cb-tabmenu__entry">
@@ -39,9 +40,11 @@ export interface CbTabMenuItem {
   styleUrl: './tabmenu.component.css',
 })
 export class CbTabMenu {
+  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+  protected readonly t = injectCbTranslation();
   readonly items = input<readonly CbTabMenuItem[]>([]);
   readonly activeIndex = model(0);
-  readonly ariaLabel = input('Section navigation');
+  readonly ariaLabel = input<string | undefined>(undefined);
   readonly itemSelect = output<CbTabMenuItem>();
 
   select(item: CbTabMenuItem, index: number): void {

@@ -10,6 +10,7 @@ import {
 import { FormControl, NgControl, type AbstractControl } from '@angular/forms';
 import type { Subscription } from 'rxjs';
 import { CB_CONFIG, type CbRequiredIndicator } from './caribeng.config';
+import { injectCbTranslation } from './locale.service';
 
 /** Control vacío con el que se evalúa si los validadores incluyen `required`. */
 const EMPTY = new FormControl(null);
@@ -58,6 +59,7 @@ export function cbFieldState(manual: {
 }): CbFieldState {
   const injector = inject(Injector);
   const config = inject(CB_CONFIG);
+  const t = injectCbTranslation();
   // Se incrementa con cada evento del control para recalcular los signals.
   const version = signal(0);
   let current: AbstractControl | null = null;
@@ -90,8 +92,8 @@ export function cbFieldState(manual: {
       const mode = manual.requiredIndicator?.() ?? config.requiredIndicator;
       const isRequired = required();
       if (mode === 'asterisk' && isRequired) return { kind: 'asterisk', text: '*' };
-      if (mode === 'text' && isRequired) return { kind: 'required', text: `(${config.requiredText})` };
-      if (mode === 'optional' && !isRequired) return { kind: 'optional', text: `(${config.optionalText})` };
+      if (mode === 'text' && isRequired) return { kind: 'required', text: `(${config.requiredText ?? t().required})` };
+      if (mode === 'optional' && !isRequired) return { kind: 'optional', text: `(${config.optionalText ?? t().optional})` };
       return null;
     }),
     invalid: computed(() => {

@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
 import { CbIcon } from '@caribeng/ui/icon';
-import { cbFieldState, type CbSize } from '@caribeng/ui';
+import { cbFieldState, type CbSize, injectCbTranslation } from '@caribeng/ui';
 
 let nextUid = 0;
 
@@ -60,8 +60,10 @@ let nextUid = 0;
   styleUrl: './togglebutton.component.css',
 })
 export class CbToggleButton implements ControlValueAccessor {
-  readonly onLabel = input<string>('Sí');
-  readonly offLabel = input<string>('No');
+  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+  protected readonly t = injectCbTranslation();
+  readonly onLabel = input<string | undefined>(undefined);
+  readonly offLabel = input<string | undefined>(undefined);
   readonly onIcon = input<string>('');
   readonly offIcon = input<string>('');
   readonly size = input<CbSize>('md');
@@ -77,7 +79,7 @@ export class CbToggleButton implements ControlValueAccessor {
   readonly changed = output<boolean>();
 
   protected readonly checked = computed(() => this.value());
-  protected readonly label = computed(() => (this.value() ? this.onLabel() : this.offLabel()));
+  protected readonly label = computed(() => (this.value() ? (this.onLabel() ?? this.t().yes) : (this.offLabel() ?? this.t().no)));
   protected readonly icon = computed(() => (this.value() ? this.onIcon() : this.offIcon()));
 
   private readonly cvaDisabled = signal(false);

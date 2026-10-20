@@ -7,6 +7,7 @@ import {
   signal,
 } from '@angular/core';
 import { CbIcon } from '@caribeng/ui/icon';
+import { cbFormat, injectCbTranslation } from '@caribeng/ui';
 
 export interface CbOrganizationChartNode {
   key: string;
@@ -23,7 +24,7 @@ export interface CbOrganizationChartNode {
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgTemplateOutlet, CbIcon],
   template: `
-    <div class="cb-organization-chart" role="tree" [attr.aria-label]="ariaLabel()">
+    <div class="cb-organization-chart" role="tree" [attr.aria-label]="(ariaLabel() ?? t().orgChart)">
       <ng-container
         [ngTemplateOutlet]="nodesTemplate"
         [ngTemplateOutletContext]="{ $implicit: value() }"
@@ -45,7 +46,7 @@ export interface CbOrganizationChartNode {
                 class="cb-organization-chart__select"
                 type="button"
                 (click)="selection.set(node)"
-                [attr.aria-label]="'Seleccionar ' + node.label"
+                [attr.aria-label]="fmt(t().selectItem, node.label)"
               >
                 @if (node.icon) {
                   <cb-icon class="cb-organization-chart__icon" [name]="node.icon" [size]="18" aria-hidden="true" />
@@ -59,7 +60,7 @@ export interface CbOrganizationChartNode {
                   class="cb-organization-chart__toggle"
                   type="button"
                   (click)="toggle(node.key)"
-                  [attr.aria-label]="(expanded().has(node.key) ? 'Contraer ' : 'Expandir ') + node.label"
+                  [attr.aria-label]="fmt(expanded().has(node.key) ? t().collapseItem : t().expandItem, node.label)"
                   [attr.aria-expanded]="expanded().has(node.key)"
                 >{{ expanded().has(node.key) ? '−' : '+' }}</button>
               }
@@ -120,9 +121,13 @@ export interface CbOrganizationChartNode {
   ],
 })
 export class CbOrganizationChart {
+  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+  protected readonly t = injectCbTranslation();
+  /** Rellena `{0}`, `{1}`… de un texto traducido. */
+  protected readonly fmt = cbFormat;
   readonly value = input<readonly CbOrganizationChartNode[]>([]);
   readonly selection = model<CbOrganizationChartNode | null>(null);
-  readonly ariaLabel = input('Organigrama');
+  readonly ariaLabel = input<string | undefined>(undefined);
   protected readonly expanded = signal<ReadonlySet<string>>(new Set());
 
   protected toggle(key: string): void {

@@ -18,6 +18,11 @@ export interface DocProp {
   options?: readonly string[];
   /** Si es false, aparece en la tabla pero no genera control interactivo. */
   control?: boolean;
+  /**
+   * Clave de `CbTranslation` cuando el valor por defecto sale del idioma activo
+   * (p. ej. `select` para el placeholder de Select). La tabla muestra ese texto.
+   */
+  localeKey?: string;
 }
 
 export interface DocEvent {

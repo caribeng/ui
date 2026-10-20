@@ -12,7 +12,7 @@ import {
   booleanAttribute,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { cbFieldState } from '@caribeng/ui';
+import { cbFormat, cbFieldState, injectCbTranslation } from '@caribeng/ui';
 
 /**
  * InputOTP de CaribeNG: entrada de código de verificación en casillas individuales
@@ -32,7 +32,7 @@ import { cbFieldState } from '@caribeng/ui';
   host: {
     class: 'cb-input-otp',
     role: 'group',
-    '[attr.aria-label]': 'ariaLabel() || "Código de verificación"',
+    '[attr.aria-label]': '(ariaLabel() ?? t().verificationCode)',
   },
   template: `
     @for (idx of indices(); track idx) {
@@ -45,7 +45,7 @@ import { cbFieldState } from '@caribeng/ui';
         [attr.inputmode]="integerOnly() ? 'numeric' : 'text'"
         [value]="charAt(idx)"
         [disabled]="isDisabled()"
-        [attr.aria-label]="'Dígito ' + (idx + 1)"
+        [attr.aria-label]="fmt(t().digit, idx + 1)"
         (input)="onSlotInput($event, idx)"
         (keydown)="onSlotKeydown($event, idx)"
         (paste)="onPaste($event)"
@@ -56,6 +56,10 @@ import { cbFieldState } from '@caribeng/ui';
   styleUrl: './inputotp.component.css',
 })
 export class CbInputOtp implements ControlValueAccessor {
+  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+  protected readonly t = injectCbTranslation();
+  /** Rellena `{0}`, `{1}`… de un texto traducido. */
+  protected readonly fmt = cbFormat;
   private readonly hostRef = inject<ElementRef<HTMLElement>>(ElementRef);
 
   readonly length = input<number>(6);
@@ -66,7 +70,7 @@ export class CbInputOtp implements ControlValueAccessor {
   readonly invalid = input(false, { transform: booleanAttribute });
   /** Estado de validación: inputs manuales + estado de Angular Forms. */
   protected readonly fieldState = cbFieldState({ invalid: () => this.invalid() });
-  readonly ariaLabel = input<string>('Código de verificación');
+  readonly ariaLabel = input<string | undefined>(undefined);
 
   readonly value = model<string>('');
 

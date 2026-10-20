@@ -5,6 +5,7 @@ import {
   input,
   output,
 } from '@angular/core';
+import { injectCbTranslation } from '@caribeng/ui';
 
 /**
  * Header de Caribe Design: cabecera de pantalla con título, subtítulo opcional,
@@ -27,7 +28,7 @@ import {
           <button
             type="button"
             class="cb-header__back"
-            aria-label="Volver"
+            [attr.aria-label]="t().back"
             (click)="backClick.emit()"
           >
             <span aria-hidden="true">←</span>
@@ -48,6 +49,8 @@ import {
   styleUrl: './header.component.css',
 })
 export class CbHeader {
+  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+  protected readonly t = injectCbTranslation();
   /** Título principal. */
   readonly title = input<string>('CaribeNG');
   /** Subtítulo opcional. */

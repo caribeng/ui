@@ -12,7 +12,7 @@ import {
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
 import { OverlayModule, type ConnectedPosition } from '@angular/cdk/overlay';
-import { cbFieldState, type CbSize } from '@caribeng/ui';
+import { cbFieldState, type CbSize, injectCbTranslation } from '@caribeng/ui';
 
 let nextUid = 0;
 
@@ -57,7 +57,7 @@ const DEFAULT_PRESETS = [
       [disabled]="isDisabled()"
       [attr.aria-haspopup]="'dialog'"
       [attr.aria-expanded]="open()"
-      [attr.aria-label]="(ariaLabel() || 'Color') + ': ' + value()"
+      [attr.aria-label]="(ariaLabel() || t().color) + ': ' + value()"
       (click)="toggle()"
     >
       <span class="cb-colorpicker__swatch" [style.background-color]="value()"></span>
@@ -76,7 +76,7 @@ const DEFAULT_PRESETS = [
       (overlayKeydown)="onOverlayKeydown($event)"
       (detach)="close()"
     >
-      <div class="cb-colorpicker__panel" role="dialog" [attr.aria-label]="ariaLabel() || 'Selector de color'">
+      <div class="cb-colorpicker__panel" role="dialog" [attr.aria-label]="ariaLabel() || t().colorPicker">
         <div
           #sv
           class="cb-colorpicker__sv"
@@ -110,7 +110,7 @@ const DEFAULT_PRESETS = [
             type="text"
             spellcheck="false"
             autocomplete="off"
-            aria-label="Color hexadecimal"
+            [attr.aria-label]="t().hexColor"
             [value]="value()"
             (change)="onHexInput($event)"
           />
@@ -136,6 +136,8 @@ const DEFAULT_PRESETS = [
   styleUrl: './colorpicker.component.css',
 })
 export class CbColorPicker implements ControlValueAccessor {
+  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+  protected readonly t = injectCbTranslation();
   /** Color seleccionado (hex `#rrggbb`). Two-way opcional fuera de Forms. */
   readonly value = model<string>('#10b981');
 

@@ -11,6 +11,7 @@ import {
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { I18nService } from '../services/i18n.service';
 import { TocService } from '../services/toc.service';
+import { injectCbTranslation } from '@caribeng/ui';
 import type { DocApi } from './doc-api.model';
 
 /**
@@ -124,7 +125,7 @@ import type { DocApi } from './doc-api.model';
                 <tr>
                   <td><code>{{ p.name }}</code></td>
                   <td><code>{{ p.type }}</code></td>
-                  <td><code>{{ formatDefault(p.default) }}</code></td>
+                  <td><code>{{ formatDefault(p.default, p.localeKey) }}</code></td>
                   <td>{{ i18n.auto(p.description) }}</td>
                 </tr>
               }
@@ -163,6 +164,8 @@ import type { DocApi } from './doc-api.model';
 })
 export class DocPlaygroundComponent {
   protected readonly i18n = inject(I18nService);
+  /** Textos de la librería en el idioma activo (para valores por defecto traducibles). */
+  private readonly translation = injectCbTranslation();
 
   readonly api = input.required<DocApi>();
 
@@ -232,7 +235,9 @@ export class DocPlaygroundComponent {
     return Number.isNaN(n) ? 0 : n;
   }
 
-  protected formatDefault(value: unknown): string {
+  protected formatDefault(value: unknown, localeKey?: string): string {
+    // Valor por defecto tomado del idioma activo de la librería.
+    if (localeKey) return `'${(this.translation() as unknown as Record<string, string>)[localeKey] ?? ''}'`;
     if (value === undefined || value === '') return '—';
     if (typeof value === 'string') return `'${value}'`;
     return String(value);

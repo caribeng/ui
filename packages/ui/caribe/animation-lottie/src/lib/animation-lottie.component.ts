@@ -5,6 +5,7 @@ import {
   input,
   signal,
 } from '@angular/core';
+import { injectCbTranslation } from '@caribeng/ui';
 
 /**
  * Animation-lottie de Caribe Design: contenedor de animación (placeholder
@@ -25,7 +26,7 @@ import {
     '[style.height]': 'size()',
   },
   template: `
-    <div class="cb-animation-lottie" role="img" [attr.aria-label]="ariaLabel()">
+    <div class="cb-animation-lottie" role="img" [attr.aria-label]="(ariaLabel() ?? t().animation)">
       <svg
         class="cb-animation-lottie__svg"
         [class.cb-is-playing]="playing()"
@@ -48,11 +49,13 @@ import {
   styleUrl: './animation-lottie.component.css',
 })
 export class CbAnimationLottie {
+  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+  protected readonly t = injectCbTranslation();
   readonly src = input<string>('');
   readonly autoplay = input<boolean>(true);
   readonly loop = input<boolean>(true);
   readonly size = input<string>('96px');
-  readonly ariaLabel = input<string>('Animación interactiva');
+  readonly ariaLabel = input<string | undefined>(undefined);
   readonly playing = signal(true);
 
   play(): void {

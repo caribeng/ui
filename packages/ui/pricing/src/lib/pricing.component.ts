@@ -9,6 +9,7 @@ import {
 } from '@angular/core';
 import { CbIcon } from '@caribeng/ui/icon';
 import { CbButton } from '@caribeng/ui/button';
+import { injectCbTranslation } from '@caribeng/ui';
 
 /** Ciclo de facturación del selector de precios. */
 export type CbPricingBilling = 'monthly' | 'annual';
@@ -72,7 +73,7 @@ export interface CbPricingPlan {
             [class.cb-pricing__toggle-btn--on]="billing() === 'monthly'"
             (click)="billing.set('monthly')"
           >
-            {{ monthlyLabel() }}
+            {{ (monthlyLabel() ?? t().monthly) }}
           </button>
           <button
             type="button"
@@ -80,7 +81,7 @@ export interface CbPricingPlan {
             [class.cb-pricing__toggle-btn--on]="billing() === 'annual'"
             (click)="billing.set('annual')"
           >
-            {{ annualLabel() }}
+            {{ (annualLabel() ?? t().yearly) }}
           </button>
         </div>
       </div>
@@ -94,7 +95,7 @@ export interface CbPricingPlan {
             <div class="cb-pricing__price-row">
               <div class="cb-pricing__price">
                 <strong>{{ currency() }}{{ priceOf(p) }}</strong>
-                <span class="cb-pricing__per">{{ billing() === 'annual' ? perYearLabel() : perMonthLabel() }}</span>
+                <span class="cb-pricing__per">{{ billing() === 'annual' ? (perYearLabel() ?? t().perYear) : (perMonthLabel() ?? t().perMonth) }}</span>
               </div>
               @if (oldPriceOf(p); as old) {
                 <span class="cb-pricing__old">{{ currency() }}{{ old }}</span>
@@ -122,7 +123,7 @@ export interface CbPricingPlan {
             [variant]="p.featured ? 'solid' : 'outlined'"
             (click)="planSelect.emit(p)"
           >
-            {{ p.ctaLabel || ctaLabel() + ' ' + p.name }}
+            {{ p.ctaLabel || (ctaLabel() ?? t().choose) + ' ' + p.name }}
           </cb-button>
         </div>
       }
@@ -131,6 +132,8 @@ export interface CbPricingPlan {
   styleUrl: './pricing.component.css',
 })
 export class CbPricing {
+  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+  protected readonly t = injectCbTranslation();
   /** Planes a mostrar. */
   readonly plans = input<readonly CbPricingPlan[]>([]);
   /** Ciclo activo (two-way). */
@@ -144,12 +147,12 @@ export class CbPricing {
   /** Símbolo de moneda. */
   readonly currency = input<string>('$');
   /** Etiquetas configurables. */
-  readonly monthlyLabel = input<string>('Mensual');
-  readonly annualLabel = input<string>('Anual');
-  readonly perMonthLabel = input<string>('/mes');
-  readonly perYearLabel = input<string>('/año');
+  readonly monthlyLabel = input<string | undefined>(undefined);
+  readonly annualLabel = input<string | undefined>(undefined);
+  readonly perMonthLabel = input<string | undefined>(undefined);
+  readonly perYearLabel = input<string | undefined>(undefined);
   /** Prefijo del CTA cuando el plan no define `ctaLabel`. */
-  readonly ctaLabel = input<string>('Elegir');
+  readonly ctaLabel = input<string | undefined>(undefined);
 
   /** Emite el plan elegido. */
   readonly planSelect = output<CbPricingPlan>();

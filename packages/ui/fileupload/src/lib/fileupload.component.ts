@@ -9,6 +9,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { CbIcon } from '@caribeng/ui/icon';
+import { cbFormat, injectCbTranslation } from '@caribeng/ui';
 
 export interface CbFileUploadEvent {
   files: File[];
@@ -51,7 +52,7 @@ export interface CbFileUploadEvent {
           (click)="openPicker()"
         >
           <cb-icon name="upload" [size]="15" aria-hidden="true" />
-          <span>{{ chooseLabel() }}</span>
+          <span>{{ (chooseLabel() ?? t().chooseFile) }}</span>
         </button>
         @if (files().length > 0) {
           <button
@@ -61,7 +62,7 @@ export interface CbFileUploadEvent {
             (click)="triggerUpload()"
           >
             <cb-icon name="check" [size]="15" aria-hidden="true" />
-            <span>{{ uploadLabel() }}</span>
+            <span>{{ (uploadLabel() ?? t().upload) }}</span>
           </button>
           <button
             type="button"
@@ -70,13 +71,13 @@ export interface CbFileUploadEvent {
             (click)="clear()"
           >
             <cb-icon name="x" [size]="15" aria-hidden="true" />
-            <span>Limpiar</span>
+            <span>{{ t().clear }}</span>
           </button>
         }
       </div>
 
       @if (files().length === 0) {
-        <p class="cb-file-upload__empty">Arrastra archivos aquí o pulsa "{{ chooseLabel() }}".</p>
+        <p class="cb-file-upload__empty">{{ fmt(t().dropFiles, (chooseLabel() ?? t().chooseFile)) }}</p>
       } @else {
         <ul class="cb-file-upload__list">
           @for (file of files(); track file.name + file.size; let idx = $index) {
@@ -86,7 +87,7 @@ export interface CbFileUploadEvent {
               <button
                 type="button"
                 class="cb-file-upload__remove"
-                [attr.aria-label]="'Quitar ' + file.name"
+                [attr.aria-label]="fmt(t().removeItem, file.name)"
                 (click)="removeAt(idx)"
               >
                 <cb-icon name="x" [size]="14" aria-hidden="true" />
@@ -100,12 +101,16 @@ export interface CbFileUploadEvent {
   styleUrl: './fileupload.component.css',
 })
 export class CbFileUpload {
+  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+  protected readonly t = injectCbTranslation();
+  /** Rellena `{0}`, `{1}`… de un texto traducido. */
+  protected readonly fmt = cbFormat;
   readonly accept = input<string>('');
   readonly multiple = input<boolean>(false);
   readonly maxFileSize = input<number | null>(null);
   readonly disabled = input<boolean>(false);
-  readonly chooseLabel = input<string>('Elegir archivo');
-  readonly uploadLabel = input<string>('Subir');
+  readonly chooseLabel = input<string | undefined>(undefined);
+  readonly uploadLabel = input<string | undefined>(undefined);
 
   readonly selectFiles = output<CbFileUploadEvent>();
   readonly uploadHandler = output<CbFileUploadEvent>();

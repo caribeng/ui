@@ -9,7 +9,7 @@ import {
   booleanAttribute,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { cbFieldState, type CbRequiredIndicator } from '@caribeng/ui';
+import { cbFieldState, type CbRequiredIndicator, injectCbTranslation } from '@caribeng/ui';
 
 export interface CbInputSelectOption {
   label: string;
@@ -61,8 +61,8 @@ export interface CbInputSelectOption {
           (change)="onSelect($event)"
           (blur)="onTouched()"
         >
-          @if (placeholder()) {
-            <option value="" disabled>{{ placeholder() }}</option>
+          @if ((placeholder() ?? t().select)) {
+            <option value="" disabled>{{ (placeholder() ?? t().select) }}</option>
           }
           @for (opt of options(); track opt.value) {
             <option [value]="opt.value">{{ opt.label }}</option>
@@ -75,8 +75,10 @@ export interface CbInputSelectOption {
   styleUrl: './input-select.component.css',
 })
 export class CbInputSelect implements ControlValueAccessor {
+  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+  protected readonly t = injectCbTranslation();
   readonly label = input<string>('');
-  readonly placeholder = input<string>('Seleccione una opción');
+  readonly placeholder = input<string | undefined>(undefined);
   readonly options = input<readonly CbInputSelectOption[]>([]);
   readonly disabled = input<boolean>(false);
   /** Marca visual y ARIA de estado inválido (también se activa con Angular Forms). */

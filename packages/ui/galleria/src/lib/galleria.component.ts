@@ -7,6 +7,7 @@ import {
   model,
 } from '@angular/core';
 import { CbIcon } from '@caribeng/ui/icon';
+import { cbFormat, injectCbTranslation } from '@caribeng/ui';
 
 export interface CbGalleriaItem {
   itemImageSrc: string;
@@ -31,7 +32,7 @@ export interface CbGalleriaItem {
         <button
           type="button"
           class="cb-galleria__nav cb-galleria__nav--prev"
-          aria-label="Imagen anterior"
+          [attr.aria-label]="t().previousImage"
           (click)="prev()"
         >
           <cb-icon name="chevron-left" [size]="18" aria-hidden="true" />
@@ -44,7 +45,7 @@ export interface CbGalleriaItem {
         <button
           type="button"
           class="cb-galleria__nav cb-galleria__nav--next"
-          aria-label="Imagen siguiente"
+          [attr.aria-label]="t().nextImage"
           (click)="next()"
         >
           <cb-icon name="chevron-right" [size]="18" aria-hidden="true" />
@@ -63,7 +64,7 @@ export interface CbGalleriaItem {
             role="tab"
             [class.cb-is-active]="activeIndex() === idx"
             [attr.aria-selected]="activeIndex() === idx"
-            [attr.aria-label]="item.title || ('Miniatura ' + (idx + 1))"
+            [attr.aria-label]="item.title || fmt(t().thumbnail, idx + 1)"
             (click)="activeIndex.set(idx)"
           >
             <img
@@ -78,6 +79,10 @@ export interface CbGalleriaItem {
   styleUrl: './galleria.component.css',
 })
 export class CbGalleria {
+  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+  protected readonly t = injectCbTranslation();
+  /** Rellena `{0}`, `{1}`… de un texto traducido. */
+  protected readonly fmt = cbFormat;
   readonly value = input<CbGalleriaItem[]>([]);
   readonly showThumbnails = input<boolean>(true);
   readonly circular = input<boolean>(true);

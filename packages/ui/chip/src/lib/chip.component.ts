@@ -7,6 +7,7 @@ import {
   signal,
 } from '@angular/core';
 import { CbIcon } from '@caribeng/ui/icon';
+import { cbFormat, injectCbTranslation } from '@caribeng/ui';
 
 /**
  * Chip de CaribeNG: píldora compacta para representar entidades, filtros o etiquetas
@@ -32,7 +33,7 @@ import { CbIcon } from '@caribeng/ui/icon';
       <button
         type="button"
         class="cb-chip__remove"
-        [attr.aria-label]="'Quitar ' + label()"
+        [attr.aria-label]="fmt(t().removeItem, label())"
         (click)="onRemove($event)"
       >
         <cb-icon name="x" [size]="13" aria-hidden="true" />
@@ -42,6 +43,10 @@ import { CbIcon } from '@caribeng/ui/icon';
   styleUrl: './chip.component.css',
 })
 export class CbChip {
+  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+  protected readonly t = injectCbTranslation();
+  /** Rellena `{0}`, `{1}`… de un texto traducido. */
+  protected readonly fmt = cbFormat;
   readonly label = input<string>('');
   readonly icon = input<string>('');
   readonly image = input<string>('');

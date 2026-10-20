@@ -16,6 +16,7 @@ import { A11yModule } from '@angular/cdk/a11y';
 import { Overlay, type OverlayRef } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 import { CbIcon } from '@caribeng/ui/icon';
+import { injectCbTranslation } from '@caribeng/ui';
 
 type CbDrawerPosition = 'left' | 'right' | 'top' | 'bottom';
 
@@ -44,7 +45,7 @@ type CbDrawerPosition = 'left' | 'right' | 'top' | 'bottom';
         role="dialog"
         aria-modal="true"
         [attr.aria-labelledby]="header() ? titleId : null"
-        [attr.aria-label]="header() ? null : ariaLabel()"
+        [attr.aria-label]="header() ? null : (ariaLabel() ?? t().panel)"
         cdkTrapFocus
         cdkTrapFocusAutoCapture
       >
@@ -54,7 +55,7 @@ type CbDrawerPosition = 'left' | 'right' | 'top' | 'bottom';
               <h2 class="cb-drawer__title" [id]="titleId">{{ header() }}</h2>
             }
             @if (closable()) {
-              <button type="button" class="cb-drawer__close" aria-label="Cerrar" (click)="close()">
+              <button type="button" class="cb-drawer__close" [attr.aria-label]="t().close" (click)="close()">
                 <cb-icon name="x" [size]="18" aria-hidden="true" />
               </button>
             }
@@ -68,6 +69,8 @@ type CbDrawerPosition = 'left' | 'right' | 'top' | 'bottom';
   styleUrl: './drawer.component.css',
 })
 export class CbDrawer {
+  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+  protected readonly t = injectCbTranslation();
   private readonly overlay = inject(Overlay);
   private readonly vcr = inject(ViewContainerRef);
   private readonly document = inject(DOCUMENT);
@@ -78,7 +81,7 @@ export class CbDrawer {
   readonly closable = input<boolean, unknown>(true, { transform: toBoolean });
   readonly dismissableMask = input<boolean, unknown>(true, { transform: toBoolean });
   readonly closeOnEscape = input<boolean, unknown>(true, { transform: toBoolean });
-  readonly ariaLabel = input<string>('Panel');
+  readonly ariaLabel = input<string | undefined>(undefined);
 
   readonly onShow = output<void>();
   readonly onHide = output<void>();

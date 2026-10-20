@@ -5,6 +5,7 @@ import {
   input,
   output,
 } from '@angular/core';
+import { injectCbTranslation } from '@caribeng/ui';
 
 /**
  * Voucher de Caribe Design: comprobante de operación con filas clave/valor y
@@ -23,7 +24,7 @@ import {
     <article class="cb-voucher">
       <header class="cb-voucher__head">
         <span class="cb-voucher__check" aria-hidden="true">✓</span>
-        <h2 class="cb-voucher__title">{{ title() }}</h2>
+        <h2 class="cb-voucher__title">{{ (title() ?? t().receipt) }}</h2>
       </header>
       <div class="cb-voucher__intro"><ng-content /></div>
       <dl class="cb-voucher__list">
@@ -36,7 +37,7 @@ import {
       </dl>
       <div class="cb-voucher__foot">
         <button type="button" class="cb-voucher__action" (click)="copy.emit()">
-          {{ actionLabel() }}
+          {{ (actionLabel() ?? t().share) }}
         </button>
       </div>
     </article>
@@ -44,8 +45,10 @@ import {
   styleUrl: './voucher.component.css',
 })
 export class CbVoucher {
-  readonly title = input('Comprobante');
+  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+  protected readonly t = injectCbTranslation();
+  readonly title = input<string | undefined>(undefined);
   readonly rows = input<readonly { label: string; value: string }[]>([]);
-  readonly actionLabel = input('Compartir');
+  readonly actionLabel = input<string | undefined>(undefined);
   readonly copy = output<void>();
 }

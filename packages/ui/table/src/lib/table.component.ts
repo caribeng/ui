@@ -15,6 +15,7 @@ import {
 import { NgTemplateOutlet } from '@angular/common';
 import { CbIcon } from '@caribeng/ui/icon';
 import { CbPaginator, type CbPaginatorState } from '@caribeng/ui/paginator';
+import { injectCbTranslation } from '@caribeng/ui';
 
 export interface CbTableColumn {
   /** Propiedad de la fila a mostrar. */
@@ -133,7 +134,7 @@ export class CbTableCellDirective {
             </tr>
           } @empty {
             <tr>
-              <td class="cb-table__empty" [attr.colspan]="colspan()">{{ emptyMessage() }}</td>
+              <td class="cb-table__empty" [attr.colspan]="colspan()">{{ (emptyMessage() ?? t().noData) }}</td>
             </tr>
           }
         </tbody>
@@ -154,6 +155,8 @@ export class CbTableCellDirective {
   styleUrl: './table.component.css',
 })
 export class CbTable {
+  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+  protected readonly t = injectCbTranslation();
   private readonly cellTemplates = contentChildren(CbTableCellDirective);
   readonly value = input<readonly unknown[]>([]);
   readonly columns = input<readonly CbTableColumn[]>([]);
@@ -163,7 +166,7 @@ export class CbTable {
   readonly striped = input<boolean, unknown>(false, { transform: toBoolean });
   readonly rowHover = input<boolean, unknown>(true, { transform: toBoolean });
   readonly size = input<'sm' | 'md' | 'lg'>('md');
-  readonly emptyMessage = input<string>('Sin datos');
+  readonly emptyMessage = input<string | undefined>(undefined);
   /** `single`, `multiple` o `null` (sin selección). */
   readonly selectionMode = input<'single' | 'multiple' | null>(null);
   /** Propiedad identificadora para comparar selección (si no, por referencia). */

@@ -10,7 +10,7 @@ import {
   booleanAttribute,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { cbFieldState } from '@caribeng/ui';
+import { cbFormat, cbFieldState, injectCbTranslation } from '@caribeng/ui';
 
 /**
  * Input-token de Caribe Design: entrada de código OTP con casillas por dígito,
@@ -38,7 +38,7 @@ import { cbFieldState } from '@caribeng/ui';
       <div
         class="cb-input-token__slots"
         role="group"
-        aria-label="Código de verificación"
+        [attr.aria-label]="t().verificationCode"
       >
         @for (slot of slots(); track slot) {
           <input
@@ -50,7 +50,7 @@ import { cbFieldState } from '@caribeng/ui';
             inputmode="numeric"
             [value]="charAt(slot)"
             [disabled]="disabled() || cvaDisabled()"
-            [attr.aria-label]="'Dígito ' + (slot + 1)"
+            [attr.aria-label]="fmt(t().digit, slot + 1)"
             (input)="onDigitInput($event, slot)"
             (blur)="onTouched()"
           />
@@ -64,6 +64,10 @@ import { cbFieldState } from '@caribeng/ui';
   styleUrl: './input-token.component.css',
 })
 export class CbInputToken implements ControlValueAccessor {
+  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+  protected readonly t = injectCbTranslation();
+  /** Rellena `{0}`, `{1}`… de un texto traducido. */
+  protected readonly fmt = cbFormat;
   readonly numInputs = input<number>(6);
   readonly unmasked = input<boolean>(false);
   readonly helpText = input<string>('');

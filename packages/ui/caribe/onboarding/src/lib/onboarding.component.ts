@@ -6,6 +6,7 @@ import {
   model,
   output,
 } from '@angular/core';
+import { injectCbTranslation } from '@caribeng/ui';
 
 /**
  * Onboarding de Caribe Design: panel de bienvenida paso a paso con progreso y
@@ -22,7 +23,7 @@ import {
   encapsulation: ViewEncapsulation.Emulated,
   template: `
     @if (visible() && steps().length) {
-      <section class="cb-onboarding" role="dialog" aria-label="Onboarding">
+      <section class="cb-onboarding" role="dialog" [attr.aria-label]="t().onboarding">
         <div class="cb-onboarding__dots" aria-hidden="true">
           @for (step of steps(); track $index) {
             <span
@@ -42,7 +43,7 @@ import {
             class="cb-onboarding__btn cb-onboarding__btn--ghost"
             (click)="visible.set(false)"
           >
-            Omitir
+            {{ t().skip }}
           </button>
           <button
             type="button"
@@ -50,14 +51,14 @@ import {
             (click)="previous()"
             [disabled]="index() === 0"
           >
-            Anterior
+            {{ t().previous }}
           </button>
           <button
             type="button"
             class="cb-onboarding__btn cb-onboarding__btn--primary"
             (click)="next()"
           >
-            {{ index() === steps().length - 1 ? 'Comenzar' : 'Continuar' }}
+            {{ index() === steps().length - 1 ? t().start : t().continue }}
           </button>
         </div>
       </section>
@@ -66,6 +67,8 @@ import {
   styleUrl: './onboarding.component.css',
 })
 export class CbOnboarding {
+  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+  protected readonly t = injectCbTranslation();
   readonly steps = input<readonly string[]>([]);
   readonly visible = model(true);
   readonly index = model(0);

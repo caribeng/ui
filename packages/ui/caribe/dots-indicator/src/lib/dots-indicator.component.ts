@@ -6,6 +6,7 @@ import {
   input,
   model,
 } from '@angular/core';
+import { cbFormat, injectCbTranslation } from '@caribeng/ui';
 
 /**
  * Dots-indicator de Caribe Design: indicador de paginación por puntos. El punto
@@ -22,7 +23,7 @@ import {
   encapsulation: ViewEncapsulation.Emulated,
   host: { class: 'cb-dots-indicator-host' },
   template: `
-    <div class="cb-dots-indicator" role="tablist" aria-label="Indicador de páginas">
+    <div class="cb-dots-indicator" role="tablist" [attr.aria-label]="t().pageIndicator">
       @for (idx of indices(); track idx) {
         <button
           type="button"
@@ -30,7 +31,7 @@ import {
           [class.cb-dots-indicator__dot--active]="activeIndex() === idx"
           role="tab"
           [attr.aria-selected]="activeIndex() === idx"
-          [attr.aria-label]="'Página ' + (idx + 1)"
+          [attr.aria-label]="fmt(t().page, idx + 1)"
           (click)="activeIndex.set(idx)"
         ></button>
       }
@@ -39,6 +40,10 @@ import {
   styleUrl: './dots-indicator.component.css',
 })
 export class CbDotsIndicator {
+  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+  protected readonly t = injectCbTranslation();
+  /** Rellena `{0}`, `{1}`… de un texto traducido. */
+  protected readonly fmt = cbFormat;
   /** Número de puntos. */
   readonly count = input<number>(4);
   /** Índice activo (two-way). */

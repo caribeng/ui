@@ -1,4 +1,5 @@
-import { Injectable, computed, signal } from '@angular/core';
+import { Injectable, computed, inject, signal } from '@angular/core';
+import { CbLocaleService } from '@caribeng/ui';
 import { ES_EN } from './i18n-dict';
 
 export type CbLang = 'es' | 'en';
@@ -16,6 +17,9 @@ const STORAGE_KEY = 'caribeng-showcase-lang';
 export class I18nService {
   readonly lang = signal<CbLang>(this.read());
   readonly isEnglish = computed(() => this.lang() === 'en');
+
+  /** Idioma de los componentes de la librería: sigue al del sitio. */
+  private readonly locale = inject(CbLocaleService);
 
   constructor() {
     this.persist(this.lang());
@@ -54,6 +58,7 @@ export class I18nService {
   }
 
   private persist(lang: CbLang): void {
+    this.locale.use(lang);
     try {
       localStorage.setItem(STORAGE_KEY, lang);
     } catch {

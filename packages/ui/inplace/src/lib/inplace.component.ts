@@ -6,6 +6,7 @@ import {
   model,
 } from '@angular/core';
 import { CbIcon } from '@caribeng/ui/icon';
+import { injectCbTranslation } from '@caribeng/ui';
 
 /**
  * Inplace de CaribeNG: alterna entre una vista previa (`[cb-inplace-display]`)
@@ -37,7 +38,7 @@ import { CbIcon } from '@caribeng/ui/icon';
           <button
             type="button"
             class="cb-inplace__close"
-            aria-label="Cerrar edición"
+            [attr.aria-label]="t().closeEditing"
             (click)="close()"
           >
             <cb-icon name="x" [size]="15" aria-hidden="true" />
@@ -49,6 +50,8 @@ import { CbIcon } from '@caribeng/ui/icon';
   styleUrl: './inplace.component.css',
 })
 export class CbInplace {
+  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+  protected readonly t = injectCbTranslation();
   readonly closable = input<boolean>(false);
   readonly disabled = input<boolean>(false);
 

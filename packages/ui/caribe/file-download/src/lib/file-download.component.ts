@@ -5,6 +5,7 @@ import {
   input,
   output,
 } from '@angular/core';
+import { injectCbTranslation } from '@caribeng/ui';
 
 /**
  * File-download de Caribe Design: fila de archivo con nombre, tamaño y botón de
@@ -33,17 +34,19 @@ import {
         (click)="onDownload()"
         [disabled]="disabled()"
       >
-        {{ buttonLabel() }}
+        {{ (buttonLabel() ?? t().download) }}
       </button>
     </div>
   `,
   styleUrl: './file-download.component.css',
 })
 export class CbFileDownload {
+  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+  protected readonly t = injectCbTranslation();
   readonly fileName = input<string>('Certificado_Bancario.pdf');
   readonly fileSize = input<string>('420 KB');
   readonly href = input<string>('');
-  readonly buttonLabel = input<string>('Descargar');
+  readonly buttonLabel = input<string | undefined>(undefined);
   readonly disabled = input<boolean>(false);
 
   readonly download = output<string>();

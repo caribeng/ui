@@ -20,6 +20,7 @@ import { I18nService } from '../services/i18n.service';
 const NAV_LABEL_ES: Record<string, string> = {
   'Getting Started': 'Primeros pasos',
   Introduction: 'Introducción',
+  Localization: 'Idioma (i18n)',
   Theming: 'Temas',
   Colors: 'Colores',
   'Theming & Presets': 'Temas y presets',

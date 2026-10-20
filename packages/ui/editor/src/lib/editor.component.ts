@@ -14,7 +14,7 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { CbIcon } from '@caribeng/ui/icon';
-import { cbFieldState } from '@caribeng/ui';
+import { cbFieldState, injectCbTranslation } from '@caribeng/ui';
 
 /**
  * Editor de CaribeNG: editor de texto enriquecido sin dependencias de terceros,
@@ -39,76 +39,76 @@ import { cbFieldState } from '@caribeng/ui';
     '[class.cb-is-disabled]': 'isDisabled()',
   },
   template: `
-    <div class="cb-editor__toolbar" role="toolbar" aria-label="Formato de texto">
+    <div class="cb-editor__toolbar" role="toolbar" [attr.aria-label]="t().textFormatting">
       <select
         class="cb-editor__select"
         [disabled]="isDisabled()"
-        aria-label="Estilo de párrafo"
+        [attr.aria-label]="t().paragraphStyle"
         (change)="format($any($event.target).value)"
       >
-        <option value="P">Normal</option>
-        <option value="H1">Título 1</option>
-        <option value="H2">Título 2</option>
-        <option value="H3">Título 3</option>
+        <option value="P">{{ t().normal }}</option>
+        <option value="H1">{{ t().heading1 }}</option>
+        <option value="H2">{{ t().heading2 }}</option>
+        <option value="H3">{{ t().heading3 }}</option>
       </select>
 
       <span class="cb-editor__sep" aria-hidden="true"></span>
 
-      <button type="button" class="cb-editor__tool" [disabled]="isDisabled()" (mousedown)="hold($event)" (click)="exec('bold')" aria-label="Negrita">
+      <button type="button" class="cb-editor__tool" [disabled]="isDisabled()" (mousedown)="hold($event)" (click)="exec('bold')" [attr.aria-label]="t().bold">
         <strong aria-hidden="true">B</strong>
       </button>
-      <button type="button" class="cb-editor__tool" [disabled]="isDisabled()" (mousedown)="hold($event)" (click)="exec('italic')" aria-label="Cursiva">
+      <button type="button" class="cb-editor__tool" [disabled]="isDisabled()" (mousedown)="hold($event)" (click)="exec('italic')" [attr.aria-label]="t().italic">
         <em aria-hidden="true">I</em>
       </button>
-      <button type="button" class="cb-editor__tool" [disabled]="isDisabled()" (mousedown)="hold($event)" (click)="exec('underline')" aria-label="Subrayado">
+      <button type="button" class="cb-editor__tool" [disabled]="isDisabled()" (mousedown)="hold($event)" (click)="exec('underline')" [attr.aria-label]="t().underline">
         <span style="text-decoration: underline" aria-hidden="true">U</span>
       </button>
-      <button type="button" class="cb-editor__tool" [disabled]="isDisabled()" (mousedown)="hold($event)" (click)="exec('strikeThrough')" aria-label="Tachado">
+      <button type="button" class="cb-editor__tool" [disabled]="isDisabled()" (mousedown)="hold($event)" (click)="exec('strikeThrough')" [attr.aria-label]="t().strikethrough">
         <span style="text-decoration: line-through" aria-hidden="true">S</span>
       </button>
 
       <span class="cb-editor__sep" aria-hidden="true"></span>
 
-      <button type="button" class="cb-editor__tool" [disabled]="isDisabled()" (mousedown)="hold($event)" (click)="exec('insertUnorderedList')" aria-label="Lista con viñetas">
+      <button type="button" class="cb-editor__tool" [disabled]="isDisabled()" (mousedown)="hold($event)" (click)="exec('insertUnorderedList')" [attr.aria-label]="t().bulletList">
         <span aria-hidden="true">•≡</span>
       </button>
-      <button type="button" class="cb-editor__tool" [disabled]="isDisabled()" (mousedown)="hold($event)" (click)="exec('insertOrderedList')" aria-label="Lista numerada">
+      <button type="button" class="cb-editor__tool" [disabled]="isDisabled()" (mousedown)="hold($event)" (click)="exec('insertOrderedList')" [attr.aria-label]="t().numberedList">
         <span aria-hidden="true">1.</span>
       </button>
-      <button type="button" class="cb-editor__tool" [disabled]="isDisabled()" (mousedown)="hold($event)" (click)="format('BLOCKQUOTE')" aria-label="Cita">
+      <button type="button" class="cb-editor__tool" [disabled]="isDisabled()" (mousedown)="hold($event)" (click)="format('BLOCKQUOTE')" [attr.aria-label]="t().quote">
         <span aria-hidden="true">❝</span>
       </button>
 
       <span class="cb-editor__sep" aria-hidden="true"></span>
 
-      <button type="button" class="cb-editor__tool" [disabled]="isDisabled()" (mousedown)="hold($event)" (click)="exec('justifyLeft')" aria-label="Alinear a la izquierda">
+      <button type="button" class="cb-editor__tool" [disabled]="isDisabled()" (mousedown)="hold($event)" (click)="exec('justifyLeft')" [attr.aria-label]="t().alignLeft">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="15" y2="12"/><line x1="3" y1="18" x2="18" y2="18"/></svg>
       </button>
-      <button type="button" class="cb-editor__tool" [disabled]="isDisabled()" (mousedown)="hold($event)" (click)="exec('justifyCenter')" aria-label="Centrar">
+      <button type="button" class="cb-editor__tool" [disabled]="isDisabled()" (mousedown)="hold($event)" (click)="exec('justifyCenter')" [attr.aria-label]="t().alignCenter">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="6" y1="12" x2="18" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
       </button>
-      <button type="button" class="cb-editor__tool" [disabled]="isDisabled()" (mousedown)="hold($event)" (click)="exec('justifyRight')" aria-label="Alinear a la derecha">
+      <button type="button" class="cb-editor__tool" [disabled]="isDisabled()" (mousedown)="hold($event)" (click)="exec('justifyRight')" [attr.aria-label]="t().alignRight">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="9" y1="12" x2="21" y2="12"/><line x1="6" y1="18" x2="21" y2="18"/></svg>
       </button>
 
       <span class="cb-editor__sep" aria-hidden="true"></span>
 
-      <button type="button" class="cb-editor__tool" [disabled]="isDisabled()" (mousedown)="hold($event)" (click)="insertLink()" aria-label="Insertar enlace">
+      <button type="button" class="cb-editor__tool" [disabled]="isDisabled()" (mousedown)="hold($event)" (click)="insertLink()" [attr.aria-label]="t().insertLink">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
       </button>
-      <button type="button" class="cb-editor__tool" [disabled]="isDisabled()" (mousedown)="hold($event)" (click)="pickImage()" aria-label="Insertar imagen">
+      <button type="button" class="cb-editor__tool" [disabled]="isDisabled()" (mousedown)="hold($event)" (click)="pickImage()" [attr.aria-label]="t().insertImage">
         <cb-icon name="image" [size]="15" aria-hidden="true" />
       </button>
-      <button type="button" class="cb-editor__tool" [disabled]="isDisabled()" (mousedown)="hold($event)" (click)="exec('removeFormat')" aria-label="Limpiar formato">
+      <button type="button" class="cb-editor__tool" [disabled]="isDisabled()" (mousedown)="hold($event)" (click)="exec('removeFormat')" [attr.aria-label]="t().clearFormat">
         <span aria-hidden="true">T✕</span>
       </button>
 
       <span class="cb-editor__sep" aria-hidden="true"></span>
 
-      <button type="button" class="cb-editor__tool" [disabled]="isDisabled()" (mousedown)="hold($event)" (click)="exec('undo')" aria-label="Deshacer">
+      <button type="button" class="cb-editor__tool" [disabled]="isDisabled()" (mousedown)="hold($event)" (click)="exec('undo')" [attr.aria-label]="t().undo">
         <cb-icon name="undo" [size]="15" aria-hidden="true" />
       </button>
-      <button type="button" class="cb-editor__tool" [disabled]="isDisabled()" (mousedown)="hold($event)" (click)="exec('redo')" aria-label="Rehacer">
+      <button type="button" class="cb-editor__tool" [disabled]="isDisabled()" (mousedown)="hold($event)" (click)="exec('redo')" [attr.aria-label]="t().redo">
         <cb-icon name="redo" [size]="15" aria-hidden="true" />
       </button>
     </div>
@@ -120,7 +120,7 @@ import { cbFieldState } from '@caribeng/ui';
       [attr.aria-required]="fieldState.required() || null"
       aria-multiline="true"
       [attr.contenteditable]="!isDisabled()"
-      [attr.data-placeholder]="placeholder()"
+      [attr.data-placeholder]="(placeholder() ?? t().editorPlaceholder)"
       [style.minHeight]="height()"
       (input)="onSurfaceInput()"
       (blur)="onBlur()"
@@ -136,7 +136,9 @@ import { cbFieldState } from '@caribeng/ui';
   styleUrl: './editor.component.css',
 })
 export class CbEditor implements ControlValueAccessor {
-  readonly placeholder = input<string>('Escribe aquí…');
+  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+  protected readonly t = injectCbTranslation();
+  readonly placeholder = input<string | undefined>(undefined);
   readonly height = input<string>('180px');
   readonly disabled = input<boolean>(false);
   /** Marca visual y ARIA de estado inválido (también se activa con Angular Forms). */
@@ -205,7 +207,7 @@ export class CbEditor implements ControlValueAccessor {
   /** Inserta un enlace sobre la selección actual. */
   protected insertLink(): void {
     if (this.isDisabled()) return;
-    const url = window.prompt('URL del enlace:', 'https://');
+    const url = window.prompt(this.t().linkUrl, 'https://');
     if (url) this.exec('createLink', url);
   }
 

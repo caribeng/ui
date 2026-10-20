@@ -7,6 +7,7 @@ import {
   output,
 } from '@angular/core';
 import { CbIcon } from '@caribeng/ui/icon';
+import { injectCbTranslation } from '@caribeng/ui';
 
 let nextPanelUid = 0;
 
@@ -42,7 +43,7 @@ let nextPanelUid = 0;
             class="cb-panel__toggler"
             [attr.aria-expanded]="!collapsed()"
             [attr.aria-controls]="contentId"
-            [attr.aria-label]="header() || 'Alternar panel'"
+            [attr.aria-label]="header() || t().togglePanel"
             (click)="toggle()"
           >
             <cb-icon
@@ -71,6 +72,8 @@ let nextPanelUid = 0;
   styleUrl: './panel.component.css',
 })
 export class CbPanel {
+  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+  protected readonly t = injectCbTranslation();
   private readonly uid = ++nextPanelUid;
 
   /** Título mostrado en la cabecera del panel. */

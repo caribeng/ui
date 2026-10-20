@@ -6,6 +6,7 @@ import {
   model,
   output,
 } from '@angular/core';
+import { injectCbTranslation } from '@caribeng/ui';
 
 export interface CbFabMenuItem {
   id: string;
@@ -47,7 +48,7 @@ export interface CbFabMenuItem {
         class="cb-fab-menu__trigger"
         [class.cb-is-open]="open()"
         [attr.aria-expanded]="open()"
-        [attr.aria-label]="triggerLabel()"
+        [attr.aria-label]="(triggerLabel() ?? t().quickActions)"
         (click)="open.set(!open())"
       >
         <span aria-hidden="true">{{ open() ? '×' : '+' }}</span>
@@ -57,8 +58,10 @@ export interface CbFabMenuItem {
   styleUrl: './fab-menu.component.css',
 })
 export class CbFabMenu {
+  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+  protected readonly t = injectCbTranslation();
   /** Etiqueta accesible del botón flotante. */
-  readonly triggerLabel = input<string>('Menú de acciones rápidas');
+  readonly triggerLabel = input<string | undefined>(undefined);
   /** Acciones del menú. */
   readonly items = input<readonly CbFabMenuItem[]>([]);
   /** Estado desplegado (two-way). */

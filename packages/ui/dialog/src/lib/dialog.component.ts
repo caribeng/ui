@@ -16,6 +16,7 @@ import { A11yModule } from '@angular/cdk/a11y';
 import { Overlay, type OverlayRef } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 import { CbIcon } from '@caribeng/ui/icon';
+import { injectCbTranslation } from '@caribeng/ui';
 
 let nextUid = 0;
 
@@ -48,7 +49,7 @@ let nextUid = 0;
           role="dialog"
           aria-modal="true"
           [attr.aria-labelledby]="header() ? titleId : null"
-          [attr.aria-label]="header() ? null : ariaLabel()"
+          [attr.aria-label]="header() ? null : (ariaLabel() ?? t().dialog)"
           [style.width]="width()"
           cdkTrapFocus
           cdkTrapFocusAutoCapture
@@ -62,7 +63,7 @@ let nextUid = 0;
                 <button
                   type="button"
                   class="cb-dialog__close"
-                  aria-label="Cerrar"
+                  [attr.aria-label]="t().close"
                   (click)="close()"
                 >
                   <cb-icon name="x" size="sm" />
@@ -83,6 +84,8 @@ let nextUid = 0;
   styleUrl: './dialog.component.css',
 })
 export class CbDialog {
+  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+  protected readonly t = injectCbTranslation();
   private readonly overlay = inject(Overlay);
   private readonly vcr = inject(ViewContainerRef);
   private readonly document = inject(DOCUMENT);
@@ -100,7 +103,7 @@ export class CbDialog {
   /** Ancho del panel. */
   readonly width = input<string>('32rem');
   /** Nombre accesible cuando no hay `header`. */
-  readonly ariaLabel = input<string>('Diálogo');
+  readonly ariaLabel = input<string | undefined>(undefined);
 
   /** Se emite cuando el diálogo se cierra. */
   readonly onHide = output<void>();

@@ -5,6 +5,7 @@ import {
   input,
 } from '@angular/core';
 import { CbIcon } from '@caribeng/ui/icon';
+import { injectCbTranslation } from '@caribeng/ui';
 
 /**
  * Tarjeta de carpeta de CaribeNG: icono de carpeta, nombre y una fila con
@@ -32,7 +33,7 @@ import { CbIcon } from '@caribeng/ui/icon';
     </div>
     <div class="cb-folder-card__name">{{ name() }}</div>
     <div class="cb-folder-card__meta">
-      <span>{{ files() }} {{ filesLabel() }}</span>
+      <span>{{ files() }} {{ (filesLabel() ?? t().files) }}</span>
       @if (size()) {
         <span>{{ size() }}</span>
       }
@@ -41,12 +42,14 @@ import { CbIcon } from '@caribeng/ui/icon';
   styleUrl: './folder-card.component.css',
 })
 export class CbFolderCard {
+  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+  protected readonly t = injectCbTranslation();
   /** Nombre de la carpeta. */
   readonly name = input<string>('');
   /** Número de archivos (texto o número). */
   readonly files = input<string | number>('');
   /** Etiqueta tras el número de archivos. */
-  readonly filesLabel = input<string>('archivos');
+  readonly filesLabel = input<string | undefined>(undefined);
   /** Tamaño mostrado a la derecha. */
   readonly size = input<string>('');
   /** Color del icono de carpeta. */

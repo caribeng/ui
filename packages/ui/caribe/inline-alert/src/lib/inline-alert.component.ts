@@ -6,6 +6,7 @@ import {
   model,
   output,
 } from '@angular/core';
+import { injectCbTranslation } from '@caribeng/ui';
 
 /**
  * Inline-alert de Caribe Design: aviso compacto en línea para formularios y
@@ -34,7 +35,7 @@ import {
           <button
             type="button"
             class="cb-inline-alert__close"
-            aria-label="Cerrar"
+            [attr.aria-label]="t().close"
             (click)="close()"
           >
             ×
@@ -46,6 +47,8 @@ import {
   styleUrl: './inline-alert.component.css',
 })
 export class CbInlineAlert {
+  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+  protected readonly t = injectCbTranslation();
   readonly title = input('');
   readonly status = input<'success' | 'warning' | 'error' | 'info'>('info');
   readonly closable = input(true);

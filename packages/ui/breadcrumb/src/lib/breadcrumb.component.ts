@@ -6,6 +6,7 @@ import {
   output,
 } from '@angular/core';
 import { CbIcon } from '@caribeng/ui/icon';
+import { injectCbTranslation } from '@caribeng/ui';
 
 export interface CbBreadcrumbItem {
   label: string;
@@ -34,7 +35,7 @@ export interface CbBreadcrumbItem {
   imports: [CbIcon],
   host: { class: 'cb-breadcrumb' },
   template: `
-    <nav aria-label="Breadcrumb">
+    <nav [attr.aria-label]="t().breadcrumb">
       <ol class="cb-breadcrumb__list">
         @for (item of items(); track $index; let last = $last) {
           <li class="cb-breadcrumb__item">
@@ -60,6 +61,8 @@ export interface CbBreadcrumbItem {
   styleUrl: './breadcrumb.component.css',
 })
 export class CbBreadcrumb {
+  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+  protected readonly t = injectCbTranslation();
   readonly items = input<readonly CbBreadcrumbItem[]>([]);
   /** Icono separador entre elementos. */
   readonly separator = input<string>('chevron-right');

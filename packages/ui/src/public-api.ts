@@ -16,3 +16,12 @@ export { CbThemeService } from './lib/theme.service';
 export { provideCaribeNG } from './lib/provide-caribeng';
 export { type CbSize, type CbSeverity } from './lib/types';
 export { cbFieldState, type CbFieldIndicator, type CbFieldState } from './lib/field-state';
+export {
+  CB_LOCALE_EN,
+  CB_LOCALE_ES,
+  CB_LOCALES,
+  cbFormat,
+  type CbLocaleCode,
+  type CbTranslation,
+} from './lib/locale';
+export { CbLocaleService, injectCbTranslation } from './lib/locale.service';

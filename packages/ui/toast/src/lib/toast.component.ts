@@ -5,7 +5,7 @@ import {
   inject,
   input,
 } from '@angular/core';
-import type { CbSeverity } from '@caribeng/ui';
+import { injectCbTranslation, type CbSeverity } from '@caribeng/ui';
 import { CbIcon } from '@caribeng/ui/icon';
 import { CbToastService } from './toast.service';
 
@@ -65,7 +65,7 @@ const ICONS: Record<string, string> = {
             <button
               type="button"
               class="cb-toast__close"
-              aria-label="Cerrar"
+              [attr.aria-label]="t().close"
               (click)="service.remove(toast.id)"
             >
               <cb-icon name="x" size="sm" />
@@ -78,6 +78,8 @@ const ICONS: Record<string, string> = {
   styleUrl: './toast.component.css',
 })
 export class CbToast {
+  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+  protected readonly t = injectCbTranslation();
   protected readonly service = inject(CbToastService);
   readonly position = input<CbToastPosition>('top-right');
 

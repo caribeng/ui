@@ -38,6 +38,6 @@ describe('CbBreadcrumb', () => {
 
   it('nav accesible con aria-label', () => {
     const { host } = setup();
-    expect(host().querySelector('nav')?.getAttribute('aria-label')).toBe('Breadcrumb');
+    expect(host().querySelector('nav')?.getAttribute('aria-label')).toBe('Ruta de navegación');
   });
 });

@@ -25,6 +25,7 @@ export const NAV_MENU: NavItem[] = [
     icon: 'house',
     children: [
       { label: 'Introduction', route: '/introduction' },
+      { label: 'Localization', route: '/i18n' },
       { label: 'Changelog', route: '/changelog' },
     ],
   },

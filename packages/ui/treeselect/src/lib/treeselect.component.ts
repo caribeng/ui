@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { CbIcon } from '@caribeng/ui/icon';
-import { cbFieldState } from '@caribeng/ui';
+import { cbFormat, cbFieldState, injectCbTranslation } from '@caribeng/ui';
 
 export interface CbTreeSelectNode {
   key: string;
@@ -61,7 +61,7 @@ interface FlatTreeSelectNode {
       (click)="toggleOpen()"
     >
       <span class="cb-tree-select__label" [class.cb-is-placeholder]="!selectedLabel()">
-        {{ selectedLabel() || placeholder() }}
+        {{ selectedLabel() || (placeholder() ?? t().select) }}
       </span>
       <cb-icon name="chevron-down" [size]="16" aria-hidden="true" />
     </button>
@@ -82,7 +82,7 @@ interface FlatTreeSelectNode {
                 type="button"
                 class="cb-tree-select__expander"
                 (click)="toggleNode(item.node.key, $event)"
-                [attr.aria-label]="'Expandir ' + item.node.label"
+                [attr.aria-label]="fmt(t().expandItem, item.node.label)"
               >
                 <cb-icon
                   [name]="isExpanded(item.node.key) ? 'chevron-down' : 'chevron-right'"
@@ -111,8 +111,12 @@ interface FlatTreeSelectNode {
   styleUrl: './treeselect.component.css',
 })
 export class CbTreeSelect implements ControlValueAccessor {
+  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+  protected readonly t = injectCbTranslation();
+  /** Rellena `{0}`, `{1}`… de un texto traducido. */
+  protected readonly fmt = cbFormat;
   readonly nodes = input<CbTreeSelectNode[]>([]);
-  readonly placeholder = input<string>('Seleccionar nodo…');
+  readonly placeholder = input<string | undefined>(undefined);
   readonly disabled = input<boolean>(false);
   /** Marca visual y ARIA de estado inválido (también se activa con Angular Forms). */
   readonly invalid = input(false, { transform: booleanAttribute });

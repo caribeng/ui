@@ -9,6 +9,7 @@ import {
   type ElementRef,
 } from '@angular/core';
 import { CbIcon } from '@caribeng/ui/icon';
+import { cbFormat, injectCbTranslation } from '@caribeng/ui';
 
 /**
  * Image de CaribeNG: imagen con previsualización lightbox accesible y controles
@@ -36,7 +37,7 @@ import { CbIcon } from '@caribeng/ui/icon';
         <button
           type="button"
           class="cb-image__overlay"
-          [attr.aria-label]="'Ampliar ' + (alt() || 'imagen')"
+          [attr.aria-label]="fmt(t().enlargeImage, alt() || t().image)"
           (click)="openPreview()"
         >
           <cb-icon name="search" [size]="20" aria-hidden="true" />
@@ -50,23 +51,23 @@ import { CbIcon } from '@caribeng/ui/icon';
         class="cb-image__lightbox"
         role="dialog"
         aria-modal="true"
-        [attr.aria-label]="alt() || 'Previsualización de imagen'"
+        [attr.aria-label]="alt() || t().imagePreview"
         (click)="closePreview()"
       >
         <div class="cb-image__toolbar" (click)="$event.stopPropagation()">
-          <button type="button" class="cb-image__tool" (click)="rotateLeft()" aria-label="Rotar a la izquierda">
+          <button type="button" class="cb-image__tool" (click)="rotateLeft()" [attr.aria-label]="t().rotateLeft">
             <cb-icon name="rotate-ccw" [size]="18" aria-hidden="true" />
           </button>
-          <button type="button" class="cb-image__tool" (click)="rotateRight()" aria-label="Rotar a la derecha">
+          <button type="button" class="cb-image__tool" (click)="rotateRight()" [attr.aria-label]="t().rotateRight">
             <cb-icon name="rotate-cw" [size]="18" aria-hidden="true" />
           </button>
-          <button type="button" class="cb-image__tool" (click)="flipHorizontal()" aria-label="Voltear horizontal">
+          <button type="button" class="cb-image__tool" (click)="flipHorizontal()" [attr.aria-label]="t().flipHorizontal">
             <cb-icon name="flip-horizontal" [size]="18" aria-hidden="true" />
           </button>
-          <button type="button" class="cb-image__tool" (click)="flipVertical()" aria-label="Voltear vertical">
+          <button type="button" class="cb-image__tool" (click)="flipVertical()" [attr.aria-label]="t().flipVertical">
             <cb-icon name="flip-vertical" [size]="18" aria-hidden="true" />
           </button>
-          <button type="button" class="cb-image__tool" (click)="zoomIn()" aria-label="Acercar">
+          <button type="button" class="cb-image__tool" (click)="zoomIn()" [attr.aria-label]="t().zoomIn">
             <cb-icon name="plus" [size]="18" aria-hidden="true" />
           </button>
           <button
@@ -74,20 +75,20 @@ import { CbIcon } from '@caribeng/ui/icon';
             class="cb-image__tool"
             (click)="zoomOut()"
             [disabled]="scale() <= 0.5"
-            aria-label="Alejar"
+            [attr.aria-label]="t().zoomOut"
           >
             <cb-icon name="minus" [size]="18" aria-hidden="true" />
           </button>
-          <button type="button" class="cb-image__tool" (click)="reset()" aria-label="Restablecer">
+          <button type="button" class="cb-image__tool" (click)="reset()" [attr.aria-label]="t().reset">
             <cb-icon name="refresh-cw" [size]="18" aria-hidden="true" />
           </button>
-          <button type="button" class="cb-image__tool" (click)="download()" aria-label="Descargar">
+          <button type="button" class="cb-image__tool" (click)="download()" [attr.aria-label]="t().download">
             <cb-icon name="download" [size]="18" aria-hidden="true" />
           </button>
-          <button type="button" class="cb-image__tool" (click)="toggleFullscreen()" aria-label="Pantalla completa">
+          <button type="button" class="cb-image__tool" (click)="toggleFullscreen()" [attr.aria-label]="t().fullscreen">
             <cb-icon name="expand" [size]="18" aria-hidden="true" />
           </button>
-          <button type="button" class="cb-image__tool" (click)="closePreview()" aria-label="Cerrar">
+          <button type="button" class="cb-image__tool" (click)="closePreview()" [attr.aria-label]="t().close">
             <cb-icon name="x" [size]="18" aria-hidden="true" />
           </button>
         </div>
@@ -104,6 +105,10 @@ import { CbIcon } from '@caribeng/ui/icon';
   styleUrl: './image.component.css',
 })
 export class CbImage {
+  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+  protected readonly t = injectCbTranslation();
+  /** Rellena `{0}`, `{1}`… de un texto traducido. */
+  protected readonly fmt = cbFormat;
   readonly src = input<string>('');
   readonly alt = input<string>('');
   readonly width = input<string>('');

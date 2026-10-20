@@ -10,6 +10,7 @@ import {
 } from '@angular/core';
 import { CbIcon } from '@caribeng/ui/icon';
 import { CbButton } from '@caribeng/ui/button';
+import { injectCbTranslation } from '@caribeng/ui';
 
 let nextUid = 0;
 
@@ -68,10 +69,10 @@ let nextUid = 0;
     @if (showNav()) {
       <div class="cb-stepper__nav">
         <cb-button variant="text" severity="secondary" [disabled]="activeIndex() === 0" (click)="prev()">
-          Atrás
+          {{ t().back }}
         </cb-button>
         <cb-button [disabled]="activeIndex() >= steps().length - 1" (click)="next()">
-          Siguiente
+          {{ t().next }}
         </cb-button>
       </div>
     }
@@ -79,6 +80,8 @@ let nextUid = 0;
   styleUrl: './stepper.component.css',
 })
 export class CbStepper {
+  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+  protected readonly t = injectCbTranslation();
   readonly steps = contentChildren(CbStep);
   /** Muestra los botones Atrás/Siguiente integrados. */
   readonly showNav = input<boolean, unknown>(true, { transform: toBoolean });

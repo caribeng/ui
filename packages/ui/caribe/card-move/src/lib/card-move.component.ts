@@ -4,6 +4,7 @@ import {
   ViewEncapsulation,
   model,
 } from '@angular/core';
+import { injectCbTranslation } from '@caribeng/ui';
 
 /**
  * Card-move de Caribe Design: lista de elementos reordenables mediante botones
@@ -28,7 +29,7 @@ import {
               <button
                 type="button"
                 class="cb-card-move__btn"
-                aria-label="Mover arriba"
+                [attr.aria-label]="t().moveUp"
                 [disabled]="$first"
                 (click)="move($index, -1)"
               >
@@ -37,7 +38,7 @@ import {
               <button
                 type="button"
                 class="cb-card-move__btn"
-                aria-label="Mover abajo"
+                [attr.aria-label]="t().moveDown"
                 [disabled]="$last"
                 (click)="move($index, 1)"
               >
@@ -52,6 +53,8 @@ import {
   styleUrl: './card-move.component.css',
 })
 export class CbCardMove {
+  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+  protected readonly t = injectCbTranslation();
   readonly items = model<readonly string[]>([]);
 
   protected move(index: number, delta: number): void {

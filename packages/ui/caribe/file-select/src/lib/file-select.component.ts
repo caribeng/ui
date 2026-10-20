@@ -6,6 +6,7 @@ import {
   model,
   output,
 } from '@angular/core';
+import { cbFormat, injectCbTranslation } from '@caribeng/ui';
 
 /**
  * File-select de Caribe Design: zona de selección de archivos con formatos
@@ -24,11 +25,11 @@ import {
   template: `
     <label class="cb-file-select" [class.cb-is-disabled]="disabled()">
       <span class="cb-file-select__icon" aria-hidden="true">↑</span>
-      <span class="cb-file-select__title">{{ label() }}</span>
-      <span class="cb-file-select__hint">Formatos: {{ accept() }}</span>
+      <span class="cb-file-select__title">{{ (label() ?? t().selectDocument) }}</span>
+      <span class="cb-file-select__hint">{{ fmt(t().formats, accept()) }}</span>
       @if (files().length) {
         <span class="cb-file-select__count">
-          {{ files().length }} archivo(s) seleccionado(s)
+          {{ fmt(t().filesSelected, files().length) }}
         </span>
       }
       <input
@@ -44,7 +45,11 @@ import {
   styleUrl: './file-select.component.css',
 })
 export class CbFileSelect {
-  readonly label = input<string>('Seleccionar documento');
+  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+  protected readonly t = injectCbTranslation();
+  /** Rellena `{0}`, `{1}`… de un texto traducido. */
+  protected readonly fmt = cbFormat;
+  readonly label = input<string | undefined>(undefined);
   readonly accept = input<string>('.pdf,.png,.jpg');
   readonly multiple = input<boolean>(false);
   readonly disabled = input<boolean>(false);

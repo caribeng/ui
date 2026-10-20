@@ -6,6 +6,7 @@ import {
   output,
   signal,
 } from '@angular/core';
+import { injectCbTranslation } from '@caribeng/ui';
 
 export interface CbTerminalEntry {
   command: string;
@@ -43,7 +44,7 @@ export interface CbTerminalEntry {
         type="text"
         class="cb-terminal__input"
         [value]="currentCommand()"
-        [attr.aria-label]="prompt() || 'Comando'"
+        [attr.aria-label]="prompt() || t().command"
         (input)="onInput($event)"
         (keydown.enter)="submitCommand()"
       />
@@ -52,6 +53,8 @@ export interface CbTerminalEntry {
   styleUrl: './terminal.component.css',
 })
 export class CbTerminal {
+  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+  protected readonly t = injectCbTranslation();
   readonly welcomeMessage = input<string>('');
   readonly prompt = input<string>('caribeng $');
 

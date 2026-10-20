@@ -13,7 +13,7 @@ import {
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
 import { OverlayModule, type ConnectedPosition } from '@angular/cdk/overlay';
-import { cbFieldState, type CbRequiredIndicator, type CbSize } from '@caribeng/ui';
+import { cbFieldState, type CbRequiredIndicator, type CbSize, injectCbTranslation } from '@caribeng/ui';
 import { CbIcon } from '@caribeng/ui/icon';
 
 let nextUid = 0;
@@ -95,7 +95,7 @@ let nextUid = 0;
           type="button"
           class="cb-autocomplete__dropdown-btn"
           tabindex="-1"
-          aria-label="Mostrar sugerencias"
+          [attr.aria-label]="t().showSuggestions"
           [disabled]="isDisabled()"
           (click)="onDropdownClick()"
         >
@@ -131,7 +131,7 @@ let nextUid = 0;
             </li>
           } @empty {
             <li class="cb-autocomplete__empty" role="option" aria-disabled="true">
-              {{ emptyMessage() }}
+              {{ (emptyMessage() ?? t().noResults) }}
             </li>
           }
         </ul>
@@ -151,6 +151,8 @@ let nextUid = 0;
   styleUrl: './autocomplete.component.css',
 })
 export class CbAutocomplete implements ControlValueAccessor {
+  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+  protected readonly t = injectCbTranslation();
   /** Valor seleccionado (two-way opcional fuera de Angular Forms). */
   readonly value = model<unknown>(null);
 
@@ -168,7 +170,7 @@ export class CbAutocomplete implements ControlValueAccessor {
   readonly forceSelection = input<boolean, unknown>(true, { transform: toBoolean });
   /** Muestra un botón para desplegar todas las sugerencias. */
   readonly dropdown = input<boolean, unknown>(false, { transform: toBoolean });
-  readonly emptyMessage = input<string>('Sin resultados');
+  readonly emptyMessage = input<string | undefined>(undefined);
   readonly label = input<string>('');
   readonly hint = input<string>('');
   readonly error = input<string>('');

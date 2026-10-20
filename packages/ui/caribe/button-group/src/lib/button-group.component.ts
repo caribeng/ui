@@ -4,6 +4,7 @@ import {
   ViewEncapsulation,
   input,
 } from '@angular/core';
+import { injectCbTranslation } from '@caribeng/ui';
 
 /**
  * Button-group de Caribe Design: contenedor que agrupa acciones relacionadas
@@ -23,7 +24,7 @@ import {
   host: {
     class: 'cb-button-group-host',
     role: 'group',
-    '[attr.aria-label]': 'ariaLabel()',
+    '[attr.aria-label]': '(ariaLabel() ?? t().actionGroup)',
     '[class.cb-button-group-host--vertical]': "orientation() === 'vertical'",
   },
   template: `
@@ -37,8 +38,10 @@ import {
   styleUrl: './button-group.component.css',
 })
 export class CbButtonGroup {
+  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+  protected readonly t = injectCbTranslation();
   /** Dirección del grupo. */
   readonly orientation = input<'horizontal' | 'vertical'>('horizontal');
   /** Etiqueta accesible del grupo. */
-  readonly ariaLabel = input<string>('Grupo de acciones');
+  readonly ariaLabel = input<string | undefined>(undefined);
 }
