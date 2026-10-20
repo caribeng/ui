@@ -26,7 +26,7 @@ import { TocService } from '../services/toc.service';
     <doc-section id="import" title="Importación">
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
-    <doc-section id="basic" title="Básico" [code]="basicCode">
+    <doc-section id="basic" title="Básico" description="Mientras blocked es true, el contenido queda cubierto por una capa que impide interactuar con él." [code]="basicCode">
       <div style="width: 100%; display: flex; flex-direction: column; gap: 0.75rem">
         <div>
           <cb-button size="sm" (click)="blocked.set(!blocked())">

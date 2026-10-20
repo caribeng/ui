@@ -21,7 +21,7 @@ import type { DocApi } from '../components/doc-api.model';
       subtitle="Interruptor binario con rol ARIA switch e integración CVA."
       importCode="import { CbSwitch } from '@caribeng/ui/caribe/switch';"
     >
-      <cb-doc-example title="Interruptor con etiqueta" code='<cb-switch label="Notificaciones push" [(checked)]="enabled" />'>
+      <cb-doc-example title="Interruptor con etiqueta" description="label define la etiqueta y el estado se enlaza con [(checked)]." code='<cb-switch label="Notificaciones push" [(checked)]="enabled" />'>
         <cb-switch label="Notificaciones push" [(checked)]="enabled" />
       </cb-doc-example>
 

@@ -24,7 +24,7 @@ import { TocService } from '../services/toc.service';
     <doc-section id="import" title="Importación">
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
-    <doc-section id="basic" title="Básico" [code]="basicCode">
+    <doc-section id="basic" title="Básico" description="Coloca un icono dentro del campo; iconPosition indica el lado." [code]="basicCode">
       <div style="width: 280px">
         <cb-icon-field iconPosition="left">
           <cb-input-icon><cb-icon name="search" [size]="15" /></cb-input-icon>

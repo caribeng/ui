@@ -17,7 +17,7 @@ import { TocService } from '../services/toc.service';
     <doc-section id="import" title="Importación">
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
-    <doc-section id="basic" title="Básico" [code]="basicCode">
+    <doc-section id="basic" title="Básico" description="values define los segmentos de la barra con su etiqueta, valor y color." [code]="basicCode">
       <cb-meter-group [values]="metrics" style="width: 100%" />
     </doc-section>
 

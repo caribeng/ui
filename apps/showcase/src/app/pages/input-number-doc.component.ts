@@ -83,6 +83,7 @@ import { TocService } from '../services/toc.service';
     <doc-section
       id="validation"
       title="Validación · Reactive Forms"
+      description="Con formControl, min, max y required se valida el rango; error muestra el mensaje."
       [code]="validationCode"
       [codeTs]="validationTs"
     >
@@ -99,7 +100,7 @@ import { TocService } from '../services/toc.service';
       </div>
     </doc-section>
 
-    <doc-section id="disabled" title="Deshabilitado" [code]="disabledCode">
+    <doc-section id="disabled" title="Deshabilitado" description="disabled muestra el valor sin permitir editarlo, incluidos los botones." [code]="disabledCode">
       <div style="width: 100%; max-width: 240px">
         <cb-input-number [disabled]="true" [value]="42" showButtons label="No editable" />
       </div>

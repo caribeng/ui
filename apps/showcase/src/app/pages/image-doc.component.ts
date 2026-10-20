@@ -17,7 +17,7 @@ import { TocService } from '../services/toc.service';
     <doc-section id="import" title="Importación">
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
-    <doc-section id="basic" title="Con Preview" [code]="basicCode">
+    <doc-section id="basic" title="Con Preview" description="Con preview, al hacer clic la imagen se abre ampliada." [code]="basicCode">
       <cb-image
         src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=80"
         alt="Playa del Caribe"

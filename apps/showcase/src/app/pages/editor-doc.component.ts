@@ -17,7 +17,7 @@ import { TocService } from '../services/toc.service';
     <doc-section id="import" title="Importación">
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
-    <doc-section id="basic" title="Básico" [code]="basicCode">
+    <doc-section id="basic" title="Básico" description="Editor de texto enriquecido; el HTML resultante se enlaza con [(value)]." [code]="basicCode">
       <cb-editor [(value)]="content" style="width: 100%" />
     </doc-section>
 

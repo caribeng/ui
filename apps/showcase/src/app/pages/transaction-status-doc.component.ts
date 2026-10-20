@@ -14,7 +14,7 @@ import { TocService } from '../services/toc.service';
     <doc-page-header eyebrow="Caribe Design" title="Transaction Status" lead="Transaction Status para interfaces accesibles, con estilos basados en tokens CaribeNG." />
 
     <doc-section id="import" title="Importación"><doc-code-block [code]="importCode" lang="typescript" /></doc-section>
-    <doc-section id="basic" title="Básico" [code]="exampleCode"><cb-transaction-status status="success" label="Transaccion aprobada" /></doc-section>
+    <doc-section id="basic" title="Básico" description="Resultado de una transacción; status define el estado y label el mensaje." [code]="exampleCode"><cb-transaction-status status="success" label="Transaccion aprobada" /></doc-section>
 
     <doc-playground [api]="docApi" />
   `,

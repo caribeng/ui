@@ -18,11 +18,11 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
       subtitle="Indicador compacto del progreso por pasos en flujos asistidos."
       importCode="import { CbStepIndicator } from '@caribeng/ui/caribe/step-indicator';"
     >
-      <cb-doc-example title="Paso actual" code='<cb-step-indicator [currentStep]="2" [totalSteps]="4" label="Confirmación" />'>
+      <cb-doc-example title="Paso actual" description="currentStep y totalSteps indican el progreso; label describe el paso actual." code='<cb-step-indicator [currentStep]="2" [totalSteps]="4" label="Confirmación" />'>
         <cb-step-indicator [currentStep]="2" [totalSteps]="4" label="Confirmación" />
       </cb-doc-example>
 
-      <cb-doc-example title="Flujo de transferencia" [code]="composedCode">
+      <cb-doc-example title="Flujo de transferencia" description="El indicador avanza junto con el contenido de cada paso del flujo." [code]="composedCode">
         <div style="width: 100%; max-width: 24rem; display: flex; flex-direction: column; gap: 1rem">
           <cb-step-indicator [currentStep]="current()" [totalSteps]="3" [label]="stepLabel()" />
           <cb-card-content [title]="stepLabel()" subtitle="New transfer" actionLabel="Help">

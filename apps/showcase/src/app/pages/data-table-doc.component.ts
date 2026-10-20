@@ -17,7 +17,7 @@ import { I18nService } from '../services/i18n.service';
     <doc-page-header eyebrow="Caribe Design" title="Data Table" lead="Data Table para interfaces accesibles, con estilos basados en tokens CaribeNG." />
 
     <doc-section id="import" title="Importación"><doc-code-block [code]="importCode" lang="typescript" /></doc-section>
-    <doc-section id="basic" title="Básico" [code]="exampleCode"><cb-data-table [columns]="columns" [rows]="rows" /></doc-section>
+    <doc-section id="basic" title="Básico" description="columns define las columnas y rows los datos de cada fila." [code]="exampleCode"><cb-data-table [columns]="columns" [rows]="rows" /></doc-section>
 
     <doc-section
       id="composed"

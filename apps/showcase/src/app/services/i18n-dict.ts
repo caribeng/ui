@@ -1094,4 +1094,257 @@ export const ES_EN: Record<string, string> = {
     'Atlantis-style split-layout two-step verification: 6-digit code from the authenticator app.',
   'Verificación por código de un solo uso con layout dividido estilo Atlantis: 4 dígitos, verificar o cancelar, reenviar.':
     'Atlantis-style split-layout one-time code verification: 4 digits, verify or cancel, resend.',
+
+  // --- Descripciones de secciones de ejemplo ---
+  'Cada cb-accordion-panel define una sección plegable; su texto de cabecera se indica con header.':
+    'Each cb-accordion-panel defines a collapsible section; its header text is set with header.',
+  'Mensaje destacado con título y contenido proyectado; severity define el color y el icono.':
+    'Prominent message with a title and projected content; severity sets the color and icon.',
+  'Con loop la animación se repite indefinidamente; size controla sus dimensiones.':
+    'With loop the animation repeats indefinitely; size controls its dimensions.',
+  'Cuatro tamaños con size: sm, md (por defecto), lg y xl.':
+    'Four sizes with size: sm, md (default), lg and xl.',
+  'severity aplica el color semántico de fondo cuando se muestran iniciales o icono.':
+    'severity applies the semantic background color when initials or an icon are shown.',
+  'Agrupa varios cb-avatar superpuestos, ideal para mostrar participantes.':
+    'Groups several overlapping cb-avatar elements, ideal for showing participants.',
+  'value acepta números o texto corto; severity define el color.':
+    'value accepts numbers or short text; severity sets the color.',
+  'Tres tamaños con size: sm, md (por defecto) y lg.':
+    'Three sizes with size: sm, md (default) and lg.',
+  'Mientras blocked es true, el contenido queda cubierto por una capa que impide interactuar con él.':
+    'While blocked is true, the content is covered by a layer that prevents interaction.',
+  'Se alimenta con un arreglo items; cada elemento puede tener label y url.':
+    'Driven by an items array; each item can have a label and url.',
+  'Añade icon a cualquier elemento para mostrar un icono junto a su texto.':
+    'Add icon to any item to show an icon next to its text.',
+  'Agrupa botones relacionados en una sola fila con bordes unidos.':
+    'Groups related buttons in a single row with joined borders.',
+  'Con ariaLabel el grupo se anuncia como barra de herramientas; aria-pressed marca la opción activa.':
+    'With ariaLabel the group is announced as a toolbar; aria-pressed marks the active option.',
+  'Muestra un mes completo; el día elegido se enlaza con [(selectedDay)] y monthLabel define el encabezado.':
+    'Shows a full month; the chosen day is bound with [(selectedDay)] and monthLabel sets the header.',
+  'Tarjeta de producto con title, subtitle y contenido proyectado.':
+    'Product card with title, subtitle and projected content.',
+  'header y subtitle forman la cabecera; el contenido se proyecta en el cuerpo.':
+    'header and subtitle form the header; the content is projected into the body.',
+  'Sin header, la tarjeta muestra solo el contenido proyectado.':
+    'Without header, the card shows only the projected content.',
+  'Lista de movimientos a partir del arreglo items.':
+    'List of transactions built from the items array.',
+  'Tarjeta principal de producto: title, subtitle y el valor destacado en value.':
+    'Main product card: title, subtitle and the highlighted amount in value.',
+  'Opciones seleccionables en forma de tarjeta a partir del arreglo items.':
+    'Card-style selectable options built from the items array.',
+  'Recorre el arreglo items con navegación por flechas e indicadores.':
+    'Cycles through the items array with arrow navigation and indicators.',
+  'options define una jerarquía con children; el valor final se enlaza con [(value)].':
+    'options defines a hierarchy with children; the final value is bound with [(value)].',
+  'invalid marca el error visual y ARIA; disabled impide la interacción.':
+    'invalid sets the visual and ARIA error state; disabled prevents interaction.',
+  'icon añade un icono al chip y removable muestra un botón para quitarlo.':
+    'icon adds an icon to the chip and removable shows a button to remove it.',
+  'Funciona con formControl; usa invalid para reflejar el estado de validación.':
+    'Works with formControl; use invalid to reflect the validation state.',
+  'progress indica el porcentaje completado y label el texto accesible.':
+    'progress sets the completed percentage and label the accessible text.',
+  'Guía paso a paso que resalta elementos de la interfaz a partir del arreglo steps.':
+    'Step-by-step guide that highlights interface elements from the steps array.',
+  'Al deshabilitar el FormControl, el selector se bloquea automáticamente.':
+    'When the FormControl is disabled, the picker is locked automatically.',
+  'Diálogo de confirmación controlado con [(visible)]; header define el título.':
+    'Confirmation dialog controlled with [(visible)]; header sets the title.',
+  'Confirmación compacta junto al elemento que la abre, controlada con [(visible)].':
+    'Compact confirmation next to the element that opens it, controlled with [(visible)].',
+  'columns define las columnas y rows los datos de cada fila.':
+    'columns defines the columns and rows the data of each row.',
+  'Muestra el arreglo value en una vista de lista o cuadrícula.':
+    'Shows the value array in a list or grid layout.',
+  'Con formControl, required y error se muestra el mensaje cuando la fecha falta; minDate limita las fechas anteriores.':
+    'With formControl, required and error the message is shown when the date is missing; minDate blocks earlier dates.',
+  'disabled muestra el valor sin permitir cambiarlo.':
+    'disabled shows the value without allowing changes.',
+  'Separa contenido con una línea horizontal.': 'Separates content with a horizontal line.',
+  'type cambia el estilo de la línea: solid (por defecto), dashed o dotted.':
+    'type changes the line style: solid (default), dashed or dotted.',
+  'Con orientation=vertical separa elementos dispuestos en fila.':
+    'With orientation=vertical it separates items laid out in a row.',
+  'count define el número de puntos y [(activeIndex)] el punto activo.':
+    'count sets the number of dots and [(activeIndex)] the active dot.',
+  'Diálogo cuyo contenido se pasa por la propiedad content; se controla con [(visible)].':
+    'Dialog whose content is passed through the content property; controlled with [(visible)].',
+  'Editor de texto enriquecido; el HTML resultante se enlaza con [(value)].':
+    'Rich text editor; the resulting HTML is bound with [(value)].',
+  'Pantalla para usuarios sin permisos, con acción para volver al inicio.':
+    'Screen for users without permission, with an action to go back home.',
+  'Pantalla genérica de error inesperado.': 'Generic screen for unexpected errors.',
+  'Pantalla para rutas que no existen.': 'Screen for routes that do not exist.',
+  'Pantalla de mantenimiento con icono animado (spin).':
+    'Maintenance screen with an animated (spin) icon.',
+  'title define la cabecera y expanded el estado inicial abierto.':
+    'title sets the header and expanded the initial open state.',
+  'Varios paneles apilados forman una sección de preguntas frecuentes.':
+    'Several stacked panels make up an FAQ section.',
+  'Botón flotante que despliega las acciones definidas en items.':
+    'Floating button that expands the actions defined in items.',
+  'Posicionado sobre una tarjeta, ofrece acciones rápidas sin ocupar espacio fijo.':
+    'Placed over a card, it offers quick actions without taking up fixed space.',
+  'Agrupa contenido relacionado bajo una leyenda definida con legend.':
+    'Groups related content under a legend set with legend.',
+  'fileName y fileSize describen el archivo que se descarga.':
+    'fileName and fileSize describe the file to download.',
+  'accept limita los tipos de archivo y label define el texto del botón.':
+    'accept limits the file types and label sets the button text.',
+  'Con multiple se pueden adjuntar varios archivos a la vez.':
+    'With multiple several files can be attached at once.',
+  'items define las opciones y activeId la opción resaltada.':
+    'items defines the options and activeId the highlighted one.',
+  'El evento select permite cambiar la vista mostrada según la opción elegida.':
+    'The select event lets you switch the displayed view based on the chosen option.',
+  'La etiqueta flota sobre el campo al enfocarlo o cuando tiene valor.':
+    'The label floats above the field when focused or when it has a value.',
+  'Pie de página institucional listo para usar.': 'Ready-to-use institutional footer.',
+  'Galería de imágenes con miniaturas a partir del arreglo value.':
+    'Image gallery with thumbnails from the value array.',
+  'title y subtitle describen el paso; showBack muestra el botón de retroceso.':
+    'title and subtitle describe the step; showBack shows the back button.',
+  'Proyecta botones de icono para añadir acciones a la derecha del encabezado.':
+    'Project icon buttons to add actions on the right side of the header.',
+  'Botón circular solo con icono; ariaLabel es obligatorio para la accesibilidad.':
+    'Icon-only circular button; ariaLabel is required for accessibility.',
+  'Coloca un icono dentro del campo; iconPosition indica el lado.':
+    'Places an icon inside the field; iconPosition sets the side.',
+  'name selecciona la ilustración y size su tamaño.':
+    'name selects the illustration and size its dimensions.',
+  'Con preview, al hacer clic la imagen se abre ampliada.':
+    'With preview, clicking the image opens it enlarged.',
+  'Alerta dentro del flujo de contenido; status define el color y el icono.':
+    'Alert inside the content flow; status sets the color and icon.',
+  'Mensaje breve en línea; severity define el color.':
+    'Short inline message; severity sets the color.',
+  'Alterna entre un contenido de vista (cb-inplace-display) y uno editable (cb-inplace-content).':
+    'Toggles between a display content (cb-inplace-display) and an editable one (cb-inplace-content).',
+  'label define la etiqueta y la fecha se enlaza con [(value)].':
+    'label sets the label and the date is bound with [(value)].',
+  'Con formControl, min, max y required se valida el rango; error muestra el mensaje.':
+    'With formControl, min, max and required the range is validated; error shows the message.',
+  'disabled muestra el valor sin permitir editarlo, incluidos los botones.':
+    'disabled shows the value without allowing edits, buttons included.',
+  'El texto de búsqueda se enlaza con [(value)] para filtrar en tiempo real.':
+    'The search text is bound with [(value)] to filter in real time.',
+  'options define las opciones y el valor elegido se enlaza con [(value)].':
+    'options defines the choices and the selected value is bound with [(value)].',
+  'numInputs define el número de dígitos; unmasked muestra el valor en lugar de ocultarlo.':
+    'numInputs sets the number of digits; unmasked shows the value instead of hiding it.',
+  'Coloca cb-input-group-addon antes y después del campo.':
+    'Place cb-input-group-addon before and after the field.',
+  'mask define el patrón: 9 para dígitos, a para letras y * para alfanuméricos.':
+    'mask defines the pattern: 9 for digits, a for letters and * for alphanumeric.',
+  'length define el número de casillas e integerOnly admite solo números.':
+    'length sets the number of boxes and integerOnly accepts digits only.',
+  'severity cambia el color y size el diámetro en píxeles.':
+    'severity changes the color and size the diameter in pixels.',
+  'Enlace con estilo de la marca; href define el destino.':
+    'Brand-styled link; href sets the target.',
+  'Lista de opciones visible; el valor elegido se enlaza con [(value)].':
+    'Visible list of options; the selected value is bound with [(value)].',
+  'Con multiple se eligen varias opciones y filter añade un buscador.':
+    'With multiple several options can be chosen and filter adds a search box.',
+  'text muestra un mensaje mientras se completa la operación.':
+    'text shows a message while the operation completes.',
+  'Con negative el logo se adapta a fondos oscuros.':
+    'With negative the logo adapts to dark backgrounds.',
+  'severity define el color y el icono del mensaje.':
+    'severity sets the color and icon of the message.',
+  'values define los segmentos de la barra con su etiqueta, valor y color.':
+    'values defines the bar segments with their label, value and color.',
+  'title define el encabezado y visible controla si el modal se muestra.':
+    'title sets the header and visible controls whether the modal is shown.',
+  'Panel que se desliza desde un lateral, controlado con [(open)].':
+    'Panel that slides in from the side, controlled with [(open)].',
+  'Un botón abre el panel con controles de filtro.':
+    'A button opens the panel with filter controls.',
+  'Pantallas de bienvenida paso a paso a partir del arreglo steps.':
+    'Step-by-step welcome screens from the steps array.',
+  'Lista reordenable; el nuevo orden se enlaza con [(value)].':
+    'Reorderable list; the new order is bound with [(value)].',
+  'totalRecords define el total; [(first)] y [(rows)] enlazan la página actual y su tamaño.':
+    'totalRecords sets the total; [(first)] and [(rows)] bind the current page and its size.',
+  'Contenedor con cabecera definida por header.': 'Container with a header set by header.',
+  'Mueve elementos entre dos listas enlazadas con [(source)] y [(target)].':
+    'Moves items between two lists bound with [(source)] and [(target)].',
+  'name selecciona el pictograma y size su tamaño.':
+    'name selects the pictogram and size its dimensions.',
+  'triggerLabel define el texto que abre el contenido flotante.':
+    'triggerLabel sets the text that opens the floating content.',
+  'Puede contener cualquier contenido; se abre con toggle desde una referencia de plantilla.':
+    'It can hold any content; it opens with toggle from a template reference.',
+  'Mientras active es true, cubre la pantalla con label como mensaje.':
+    'While active is true, it covers the screen with label as the message.',
+  'value indica el porcentaje y label el texto superior.':
+    'value sets the percentage and label the text above.',
+  'value define el porcentaje y showValue lo muestra dentro de la barra.':
+    'value sets the percentage and showValue displays it inside the bar.',
+  'severity cambia el color y size el grosor de la barra.':
+    'severity changes the color and size the bar thickness.',
+  'stars define cuántas estrellas se muestran.': 'stars sets how many stars are shown.',
+  'readonly muestra el valor sin permitir cambios; disabled además atenúa el control.':
+    'readonly shows the value without allowing changes; disabled also dims the control.',
+  'La directiva cbRipple añade el efecto de onda al hacer clic.':
+    'The cbRipple directive adds a ripple effect on click.',
+  'Área con desplazamiento propio y barra estilizada; width y height fijan sus dimensiones.':
+    'Area with its own scrolling and a styled scrollbar; width and height set its dimensions.',
+  'Solo una opción activa a la vez; el valor se enlaza con [(value)].':
+    'Only one option active at a time; the value is bound with [(value)].',
+  'Con multiple el valor es un arreglo con todas las opciones activas.':
+    'With multiple the value is an array with all active options.',
+  'Acceso directo con icono y label para acciones frecuentes.':
+    'Shortcut with icon and label for frequent actions.',
+  'Varios accesos en cuadrícula forman un panel de acciones rápidas.':
+    'Several shortcuts in a grid make up a quick actions panel.',
+  'shape admite texto (por defecto), rect y circle; width y height ajustan las dimensiones.':
+    'shape accepts text (default), rect and circle; width and height adjust the dimensions.',
+  'Al deshabilitar el FormControl, el slider se bloquea automáticamente.':
+    'When the FormControl is disabled, the slider is locked automatically.',
+  'size define el diámetro en píxeles.': 'size sets the diameter in pixels.',
+  'severity define el color del indicador.': 'severity sets the color of the indicator.',
+  'Con layout=vertical los paneles se apilan; size fija el porcentaje inicial de cada uno.':
+    'With layout=vertical the panels are stacked; size sets the initial percentage of each one.',
+  'Indicador de estado; status define el color y text la etiqueta.':
+    'Status indicator; status sets the color and text the label.',
+  'currentStep y totalSteps indican el progreso; label describe el paso actual.':
+    'currentStep and totalSteps show the progress; label describes the current step.',
+  'El indicador avanza junto con el contenido de cada paso del flujo.':
+    'The indicator advances along with the content of each step of the flow.',
+  'name selecciona el trazo y size su tamaño.': 'name selects the stroke and size its dimensions.',
+  'label define la etiqueta y el estado se enlaza con [(checked)].':
+    'label sets the label and the state is bound with [(checked)].',
+  'Cada cb-tab define una pestaña; su título se indica con label.':
+    'Each cb-tab defines a tab; its title is set with label.',
+  'Una pestaña con disabled no se puede seleccionar.': 'A tab with disabled cannot be selected.',
+  'El estado activo se enlaza con [(selected)].': 'The active state is bound with [(selected)].',
+  'severity define el color de la etiqueta.': 'severity sets the color of the tag.',
+  'icon añade un icono antes del texto.': 'icon adds an icon before the text.',
+  'Con rounded la etiqueta toma forma de píldora.': 'With rounded the tag takes a pill shape.',
+  'Línea de tiempo vertical a partir del arreglo value.': 'Vertical timeline from the value array.',
+  'onLabel y offLabel definen el texto de cada estado; el valor se enlaza con [(value)].':
+    'onLabel and offLabel set the text of each state; the value is bound with [(value)].',
+  'onIcon y offIcon muestran un icono distinto según el estado.':
+    'onIcon and offIcon show a different icon depending on the state.',
+  'Distribuye acciones en tres zonas: cb-toolbar-start, cb-toolbar-center y cb-toolbar-end.':
+    'Spreads actions across three areas: cb-toolbar-start, cb-toolbar-center and cb-toolbar-end.',
+  'steps define las etapas y currentIndex la etapa actual.':
+    'steps defines the stages and currentIndex the current one.',
+  'Resultado de una transacción; status define el estado y label el mensaje.':
+    'Result of a transaction; status sets the state and label the message.',
+  'Estructura jerárquica expandible a partir del arreglo value.':
+    'Expandable hierarchical structure from the value array.',
+  'Selector desplegable con árbol de nodos; el valor se enlaza con [(value)].':
+    'Dropdown selector with a tree of nodes; the value is bound with [(value)].',
+  'Tabla jerárquica: value define los nodos y columns las columnas.':
+    'Hierarchical table: value defines the nodes and columns the columns.',
+  'Renderiza solo los elementos visibles para listas muy largas.':
+    'Renders only the visible items for very long lists.',
+  'title define el encabezado y rows los datos del comprobante.':
+    'title sets the header and rows the receipt data.',
 };

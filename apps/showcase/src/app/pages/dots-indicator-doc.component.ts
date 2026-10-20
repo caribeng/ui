@@ -16,7 +16,7 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
       subtitle="Indicador de paginación por puntos para carruseles y flujos de onboarding."
       importCode="import { CbDotsIndicator } from '@caribeng/ui/caribe/dots-indicator';"
     >
-      <cb-doc-example title="Puntos interactivos" code='<cb-dots-indicator [count]="4" [(activeIndex)]="page" />'>
+      <cb-doc-example title="Puntos interactivos" description="count define el número de puntos y [(activeIndex)] el punto activo." code='<cb-dots-indicator [count]="4" [(activeIndex)]="page" />'>
         <cb-dots-indicator [count]="4" [(activeIndex)]="page" />
       </cb-doc-example>
     

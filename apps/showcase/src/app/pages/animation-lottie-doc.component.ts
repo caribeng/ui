@@ -16,7 +16,7 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
       subtitle="Contenedor accesible de animaciones vectoriales tipo Lottie con control de reproducción."
       importCode="import { CbAnimationLottie } from '@caribeng/ui/caribe/animation-lottie';"
     >
-      <cb-doc-example title="Animación en bucle" code='<cb-animation-lottie size="96px" [loop]="true" />'>
+      <cb-doc-example title="Animación en bucle" description="Con loop la animación se repite indefinidamente; size controla sus dimensiones." code='<cb-animation-lottie size="96px" [loop]="true" />'>
         <cb-animation-lottie size="96px" [loop]="true" />
       </cb-doc-example>
     

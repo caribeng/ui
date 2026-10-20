@@ -17,11 +17,11 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
       subtitle="Barra de navegación flotante tipo píldora para vistas móviles y web."
       importCode="import { CbFloatMenu } from '@caribeng/ui/caribe/float-menu';"
     >
-      <cb-doc-example title="Barra flotante" code='<cb-float-menu [items]="items" [activeId]="active()" />'>
+      <cb-doc-example title="Barra flotante" description="items define las opciones y activeId la opción resaltada." code='<cb-float-menu [items]="items" [activeId]="active()" />'>
         <cb-float-menu [items]="items" [activeId]="active()" (select)="active.set($event.id)" />
       </cb-doc-example>
 
-      <cb-doc-example title="Navegación con vistas" [code]="composedCode">
+      <cb-doc-example title="Navegación con vistas" description="El evento select permite cambiar la vista mostrada según la opción elegida." [code]="composedCode">
         <div style="display: flex; flex-direction: column; gap: 1rem; align-items: center">
           <cb-float-menu [items]="views" [activeId]="view()" (select)="view.set($event.id)" />
           @switch (view()) {

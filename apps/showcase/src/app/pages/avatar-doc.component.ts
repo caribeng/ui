@@ -28,7 +28,7 @@ import { TocService } from '../services/toc.service';
       </div>
     </doc-section>
 
-    <doc-section id="sizes" title="Tamaños" [code]="sizeCode">
+    <doc-section id="sizes" title="Tamaños" description="Cuatro tamaños con size: sm, md (por defecto), lg y xl." [code]="sizeCode">
       <div style="display: flex; gap: 1rem; align-items: center">
         <cb-avatar label="SM" size="sm" severity="success" />
         <cb-avatar label="MD" severity="success" />
@@ -37,7 +37,7 @@ import { TocService } from '../services/toc.service';
       </div>
     </doc-section>
 
-    <doc-section id="severities" title="Severidades" [code]="sevCode">
+    <doc-section id="severities" title="Severidades" description="severity aplica el color semántico de fondo cuando se muestran iniciales o icono." [code]="sevCode">
       <div style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap">
         <cb-avatar label="P" severity="primary" />
         <cb-avatar label="S" severity="secondary" />

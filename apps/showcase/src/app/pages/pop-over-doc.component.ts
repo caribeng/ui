@@ -17,7 +17,7 @@ import { I18nService } from '../services/i18n.service';
     <doc-page-header eyebrow="Caribe Design" title="Pop Over" lead="Pop Over para interfaces accesibles, con estilos basados en tokens CaribeNG." />
 
     <doc-section id="import" title="Importación"><doc-code-block [code]="importCode" lang="typescript" /></doc-section>
-    <doc-section id="basic" title="Básico" [code]="exampleCode"><cb-pop-over triggerLabel="Ver informacion">Informacion adicional sobre la opci?n.</cb-pop-over></doc-section>
+    <doc-section id="basic" title="Básico" description="triggerLabel define el texto que abre el contenido flotante." [code]="exampleCode"><cb-pop-over triggerLabel="Ver informacion">Informacion adicional sobre la opci?n.</cb-pop-over></doc-section>
 
     <doc-section
       id="composed"

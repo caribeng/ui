@@ -16,14 +16,14 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
       subtitle="Botón de acceso directo con icono y etiqueta para acciones frecuentes."
       importCode="import { CbShortcut } from '@caribeng/ui/caribe/shortcut';"
     >
-      <cb-doc-example title="Atajos transaccionales" code='<cb-shortcut label="Transferir" icon="arrow-right" />'>
+      <cb-doc-example title="Atajos transaccionales" description="Acceso directo con icono y label para acciones frecuentes." code='<cb-shortcut label="Transferir" icon="arrow-right" />'>
         <div style="display: flex; gap: 0.75rem">
           <cb-shortcut label="Transferir" icon="arrow-right" />
           <cb-shortcut label="Certificados" icon="check" />
         </div>
       </cb-doc-example>
 
-      <cb-doc-example title="Panel de accesos rápidos" [code]="composedCode">
+      <cb-doc-example title="Panel de accesos rápidos" description="Varios accesos en cuadrícula forman un panel de acciones rápidas." [code]="composedCode">
         <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.75rem; width: 100%; max-width: 28rem">
           <cb-shortcut icon="arrow-right" label="Transfer" />
           <cb-shortcut icon="plus" label="Top up" />

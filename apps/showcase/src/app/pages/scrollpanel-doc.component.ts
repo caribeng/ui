@@ -29,7 +29,7 @@ import { TocService } from '../services/toc.service';
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
 
-    <doc-section id="basic" title="Básico" [code]="basicCode">
+    <doc-section id="basic" title="Básico" description="Área con desplazamiento propio y barra estilizada; width y height fijan sus dimensiones." [code]="basicCode">
       <cb-scroll-panel width="100%" height="180px" ariaLabel="Notas de versión" style="width: 100%">
         <p style="margin-top: 0">
           <strong>CaribeNG Design System</strong> ofrece componentes modulares e independientes construidos sobre Angular 22, Signals y CSS Custom Properties.

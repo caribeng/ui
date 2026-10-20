@@ -9,7 +9,7 @@ import { TocService } from '../services/toc.service';
 <doc-page-header eyebrow="Datos" title="Treetable" lead="Componente Treetable de CaribeNG." />
 
     <doc-section id="import" title="Importación">Consulta el entry point del componente en @caribeng/ui.</doc-section>
-<doc-section id="basic" title="Básico" [code]="example"><div style="width:100%"><cb-treetable [value]="nodes" [columns]="columns" /></div></doc-section>
+<doc-section id="basic" title="Básico" description="Tabla jerárquica: value define los nodos y columns las columnas." [code]="example"><div style="width:100%"><cb-treetable [value]="nodes" [columns]="columns" /></div></doc-section>
 
 <doc-playground [api]="docApi" />
 `})

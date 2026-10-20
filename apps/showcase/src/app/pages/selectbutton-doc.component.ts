@@ -20,14 +20,14 @@ import { TocService } from '../services/toc.service';
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
 
-    <doc-section id="single" title="Selección simple" [code]="singleCode">
+    <doc-section id="single" title="Selección simple" description="Solo una opción activa a la vez; el valor se enlaza con [(value)]." [code]="singleCode">
       <cb-selectbutton [(value)]="vista" [options]="vistas" />
       <p style="margin: 0.75rem 0 0; color: var(--cb-color-text-muted); font-size: 0.875rem">
         Valor: {{ vista() ?? '—' }}
       </p>
     </doc-section>
 
-    <doc-section id="multiple" title="Selección múltiple" [code]="multiCode">
+    <doc-section id="multiple" title="Selección múltiple" description="Con multiple el valor es un arreglo con todas las opciones activas." [code]="multiCode">
       <cb-selectbutton [(value)]="dias" [options]="opcionesDias" multiple />
       <p style="margin: 0.75rem 0 0; color: var(--cb-color-text-muted); font-size: 0.875rem">
         {{ dias().join(', ') || '—' }}

@@ -25,7 +25,7 @@ interface Ciudad {
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
 
-    <doc-section id="single" title="Selección simple" [code]="singleCode" [codeTs]="dataTs">
+    <doc-section id="single" title="Selección simple" description="Lista de opciones visible; el valor elegido se enlaza con [(value)]." [code]="singleCode" [codeTs]="dataTs">
       <div style="max-width: 18rem">
         <cb-listbox [(value)]="ciudad" [options]="ciudades" optionLabel="nombre" optionValue="id" />
       </div>
@@ -34,7 +34,7 @@ interface Ciudad {
       </p>
     </doc-section>
 
-    <doc-section id="multiple" title="Múltiple con filtro" [code]="multiCode">
+    <doc-section id="multiple" title="Múltiple con filtro" description="Con multiple se eligen varias opciones y filter añade un buscador." [code]="multiCode">
       <div style="max-width: 18rem">
         <cb-listbox [(value)]="seleccion" [options]="ciudades" optionLabel="nombre" optionValue="id" multiple filter />
       </div>

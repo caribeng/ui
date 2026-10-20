@@ -31,7 +31,7 @@ import { TocService } from '../services/toc.service';
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
 
-    <doc-section id="basic" title="Básico" [code]="basicCode">
+    <doc-section id="basic" title="Básico" description="Contenedor con cabecera definida por header." [code]="basicCode">
       <cb-panel header="Resumen de cuenta" style="width: 100%">
         <p style="margin: 0">
           CaribeNG proporciona contenedores modulares con tokens CSS adaptables a modo claro y oscuro.

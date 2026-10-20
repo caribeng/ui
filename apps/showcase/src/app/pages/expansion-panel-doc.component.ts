@@ -17,13 +17,13 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
       subtitle="Panel desplegable para mostrar u ocultar detalles adicionales."
       importCode="import { CbExpansionPanel } from '@caribeng/ui/caribe/expansion-panel';"
     >
-      <cb-doc-example title="Panel desplegable" code='<cb-expansion-panel title="Condiciones del producto" [expanded]="true">Sin cuota de manejo.</cb-expansion-panel>'>
+      <cb-doc-example title="Panel desplegable" description="title define la cabecera y expanded el estado inicial abierto." code='<cb-expansion-panel title="Condiciones del producto" [expanded]="true">Sin cuota de manejo.</cb-expansion-panel>'>
         <cb-expansion-panel title="Condiciones del producto" [expanded]="true">
           Exento de cuota de manejo durante los primeros 12 meses.
         </cb-expansion-panel>
       </cb-doc-example>
 
-      <cb-doc-example title="Preguntas frecuentes" [code]="composedCode">
+      <cb-doc-example title="Preguntas frecuentes" description="Varios paneles apilados forman una sección de preguntas frecuentes." [code]="composedCode">
         <div style="width: 100%; max-width: 30rem; display: flex; flex-direction: column; gap: 0.5rem">
           <cb-inline-alert status="info" [closable]="false" title="Frequently asked questions">
             Tap a question to expand its answer.

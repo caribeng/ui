@@ -46,6 +46,7 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
 
       <cb-doc-example
         title="Versión Negativa (Fondos Oscuros)"
+        description="Con negative el logo se adapta a fondos oscuros."
         code='<cb-logo name="caribe-horizontal" size="170px" [negative]="true" />
 <cb-logo name="caribe-mono" size="170px" [negative]="true" />'
       >

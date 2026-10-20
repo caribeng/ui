@@ -86,6 +86,7 @@ import { TocService } from '../services/toc.service';
     <doc-section
       id="states"
       title="Inválido y deshabilitado"
+      description="invalid marca el error visual y ARIA; disabled impide la interacción."
       [code]="statesCode"
     >
       <div style="display: grid; gap: 0.5rem">

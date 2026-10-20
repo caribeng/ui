@@ -10,7 +10,7 @@ import { TocService } from '../services/toc.service';
 <doc-page-header eyebrow="Overlays" title="Confirmpopup" lead="Componente Confirmpopup de CaribeNG." />
 
     <doc-section id="import" title="Importación">Consulta el entry point del componente en @caribeng/ui.</doc-section>
-<doc-section id="basic" title="Básico" [code]="example"><div style="width:100%"><cb-confirm-popup [(visible)]="visible" /></div></doc-section>
+<doc-section id="basic" title="Básico" description="Confirmación compacta junto al elemento que la abre, controlada con [(visible)]." [code]="example"><div style="width:100%"><cb-confirm-popup [(visible)]="visible" /></div></doc-section>
 
 <doc-playground [api]="docApi" />
 `})

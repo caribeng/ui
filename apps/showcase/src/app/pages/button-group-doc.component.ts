@@ -18,7 +18,7 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
       subtitle="Agrupador accesible de botones con orientación horizontal o vertical."
       importCode="import { CbButtonGroup } from '@caribeng/ui/caribe/button-group';"
     >
-      <cb-doc-example title="Grupo horizontal" code='<cb-button-group><cb-button size="sm">Día</cb-button><cb-button size="sm" variant="outlined">Mes</cb-button></cb-button-group>'>
+      <cb-doc-example title="Grupo horizontal" description="Agrupa botones relacionados en una sola fila con bordes unidos." code='<cb-button-group><cb-button size="sm">Día</cb-button><cb-button size="sm" variant="outlined">Mes</cb-button></cb-button-group>'>
         <cb-button-group>
           <cb-button size="sm">Día</cb-button>
           <cb-button size="sm" variant="outlined">Mes</cb-button>
@@ -26,7 +26,7 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
         </cb-button-group>
       </cb-doc-example>
 
-      <cb-doc-example title="Barra de herramientas" [code]="composedCode">
+      <cb-doc-example title="Barra de herramientas" description="Con ariaLabel el grupo se anuncia como barra de herramientas; aria-pressed marca la opción activa." [code]="composedCode">
         <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap">
           <cb-button-group ariaLabel="View">
             <button type="button" [attr.aria-pressed]="view() === 'day'" [class.is-active]="view() === 'day'" (click)="view.set('day')">Day</button>

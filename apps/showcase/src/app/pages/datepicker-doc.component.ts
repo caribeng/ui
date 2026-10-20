@@ -70,6 +70,7 @@ import { TocService } from '../services/toc.service';
     <doc-section
       id="validation"
       title="Validación · Reactive Forms"
+      description="Con formControl, required y error se muestra el mensaje cuando la fecha falta; minDate limita las fechas anteriores."
       [code]="validationCode"
       [codeTs]="validationTs"
     >
@@ -86,7 +87,7 @@ import { TocService } from '../services/toc.service';
       </div>
     </doc-section>
 
-    <doc-section id="disabled" title="Deshabilitado" [code]="disabledCode">
+    <doc-section id="disabled" title="Deshabilitado" description="disabled muestra el valor sin permitir cambiarlo." [code]="disabledCode">
       <div style="width: 100%; max-width: 280px">
         <cb-datepicker [disabled]="true" [value]="hoy" label="No editable" />
       </div>

@@ -20,14 +20,14 @@ import { TocService } from '../services/toc.service';
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
 
-    <doc-section id="basic" title="Básico" [code]="basicCode">
+    <doc-section id="basic" title="Básico" description="onLabel y offLabel definen el texto de cada estado; el valor se enlaza con [(value)]." [code]="basicCode">
       <cb-togglebutton [(value)]="activo" onLabel="Activado" offLabel="Desactivado" />
       <p style="margin: 0.75rem 0 0; color: var(--cb-color-text-muted); font-size: 0.875rem">
         {{ activo() ? 'on' : 'off' }}
       </p>
     </doc-section>
 
-    <doc-section id="icons" title="Con iconos" [code]="iconsCode">
+    <doc-section id="icons" title="Con iconos" description="onIcon y offIcon muestran un icono distinto según el estado." [code]="iconsCode">
       <div style="display: flex; gap: 0.75rem; align-items: center">
         <cb-togglebutton [(value)]="wifi" onIcon="check" offIcon="x" onLabel="WiFi" offLabel="WiFi" />
         <cb-togglebutton [(value)]="fav" onIcon="heart" offIcon="heart" onLabel="Favorito" offLabel="Favorito" />

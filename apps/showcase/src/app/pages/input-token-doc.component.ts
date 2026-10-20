@@ -16,7 +16,7 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
       subtitle="Captura segura de clave dinámica / OTP tokenizado con enmascaramiento opcional."
       importCode="import { CbInputToken } from '@caribeng/ui/caribe/input-token';"
     >
-      <cb-doc-example title="Clave dinámica de 6 dígitos" code='<cb-input-token [(value)]="token" [numInputs]="6" [unmasked]="true" />'>
+      <cb-doc-example title="Clave dinámica de 6 dígitos" description="numInputs define el número de dígitos; unmasked muestra el valor en lugar de ocultarlo." code='<cb-input-token [(value)]="token" [numInputs]="6" [unmasked]="true" />'>
         <cb-input-token [(value)]="token" [numInputs]="6" [unmasked]="true" helpText="Ingresa la clave dinámica de tu App" />
       </cb-doc-example>
     

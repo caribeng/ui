@@ -27,7 +27,7 @@ import { TocService } from '../services/toc.service';
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
 
-    <doc-section id="severities" title="Severidades" [code]="sevCode">
+    <doc-section id="severities" title="Severidades" description="severity define el color y el icono del mensaje." [code]="sevCode">
       <div style="display: flex; flex-direction: column; gap: 0.75rem">
         <cb-message severity="success">Los cambios se guardaron correctamente.</cb-message>
         <cb-message severity="info">Hay una nueva versión disponible.</cb-message>

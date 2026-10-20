@@ -20,7 +20,7 @@ import { TocService } from '../services/toc.service';
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
 
-    <doc-section id="basic" title="Básico" [code]="basicCode">
+    <doc-section id="basic" title="Básico" description="Separa contenido con una línea horizontal." [code]="basicCode">
       <p style="margin: 0">Sección uno.</p>
       <cb-divider />
       <p style="margin: 0">Sección dos.</p>
@@ -32,13 +32,13 @@ import { TocService } from '../services/toc.service';
       <cb-divider align="end">Fin</cb-divider>
     </doc-section>
 
-    <doc-section id="types" title="Estilos de línea" [code]="typesCode">
+    <doc-section id="types" title="Estilos de línea" description="type cambia el estilo de la línea: solid (por defecto), dashed o dotted." [code]="typesCode">
       <cb-divider type="solid" />
       <cb-divider type="dashed" />
       <cb-divider type="dotted" />
     </doc-section>
 
-    <doc-section id="vertical" title="Vertical" [code]="verticalCode">
+    <doc-section id="vertical" title="Vertical" description="Con orientation=vertical separa elementos dispuestos en fila." [code]="verticalCode">
       <div style="display: flex; align-items: center; height: 2rem">
         <span>Inicio</span>
         <cb-divider orientation="vertical" />

@@ -17,7 +17,7 @@ import { TocService } from '../services/toc.service';
     <doc-section id="import" title="Importación">
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
-    <doc-section id="basic" title="Básico" [code]="basicCode">
+    <doc-section id="basic" title="Básico" description="Recorre el arreglo items con navegación por flechas e indicadores." [code]="basicCode">
       <cb-carousel [items]="items" style="width: 100%" />
     </doc-section>
 

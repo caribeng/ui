@@ -20,7 +20,7 @@ import { TocService } from '../services/toc.service';
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
 
-    <doc-section id="sizes" title="Tamaños" [code]="sizeCode">
+    <doc-section id="sizes" title="Tamaños" description="size define el diámetro en píxeles." [code]="sizeCode">
       <div style="display: flex; gap: 1.5rem; align-items: center">
         <cb-spinner [size]="24" />
         <cb-spinner />
@@ -28,7 +28,7 @@ import { TocService } from '../services/toc.service';
       </div>
     </doc-section>
 
-    <doc-section id="severities" title="Severidades" [code]="sevCode">
+    <doc-section id="severities" title="Severidades" description="severity define el color del indicador." [code]="sevCode">
       <div style="display: flex; gap: 1.5rem; align-items: center">
         <cb-spinner severity="primary" />
         <cb-spinner severity="success" />

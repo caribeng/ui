@@ -16,7 +16,7 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
       subtitle="Campo de búsqueda con botón de limpieza rápida e integración CVA."
       importCode="import { CbInputSearch } from '@caribeng/ui/caribe/input-search';"
     >
-      <cb-doc-example title="Búsqueda reactiva" code='<cb-input-search [(value)]="query" placeholder="Buscar transacción…" />'>
+      <cb-doc-example title="Búsqueda reactiva" description="El texto de búsqueda se enlaza con [(value)] para filtrar en tiempo real." code='<cb-input-search [(value)]="query" placeholder="Buscar transacción…" />'>
         <cb-input-search [(value)]="query" placeholder="Buscar transacción…" />
       </cb-doc-example>
     

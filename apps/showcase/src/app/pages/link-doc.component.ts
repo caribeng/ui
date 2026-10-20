@@ -16,7 +16,7 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
       subtitle="Hipervínculo accesible con soporte para enlaces externos seguros."
       importCode="import { CbLink } from '@caribeng/ui/caribe/link';"
     >
-      <cb-doc-example title="Enlace estándar" code='<cb-link label="Conoce nuestras tarifas" href="#tarifas" />'>
+      <cb-doc-example title="Enlace estándar" description="Enlace con estilo de la marca; href define el destino." code='<cb-link label="Conoce nuestras tarifas" href="#tarifas" />'>
         <cb-link label="Conoce nuestras tarifas" href="#tarifas" />
       </cb-doc-example>
     

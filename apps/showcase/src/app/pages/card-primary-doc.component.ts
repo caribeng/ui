@@ -17,7 +17,7 @@ import { I18nService } from '../services/i18n.service';
     <doc-page-header eyebrow="Caribe Design" title="Card Primary" lead="Card Primary para interfaces accesibles, con estilos basados en tokens CaribeNG." />
 
     <doc-section id="import" title="Importación"><doc-code-block [code]="importCode" lang="typescript" /></doc-section>
-    <doc-section id="basic" title="Básico" [code]="exampleCode"><cb-card-primary title="Cuenta de ahorros" subtitle="**** 2048" value="$ 2.450.000" /></doc-section>
+    <doc-section id="basic" title="Básico" description="Tarjeta principal de producto: title, subtitle y el valor destacado en value." [code]="exampleCode"><cb-card-primary title="Cuenta de ahorros" subtitle="**** 2048" value="$ 2.450.000" /></doc-section>
 
     <doc-section
       id="composed"

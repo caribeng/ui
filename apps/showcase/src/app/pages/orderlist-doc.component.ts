@@ -10,7 +10,7 @@ import { TocService } from '../services/toc.service';
 <doc-page-header eyebrow="Datos" title="Orderlist" lead="Componente Orderlist de CaribeNG." />
 
     <doc-section id="import" title="Importación">Consulta el entry point del componente en @caribeng/ui.</doc-section>
-<doc-section id="basic" title="Básico" [code]="example"><div style="width:100%"><cb-orderlist [(value)]="items" /></div></doc-section>
+<doc-section id="basic" title="Básico" description="Lista reordenable; el nuevo orden se enlaza con [(value)]." [code]="example"><div style="width:100%"><cb-orderlist [(value)]="items" /></div></doc-section>
 
 <doc-playground [api]="docApi" />
 `})

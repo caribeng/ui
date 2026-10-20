@@ -50,7 +50,7 @@ import { TocService } from '../services/toc.service';
       </div>
     </doc-section>
 
-    <doc-section id="disabled" title="Deshabilitado · Reactive Forms" [code]="disabledCode" [codeTs]="disabledTs">
+    <doc-section id="disabled" title="Deshabilitado · Reactive Forms" description="Al deshabilitar el FormControl, el selector se bloquea automáticamente." [code]="disabledCode" [codeTs]="disabledTs">
       <cb-colorpicker [formControl]="bloqueado" />
     </doc-section>
 

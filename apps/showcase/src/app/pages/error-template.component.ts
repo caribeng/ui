@@ -20,7 +20,7 @@ import { TocService } from '../services/toc.service';
       lead="Pantallas de estado estilo Atlantis: Access Denied y Error, con mensaje grande centrado sobre fondo oscuro y botón de regreso."
     />
 
-    <doc-section id="denied" title="Acceso denegado" [code]="deniedCode">
+    <doc-section id="denied" title="Acceso denegado" description="Pantalla para usuarios sin permisos, con acción para volver al inicio." [code]="deniedCode">
       <div class="err">
         <div class="err__scales"></div>
         <h2 class="err__big err__big--info">
@@ -32,7 +32,7 @@ import { TocService } from '../services/toc.service';
       </div>
     </doc-section>
 
-    <doc-section id="error" title="Error" [code]="errorCode">
+    <doc-section id="error" title="Error" description="Pantalla genérica de error inesperado." [code]="errorCode">
       <div class="err">
         <div class="err__scales"></div>
         <h2 class="err__big err__big--danger">
@@ -43,7 +43,7 @@ import { TocService } from '../services/toc.service';
       </div>
     </doc-section>
 
-    <doc-section id="notfound" title="404 · No encontrada" [code]="notFoundCode">
+    <doc-section id="notfound" title="404 · No encontrada" description="Pantalla para rutas que no existen." [code]="notFoundCode">
       <div class="err">
         <div class="err__scales"></div>
         <h2 class="err__big err__big--brand">404</h2>
@@ -53,7 +53,7 @@ import { TocService } from '../services/toc.service';
       </div>
     </doc-section>
 
-    <doc-section id="maintenance" title="Mantenimiento" [code]="maintenanceCode">
+    <doc-section id="maintenance" title="Mantenimiento" description="Pantalla de mantenimiento con icono animado (spin)." [code]="maintenanceCode">
       <div class="err">
         <div class="err__scales"></div>
         <span class="err__icon" aria-hidden="true">

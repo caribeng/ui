@@ -20,7 +20,7 @@ import { TocService } from '../services/toc.service';
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
 
-    <doc-section id="severities" title="Severidades" [code]="sevCode">
+    <doc-section id="severities" title="Severidades" description="value acepta números o texto corto; severity define el color." [code]="sevCode">
       <div style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: center">
         <cb-badge [value]="8" />
         <cb-badge [value]="3" severity="secondary" />
@@ -33,7 +33,7 @@ import { TocService } from '../services/toc.service';
       </div>
     </doc-section>
 
-    <doc-section id="sizes" title="Tamaños" [code]="sizeCode">
+    <doc-section id="sizes" title="Tamaños" description="Tres tamaños con size: sm, md (por defecto) y lg." [code]="sizeCode">
       <div style="display: flex; gap: 1rem; align-items: center">
         <cb-badge [value]="8" size="sm" severity="danger" />
         <cb-badge [value]="8" severity="danger" />

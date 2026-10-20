@@ -16,7 +16,7 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
       subtitle="Selector de archivos con filtro de extensiones y modelo reactivo."
       importCode="import { CbFileSelect } from '@caribeng/ui/caribe/file-select';"
     >
-      <cb-doc-example title="Selección de soporte PDF" code='<cb-file-select label="Adjuntar RUT" accept=".pdf" />'>
+      <cb-doc-example title="Selección de soporte PDF" description="accept limita los tipos de archivo y label define el texto del botón." code='<cb-file-select label="Adjuntar RUT" accept=".pdf" />'>
         <cb-file-select label="Adjuntar RUT" accept=".pdf" />
       </cb-doc-example>
     

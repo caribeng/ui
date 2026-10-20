@@ -20,7 +20,7 @@ import { TocService } from '../services/toc.service';
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
 
-    <doc-section id="severities" title="Severidades" [code]="sevCode">
+    <doc-section id="severities" title="Severidades" description="severity define el color de la etiqueta." [code]="sevCode">
       <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center">
         <cb-tag value="Primary" />
         <cb-tag value="Secondary" severity="secondary" />
@@ -33,7 +33,7 @@ import { TocService } from '../services/toc.service';
       </div>
     </doc-section>
 
-    <doc-section id="icon" title="Con icono" [code]="iconCode">
+    <doc-section id="icon" title="Con icono" description="icon añade un icono antes del texto." [code]="iconCode">
       <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center">
         <cb-tag value="Verificado" severity="success" icon="circle-check" />
         <cb-tag value="Pendiente" severity="warning" icon="clock" />
@@ -41,7 +41,7 @@ import { TocService } from '../services/toc.service';
       </div>
     </doc-section>
 
-    <doc-section id="rounded" title="Redondeado (pill)" [code]="roundedCode">
+    <doc-section id="rounded" title="Redondeado (pill)" description="Con rounded la etiqueta toma forma de píldora." [code]="roundedCode">
       <div style="display: flex; gap: 0.5rem; align-items: center">
         <cb-tag value="Activo" severity="success" rounded />
         <cb-tag value="Beta" severity="info" rounded />

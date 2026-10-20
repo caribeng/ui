@@ -20,7 +20,7 @@ import { TocService } from '../services/toc.service';
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
 
-    <doc-section id="shapes" title="Formas" [code]="shapesCode">
+    <doc-section id="shapes" title="Formas" description="shape admite texto (por defecto), rect y circle; width y height ajustan las dimensiones." [code]="shapesCode">
       <div style="width: 100%; display: flex; flex-direction: column; gap: 0.75rem; max-width: 24rem">
         <cb-skeleton width="60%" />
         <cb-skeleton />

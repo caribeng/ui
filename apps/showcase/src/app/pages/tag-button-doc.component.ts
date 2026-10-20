@@ -16,7 +16,7 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
       subtitle="Píldora interactiva seleccionable para filtros rápidos y categorías."
       importCode="import { CbTagButton } from '@caribeng/ui/caribe/tag-button';"
     >
-      <cb-doc-example title="Filtros seleccionables" code='<cb-tag-button label="Transferencias" [(selected)]="active" />'>
+      <cb-doc-example title="Filtros seleccionables" description="El estado activo se enlaza con [(selected)]." code='<cb-tag-button label="Transferencias" [(selected)]="active" />'>
         <div style="display: flex; gap: 0.5rem">
           <cb-tag-button label="Transferencias" [(selected)]="active" />
           <cb-tag-button label="Pagos QR" />

@@ -20,7 +20,7 @@ import { TocService } from '../services/toc.service';
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
 
-    <doc-section id="basic" title="Básico" [code]="basicCode">
+    <doc-section id="basic" title="Básico" description="totalRecords define el total; [(first)] y [(rows)] enlazan la página actual y su tamaño." [code]="basicCode">
       <cb-paginator [totalRecords]="120" [(first)]="first" [(rows)]="rows" />
       <p style="margin: 0.75rem 0 0; color: var(--cb-color-text-muted); font-size: 0.875rem">
         first: {{ first() }} · rows: {{ rows() }}

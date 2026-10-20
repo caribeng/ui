@@ -17,7 +17,7 @@ import { TocService } from '../services/toc.service';
     <doc-section id="import" title="Importación">
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
-    <doc-section id="basic" title="Básico" [code]="basicCode">
+    <doc-section id="basic" title="Básico" description="Galería de imágenes con miniaturas a partir del arreglo value." [code]="basicCode">
       <cb-galleria [value]="images" style="width: 100%; max-width: 520px" />
     </doc-section>
 

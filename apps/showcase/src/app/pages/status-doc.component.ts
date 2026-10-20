@@ -14,7 +14,7 @@ import { TocService } from '../services/toc.service';
     <doc-page-header eyebrow="Caribe Design" title="Status" lead="Status para interfaces accesibles, con estilos basados en tokens CaribeNG." />
 
     <doc-section id="import" title="Importación"><doc-code-block [code]="importCode" lang="typescript" /></doc-section>
-    <doc-section id="basic" title="Básico" [code]="exampleCode"><cb-status status="success" text="Activo" /></doc-section>
+    <doc-section id="basic" title="Básico" description="Indicador de estado; status define el color y text la etiqueta." [code]="exampleCode"><cb-status status="success" text="Activo" /></doc-section>
 
     <doc-playground [api]="docApi" />
   `,

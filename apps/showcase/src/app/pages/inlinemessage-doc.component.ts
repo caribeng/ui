@@ -17,7 +17,7 @@ import { TocService } from '../services/toc.service';
     <doc-section id="import" title="Importación">
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
-    <doc-section id="basic" title="Severidades" [code]="basicCode">
+    <doc-section id="basic" title="Severidades" description="Mensaje breve en línea; severity define el color." [code]="basicCode">
       <div style="display: flex; gap: 0.5rem; flex-wrap: wrap">
         <cb-inline-message severity="info" text="Información" />
         <cb-inline-message severity="success" text="Guardado" />

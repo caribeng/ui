@@ -16,7 +16,7 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
       subtitle="Ilustraciones vectoriales expresivas para estados vacíos, confirmaciones y onboarding."
       importCode="import { CbIllustration } from '@caribeng/ui/caribe/illustration';"
     >
-      <cb-doc-example title="Ilustración escalable" code='<cb-illustration name="transfer-success" size="180px" />'>
+      <cb-doc-example title="Ilustración escalable" description="name selecciona la ilustración y size su tamaño." code='<cb-illustration name="transfer-success" size="180px" />'>
         <cb-illustration name="transfer-success" size="180px" />
       </cb-doc-example>
     

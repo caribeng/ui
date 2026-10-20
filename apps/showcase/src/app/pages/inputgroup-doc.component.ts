@@ -58,7 +58,7 @@ import { TocService } from '../services/toc.service';
       </div>
     </doc-section>
 
-    <doc-section id="both" title="Addons a ambos lados" [code]="bothCode">
+    <doc-section id="both" title="Addons a ambos lados" description="Coloca cb-input-group-addon antes y después del campo." [code]="bothCode">
       <div style="max-width: 300px">
         <cb-input-group>
           <cb-input-group-addon>$</cb-input-group-addon>

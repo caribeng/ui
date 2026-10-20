@@ -9,7 +9,7 @@ import { TocService } from '../services/toc.service';
 <doc-page-header eyebrow="Datos" title="Dataview" lead="Componente Dataview de CaribeNG." />
 
     <doc-section id="import" title="Importación">Consulta el entry point del componente en @caribeng/ui.</doc-section>
-<doc-section id="basic" title="Básico" [code]="example"><div style="width:100%"><cb-dataview [value]="items" /></div></doc-section>
+<doc-section id="basic" title="Básico" description="Muestra el arreglo value en una vista de lista o cuadrícula." [code]="example"><div style="width:100%"><cb-dataview [value]="items" /></div></doc-section>
 
 <doc-playground [api]="docApi" />
 `})

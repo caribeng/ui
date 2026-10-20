@@ -16,7 +16,7 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
       subtitle="Vista de calendario mensual inline para selección directa de día."
       importCode="import { CbCalendar } from '@caribeng/ui/caribe/calendar';"
     >
-      <cb-doc-example title="Calendario mensual" code='<cb-calendar [(selectedDay)]="day" monthLabel="Octubre 2026" />'>
+      <cb-doc-example title="Calendario mensual" description="Muestra un mes completo; el día elegido se enlaza con [(selectedDay)] y monthLabel define el encabezado." code='<cb-calendar [(selectedDay)]="day" monthLabel="Octubre 2026" />'>
         <cb-calendar [(selectedDay)]="day" monthLabel="Octubre 2026" />
       </cb-doc-example>
     

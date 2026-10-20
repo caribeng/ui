@@ -20,11 +20,11 @@ import { TocService } from '../services/toc.service';
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
 
-    <doc-section id="basic" title="Básico" [code]="basicCode" [codeTs]="basicTs">
+    <doc-section id="basic" title="Básico" description="Se alimenta con un arreglo items; cada elemento puede tener label y url." [code]="basicCode" [codeTs]="basicTs">
       <cb-breadcrumb [items]="items" />
     </doc-section>
 
-    <doc-section id="icons" title="Con iconos" [code]="iconsCode">
+    <doc-section id="icons" title="Con iconos" description="Añade icon a cualquier elemento para mostrar un icono junto a su texto." [code]="iconsCode">
       <cb-breadcrumb [items]="withIcons" />
     </doc-section>
 

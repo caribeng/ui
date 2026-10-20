@@ -14,7 +14,7 @@ import { TocService } from '../services/toc.service';
     <doc-page-header eyebrow="Caribe Design" title="Inline Alert" lead="Inline Alert para interfaces accesibles, con estilos basados en tokens CaribeNG." />
 
     <doc-section id="import" title="Importación"><doc-code-block [code]="importCode" lang="typescript" /></doc-section>
-    <doc-section id="basic" title="Básico" [code]="exampleCode"><cb-inline-alert title="Informacion" status="info">Puedes continuar con el proceso.</cb-inline-alert></doc-section>
+    <doc-section id="basic" title="Básico" description="Alerta dentro del flujo de contenido; status define el color y el icono." [code]="exampleCode"><cb-inline-alert title="Informacion" status="info">Puedes continuar con el proceso.</cb-inline-alert></doc-section>
 
     <doc-playground [api]="docApi" />
   `,

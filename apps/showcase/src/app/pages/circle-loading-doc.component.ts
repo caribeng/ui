@@ -16,7 +16,7 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
       subtitle="Indicador circular de carga determinada o indeterminada."
       importCode="import { CbCircleLoading } from '@caribeng/ui/caribe/circle-loading';"
     >
-      <cb-doc-example title="Progreso circular" code='<cb-circle-loading [progress]="75" label="Procesando 75%" />'>
+      <cb-doc-example title="Progreso circular" description="progress indica el porcentaje completado y label el texto accesible." code='<cb-circle-loading [progress]="75" label="Procesando 75%" />'>
         <cb-circle-loading [progress]="75" label="Procesando 75%" />
       </cb-doc-example>
     

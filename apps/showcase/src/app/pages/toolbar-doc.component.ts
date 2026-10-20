@@ -33,7 +33,7 @@ import { TocService } from '../services/toc.service';
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
 
-    <doc-section id="basic" title="Básico" [code]="basicCode">
+    <doc-section id="basic" title="Básico" description="Distribuye acciones en tres zonas: cb-toolbar-start, cb-toolbar-center y cb-toolbar-end." [code]="basicCode">
       <cb-toolbar ariaLabel="Acciones del proyecto" style="width: 100%">
         <div cb-toolbar-start style="display: inline-flex; gap: 0.5rem">
           <cb-button size="sm"><cb-icon name="plus" [size]="14" /> Nuevo</cb-button>

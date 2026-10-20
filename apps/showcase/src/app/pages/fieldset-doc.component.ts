@@ -29,7 +29,7 @@ import { TocService } from '../services/toc.service';
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
 
-    <doc-section id="basic" title="Básico" [code]="basicCode">
+    <doc-section id="basic" title="Básico" description="Agrupa contenido relacionado bajo una leyenda definida con legend." [code]="basicCode">
       <cb-fieldset legend="Información general" style="width: 100%">
         <p style="margin: 0">
           Agrupa controles o metadatos relacionados utilizando elementos nativos accesibles.

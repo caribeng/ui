@@ -16,7 +16,7 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
       subtitle="Barra de progreso lineal con etiqueta y porcentaje integrado."
       importCode="import { CbProgressBar } from '@caribeng/ui/caribe/progress-bar';"
     >
-      <cb-doc-example title="Meta de ahorro" code='<cb-progress-bar label="Meta de ahorro" [value]="72" />'>
+      <cb-doc-example title="Meta de ahorro" description="value indica el porcentaje y label el texto superior." code='<cb-progress-bar label="Meta de ahorro" [value]="72" />'>
         <div style="width: 100%; max-width: 360px">
           <cb-progress-bar label="Meta de ahorro" [value]="72" />
         </div>

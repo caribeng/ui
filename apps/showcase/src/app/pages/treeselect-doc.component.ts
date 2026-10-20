@@ -17,7 +17,7 @@ import { TocService } from '../services/toc.service';
     <doc-section id="import" title="Importación">
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
-    <doc-section id="basic" title="Básico" [code]="basicCode">
+    <doc-section id="basic" title="Básico" description="Selector desplegable con árbol de nodos; el valor se enlaza con [(value)]." [code]="basicCode">
       <div style="width: 280px">
         <cb-tree-select [nodes]="nodes" [(value)]="selected" />
       </div>

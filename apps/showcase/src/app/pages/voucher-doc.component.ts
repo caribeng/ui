@@ -28,7 +28,7 @@ import { I18nService } from '../services/i18n.service';
 
     <doc-section id="import" title="Importación"><doc-code-block [code]="importCode" lang="typescript" /></doc-section>
 
-    <doc-section id="basic" title="Básico" [code]="exampleCode"><cb-voucher title="Comprobante de pago" [rows]="details" /></doc-section>
+    <doc-section id="basic" title="Básico" description="title define el encabezado y rows los datos del comprobante." [code]="exampleCode"><cb-voucher title="Comprobante de pago" [rows]="details" /></doc-section>
 
     <doc-section
       id="composed"

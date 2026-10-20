@@ -17,7 +17,7 @@ import { I18nService } from '../services/i18n.service';
     <doc-page-header eyebrow="Caribe Design" title="Tracker" lead="Tracker para interfaces accesibles, con estilos basados en tokens CaribeNG." />
 
     <doc-section id="import" title="Importación"><doc-code-block [code]="importCode" lang="typescript" /></doc-section>
-    <doc-section id="basic" title="Básico" [code]="exampleCode"><cb-tracker [steps]="steps" [currentIndex]="1" /></doc-section>
+    <doc-section id="basic" title="Básico" description="steps define las etapas y currentIndex la etapa actual." [code]="exampleCode"><cb-tracker [steps]="steps" [currentIndex]="1" /></doc-section>
 
     <doc-section
       id="composed"

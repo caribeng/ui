@@ -38,11 +38,11 @@ import { TocService } from '../services/toc.service';
       </p>
     </doc-section>
 
-    <doc-section id="stars" title="Número de estrellas" [code]="starsCode">
+    <doc-section id="stars" title="Número de estrellas" description="stars define cuántas estrellas se muestran." [code]="starsCode">
       <cb-rating [formControl]="diez" [stars]="10" ariaLabel="Puntuación sobre 10" />
     </doc-section>
 
-    <doc-section id="sizes" title="Tamaños" [code]="sizesCode">
+    <doc-section id="sizes" title="Tamaños" description="Tres tamaños con size: sm, md (por defecto) y lg." [code]="sizesCode">
       <div style="display: flex; align-items: center; gap: 1.5rem">
         <cb-rating [(value)]="sm" size="sm" ariaLabel="sm" />
         <cb-rating [(value)]="md" ariaLabel="md" />
@@ -50,7 +50,7 @@ import { TocService } from '../services/toc.service';
       </div>
     </doc-section>
 
-    <doc-section id="readonly" title="Solo lectura / Deshabilitado" [code]="readonlyCode">
+    <doc-section id="readonly" title="Solo lectura / Deshabilitado" description="readonly muestra el valor sin permitir cambios; disabled además atenúa el control." [code]="readonlyCode">
       <div style="display: flex; align-items: center; gap: 2rem">
         <cb-rating [(value)]="fijo" [readonly]="true" ariaLabel="Solo lectura" />
         <cb-rating [(value)]="fijo" [disabled]="true" ariaLabel="Deshabilitado" />

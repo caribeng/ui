@@ -23,7 +23,7 @@ import { TocService } from '../services/toc.service';
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
 
-    <doc-section id="basic" title="Básico" [code]="basicCode">
+    <doc-section id="basic" title="Básico" description="Cada cb-tab define una pestaña; su título se indica con label." [code]="basicCode">
       <cb-tabs style="width: 100%">
         <cb-tab label="Resumen">
           <p style="margin: 0">Vista general del proyecto y sus métricas principales.</p>
@@ -37,7 +37,7 @@ import { TocService } from '../services/toc.service';
       </cb-tabs>
     </doc-section>
 
-    <doc-section id="disabled" title="Pestaña deshabilitada" [code]="disabledCode">
+    <doc-section id="disabled" title="Pestaña deshabilitada" description="Una pestaña con disabled no se puede seleccionar." [code]="disabledCode">
       <cb-tabs style="width: 100%">
         <cb-tab label="Disponible"><p style="margin: 0">Contenido disponible.</p></cb-tab>
         <cb-tab label="Bloqueada" disabled><p style="margin: 0">No accesible.</p></cb-tab>

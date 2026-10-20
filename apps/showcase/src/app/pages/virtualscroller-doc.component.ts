@@ -9,7 +9,7 @@ import { TocService } from '../services/toc.service';
 <doc-page-header eyebrow="Datos" title="Virtualscroller" lead="Componente Virtualscroller de CaribeNG." />
 
     <doc-section id="import" title="Importación">Consulta el entry point del componente en @caribeng/ui.</doc-section>
-<doc-section id="basic" title="Básico" [code]="example"><div style="width:100%"><cb-virtualscroller [items]="items" /></div></doc-section>
+<doc-section id="basic" title="Básico" description="Renderiza solo los elementos visibles para listas muy largas." [code]="example"><div style="width:100%"><cb-virtualscroller [items]="items" /></div></doc-section>
 
 <doc-playground [api]="docApi" />
 `})

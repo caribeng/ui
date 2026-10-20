@@ -38,7 +38,7 @@ import { TocService } from '../services/toc.service';
       </cb-popover>
     </doc-section>
 
-    <doc-section id="rich" title="Contenido enriquecido" [code]="richCode">
+    <doc-section id="rich" title="Contenido enriquecido" description="Puede contener cualquier contenido; se abre con toggle desde una referencia de plantilla." [code]="richCode">
       <cb-button severity="secondary" variant="outlined" (click)="info.toggle($event)">Detalles del perfil</cb-button>
       <cb-popover #info>
         <div style="padding: 1rem; max-width: 18rem">

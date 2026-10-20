@@ -24,7 +24,7 @@ import { TocService } from '../services/toc.service';
     <doc-section id="import" title="Importación">
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
-    <doc-section id="basic" title="Básico" [code]="basicCode">
+    <doc-section id="basic" title="Básico" description="Agrupa varios cb-avatar superpuestos, ideal para mostrar participantes." [code]="basicCode">
       <cb-avatar-group>
         <cb-avatar label="OZ" severity="primary" />
         <cb-avatar label="CL" severity="info" />

@@ -10,7 +10,7 @@ import { TocService } from '../services/toc.service';
 <doc-page-header eyebrow="Datos" title="Picklist" lead="Componente Picklist de CaribeNG." />
 
     <doc-section id="import" title="Importación">Consulta el entry point del componente en @caribeng/ui.</doc-section>
-<doc-section id="basic" title="Básico" [code]="example"><div style="width:100%"><cb-picklist [(source)]="source" [(target)]="target" /></div></doc-section>
+<doc-section id="basic" title="Básico" description="Mueve elementos entre dos listas enlazadas con [(source)] y [(target)]." [code]="example"><div style="width:100%"><cb-picklist [(source)]="source" [(target)]="target" /></div></doc-section>
 
 <doc-playground [api]="docApi" />
 `})

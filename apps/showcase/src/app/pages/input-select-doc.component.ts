@@ -16,7 +16,7 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
       subtitle="Campo desplegable de selección rápida con soporte CVA."
       importCode="import { CbInputSelect } from '@caribeng/ui/caribe/input-select';"
     >
-      <cb-doc-example title="Tipo de cuenta" code='<cb-input-select label="Tipo de cuenta" [options]="options" [(value)]="selected" />'>
+      <cb-doc-example title="Tipo de cuenta" description="options define las opciones y el valor elegido se enlaza con [(value)]." code='<cb-input-select label="Tipo de cuenta" [options]="options" [(value)]="selected" />'>
         <cb-input-select label="Tipo de cuenta" [options]="options" [(value)]="selected" />
       </cb-doc-example>
     

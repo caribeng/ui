@@ -64,7 +64,7 @@ interface Ciudad {
       </div>
     </doc-section>
 
-    <doc-section id="validation" title="Validación · Reactive Forms" [code]="validationCode" [codeTs]="validationTs">
+    <doc-section id="validation" title="Validación · Reactive Forms" description="Funciona con formControl; usa invalid para reflejar el estado de validación." [code]="validationCode" [codeTs]="validationTs">
       <div style="width: 100%; max-width: 320px">
         <cb-multiselect
           [formControl]="requeridas"

@@ -20,7 +20,7 @@ import { TocService } from '../services/toc.service';
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
 
-    <doc-section id="basic" title="Básico" [code]="basicCode">
+    <doc-section id="basic" title="Básico" description="value define el porcentaje y showValue lo muestra dentro de la barra." [code]="basicCode">
       <div style="width: 100%; display: flex; flex-direction: column; gap: 1rem">
         <cb-progressbar [value]="35" />
         <cb-progressbar [value]="70" showValue />
@@ -33,7 +33,7 @@ import { TocService } from '../services/toc.service';
       </div>
     </doc-section>
 
-    <doc-section id="severities" title="Severidades y tamaños" [code]="sevCode">
+    <doc-section id="severities" title="Severidades y tamaños" description="severity cambia el color y size el grosor de la barra." [code]="sevCode">
       <div style="width: 100%; display: flex; flex-direction: column; gap: 1rem">
         <cb-progressbar [value]="60" severity="success" size="sm" />
         <cb-progressbar [value]="60" severity="warning" />

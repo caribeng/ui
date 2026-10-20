@@ -16,7 +16,7 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
       subtitle="Campo de captura de fecha con límites min/max e integración CVA."
       importCode="import { CbInputDate } from '@caribeng/ui/caribe/input-date';"
     >
-      <cb-doc-example title="Selector de fecha" code='<cb-input-date label="Fecha de programación" [(value)]="date" />'>
+      <cb-doc-example title="Selector de fecha" description="label define la etiqueta y la fecha se enlaza con [(value)]." code='<cb-input-date label="Fecha de programación" [(value)]="date" />'>
         <cb-input-date label="Fecha de programación" [(value)]="date" />
       </cb-doc-example>
     

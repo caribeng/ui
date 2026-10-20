@@ -9,7 +9,7 @@ import { TocService } from '../services/toc.service';
 <doc-page-header eyebrow="Datos" title="Timeline" lead="Componente Timeline de CaribeNG." />
 
     <doc-section id="import" title="Importación">Consulta el entry point del componente en @caribeng/ui.</doc-section>
-<doc-section id="basic" title="Básico" [code]="example"><div style="width:100%"><cb-timeline [value]="events" /></div></doc-section>
+<doc-section id="basic" title="Básico" description="Línea de tiempo vertical a partir del arreglo value." [code]="example"><div style="width:100%"><cb-timeline [value]="events" /></div></doc-section>
 
 <doc-playground [api]="docApi" />
 `})

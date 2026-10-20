@@ -16,7 +16,7 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
       subtitle="Pictogramas gráficos de síntesis visual para categorías financieras y servicios."
       importCode="import { CbPictogram } from '@caribeng/ui/caribe/pictogram';"
     >
-      <cb-doc-example title="Pictograma" code='<cb-pictogram name="security-shield" size="64px" />'>
+      <cb-doc-example title="Pictograma" description="name selecciona el pictograma y size su tamaño." code='<cb-pictogram name="security-shield" size="64px" />'>
         <cb-pictogram name="security-shield" size="64px" />
       </cb-doc-example>
     

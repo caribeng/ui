@@ -16,7 +16,7 @@ import { I18nService } from '../services/i18n.service';
     <doc-page-header eyebrow="Caribe Design" title="Coachmark" lead="Coachmark para interfaces accesibles, con estilos basados en tokens CaribeNG." />
 
     <doc-section id="import" title="Importación"><doc-code-block [code]="importCode" lang="typescript" /></doc-section>
-    <doc-section id="basic" title="Básico" [code]="exampleCode"><cb-coachmark [steps]="steps" /></doc-section>
+    <doc-section id="basic" title="Básico" description="Guía paso a paso que resalta elementos de la interfaz a partir del arreglo steps." [code]="exampleCode"><cb-coachmark [steps]="steps" /></doc-section>
 
     <doc-section
       id="composed"

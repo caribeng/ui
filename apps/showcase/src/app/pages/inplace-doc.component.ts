@@ -18,7 +18,7 @@ import { TocService } from '../services/toc.service';
     <doc-section id="import" title="Importación">
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
-    <doc-section id="basic" title="Básico" [code]="basicCode">
+    <doc-section id="basic" title="Básico" description="Alterna entre un contenido de vista (cb-inplace-display) y uno editable (cb-inplace-content)." [code]="basicCode">
       <cb-inplace [closable]="true">
         <span cb-inplace-display>Haz clic para editar el nombre</span>
         <cb-input cb-inplace-content value="CaribeNG v1.0" />

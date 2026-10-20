@@ -14,7 +14,7 @@ import { TocService } from '../services/toc.service';
     <doc-page-header eyebrow="Caribe Design" title="Card Move" lead="Card Move para interfaces accesibles, con estilos basados en tokens CaribeNG." />
 
     <doc-section id="import" title="Importación"><doc-code-block [code]="importCode" lang="typescript" /></doc-section>
-    <doc-section id="basic" title="Básico" [code]="exampleCode"><cb-card-move [items]="moveItems" /></doc-section>
+    <doc-section id="basic" title="Básico" description="Lista de movimientos a partir del arreglo items." [code]="exampleCode"><cb-card-move [items]="moveItems" /></doc-section>
 
     <doc-playground [api]="docApi" />
   `,

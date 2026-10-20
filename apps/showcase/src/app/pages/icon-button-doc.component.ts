@@ -16,7 +16,7 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
       subtitle="Botón compacto circular de icono con etiqueta accesible obligatoria."
       importCode="import { CbIconButton } from '@caribeng/ui/caribe/icon-button';"
     >
-      <cb-doc-example title="Botones de acción rápida" code='<cb-icon-button icon="plus" ariaLabel="Nuevo" />'>
+      <cb-doc-example title="Botones de acción rápida" description="Botón circular solo con icono; ariaLabel es obligatorio para la accesibilidad." code='<cb-icon-button icon="plus" ariaLabel="Nuevo" />'>
         <div style="display: flex; gap: 0.75rem">
           <cb-icon-button icon="plus" ariaLabel="Nuevo" />
           <cb-icon-button icon="search" ariaLabel="Buscar" />

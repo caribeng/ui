@@ -49,7 +49,7 @@ import { TocService } from '../services/toc.service';
       </cb-splitter>
     </doc-section>
 
-    <doc-section id="vertical" title="Vertical" [code]="verticalCode">
+    <doc-section id="vertical" title="Vertical" description="Con layout=vertical los paneles se apilan; size fija el porcentaje inicial de cada uno." [code]="verticalCode">
       <cb-splitter layout="vertical" style="width: 100%; height: 220px">
         <cb-splitter-panel [size]="55">
           <strong>Vista superior</strong>

@@ -16,7 +16,7 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
       subtitle="Trazos decorativos SVG escalables del sistema de diseño Caribe."
       importCode="import { CbStroke } from '@caribeng/ui/caribe/stroke';"
     >
-      <cb-doc-example title="Trazo decorativo" code='<cb-stroke name="01" size="240px" />'>
+      <cb-doc-example title="Trazo decorativo" description="name selecciona el trazo y size su tamaño." code='<cb-stroke name="01" size="240px" />'>
         <cb-stroke name="01" size="240px" />
       </cb-doc-example>
     

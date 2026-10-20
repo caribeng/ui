@@ -16,7 +16,7 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
       subtitle="Tarjeta de descarga de documentos, extractos y comprobantes."
       importCode="import { CbFileDownload } from '@caribeng/ui/caribe/file-download';"
     >
-      <cb-doc-example title="Descarga de certificado" code='<cb-file-download fileName="Extracto_Octubre.pdf" fileSize="1.2 MB" />'>
+      <cb-doc-example title="Descarga de certificado" description="fileName y fileSize describen el archivo que se descarga." code='<cb-file-download fileName="Extracto_Octubre.pdf" fileSize="1.2 MB" />'>
         <cb-file-download fileName="Extracto_Octubre.pdf" fileSize="1.2 MB" />
       </cb-doc-example>
     

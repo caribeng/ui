@@ -17,7 +17,7 @@ import { TocService } from '../services/toc.service';
     <doc-section id="import" title="Importación">
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
-    <doc-section id="basic" title="Básico" [code]="basicCode">
+    <doc-section id="basic" title="Básico" description="icon añade un icono al chip y removable muestra un botón para quitarlo." [code]="basicCode">
       <div style="display: flex; gap: 0.5rem; flex-wrap: wrap">
         <cb-chip label="Angular 22" icon="zap" />
         <cb-chip label="Signals" [removable]="true" />

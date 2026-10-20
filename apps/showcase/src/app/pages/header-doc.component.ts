@@ -17,12 +17,13 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
       subtitle="Encabezado de aplicación o flujo con botón de retorno y proyección de acciones."
       importCode="import { CbHeader } from '@caribeng/ui/caribe/header';"
     >
-      <cb-doc-example title="Encabezado de flujo" code='<cb-header title="Transferencias" subtitle="Paso 1 de 3" [showBack]="true" />'>
+      <cb-doc-example title="Encabezado de flujo" description="title y subtitle describen el paso; showBack muestra el botón de retroceso." code='<cb-header title="Transferencias" subtitle="Paso 1 de 3" [showBack]="true" />'>
         <cb-header title="Transferencias" subtitle="Paso 1 de 3" [showBack]="true" />
       </cb-doc-example>
 
       <cb-doc-example
         title="App header con acciones"
+        description="Proyecta botones de icono para añadir acciones a la derecha del encabezado."
         [code]="composedCode"
       >
         <div style="width: 100%; max-width: 30rem; border: 1px solid var(--cb-color-border); border-radius: var(--cb-radius-lg); overflow: hidden">

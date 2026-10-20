@@ -14,7 +14,7 @@ import { TocService } from '../services/toc.service';
     <doc-page-header eyebrow="Caribe Design" title="Card Select" lead="Card Select para interfaces accesibles, con estilos basados en tokens CaribeNG." />
 
     <doc-section id="import" title="Importación"><doc-code-block [code]="importCode" lang="typescript" /></doc-section>
-    <doc-section id="basic" title="Básico" [code]="exampleCode"><cb-card-select [items]="options" /></doc-section>
+    <doc-section id="basic" title="Básico" description="Opciones seleccionables en forma de tarjeta a partir del arreglo items." [code]="exampleCode"><cb-card-select [items]="options" /></doc-section>
 
     <doc-playground [api]="docApi" />
   `,

@@ -27,7 +27,7 @@ import { TocService } from '../services/toc.service';
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
 
-    <doc-section id="basic" title="Básico" [code]="basicCode">
+    <doc-section id="basic" title="Básico" description="header y subtitle forman la cabecera; el contenido se proyecta en el cuerpo." [code]="basicCode">
       <div style="max-width: 360px">
         <cb-card header="Plan Pro" subtitle="Facturación mensual">
           <p style="margin: 0; color: var(--cb-color-text-muted)">
@@ -51,7 +51,7 @@ import { TocService } from '../services/toc.service';
       </div>
     </doc-section>
 
-    <doc-section id="plain" title="Sin encabezado" [code]="plainCode">
+    <doc-section id="plain" title="Sin encabezado" description="Sin header, la tarjeta muestra solo el contenido proyectado." [code]="plainCode">
       <div style="max-width: 360px">
         <cb-card>
           <p style="margin: 0">Una tarjeta simple, solo con contenido.</p>

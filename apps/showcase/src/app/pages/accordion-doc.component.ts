@@ -23,7 +23,7 @@ import { TocService } from '../services/toc.service';
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
 
-    <doc-section id="basic" title="Básico" [code]="basicCode">
+    <doc-section id="basic" title="Básico" description="Cada cb-accordion-panel define una sección plegable; su texto de cabecera se indica con header." [code]="basicCode">
       <cb-accordion style="width: 100%">
         <cb-accordion-panel header="¿Qué es CaribeNG?">
           Una librería de componentes Angular con signals, OnPush y tokens CSS.

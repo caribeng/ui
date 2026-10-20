@@ -14,7 +14,7 @@ import { TocService } from '../services/toc.service';
     <doc-section id="import" title="Importación">
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
-    <doc-section id="basic" title="Básico" [code]="basicCode">
+    <doc-section id="basic" title="Básico" description="La directiva cbRipple añade el efecto de onda al hacer clic." [code]="basicCode">
       <button
         type="button"
         cbRipple

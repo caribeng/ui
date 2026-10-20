@@ -27,7 +27,7 @@ import { TocService } from '../services/toc.service';
       </p>
     </doc-section>
 
-    <doc-section id="severities" title="Severidades y tamaños" [code]="sevCode">
+    <doc-section id="severities" title="Severidades y tamaños" description="severity cambia el color y size el diámetro en píxeles." [code]="sevCode">
       <div style="display: flex; gap: 1.5rem; align-items: center; flex-wrap: wrap">
         <cb-knob [(value)]="a" severity="success" [size]="80" suffix="%" ariaLabel="a" />
         <cb-knob [(value)]="b" severity="warning" suffix="%" ariaLabel="b" />

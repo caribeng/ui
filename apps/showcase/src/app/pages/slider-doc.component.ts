@@ -49,7 +49,7 @@ import { TocService } from '../services/toc.service';
       </p>
     </doc-section>
 
-    <doc-section id="sizes" title="Tamaños" [code]="sizesCode">
+    <doc-section id="sizes" title="Tamaños" description="Tres tamaños con size: sm, md (por defecto) y lg." [code]="sizesCode">
       <div style="display: flex; flex-direction: column; gap: 1rem; width: 320px">
         <cb-slider [(value)]="a" size="sm" ariaLabel="sm" />
         <cb-slider [(value)]="b" ariaLabel="md" />
@@ -57,7 +57,7 @@ import { TocService } from '../services/toc.service';
       </div>
     </doc-section>
 
-    <doc-section id="disabled" title="Deshabilitado · Reactive Forms" [code]="disabledCode" [codeTs]="disabledTs">
+    <doc-section id="disabled" title="Deshabilitado · Reactive Forms" description="Al deshabilitar el FormControl, el slider se bloquea automáticamente." [code]="disabledCode" [codeTs]="disabledTs">
       <div style="width: 320px">
         <cb-slider [formControl]="bloqueado" ariaLabel="Deshabilitado" />
       </div>

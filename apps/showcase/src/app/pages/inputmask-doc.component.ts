@@ -17,7 +17,7 @@ import { TocService } from '../services/toc.service';
     <doc-section id="import" title="Importación">
       <doc-code-block [code]="importCode" lang="typescript" />
     </doc-section>
-    <doc-section id="basic" title="Básico" [code]="basicCode">
+    <doc-section id="basic" title="Básico" description="mask define el patrón: 9 para dígitos, a para letras y * para alfanuméricos." [code]="basicCode">
       <div style="width: 280px">
         <cb-input-mask mask="(999) 999-9999" [(value)]="phone" />
       </div>

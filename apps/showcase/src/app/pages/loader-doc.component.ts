@@ -16,7 +16,7 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
       subtitle="Indicador compacto de espera con anuncio accesible en vivo."
       importCode="import { CbLoader } from '@caribeng/ui/caribe/loader';"
     >
-      <cb-doc-example title="Loader con mensaje" code='<cb-loader text="Consultando saldo…" />'>
+      <cb-doc-example title="Loader con mensaje" description="text muestra un mensaje mientras se completa la operación." code='<cb-loader text="Consultando saldo…" />'>
         <cb-loader text="Consultando saldo…" />
       </cb-doc-example>
     

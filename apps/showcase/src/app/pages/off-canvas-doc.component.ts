@@ -19,7 +19,7 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
       subtitle="Panel lateral deslizable para filtros, menús contextuales y formularios secundarios."
       importCode="import { CbOffCanvas } from '@caribeng/ui/caribe/off-canvas';"
     >
-      <cb-doc-example title="Panel lateral" code='<cb-off-canvas title="Filtros avanzados" [(open)]="visible">Contenido</cb-off-canvas>'>
+      <cb-doc-example title="Panel lateral" description="Panel que se desliza desde un lateral, controlado con [(open)]." code='<cb-off-canvas title="Filtros avanzados" [(open)]="visible">Contenido</cb-off-canvas>'>
         <div style="display: flex; flex-direction: column; gap: 0.75rem">
           <cb-button size="sm" (click)="visible.set(!visible())">Alternar OffCanvas</cb-button>
           <cb-off-canvas title="Filtros avanzados" [(open)]="visible">
@@ -28,7 +28,7 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
         </div>
       </cb-doc-example>
 
-      <cb-doc-example title="Panel de filtros" [code]="composedCode">
+      <cb-doc-example title="Panel de filtros" description="Un botón abre el panel con controles de filtro." [code]="composedCode">
         <div style="display: flex; flex-direction: column; gap: 0.75rem">
           <cb-button size="sm" (click)="filters.set(true)">Open filters</cb-button>
           <cb-off-canvas title="Filters" [(open)]="filters">

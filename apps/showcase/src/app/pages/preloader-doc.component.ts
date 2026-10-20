@@ -16,7 +16,7 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
       subtitle="Pantalla o bloque de precarga inicial para flujos transaccionales."
       importCode="import { CbPreloader } from '@caribeng/ui/caribe/preloader';"
     >
-      <cb-doc-example title="Preloader activo" code='<cb-preloader [active]="true" label="Preparando tu sesión…" />'>
+      <cb-doc-example title="Preloader activo" description="Mientras active es true, cubre la pantalla con label como mensaje." code='<cb-preloader [active]="true" label="Preparando tu sesión…" />'>
         <cb-preloader [active]="true" label="Preparando tu sesión…" />
       </cb-doc-example>
     
