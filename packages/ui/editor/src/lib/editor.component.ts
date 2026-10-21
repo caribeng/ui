@@ -23,28 +23,44 @@ import { DOCUMENT } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { CbIcon, CbIconRegistry } from '@caribeng/ui/icon';
 import {
+  alignCenterHorizontal,
+  alignEndVertical,
+  alignStartVertical,
+  betweenHorizontalEnd,
+  betweenHorizontalStart,
+  betweenVerticalEnd,
+  betweenVerticalStart,
   bold,
+  captions,
   code,
+  codeXml,
+  columns3,
   image,
   italic,
   link,
   list,
   listOrdered,
   minus,
+  panelTop,
+  ratio,
   redo,
+  rows3,
   removeFormatting,
   squareCode,
   strikethrough,
+  table,
   textAlignCenter,
   textAlignEnd,
   textAlignStart,
   textQuote,
+  trash,
+  type,
   underline,
   undo,
   unlink,
 } from '@caribeng/ui/icons';
 import { cbFieldState, cbFormat, injectCbTranslation, type CbTranslation } from '@caribeng/ui';
-import { cbHtmlToText, cbSanitizeHtml, isSafeUrl } from './html-sanitizer';
+import { cbHtmlToText, cbSanitizeHtml, imageStyle, isSafeUrl, readImageStyle, type CbImageAlign } from './html-sanitizer';
 
 /** Herramientas de la barra; `'|'` es un separador. */
 export type CbEditorTool =
@@ -57,11 +73,13 @@ export type CbEditorTool =
   | 'bulletList'
   | 'orderedList'
   | 'quote'
+  | 'codeBlock'
   | 'alignLeft'
   | 'alignCenter'
   | 'alignRight'
   | 'link'
   | 'image'
+  | 'table'
   | 'horizontalRule'
   | 'clear'
   | 'undo'
@@ -73,9 +91,9 @@ export type CbEditorTool =
 export const CB_EDITOR_DEFAULT_TOOLBAR: readonly CbEditorTool[] = [
   'heading', '|',
   'bold', 'italic', 'underline', 'strike', 'code', '|',
-  'bulletList', 'orderedList', 'quote', '|',
+  'bulletList', 'orderedList', 'quote', 'codeBlock', '|',
   'alignLeft', 'alignCenter', 'alignRight', '|',
-  'link', 'image', 'horizontalRule', 'clear', '|',
+  'link', 'image', 'table', 'horizontalRule', 'clear', '|',
   'undo', 'redo', '|',
   'source',
 ];
@@ -106,6 +124,7 @@ interface EditorState {
   bulletList: boolean;
   orderedList: boolean;
   quote: boolean;
+  codeBlock: boolean;
   alignLeft: boolean;
   alignCenter: boolean;
   alignRight: boolean;
@@ -122,6 +141,7 @@ const EMPTY_STATE: EditorState = {
   bulletList: false,
   orderedList: false,
   quote: false,
+  codeBlock: false,
   alignLeft: false,
   alignCenter: false,
   alignRight: false,
@@ -138,11 +158,13 @@ const TOOLS: Record<Exclude<CbEditorTool, 'heading' | '|'>, ToolDef> = {
   bulletList: { icon: 'list', label: (t) => t.bulletList, state: 'bulletList' },
   orderedList: { icon: 'list-ordered', label: (t) => t.numberedList, state: 'orderedList' },
   quote: { icon: 'text-quote', label: (t) => t.quote, state: 'quote' },
+  codeBlock: { icon: 'code-xml', label: (t) => t.codeBlock, state: 'codeBlock' },
   alignLeft: { icon: 'text-align-start', label: (t) => t.alignLeft, state: 'alignLeft' },
   alignCenter: { icon: 'text-align-center', label: (t) => t.alignCenter, state: 'alignCenter' },
   alignRight: { icon: 'text-align-end', label: (t) => t.alignRight, state: 'alignRight' },
   link: { icon: 'link', label: (t) => t.insertLink, state: 'link' },
   image: { icon: 'image', label: (t) => t.insertImage },
+  table: { icon: 'table', label: (t) => t.insertTable },
   horizontalRule: { icon: 'minus', label: (t) => t.horizontalLine },
   clear: { icon: 'remove-formatting', label: (t) => t.clearFormat },
   undo: { icon: 'undo', label: (t) => t.undo },
@@ -170,7 +192,26 @@ const EDITOR_ICONS: Record<string, string> = {
   undo,
   redo,
   'square-code': squareCode,
+  'code-xml': codeXml,
+  table,
+  'between-horizontal-start': betweenHorizontalStart,
+  'between-horizontal-end': betweenHorizontalEnd,
+  'between-vertical-start': betweenVerticalStart,
+  'between-vertical-end': betweenVerticalEnd,
+  'rows-3': rows3,
+  'columns-3': columns3,
+  'panel-top': panelTop,
+  trash,
+  type,
+  'align-start-vertical': alignStartVertical,
+  'align-center-horizontal': alignCenterHorizontal,
+  'align-end-vertical': alignEndVertical,
+  ratio,
+  captions,
 };
+
+/** Anchos rápidos de una imagen (porcentaje del área de texto). */
+const IMAGE_WIDTHS = ['25%', '50%', '75%', '100%'];
 
 let nextId = 0;
 
@@ -255,6 +296,126 @@ let nextId = 0;
       </div>
     }
 
+    @if (tableCell() && !readonly() && !sourceMode()) {
+      <div class="cb-editor__context" role="toolbar" [attr.aria-label]="t().tableTools" (keydown)="onContextKeydown($event)">
+        @for (action of tableActions; track $index) {
+          @if (action.id === 'sep') {
+            <span class="cb-editor__sep" aria-hidden="true"></span>
+          } @else {
+            <button
+              type="button"
+              class="cb-editor__tool"
+              [class.cb-editor__tool--danger]="action.danger"
+              [class.cb-is-active]="action.id === 'header' && tableHasHeader()"
+              [attr.aria-pressed]="action.id === 'header' ? tableHasHeader() : null"
+              [attr.aria-label]="action.label(t())"
+              [attr.title]="action.label(t())"
+              [tabindex]="$first ? 0 : -1"
+              (mousedown)="hold($event)"
+              (click)="tableAction(action.id)"
+            >
+              <cb-icon [name]="action.icon" [size]="16" aria-hidden="true" />
+            </button>
+          }
+        }
+      </div>
+    }
+
+    @if (selectedImage() && !readonly() && !sourceMode()) {
+      <div class="cb-editor__context" role="toolbar" [attr.aria-label]="t().imageTools" (keydown)="onContextKeydown($event)">
+        @for (option of imageAligns; track option.icon; let first = $first) {
+          <button
+            type="button"
+            class="cb-editor__tool"
+            [class.cb-is-active]="imageState().align === option.align"
+            [attr.aria-pressed]="imageState().align === option.align"
+            [attr.aria-label]="option.label(t())"
+            [attr.title]="option.label(t())"
+            [tabindex]="first ? 0 : -1"
+            (mousedown)="hold($event)"
+            (click)="setImageAlign(option.align)"
+          >
+            <cb-icon [name]="option.icon" [size]="16" aria-hidden="true" />
+          </button>
+        }
+        <span class="cb-editor__sep" aria-hidden="true"></span>
+        @for (width of imageWidths; track width) {
+          <button
+            type="button"
+            class="cb-editor__tool cb-editor__tool--text"
+            [class.cb-is-active]="imageState().width === width"
+            [attr.aria-pressed]="imageState().width === width"
+            [attr.aria-label]="imageWidthLabel(width)"
+            [tabindex]="-1"
+            (mousedown)="hold($event)"
+            (click)="setImageWidth(width)"
+          >{{ width }}</button>
+        }
+        <button
+          type="button"
+          class="cb-editor__tool"
+          [class.cb-is-active]="!imageState().width"
+          [attr.aria-pressed]="!imageState().width"
+          [attr.aria-label]="t().imageOriginalSize"
+          [attr.title]="t().imageOriginalSize"
+          [tabindex]="-1"
+          (mousedown)="hold($event)"
+          (click)="setImageWidth(null)"
+        >
+          <cb-icon name="ratio" [size]="16" aria-hidden="true" />
+        </button>
+        <span class="cb-editor__sep" aria-hidden="true"></span>
+        <button type="button" class="cb-editor__tool" [attr.aria-label]="t().altText" [attr.title]="t().altText" [tabindex]="-1" (click)="openAlt()">
+          <cb-icon name="captions" [size]="16" aria-hidden="true" />
+        </button>
+        <button
+          type="button"
+          class="cb-editor__tool cb-editor__tool--danger"
+          [attr.aria-label]="t().deleteImage"
+          [attr.title]="t().deleteImage"
+          [tabindex]="-1"
+          (mousedown)="hold($event)"
+          (click)="deleteImage()"
+        >
+          <cb-icon name="trash" [size]="16" aria-hidden="true" />
+        </button>
+      </div>
+    }
+
+    @if (tablePanel()) {
+      <form class="cb-editor__link" role="group" [attr.aria-label]="t().insertTable" (submit)="insertTable($event)" (keydown.escape)="closeTablePanel()">
+        <label class="cb-editor__link-field cb-editor__link-field--narrow">
+          <span class="cb-editor__link-label">{{ t().tableRows }}</span>
+          <input #tableRows class="cb-editor__link-input" type="number" min="1" max="50" value="3" />
+        </label>
+        <label class="cb-editor__link-field cb-editor__link-field--narrow">
+          <span class="cb-editor__link-label">{{ t().tableColumns }}</span>
+          <input #tableCols class="cb-editor__link-input" type="number" min="1" max="12" value="3" />
+        </label>
+        <label class="cb-editor__link-check">
+          <input #tableHeader type="checkbox" checked />
+          {{ t().tableHeaderRow }}
+        </label>
+        <div class="cb-editor__link-actions">
+          <button type="submit" class="cb-editor__btn cb-editor__btn--primary">{{ t().insert }}</button>
+          <button type="button" class="cb-editor__btn" (click)="closeTablePanel()">{{ t().cancel }}</button>
+        </div>
+      </form>
+    }
+
+    @if (altPanel()) {
+      <form class="cb-editor__link" role="group" [attr.aria-label]="t().altText" (submit)="applyAlt($event)" (keydown.escape)="closeAlt()">
+        <label class="cb-editor__link-field">
+          <span class="cb-editor__link-label">{{ t().altText }}</span>
+          <input #altInput class="cb-editor__link-input" type="text" [value]="selectedImage()?.getAttribute('alt') ?? ''" />
+        </label>
+        <div class="cb-editor__link-actions">
+          <button type="submit" class="cb-editor__btn cb-editor__btn--primary">{{ t().accept }}</button>
+          <button type="button" class="cb-editor__btn" (click)="closeAlt()">{{ t().cancel }}</button>
+        </div>
+      </form>
+    }
+
     @if (linkPanel(); as panel) {
       <form class="cb-editor__link" role="group" [attr.aria-label]="t().insertLink" (submit)="applyLink($event)" (keydown.escape)="closeLink()">
         <label class="cb-editor__link-field">
@@ -291,6 +452,7 @@ let nextId = 0;
       </form>
     }
 
+    <div #body class="cb-editor__body">
     <div
       #surface
       class="cb-editor__surface"
@@ -313,8 +475,23 @@ let nextId = 0;
       (keydown)="onSurfaceKeydown($event)"
       (paste)="onPaste($event)"
       (drop)="onDrop($event)"
+      (click)="onSurfaceClick($event)"
+      (scroll)="refreshFrame()"
       (blur)="onBlur()"
     ></div>
+    @if (imageFrame(); as frame) {
+      <div
+        class="cb-editor__img-frame"
+        aria-hidden="true"
+        [style.left.px]="frame.left"
+        [style.top.px]="frame.top"
+        [style.width.px]="frame.width"
+        [style.height.px]="frame.height"
+      >
+        <span class="cb-editor__img-handle" [attr.title]="t().imageResize" (pointerdown)="startResize($event)"></span>
+      </div>
+    }
+    </div>
 
     @if (sourceMode()) {
       <textarea
@@ -415,8 +592,49 @@ export class CbEditor implements ControlValueAccessor {
   private readonly imageInputRef = viewChild<ElementRef<HTMLInputElement>>('imageInput');
   private readonly toolbarRef = viewChild<ElementRef<HTMLElement>>('toolbar');
   private readonly linkInputRef = viewChild<ElementRef<HTMLInputElement>>('linkInput');
+  private readonly bodyRef = viewChild<ElementRef<HTMLElement>>('body');
+  private readonly tableRowsRef = viewChild<ElementRef<HTMLInputElement>>('tableRows');
+  private readonly tableColsRef = viewChild<ElementRef<HTMLInputElement>>('tableCols');
+  private readonly tableHeaderRef = viewChild<ElementRef<HTMLInputElement>>('tableHeader');
+  private readonly altInputRef = viewChild<ElementRef<HTMLInputElement>>('altInput');
   private savedRange: Range | null = null;
   private editingLink: HTMLAnchorElement | null = null;
+
+  /** Celda de tabla donde está el cursor (muestra la barra de tabla). */
+  protected readonly tableCell = signal<HTMLTableCellElement | null>(null);
+  protected readonly tableHasHeader = computed(() => !!this.tableCell()?.closest('table')?.tHead?.rows.length);
+  protected readonly tablePanel = signal(false);
+  /** Imagen seleccionada con un clic (muestra su barra y el tirador de tamaño). */
+  protected readonly selectedImage = signal<HTMLImageElement | null>(null);
+  /** Se incrementa al cambiar la imagen seleccionada (su estilo vive en el DOM, no en una señal). */
+  private readonly imageTick = signal(0);
+  protected readonly imageState = computed(() => {
+    this.imageTick();
+    return readImageStyle(this.selectedImage()?.getAttribute('style') ?? '');
+  });
+  protected readonly imageFrame = signal<{ left: number; top: number; width: number; height: number } | null>(null);
+  protected readonly altPanel = signal(false);
+  private resizing: { x: number; width: number; max: number; align: CbImageAlign | null } | null = null;
+
+  protected readonly imageWidths = IMAGE_WIDTHS;
+  protected readonly imageAligns: { align: CbImageAlign | null; icon: string; label: (t: CbTranslation) => string }[] = [
+    { align: null, icon: 'type', label: (t) => t.imageInline },
+    { align: 'left', icon: 'align-start-vertical', label: (t) => t.imageAlignLeft },
+    { align: 'center', icon: 'align-center-horizontal', label: (t) => t.imageAlignCenter },
+    { align: 'right', icon: 'align-end-vertical', label: (t) => t.imageAlignRight },
+  ];
+  protected readonly tableActions: { id: string; icon: string; label: (t: CbTranslation) => string; danger?: boolean }[] = [
+    { id: 'rowAbove', icon: 'between-horizontal-start', label: (t) => t.insertRowAbove },
+    { id: 'rowBelow', icon: 'between-horizontal-end', label: (t) => t.insertRowBelow },
+    { id: 'colLeft', icon: 'between-vertical-start', label: (t) => t.insertColumnLeft },
+    { id: 'colRight', icon: 'between-vertical-end', label: (t) => t.insertColumnRight },
+    { id: 'sep', icon: '', label: () => '' },
+    { id: 'header', icon: 'panel-top', label: (t) => t.tableHeaderRow },
+    { id: 'sep', icon: '', label: () => '' },
+    { id: 'deleteRow', icon: 'rows-3', label: (t) => t.deleteRow, danger: true },
+    { id: 'deleteCol', icon: 'columns-3', label: (t) => t.deleteColumn, danger: true },
+    { id: 'deleteTable', icon: 'trash', label: (t) => t.deleteTable, danger: true },
+  ];
   /** Último HTML emitido o cargado: evita reescribir el DOM (y mover el cursor) con su propio valor. */
   private lastHtml: string | null = null;
 
@@ -442,8 +660,14 @@ export class CbEditor implements ControlValueAccessor {
     });
     // El estado de la barra sigue a la selección.
     const onSelection = () => this.updateState();
+    // El marco de la imagen seleccionada sigue a la imagen si cambia el tamaño de la ventana.
+    const onResize = () => this.refreshFrame();
     this.document.addEventListener('selectionchange', onSelection);
-    inject(DestroyRef).onDestroy(() => this.document.removeEventListener('selectionchange', onSelection));
+    this.document.defaultView?.addEventListener('resize', onResize);
+    inject(DestroyRef).onDestroy(() => {
+      this.document.removeEventListener('selectionchange', onSelection);
+      this.document.defaultView?.removeEventListener('resize', onResize);
+    });
   }
 
   writeValue(val: string | null | undefined): void {
@@ -524,6 +748,8 @@ export class CbEditor implements ControlValueAccessor {
       case 'bulletList': return this.exec('insertUnorderedList');
       case 'orderedList': return this.exec('insertOrderedList');
       case 'quote': return this.format(this.state().quote ? 'P' : 'BLOCKQUOTE');
+      case 'codeBlock': return this.format(this.state().codeBlock ? 'P' : 'PRE');
+      case 'table': return this.openTablePanel();
       case 'alignLeft': return this.exec('justifyLeft');
       case 'alignCenter': return this.exec('justifyCenter');
       case 'alignRight': return this.exec('justifyRight');
@@ -541,7 +767,8 @@ export class CbEditor implements ControlValueAccessor {
   exec(command: string, value?: string): void {
     if (this.isDisabled() || this.readonly()) return;
     const el = this.surfaceRef()?.nativeElement;
-    el?.focus();
+    // Solo si no lo tiene: enfocar de nuevo puede mover el cursor al principio.
+    if (el && this.document.activeElement !== el) el.focus();
     // execCommand sigue siendo la vía con deshacer nativo en contenteditable; el
     // resultado se normaliza al emitir, así el HTML no depende del navegador.
     if (typeof this.document.execCommand === 'function') {
@@ -699,7 +926,19 @@ export class CbEditor implements ControlValueAccessor {
       void this.insertImage(file);
       return;
     }
-    this.insertClipboard(data.getData('text/html'), data.getData('text/plain'));
+    // Dentro de un bloque de código se pega como texto (sin romper el bloque).
+    const sel = this.document.getSelection();
+    if (sel?.anchorNode && this.closest(sel.anchorNode, 'PRE')) {
+      this.insertClipboard('', data.getData('text/plain'));
+      return;
+    }
+    let language: string | undefined;
+    try {
+      language = JSON.parse(data.getData('vscode-editor-data') || '{}')?.mode;
+    } catch {
+      language = undefined;
+    }
+    this.insertClipboard(data.getData('text/html'), data.getData('text/plain'), language);
   }
 
   protected onDrop(event: DragEvent): void {
@@ -719,10 +958,12 @@ export class CbEditor implements ControlValueAccessor {
   }
 
   /** Inserta lo pegado: HTML saneado o texto plano, recortado si supera `maxLength`. */
-  private insertClipboard(html: string, text: string): void {
+  private insertClipboard(html: string, text: string, language?: string): void {
     const remaining = this.remaining();
     const plain = this.pastePlainText() || !html;
-    const clean = plain ? '' : cbSanitizeHtml(html, { images: this.images() });
+    let clean = plain ? '' : cbSanitizeHtml(html, { images: this.images() });
+    // Código de VS Code: se anota el lenguaje en el bloque.
+    if (clean && language && /^[\w+#.-]{1,30}$/.test(language)) clean = clean.replace(/^<pre(?![^>]*data-language)/, `<pre data-language="${language}"`);
     const cleanText = plain ? text : cbHtmlToText(clean);
     if (remaining !== null && cleanText.length > remaining) {
       // Si no cabe, se pega como texto hasta el límite.
@@ -751,6 +992,21 @@ export class CbEditor implements ControlValueAccessor {
 
   /** Atajos de teclado: Ctrl + K enlace; Ctrl + Mayús + 7 / 8 listas; Ctrl + Alt + 0–3 bloques. */
   protected onSurfaceKeydown(event: KeyboardEvent): void {
+    if (this.selectedImage() && !['Shift', 'Control', 'Alt', 'Meta'].includes(event.key)) this.deselectImage();
+    if (event.key === 'Tab' && !event.ctrlKey && !event.metaKey && !event.altKey) {
+      const sel = this.document.getSelection();
+      const cell = sel?.anchorNode ? ((this.closest(sel.anchorNode, 'TD') ?? this.closest(sel.anchorNode, 'TH')) as HTMLTableCellElement | null) : null;
+      if (cell) {
+        event.preventDefault();
+        this.moveCell(cell, event.shiftKey ? -1 : 1);
+        return;
+      }
+      if (sel?.anchorNode && this.closest(sel.anchorNode, 'PRE') && !event.shiftKey) {
+        event.preventDefault();
+        this.exec('insertText', '  ');
+        return;
+      }
+    }
     const mod = event.ctrlKey || event.metaKey;
     if (!mod) return;
     const key = event.key.toLowerCase();
@@ -791,6 +1047,290 @@ export class CbEditor implements ControlValueAccessor {
     if (!run) return;
     before.deleteContents();
     run();
+  }
+
+  // --- Tablas ------------------------------------------------------------------------
+  protected openTablePanel(): void {
+    if (this.isDisabled() || this.readonly()) return;
+    this.saveSelection();
+    this.tablePanel.set(true);
+    afterNextRender(() => this.tableRowsRef()?.nativeElement.focus(), { injector: this.injector });
+  }
+
+  protected closeTablePanel(): void {
+    this.tablePanel.set(false);
+    this.restoreSelection();
+  }
+
+  /** Inserta una tabla de filas × columnas (con fila de encabezado opcional) y un párrafo después. */
+  protected insertTable(event: Event): void {
+    event.preventDefault();
+    const rows = clampInt(this.tableRowsRef()?.nativeElement.value, 1, 50, 3);
+    const cols = clampInt(this.tableColsRef()?.nativeElement.value, 1, 12, 3);
+    const header = this.tableHeaderRef()?.nativeElement.checked ?? true;
+    this.tablePanel.set(false);
+    this.restoreSelection();
+    const row = (tag: string) => `<tr>${`<${tag}${tag === 'th' ? ' scope="col"' : ''}><br></${tag}>`.repeat(cols)}</tr>`;
+    const head = header ? `<thead>${row('th')}</thead>` : '';
+    const body = `<tbody>${row('td').repeat(header ? Math.max(1, rows - 1) : rows)}</tbody>`;
+    this.exec('insertHTML', `<table>${head}${body}</table><p><br></p>`);
+  }
+
+  /** Acciones de la barra de tabla sobre la celda actual. */
+  protected tableAction(id: string): void {
+    const cell = this.tableCell();
+    const table = cell?.closest('table');
+    if (!cell || !table) return;
+    const row = cell.parentElement as HTMLTableRowElement;
+    const index = cell.cellIndex;
+    const newCell = (tag: string) => {
+      const c = this.document.createElement(tag);
+      if (tag === 'th') c.setAttribute('scope', 'col');
+      c.innerHTML = '<br>';
+      return c;
+    };
+    let focus: HTMLTableCellElement | null = cell;
+    switch (id) {
+      case 'rowAbove':
+      case 'rowBelow': {
+        const tr = this.document.createElement('tr');
+        for (let i = 0; i < row.cells.length; i++) tr.append(newCell('td'));
+        if (row.parentElement?.tagName === 'THEAD') {
+          // Las filas nuevas van al cuerpo: el encabezado tiene una sola fila.
+          const body = table.tBodies[0] ?? table.createTBody();
+          body.insertBefore(tr, body.firstChild);
+        } else if (id === 'rowAbove') row.before(tr);
+        else row.after(tr);
+        focus = tr.cells[Math.min(index, tr.cells.length - 1)];
+        break;
+      }
+      case 'colLeft':
+      case 'colRight':
+        for (const r of Array.from(table.rows)) {
+          const ref = r.cells[Math.min(index, r.cells.length - 1)];
+          const c = newCell(r.parentElement?.tagName === 'THEAD' ? 'th' : 'td');
+          if (!ref) r.append(c);
+          else if (id === 'colLeft') ref.before(c);
+          else ref.after(c);
+          if (r === row) focus = c as HTMLTableCellElement;
+        }
+        break;
+      case 'header': {
+        const head = table.tHead;
+        if (head?.rows.length) {
+          // Quitar encabezado: su fila pasa al cuerpo con celdas normales.
+          const body = table.tBodies[0] ?? table.createTBody();
+          for (const r of Array.from(head.rows).reverse()) {
+            for (const th of Array.from(r.cells)) th.replaceWith(retag(th, 'td', this.document));
+            body.insertBefore(r, body.firstChild);
+          }
+          head.remove();
+        } else {
+          const first = table.tBodies[0]?.rows[0];
+          if (!first) break;
+          const thead = table.createTHead();
+          for (const td of Array.from(first.cells)) {
+            const th = retag(td, 'th', this.document);
+            th.setAttribute('scope', 'col');
+            td.replaceWith(th);
+          }
+          thead.append(first);
+        }
+        focus = table.rows[row.rowIndex >= 0 ? row.rowIndex : 0]?.cells[index] ?? null;
+        break;
+      }
+      case 'deleteRow': {
+        const next = (row.nextElementSibling ?? row.previousElementSibling) as HTMLTableRowElement | null;
+        row.remove();
+        if (!table.rows.length) return this.deleteTable(table);
+        focus = next?.cells[Math.min(index, next.cells.length - 1)] ?? table.rows[0].cells[0];
+        break;
+      }
+      case 'deleteCol':
+        for (const r of Array.from(table.rows)) {
+          r.cells[Math.min(index, r.cells.length - 1)]?.remove();
+          if (!r.cells.length) r.remove();
+        }
+        if (!table.rows.length || !table.rows[0].cells.length) return this.deleteTable(table);
+        focus = row.cells[Math.min(index, row.cells.length - 1)] ?? null;
+        break;
+      case 'deleteTable':
+        return this.deleteTable(table);
+    }
+    this.emit();
+    if (focus) this.placeCaret(focus);
+    this.updateState();
+  }
+
+  private deleteTable(table: HTMLTableElement): void {
+    const after = table.nextElementSibling as HTMLElement | null;
+    table.remove();
+    this.tableCell.set(null);
+    this.emit();
+    if (after) this.placeCaret(after);
+  }
+
+  /** Tab / Mayús + Tab: celda siguiente o anterior; en la última, añade una fila. */
+  private moveCell(cell: HTMLTableCellElement, step: number): void {
+    const table = cell.closest('table')!;
+    const cells = Array.from(table.querySelectorAll<HTMLTableCellElement>('th, td'));
+    const next = cells[cells.indexOf(cell) + step];
+    if (next) {
+      this.placeCaret(next);
+      return;
+    }
+    if (step > 0) {
+      this.tableCell.set(cell);
+      this.tableAction('rowBelow');
+    }
+  }
+
+  /** Pone el cursor al inicio de un elemento. */
+  private placeCaret(el: HTMLElement): void {
+    const surface = this.surfaceRef()?.nativeElement;
+    surface?.focus();
+    const range = this.document.createRange();
+    range.selectNodeContents(el);
+    range.collapse(true);
+    const sel = this.document.getSelection();
+    sel?.removeAllRanges();
+    sel?.addRange(range);
+  }
+
+  // --- Imagen seleccionada ----------------------------------------------------------------
+  protected onSurfaceClick(event: MouseEvent): void {
+    const target = event.target as HTMLElement;
+    if (target.tagName === 'IMG' && !this.readonly() && !this.isDisabled()) {
+      this.selectedImage.set(target as HTMLImageElement);
+      this.imageTick.update((n) => n + 1);
+      this.refreshFrame();
+    } else if (this.selectedImage()) {
+      this.deselectImage();
+    }
+  }
+
+  private deselectImage(): void {
+    this.selectedImage.set(null);
+    this.imageFrame.set(null);
+    this.altPanel.set(false);
+  }
+
+  /** Coloca el marco y el tirador sobre la imagen seleccionada. */
+  protected refreshFrame(): void {
+    const img = this.selectedImage();
+    const body = this.bodyRef()?.nativeElement;
+    if (!img || !body || !img.isConnected) {
+      this.imageFrame.set(null);
+      return;
+    }
+    const a = img.getBoundingClientRect();
+    const b = body.getBoundingClientRect();
+    this.imageFrame.set({ left: a.left - b.left, top: a.top - b.top, width: a.width, height: a.height });
+  }
+
+  protected imageWidthLabel(width: string): string {
+    return cbFormat(this.t().imageWidth, width);
+  }
+
+  private applyImageStyle(width: string | null, align: CbImageAlign | null): void {
+    const img = this.selectedImage();
+    if (!img) return;
+    const css = imageStyle(width, align);
+    if (css) img.setAttribute('style', css);
+    else img.removeAttribute('style');
+    if (width) {
+      img.removeAttribute('width');
+      img.removeAttribute('height');
+    }
+    this.imageTick.update((n) => n + 1);
+    this.emit();
+    afterNextRender(() => this.refreshFrame(), { injector: this.injector });
+  }
+
+  /** Alineación: en línea (`null`), izquierda o derecha (el texto la rodea) o centrada. */
+  setImageAlign(align: CbImageAlign | null): void {
+    this.applyImageStyle(this.imageState().width, align);
+  }
+
+  /** Ancho en % o px; `null` vuelve al tamaño original. */
+  setImageWidth(width: string | null): void {
+    this.applyImageStyle(width, this.imageState().align);
+  }
+
+  protected deleteImage(): void {
+    const img = this.selectedImage();
+    if (!img) return;
+    const after = img.parentElement;
+    img.remove();
+    this.deselectImage();
+    this.emit();
+    if (after) this.placeCaret(after);
+  }
+
+  protected openAlt(): void {
+    this.altPanel.set(true);
+    afterNextRender(() => this.altInputRef()?.nativeElement.focus(), { injector: this.injector });
+  }
+
+  protected closeAlt(): void {
+    this.altPanel.set(false);
+  }
+
+  protected applyAlt(event: Event): void {
+    event.preventDefault();
+    const img = this.selectedImage();
+    if (img) {
+      img.setAttribute('alt', this.altInputRef()?.nativeElement.value.trim() ?? '');
+      this.emit();
+    }
+    this.altPanel.set(false);
+  }
+
+  /** Arrastrar el tirador cambia el ancho (en % del área, para que se adapte a la pantalla). */
+  protected startResize(event: PointerEvent): void {
+    const img = this.selectedImage();
+    const surface = this.surfaceRef()?.nativeElement;
+    if (!img || !surface) return;
+    event.preventDefault();
+    this.resizing = { x: event.clientX, width: img.getBoundingClientRect().width, max: surface.clientWidth || 1, align: this.imageState().align };
+    const move = (e: PointerEvent) => {
+      const r = this.resizing;
+      if (!r) return;
+      const px = Math.min(r.max, Math.max(40, r.width + (e.clientX - r.x)));
+      const css = imageStyle(`${Math.round((px / r.max) * 100)}%`, r.align);
+      img.setAttribute('style', css);
+      this.refreshFrame();
+    };
+    const up = () => {
+      this.document.removeEventListener('pointermove', move);
+      this.document.removeEventListener('pointerup', up);
+      this.resizing = null;
+      img.removeAttribute('width');
+      img.removeAttribute('height');
+      this.imageTick.update((n) => n + 1);
+      this.emit();
+    };
+    this.document.addEventListener('pointermove', move);
+    this.document.addEventListener('pointerup', up);
+  }
+
+  /** Flechas, Inicio y Fin en las barras de tabla e imagen (patrón *toolbar*). */
+  protected onContextKeydown(event: KeyboardEvent): void {
+    const bar = event.currentTarget as HTMLElement;
+    const buttons = Array.from(bar.querySelectorAll<HTMLButtonElement>('button'));
+    const cur = buttons.indexOf(event.target as HTMLButtonElement);
+    if (cur < 0) return;
+    const last = buttons.length - 1;
+    const next =
+      event.key === 'ArrowRight' ? (cur < last ? cur + 1 : 0)
+      : event.key === 'ArrowLeft' ? (cur > 0 ? cur - 1 : last)
+      : event.key === 'Home' ? 0
+      : event.key === 'End' ? last
+      : -1;
+    if (next < 0) return;
+    event.preventDefault();
+    buttons.forEach((b, i) => (b.tabIndex = i === next ? 0 : -1));
+    buttons[next].focus();
   }
 
   // --- Vista de HTML -----------------------------------------------------------------
@@ -905,13 +1445,32 @@ export class CbEditor implements ControlValueAccessor {
       bulletList: !!this.closest(sel.anchorNode, 'UL'),
       orderedList: !!this.closest(sel.anchorNode, 'OL'),
       quote: !!this.closest(sel.anchorNode, 'BLOCKQUOTE'),
+      codeBlock: !!this.closest(sel.anchorNode, 'PRE'),
       alignLeft: query('justifyLeft'),
       alignCenter: query('justifyCenter') || align === 'center',
       alignRight: query('justifyRight') || align === 'right',
       link: !!this.closest(sel.anchorNode, 'A'),
       block: /^H[1-3]$/.test(blockTag) ? blockTag : 'P',
     });
+    const cell = (this.closest(sel.anchorNode, 'TD') ?? this.closest(sel.anchorNode, 'TH')) as HTMLTableCellElement | null;
+    this.tableCell.set(cell);
   }
+}
+
+function clampInt(raw: string | undefined, min: number, max: number, fallback: number): number {
+  const n = Number.parseInt(raw ?? '', 10);
+  return Number.isNaN(n) ? fallback : Math.min(max, Math.max(min, n));
+}
+
+/** Copia una celda con otra etiqueta (td ↔ th), conservando contenido y atributos útiles. */
+function retag(cell: HTMLTableCellElement, tag: 'td' | 'th', doc: Document): HTMLTableCellElement {
+  const next = doc.createElement(tag);
+  for (const name of ['colspan', 'rowspan', 'style']) {
+    const value = cell.getAttribute(name);
+    if (value !== null) next.setAttribute(name, value);
+  }
+  next.append(...Array.from(cell.childNodes));
+  return next;
 }
 
 function escapeHtml(text: string): string {

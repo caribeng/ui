@@ -75,6 +75,33 @@ import { I18nService } from '../services/i18n.service';
     </doc-section>
 
     <doc-section
+      id="tables"
+      title="Tablas"
+      description="El botón de tabla pide filas, columnas y si lleva fila de encabezado. Con el cursor en una celda aparece la barra de tabla: insertar filas y columnas, quitar o poner el encabezado y eliminar filas, columnas o la tabla. Tab y Mayús + Tab pasan de celda en celda; Tab en la última añade una fila."
+      [code]="tablesCode"
+    >
+      <cb-editor [(value)]="tabla" style="width: 100%" />
+    </doc-section>
+
+    <doc-section
+      id="image-layout"
+      title="Tamaño y alineación de imágenes"
+      description="Haz clic en una imagen: su barra permite ponerla en línea con el texto, a la izquierda o a la derecha (el texto la rodea) o centrada, elegir un ancho (25 %, 50 %, 75 %, 100 % o el original), escribir el texto alternativo o eliminarla. El tirador de la esquina cambia el ancho arrastrando. Todo se guarda como estilo en la propia imagen, así se ve igual en cualquier pantalla."
+      [code]="imageLayoutCode"
+    >
+      <cb-editor [(value)]="conImagen" style="width: 100%" />
+    </doc-section>
+
+    <doc-section
+      id="code"
+      title="Código"
+      description="El bloque de código conserva espacios y saltos; Tab inserta dos espacios. Al pegar desde VS Code se mantienen los colores del resaltado y el fondo, y se anota el lenguaje. Dentro de un bloque, lo pegado entra como texto."
+      [code]="codeCode"
+    >
+      <cb-editor [(value)]="codigo" style="width: 100%" />
+    </doc-section>
+
+    <doc-section
       id="limits"
       title="Límite de caracteres y validación"
       description="maxLength muestra un contador, impide escribir de más y recorta lo pegado. Con Validators.required, un editor vacío vale '' y el control es inválido."
@@ -137,6 +164,23 @@ export class EditorDocComponent {
   );
   protected readonly htmlPeligroso =
     '<p>Mensaje del cliente<script>robarSesion()</script></p><img src="x" onerror="alert(\'xss\')"><p><a href="javascript:alert(1)">Haz clic aquí</a> para ver tu premio.</p>';
+  protected readonly tabla = signal(
+    '<p>Tarifas vigentes:</p><table><thead><tr><th scope="col">Producto</th><th scope="col">Tasa E.A.</th><th scope="col">Plazo</th></tr></thead>' +
+      '<tbody><tr><td>CDT</td><td style="text-align: right">11,2 %</td><td>360 días</td></tr><tr><td>Ahorro</td><td style="text-align: right">4,5 %</td><td>—</td></tr></tbody></table>',
+  );
+  protected readonly conImagen = signal(
+    '<p><img src="https://picsum.photos/seed/caribeng/480/300" alt="Paisaje" style="width: 40%; height: auto; float: left; margin: 0 1rem 0.5rem 0">' +
+      'Este texto rodea la imagen alineada a la izquierda. Haz clic en la imagen para cambiar su alineación o su ancho, o arrastra el tirador de la esquina. ' +
+      'El HTML guarda el ancho en porcentaje, de modo que la imagen se adapta al ancho de la pantalla donde se muestre.</p>',
+  );
+  protected readonly codigo = signal(
+    '<p>Ejemplo pegado desde VS Code (tema oscuro):</p>' +
+      '<pre data-language="typescript" style="color: #cccccc; background-color: #1f1f1f"><code>' +
+      '<span style="color: #569cd6">const</span> <span style="color: #4fc1ff">saldo</span> = <span style="color: #dcdcaa">calcular</span>(<span style="color: #9cdcfe">cuenta</span>);\n' +
+      '<span style="color: #c586c0">if</span> (<span style="color: #9cdcfe">saldo</span> &lt; <span style="color: #b5cea8">0</span>) {\n' +
+      '  <span style="color: #dcdcaa">avisar</span>(<span style="color: #ce9178">\'Saldo negativo\'</span>);\n' +
+      '}</code></pre>',
+  );
   protected readonly comentario = new FormControl('', [Validators.required]);
   protected readonly barraCorta: CbEditorTool[] = ['bold', 'italic', 'underline', '|', 'bulletList', 'orderedList', '|', 'link'];
 
@@ -164,12 +208,27 @@ export class EditorDocComponent {
   const { url } = await firstValueFrom(this.http.post<{ url: string }>('/api/imagenes', form));
   return url; // el HTML guarda <img src="https://...">
 };`;
+  protected readonly tablesCode = `<cb-editor [(value)]="tarifas" />
+
+<!-- El HTML guardado:
+<table>
+  <thead><tr><th scope="col">Producto</th><th scope="col">Tasa E.A.</th></tr></thead>
+  <tbody><tr><td>CDT</td><td>11,2 %</td></tr></tbody>
+</table> -->`;
+  protected readonly imageLayoutCode = `<!-- Imagen a la izquierda al 40 %: -->
+<img src="..." alt="Paisaje" style="width: 40%; height: auto; float: left; margin: 0 1rem 0.5rem 0">
+
+<!-- Centrada: style="display: block; margin: 0.5rem auto" -->`;
+  protected readonly codeCode = `<!-- Copiado de VS Code: un bloque con los colores de cada token -->
+<pre data-language="typescript" style="color: #cccccc; background-color: #1f1f1f"><code>
+<span style="color: #569cd6">const</span> saldo = ...
+</code></pre>`;
   protected readonly limitsCode = `<cb-editor [formControl]="comentario" [maxLength]="280" />`;
   protected readonly limitsTs = `comentario = new FormControl('', [Validators.required]);`;
   protected readonly toolbarCode = `<cb-editor [toolbar]="barraCorta" height="120px" />`;
   protected readonly toolbarTs = `barraCorta: CbEditorTool[] = ['bold', 'italic', 'underline', '|', 'bulletList', 'orderedList', '|', 'link'];
 
-// Todas: heading, bold, italic, underline, strike, code, bulletList, orderedList, quote,
-// alignLeft, alignCenter, alignRight, link, image, horizontalRule, clear, undo, redo, source`;
+// Todas: heading, bold, italic, underline, strike, code, bulletList, orderedList, quote, codeBlock,
+// alignLeft, alignCenter, alignRight, link, image, table, horizontalRule, clear, undo, redo, source`;
   protected readonly readonlyCode = `<cb-editor [value]="contenidoGuardado" readonly />`;
 }

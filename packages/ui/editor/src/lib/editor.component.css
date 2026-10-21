@@ -287,3 +287,93 @@
 :host(.cb-is-invalid) {
   border-color: var(--cb-color-danger);
 }
+
+/* Barras contextuales (tabla, imagen) */
+.cb-editor__context {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.2rem;
+  padding: var(--cb-space-1) var(--cb-space-3);
+  border-bottom: var(--cb-border-width) solid var(--cb-color-border);
+  background: color-mix(in srgb, var(--cb-color-primary-500) 6%, var(--cb-color-surface));
+}
+.cb-editor__tool--text {
+  width: auto;
+  padding: 0 0.4rem;
+  font: inherit;
+  font-size: var(--cb-text-xs);
+  font-variant-numeric: tabular-nums;
+}
+.cb-editor__tool--danger:hover {
+  color: var(--cb-color-danger-600);
+  background: color-mix(in srgb, var(--cb-color-danger-500) 12%, transparent);
+}
+.cb-editor__link-field--narrow {
+  flex: 0 0 6rem;
+}
+
+/* Imagen seleccionada: marco y tirador para cambiar el ancho */
+.cb-editor__body {
+  position: relative;
+}
+.cb-editor__surface img {
+  cursor: pointer;
+}
+.cb-editor__img-frame {
+  position: absolute;
+  box-sizing: border-box;
+  border: 2px solid var(--cb-color-primary-500);
+  border-radius: 2px;
+  pointer-events: none;
+}
+.cb-editor__img-handle {
+  position: absolute;
+  right: -6px;
+  bottom: -6px;
+  width: 12px;
+  height: 12px;
+  border: 2px solid var(--cb-color-surface);
+  border-radius: 2px;
+  background: var(--cb-color-primary-500);
+  cursor: nwse-resize;
+  pointer-events: auto;
+  touch-action: none;
+}
+
+/* Tablas dentro del contenido */
+.cb-editor__surface table {
+  width: 100%;
+  margin: var(--cb-space-2) 0;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+.cb-editor__surface th,
+.cb-editor__surface td {
+  min-width: 2rem;
+  padding: 0.35rem 0.5rem;
+  border: 1px solid var(--cb-color-border-strong, var(--cb-color-border));
+  vertical-align: top;
+  word-break: break-word;
+}
+.cb-editor__surface th {
+  font-weight: var(--cb-font-weight-semibold, 600);
+  text-align: left;
+  background: var(--cb-color-surface-subtle, rgb(0 0 0 / 0.04));
+}
+
+/* Bloques de código: los colores en línea (p. ej. de VS Code) mandan */
+.cb-editor__surface pre code {
+  padding: 0;
+  background: transparent;
+  color: inherit;
+  font-size: inherit;
+}
+.cb-editor__surface pre[data-language]::before {
+  content: attr(data-language);
+  float: right;
+  margin: -0.25rem -0.25rem 0 0.5rem;
+  font-family: var(--cb-font-sans);
+  font-size: 0.7rem;
+  opacity: 0.6;
+}

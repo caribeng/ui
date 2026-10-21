@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { cbHtmlToText, cbSanitizeHtml, isSafeUrl } from './html-sanitizer';
+import { cbHtmlToText, cbSanitizeHtml, imageStyle, isSafeUrl, readImageStyle } from './html-sanitizer';
 
 describe('cbSanitizeHtml', () => {
   it('elimina scripts, eventos y elementos peligrosos', () => {
@@ -80,5 +80,54 @@ describe('isSafeUrl y cbHtmlToText', () => {
 
   it('extrae el texto con saltos entre bloques', () => {
     expect(cbHtmlToText('<h2>Título</h2><p>Hola <strong>mundo</strong></p><ul><li>a</li><li>b</li></ul>')).toBe('Título\nHola mundo\na\nb');
+  });
+});
+
+describe('código, tablas e imágenes', () => {
+  it('lo que copia VS Code se convierte en un bloque de código con sus colores', () => {
+    const vscode =
+      `<div style="color: #cccccc;background-color: #1f1f1f;font-family: Consolas, 'Courier New', monospace;font-weight: normal;font-size: 14px;line-height: 19px;white-space: pre;">` +
+      '<div><span style="color: #569cd6;">const</span><span style="color: #cccccc;"> </span><span style="color: #4fc1ff;">total</span><span style="color: #cccccc;"> = </span><span style="color: #b5cea8;">42</span><span style="color: #cccccc;">;</span></div>' +
+      '<br>' +
+      '<div><span style="color: #c586c0;font-style: italic;">return</span><span style="color: #cccccc;"> total;</span></div>' +
+      '</div>';
+    const clean = cbSanitizeHtml(vscode);
+    expect(clean).toBe(
+      '<pre style="color: #cccccc; background-color: #1f1f1f"><code>' +
+        '<span style="color: #569cd6">const</span><span style="color: #cccccc"> </span><span style="color: #4fc1ff">total</span><span style="color: #cccccc"> = </span><span style="color: #b5cea8">42</span><span style="color: #cccccc">;</span>\n' +
+        '\n' +
+        '<span style="color: #c586c0; font-style: italic">return</span><span style="color: #cccccc"> total;</span>' +
+        '</code></pre>',
+    );
+    // El texto se conserva tal cual, con sus líneas y espacios.
+    expect(cbHtmlToText(clean)).toBe('const total = 42;\n\nreturn total;');
+  });
+
+  it('en el código no entran colores con url() ni expresiones', () => {
+    const clean = cbSanitizeHtml('<pre style="background: url(https://evil.test/x.png); color: expression(alert(1))"><span style="color: url(x)">a</span><b onclick="x()">b</b></pre>');
+    expect(clean).toBe('<pre><code>ab</code></pre>');
+  });
+
+  it('las tablas se conservan y se completan las celdas que faltan', () => {
+    const clean = cbSanitizeHtml(
+      '<table border="1" class="x" style="width:100%"><thead><tr><th>Mes</th><th>Saldo</th></tr></thead>' +
+        '<tbody><tr><td onclick="x()">Ene</td><td style="text-align:right">10</td></tr><tr><td>Feb</td></tr></tbody></table>',
+    );
+    expect(clean).toBe(
+      '<table><thead><tr><th scope="col">Mes</th><th scope="col">Saldo</th></tr></thead>' +
+        '<tbody><tr><td>Ene</td><td style="text-align: right">10</td></tr><tr><td>Feb</td><td></td></tr></tbody></table>',
+    );
+    // Filas sueltas pasan a un <tbody>; partes de tabla fuera de una tabla, a texto.
+    expect(cbSanitizeHtml('<table><tr><td>a</td></tr></table>')).toBe('<table><tbody><tr><td>a</td></tr></tbody></table>');
+    expect(cbSanitizeHtml('<td>suelta</td>')).toBe('<p>suelta</p>');
+    expect(cbSanitizeHtml('<table><tbody><tr><td><br></td><td>&nbsp;</td></tr></tbody></table>')).toBe('<table><tbody><tr><td></td><td></td></tr></tbody></table>');
+  });
+
+  it('imágenes: solo ancho y alineación, normalizados', () => {
+    expect(cbSanitizeHtml('<img src="https://a.co/x.png" style="width: 50%; float: left; position: fixed; top: 0" width="800">')).toBe(
+      '<p><img src="https://a.co/x.png" style="width: 50%; height: auto; float: left; margin: 0 1rem 0.5rem 0"></p>',
+    );
+    expect(readImageStyle(imageStyle('320px', 'center'))).toEqual({ width: '320px', align: 'center' });
+    expect(readImageStyle('width: calc(100% - 1px); float: none')).toEqual({ width: null, align: null });
   });
 });

@@ -2329,6 +2329,18 @@ export const ES_EN: Record<string, string> = {
   'Título 1–3 / párrafo.': 'Heading 1–3 / paragraph.',
   '# , * , 1. , > + Espacio': '# , * , 1. , > + Space',
   'Al inicio de un párrafo, lo convierten en título, lista o cita.': 'At the start of a paragraph, turn it into a heading, list or quote.',
+  // --- Editor: tablas, imágenes y código ---
+  'El botón de tabla pide filas, columnas y si lleva fila de encabezado. Con el cursor en una celda aparece la barra de tabla: insertar filas y columnas, quitar o poner el encabezado y eliminar filas, columnas o la tabla. Tab y Mayús + Tab pasan de celda en celda; Tab en la última añade una fila.': 'The table button asks for rows, columns and whether there is a header row. With the cursor in a cell, the table toolbar appears: insert rows and columns, remove or add the header and delete rows, columns or the table. Tab and Shift + Tab move between cells; Tab in the last one adds a row.',
+  'Haz clic en una imagen: su barra permite ponerla en línea con el texto, a la izquierda o a la derecha (el texto la rodea) o centrada, elegir un ancho (25 %, 50 %, 75 %, 100 % o el original), escribir el texto alternativo o eliminarla. El tirador de la esquina cambia el ancho arrastrando. Todo se guarda como estilo en la propia imagen, así se ve igual en cualquier pantalla.': 'Click an image: its toolbar lets you place it in line with the text, on the left or right (text wraps around it) or centered, choose a width (25%, 50%, 75%, 100% or original), write the alternative text or delete it. The corner handle changes the width by dragging. Everything is saved as a style on the image itself, so it looks the same on any screen.',
+  'El bloque de código conserva espacios y saltos; Tab inserta dos espacios. Al pegar desde VS Code se mantienen los colores del resaltado y el fondo, y se anota el lenguaje. Dentro de un bloque, lo pegado entra como texto.': 'The code block keeps spaces and line breaks; Tab inserts two spaces. When pasting from VS Code the highlighting colors and background are kept, and the language is recorded. Inside a block, pasted content goes in as text.',
+  'Tablas': 'Tables',
+  'Tamaño y alineación de imágenes': 'Image size and alignment',
+  'Código': 'Code',
+  'Con el cursor en una tabla aparece una segunda barra (`role="toolbar"`, "Tabla") y, al seleccionar una imagen, otra ("Imagen"); se recorren con las flechas, y alineación, ancho y fila de encabezado indican con `aria-pressed` la opción activa. Las tablas guardan `<th scope="col">` en la fila de encabezado y las imágenes su texto alternativo.': 'With the cursor in a table a second toolbar appears (`role="toolbar"`, "Table") and, when an image is selected, another one ("Image"); they are navigated with the arrows, and alignment, width and header row report the active option with `aria-pressed`. Tables store `<th scope="col">` in the header row and images their alternative text.',
+  'Tab / Mayús + Tab (en una tabla)': 'Tab / Shift + Tab (in a table)',
+  'Celda siguiente o anterior; en la última, añade una fila.': 'Next or previous cell; in the last one, adds a row.',
+  'Tab (en un bloque de código)': 'Tab (in a code block)',
+  'Inserta dos espacios.': 'Inserts two spaces.',
   // --- API de Select / MultiSelect (etiquetado accesible) ---
   'Nombre accesible del disparador cuando no hay etiqueta visible.':
     'Accessible name of the trigger when there is no visible label.',

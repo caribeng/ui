@@ -338,6 +338,30 @@ export interface CbTranslation {
   /** `{0}`: tamaño máximo (p. ej. "1 MB"). */
   imageTooLarge: string;
   imageUploadError: string;
+  codeBlock: string;
+  insertTable: string;
+  tableRows: string;
+  tableColumns: string;
+  tableHeaderRow: string;
+  insert: string;
+  tableTools: string;
+  insertRowAbove: string;
+  insertRowBelow: string;
+  insertColumnLeft: string;
+  insertColumnRight: string;
+  deleteRow: string;
+  deleteColumn: string;
+  deleteTable: string;
+  imageTools: string;
+  imageInline: string;
+  imageAlignLeft: string;
+  imageAlignCenter: string;
+  imageAlignRight: string;
+  imageWidth: string;
+  imageOriginalSize: string;
+  imageResize: string;
+  altText: string;
+  deleteImage: string;
 }
 
 /** Español (idioma por defecto). */
@@ -615,6 +639,30 @@ export const CB_LOCALE_ES: CbTranslation = {
   characterCount: '{0} de {1} caracteres',
   imageTooLarge: 'La imagen supera el tamaño máximo ({0}).',
   imageUploadError: 'No se pudo subir la imagen.',
+  codeBlock: 'Bloque de código',
+  insertTable: 'Insertar tabla',
+  tableRows: 'Filas',
+  tableColumns: 'Columnas',
+  tableHeaderRow: 'Fila de encabezado',
+  insert: 'Insertar',
+  tableTools: 'Tabla',
+  insertRowAbove: 'Insertar fila arriba',
+  insertRowBelow: 'Insertar fila abajo',
+  insertColumnLeft: 'Insertar columna a la izquierda',
+  insertColumnRight: 'Insertar columna a la derecha',
+  deleteRow: 'Eliminar fila',
+  deleteColumn: 'Eliminar columna',
+  deleteTable: 'Eliminar tabla',
+  imageTools: 'Imagen',
+  imageInline: 'En línea con el texto',
+  imageAlignLeft: 'Alinear a la izquierda',
+  imageAlignCenter: 'Centrar',
+  imageAlignRight: 'Alinear a la derecha',
+  imageWidth: 'Ancho {0}',
+  imageOriginalSize: 'Tamaño original',
+  imageResize: 'Redimensionar imagen',
+  altText: 'Texto alternativo',
+  deleteImage: 'Eliminar imagen',
 };
 
 /** Inglés. */
@@ -892,6 +940,30 @@ export const CB_LOCALE_EN: CbTranslation = {
   characterCount: '{0} of {1} characters',
   imageTooLarge: 'The image exceeds the maximum size ({0}).',
   imageUploadError: 'The image could not be uploaded.',
+  codeBlock: 'Code block',
+  insertTable: 'Insert table',
+  tableRows: 'Rows',
+  tableColumns: 'Columns',
+  tableHeaderRow: 'Header row',
+  insert: 'Insert',
+  tableTools: 'Table',
+  insertRowAbove: 'Insert row above',
+  insertRowBelow: 'Insert row below',
+  insertColumnLeft: 'Insert column left',
+  insertColumnRight: 'Insert column right',
+  deleteRow: 'Delete row',
+  deleteColumn: 'Delete column',
+  deleteTable: 'Delete table',
+  imageTools: 'Image',
+  imageInline: 'In line with text',
+  imageAlignLeft: 'Align left',
+  imageAlignCenter: 'Center',
+  imageAlignRight: 'Align right',
+  imageWidth: 'Width {0}',
+  imageOriginalSize: 'Original size',
+  imageResize: 'Resize image',
+  altText: 'Alternative text',
+  deleteImage: 'Delete image',
 };
 
 /** Idiomas incluidos. */
