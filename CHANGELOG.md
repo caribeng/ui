@@ -8,7 +8,7 @@ Desde la 22.0.0 el major de la librería coincide con el de Angular (22.x = Angu
 
 ---
 
-## [Unreleased]
+## [22.2.0] - 2026-10-21
 
 ### Breaking
 - **Caribe Design:** los textos de contenido de ejemplo ya no se muestran por defecto: `title` de Header y Preloader, `label` de Shortcut, StepIndicator, TagButton y TransactionStatus, `monthLabel` de Calendar, `fileName` / `fileSize` de FileDownload y `copyright` de Footer pasan a ser `''`. Pasa el texto que necesites.

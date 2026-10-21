@@ -4,8 +4,8 @@ import type { CbChangelogRelease } from './changelog.model';
 
 export const CHANGELOG: readonly CbChangelogRelease[] = [
   {
-    "version": null,
-    "date": null,
+    "version": "22.2.0",
+    "date": "2026-10-21",
     "sections": [
       {
         "type": "breaking",
