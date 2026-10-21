@@ -1,11 +1,15 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import { CbTableCellDirective, CbTable, type CbTableColumn } from '@caribeng/ui/table';
+import { CbTableCellDirective, CbTable, CbTableRowExpansion, type CbTableColumn } from '@caribeng/ui/table';
 import { CbAvatar } from '@caribeng/ui/avatar';
 import { CbTag } from '@caribeng/ui/tag';
 import { CbButton } from '@caribeng/ui/button';
 import { CbIcon } from '@caribeng/ui/icon';
 import { CbIconButton } from '@caribeng/ui/caribe/icon-button';
 import type { CbSeverity } from '@caribeng/ui';
+import { DocPlaygroundComponent } from '../components/doc-playground.component';
+import { DOC_API } from '../components/doc-api-registry';
+import { DocA11yComponent } from '../components/doc-a11y.component';
+import { DOC_A11Y } from '../components/doc-a11y-registry';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
@@ -35,17 +39,20 @@ interface Usuario {
   imports: [
     CbTable,
     CbTableCellDirective,
+    CbTableRowExpansion,
     CbAvatar,
     CbTag,
     CbButton,
     CbIcon,
     CbIconButton,
+    DocA11yComponent,
+    DocPlaygroundComponent,
     DocSectionComponent,
     CodeBlockComponent,
     DocPageHeaderComponent,
   ],
   template: `
-    <doc-page-header eyebrow="Datos" title="Table" lead="Tabla de datos con columnas declarativas, ordenación, paginación, selección y celdas personalizadas (avatares, estados y acciones)." />
+    <doc-page-header eyebrow="Datos" title="Table" lead="Tabla de datos con columnas declarativas, ordenación, filtros, paginación, selección, columnas redimensionables, filas expandibles y celdas personalizadas." />
 
     <doc-section id="import" title="Importación">
       <doc-code-block [code]="installCode" lang="bash" />
@@ -66,6 +73,75 @@ interface Usuario {
       <p style="margin: 0.75rem 0 0; color: var(--cb-color-text-muted); font-size: 0.875rem">
         Seleccionados: {{ seleccion().length }}
       </p>
+    </doc-section>
+
+    <doc-section
+      id="single"
+      title="Selección simple"
+      description="Con selectionMode=&quot;single&quot; cada fila tiene un radio; elegir otra fila reemplaza la selección."
+      [code]="singleCode"
+    >
+      <cb-table style="width: 100%" [value]="productos" [columns]="columns" selectionMode="single" dataKey="id" [(selection)]="elegido" size="sm" />
+      <p style="margin: 0.75rem 0 0; color: var(--cb-color-text-muted); font-size: 0.875rem">
+        Elegido: {{ elegido()?.nombre ?? 'ninguno' }}
+      </p>
+    </doc-section>
+
+    <doc-section
+      id="global-filter"
+      title="Filtro global"
+      description="[globalFilter] busca en todas las columnas (o en globalFilterFields) sin distinguir mayúsculas ni tildes. El campo de búsqueda es tuyo: colócalo donde quieras."
+      [code]="globalFilterCode"
+    >
+      <div style="display: grid; gap: 0.75rem; width: 100%">
+        <input
+          type="search"
+          class="tbl-filter-input"
+          placeholder="Buscar producto o categoría…"
+          aria-label="Buscar productos"
+          [value]="busqueda()"
+          (input)="busqueda.set($any($event.target).value)"
+        />
+        <cb-table [value]="productos" [columns]="columns" [globalFilter]="busqueda()" emptyMessage="Ningún producto coincide" size="sm" />
+      </div>
+    </doc-section>
+
+    <doc-section
+      id="column-filter"
+      title="Filtro por columna"
+      description="filter: true en la columna añade un campo bajo el encabezado; filterMatchMode elige entre contains, startsWith y equals."
+      [code]="columnFilterCode"
+      [codeTs]="columnFilterTs"
+    >
+      <cb-table style="width: 100%" [value]="productos" [columns]="filterColumns" size="sm" />
+    </doc-section>
+
+    <doc-section
+      id="resizable"
+      title="Columnas redimensionables"
+      description="resizableColumns añade un separador en cada encabezado: arrástralo o enfócalo y usa las flechas (Mayús para pasos grandes)."
+      [code]="resizableCode"
+    >
+      <cb-table style="width: 100%" [value]="productos" [columns]="columns" resizableColumns (columnResize)="ancho.set($event.field + ': ' + $event.width + ' px')" size="sm" />
+      <p style="margin: 0.75rem 0 0; color: var(--cb-color-text-muted); font-size: 0.875rem">Último cambio: {{ ancho() }}</p>
+    </doc-section>
+
+    <doc-section
+      id="expansion"
+      title="Filas expandibles"
+      description="La plantilla cbTableRowExpansion añade un botón por fila que muestra su detalle; [(expandedRowKeys)] guarda las filas abiertas (por dataKey)."
+      [code]="expansionCode"
+    >
+      <cb-table style="width: 100%" [value]="productos" [columns]="columns" dataKey="id" [(expandedRowKeys)]="expandidas" size="sm">
+        <ng-template cbTableRowExpansion let-producto>
+          <dl class="tbl-detail">
+            <dt>Categoría</dt>
+            <dd>{{ producto.categoria }}</dd>
+            <dt>Valor en inventario</dt>
+            <dd>{{ producto.precio * producto.stock }}</dd>
+          </dl>
+        </ng-template>
+      </cb-table>
     </doc-section>
 
     <doc-section id="templates" title="Plantillas de celda" description="Usa cbTableCell con el nombre del field. La plantilla recibe la fila, su valor y la columna." [code]="templateCode">
@@ -153,6 +229,10 @@ interface Usuario {
         </cb-table>
       </div>
     </doc-section>
+
+    <doc-a11y [data]="a11y" />
+
+    <doc-playground [api]="docApi" />
   `,
   styles: [
     `
@@ -232,6 +312,31 @@ interface Usuario {
         width: 11rem;
         max-width: 40vw;
       }
+      .tbl-filter-input {
+        box-sizing: border-box;
+        width: 100%;
+        max-width: 22rem;
+        padding: 0.45rem 0.7rem;
+        font: inherit;
+        color: var(--cb-color-text);
+        background: var(--cb-color-surface-0);
+        border: 1px solid var(--cb-color-border-strong);
+        border-radius: var(--cb-radius-md);
+      }
+      .tbl-detail {
+        display: grid;
+        grid-template-columns: max-content 1fr;
+        gap: 0.25rem 1rem;
+        margin: 0;
+        font-size: 0.875rem;
+      }
+      .tbl-detail dt {
+        color: var(--cb-color-text-muted);
+      }
+      .tbl-detail dd {
+        margin: 0;
+        font-weight: 600;
+      }
       .tbl-pro cb-table {
         display: block;
         padding: 0 0.5rem;
@@ -240,6 +345,9 @@ interface Usuario {
   ],
 })
 export class TableDocComponent {
+  protected readonly docApi = DOC_API['cb-table'];
+  protected readonly a11y = DOC_A11Y['cb-table'];
+
   constructor() {
     inject(TocService).reset();
   }
@@ -261,6 +369,16 @@ export class TableDocComponent {
   ];
 
   protected readonly seleccion = signal<Producto[]>([]);
+  protected readonly elegido = signal<Producto | null>(null);
+  protected readonly busqueda = signal('');
+  protected readonly ancho = signal('—');
+  protected readonly expandidas = signal<readonly unknown[]>([3]);
+
+  protected readonly filterColumns: CbTableColumn[] = [
+    { field: 'nombre', header: 'Producto', filter: true, filterPlaceholder: 'Contiene…' },
+    { field: 'categoria', header: 'Categoría', filter: true, filterMatchMode: 'startsWith', filterPlaceholder: 'Empieza por…' },
+    { field: 'precio', header: 'Precio', align: 'right', filter: true, filterMatchMode: 'equals', filterPlaceholder: 'Igual a…' },
+  ];
 
   // --- Usuarios (avatares / estados / acciones) ---
   protected readonly userCols: CbTableColumn[] = [
@@ -291,8 +409,8 @@ export class TableDocComponent {
       : this.usuarios;
   });
 
-  protected readonly installCode = `npm install @caribeng/ui @angular/cdk`;
-  protected readonly importCode = `import { CbTable, CbTableColumn, CbTableCellDirective } from '@caribeng/ui/table';
+  protected readonly installCode = `npm install @caribeng/ui`;
+  protected readonly importCode = `import { CbTable, CbTableColumn, CbTableCellDirective, CbTableRowExpansion } from '@caribeng/ui/table';
 import { CbAvatar } from '@caribeng/ui/avatar';
 import { CbTag } from '@caribeng/ui/tag';
 import { CbIconButton } from '@caribeng/ui/caribe/icon-button';`;
@@ -305,6 +423,35 @@ import { CbIconButton } from '@caribeng/ui/caribe/icon-button';`;
   [paginator]="true" [rows]="3" [rowsPerPageOptions]="[3, 5, 10]" />`;
   protected readonly selCode = `<cb-table [value]="productos" [columns]="columns"
   selectionMode="multiple" dataKey="id" [(selection)]="seleccion" />`;
+  protected readonly singleCode = `<cb-table [value]="productos" [columns]="columns" selectionMode="single" dataKey="id" [(selection)]="elegido" size="sm" />
+<p>Elegido: {{ elegido()?.nombre ?? 'ninguno' }}</p>`;
+  protected readonly globalFilterCode = `<input
+  type="search"
+  class="tbl-filter-input"
+  placeholder="Buscar producto o categoría…"
+  aria-label="Buscar productos"
+  [value]="busqueda()"
+  (input)="busqueda.set($any($event.target).value)"
+/>
+<cb-table [value]="productos" [columns]="columns" [globalFilter]="busqueda()" emptyMessage="Ningún producto coincide" size="sm" />`;
+  protected readonly columnFilterCode = `<cb-table [value]="productos" [columns]="filterColumns" size="sm" />`;
+  protected readonly columnFilterTs = `filterColumns: CbTableColumn[] = [
+  { field: 'nombre', header: 'Producto', filter: true, filterPlaceholder: 'Contiene…' },
+  { field: 'categoria', header: 'Categoría', filter: true, filterMatchMode: 'startsWith' },
+  { field: 'precio', header: 'Precio', align: 'right', filter: true, filterMatchMode: 'equals' },
+];`;
+  protected readonly resizableCode = `<cb-table [value]="productos" [columns]="columns" resizableColumns (columnResize)="ancho.set($event.field + ': ' + $event.width + ' px')" size="sm" />
+<p>Último cambio: {{ ancho() }}</p>`;
+  protected readonly expansionCode = `<cb-table [value]="productos" [columns]="columns" dataKey="id" [(expandedRowKeys)]="expandidas" size="sm">
+  <ng-template cbTableRowExpansion let-producto>
+    <dl class="tbl-detail">
+      <dt>Categoría</dt>
+      <dd>{{ producto.categoria }}</dd>
+      <dt>Valor en inventario</dt>
+      <dd>{{ producto.precio * producto.stock }}</dd>
+    </dl>
+  </ng-template>
+</cb-table>`;
   protected readonly templateCode = `<cb-table [value]="productos" [columns]="columns">
   <ng-template cbTableCell="nombre" let-row let-value="value" let-col="col">
     <strong>{{ value }}</strong>

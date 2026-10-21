@@ -436,6 +436,19 @@ export const DOC_A11Y: Record<string, DocA11y> = {
       'Mientras está bloqueado, el contenido es `inert` (no recibe foco ni clics), el contenedor expone `aria-busy="true"` y la máscara es un `role="status"` que anuncia `message` (por defecto, "Cargando").',
     ],
   },
+  'cb-table': {
+    screenReader: [
+      'Es una tabla nativa (`table`, `th scope="col"`) nombrada con `ariaLabel`. Las columnas ordenables tienen un botón "Ordenar por …" y exponen `aria-sort` (ascending / descending / none).',
+      'Con selección, cada fila tiene un checkbox (múltiple) o un radio (simple) con nombre "Seleccionar fila N"; el de la cabecera usa `aria-checked="mixed"` si hay una selección parcial.',
+      'Los filtros de columna se nombran "Filtrar por …" y, mientras hay filtros, una región viva anuncia la cantidad de resultados.',
+      'Las filas expandibles tienen un botón con `aria-expanded` que apunta a la fila de detalle con `aria-controls`. Los separadores de columna son `role="separator"` con su ancho en `aria-valuenow`.',
+    ],
+    keyboard: [
+      { keys: 'Tab', action: 'Recorre los botones de ordenar, separadores, filtros, checkboxes y botones de detalle.' },
+      { keys: 'Enter / Espacio', action: 'Ordena por la columna, expande la fila o marca el checkbox / radio enfocado.' },
+      { keys: 'Flecha izquierda / Flecha derecha', action: 'En un separador, estrecha o ensancha la columna (10 px; 50 px con Mayús).' },
+    ],
+  },
   'cb-dynamic-dialog': {
     screenReader: [
       'El panel tiene `role="dialog"` con `aria-modal="true"` y se nombra con `header` (`aria-labelledby`) o, si no hay título, con `ariaLabel` de la configuración.',

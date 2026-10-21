@@ -114,6 +114,7 @@ import { CbStepper } from '@caribeng/ui/stepper';
 import { CbSteps } from '@caribeng/ui/steps';
 import { CbStroke } from '@caribeng/ui/caribe/stroke';
 import { CbSwitch } from '@caribeng/ui/caribe/switch';
+import { CbTable } from '@caribeng/ui/table';
 import { CbTabMenu } from '@caribeng/ui/tabmenu';
 import { CbTabs } from '@caribeng/ui/tabs';
 import { CbTag } from '@caribeng/ui/tag';
@@ -1556,6 +1557,36 @@ export const DOC_API: Record<string, DocApi> = {
     ],
     events: [
       { name: "changed", type: "boolean", description: "Emite el nuevo estado al cambiar." }
+    ]
+  },
+  "cb-table": {
+    component: CbTable,
+    selector: "cb-table",
+    props: [
+      { name: "value", kind: "string", type: "readonly unknown[]", default: [{ id: 1, name: 'Keyboard', price: 120 }, { id: 2, name: 'Mouse', price: 60 }, { id: 3, name: 'Monitor', price: 300 }], description: "Filas de la tabla.", control: false },
+      { name: "columns", kind: "string", type: "readonly CbTableColumn[]", default: [{ field: 'name', header: 'Name', sortable: true, filter: true }, { field: 'price', header: 'Price', sortable: true, align: 'right' }], description: "Columnas: field, header, sortable, filter, filterMatchMode, align y width.", control: false },
+      { name: "globalFilter", kind: "string", type: "string (model)", default: "", description: "Texto del filtro global; busca sin distinguir mayúsculas ni tildes." },
+      { name: "globalFilterFields", kind: "string", type: "readonly string[] | null", default: null, description: "Campos en los que busca el filtro global. Por defecto, los de todas las columnas.", control: false },
+      { name: "paginator", kind: "boolean", type: "boolean", default: false, description: "Muestra el paginador." },
+      { name: "rows", kind: "number", type: "number (model)", default: 10, description: "Filas por página." },
+      { name: "rowsPerPageOptions", kind: "string", type: "readonly number[]", default: [], description: "Opciones de filas por página.", control: false },
+      { name: "selectionMode", kind: "enum", type: "'single' | 'multiple' | null", options: ["single", "multiple"], default: null, description: "Selección de filas (radio o checkbox por fila)." },
+      { name: "selection", kind: "string", type: "unknown (model)", default: null, description: "Fila o filas seleccionadas.", control: false },
+      { name: "dataKey", kind: "string", type: "string | null", default: "id", description: "Propiedad que identifica cada fila (selección y filas expandidas)." },
+      { name: "expandedRowKeys", kind: "string", type: "readonly unknown[] (model)", default: [], description: "Claves de las filas expandidas; requiere la plantilla cbTableRowExpansion.", control: false },
+      { name: "resizableColumns", kind: "boolean", type: "boolean", default: false, description: "Permite cambiar el ancho de las columnas con el ratón o el teclado." },
+      { name: "striped", kind: "boolean", type: "boolean", default: false, description: "Filas alternas sombreadas." },
+      { name: "rowHover", kind: "boolean", type: "boolean", default: true, description: "Resalta la fila bajo el puntero." },
+      { name: "size", kind: "enum", type: "'sm' | 'md' | 'lg'", options: ["sm", "md", "lg"], default: "md", description: "Densidad de las celdas." },
+      { name: "emptyMessage", kind: "string", type: "string", default: undefined, localeKey: "noData", description: "Mensaje cuando no hay filas." },
+      { name: "ariaLabel", kind: "string", type: "string", default: "", description: "Nombre accesible de la tabla." }
+    ],
+    events: [
+      { name: "sortChange", type: "{ field: string | null; order: 1 | -1 }", description: "Se emite al cambiar la ordenación." },
+      { name: "filterChange", type: "CbTableFilterState", description: "Se emite al cambiar un filtro (global o de columna)." },
+      { name: "columnResize", type: "{ field: string; width: number }", description: "Se emite al terminar de cambiar el ancho de una columna." },
+      { name: "rowExpand", type: "unknown", description: "Se emite al expandir una fila." },
+      { name: "rowCollapse", type: "unknown", description: "Se emite al contraer una fila." }
     ]
   },
   "cb-tabmenu": {

@@ -141,6 +141,19 @@ export interface CbTranslation {
   nextPage: string;
   lastPage: string;
   rowsPerPage: string;
+  /** `{0}`: número de fila. */
+  selectRow: string;
+  selectAllRows: string;
+  /** `{0}`: encabezado de la columna. */
+  sortBy: string;
+  /** `{0}`: encabezado de la columna. */
+  filterBy: string;
+  /** `{0}`: encabezado de la columna. */
+  resizeColumn: string;
+  /** `{0}`: número de fila. */
+  expandRow: string;
+  /** `{0}`: cantidad de filas tras filtrar. */
+  resultsCount: string;
   noRecords: string;
   moveUp: string;
   moveDown: string;
@@ -347,6 +360,13 @@ export const CB_LOCALE_ES: CbTranslation = {
   nextPage: 'Página siguiente',
   lastPage: 'Última página',
   rowsPerPage: 'Registros por página',
+  selectRow: 'Seleccionar fila {0}',
+  selectAllRows: 'Seleccionar todas las filas',
+  sortBy: 'Ordenar por {0}',
+  filterBy: 'Filtrar por {0}',
+  resizeColumn: 'Redimensionar columna {0}',
+  expandRow: 'Detalle de la fila {0}',
+  resultsCount: '{0} resultados',
   noRecords: '0 registros',
   moveUp: 'Subir',
   moveDown: 'Bajar',
@@ -543,6 +563,13 @@ export const CB_LOCALE_EN: CbTranslation = {
   nextPage: 'Next page',
   lastPage: 'Last page',
   rowsPerPage: 'Rows per page',
+  selectRow: 'Select row {0}',
+  selectAllRows: 'Select all rows',
+  sortBy: 'Sort by {0}',
+  filterBy: 'Filter by {0}',
+  resizeColumn: 'Resize column {0}',
+  expandRow: 'Row {0} details',
+  resultsCount: '{0} results',
   noRecords: '0 records',
   moveUp: 'Move up',
   moveDown: 'Move down',

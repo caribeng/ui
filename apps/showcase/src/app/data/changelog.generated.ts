@@ -28,6 +28,22 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
         "type": "added",
         "items": [
           {
+            "component": "Table",
+            "text": "filtro global (`[(globalFilter)]`, `globalFilterFields`, `filterGlobal()`) y por columna (`filter`, `filterMatchMode`: contains / startsWith / equals), sin distinguir mayúsculas ni tildes, con evento `filterChange`, `clearFilters()` y anuncio de la cantidad de resultados."
+          },
+          {
+            "component": "Table",
+            "text": "columnas redimensionables (`resizableColumns`) con ratón y teclado, y evento `columnResize`."
+          },
+          {
+            "component": "Table",
+            "text": "filas expandibles con la plantilla `cbTableRowExpansion`, `[(expandedRowKeys)]` y eventos `rowExpand` / `rowCollapse`."
+          },
+          {
+            "component": "Table",
+            "text": "selección simple con radio por fila, checkbox de cabecera con estado parcial (`mixed`) y `ariaLabel` para nombrar la tabla."
+          },
+          {
             "component": "DynamicDialog",
             "text": "`CbDialogService.open(Componente, { header, data, width })` abre cualquier componente en un diálogo; el componente recibe `CB_DYNAMIC_DIALOG_DATA` y se cierra con `CbDynamicDialogRef.close(resultado)`, que llega por `onClose`."
           },
@@ -197,6 +213,10 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
       {
         "type": "fixed",
         "items": [
+          {
+            "component": "Table",
+            "text": "ordenar y seleccionar filas solo era posible con ratón: el encabezado ordenable no era enfocable y los checkboxes de fila estaban ocultos al lector de pantalla. Ahora hay un botón \"Ordenar por …\" y un checkbox o radio enfocable por fila."
+          },
           {
             "component": "InputMask",
             "text": "los literales de la máscara (`-`, `(`…) se añadían antes de tiempo: Backspace no podía borrarlos y un literal inicial como `(` nunca aparecía."

@@ -16,6 +16,10 @@ Desde la 22.0.0 el major de la librería coincide con el de Angular (22.x = Angu
 - **DynamicDialog:** `cb-dynamic-dialog` ahora se apoya en `cb-dialog` (trampa de foco, Escape y devolución del foco).
 
 ### Added
+- **Table:** filtro global (`[(globalFilter)]`, `globalFilterFields`, `filterGlobal()`) y por columna (`filter`, `filterMatchMode`: contains / startsWith / equals), sin distinguir mayúsculas ni tildes, con evento `filterChange`, `clearFilters()` y anuncio de la cantidad de resultados.
+- **Table:** columnas redimensionables (`resizableColumns`) con ratón y teclado, y evento `columnResize`.
+- **Table:** filas expandibles con la plantilla `cbTableRowExpansion`, `[(expandedRowKeys)]` y eventos `rowExpand` / `rowCollapse`.
+- **Table:** selección simple con radio por fila, checkbox de cabecera con estado parcial (`mixed`) y `ariaLabel` para nombrar la tabla.
 - **DynamicDialog:** `CbDialogService.open(Componente, { header, data, width })` abre cualquier componente en un diálogo; el componente recibe `CB_DYNAMIC_DIALOG_DATA` y se cierra con `CbDynamicDialogRef.close(resultado)`, que llega por `onClose`.
 - **Tree:** niveles ilimitados, plantilla `cbTreeNode`, navegación con teclado (patrón WAI-ARIA *tree*), nodos deshabilitados, `expandAll()` / `collapseAll()` y eventos `nodeExpand`, `nodeCollapse` y `nodeSelect`.
 - **TreeTable:** niveles ilimitados, `role="treegrid"` con navegación con teclado y plantilla de celda `cbTreeTableCell`.
@@ -60,6 +64,7 @@ Desde la 22.0.0 el major de la librería coincide con el de Angular (22.x = Angu
 - **ConfirmDialog / ConfirmPopup / OrderList / PickList:** los botones usan `cb-button` y el código de los 11 componentes reescritos es legible (antes estaba minificado).
 
 ### Fixed
+- **Table:** ordenar y seleccionar filas solo era posible con ratón: el encabezado ordenable no era enfocable y los checkboxes de fila estaban ocultos al lector de pantalla. Ahora hay un botón "Ordenar por …" y un checkbox o radio enfocable por fila.
 - **InputMask:** los literales de la máscara (`-`, `(`…) se añadían antes de tiempo: Backspace no podía borrarlos y un literal inicial como `(` nunca aparecía.
 - **FileUpload:** los archivos arrastrados no se filtraban por `accept`, los que superaban `maxFileSize` se descartaban sin aviso, un mismo archivo podía añadirse dos veces y los tamaños grandes no se mostraban en MB.
 - **InputOtp:** al pegar un código, el foco pasa a la última casilla rellenada.

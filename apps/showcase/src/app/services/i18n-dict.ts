@@ -1791,6 +1791,67 @@ export const ES_EN: Record<string, string> = {
   'Mientras está bloqueado, el contenido es `inert` (no recibe foco ni clics), el contenedor expone `aria-busy="true"` y la máscara es un `role="status"` que anuncia `message` (por defecto, "Cargando").':
     'While blocked, the content is `inert` (it receives no focus or clicks), the container exposes `aria-busy="true"` and the mask is a `role="status"` that announces `message` (by default, "Loading").',
 
+  // --- Table: filtros, columnas redimensionables y filas expandibles ---
+  'Filas de la tabla.': 'Table rows.',
+  'Columnas: field, header, sortable, filter, filterMatchMode, align y width.':
+    'Columns: field, header, sortable, filter, filterMatchMode, align and width.',
+  'Texto del filtro global; busca sin distinguir mayúsculas ni tildes.':
+    'Global filter text; matches regardless of case and accents.',
+  'Campos en los que busca el filtro global. Por defecto, los de todas las columnas.':
+    'Fields searched by the global filter. Defaults to every column field.',
+  'Muestra el paginador.': 'Shows the paginator.',
+  'Filas por página.': 'Rows per page.',
+  'Opciones de filas por página.': 'Rows-per-page options.',
+  'Selección de filas (radio o checkbox por fila).': 'Row selection (a radio or checkbox per row).',
+  'Fila o filas seleccionadas.': 'Selected row or rows.',
+  'Propiedad que identifica cada fila (selección y filas expandidas).':
+    'Property that identifies each row (selection and expanded rows).',
+  'Claves de las filas expandidas; requiere la plantilla cbTableRowExpansion.':
+    'Keys of the expanded rows; requires the cbTableRowExpansion template.',
+  'Permite cambiar el ancho de las columnas con el ratón o el teclado.':
+    'Lets users resize columns with the mouse or the keyboard.',
+  'Filas alternas sombreadas.': 'Alternate rows shaded.',
+  'Resalta la fila bajo el puntero.': 'Highlights the row under the pointer.',
+  'Densidad de las celdas.': 'Cell density.',
+  'Mensaje cuando no hay filas.': 'Message shown when there are no rows.',
+  'Nombre accesible de la tabla.': 'Accessible name of the table.',
+  'Se emite al cambiar la ordenación.': 'Emitted when the sort changes.',
+  'Se emite al cambiar un filtro (global o de columna).':
+    'Emitted when a filter (global or column) changes.',
+  'Se emite al terminar de cambiar el ancho de una columna.': 'Emitted after a column is resized.',
+  'Se emite al expandir una fila.': 'Emitted when a row is expanded.',
+  'Se emite al contraer una fila.': 'Emitted when a row is collapsed.',
+  'Tabla de datos con columnas declarativas, ordenación, filtros, paginación, selección, columnas redimensionables, filas expandibles y celdas personalizadas.':
+    'Data table with declarative columns, sorting, filters, pagination, selection, resizable columns, expandable rows and custom cells.',
+  'Con selectionMode="single" cada fila tiene un radio; elegir otra fila reemplaza la selección.':
+    'With selectionMode="single" each row has a radio; choosing another row replaces the selection.',
+  '[globalFilter] busca en todas las columnas (o en globalFilterFields) sin distinguir mayúsculas ni tildes. El campo de búsqueda es tuyo: colócalo donde quieras.':
+    '[globalFilter] searches every column (or globalFilterFields) regardless of case and accents. The search field is yours: place it wherever you like.',
+  'filter: true en la columna añade un campo bajo el encabezado; filterMatchMode elige entre contains, startsWith y equals.':
+    'filter: true on a column adds a field below its header; filterMatchMode chooses between contains, startsWith and equals.',
+  'resizableColumns añade un separador en cada encabezado: arrástralo o enfócalo y usa las flechas (Mayús para pasos grandes).':
+    'resizableColumns adds a separator to each header: drag it, or focus it and use the arrow keys (Shift for larger steps).',
+  'La plantilla cbTableRowExpansion añade un botón por fila que muestra su detalle; [(expandedRowKeys)] guarda las filas abiertas (por dataKey).':
+    'The cbTableRowExpansion template adds a button per row that shows its details; [(expandedRowKeys)] keeps the open rows (by dataKey).',
+  'Filtro global': 'Global filter',
+  'Filtro por columna': 'Column filter',
+  'Columnas redimensionables': 'Resizable columns',
+  'Filas expandibles': 'Expandable rows',
+  'Es una tabla nativa (`table`, `th scope="col"`) nombrada con `ariaLabel`. Las columnas ordenables tienen un botón "Ordenar por …" y exponen `aria-sort` (ascending / descending / none).':
+    'It is a native table (`table`, `th scope="col"`) named with `ariaLabel`. Sortable columns have a "Sort by …" button and expose `aria-sort` (ascending / descending / none).',
+  'Con selección, cada fila tiene un checkbox (múltiple) o un radio (simple) con nombre "Seleccionar fila N"; el de la cabecera usa `aria-checked="mixed"` si hay una selección parcial.':
+    'With selection, each row has a checkbox (multiple) or a radio (single) named "Select row N"; the header one uses `aria-checked="mixed"` for a partial selection.',
+  'Los filtros de columna se nombran "Filtrar por …" y, mientras hay filtros, una región viva anuncia la cantidad de resultados.':
+    'Column filters are named "Filter by …" and, while filters are active, a live region announces the number of results.',
+  'Las filas expandibles tienen un botón con `aria-expanded` que apunta a la fila de detalle con `aria-controls`. Los separadores de columna son `role="separator"` con su ancho en `aria-valuenow`.':
+    'Expandable rows have a button with `aria-expanded` that points to the detail row with `aria-controls`. Column separators are `role="separator"` with their width in `aria-valuenow`.',
+  'Recorre los botones de ordenar, separadores, filtros, checkboxes y botones de detalle.':
+    'Moves through the sort buttons, separators, filters, checkboxes and detail buttons.',
+  'Ordena por la columna, expande la fila o marca el checkbox / radio enfocado.':
+    'Sorts by the column, expands the row or checks the focused checkbox / radio.',
+  'En un separador, estrecha o ensancha la columna (10 px; 50 px con Mayús).':
+    'On a separator, narrows or widens the column (10 px; 50 px with Shift).',
+
   // --- API de Select / MultiSelect (etiquetado accesible) ---
   'Nombre accesible del disparador cuando no hay etiqueta visible.':
     'Accessible name of the trigger when there is no visible label.',
