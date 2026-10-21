@@ -42,7 +42,7 @@ import { TocService } from '../services/toc.service';
       description="src acepta una URL, un ArrayBuffer, un Uint8Array o un Blob / File. Las páginas se renderizan a medida que se ven. Prueba a buscar &quot;direccion&quot;: la búsqueda ignora tildes y mayúsculas."
       [code]="basicCode"
     >
-      <cb-pdf-viewer style="width: 100%" src="pdf/extracto-demo.pdf" />
+      <cb-pdf-viewer src="pdf/extracto-demo.pdf" />
     </doc-section>
 
     <doc-section
@@ -72,7 +72,7 @@ import { TocService } from '../services/toc.service';
       description="Si el PDF está cifrado, el visor pide la contraseña y avisa si es incorrecta. También puedes pasarla con [password]. La contraseña de este ejemplo es caribe."
       [code]="passwordCode"
     >
-      <cb-pdf-viewer style="width: 100%; --cb-pdf-viewer-height: 26rem" src="pdf/extracto-protegido.pdf" />
+      <cb-pdf-viewer style="--cb-pdf-viewer-height: 26rem" src="pdf/extracto-protegido.pdf" />
     </doc-section>
 
     <doc-section

@@ -2,6 +2,9 @@
   position: relative;
   display: flex;
   flex-direction: column;
+  /* Con container-type su ancho intrínseco es 0: sin ancho explícito se colapsaría en un flex o grid. */
+  box-sizing: border-box;
+  width: 100%;
   height: var(--cb-pdf-viewer-height, 40rem);
   min-height: 16rem;
   overflow: hidden;
