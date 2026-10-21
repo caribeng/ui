@@ -160,3 +160,77 @@
   font-size: var(--cb-text-sm);
   text-align: center;
 }
+
+/* Grupos -----------------------------------------------------------------------*/
+.cb-select__group {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.cb-select__group-label {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  padding: var(--cb-space-2) var(--cb-space-3) var(--cb-space-1);
+  font-size: var(--cb-text-xs);
+  font-weight: var(--cb-font-weight-semibold);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--cb-color-text-muted);
+  cursor: default;
+}
+
+/* Scroll virtual: filas de alto fijo dentro de un espaciador con el alto total. */
+.cb-select__list--virtual {
+  max-height: none;
+}
+.cb-select__spacer {
+  position: relative;
+  list-style: none;
+}
+.cb-select__window {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.cb-select__list--virtual .cb-select__option {
+  box-sizing: border-box;
+  padding-top: 0;
+  padding-bottom: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Botón de limpiar (showClear): junto al chevron, fuera del combobox. */
+:host {
+  position: relative;
+}
+:host(.cb-has-clear) .cb-select__trigger {
+  padding-right: 3.25rem;
+}
+.cb-select__clear {
+  position: absolute;
+  top: 50%;
+  right: 2.1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  padding: 0;
+  color: var(--cb-color-text-muted);
+  background: none;
+  border: none;
+  border-radius: var(--cb-radius-sm);
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+.cb-select__clear:hover {
+  color: var(--cb-color-text);
+  background-color: var(--cb-color-surface-100);
+}
+.cb-select__clear:focus-visible {
+  outline: 2px solid var(--cb-color-focus-ring);
+  outline-offset: 1px;
+}

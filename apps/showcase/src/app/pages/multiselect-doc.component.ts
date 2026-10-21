@@ -66,6 +66,39 @@ interface Ciudad {
       </div>
     </doc-section>
 
+    <doc-section
+      id="group"
+      title="Agrupado"
+      description="Con group, cada opción de primer nivel es un grupo { label, items }. Seleccionar todo marca las opciones de todos los grupos."
+      [code]="groupCode"
+      [codeTs]="groupTs"
+    >
+      <div style="width: 100%; max-width: 320px">
+        <cb-multiselect [options]="paises" group optionValue="label" [(value)]="ciudadesAgrupadas" placeholder="Elige ciudades" ariaLabel="Ciudades" />
+      </div>
+    </doc-section>
+
+    <doc-section
+      id="virtual"
+      title="Scroll virtual"
+      description="virtualScroll pinta solo las opciones visibles: aquí, 10 000 clientes con filtro."
+      [code]="virtualCode"
+      [codeTs]="virtualTs"
+    >
+      <div style="width: 100%; max-width: 320px">
+        <cb-multiselect
+          [options]="clientes"
+          optionLabel="nombre"
+          optionValue="id"
+          virtualScroll
+          [virtualScrollItemSize]="36"
+          filter
+          placeholder="Elige clientes"
+          ariaLabel="Clientes"
+        />
+      </div>
+    </doc-section>
+
     <doc-section id="validation" title="Validación · Reactive Forms" description="Con formControl el estado de error se aplica automáticamente cuando el control es inválido y el usuario ya lo tocó." [code]="validationCode" [codeTs]="validationTs">
       <div style="width: 100%; max-width: 320px">
         <cb-multiselect
@@ -84,8 +117,33 @@ interface Ciudad {
   `,
 })
 export class MultiselectDocComponent {
+  protected readonly ciudadesAgrupadas = signal<unknown[]>([]);
+  protected readonly paises = [
+    { label: 'Colombia', items: [{ label: 'Bogotá' }, { label: 'Medellín' }, { label: 'Cali' }] },
+    { label: 'México', items: [{ label: 'Ciudad de México' }, { label: 'Monterrey' }] },
+    { label: 'Perú', items: [{ label: 'Lima' }, { label: 'Arequipa' }] },
+  ];
+  protected readonly clientes = Array.from({ length: 10000 }, (_, i) => ({ nombre: `Cliente ${i + 1}`, id: i + 1 }));
   protected readonly a11y = DOC_A11Y['cb-multiselect'];
   protected readonly docApi = DOC_API['cb-multiselect'];
+
+  protected readonly groupCode = `<cb-multiselect [options]="paises" group optionValue="label" [(value)]="ciudadesAgrupadas" placeholder="Elige ciudades" ariaLabel="Ciudades" />`;
+  protected readonly virtualCode = `<cb-multiselect
+  [options]="clientes"
+  optionLabel="nombre"
+  optionValue="id"
+  virtualScroll
+  [virtualScrollItemSize]="36"
+  filter
+  placeholder="Elige clientes"
+  ariaLabel="Clientes"
+/>`;
+  protected readonly groupTs = `paises = [
+  { label: 'Colombia', items: [{ label: 'Bogotá' }, { label: 'Medellín' }, { label: 'Cali' }] },
+  { label: 'México', items: [{ label: 'Ciudad de México' }, { label: 'Monterrey' }] },
+  { label: 'Perú', items: [{ label: 'Lima' }, { label: 'Arequipa' }] },
+];`;
+  protected readonly virtualTs = `clientes = Array.from({ length: 10000 }, (_, i) => ({ nombre: \`Cliente \${i + 1}\`, id: i + 1 }));`;
 
   constructor() {
     inject(TocService).reset();

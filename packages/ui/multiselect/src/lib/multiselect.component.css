@@ -163,3 +163,44 @@
 :host-context([data-theme='dark']) .cb-multiselect__option.cb-is-selected {
   color: var(--cb-color-primary-200);
 }
+
+/* Grupos -----------------------------------------------------------------------*/
+.cb-multiselect__group {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.cb-multiselect__group-label {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  padding: var(--cb-space-2) var(--cb-space-3) var(--cb-space-1);
+  font-size: var(--cb-text-xs);
+  font-weight: var(--cb-font-weight-semibold);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--cb-color-text-muted);
+  cursor: default;
+}
+
+/* Scroll virtual: filas de alto fijo dentro de un espaciador con el alto total. */
+.cb-multiselect__list--virtual {
+  max-height: none;
+}
+.cb-multiselect__spacer {
+  position: relative;
+  list-style: none;
+}
+.cb-multiselect__window {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.cb-multiselect__list--virtual .cb-multiselect__option {
+  box-sizing: border-box;
+  padding-top: 0;
+  padding-bottom: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

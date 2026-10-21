@@ -1370,13 +1370,9 @@ export const ES_EN: Record<string, string> = {
   'Cierra el panel.': 'Closes the panel.',
   'Con el panel abierto, lo cierra y pasa al siguiente elemento.':
     'When the panel is open, closes it and moves to the next element.',
-  'El panel usa `role="listbox"` con `aria-multiselectable="true"`; cada opción tiene `role="option"` con `aria-selected` y `aria-disabled`.':
-    'The panel uses `role="listbox"` with `aria-multiselectable="true"`; each option has `role="option"` with `aria-selected` and `aria-disabled`.',
   'Mueve el foco al multiselect.': 'Moves focus to the multiselect.',
   'Va a la primera o a la última opción.': 'Goes to the first or last option.',
   'Enter / Espacio': 'Enter / Space',
-  'Marca o desmarca la opción activa; el panel sigue abierto.':
-    'Checks or unchecks the active option; the panel stays open.',
   'La lista usa `role="listbox"` (con `aria-multiselectable` en modo `multiple`) y su nombre accesible se define con `ariaLabel`.':
     'The list uses `role="listbox"` (with `aria-multiselectable` in `multiple` mode) and its accessible name is set with `ariaLabel`.',
   'Cada opción tiene `role="option"` con `aria-selected` y `aria-disabled`; `aria-activedescendant` indica la opción activa.':
@@ -1851,6 +1847,40 @@ export const ES_EN: Record<string, string> = {
     'Sorts by the column, expands the row or checks the focused checkbox / radio.',
   'En un separador, estrecha o ensancha la columna (10 px; 50 px con Mayús).':
     'On a separator, narrows or widens the column (10 px; 50 px with Shift).',
+
+  // --- Select / MultiSelect: grupos, scroll virtual y limpiar ---
+  'Las opciones son grupos ({ label, items }) y se muestran con su título.':
+    'Options are groups ({ label, items }) shown with their title.',
+  'Propiedad con el título de cada grupo.': 'Property holding each group title.',
+  'Propiedad con las opciones de cada grupo.': 'Property holding each group options.',
+  'Pinta solo las opciones visibles, para listas de miles de elementos.':
+    'Renders only the visible options, for lists of thousands of items.',
+  'Alto fijo de cada fila en modo virtual (px).': 'Fixed height of each row in virtual mode (px).',
+  'Alto máximo de la lista (CSS); en modo virtual, su alto fijo.':
+    'Maximum list height (CSS); in virtual mode, its fixed height.',
+  'Muestra un botón para vaciar la selección.': 'Shows a button to clear the selection.',
+  'Con group, cada opción de primer nivel es un grupo { label, items }. Seleccionar todo marca las opciones de todos los grupos.':
+    'With group, each top-level option is a group { label, items }. Select all checks the options of every group.',
+  'virtualScroll pinta solo las opciones visibles: aquí, 10 000 clientes con filtro.':
+    'virtualScroll renders only the visible options: here, 10,000 customers with a filter.',
+  'Agrupado': 'Grouped',
+  'Scroll virtual': 'Virtual scroll',
+  'Con group, cada opción de primer nivel es un grupo { label, items }; optionGroupLabel y optionGroupChildren cambian esas propiedades.':
+    'With group, each top-level option is a group { label, items }; optionGroupLabel and optionGroupChildren change those properties.',
+  'virtualScroll pinta solo las opciones visibles: aquí, 10 000 clientes. virtualScrollItemSize es el alto de cada fila y scrollHeight el de la lista.':
+    'virtualScroll renders only the visible options: here, 10,000 customers. virtualScrollItemSize is the height of each row and scrollHeight that of the list.',
+  'showClear muestra un botón para vaciar la selección cuando hay un valor.':
+    'showClear shows a button to clear the selection when there is a value.',
+  'Botón de limpiar': 'Clear button',
+  'Con `filter`, el campo de búsqueda es el combobox que recibe el foco y anuncia la opción activa. Los grupos son `role="group"` nombrados por su título y, con `virtualScroll`, cada opción expone `aria-setsize` y `aria-posinset`.':
+    'With `filter`, the search field is the combobox that receives focus and announces the active option. Groups are `role="group"` named by their title and, with `virtualScroll`, each option exposes `aria-setsize` and `aria-posinset`.',
+  'Letras': 'Letters',
+  'Saltan a la opción que empieza por lo escrito; repetir la misma letra recorre las coincidencias.':
+    'Jump to the option that starts with what you type; repeating the same letter cycles through the matches.',
+  'El panel usa `role="listbox"` con `aria-multiselectable="true"`; cada opción tiene `role="option"` con `aria-selected` y `aria-disabled`. `aria-activedescendant` indica la opción activa mientras se navega con el teclado.':
+    'The panel uses `role="listbox"` with `aria-multiselectable="true"`; each option has `role="option"` with `aria-selected` and `aria-disabled`. `aria-activedescendant` points to the active option while navigating with the keyboard.',
+  'Marca o desmarca la opción activa; el panel sigue abierto (en el filtro, Espacio escribe).':
+    'Checks or unchecks the active option; the panel stays open (in the filter, Space types).',
 
   // --- API de Select / MultiSelect (etiquetado accesible) ---
   'Nombre accesible del disparador cuando no hay etiqueta visible.':

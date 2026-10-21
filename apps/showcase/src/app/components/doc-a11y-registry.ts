@@ -41,12 +41,14 @@ export const DOC_A11Y: Record<string, DocA11y> = {
     screenReader: [
       'El disparador tiene `role="combobox"` con `aria-haspopup="listbox"` y `aria-expanded`, y se relaciona con el panel mediante `aria-controls`. Nómbralo con `ariaLabelledBy` (id de una etiqueta visible) o con `ariaLabel`.',
       'El panel usa `role="listbox"`; cada opción tiene `role="option"` con `aria-selected` y `aria-disabled`. `aria-activedescendant` indica la opción activa mientras se navega con el teclado.',
+      'Con `filter`, el campo de búsqueda es el combobox que recibe el foco y anuncia la opción activa. Los grupos son `role="group"` nombrados por su título y, con `virtualScroll`, cada opción expone `aria-setsize` y `aria-posinset`.',
     ],
     keyboard: [
       TAB_FOCUS('al select'),
       { keys: 'Enter / Espacio / Flecha abajo / Flecha arriba', action: 'Con el panel cerrado, lo abre.' },
       { keys: 'Flecha abajo / Flecha arriba', action: 'Mueve la opción activa a la siguiente o a la anterior.' },
       { keys: 'Inicio / Fin', action: 'Va a la primera o a la última opción habilitada.' },
+      { keys: 'Letras', action: 'Saltan a la opción que empieza por lo escrito; repetir la misma letra recorre las coincidencias.' },
       { keys: 'Enter', action: 'Selecciona la opción activa y cierra el panel.' },
       { keys: 'Escape', action: 'Cierra el panel.' },
       { keys: 'Tab', action: 'Con el panel abierto, lo cierra y pasa al siguiente elemento.' },
@@ -55,14 +57,16 @@ export const DOC_A11Y: Record<string, DocA11y> = {
   'cb-multiselect': {
     screenReader: [
       'El disparador tiene `role="combobox"` con `aria-haspopup="listbox"` y `aria-expanded`, y se relaciona con el panel mediante `aria-controls`. Nómbralo con `ariaLabelledBy` (id de una etiqueta visible) o con `ariaLabel`.',
-      'El panel usa `role="listbox"` con `aria-multiselectable="true"`; cada opción tiene `role="option"` con `aria-selected` y `aria-disabled`.',
+      'El panel usa `role="listbox"` con `aria-multiselectable="true"`; cada opción tiene `role="option"` con `aria-selected` y `aria-disabled`. `aria-activedescendant` indica la opción activa mientras se navega con el teclado.',
+      'Con `filter`, el campo de búsqueda es el combobox que recibe el foco y anuncia la opción activa. Los grupos son `role="group"` nombrados por su título y, con `virtualScroll`, cada opción expone `aria-setsize` y `aria-posinset`.',
     ],
     keyboard: [
       TAB_FOCUS('al multiselect'),
       { keys: 'Enter / Espacio / Flecha abajo / Flecha arriba', action: 'Con el panel cerrado, lo abre.' },
       { keys: 'Flecha abajo / Flecha arriba', action: 'Mueve la opción activa a la siguiente o a la anterior.' },
-      { keys: 'Inicio / Fin', action: 'Va a la primera o a la última opción.' },
-      { keys: 'Enter / Espacio', action: 'Marca o desmarca la opción activa; el panel sigue abierto.' },
+      { keys: 'Inicio / Fin', action: 'Va a la primera o a la última opción habilitada.' },
+      { keys: 'Letras', action: 'Saltan a la opción que empieza por lo escrito; repetir la misma letra recorre las coincidencias.' },
+      { keys: 'Enter / Espacio', action: 'Marca o desmarca la opción activa; el panel sigue abierto (en el filtro, Espacio escribe).' },
       { keys: 'Escape', action: 'Cierra el panel.' },
       { keys: 'Tab', action: 'Con el panel abierto, lo cierra y pasa al siguiente elemento.' },
     ],

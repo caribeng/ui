@@ -97,6 +97,50 @@ import { DOC_A11Y } from '../components/doc-a11y-registry';
     </doc-section>
 
     <doc-section
+      id="group"
+      title="Agrupado"
+      description="Con group, cada opción de primer nivel es un grupo { label, items }; optionGroupLabel y optionGroupChildren cambian esas propiedades."
+      [code]="groupCode"
+      [codeTs]="groupTs"
+    >
+      <div style="width: 100%; max-width: 280px">
+        <cb-select [options]="paises" group [(value)]="ciudadAgrupada" optionValue="label" placeholder="Elige una ciudad" ariaLabel="Ciudad" />
+      </div>
+    </doc-section>
+
+    <doc-section
+      id="virtual"
+      title="Scroll virtual"
+      description="virtualScroll pinta solo las opciones visibles: aquí, 10 000 clientes. virtualScrollItemSize es el alto de cada fila y scrollHeight el de la lista."
+      [code]="virtualCode"
+      [codeTs]="virtualTs"
+    >
+      <div style="width: 100%; max-width: 280px">
+        <cb-select
+          [options]="clientes"
+          optionLabel="nombre"
+          optionValue="id"
+          virtualScroll
+          [virtualScrollItemSize]="36"
+          filter
+          placeholder="Busca un cliente"
+          ariaLabel="Cliente"
+        />
+      </div>
+    </doc-section>
+
+    <doc-section
+      id="clear"
+      title="Botón de limpiar"
+      description="showClear muestra un botón para vaciar la selección cuando hay un valor."
+      [code]="clearCode"
+    >
+      <div style="width: 100%; max-width: 280px">
+        <cb-select [options]="colores" [(value)]="colorLimpiable" showClear ariaLabel="Color" />
+      </div>
+    </doc-section>
+
+    <doc-section
       id="disabled"
       title="Deshabilitado"
       description="Deshabilita el control o una opción individual."
@@ -124,6 +168,14 @@ export class SelectDocComponent {
 
   protected readonly colores = ['Rojo', 'Verde', 'Azul', 'Amarillo', 'Morado'];
   protected readonly color = signal<string | null>(null);
+  protected readonly ciudadAgrupada = signal<string | null>(null);
+  protected readonly colorLimpiable = signal<string | null>('Verde');
+  protected readonly paises = [
+    { label: 'Colombia', items: [{ label: 'Bogotá' }, { label: 'Medellín' }, { label: 'Cali' }] },
+    { label: 'México', items: [{ label: 'Ciudad de México' }, { label: 'Monterrey' }] },
+    { label: 'Perú', items: [{ label: 'Lima' }, { label: 'Arequipa' }] },
+  ];
+  protected readonly clientes = Array.from({ length: 10000 }, (_, i) => ({ nombre: `Cliente ${i + 1}`, id: i + 1 }));
 
   protected readonly ciudades = [
     { nombre: 'Cartagena', codigo: 'CTG' },
@@ -186,6 +238,24 @@ color = signal<string | null>(null);`;
   validators: [Validators.required],
 });`;
 
+  protected readonly groupCode = `<cb-select [options]="paises" group [(value)]="ciudadAgrupada" optionValue="label" placeholder="Elige una ciudad" ariaLabel="Ciudad" />`;
+  protected readonly virtualCode = `<cb-select
+  [options]="clientes"
+  optionLabel="nombre"
+  optionValue="id"
+  virtualScroll
+  [virtualScrollItemSize]="36"
+  filter
+  placeholder="Busca un cliente"
+  ariaLabel="Cliente"
+/>`;
+  protected readonly clearCode = `<cb-select [options]="colores" [(value)]="colorLimpiable" showClear ariaLabel="Color" />`;
+  protected readonly groupTs = `paises = [
+  { label: 'Colombia', items: [{ label: 'Bogotá' }, { label: 'Medellín' }, { label: 'Cali' }] },
+  { label: 'México', items: [{ label: 'Ciudad de México' }, { label: 'Monterrey' }] },
+  { label: 'Perú', items: [{ label: 'Lima' }, { label: 'Arequipa' }] },
+];`;
+  protected readonly virtualTs = `clientes = Array.from({ length: 10000 }, (_, i) => ({ nombre: \`Cliente \${i + 1}\`, id: i + 1 }));`;
   protected readonly disabledCode = `<cb-select [options]="colores" [disabled]="true"
   placeholder="Deshabilitado" />
 

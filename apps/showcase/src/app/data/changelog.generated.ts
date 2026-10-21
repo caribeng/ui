@@ -40,6 +40,22 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
             "text": "filas expandibles con la plantilla `cbTableRowExpansion`, `[(expandedRowKeys)]` y eventos `rowExpand` / `rowCollapse`."
           },
           {
+            "component": "Select / MultiSelect",
+            "text": "opciones agrupadas (`group`, `optionGroupLabel`, `optionGroupChildren`) con `role=\"group\"` nombrado por su título."
+          },
+          {
+            "component": "Select / MultiSelect",
+            "text": "scroll virtual (`virtualScroll`, `virtualScrollItemSize`, `scrollHeight`) para listas de miles de opciones, con `aria-setsize` / `aria-posinset`."
+          },
+          {
+            "component": "Select / MultiSelect",
+            "text": "búsqueda al teclear (escribir salta a la opción que empieza por lo escrito; repetir la letra recorre las coincidencias) y la opción activa se desplaza a la vista al usar las flechas."
+          },
+          {
+            "component": "Select",
+            "text": "`showClear`, botón para vaciar la selección."
+          },
+          {
             "component": "Table",
             "text": "selección simple con radio por fila, checkbox de cabecera con estado parcial (`mixed`) y `ariaLabel` para nombrar la tabla."
           },
@@ -216,6 +232,14 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
           {
             "component": "Table",
             "text": "ordenar y seleccionar filas solo era posible con ratón: el encabezado ordenable no era enfocable y los checkboxes de fila estaban ocultos al lector de pantalla. Ahora hay un botón \"Ordenar por …\" y un checkbox o radio enfocable por fila."
+          },
+          {
+            "component": "MultiSelect",
+            "text": "al navegar con flechas el lector de pantalla no anunciaba la opción activa (faltaba `aria-activedescendant`), y en el filtro la barra espaciadora marcaba una opción en lugar de escribir un espacio."
+          },
+          {
+            "component": "Select / MultiSelect",
+            "text": "con `filter`, el foco está en el campo de búsqueda pero la opción activa se anunciaba desde el disparador; ahora el campo es el combobox que la anuncia."
           },
           {
             "component": "InputMask",
