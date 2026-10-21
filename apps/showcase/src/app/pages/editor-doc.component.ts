@@ -41,7 +41,7 @@ import { I18nService } from '../services/i18n.service';
     <doc-section
       id="formatting"
       title="Formato completo y atajos"
-      description="La barra agrupa: deshacer y rehacer; párrafo o título 1–4 y tamaño de letra; negrita, cursiva, subrayado y tachado; color de texto y resaltado (menús con paleta); listas con viñetas, numeradas y de tareas, sangría y alineación (menú); enlace, imagen, tabla, bloque de código, cita y línea; subíndice, superíndice, código y limpiar formato; vista de HTML y pantalla completa. La barra queda fija arriba al hacer scroll y cada botón muestra su atajo. El área mide 320 px y se puede estirar desde la esquina; maxHeight la limita y hace scroll."
+      description="La barra tiene dos filas. Arriba, el texto: deshacer y rehacer; párrafo o título 1–4, fuente y tamaño en px; negrita, cursiva, subrayado y tachado; color de texto y resaltado; subíndice, superíndice, código y limpiar formato. Abajo, la estructura: listas con viñetas, numeradas y de tareas, sangría y alineación; enlace, imagen, tabla, bloque de código, cita, línea y caracteres especiales; buscar y reemplazar; vista de HTML y pantalla completa. La barra queda fija arriba al hacer scroll y cada botón muestra su atajo. El área mide 320 px y se puede estirar desde la esquina; maxHeight la limita y hace scroll."
       [code]="formattingCode"
     >
       <div style="display: grid; gap: 1rem; width: 100%">
@@ -59,6 +59,16 @@ import { I18nService } from '../services/i18n.service';
           </table>
         </div>
       </div>
+    </doc-section>
+
+    <doc-section
+      id="fonts"
+      title="Fuentes y tamaño de letra"
+      description="El selector de fuente agrupa tipografías libres: la predeterminada (Carlito, compatible con Calibri), recomendadas, clásicas de Office (compatibles con Arial, Times New Roman y Courier New), sans serif modernas, serif, monoespaciadas para código, una pensada para la accesibilidad (Atkinson Hyperlegible) y una divertida. Cada opción se muestra con su propia letra. El tamaño se elige en px, de 10 a 48. Las fuentes se cargan desde Google Fonts; si las sirves tú (o tu CSP no lo permite), deja fontsHref vacío, y con fonts cambias la lista. Al pegar solo se conservan las tipografías de la lista."
+      [code]="fontsCode"
+      [codeTs]="fontsTs"
+    >
+      <cb-editor [(value)]="fuentes" style="width: 100%" />
     </doc-section>
 
     <doc-section
@@ -82,9 +92,19 @@ import { I18nService } from '../services/i18n.service';
     <doc-section
       id="writing"
       title="Escribir más rápido"
-      description="Atajos al escribir como en Markdown: # , ## o ### para títulos, * o - para lista, 1. para lista numerada y > para cita, al inicio de un párrafo. Ctrl + K abre el enlace; Ctrl + Mayús + 7 / 8 crean listas; Ctrl + Alt + 1–3 títulos y Ctrl + Alt + 0 párrafo."
+      description="Escribe / al inicio de una línea (o tras un espacio) para insertar un bloque: párrafo, títulos, listas, tareas, cita, código, tabla, imagen o línea; sigue escribiendo para filtrar y elige con las flechas y Enter. Al seleccionar texto aparece un menú flotante con negrita, cursiva, subrayado, tachado, código, enlace y limpiar formato. Las URL se convierten en enlace al escribir un espacio detrás (o al pegarlas sobre un texto seleccionado), y la tipografía se corrige sola: (c) → ©, ... → …, -> → →, -- → –, 1/2 → ½. También funcionan los atajos tipo Markdown: # , * , 1. , [ ] y > al inicio de un párrafo. Cada ayuda se puede desactivar."
+      [code]="writingCode"
     >
-      <cb-editor placeholder="Prueba a escribir «## » al inicio de una línea…" style="width: 100%" />
+      <cb-editor [placeholder]="i18n.auto('Escribe / para insertar un bloque, o una URL seguida de un espacio…')" style="width: 100%" />
+    </doc-section>
+
+    <doc-section
+      id="find"
+      title="Buscar y reemplazar, y caracteres especiales"
+      description="Ctrl + F (o el botón de la lupa) abre el panel: cuenta las coincidencias, las resalta en el texto y las recorre con Enter y Mayús + Enter; puede distinguir mayúsculas y buscar palabras completas, y reemplaza una o todas (cada reemplazo se puede deshacer). Escape cierra el panel y deja seleccionada la coincidencia. El botón Ω inserta monedas, símbolos matemáticos, puntuación, flechas y emoji."
+      [code]="findCode"
+    >
+      <cb-editor [(value)]="buscar" style="width: 100%" />
     </doc-section>
 
     <doc-section
@@ -137,7 +157,7 @@ import { I18nService } from '../services/i18n.service';
     <doc-section
       id="toolbar"
       title="Barra configurable"
-      description="toolbar elige las herramientas y su orden ('|' separa grupos). Las herramientas activas se marcan con aria-pressed."
+      description="toolbar elige las herramientas y su orden: '|' separa grupos y '-' empieza una fila nueva. Las herramientas activas se marcan con aria-pressed."
       [code]="toolbarCode"
       [codeTs]="toolbarTs"
     >
@@ -238,7 +258,20 @@ export class EditorDocComponent {
       'La fórmula del interés es I = C · r<sup>t</sup>; el CO<sub>2</sub> no aplica.</p>' +
       '<p style="margin-left: 2rem">Párrafo con sangría.</p>' +
       '<ul data-type="taskList"><li data-checked="true">Aprobar el presupuesto</li><li data-checked="false">Enviar el acta a los socios</li></ul>' +
-      '<p style="text-align: justify"><span style="font-size: 1.25em">Texto justificado y más grande</span> para comprobar la alineación de un párrafo largo dentro del editor.</p>',
+      '<p style="text-align: justify"><span style="font-size: 20px">Texto justificado a 20 px</span> para comprobar la alineación de un párrafo largo dentro del editor.</p>',
+  );
+  protected readonly fuentes = signal(
+    '<h2>Prueba de tipografías</h2>' +
+      '<p>Texto con la fuente predeterminada a 16 px.</p>' +
+      `<p><span style="font-family: 'Source Serif 4', serif; font-size: 20px">Source Serif 4 a 20 px, para textos largos.</span></p>` +
+      `<p><span style="font-family: 'Atkinson Hyperlegible', sans-serif">Atkinson Hyperlegible: 0O 1lI, letras fáciles de distinguir.</span></p>` +
+      `<p><span style="font-family: 'JetBrains Mono', monospace; font-size: 14px">const saldo = calcular(cuenta);</span></p>` +
+      `<p><span style="font-family: 'Comic Neue', 'Comic Sans MS', cursive; font-size: 24px">Comic Neue a 24 px</span></p>`,
+  );
+  protected readonly buscar = signal(
+    '<p>El banco revisó las tasas del banco central. La tasa fija se mantiene; la tasa variable baja.</p>' +
+      '<ul><li>Tasa de interés: 11 %</li><li>Banco emisor: CaribeNG</li></ul>' +
+      '<p>Prueba a buscar «tasa» y a reemplazarla por «tarifa», o a insertar € con el botón Ω.</p>',
   );
   protected readonly atajos = [
     { keys: 'Ctrl + B / I / U', action: 'Negrita, cursiva, subrayado' },
@@ -257,7 +290,10 @@ export class EditorDocComponent {
     { keys: 'Ctrl + Z / Ctrl + Y', action: 'Deshacer / rehacer' },
     { keys: '# , ## , ### , #### + Espacio', action: 'Título 1–4 al inicio de un párrafo' },
     { keys: '* , - , 1. , [ ] , > + Espacio', action: 'Lista, lista numerada, tareas o cita' },
-    { keys: 'Escape', action: 'Salir de pantalla completa' },
+    { keys: 'Ctrl + F', action: 'Buscar y reemplazar' },
+    { keys: 'Alt + F10', action: 'Ir a la barra de herramientas' },
+    { keys: '/', action: 'Menú para insertar un bloque' },
+    { keys: 'Escape', action: 'Cerrar un menú o salir de pantalla completa' },
   ];
   protected readonly comentario = new FormControl('', [Validators.required]);
   protected readonly barraCorta: CbEditorTool[] = ['bold', 'italic', 'underline', '|', 'bulletList', 'orderedList', '|', 'link'];
@@ -301,6 +337,26 @@ export class EditorDocComponent {
 <pre data-language="typescript" style="color: #cccccc; background-color: #1f1f1f"><code>
 <span style="color: #569cd6">const</span> saldo = ...
 </code></pre>`;
+  protected readonly fontsCode = `<cb-editor [(value)]="texto" />
+
+<!-- Lista propia, con las fuentes servidas por tu aplicación (sin Google Fonts): -->
+<cb-editor [(value)]="texto" [fonts]="fuentesMarca" fontsHref="" />`;
+  protected readonly fontsTs = `import type { CbEditorFontGroup } from '@caribeng/ui/editor';
+
+// value es la pila CSS que se guarda en el HTML; '' = la predeterminada.
+fuentesMarca: CbEditorFontGroup[] = [
+  { label: 'Predeterminada', fonts: [{ name: 'Carlito', value: '' }] },
+  { label: 'Marca', fonts: [{ name: 'Mi Marca', value: "'Mi Marca', Arial, sans-serif" }] },
+];
+
+// Para mostrar el HTML fuera del editor, sanéalo con la misma lista:
+cbSanitizeHtml(html, { fonts: ["'Mi Marca', Arial, sans-serif"] });`;
+  protected readonly writingCode = `<cb-editor [(value)]="texto" />
+
+<!-- Cada ayuda se puede desactivar: -->
+<cb-editor [(value)]="texto" [slashCommands]="false" [bubbleMenu]="false" [autolink]="false" [typography]="false" />`;
+  protected readonly findCode = `<!-- Incluidos en la barra por defecto; en una barra propia: -->
+<cb-editor [toolbar]="['bold', 'italic', '|', 'specialChars', 'findReplace']" />`;
   protected readonly formattingCode = `<cb-editor [(value)]="acta" maxHeight="560px" />
 
 <!-- Alto mínimo (height, 320px por defecto), alto máximo con scroll (maxHeight),
@@ -310,9 +366,10 @@ export class EditorDocComponent {
   protected readonly toolbarCode = `<cb-editor [toolbar]="barraCorta" height="120px" />`;
   protected readonly toolbarTs = `barraCorta: CbEditorTool[] = ['bold', 'italic', 'underline', '|', 'bulletList', 'orderedList', '|', 'link'];
 
-// Todas: undo, redo, heading, fontSize, bold, italic, underline, strike, textColor, highlight,
-// bulletList, orderedList, taskList, outdent, indent, alignment (o alignLeft / alignCenter /
-// alignRight / alignJustify sueltos), link, image, table, codeBlock, quote, horizontalRule,
-// subscript, superscript, code, clear, source, fullscreen`;
+// '|' separa grupos y '-' empieza una fila nueva.
+// Todas: undo, redo, heading, fontFamily, fontSize, bold, italic, underline, strike, textColor,
+// highlight, subscript, superscript, code, clear, bulletList, orderedList, taskList, outdent,
+// indent, alignment (o alignLeft / alignCenter / alignRight / alignJustify sueltos), link, image,
+// table, codeBlock, quote, horizontalRule, specialChars, findReplace, source, fullscreen`;
   protected readonly readonlyCode = `<cb-editor [value]="contenidoGuardado" readonly />`;
 }

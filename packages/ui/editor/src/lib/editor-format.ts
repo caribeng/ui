@@ -31,18 +31,40 @@ export const HIGHLIGHT_COLORS: readonly CbEditorColor[] = [
   { value: '#e5e7eb', label: (t) => t.colorGray },
 ];
 
-/** Tamaños de letra: valor guardado (em) y equivalente de `execCommand('fontSize')`. */
-export const FONT_SIZES: readonly { value: string; command: string; label: (t: CbTranslation) => string }[] = [
-  { value: '0.75em', command: '1', label: (t) => t.fontTiny },
-  { value: '0.875em', command: '2', label: (t) => t.fontSmall },
-  { value: '', command: '3', label: (t) => t.fontNormal },
-  { value: '1.25em', command: '5', label: (t) => t.fontLarge },
-  { value: '1.5em', command: '6', label: (t) => t.fontXLarge },
-  { value: '2em', command: '7', label: (t) => t.fontHuge },
-];
+/** `<font size>` → px (el editor marca con `size="7"` y lo sustituye por el tamaño elegido). */
+const FONT_SIZE_ATTR: Record<string, string> = { '1': '10px', '2': '13px', '4': '18px', '5': '24px', '6': '32px', '7': '48px' };
 
-/** `<font size>` que produce execCommand → tamaño en em. */
-const FONT_SIZE_ATTR: Record<string, string> = { '1': '0.75em', '2': '0.875em', '4': '1.25em', '5': '1.25em', '6': '1.5em', '7': '2em' };
+/**
+ * Sustituye los `<font size="7">` (y `font-size: xxx-large`) que deja `execCommand('fontSize', '7')`
+ * por `<span style="font-size: …">`. Devuelve los spans creados.
+ */
+export function applyFontSizeMarker(root: HTMLElement, size: string): HTMLElement[] {
+  const marked = Array.from(root.querySelectorAll<HTMLElement>('font[size="7"], span[style*="xxx-large"]'));
+  return marked.map((node) => {
+    const span = root.ownerDocument.createElement('span');
+    const keep = node.tagName === 'SPAN' ? (node.getAttribute('style') ?? '') : '';
+    for (const prop of ['color', 'font-family']) {
+      const v = node.tagName === 'FONT' ? node.getAttribute(prop === 'color' ? 'color' : 'face') : null;
+      if (v) span.style.setProperty(prop, v);
+    }
+    if (keep) span.setAttribute('style', keep);
+    span.style.fontSize = size;
+    span.append(...Array.from(node.childNodes));
+    node.replaceWith(span);
+    return span;
+  });
+}
+
+/** Tipografía (pila CSS) del texto donde está el cursor; `''` = predeterminada. */
+export function fontFamilyAt(node: Node | null, root: HTMLElement): string {
+  for (let cur: Node | null = node; cur && cur !== root; cur = cur.parentNode) {
+    if (cur.nodeType !== Node.ELEMENT_NODE) continue;
+    const el = cur as HTMLElement;
+    if (el.style.fontFamily) return el.style.fontFamily;
+    if (el.tagName === 'FONT' && el.getAttribute('face')) return el.getAttribute('face')!;
+  }
+  return '';
+}
 
 const BLOCK_SELECTOR = 'p, h1, h2, h3, h4, blockquote, pre, div';
 
@@ -72,7 +94,7 @@ export function shiftIndent(block: HTMLElement, delta: 1 | -1): void {
  * Quita una propiedad en línea (color, fondo o tamaño) de los `<span>` / `<font>`
  * que toca la selección; los que se quedan sin estilo se desenvuelven.
  */
-export function clearInlineStyle(root: HTMLElement, range: Range, prop: 'color' | 'background-color' | 'font-size'): void {
+export function clearInlineStyle(root: HTMLElement, range: Range, prop: 'color' | 'background-color' | 'font-size' | 'font-family'): void {
   const nodes = Array.from(root.querySelectorAll<HTMLElement>('span, font')).filter((n) => range.intersectsNode(n));
   for (const node of nodes) {
     node.style.removeProperty(prop);
@@ -80,6 +102,7 @@ export function clearInlineStyle(root: HTMLElement, range: Range, prop: 'color' 
     if (node.tagName === 'FONT') {
       if (prop === 'color') node.removeAttribute('color');
       if (prop === 'font-size') node.removeAttribute('size');
+      if (prop === 'font-family') node.removeAttribute('face');
     }
     if (!node.getAttribute('style')) node.removeAttribute('style');
     if (!node.attributes.length) node.replaceWith(...Array.from(node.childNodes));

@@ -697,11 +697,17 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "required", kind: "boolean", type: "boolean", default: false, description: "Obligatorio (aria-required); con Angular Forms lo toma de Validators.required." },
       { name: "readonly", kind: "boolean", type: "boolean", default: false, description: "Muestra el contenido saneado sin barra ni edición." },
       { name: "maxLength", kind: "number", type: "number", default: undefined, description: "Máximo de caracteres de texto; muestra un contador." },
-      { name: "toolbar", kind: "string", type: "CbEditorTool[]", default: undefined, description: "Herramientas de la barra y su orden ('|' separa grupos). Por defecto, todas.", control: false },
+      { name: "toolbar", kind: "string", type: "CbEditorTool[]", default: undefined, description: "Herramientas de la barra y su orden ('|' separa grupos y '-' empieza otra fila). Por defecto, todas en dos filas.", control: false },
       { name: "images", kind: "boolean", type: "boolean", default: true, description: "Permite imágenes (botón, pegar y soltar)." },
       { name: "imageUpload", kind: "string", type: "(file: File) => Promise<string>", default: undefined, description: "Sube la imagen y devuelve su URL (el HTML guarda la URL, no la imagen).", control: false },
       { name: "maxImageSize", kind: "number", type: "number", default: 1048576, description: "Bytes máximos de una imagen insertada como data URL (sin imageUpload)." },
       { name: "pastePlainText", kind: "boolean", type: "boolean", default: false, description: "Pega siempre como texto plano." },
+      { name: "fonts", kind: "string", type: "CbEditorFontGroup[]", default: undefined, description: "Tipografías del selector, por grupos (por defecto, CB_EDITOR_FONTS).", control: false },
+      { name: "fontsHref", kind: "string", type: "string", default: undefined, description: "Hoja que carga las tipografías (por defecto, Google Fonts); vacía si las sirves tú.", control: false },
+      { name: "bubbleMenu", kind: "boolean", type: "boolean", default: true, description: "Menú flotante de formato al seleccionar texto." },
+      { name: "slashCommands", kind: "boolean", type: "boolean", default: true, description: "Escribir / abre un menú para insertar bloques." },
+      { name: "autolink", kind: "boolean", type: "boolean", default: true, description: "Convierte las URL en enlaces al escribirlas o pegarlas." },
+      { name: "typography", kind: "boolean", type: "boolean", default: true, description: "Corrección tipográfica al escribir: (c) → ©, ... → …, -> → →." },
       { name: "value", kind: "string", type: "string (model)", default: "", example: "<p>Hola <strong>CaribeNG</strong></p>", description: "HTML saneado y normalizado; '' si está vacío.", control: false }
     ],
     events: [

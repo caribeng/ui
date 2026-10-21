@@ -64,16 +64,61 @@ describe('CbEditor · barra', () => {
     expect(button('Lista de tareas').getAttribute('title')).toBe('Lista de tareas (Ctrl+Shift+9)');
   });
 
-  it('el selector de bloque incluye Título 4 y el de tamaño de letra aplica fontSize', async () => {
-    const { el, surface, caret, settle } = setup('<p>texto</p>');
-    const [block, size] = Array.from(el.querySelectorAll<HTMLSelectElement>('.cb-editor__toolbar select'));
+  it('la barra tiene dos filas: texto arriba, estructura abajo', () => {
+    const { el } = setup('');
+    const rows = Array.from(el.querySelectorAll('.cb-editor__toolbar > .cb-editor__row'));
+    expect(rows).toHaveLength(2);
+    const labels = (row: Element) => Array.from(row.querySelectorAll('[aria-label]')).map((n) => n.getAttribute('aria-label'));
+    expect(labels(rows[0])).toEqual(expect.arrayContaining(['Deshacer', 'Estilo de párrafo', 'Fuente', 'Tamaño de letra', 'Negrita', 'Color del texto']));
+    expect(labels(rows[1])).toEqual(expect.arrayContaining(['Lista con viñetas', 'Alineación', 'Insertar tabla', 'Caracteres especiales', 'Buscar y reemplazar', 'Pantalla completa']));
+  });
+
+  it('el selector de bloque incluye Título 4 y el tamaño de letra va en px', async () => {
+    const { el, surface, caret, settle, host } = setup('<p>texto</p>');
+    const [block, , size] = Array.from(el.querySelectorAll<HTMLSelectElement>('.cb-editor__toolbar select'));
     expect(Array.from(block.options).map((o) => o.value)).toEqual(['P', 'H1', 'H2', 'H3', 'H4']);
     expect(size.getAttribute('aria-label')).toBe('Tamaño de letra');
+    expect(Array.from(size.options).map((o) => o.text.trim())).toEqual(['Normal', '10 px', '11 px', '12 px', '14 px', '16 px', '18 px', '20 px', '24 px', '28 px', '32 px', '36 px', '48 px']);
+    // execCommand solo conoce 7 tamaños: el editor marca con el 7 y lo cambia por los px elegidos.
+    exec.mockImplementation((cmd: string) => {
+      if (cmd === 'fontSize') {
+        const range = document.getSelection()!.getRangeAt(0);
+        const font = document.createElement('font');
+        font.setAttribute('size', '7');
+        range.surroundContents(font);
+      }
+      return true;
+    });
     await caret(surface().querySelector('p')!.firstChild!, true);
-    size.value = '1.5em';
+    size.value = '18px';
     size.dispatchEvent(new Event('change'));
     await settle();
-    expect(exec).toHaveBeenCalledWith('fontSize', false, '6');
+    expect(exec).toHaveBeenCalledWith('fontSize', false, '7');
+    expect(host.html()).toBe('<p><span style="font-size: 18px">texto</span></p>');
+    expect(size.value).toBe('18px');
+  });
+
+  it('el selector de fuente agrupa las tipografías y aplica fontName con la pila CSS', async () => {
+    const { el, surface, caret, settle } = setup('<p>texto</p>');
+    const font = el.querySelector<HTMLSelectElement>('select[aria-label="Fuente"]')!;
+    const groups = Array.from(font.querySelectorAll('optgroup')).map((g) => g.label);
+    expect(groups).toEqual(['Predeterminada', 'Recomendadas', 'Clásicas de Office', 'Sans serif modernas', 'Serif', 'Monoespaciadas para código', 'Accesibilidad', 'Divertidas']);
+    expect(Array.from(font.querySelectorAll('optgroup[label="Serif"] option')).map((o) => o.textContent!.trim())).toEqual(['Source Serif 4', 'Merriweather', 'Lora']);
+    expect(font.value).toBe('');
+    await caret(surface().querySelector('p')!.firstChild!, true);
+    font.value = 'Lora, serif';
+    font.dispatchEvent(new Event('change'));
+    expect(exec).toHaveBeenCalledWith('styleWithCSS', false, 'true');
+    expect(exec).toHaveBeenCalledWith('fontName', false, 'Lora, serif');
+    // La hoja de Google Fonts se carga una sola vez por documento.
+    await settle();
+    expect(document.head.querySelectorAll('link[data-cb-editor-fonts]')).toHaveLength(1);
+  });
+
+  it('el selector de fuente muestra la tipografía donde está el cursor', async () => {
+    const { el, surface, caret } = setup(`<p><span style="font-family: 'JetBrains Mono', monospace">código</span> texto</p>`);
+    await caret(surface().querySelector('span')!.firstChild!);
+    expect(el.querySelector<HTMLSelectElement>('select[aria-label="Fuente"]')!.value).toBe("'JetBrains Mono', monospace");
   });
 
   describe('menús de color y alineación', () => {

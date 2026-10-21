@@ -147,11 +147,33 @@ describe('color, tamaño, sangría y tareas', () => {
     );
     expect(cbSanitizeHtml('<p><span style="background-color: transparent">x</span></p>')).toBe('<p>x</p>');
     expect(cbSanitizeHtml('<p><span style="color: url(x)">x</span></p>')).toBe('<p>x</p>');
-    // <font> de execCommand: color y tamaño 1–7 → tamaños relativos.
-    expect(cbSanitizeHtml('<p><font color="#2563eb" size="6">grande</font></p>')).toBe('<p><span style="color: #2563eb; font-size: 1.5em">grande</span></p>');
-    expect(cbSanitizeHtml('<p><span style="font-size: x-large">a</span><span style="font-size: 37px">b</span></p>')).toBe(
-      '<p><span style="font-size: 1.5em">a</span>b</p>',
+    // <font> de execCommand: color y tamaño 1–7 → px.
+    expect(cbSanitizeHtml('<p><font color="#2563eb" size="6">grande</font></p>')).toBe('<p><span style="color: #2563eb; font-size: 32px">grande</span></p>');
+    expect(cbSanitizeHtml('<p><span style="font-size: x-large">a</span><span style="font-size: 200px">b</span></p>')).toBe(
+      '<p><span style="font-size: 24px">a</span>b</p>',
     );
+  });
+
+  it('tamaño en px (8–96): los pt de Word se convierten y los em se conservan', () => {
+    expect(cbSanitizeHtml('<p><span style="font-size: 18px">a</span></p>')).toBe('<p><span style="font-size: 18px">a</span></p>');
+    expect(cbSanitizeHtml('<p><span style="font-size: 12pt">a</span></p>')).toBe('<p><span style="font-size: 16px">a</span></p>');
+    expect(cbSanitizeHtml('<p><span style="font-size: 1.5em">a</span></p>')).toBe('<p><span style="font-size: 1.5em">a</span></p>');
+    expect(cbSanitizeHtml('<p><span style="font-size: 4px">a</span><span style="font-size: calc(1px + 9em)">b</span></p>')).toBe('<p>ab</p>');
+  });
+
+  it('tipografía: solo las permitidas, guardadas con su pila completa', () => {
+    expect(cbSanitizeHtml(`<p><span style="font-family: &quot;Source Sans 3&quot;">a</span></p>`)).toBe(
+      `<p><span style="font-family: 'Source Sans 3', sans-serif">a</span></p>`,
+    );
+    expect(cbSanitizeHtml('<p><font face="Lora">a</font></p>')).toBe('<p><span style="font-family: Lora, serif">a</span></p>');
+    // La de Google Docs o Word que no está en la lista se quita.
+    expect(cbSanitizeHtml('<p><span style="font-family: Arial; color: red">a</span></p>')).toBe('<p><span style="color: red">a</span></p>');
+    expect(cbSanitizeHtml('<p><span style="font-family: expression(alert(1))">a</span></p>')).toBe('<p>a</p>');
+    // Lista propia.
+    expect(cbSanitizeHtml('<p><span style="font-family: Marca, sans-serif">a</span></p>', { fonts: ['Marca, sans-serif'] })).toBe(
+      '<p><span style="font-family: Marca, sans-serif">a</span></p>',
+    );
+    expect(cbSanitizeHtml('<p><span style="font-family: Lora">a</span></p>', { fonts: ['Marca, sans-serif'] })).toBe('<p>a</p>');
   });
 
   it('la sangría de los bloques va en pasos de 2rem (hasta 10rem)', () => {

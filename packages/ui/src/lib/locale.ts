@@ -387,12 +387,7 @@ export interface CbTranslation {
   exitFullscreen: string;
   heading4: string;
   fontSize: string;
-  fontTiny: string;
-  fontSmall: string;
   fontNormal: string;
-  fontLarge: string;
-  fontXLarge: string;
-  fontHuge: string;
   textColor: string;
   highlight: string;
   automaticColor: string;
@@ -415,6 +410,35 @@ export interface CbTranslation {
   /** Singular de `wordCount`. */
   wordCountOne: string;
   charCount: string;
+  fontFamily: string;
+  fontDefault: string;
+  fontGroupRecommended: string;
+  fontGroupOffice: string;
+  fontGroupSans: string;
+  fontGroupSerif: string;
+  fontGroupMono: string;
+  fontGroupAccessible: string;
+  fontGroupFun: string;
+  specialCharacters: string;
+  charsCurrency: string;
+  charsMath: string;
+  charsPunctuation: string;
+  charsArrows: string;
+  charsEmoji: string;
+  findReplace: string;
+  findText: string;
+  replaceWith: string;
+  matchCase: string;
+  wholeWords: string;
+  findPrevious: string;
+  findNext: string;
+  replaceOne: string;
+  replaceAll: string;
+  findCount: string;
+  replacedCount: string;
+  quickFormat: string;
+  insertBlock: string;
+  paragraph: string;
 }
 
 /** Español (idioma por defecto). */
@@ -741,12 +765,7 @@ export const CB_LOCALE_ES: CbTranslation = {
   exitFullscreen: 'Salir de pantalla completa',
   heading4: 'Título 4',
   fontSize: 'Tamaño de letra',
-  fontTiny: 'Muy pequeño',
-  fontSmall: 'Pequeño',
   fontNormal: 'Normal',
-  fontLarge: 'Grande',
-  fontXLarge: 'Muy grande',
-  fontHuge: 'Enorme',
   textColor: 'Color del texto',
   highlight: 'Resaltado',
   automaticColor: 'Automático',
@@ -768,6 +787,35 @@ export const CB_LOCALE_ES: CbTranslation = {
   wordCount: '{0} palabras',
   wordCountOne: '{0} palabra',
   charCount: '{0} caracteres',
+  fontFamily: 'Fuente',
+  fontDefault: 'Predeterminada',
+  fontGroupRecommended: 'Recomendadas',
+  fontGroupOffice: 'Clásicas de Office',
+  fontGroupSans: 'Sans serif modernas',
+  fontGroupSerif: 'Serif',
+  fontGroupMono: 'Monoespaciadas para código',
+  fontGroupAccessible: 'Accesibilidad',
+  fontGroupFun: 'Divertidas',
+  specialCharacters: 'Caracteres especiales',
+  charsCurrency: 'Monedas',
+  charsMath: 'Matemáticas',
+  charsPunctuation: 'Puntuación y signos',
+  charsArrows: 'Flechas',
+  charsEmoji: 'Emoji',
+  findReplace: 'Buscar y reemplazar',
+  findText: 'Buscar',
+  replaceWith: 'Reemplazar con',
+  matchCase: 'Mayúsculas y minúsculas',
+  wholeWords: 'Palabras completas',
+  findPrevious: 'Resultado anterior',
+  findNext: 'Resultado siguiente',
+  replaceOne: 'Reemplazar',
+  replaceAll: 'Reemplazar todo',
+  findCount: '{0} de {1}',
+  replacedCount: 'Reemplazos hechos: {0}',
+  quickFormat: 'Formato rápido',
+  insertBlock: 'Insertar bloque',
+  paragraph: 'Párrafo',
 };
 
 /** Inglés. */
@@ -1094,12 +1142,7 @@ export const CB_LOCALE_EN: CbTranslation = {
   exitFullscreen: 'Exit full screen',
   heading4: 'Heading 4',
   fontSize: 'Font size',
-  fontTiny: 'Tiny',
-  fontSmall: 'Small',
   fontNormal: 'Normal',
-  fontLarge: 'Large',
-  fontXLarge: 'Extra large',
-  fontHuge: 'Huge',
   textColor: 'Text color',
   highlight: 'Highlight',
   automaticColor: 'Automatic',
@@ -1121,6 +1164,35 @@ export const CB_LOCALE_EN: CbTranslation = {
   wordCount: '{0} words',
   wordCountOne: '{0} word',
   charCount: '{0} characters',
+  fontFamily: 'Font',
+  fontDefault: 'Default',
+  fontGroupRecommended: 'Recommended',
+  fontGroupOffice: 'Office classics',
+  fontGroupSans: 'Modern sans serif',
+  fontGroupSerif: 'Serif',
+  fontGroupMono: 'Monospaced for code',
+  fontGroupAccessible: 'Accessibility',
+  fontGroupFun: 'Fun',
+  specialCharacters: 'Special characters',
+  charsCurrency: 'Currency',
+  charsMath: 'Math',
+  charsPunctuation: 'Punctuation and signs',
+  charsArrows: 'Arrows',
+  charsEmoji: 'Emoji',
+  findReplace: 'Find and replace',
+  findText: 'Find',
+  replaceWith: 'Replace with',
+  matchCase: 'Match case',
+  wholeWords: 'Whole words',
+  findPrevious: 'Previous result',
+  findNext: 'Next result',
+  replaceOne: 'Replace',
+  replaceAll: 'Replace all',
+  findCount: '{0} of {1}',
+  replacedCount: 'Replacements made: {0}',
+  quickFormat: 'Quick formatting',
+  insertBlock: 'Insert block',
+  paragraph: 'Paragraph',
 };
 
 /** Idiomas incluidos. */

@@ -13,6 +13,11 @@
  *
  * Se aplica al cargar un valor, al pegar y al emitir el valor del editor.
  */
+import { CB_EDITOR_FONTS, fontStacks, matchFont } from './editor-fonts';
+
+/** Tipografías permitidas en la llamada en curso (el saneado es síncrono). */
+const DEFAULT_FONTS = fontStacks(CB_EDITOR_FONTS);
+let allowedFonts: readonly string[] = DEFAULT_FONTS;
 
 /** Etiquetas permitidas y sus atributos. */
 const ALLOWED: Record<string, readonly string[]> = {
@@ -94,32 +99,47 @@ function safeColor(value: string | undefined): string | null {
   return /^(#[0-9a-f]{3,8}|rgba?\([\d\s.,%/]+\)|hsla?\([\d\s.,%/deg]+\)|[a-z]{3,20})$/i.test(v) ? v : null;
 }
 
-/** Tamaños de letra que produce el editor (relativos, para que escalen con el texto). */
-export const CB_FONT_SIZES = ['0.75em', '0.875em', '1.25em', '1.5em', '2em'] as const;
+/** Tamaños de letra del selector del editor (en px). */
+export const CB_FONT_SIZES = [10, 11, 12, 14, 16, 18, 20, 24, 28, 32, 36, 48] as const;
 
-/** Tamaño de letra normalizado a uno de `CB_FONT_SIZES` (acepta palabras clave y `<font size>`). */
+/** Palabras clave de CSS y `<font size>` → px. */
+const FONT_KEYWORDS: Record<string, number> = {
+  'xx-small': 9,
+  'x-small': 10,
+  small: 13,
+  smaller: 13,
+  large: 18,
+  larger: 18,
+  'x-large': 24,
+  'xx-large': 32,
+  'xxx-large': 48,
+  '1': 10,
+  '2': 13,
+  '4': 18,
+  '5': 24,
+  '6': 32,
+  '7': 48,
+};
+
+/**
+ * Tamaño de letra en px entre 8 y 96 (acepta px, pt de Word, palabras clave y `<font size>`);
+ * `em` / `rem` se conservan entre 0.5 y 6. Lo demás se descarta.
+ */
 function safeFontSize(value: string | null | undefined): string | null {
   const v = value?.trim().toLowerCase();
   if (!v) return null;
-  const keywords: Record<string, string> = {
-    'xx-small': '0.75em',
-    'x-small': '0.75em',
-    small: '0.875em',
-    smaller: '0.875em',
-    large: '1.25em',
-    larger: '1.25em',
-    'x-large': '1.5em',
-    'xx-large': '2em',
-    'xxx-large': '2em',
-    '1': '0.75em',
-    '2': '0.875em',
-    '4': '1.25em',
-    '5': '1.25em',
-    '6': '1.5em',
-    '7': '2em',
-  };
-  if (keywords[v]) return keywords[v];
-  return (CB_FONT_SIZES as readonly string[]).includes(v) ? v : null;
+  if (FONT_KEYWORDS[v]) return `${FONT_KEYWORDS[v]}px`;
+  const m = /^(\d+(?:\.\d+)?)(px|pt|r?em)$/.exec(v);
+  if (!m) return null;
+  const n = Number(m[1]);
+  if (m[2].endsWith('em')) return n >= 0.5 && n <= 6 ? `${n}${m[2]}` : null;
+  const px = Math.round(m[2] === 'pt' ? (n * 4) / 3 : n);
+  return px >= 8 && px <= 96 ? `${px}px` : null;
+}
+
+/** Tipografía: solo una de las permitidas (se guarda su pila CSS completa). */
+function safeFontFamily(value: string | null | undefined): string | null {
+  return matchFont(value, allowedFonts);
 }
 
 /** Estilo de un bloque: alineación y sangría (en múltiplos de 2rem, hasta 10rem). */
@@ -220,20 +240,30 @@ export function readCellBorders(style: string): { borders: CbTableBorders; color
 export interface CbSanitizeOptions {
   /** Permite imágenes (por defecto true). */
   images?: boolean;
+  /**
+   * Tipografías permitidas (pilas CSS, p. ej. `"'Open Sans', sans-serif"`). Una tipografía
+   * se reconoce por su primer nombre; las demás se quitan. Por defecto, las del editor.
+   */
+  fonts?: readonly string[];
 }
 
 /** Devuelve el HTML saneado y normalizado; `''` si no hay texto ni imágenes. */
 export function cbSanitizeHtml(html: string | null | undefined, options: CbSanitizeOptions = {}): string {
   if (!html || typeof document === 'undefined') return '';
   const images = options.images !== false;
-  // <template> no ejecuta scripts ni carga imágenes al parsear.
-  const template = document.createElement('template');
-  template.innerHTML = cleanOffice(html);
-  const out = document.createElement('div');
-  for (const node of Array.from(template.content.childNodes)) appendClean(out, node, images);
-  wrapInlineRuns(out);
-  removeEmptyBlocks(out);
-  return isEmptyContent(out) ? '' : out.innerHTML;
+  allowedFonts = options.fonts ?? DEFAULT_FONTS;
+  try {
+    // <template> no ejecuta scripts ni carga imágenes al parsear.
+    const template = document.createElement('template');
+    template.innerHTML = cleanOffice(html);
+    const out = document.createElement('div');
+    for (const node of Array.from(template.content.childNodes)) appendClean(out, node, images);
+    wrapInlineRuns(out);
+    removeEmptyBlocks(out);
+    return isEmptyContent(out) ? '' : out.innerHTML;
+  } finally {
+    allowedFonts = DEFAULT_FONTS;
+  }
 }
 
 /** Texto plano del HTML (para contar caracteres o guardar un resumen). */
@@ -332,11 +362,12 @@ function appendClean(parent: HTMLElement, node: Node, images: boolean): void {
       target.append(el);
       target = el;
     }
-    // Color de texto, resaltado y tamaño de letra (lo único que guarda un <span>).
+    // Color de texto, resaltado, tamaño y tipografía (lo único que guarda un <span>).
     const inline = [
       ['color', safeColor(styleProp(style, 'color') ?? source.getAttribute('color') ?? undefined)],
       ['background-color', safeColor(styleProp(style, 'background-color') ?? styleProp(style, 'background'))],
       ['font-size', safeFontSize(styleProp(style, 'font-size') ?? (tag === 'font' ? source.getAttribute('size') : null))],
+      ['font-family', safeFontFamily(styleProp(style, 'font-family') ?? (tag === 'font' ? source.getAttribute('face') : null))],
     ].filter((d): d is [string, string] => !!d[1]);
     if (inline.length) {
       const span = document.createElement('span');
