@@ -2281,6 +2281,12 @@ export const ES_EN: Record<string, string> = {
   'Cierra el calendario; en las vistas de meses o años abiertas desde el título, vuelve a la vista anterior.': 'Closes the calendar; in the month or year views opened from the title, goes back to the previous view.',
   'Símbolo': 'Token',
   'Significado': 'Meaning',
+  // --- DatePicker: atajos ---
+  'presets añade atajos junto al calendario: claves listas y traducidas (today, yesterday, last7Days, last30Days, thisMonth, lastMonth, thisYear, lastYear) u objetos { label, value } propios. El atajo aplicado queda marcado y los que caen fuera de minDate / maxDate se desactivan.': 'presets adds shortcuts next to the calendar: ready-made, translated keys (today, yesterday, last7Days, last30Days, thisMonth, lastMonth, thisYear, lastYear) or your own { label, value } objects. The applied shortcut is highlighted and those outside minDate / maxDate are disabled.',
+  'Atajos': 'Shortcuts',
+  'Atajos junto al calendario: claves (today, last7Days, thisMonth…) u objetos { label, value }.': 'Shortcuts next to the calendar: keys (today, last7Days, thisMonth…) or { label, value } objects.',
+  'Los atajos (`presets`) son botones dentro de un `role="group"` llamado "Atajos"; el aplicado tiene `aria-pressed="true"` y los que caen fuera de `minDate` / `maxDate` están deshabilitados.': 'The shortcuts (`presets`) are buttons inside a `role="group"` named "Shortcuts"; the applied one has `aria-pressed="true"` and those outside `minDate` / `maxDate` are disabled.',
+  'Último corte (día 15)': 'Last statement (day 15)',
   // --- API de Select / MultiSelect (etiquetado accesible) ---
   'Nombre accesible del disparador cuando no hay etiqueta visible.':
     'Accessible name of the trigger when there is no visible label.',

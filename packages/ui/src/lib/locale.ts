@@ -145,6 +145,15 @@ export interface CbTranslation {
   endTime: string;
   /** Campo escrito con una fecha que no se reconoce. `{0}`: formato esperado. */
   invalidDate: string;
+  /** Atajos de fecha del DatePicker (`presets`). */
+  datePresets: string;
+  presetYesterday: string;
+  presetLast7Days: string;
+  presetLast30Days: string;
+  presetThisMonth: string;
+  presetLastMonth: string;
+  presetThisYear: string;
+  presetLastYear: string;
   today: string;
   /** Iniciales de los días de la semana, de lunes a domingo, separadas por comas. */
   weekdaysMin: string;
@@ -435,6 +444,14 @@ export const CB_LOCALE_ES: CbTranslation = {
   startTime: 'Hora de inicio',
   endTime: 'Hora de fin',
   invalidDate: 'Fecha no válida. Usa el formato {0}.',
+  datePresets: 'Atajos',
+  presetYesterday: 'Ayer',
+  presetLast7Days: 'Últimos 7 días',
+  presetLast30Days: 'Últimos 30 días',
+  presetThisMonth: 'Este mes',
+  presetLastMonth: 'Mes anterior',
+  presetThisYear: 'Este año',
+  presetLastYear: 'Año anterior',
   today: 'Hoy',
   weekdaysMin: 'L,M,X,J,V,S,D',
 
@@ -695,6 +712,14 @@ export const CB_LOCALE_EN: CbTranslation = {
   startTime: 'Start time',
   endTime: 'End time',
   invalidDate: 'Invalid date. Use the format {0}.',
+  datePresets: 'Shortcuts',
+  presetYesterday: 'Yesterday',
+  presetLast7Days: 'Last 7 days',
+  presetLast30Days: 'Last 30 days',
+  presetThisMonth: 'This month',
+  presetLastMonth: 'Last month',
+  presetThisYear: 'This year',
+  presetLastYear: 'Last year',
   today: 'Today',
   weekdaysMin: 'M,T,W,T,F,S,S',
 

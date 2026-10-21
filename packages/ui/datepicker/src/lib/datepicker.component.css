@@ -159,6 +159,66 @@
   width: 2rem;
 }
 
+/* Atajos: columna a la izquierda del calendario (arriba en pantallas estrechas). */
+.cb-datepicker__panel--presets {
+  display: flex;
+  gap: var(--cb-space-3);
+}
+.cb-datepicker__presets {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 9rem;
+  padding-right: var(--cb-space-3);
+  border-right: 1px solid var(--cb-color-border);
+}
+.cb-datepicker__preset {
+  padding: 0.4rem 0.65rem;
+  font: inherit;
+  font-size: var(--cb-text-sm);
+  text-align: left;
+  white-space: nowrap;
+  color: var(--cb-color-text);
+  background: transparent;
+  border: none;
+  border-radius: var(--cb-radius-sm);
+  cursor: pointer;
+}
+.cb-datepicker__preset:hover:not(:disabled) {
+  background-color: var(--cb-color-surface-hover);
+}
+.cb-datepicker__preset:focus-visible {
+  outline: 2px solid var(--cb-color-focus-ring);
+  outline-offset: 1px;
+}
+.cb-datepicker__preset.cb-is-selected {
+  font-weight: var(--cb-font-weight-semibold);
+  color: var(--cb-color-text-strong);
+  background-color: color-mix(in srgb, var(--cb-color-primary-500) 18%, transparent);
+  box-shadow: inset 3px 0 0 var(--cb-color-primary-500);
+}
+.cb-datepicker__preset:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+@media (max-width: 40rem) {
+  .cb-datepicker__panel--presets {
+    flex-direction: column;
+  }
+  .cb-datepicker__presets {
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 0 0 var(--cb-space-2);
+    border-right: none;
+    border-bottom: 1px solid var(--cb-color-border);
+  }
+}
+@media (forced-colors: active) {
+  .cb-datepicker__preset.cb-is-selected {
+    outline: 2px solid Highlight;
+  }
+}
+
 /* Varios meses a la vez (rangos): en columnas, apilados en pantallas estrechas. */
 .cb-datepicker__months {
   display: flex;

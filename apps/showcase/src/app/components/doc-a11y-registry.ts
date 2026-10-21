@@ -103,6 +103,7 @@ export const DOC_A11Y: Record<string, DocA11y> = {
       'El calendario es un `role="dialog"` no modal; los días forman un `role="grid"`: cada día se nombra con su fecha completa, la celda elegida (o dentro del rango) tiene `aria-selected` y el día de hoy `aria-current="date"`. El mes visible se anuncia con `aria-live`.',
       'Los días fuera de `minDate` / `maxDate` usan `aria-disabled`: se puede pasar por ellos con las flechas, pero no elegirlos. En modo rango, tras elegir el inicio se anuncia "Elige la fecha final"; con `showTime`, horas y minutos son campos numéricos etiquetados.',
       'Con varios meses, cada mes es su propia cuadrícula nombrada con el mes y el año. El título del mes es un botón ("Octubre de 2026. Elegir mes") que lleva a las vistas de meses y años, también cuadrículas con `aria-selected` y `aria-current`.',
+      'Los atajos (`presets`) son botones dentro de un `role="group"` llamado "Atajos"; el aplicado tiene `aria-pressed="true"` y los que caen fuera de `minDate` / `maxDate` están deshabilitados.',
       'Con `editable` el campo admite escribir la fecha; si el texto no es una fecha válida se marca `aria-invalid` y un `role="alert"` indica el formato esperado. En rangos con hora, cada fila de hora es un grupo nombrado ("Hora de inicio", "Hora de fin").',
     ],
     keyboard: [

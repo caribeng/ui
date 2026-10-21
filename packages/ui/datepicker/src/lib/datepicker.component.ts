@@ -31,6 +31,23 @@ export type CbDatepickerValue = Date | CbDateRange | null;
 /** Qué se elige: un día, un mes (día 1) o un año (1 de enero). */
 export type CbDatepickerView = 'date' | 'month' | 'year';
 
+/** Atajos predefinidos (con textos traducidos): rangos relativos a hoy. */
+export type CbDatePresetKey =
+  | 'today'
+  | 'yesterday'
+  | 'last7Days'
+  | 'last30Days'
+  | 'thisMonth'
+  | 'lastMonth'
+  | 'thisYear'
+  | 'lastYear';
+
+/** Atajo propio: un texto y una fecha o un rango (o una función que los calcula al abrir). */
+export interface CbDatePreset {
+  label: string;
+  value: Date | CbDateRange | (() => Date | CbDateRange);
+}
+
 interface DayCell {
   date: Date;
   day: number;
@@ -166,12 +183,30 @@ type TimeTarget = 'single' | 'start' | 'end';
         #panel
         class="cb-datepicker__panel"
         [class.cb-datepicker__panel--multi]="panelView() === 'date' && monthCount() > 1"
+        [class.cb-datepicker__panel--presets]="presetItems().length > 0"
         role="dialog"
         aria-modal="false"
         [attr.aria-label]="panelLabel()"
         tabindex="-1"
         (keydown)="onPanelKeydown($event)"
       >
+        @if (presetItems().length) {
+          <div class="cb-datepicker__presets" role="group" [attr.aria-label]="t().datePresets">
+            @for (item of presetItems(); track $index) {
+              <button
+                type="button"
+                class="cb-datepicker__preset"
+                [class.cb-is-selected]="item.selected"
+                [attr.aria-pressed]="item.selected"
+                [disabled]="item.disabled"
+                (click)="applyPreset(item.value)"
+              >
+                {{ item.label }}
+              </button>
+            }
+          </div>
+        }
+        <div class="cb-datepicker__main">
         @switch (panelView()) {
           @case ('date') {
             <div class="cb-datepicker__months">
@@ -376,6 +411,7 @@ type TimeTarget = 'single' | 'start' | 'end';
             <button type="button" class="cb-datepicker__clear" (click)="clear()">{{ t().clear }}</button>
           }
         </div>
+        </div>
       </div>
     </ng-template>
 
@@ -446,6 +482,11 @@ export class CbDatepicker implements ControlValueAccessor {
   readonly dateFormat = input<string | undefined>(undefined);
   /** Permite escribir la fecha en el campo con `dateFormat` (Enter o al salir del campo la aplica). */
   readonly editable = input<boolean, unknown>(false, { transform: toBoolean });
+  /**
+   * Atajos junto al calendario: claves predefinidas (`'last7Days'`, `'thisMonth'`…)
+   * u objetos `{ label, value }`. En fecha simple, un atajo de rango elige su inicio.
+   */
+  readonly presets = input<readonly (CbDatePreset | CbDatePresetKey)[]>([]);
 
   protected readonly open = signal(false);
   /** Día (o mes, o año) bajo el puntero: previsualiza el rango mientras se elige el final. */
@@ -662,6 +703,59 @@ export class CbDatepicker implements ControlValueAccessor {
     });
     return [0, 1, 2, 3].map((r) => cells.slice(r * 3, r * 3 + 3));
   });
+
+  // --- Atajos -------------------------------------------------------------------------
+  protected readonly presetItems = computed(() => {
+    const unit = this.view();
+    const current = this.isRange() ? this.activeRange() : this.single();
+    return this.presets().map((preset) => {
+      const label = typeof preset === 'string' ? this.presetLabel(preset) : preset.label;
+      const raw = typeof preset === 'string' ? presetRange(preset) : typeof preset.value === 'function' ? preset.value() : preset.value;
+      const value = this.presetValue(raw);
+      const [start, end] = Array.isArray(value) ? value : [value, value];
+      const selected = Array.isArray(value)
+        ? Array.isArray(current) && !!current[1] && sameUnit(current[0], value[0], unit) && sameUnit(current[1], value[1]!, unit)
+        : current instanceof Date && sameUnit(current, value as Date, unit);
+      const disabled = this.isDisabledIn(start, unit) || (!!end && this.isDisabledIn(end, unit));
+      return { label, value, selected, disabled };
+    });
+  });
+
+  private presetLabel(key: CbDatePresetKey): string {
+    const t = this.t();
+    const labels: Record<CbDatePresetKey, string> = {
+      today: t.today,
+      yesterday: t.presetYesterday,
+      last7Days: t.presetLast7Days,
+      last30Days: t.presetLast30Days,
+      thisMonth: t.presetThisMonth,
+      lastMonth: t.presetLastMonth,
+      thisYear: t.presetThisYear,
+      lastYear: t.presetLastYear,
+    };
+    return labels[key];
+  }
+
+  /** Ajusta el atajo al modo (fecha o rango), a la unidad de `view` y, con hora, al día completo. */
+  private presetValue(raw: Date | CbDateRange): Date | CbDateRange {
+    const unit = this.view();
+    if (!this.isRange()) return startOf(Array.isArray(raw) ? raw[0] : (raw as Date), unit);
+    const [a, b] = Array.isArray(raw) ? [raw[0], raw[1] ?? raw[0]] : [raw as Date, raw as Date];
+    const start = startOf(a, unit);
+    const end = startOf(b, unit);
+    if (this.withTime()) end.setHours(23, 59);
+    return [start, end];
+  }
+
+  /** Aplica un atajo y cierra (con hora, el panel sigue abierto para ajustarla). */
+  protected applyPreset(value: Date | CbDateRange): void {
+    this.commit(Array.isArray(value) ? ([value[0], value[1]] as CbDateRange) : new Date(value as Date));
+    const anchor = Array.isArray(value) ? value[0] : (value as Date);
+    this.viewDate.set(startOfMonth(anchor));
+    this.activeDate.set(startOf(anchor, this.view()));
+    this.panelView.set(this.view());
+    if (!this.withTime()) this.close();
+  }
 
   // --- Hora --------------------------------------------------------------------------
   protected readonly timeRows = computed(() => {
@@ -1105,6 +1199,31 @@ export class CbDatepicker implements ControlValueAccessor {
     if (min && end < stripTime(min)) return true;
     if (max && start > stripTime(max)) return true;
     return false;
+  }
+}
+
+/** Rango de un atajo predefinido, relativo a hoy. */
+function presetRange(key: CbDatePresetKey): CbDateRange {
+  const today = stripTime(new Date());
+  const y = today.getFullYear();
+  const m = today.getMonth();
+  switch (key) {
+    case 'today':
+      return [today, today];
+    case 'yesterday':
+      return [addDays(today, -1), addDays(today, -1)];
+    case 'last7Days':
+      return [addDays(today, -6), today];
+    case 'last30Days':
+      return [addDays(today, -29), today];
+    case 'thisMonth':
+      return [new Date(y, m, 1), new Date(y, m + 1, 0)];
+    case 'lastMonth':
+      return [new Date(y, m - 1, 1), new Date(y, m, 0)];
+    case 'thisYear':
+      return [new Date(y, 0, 1), new Date(y, 11, 31)];
+    case 'lastYear':
+      return [new Date(y - 1, 0, 1), new Date(y - 1, 11, 31)];
   }
 }
 

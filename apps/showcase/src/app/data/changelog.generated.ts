@@ -29,7 +29,7 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
         "items": [
           {
             "component": "DatePicker",
-            "text": "`dateFormat` con la sintaxis de PrimeNG (`dd/mm/yy`, `DD d 'de' MM`, `@`, `!`…) y `editable` para escribir la fecha (se valida y avisa del formato esperado); los rangos muestran dos meses (`numberOfMonths`) y admiten hora de inicio y de fin; `view=\"month\"` y `view=\"year\"` para elegir un mes o un año (también en rango); el título del calendario lleva a las vistas de meses y años para saltar rápido."
+            "text": "`dateFormat` con la sintaxis de PrimeNG (`dd/mm/yy`, `DD d 'de' MM`, `@`, `!`…) y `editable` para escribir la fecha (se valida y avisa del formato esperado); los rangos muestran dos meses (`numberOfMonths`) y admiten hora de inicio y de fin; `view=\"month\"` y `view=\"year\"` para elegir un mes o un año (también en rango); el título del calendario lleva a las vistas de meses y años para saltar rápido. Atajos con `presets`: claves traducidas (`today`, `yesterday`, `last7Days`, `last30Days`, `thisMonth`, `lastMonth`, `thisYear`, `lastYear`) u objetos `{ label, value }` propios."
           },
           {
             "component": "PDF Viewer (`@caribeng/ui/pdfviewer`)",

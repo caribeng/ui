@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@a
 import { DocPlaygroundComponent } from '../components/doc-playground.component';
 import { DOC_API } from '../components/doc-api-registry';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CbDatepicker, type CbDateRange } from '@caribeng/ui/datepicker';
+import { CbDatepicker, type CbDatePreset, type CbDatePresetKey, type CbDateRange } from '@caribeng/ui/datepicker';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
@@ -93,6 +93,21 @@ import { DOC_A11Y } from '../components/doc-a11y-registry';
         <cb-datepicker showTime [(value)]="cita24" label="Cita (24 h)" />
         <cb-datepicker showTime hourFormat="12" [stepMinute]="15" [(value)]="cita12" label="Cita (12 h)" />
       </div>
+    </doc-section>
+
+    <doc-section
+      id="presets"
+      title="Atajos"
+      description="presets añade atajos junto al calendario: claves listas y traducidas (today, yesterday, last7Days, last30Days, thisMonth, lastMonth, thisYear, lastYear) u objetos { label, value } propios. El atajo aplicado queda marcado y los que caen fuera de minDate / maxDate se desactivan."
+      [code]="presetsCode"
+      [codeTs]="presetsTs"
+    >
+      <div style="width: 100%; max-width: 360px">
+        <cb-datepicker selectionMode="range" [presets]="atajos" [maxDate]="hoy" [(range)]="periodoMovimientos" label="Periodo de movimientos" placeholder="Inicio – fin" />
+      </div>
+      <p style="margin: 0.75rem 0 0; color: var(--cb-color-text-muted); font-size: 0.875rem">
+        {{ i18n.t('Movimientos en el periodo', 'Transactions in the period') }}: {{ movimientosEnPeriodo() }}
+      </p>
     </doc-section>
 
     <doc-section
@@ -231,6 +246,30 @@ export class DatepickerDocComponent {
     return Math.round((v[1].getTime() - v[0].getTime()) / 86_400_000);
   });
 
+  protected readonly atajos: (CbDatePresetKey | CbDatePreset)[] = [
+    'today',
+    'yesterday',
+    'last7Days',
+    'last30Days',
+    'thisMonth',
+    'lastMonth',
+    { label: 'Último corte (día 15)', value: () => this.ultimoCorte() },
+  ];
+  protected readonly periodoMovimientos = signal<CbDateRange | null>(null);
+  /** 120 movimientos simulados, uno cada ~1,5 días hacia atrás desde hoy. */
+  private readonly movimientos = Array.from({ length: 120 }, (_, i) => new Date(Date.now() - i * 1.5 * 86_400_000));
+  protected readonly movimientosEnPeriodo = computed(() => {
+    const periodo = this.periodoMovimientos();
+    if (!periodo?.[1]) return '—';
+    const fin = new Date(periodo[1].getFullYear(), periodo[1].getMonth(), periodo[1].getDate() + 1);
+    return this.movimientos.filter((m) => m >= periodo[0] && m < fin).length;
+  });
+  /** Del día 16 del mes anterior al 15 de este (o del anterior si aún no llega). */
+  private ultimoCorte(): CbDateRange {
+    const hoy = new Date();
+    const mes = hoy.getDate() >= 15 ? hoy.getMonth() : hoy.getMonth() - 1;
+    return [new Date(hoy.getFullYear(), mes - 1, 16), new Date(hoy.getFullYear(), mes, 15)];
+  }
   protected readonly turno = signal<CbDateRange | null>(null);
   protected readonly vencimiento = signal<Date | null>(null);
   protected readonly anio = signal<Date | null>(new Date(new Date().getFullYear(), 0, 1));
@@ -286,6 +325,19 @@ noches = computed(() => {
   error="La fecha es obligatoria." />`;
   protected readonly validationTs = `cita = new FormControl<Date | null>(null, [Validators.required]);`;
 
+  protected readonly presetsCode = `<cb-datepicker
+  selectionMode="range"
+  [presets]="atajos"
+  [maxDate]="hoy"
+  [(range)]="periodo"
+  label="Periodo de movimientos" />`;
+  protected readonly presetsTs = `import type { CbDatePreset, CbDatePresetKey, CbDateRange } from '@caribeng/ui/datepicker';
+
+atajos: (CbDatePresetKey | CbDatePreset)[] = [
+  'today', 'yesterday', 'last7Days', 'last30Days', 'thisMonth', 'lastMonth',
+  // Propio: la función se evalúa al abrir, así "hoy" siempre es hoy.
+  { label: 'Último corte (día 15)', value: () => this.ultimoCorte() },
+];`;
   protected readonly rangeTimeCode = `<cb-datepicker selectionMode="range" showTime [(range)]="turno" label="Turno" />`;
   protected readonly viewsCode = `<cb-datepicker view="month" dateFormat="mm/y" [(value)]="vencimiento" label="Vencimiento de la tarjeta" />
 <cb-datepicker view="year" [(value)]="anio" label="Año fiscal" />

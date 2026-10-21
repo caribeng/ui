@@ -597,6 +597,7 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "numberOfMonths", kind: "number", type: "number", default: undefined, description: "Meses visibles a la vez; por defecto 2 en rangos y 1 en fecha simple." },
       { name: "dateFormat", kind: "string", type: "string", default: undefined, example: "dd/mm/yy", description: "Formato con la sintaxis de PrimeNG (d, dd, D, DD, m, mm, M, MM, y, yy, o, oo, @, !, 'texto')." },
       { name: "editable", kind: "boolean", type: "boolean", default: false, description: "Permite escribir la fecha con dateFormat (se aplica con Enter o al salir)." },
+      { name: "presets", kind: "string", type: "(CbDatePresetKey | CbDatePreset)[]", default: [], description: "Atajos junto al calendario: claves (today, last7Days, thisMonth…) u objetos { label, value }.", control: false },
       { name: "range", kind: "string", type: "CbDateRange | null (model)", default: null, description: "Rango elegido en modo range: [inicio, fin].", control: false },
       { name: "showTime", kind: "boolean", type: "boolean", default: false, description: "Añade horas y minutos (en rangos, del inicio y del fin)." },
       { name: "hourFormat", kind: "enum", type: "'24' | '12'", options: ["24", "12"], default: "24", description: "Formato de la hora: 24 h o 12 h con AM/PM." },

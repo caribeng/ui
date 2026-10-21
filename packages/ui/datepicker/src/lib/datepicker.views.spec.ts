@@ -2,7 +2,7 @@ import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { afterEach, describe, expect, it } from 'vitest';
 import { dateNames, formatDate, localeDateFormat, parseDate } from './date-format';
-import { CbDatepicker, type CbDateRange, type CbDatepickerView } from './datepicker.component';
+import { CbDatepicker, type CbDatePreset, type CbDatePresetKey, type CbDateRange, type CbDatepickerView } from './datepicker.component';
 
 describe('formato de fechas (sintaxis de PrimeNG)', () => {
   const es = dateNames('es-CO');
@@ -62,6 +62,8 @@ describe('formato de fechas (sintaxis de PrimeNG)', () => {
       [showTime]="showTime()"
       [editable]="editable()"
       [dateFormat]="format()"
+      [presets]="presets()"
+      [maxDate]="max()"
       [(value)]="value"
       [(range)]="range"
     />
@@ -74,6 +76,8 @@ class HostComponent {
   showTime = signal(false);
   editable = signal(false);
   format = signal<string | undefined>(undefined);
+  presets = signal<readonly (CbDatePreset | CbDatePresetKey)[]>([]);
+  max = signal<Date | null>(null);
   value = signal<Date | null>(new Date(2026, 9, 21));
   range = signal<CbDateRange | null>(null);
 }
@@ -301,6 +305,66 @@ describe('CbDatepicker · formato, meses, hora en rango y vistas', () => {
       await settle();
       const [start, end] = host.range()!;
       expect([start.getMonth(), start.getDate(), end!.getMonth()]).toEqual([1, 1, 4]);
+    });
+  });
+
+  describe('atajos (presets)', () => {
+    const sameDay = (a: Date, b: Date) => a.toDateString() === b.toDateString();
+
+    it('rango: muestra los atajos traducidos y "Últimos 7 días" elige de hace 6 días a hoy', async () => {
+      const { open, all, settle, host } = setup((h) => {
+        h.mode.set('range');
+        h.presets.set(['today', 'last7Days', 'thisMonth', 'lastMonth']);
+      });
+      await open();
+      const group = document.querySelector('.cb-datepicker__presets')!;
+      expect(group.getAttribute('role')).toBe('group');
+      expect(group.getAttribute('aria-label')).toBe('Atajos');
+      const buttons = () => all<HTMLButtonElement>('.cb-datepicker__preset');
+      expect(buttons().map((b) => b.textContent!.trim())).toEqual(['Hoy', 'Últimos 7 días', 'Este mes', 'Mes anterior']);
+      buttons()[1].click();
+      await settle();
+      const [start, end] = host.range()!;
+      const today = new Date();
+      const sixAgo = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 6);
+      expect(sameDay(start, sixAgo) && sameDay(end!, today)).toBe(true);
+      // Cierra y, al reabrir, el atajo aplicado aparece marcado.
+      expect(document.querySelector('.cb-datepicker__panel')).toBeNull();
+      await open();
+      expect(buttons()[1].getAttribute('aria-pressed')).toBe('true');
+      expect(buttons()[0].getAttribute('aria-pressed')).toBe('false');
+    });
+
+    it('"Mes anterior" va del día 1 al último día del mes anterior', async () => {
+      const { open, all, settle, host } = setup((h) => {
+        h.mode.set('range');
+        h.presets.set(['lastMonth']);
+      });
+      await open();
+      all<HTMLButtonElement>('.cb-datepicker__preset')[0].click();
+      await settle();
+      const [start, end] = host.range()!;
+      const now = new Date();
+      expect(sameDay(start, new Date(now.getFullYear(), now.getMonth() - 1, 1))).toBe(true);
+      expect(sameDay(end!, new Date(now.getFullYear(), now.getMonth(), 0))).toBe(true);
+    });
+
+    it('atajo propio y en fecha simple; los que caen fuera de maxDate se desactivan', async () => {
+      const cierre = new Date(2026, 11, 31);
+      const { open, all, settle, host } = setup((h) => {
+        h.presets.set([{ label: 'Cierre de año', value: cierre }, 'yesterday']);
+        h.max.set(new Date(2026, 5, 30));
+      });
+      await open();
+      const [propio, ayer] = all<HTMLButtonElement>('.cb-datepicker__preset');
+      expect(propio.textContent!.trim()).toBe('Cierre de año');
+      expect(propio.disabled).toBe(true);
+      host.max.set(null);
+      await settle();
+      all<HTMLButtonElement>('.cb-datepicker__preset')[0].click();
+      await settle();
+      expect(sameDay(host.value()!, cierre)).toBe(true);
+      expect(ayer).toBeTruthy();
     });
   });
 });
