@@ -134,8 +134,17 @@ export function renderComposed(ctx: ChartContext): ChartScene {
     full = keys[0] === keys[keys.length - 1] ? [keys[0] - minGap, keys[0] + minGap] : [keys[0] - pad, keys[keys.length - 1] + pad];
   }
   const span = full[1] - full[0];
-  const d0 = full[0] + span * spec.view[0];
-  const d1 = full[0] + span * spec.view[1];
+  // Ventana visible: la elegida con zoom, los últimos `xWindow` o todo.
+  let d0 = full[0];
+  let d1 = full[1];
+  const win = spec.window;
+  if (win) {
+    const w = Math.min(Math.max(win.end - win.start, minGap), span);
+    d0 = win.pinned ? full[1] - w : Math.min(Math.max(win.start, full[0]), full[1] - w);
+    d1 = d0 + w;
+  } else if (spec.xWindow && spec.xWindow < span) {
+    d0 = full[1] - spec.xWindow;
+  }
   const inView = (k: number) => k >= d0 - 1e-9 && k <= d1 + 1e-9;
 
   // --- Área de dibujo -------------------------------------------------------------------
@@ -395,6 +404,22 @@ export function renderComposed(ctx: ChartContext): ChartScene {
     }
   }
 
+  // Anotaciones: un punto con su etiqueta encima (o debajo si no cabe).
+  const notes = new Map<number, { label: string; color: string }[]>();
+  for (const r of spec.refs) {
+    if (r.kind !== 'note' || !r.label || r.y === undefined) continue;
+    const k = toX(r.value, false);
+    if (k === null || !inView(k)) continue;
+    const axis = r.axis === 'right' ? 'right' : 'left';
+    const x = xPos(k);
+    const y = yPos(axis, r.y);
+    const color = r.color ?? 'var(--cb-color-text)';
+    front.push({ k: 'circle', cls: 'cb-chart__note-dot', cx: x, cy: y, r: 4, rActive: 4, fill: color });
+    const below = y < plot.top + 22;
+    front.push({ k: 'text', cls: 'cb-chart__note', x, y: below ? y + 18 : y - 10, text: r.label, anchor: 'middle', fill: r.color });
+    notes.set(k, [...(notes.get(k) ?? []), { label: r.label, color }]);
+  }
+
   // --- Elementos navegables ------------------------------------------------------------
   const t = ctx.text;
   const rowsAt = (k: number): ChartTooltipRow[] => {
@@ -418,6 +443,7 @@ export function renderComposed(ctx: ChartContext): ChartScene {
         rows.push({ label: s.name, value: fmt(p.y), color: s.color });
       }
     }
+    for (const note of notes.get(k) ?? []) rows.push({ label: note.label, value: '', color: note.color });
     return rows;
   };
 
@@ -458,7 +484,7 @@ export function renderComposed(ctx: ChartContext): ChartScene {
       const next = i < shown.length - 1 ? (xPos(shown[i + 1]) + x) / 2 : plot.right;
       const position = items.length;
       const title = xFormatLong(k);
-      items.push({ index: keys.indexOf(k), label: title, title, rows: rowsAt(k), x, y: pointTop.get(k) ?? plot.top, cursor: { x, y1: plot.top, y2: plot.bottom } });
+      items.push({ index: keys.indexOf(k), key: k, label: title, title, rows: rowsAt(k), x, y: pointTop.get(k) ?? plot.top, cursor: { x, y1: plot.top, y2: plot.bottom } });
       hits.push({ k: 'rect', item: position, x: round(Math.max(plot.left, prev)), y: plot.top, w: round(Math.max(1, Math.min(plot.right, next) - Math.max(plot.left, prev))), h: plot.height });
     });
     // Barras, velas y puntos se resaltan por la posición de su clave en `items`.
@@ -494,8 +520,10 @@ export function renderComposed(ctx: ChartContext): ChartScene {
       })),
     },
     clip: { x: plot.left, y: plot.top - 6, w: plot.width, h: plot.height + 12 },
-    zoomed: spec.view[0] > 0 || spec.view[1] < 1,
-    domainSize: xType === 'category' ? 1 / Math.max(1, categories.length) : minGap / (span || 1),
+    zoomed: d0 > full[0] + span * 1e-9 || d1 < full[1] - span * 1e-9,
+    domain: full,
+    window: [d0, d1],
+    step: minGap,
   };
 }
 

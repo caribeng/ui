@@ -1,8 +1,11 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, computed, inject, signal } from '@angular/core';
 import { CbButton } from '@caribeng/ui/button';
 import {
   CbChart,
+  CbChartAnnotation,
+  CbChartArea,
   CbChartAxis,
+  CbChartGroup,
   CbChartBar,
   CbChartCandlestick,
   CbChartLine,
@@ -30,7 +33,10 @@ import { I18nService } from '../services/i18n.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CbChart,
+    CbChartAnnotation,
+    CbChartArea,
     CbChartAxis,
+    CbChartGroup,
     CbChartBar,
     CbChartCandlestick,
     CbChartLine,
@@ -247,6 +253,56 @@ import { I18nService } from '../services/i18n.service';
           <cb-chart-axis position="bottom" label="Edad" />
           <cb-chart-axis position="left" label="Saldo (M)" />
         </cb-chart>
+      </div>
+    </doc-section>
+
+    <doc-section
+      id="synced"
+      title="Gráficas sincronizadas y en vivo"
+      description="cb-chart-group comparte el cursor y el zoom entre gráficas con el mismo eje X. xWindow muestra los últimos minutos y, al llegar datos, la vista avanza con ellos. cb-chart-annotation marca puntos concretos."
+      [code]="syncedCode"
+      [codeTs]="syncedTs"
+    >
+      <div class="chart-demo chart-demo--wide">
+        <div class="chart-demo__switch">
+          <cb-button size="sm" [variant]="enVivo() ? 'solid' : 'outlined'" (click)="alternarVivo()">
+            {{ enVivo() ? i18n.t('Detener transmisión', 'Stop stream') : i18n.t('Iniciar transmisión', 'Start stream') }}
+          </cb-button>
+        </div>
+        <cb-chart-group ariaLabel="PRIM/USD">
+          <cb-chart [data]="mercado()" [height]="260" zoom [xWindow]="30 * 60000" [valueFormat]="{ style: 'currency', currency: 'USD' }" [showLegend]="false" ariaLabel="Precio de PRIM/USD">
+            <cb-chart-candlestick x="ts" name="PRIM/USD" />
+            <cb-chart-line x="ts" y="media" name="Media móvil" curve="smooth" [points]="false" color="var(--cb-color-info-500)" />
+            <cb-chart-axis position="right" />
+            <cb-chart-reference-line axis="right" [value]="cierreAnterior" label="Cierre anterior" />
+            <cb-chart-annotation axis="right" [x]="extremos().max.ts" [y]="extremos().max.high" label="Máximo" color="var(--cb-color-success-600)" />
+            <cb-chart-annotation axis="right" [x]="extremos().min.ts" [y]="extremos().min.low" label="Mínimo" color="var(--cb-color-danger-600)" />
+          </cb-chart>
+          <cb-chart [data]="mercado()" [height]="110" zoom [xWindow]="30 * 60000" [showLegend]="false" [valueFormat]="{ notation: 'compact' }" ariaLabel="Volumen negociado">
+            <cb-chart-bar x="ts" y="volumen" name="Volumen" color="var(--cb-color-primary-400)" />
+            <cb-chart-axis position="right" />
+          </cb-chart>
+          <cb-chart [data]="mercado()" [height]="110" zoom [xWindow]="30 * 60000" [showLegend]="false" ariaLabel="Spread en puntos básicos">
+            <cb-chart-area x="ts" y="spread" name="Spread (pb)" curve="smooth" color="var(--cb-color-warning-500)" />
+            <cb-chart-axis position="right" />
+            <cb-chart-reference-line axis="right" [value]="8" label="Amplio" color="var(--cb-color-danger-500)" />
+          </cb-chart>
+        </cb-chart-group>
+      </div>
+    </doc-section>
+
+    <doc-section
+      id="export"
+      title="Exportar"
+      description="download('png' | 'svg', nombre) descarga el gráfico con los colores del tema y la leyenda; toSvg() y toPng() devuelven el SVG o la imagen para enviarlos o adjuntarlos."
+      [code]="exportCode"
+    >
+      <div class="chart-demo">
+        <cb-chart #exportable type="bar" [data]="ventas" ariaLabel="Ventas por región" />
+        <div class="chart-demo__switch">
+          <cb-button size="sm" variant="outlined" (click)="exportable.download('png', 'ventas')">{{ i18n.t('Descargar PNG', 'Download PNG') }}</cb-button>
+          <cb-button size="sm" variant="outlined" (click)="exportable.download('svg', 'ventas')">{{ i18n.t('Descargar SVG', 'Download SVG') }}</cb-button>
+        </div>
       </div>
     </doc-section>
 
@@ -560,6 +616,9 @@ umbrales: CbChartBand[] = [
     { tag: '<cb-chart-axis>', inputs: "position ('bottom' | 'left' | 'right'), type ('auto' | 'category' | 'linear' | 'time'), min, max, label, format, grid" },
     { tag: '<cb-chart-reference-line>', inputs: "value, axis ('left' | 'right' | 'x'), label, color" },
     { tag: '<cb-chart-reference-band>', inputs: 'from, to, axis, label, color' },
+    { tag: '<cb-chart-annotation>', inputs: 'x, y, axis, label, color' },
+    { tag: '<cb-chart-group>', inputs: 'ariaLabel' },
+    { tag: '<cb-chart>', inputs: 'zoom, xWindow; toSvg(), toPng(), download()' },
   ];
 
   protected readonly composableCode = `<cb-chart [data]="resultados" [valueFormat]="millones" ariaLabel="Ingresos y margen por mes">
@@ -612,6 +671,82 @@ pronostico = [
   // …
 ];`;
 
+  // --- Mercado simulado (determinista) y transmisión en vivo -------------------------
+  private semilla = 11;
+  private aleatorio(): number {
+    this.semilla = (this.semilla * 16807) % 2147483647;
+    return this.semilla / 2147483647;
+  }
+  private siguienteVela(anterior: { ts: Date; close: number; media: number } | undefined, ts: Date) {
+    const open = anterior?.close ?? 178;
+    const close = Math.round((open + (this.aleatorio() - 0.49) * 1.8) * 100) / 100;
+    const high = Math.round((Math.max(open, close) + this.aleatorio() * 0.9) * 100) / 100;
+    const low = Math.round((Math.min(open, close) - this.aleatorio() * 0.9) * 100) / 100;
+    const media = Math.round(((anterior?.media ?? close) * 0.85 + close * 0.15) * 100) / 100;
+    const volumen = Math.round(900_000 + this.aleatorio() * 1_400_000);
+    const spread = Math.round((4.5 + this.aleatorio() * 4.5) * 10) / 10;
+    return { ts, open, high, low, close, media, volumen, spread };
+  }
+  protected readonly mercado = signal(
+    (() => {
+      const inicio = new Date(2026, 9, 21, 9, 30).getTime();
+      const velas: ReturnType<ChartDocComponent['siguienteVela']>[] = [];
+      for (let i = 0; i < 60; i++) velas.push(this.siguienteVela(velas.at(-1), new Date(inicio + i * 60_000)));
+      return velas;
+    })(),
+  );
+  protected readonly cierreAnterior = 178;
+  protected readonly extremos = computed(() => {
+    const velas = this.mercado();
+    return {
+      max: velas.reduce((a, b) => (b.high > a.high ? b : a)),
+      min: velas.reduce((a, b) => (b.low < a.low ? b : a)),
+    };
+  });
+  protected readonly enVivo = signal(false);
+  private intervalo: ReturnType<typeof setInterval> | undefined;
+
+  protected alternarVivo(): void {
+    if (this.intervalo) {
+      clearInterval(this.intervalo);
+      this.intervalo = undefined;
+      this.enVivo.set(false);
+      return;
+    }
+    this.enVivo.set(true);
+    this.intervalo = setInterval(() => {
+      this.mercado.update((velas) => {
+        const ultima = velas[velas.length - 1];
+        return [...velas, this.siguienteVela(ultima, new Date(ultima.ts.getTime() + 60_000))];
+      });
+    }, 1000);
+  }
+
+  protected readonly syncedCode = `<cb-chart-group ariaLabel="PRIM/USD">
+  <cb-chart [data]="mercado()" [height]="260" zoom [xWindow]="30 * 60000" ariaLabel="Precio">
+    <cb-chart-candlestick x="ts" name="PRIM/USD" />
+    <cb-chart-line x="ts" y="media" name="Media móvil" curve="smooth" [points]="false" />
+    <cb-chart-axis position="right" />
+    <cb-chart-reference-line axis="right" [value]="178" label="Cierre anterior" />
+    <cb-chart-annotation axis="right" [x]="maximo.ts" [y]="maximo.high" label="Máximo" />
+  </cb-chart>
+  <cb-chart [data]="mercado()" [height]="110" zoom [xWindow]="30 * 60000" ariaLabel="Volumen">
+    <cb-chart-bar x="ts" y="volumen" name="Volumen" />
+    <cb-chart-axis position="right" />
+  </cb-chart>
+</cb-chart-group>`;
+  protected readonly syncedTs = `mercado = signal<Vela[]>([...]);
+
+// Cada vela nueva se añade al signal: con xWindow (o con zoom pegado al
+// final) la vista avanza sola.
+nuevaVela(vela: Vela) {
+  this.mercado.update((velas) => [...velas, vela]);
+}`;
+  protected readonly exportCode = `<cb-chart #grafico type="bar" [data]="ventas" ariaLabel="Ventas por región" />
+
+<cb-button (click)="grafico.download('png', 'ventas')">Descargar PNG</cb-button>
+<cb-button (click)="grafico.download('svg', 'ventas')">Descargar SVG</cb-button>`;
+
   protected readonly importCode = `import { CbChart, type CbChartData } from '@caribeng/ui/chart';`;
 
   protected readonly basicCode = `<cb-chart [type]="tipo()" [data]="ventas" ariaLabel="Ventas por región" />`;
@@ -655,5 +790,6 @@ metas: CbChartData = {
 
   constructor() {
     inject(TocService).reset();
+    inject(DestroyRef).onDestroy(() => clearInterval(this.intervalo));
   }
 }

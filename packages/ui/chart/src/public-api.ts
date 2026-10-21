@@ -16,3 +16,6 @@ export {
   type CbChartRefValue,
   type CbChartYAxis,
 } from './lib/chart-parts';
+export { CbChartAnnotation } from './lib/chart-parts';
+export { CbChartGroup, CbChartGroupState } from './lib/chart-group';
+export type { CbChartWindow } from './lib/chart-model';

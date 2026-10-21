@@ -154,3 +154,15 @@ export class CbChartReferenceBand {
   readonly label = input<string | undefined>(undefined);
   readonly color = input<string | undefined>(undefined);
 }
+
+/** Anotación: marca un punto (x, y) con una etiqueta, p. ej. "Máximo de la sesión". */
+@Directive({ selector: 'cb-chart-annotation' })
+export class CbChartAnnotation {
+  /** Valor de X (número, fecha o categoría). */
+  readonly x = input.required<CbChartRefValue>();
+  /** Valor en el eje Y. */
+  readonly y = input.required<number>();
+  readonly axis = input<CbChartYAxis>('left');
+  readonly label = input.required<string>();
+  readonly color = input<string | undefined>(undefined);
+}

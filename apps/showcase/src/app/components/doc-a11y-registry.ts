@@ -480,6 +480,7 @@ export const DOC_A11Y: Record<string, DocA11y> = {
       'Incluye los mismos datos como una tabla oculta visualmente (título, series y valores formateados), que los lectores de pantalla pueden recorrer.',
       'Al moverse con las flechas, una región viva anuncia la categoría y sus valores (en torta, dona, medidor y treemap, el valor y el porcentaje; en la cascada, la variación y el total acumulado; en el mapa de calor, la fila, la columna y el valor). La leyenda son botones con `aria-pressed`.',
       'En el modo composable la tabla oculta tiene una columna por serie y una fila por valor de X (fechas completas en el eje de tiempo); las velas muestran apertura, máximo, mínimo y cierre. Las instrucciones explican el zoom cuando está activo, y el botón "Restablecer zoom" es un botón nativo.',
+      'En `cb-chart-group` (un `role="group"` con nombre) el cursor se comparte entre las gráficas, pero solo anuncia la que tiene el foco. Las anotaciones se incluyen en el anuncio y el tooltip de su punto.',
       'En el mapa de calor la tabla oculta tiene una columna por cada etiqueta y una fila por dataset; el color nunca es la única pista: cada celda tiene su valor en el tooltip y en la tabla.',
     ],
     keyboard: [

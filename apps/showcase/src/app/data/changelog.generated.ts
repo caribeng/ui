@@ -72,6 +72,10 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
             "text": "modo composable en el mismo `<cb-chart>`: series hijas (`cb-chart-bar`, `cb-chart-line`, `cb-chart-area`, `cb-chart-scatter`, `cb-chart-range-area` y `cb-chart-candlestick`) que leen sus campos de un array de registros en `data`; `cb-chart-axis` (eje X de categorías, lineal o de tiempo, ejes Y izquierdo y derecho con título, rango y formato propios); `cb-chart-reference-line` y `cb-chart-reference-band`; apilado por `stack`, curvas `smooth` y `step`, líneas discontinuas, y `zoom` en el eje X con rueda, arrastre, teclado (`+`, `-`, `0`) y botón para restablecer."
           },
           {
+            "component": "Chart",
+            "text": "`cb-chart-group` sincroniza el cursor, el tooltip y el zoom entre gráficas; `xWindow` muestra los últimos minutos y la vista avanza sola con datos en tiempo real (también con el zoom pegado al final); `cb-chart-annotation` marca puntos con una etiqueta; `toSvg()`, `toPng()` y `download('png' | 'svg')` exportan el gráfico con los colores del tema y la leyenda."
+          },
+          {
             "component": "Instalación",
             "text": "`ng add @caribeng/ui` instala la librería, pregunta idioma, tema y color primario, registra `provideCaribeNG()` (app standalone o `AppModule`) y añade `@caribeng/ui/styles.css` a `angular.json`. Es idempotente: ejecutarlo de nuevo no duplica nada."
           },

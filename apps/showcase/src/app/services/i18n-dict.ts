@@ -2242,6 +2242,13 @@ export const ES_EN: Record<string, string> = {
   'En el modo composable la tabla oculta tiene una columna por serie y una fila por valor de X (fechas completas en el eje de tiempo); las velas muestran apertura, máximo, mínimo y cierre. Las instrucciones explican el zoom cuando está activo, y el botón "Restablecer zoom" es un botón nativo.': 'In composable mode the hidden table has one column per series and one row per X value (full dates on the time axis); candlesticks show open, high, low and close. The instructions explain zoom when it is on, and the "Reset zoom" button is a native button.',
   '+ / − / 0 (con zoom)': '+ / − / 0 (with zoom)',
   'Acercan y alejan alrededor del dato activo, o vuelven a mostrar todo.': 'Zoom in and out around the active data point, or show everything again.',
+  // --- Chart: grupos, tiempo real y exportar ---
+  'cb-chart-group comparte el cursor y el zoom entre gráficas con el mismo eje X. xWindow muestra los últimos minutos y, al llegar datos, la vista avanza con ellos. cb-chart-annotation marca puntos concretos.': 'cb-chart-group shares the cursor and the zoom between charts with the same X axis. xWindow shows the last minutes and, as data arrives, the view moves along with it. cb-chart-annotation marks specific points.',
+  'download(\'png\' | \'svg\', nombre) descarga el gráfico con los colores del tema y la leyenda; toSvg() y toPng() devuelven el SVG o la imagen para enviarlos o adjuntarlos.': 'download(\'png\' | \'svg\', name) downloads the chart with the theme colors and the legend; toSvg() and toPng() return the SVG or the image to send or attach it.',
+  'Gráficas sincronizadas y en vivo': 'Synced and live charts',
+  'Exportar': 'Export',
+  'Modo composable: muestra los últimos xWindow del eje X (ms en un eje de tiempo); la vista avanza con los datos nuevos.': 'Composable mode: shows the last xWindow of the X axis (ms on a time axis); the view moves along with new data.',
+  'En `cb-chart-group` (un `role="group"` con nombre) el cursor se comparte entre las gráficas, pero solo anuncia la que tiene el foco. Las anotaciones se incluyen en el anuncio y el tooltip de su punto.': 'In `cb-chart-group` (a named `role="group"`) the cursor is shared between the charts, but only the focused one announces it. Annotations are included in the announcement and the tooltip of their point.',
   // --- API de Select / MultiSelect (etiquetado accesible) ---
   'Nombre accesible del disparador cuando no hay etiqueta visible.':
     'Accessible name of the trigger when there is no visible label.',

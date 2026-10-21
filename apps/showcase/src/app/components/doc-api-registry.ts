@@ -411,6 +411,7 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "bands", kind: "string", type: "CbChartBand[]", default: [], description: "Franjas de color del medidor: { from, to, color }.", control: false },
       { name: "animate", kind: "boolean", type: "boolean", default: true, description: "Animación de entrada (respeta prefers-reduced-motion)." },
       { name: "zoom", kind: "boolean", type: "boolean", default: false, description: "Modo composable: zoom y desplazamiento en el eje X (rueda, arrastre, + / − / 0).", control: false },
+      { name: "xWindow", kind: "number", type: "number", default: undefined, description: "Modo composable: muestra los últimos xWindow del eje X (ms en un eje de tiempo); la vista avanza con los datos nuevos.", control: false },
       { name: "ariaLabel", kind: "string", type: "string", default: undefined, localeKey: "chart", description: "Nombre accesible del gráfico y título de su tabla de datos." }
     ],
     events: [

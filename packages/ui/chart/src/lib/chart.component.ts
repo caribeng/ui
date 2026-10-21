@@ -1,4 +1,4 @@
-import { NgTemplateOutlet } from '@angular/common';
+import { DOCUMENT, NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -9,10 +9,12 @@ import {
   booleanAttribute,
   computed,
   contentChildren,
+  effect,
   inject,
   input,
   output,
   signal,
+  untracked,
   viewChild,
 } from '@angular/core';
 import { injectCbTranslation } from '@caribeng/ui';
@@ -27,11 +29,14 @@ import {
   type CbChartValueFormat,
   type ChartContext,
   type ChartScene,
+  type CbChartWindow,
   type ChartShape,
   type ComposedSpec,
   type SeriesSpec,
 } from './chart-model';
+import { CbChartGroupState } from './chart-group';
 import {
+  CbChartAnnotation,
   CbChartAxis,
   CbChartReferenceBand,
   CbChartReferenceLine,
@@ -109,7 +114,7 @@ let nextId = 0;
             [attr.class]="shapeClass(s)"
             [attr.cx]="s.cx"
             [attr.cy]="s.cy"
-            [attr.r]="s.item !== undefined && active() === s.item ? s.rActive : s.r"
+            [attr.r]="s.item !== undefined && shown() === s.item ? s.rActive : s.r"
             [attr.fill]="s.fill"
           />
         }
@@ -191,6 +196,7 @@ let nextId = 0;
           @for (hit of scene().hits; track $index) {
             @if (hit.k === 'rect') {
               <rect
+                data-hit
                 class="cb-chart__hit"
                 [attr.x]="hit.x"
                 [attr.y]="hit.y"
@@ -200,7 +206,7 @@ let nextId = 0;
                 (click)="select(hit.item)"
               />
             } @else {
-              <path class="cb-chart__hit" [attr.d]="hit.d" (mouseenter)="hover(hit.item)" (click)="select(hit.item)" />
+              <path data-hit class="cb-chart__hit" [attr.d]="hit.d" (mouseenter)="hover(hit.item)" (click)="select(hit.item)" />
             }
           }
         }
@@ -218,7 +224,7 @@ let nextId = 0;
           }
         </div>
       }
-      @if (scene().zoomed) {
+      @if (zoomEnabled() && window()) {
         <button type="button" class="cb-chart__reset" (click)="resetZoom()">{{ t().chartResetZoom }}</button>
       }
     </div>
@@ -305,6 +311,11 @@ export class CbChart {
   readonly animate = input(true, { transform: booleanAttribute });
   /** Modo composable: zoom y desplazamiento en el eje X (rueda, arrastre, `+` / `-` / `0`). */
   readonly zoom = input(false, { transform: booleanAttribute });
+  /**
+   * Modo composable: muestra al inicio solo los últimos `xWindow` del eje X (ms en un
+   * eje de tiempo, categorías…). Con datos en tiempo real la vista avanza con ellos.
+   */
+  readonly xWindow = input<number | undefined>(undefined);
 
   /** Clic o Enter sobre una categoría, un segmento o una celda. */
   readonly itemSelect = output<CbChartItemEvent>();
@@ -314,18 +325,22 @@ export class CbChart {
   private readonly axisDefs = contentChildren(CbChartAxis);
   private readonly lineDefs = contentChildren(CbChartReferenceLine);
   private readonly bandDefs = contentChildren(CbChartReferenceBand);
+  private readonly noteDefs = contentChildren(CbChartAnnotation);
 
   /** Posición del elemento activo en `scene().items`. */
   protected readonly active = signal<number | null>(null);
   /** Series o elementos ocultos desde la leyenda. */
   protected readonly hidden = signal<ReadonlySet<number>>(new Set());
-  /** Ventana visible del eje X (fracción del dominio) en el modo composable. */
-  protected readonly view = signal<readonly [number, number]>([0, 1]);
+  /** Ventana elegida con zoom (modo composable, sin grupo). */
+  private readonly localWindow = signal<CbChartWindow | null>(null);
   /** Ancho real del área del gráfico (px); hasta medirlo, el ancho lógico por defecto. */
   protected readonly width = signal(W);
 
   private readonly plotRef = viewChild.required<ElementRef<HTMLElement>>('plot');
-  protected dragging: { x: number; view: readonly [number, number] } | null = null;
+  protected dragging: { x: number; window: readonly [number, number] } | null = null;
+  private readonly group = inject(CbChartGroupState, { optional: true });
+  private readonly document = inject(DOCUMENT);
+  private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
 
   constructor() {
     const destroyRef = inject(DestroyRef);
@@ -337,6 +352,13 @@ export class CbChart {
       });
       observer.observe(this.plotRef().nativeElement);
       destroyRef.onDestroy(() => observer.disconnect());
+    });
+    // En un grupo, el valor de X activo aquí se comparte con las demás gráficas.
+    effect(() => {
+      const i = this.active();
+      const group = this.group;
+      if (!group) return;
+      untracked(() => group.key.set(i === null ? null : (this.scene().items[i]?.key ?? null)));
     });
   }
 
@@ -410,8 +432,10 @@ export class CbChart {
       refs: [
         ...this.bandDefs().map((b) => ({ kind: 'band' as const, axis: b.axis(), from: b.from(), to: b.to(), label: b.label(), color: b.color() })),
         ...this.lineDefs().map((l) => ({ kind: 'line' as const, axis: l.axis(), value: l.value(), label: l.label(), color: l.color() })),
+        ...this.noteDefs().map((n) => ({ kind: 'note' as const, axis: n.axis(), value: n.x(), y: n.y(), label: n.label(), color: n.color() })),
       ],
-      view: this.zoomEnabled() ? this.view() : [0, 1],
+      window: this.zoomEnabled() ? this.window() : null,
+      xWindow: this.xWindow(),
     };
   });
 
@@ -444,8 +468,21 @@ export class CbChart {
     return render(this.context());
   });
 
+  /**
+   * Elemento resaltado: el activo de este gráfico o, en un grupo, el del mismo
+   * valor de X activo en otra gráfica.
+   */
+  protected readonly shown = computed<number | null>(() => {
+    const local = this.active();
+    if (local !== null) return local;
+    const key = this.group?.key();
+    if (key === null || key === undefined) return null;
+    const i = this.scene().items.findIndex((item) => item.key === key);
+    return i < 0 ? null : i;
+  });
+
   protected readonly activeItem = computed(() => {
-    const i = this.active();
+    const i = this.shown();
     return i === null ? null : (this.scene().items[i] ?? null);
   });
 
@@ -461,23 +498,31 @@ export class CbChart {
   });
 
   // --- Zoom (modo composable) ----------------------------------------------------------
-  /** Acerca (`factor` < 1) o aleja la ventana alrededor de `anchor` (0–1 dentro del área). */
-  zoomBy(factor: number, anchor = 0.5): void {
-    if (!this.zoomEnabled()) return;
-    const [a, b] = this.view();
-    const w = b - a;
-    const minW = Math.min(1, Math.max(0.005, (this.scene().domainSize ?? 0.01) * 2));
-    const next = clamp(w * factor, minW, 1);
-    const center = a + w * anchor;
-    const start = clamp(center - next * anchor, 0, 1 - next);
+  /** Ventana elegida con zoom: la del grupo si lo hay, si no la propia. */
+  protected readonly window = computed(() => (this.group ? this.group.window() : this.localWindow()));
+
+  private setWindow(window: CbChartWindow | null): void {
     this.active.set(null);
-    this.view.set([start, start + next]);
+    if (this.group) this.group.window.set(window);
+    else this.localWindow.set(window);
   }
 
-  /** Vuelve a mostrar todo el eje X. */
+  /** Acerca (`factor` < 1) o aleja la ventana alrededor de `anchor` (0–1 dentro del área). */
+  zoomBy(factor: number, anchor = 0.5): void {
+    const { domain, window, step } = this.scene();
+    if (!this.zoomEnabled() || !domain || !window) return;
+    const [f0, f1] = domain;
+    const [a, b] = window;
+    const w = b - a;
+    const next = clamp(w * factor, Math.min(f1 - f0, (step ?? (f1 - f0) / 100) * 2), f1 - f0);
+    const start = clamp(a + w * anchor - next * anchor, f0, f1 - next);
+    const end = start + next;
+    this.setWindow({ start, end, pinned: end >= f1 - (f1 - f0) * 1e-6 });
+  }
+
+  /** Vuelve a la vista inicial (todo, o los últimos `xWindow`). */
   resetZoom(): void {
-    this.active.set(null);
-    this.view.set([0, 1]);
+    this.setWindow(null);
   }
 
   /** Posición del ratón dentro del área de dibujo (0–1). */
@@ -497,37 +542,141 @@ export class CbChart {
   }
 
   protected onPointerDown(event: PointerEvent): void {
-    if (!this.zoomEnabled() || !this.scene().zoomed || event.button !== 0) return;
-    this.dragging = { x: event.clientX, view: this.view() };
+    const window = this.scene().window;
+    if (!this.zoomEnabled() || !this.scene().zoomed || !window || event.button !== 0) return;
+    this.dragging = { x: event.clientX, window };
     (event.currentTarget as Element).setPointerCapture?.(event.pointerId);
   }
 
   protected onPointerMove(event: PointerEvent): void {
     const drag = this.dragging;
-    const clip = this.scene().clip;
-    if (!drag || !clip) return;
+    const { clip, domain } = this.scene();
+    if (!drag || !clip || !domain) return;
     const svg = event.currentTarget as SVGSVGElement;
     const scale = this.width() / (svg.getBoundingClientRect().width || this.width());
-    const [a, b] = drag.view;
-    const shift = (((drag.x - event.clientX) * scale) / clip.w) * (b - a);
-    const start = clamp(a + shift, 0, 1 - (b - a));
-    this.active.set(null);
-    this.view.set([start, start + (b - a)]);
+    const [a, b] = drag.window;
+    const w = b - a;
+    const shift = (((drag.x - event.clientX) * scale) / clip.w) * w;
+    const start = clamp(a + shift, domain[0], domain[1] - w);
+    this.setWindow({ start, end: start + w, pinned: start + w >= domain[1] - w * 1e-6 });
   }
 
-  /** Lo que anuncia el lector de pantalla al recorrer el gráfico con el teclado. */
+  /** Lo que anuncia el lector de pantalla al recorrer el gráfico con el teclado (solo el propio). */
   protected readonly announcement = computed(() => {
-    const item = this.activeItem();
+    const i = this.active();
+    const item = i === null ? null : this.scene().items[i];
     if (!item) return '';
-    return `${item.title}: ${item.rows.map((r) => (r.label ? `${r.label} ${r.value}` : r.value)).join(', ')}`;
+    return `${item.title}: ${item.rows.map((r) => (r.label && r.value ? `${r.label} ${r.value}` : r.label || r.value)).join(', ')}`;
   });
 
   /** Clases de una forma: atenuada si hay otro elemento activo, resaltada si es el activo. */
   protected shapeClass(s: ChartShape): string {
-    const active = this.active();
+    const active = this.shown();
     if (s.item === undefined || active === null) return s.cls;
     if (s.item === active) return `${s.cls} cb-is-active`;
     return s.k === 'circle' ? s.cls : `${s.cls} cb-is-dim`;
+  }
+
+  // --- Exportar ------------------------------------------------------------------------
+  /**
+   * El gráfico como SVG autocontenido: estilos y colores resueltos (incluido el tema),
+   * fondo y leyenda. Solo en el navegador.
+   */
+  toSvg(): string {
+    const svg = this.plotRef().nativeElement.querySelector('svg');
+    if (!svg) return '';
+    const view = this.document.defaultView;
+    const clone = svg.cloneNode(true) as SVGSVGElement;
+    const source = [svg, ...Array.from(svg.querySelectorAll('*'))];
+    const target = [clone, ...Array.from(clone.querySelectorAll('*'))];
+    source.forEach((el, i) => {
+      const style = view?.getComputedStyle(el);
+      const out = target[i] as SVGElement;
+      if (!style) return;
+      const props = EXPORT_STYLES.map((p) => `${p}:${style.getPropertyValue(p)}`).filter((d) => !d.endsWith(':'));
+      out.setAttribute('style', `${props.join(';')};animation:none;transition:none`);
+      out.removeAttribute('class');
+      out.removeAttribute('_ngcontent');
+    });
+    clone.querySelectorAll('[data-hit]').forEach((el) => el.remove());
+
+    // Leyenda y fondo: el SVG exportado se ve igual que la tarjeta.
+    const host = this.host.nativeElement;
+    const hostStyle = view?.getComputedStyle(host);
+    const legend = this.showLegend() && !this.sparkline() ? this.scene().legend.filter((l) => !this.hidden().has(l.index)) : [];
+    const width = this.width();
+    const legendH = legend.length ? 28 : 0;
+    const height = this.height() + legendH;
+    const ns = 'http://www.w3.org/2000/svg';
+    clone.setAttribute('xmlns', ns);
+    clone.setAttribute('width', String(width));
+    clone.setAttribute('height', String(height));
+    clone.setAttribute('viewBox', `0 0 ${width} ${height}`);
+    clone.removeAttribute('aria-hidden');
+    const bg = this.document.createElementNS(ns, 'rect');
+    bg.setAttribute('width', '100%');
+    bg.setAttribute('height', '100%');
+    bg.setAttribute('fill', hostStyle?.backgroundColor || '#fff');
+    clone.insertBefore(bg, clone.firstChild);
+    const text = hostStyle?.color || '#000';
+    const font = hostStyle?.fontFamily || 'sans-serif';
+    let x = 8;
+    for (const item of legend) {
+      const swatch = this.document.createElementNS(ns, 'circle');
+      swatch.setAttribute('cx', String(x + 5));
+      swatch.setAttribute('cy', String(this.height() + 14));
+      swatch.setAttribute('r', '5');
+      swatch.setAttribute('fill', resolveColor(item.color, host, view));
+      const label = this.document.createElementNS(ns, 'text');
+      label.setAttribute('x', String(x + 14));
+      label.setAttribute('y', String(this.height() + 18));
+      label.setAttribute('style', `fill:${text};font:12px ${font}`);
+      label.textContent = item.label;
+      clone.append(swatch, label);
+      x += 26 + item.label.length * 7;
+    }
+    const title = this.document.createElementNS(ns, 'title');
+    title.textContent = this.name();
+    clone.insertBefore(title, clone.firstChild);
+    return new XMLSerializer().serializeToString(clone);
+  }
+
+  /** El gráfico como imagen PNG (`scale` multiplica la resolución). */
+  toPng(scale = 2): Promise<Blob> {
+    const svg = this.toSvg();
+    const width = Number(/width="(\d+)"/.exec(svg)?.[1] ?? this.width());
+    const height = Number(/height="(\d+)"/.exec(svg)?.[1] ?? this.height());
+    return new Promise((resolve, reject) => {
+      const image = new Image();
+      const url = URL.createObjectURL(new Blob([svg], { type: 'image/svg+xml;charset=utf-8' }));
+      image.onload = () => {
+        const canvas = this.document.createElement('canvas');
+        canvas.width = Math.round(width * scale);
+        canvas.height = Math.round(height * scale);
+        const ctx = canvas.getContext('2d');
+        if (!ctx) return reject(new Error('Canvas 2D no disponible'));
+        ctx.scale(scale, scale);
+        ctx.drawImage(image, 0, 0, width, height);
+        URL.revokeObjectURL(url);
+        canvas.toBlob((blob) => (blob ? resolve(blob) : reject(new Error('No se pudo generar el PNG'))), 'image/png');
+      };
+      image.onerror = () => {
+        URL.revokeObjectURL(url);
+        reject(new Error('No se pudo dibujar el SVG'));
+      };
+      image.src = url;
+    });
+  }
+
+  /** Descarga el gráfico como PNG o SVG. */
+  async download(format: 'png' | 'svg' = 'png', fileName = 'chart'): Promise<void> {
+    const blob = format === 'svg' ? new Blob([this.toSvg()], { type: 'image/svg+xml;charset=utf-8' }) : await this.toPng();
+    const url = URL.createObjectURL(blob);
+    const a = this.document.createElement('a');
+    a.href = url;
+    a.download = `${fileName}.${format}`;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
   }
 
   // --- Interacción --------------------------------------------------------------------
@@ -604,6 +753,35 @@ export class CbChart {
       return next;
     });
   }
+}
+
+/** Propiedades que se copian como estilo en línea al exportar. */
+const EXPORT_STYLES = [
+  'fill',
+  'fill-opacity',
+  'stroke',
+  'stroke-width',
+  'stroke-opacity',
+  'stroke-dasharray',
+  'stroke-linecap',
+  'stroke-linejoin',
+  'paint-order',
+  'opacity',
+  'font-family',
+  'font-size',
+  'font-weight',
+  'font-variant-numeric',
+];
+
+/** Resuelve un color con variables CSS (`var(--x)`) al valor del tema actual. */
+function resolveColor(color: string, host: HTMLElement, view: Window | null): string {
+  if (!color.includes('var(') || !view) return color;
+  const probe = host.ownerDocument.createElement('span');
+  probe.style.color = color;
+  host.append(probe);
+  const value = view.getComputedStyle(probe).color;
+  probe.remove();
+  return value || color;
 }
 
 function clamp(n: number, min: number, max: number): number {

@@ -128,7 +128,9 @@ export interface AxisSpec {
 }
 
 export interface RefSpec {
-  kind: 'line' | 'band';
+  /** `note`: anotación en un punto (`value` en X, `y` en el eje). */
+  kind: 'line' | 'band' | 'note';
+  y?: number;
   axis: 'left' | 'right' | 'x';
   value?: unknown;
   from?: unknown;
@@ -141,8 +143,21 @@ export interface ComposedSpec {
   series: SeriesSpec[];
   axes: AxisSpec[];
   refs: RefSpec[];
-  /** Ventana visible del eje X como fracción del dominio completo ([0, 1] = todo). */
-  view: readonly [number, number];
+  /** Ventana visible del eje X en unidades del eje; `null` = todo (o `xWindow`). */
+  window: CbChartWindow | null;
+  /** Ventana inicial: los últimos `xWindow` del eje X (ms en un eje de tiempo, categorías…). */
+  xWindow?: number;
+}
+
+/**
+ * Ventana visible del eje X en sus unidades (ms en un eje de tiempo, número en uno
+ * lineal, posición en uno de categorías). `pinned`: pegada al final, avanza con los
+ * datos nuevos.
+ */
+export interface CbChartWindow {
+  start: number;
+  end: number;
+  pinned: boolean;
 }
 
 interface ShapeBase {
@@ -188,6 +203,8 @@ export interface ChartItem {
   y: number;
   /** Línea guía vertical al activarlo (cartesianos). */
   cursor?: { x: number; y1: number; y2: number };
+  /** Valor de X (modo composable): sincroniza el cursor entre gráficas de un grupo. */
+  key?: number;
 }
 
 export interface ChartLegendEntry {
@@ -206,8 +223,11 @@ export interface ChartScene {
   clip?: { x: number; y: number; w: number; h: number };
   /** Hay más datos fuera de la ventana visible (zoom activo). */
   zoomed?: boolean;
-  /** Pasos de la ventana (fracción del dominio) que avanza un elemento, para el zoom con teclado. */
-  domainSize?: number;
+  /** Dominio completo del eje X y la parte visible (modo composable). */
+  domain?: readonly [number, number];
+  window?: readonly [number, number];
+  /** Distancia mínima entre dos valores de X: limita el zoom a unos pocos datos. */
+  step?: number;
   hits: ChartHit[];
   items: ChartItem[];
   /** Columnas de una cuadrícula navegable (mapa de calor): flechas arriba / abajo saltan filas. */
