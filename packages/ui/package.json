@@ -23,6 +23,10 @@
     "url": "https://github.com/caribeng/ui/issues"
   },
   "sideEffects": false,
+  "schematics": "./schematics/collection.json",
+  "ng-add": {
+    "save": "dependencies"
+  },
   "publishConfig": {
     "access": "public"
   },

@@ -43,6 +43,11 @@ jobs:
       - name: Run unit tests
         run: pnpm nx test ui
 
+      - name: Test and build ng add schematics
+        run: |
+          pnpm nx run ui:test-schematics
+          pnpm nx run ui:build-schematics
+
       - name: Verify npm package (APF dry-run)
         working-directory: dist/packages/ui
         run: npm pack --dry-run

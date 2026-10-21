@@ -13,9 +13,22 @@
         "tsConfig": "packages/ui/tsconfig.lib.json"
       }
     },
-    "prepare-publish": {
+    "build-schematics": {
       "executor": "nx:run-commands",
       "dependsOn": ["build"],
+      "options": {
+        "command": "node packages/ui/scripts/build-schematics.mjs"
+      }
+    },
+    "test-schematics": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node packages/ui/scripts/build-schematics.mjs --test"
+      }
+    },
+    "prepare-publish": {
+      "executor": "nx:run-commands",
+      "dependsOn": ["build", "build-schematics"],
       "options": {
         "command": "node packages/ui/scripts/prepare-publish.mjs"
       }
@@ -34,7 +47,8 @@
         "buildTarget": "ui:build-test",
         "tsConfig": "packages/ui/tsconfig.spec.json",
         "runner": "vitest",
-        "watch": false
+        "watch": false,
+        "exclude": ["schematics/**"]
       }
     }
   }

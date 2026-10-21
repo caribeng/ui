@@ -1,0 +1,66 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "caribeng-ng-add",
+  "title": "CaribeNG ng-add",
+  "type": "object",
+  "properties": {
+    "project": {
+      "type": "string",
+      "description": "Proyecto (aplicación) donde configurar CaribeNG. Por defecto, la única aplicación del workspace.",
+      "$default": { "$source": "projectName" }
+    },
+    "locale": {
+      "type": "string",
+      "description": "Idioma de los textos de interfaz de los componentes.",
+      "enum": ["es", "en"],
+      "default": "es",
+      "x-prompt": {
+        "message": "Idioma de los componentes / Component language:",
+        "type": "list",
+        "items": [
+          { "value": "es", "label": "Español" },
+          { "value": "en", "label": "English" }
+        ]
+      }
+    },
+    "theme": {
+      "type": "string",
+      "description": "Tema inicial: claro, oscuro o el del sistema operativo.",
+      "enum": ["light", "dark", "system"],
+      "default": "light",
+      "x-prompt": {
+        "message": "Tema / Theme:",
+        "type": "list",
+        "items": [
+          { "value": "light", "label": "Claro / Light" },
+          { "value": "dark", "label": "Oscuro / Dark" },
+          { "value": "system", "label": "El del sistema / System" }
+        ]
+      }
+    },
+    "preset": {
+      "type": "string",
+      "description": "Paleta de color primaria.",
+      "enum": ["emerald", "ocean", "coral", "amber", "violet", "rose"],
+      "default": "emerald",
+      "x-prompt": {
+        "message": "Color primario / Primary color:",
+        "type": "list",
+        "items": [
+          { "value": "emerald", "label": "Emerald (verde)" },
+          { "value": "ocean", "label": "Ocean (azul)" },
+          { "value": "coral", "label": "Coral" },
+          { "value": "amber", "label": "Amber (ámbar)" },
+          { "value": "violet", "label": "Violet (violeta)" },
+          { "value": "rose", "label": "Rose (rosa)" }
+        ]
+      }
+    },
+    "styles": {
+      "type": "boolean",
+      "description": "Añade @caribeng/ui/styles.css a los estilos del proyecto en angular.json.",
+      "default": true
+    }
+  },
+  "required": []
+}

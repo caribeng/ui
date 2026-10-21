@@ -42,7 +42,23 @@ Navegadores: los mismos que [soporta Angular](https://angular.dev/reference/vers
 - `@angular/cdk` se instala automáticamente como dependencia (overlays y accesibilidad).
 - npm, yarn o pnpm.
 
-### Descarga
+### Instalación rápida (recomendada)
+
+```bash
+ng add @caribeng/ui
+```
+
+Pregunta el idioma, el tema y el color primario, y deja el proyecto listo:
+
+- instala `@caribeng/ui` (y `@angular/cdk`),
+- registra `provideCaribeNG({ locale, theme, preset })` en `app.config.ts` (o en `AppModule`),
+- añade `@caribeng/ui/styles.css` a los estilos de `angular.json`.
+
+Se puede ejecutar sin preguntas: `ng add @caribeng/ui --locale=en --theme=system --preset=ocean --skip-confirmation`. Volver a ejecutarlo no duplica nada.
+
+Después, salta al paso [3. Verifica la instalación](#3-verifica-la-instalación).
+
+### Instalación manual
 
 ```bash
 # npm
@@ -56,6 +72,8 @@ pnpm add @caribeng/ui
 ```
 
 ## 🔨 Uso
+
+> Con `ng add @caribeng/ui` los pasos 1 y 2 ya están hechos.
 
 ### 1. Proveedor
 

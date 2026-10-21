@@ -13,6 +13,12 @@ Monorepo oficial de **CaribeNG** (`@caribeng/ui`), una librería greenfield de c
 Requiere un proyecto **Angular 22**. El major de CaribeNG coincide con el de Angular (`22.x` → Angular 22; `21.x` → Angular 21, en mantenimiento).
 
 ```bash
+ng add @caribeng/ui
+```
+
+`ng add` instala el paquete, registra `provideCaribeNG()` con el idioma, tema y color que elijas, y añade la hoja de estilos a `angular.json`. Para hacerlo a mano:
+
+```bash
 npm install @caribeng/ui
 ```
 

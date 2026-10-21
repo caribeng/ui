@@ -42,6 +42,9 @@ importers:
         specifier: 0.16.2
         version: 0.16.2
     devDependencies:
+      '@angular-devkit/schematics':
+        specifier: 22.0.5
+        version: 22.0.5(chokidar@5.0.0)
       '@angular/build':
         specifier: 22.0.5
         version: 22.0.5(ee9f2b7d02c561a6b995ae34a4704af1)
@@ -72,6 +75,9 @@ importers:
       '@nx/workspace':
         specifier: 23.1.0
         version: 23.1.0
+      '@schematics/angular':
+        specifier: 22.0.5
+        version: 22.0.5(chokidar@5.0.0)
       '@types/node':
         specifier: 20.19.0
         version: 20.19.0
