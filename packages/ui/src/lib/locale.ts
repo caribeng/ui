@@ -325,6 +325,19 @@ export interface CbTranslation {
   editorPlaceholder: string;
   textEditor: string;
   linkUrl: string;
+  inlineCode: string;
+  horizontalLine: string;
+  /** Botón que alterna entre el editor y el código HTML. */
+  sourceCode: string;
+  removeLink: string;
+  openInNewTab: string;
+  /** Enlace con un protocolo no permitido (solo http, https, mailto y tel). */
+  invalidUrl: string;
+  /** `{0}`: caracteres usados; `{1}`: máximo. */
+  characterCount: string;
+  /** `{0}`: tamaño máximo (p. ej. "1 MB"). */
+  imageTooLarge: string;
+  imageUploadError: string;
 }
 
 /** Español (idioma por defecto). */
@@ -593,6 +606,15 @@ export const CB_LOCALE_ES: CbTranslation = {
   editorPlaceholder: 'Escribe aquí…',
   textEditor: 'Editor de texto',
   linkUrl: 'URL del enlace:',
+  inlineCode: 'Código',
+  horizontalLine: 'Línea horizontal',
+  sourceCode: 'Ver HTML',
+  removeLink: 'Quitar enlace',
+  openInNewTab: 'Abrir en una pestaña nueva',
+  invalidUrl: 'El enlace debe empezar por http://, https://, mailto: o tel:.',
+  characterCount: '{0} de {1} caracteres',
+  imageTooLarge: 'La imagen supera el tamaño máximo ({0}).',
+  imageUploadError: 'No se pudo subir la imagen.',
 };
 
 /** Inglés. */
@@ -861,6 +883,15 @@ export const CB_LOCALE_EN: CbTranslation = {
   editorPlaceholder: 'Write here…',
   textEditor: 'Text editor',
   linkUrl: 'Link URL:',
+  inlineCode: 'Code',
+  horizontalLine: 'Horizontal line',
+  sourceCode: 'View HTML',
+  removeLink: 'Remove link',
+  openInNewTab: 'Open in a new tab',
+  invalidUrl: 'The link must start with http://, https://, mailto: or tel:.',
+  characterCount: '{0} of {1} characters',
+  imageTooLarge: 'The image exceeds the maximum size ({0}).',
+  imageUploadError: 'The image could not be uploaded.',
 };
 
 /** Idiomas incluidos. */

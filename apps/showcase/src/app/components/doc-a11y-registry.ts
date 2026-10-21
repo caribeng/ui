@@ -437,10 +437,17 @@ export const DOC_A11Y: Record<string, DocA11y> = {
   'cb-editor': {
     screenReader: [
       'El área editable es un `role="textbox"` con `aria-multiline="true"`, nombrado con `ariaLabel` (por defecto, "Editor de texto"). Refleja `aria-invalid`, `aria-required` y `aria-disabled`.',
-      'La barra es un `role="toolbar"` con nombre; cada herramienta tiene su etiqueta y solo una entra en el orden de tabulación.',
+      'La barra es un `role="toolbar"` con nombre que controla el área editable (`aria-controls`); cada herramienta tiene su etiqueta (también como `title`), las de formato indican con `aria-pressed` si están activas y solo una entra en el orden de tabulación.',
+      'El enlace se edita en un formulario propio (no en `window.prompt`): su campo tiene etiqueta visible y, si la URL no es segura, `aria-invalid` y un `role="alert"`. El contador de `maxLength` describe el área editable (`aria-describedby`) y los errores de imagen se anuncian con `role="alert"`.',
+      'Con `readonly` el área tiene `aria-readonly="true"` y no hay barra. El contenido siempre se sanea: un lector de pantalla nunca recibe scripts ni enlaces `javascript:`.',
     ],
     keyboard: [
       { keys: 'Tab', action: 'Pasa de la barra de herramientas al área editable.' },
+      { keys: 'Ctrl + B / I / U', action: 'Negrita, cursiva y subrayado.' },
+      { keys: 'Ctrl + K', action: 'Abre el formulario de enlace (Escape lo cierra y vuelve al texto).' },
+      { keys: 'Ctrl + Mayús + 7 / 8', action: 'Lista numerada / con viñetas.' },
+      { keys: 'Ctrl + Alt + 1–3 / 0', action: 'Título 1–3 / párrafo.' },
+      { keys: '# , * , 1. , > + Espacio', action: 'Al inicio de un párrafo, lo convierten en título, lista o cita.' },
       { keys: 'Flecha derecha / Flecha izquierda', action: 'En la barra, va a la herramienta siguiente o anterior (de forma circular).' },
       { keys: 'Inicio / Fin', action: 'En la barra, va a la primera o a la última herramienta.' },
     ],

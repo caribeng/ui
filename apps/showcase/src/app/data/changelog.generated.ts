@@ -28,6 +28,10 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
         "type": "added",
         "items": [
           {
+            "component": "Editor",
+            "text": "el valor es HTML saneado (lista blanca de etiquetas y atributos; sin scripts, eventos ni URLs `javascript:`) y normalizado (igual en todos los navegadores, `''` si está vacío), también al cargar, al pegar y en la vista de HTML; `cbSanitizeHtml` y `cbHtmlToText` exportados. Pegado limpio desde Word y Google Docs (`pastePlainText` opcional), panel de enlaces propio con validación y \"abrir en pestaña nueva\", `imageUpload` (el HTML guarda la URL) y `maxImageSize`, barra configurable (`toolbar`) con iconos y estado activo, atajos de escritura (`# `, `* `, `1. `, `> `) y de teclado, `maxLength` con contador, vista de HTML, `readonly` y `required`."
+          },
+          {
             "component": "DatePicker",
             "text": "`dateFormat` con la sintaxis de PrimeNG (`dd/mm/yy`, `DD d 'de' MM`, `@`, `!`…) y `editable` para escribir la fecha (se valida y avisa del formato esperado); los rangos muestran dos meses (`numberOfMonths`) y admiten hora de inicio y de fin; `view=\"month\"` y `view=\"year\"` para elegir un mes o un año (también en rango); el título del calendario lleva a las vistas de meses y años para saltar rápido. Atajos con `presets`: claves traducidas (`today`, `yesterday`, `last7Days`, `last30Days`, `thisMonth`, `lastMonth`, `thisYear`, `lastYear`) u objetos `{ label, value }` propios."
           },
