@@ -80,7 +80,7 @@ function fakePdfJs(pages: string[][], options: FakeOptions = {}) {
   />`,
 })
 class HostComponent {
-  src = signal<CbPdfSource | null>('/docs/extracto.pdf');
+  src = signal<CbPdfSource | null>('docs/extracto.pdf');
   page = signal(1);
   zoom = signal<CbPdfZoom>('page-width');
   sidebar = signal(false);
@@ -120,7 +120,8 @@ describe('CbPdfViewer', () => {
   it('abre el documento, pasa recursos absolutos y renderiza cada página con su nombre', async () => {
     const { host, fake, qa, q } = await setup();
     const params = fake.calls.getDocument[0];
-    expect(params['url']).toBe('/docs/extracto.pdf');
+    // Relativa al <base href>, no a la ruta actual (pdf.js la resolvería contra location).
+    expect(params['url']).toBe(new URL('docs/extracto.pdf', document.baseURI).href);
     expect(params['cMapUrl']).toMatch(/^https?:\/\/.+\/pdfjs\/cmaps\/$/);
     expect(fake.raw.GlobalWorkerOptions.workerSrc).toMatch(/\/pdfjs\/build\/pdf\.worker\.min\.mjs$/);
     expect(host.loaded).toEqual({ numPages: 3 });

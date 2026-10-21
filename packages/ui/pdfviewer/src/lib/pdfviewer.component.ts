@@ -641,7 +641,7 @@ export class CbPdfViewer {
       this.pdfjs = pdfjs;
       const task = pdfjs.getDocument({
         ...this.engine.resources(),
-        ...(data ? { data } : { url: String(src) }),
+        ...(data ? { data } : { url: this.engine.resolve(src as string | URL) }),
         password,
         withCredentials: this.withCredentials(),
         httpHeaders: this.httpHeaders(),

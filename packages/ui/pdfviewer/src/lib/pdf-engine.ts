@@ -90,11 +90,15 @@ export class CbPdfEngine {
     };
   }
 
-  private resolve(url: string): string {
+  /**
+   * Resuelve una URL contra el `<base href>`, como Angular y `<img>`; pdf.js
+   * la resolvería contra la ruta actual (`/components/visor/doc.pdf`).
+   */
+  resolve(url: string | URL): string {
     try {
       return new URL(url, this.document.baseURI).href;
     } catch {
-      return url;
+      return String(url);
     }
   }
 }
