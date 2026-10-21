@@ -4,6 +4,7 @@ import {
   ViewEncapsulation,
   input,
 } from '@angular/core';
+import { injectCbTranslation } from '@caribeng/ui';
 
 /**
  * Enlace de Caribe Design. Renderiza un ancla accesible con estilos de marca,
@@ -34,12 +35,15 @@ import {
       <span class="cb-link__label">{{ label() }}<ng-content /></span>
       @if (external()) {
         <span class="cb-link__external" aria-hidden="true">↗</span>
+        <span class="cb-link__sr">{{ t().opensInNewTab }}</span>
       }
     </a>
   `,
   styleUrl: './link.component.css',
 })
 export class CbLink {
+  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+  protected readonly t = injectCbTranslation();
   /** Destino del enlace. */
   readonly href = input<string>('#');
   /** Texto del enlace (alternativa a proyectar contenido). */

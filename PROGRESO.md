@@ -390,8 +390,8 @@ Todos los lotes planificados en `SPEC.md` (75 componentes/directivas) y `PROGRES
 |---|---|---|---|---|
 | 1 | **Sistema de idioma (i18n)**: `provideCaribeNG({ locale: 'en' })` con traducciones ES/EN de los textos de interfaz, sobrescribibles por cada app | Afecta a todos los que instalen el paquete; es lo más visible ahora que está en npm | Medio | ✅ Hecho |
 | 2 | **Reescribir los 11 componentes minificados** (Tree, TreeTable, VirtualScroller, DataView, Timeline, OrderList, PickList, ConfirmPopup, DynamicDialog, ConfirmDialog, MegaMenu) con formato legible, accesibilidad, documentación y tests | Calidad y mantenibilidad; elimina deuda técnica | Grande, por tandas | ✅ Hecho |
-| 3 | **Base de tests**: comportamiento, teclado y accesibilidad en los componentes con 1 test o menos (66 al empezar) | Red de seguridad para todo lo demás | Grande, por tandas | 🔄 En curso |
-| 4 | **Paridad con PrimeNG** en componentes clave: Table (filtros, redimensionar, expandir), Select/MultiSelect (agrupación, scroll virtual), DatePicker (rangos, hora) | Lo que más usará el equipo en el día a día | Grande, por componente | ⏳ Pendiente |
+| 3 | **Base de tests**: comportamiento, teclado y accesibilidad en los componentes con 1 test o menos (66 al empezar) | Red de seguridad para todo lo demás | Grande, por tandas | ✅ Hecho (375 → 560 tests; ningún componente con menos de 2) |
+| 4 | **Paridad con PrimeNG** en componentes clave: Table (filtros, redimensionar, expandir), Select/MultiSelect (agrupación, scroll virtual), DatePicker (rangos, hora) | Lo que más usará el equipo en el día a día | Grande, por componente | 🔄 Siguiente |
 
 ---
 

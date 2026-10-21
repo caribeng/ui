@@ -124,6 +124,30 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
             "text": "la cabecera controla una región nombrada (`aria-controls`, `role=\"region\"`)."
           },
           {
+            "component": "CardSelect / DotsIndicator (Caribe)",
+            "text": "un solo tabindex activo y navegación con flechas, Inicio y Fin (patrones *listbox* y *tabs*)."
+          },
+          {
+            "component": "CardMove (Caribe)",
+            "text": "cada botón de mover se describe con su elemento y el foco sigue al elemento movido."
+          },
+          {
+            "component": "FileDownload (Caribe)",
+            "text": "con `href` se renderiza un enlace de descarga nativo (antes `href` no se usaba); el botón se describe con el nombre del archivo."
+          },
+          {
+            "component": "Link (Caribe)",
+            "text": "los enlaces externos avisan al lector de pantalla de que se abren en una pestaña nueva."
+          },
+          {
+            "component": "DataTable / Shortcut (Caribe)",
+            "text": "`ariaLabel` para nombrar la tabla o un atajo sin texto visible; las cabeceras de DataTable tienen `scope=\"col\"`."
+          },
+          {
+            "component": "StepIndicator (Caribe)",
+            "text": "`aria-valuetext` (\"Paso 2 de 4\")."
+          },
+          {
             "component": "Tests",
             "text": "base de tests de comportamiento, teclado, accesibilidad y formularios en los 23 componentes del núcleo que tenían uno solo y en los de Caribe Design: CascadeSelect, TreeSelect, InputMask, InputOtp, FileUpload, Image, Carousel, Galleria, Inplace, Chip, Editor, Terminal, BlockUI, ScrollTop, FloatLabel, MeterGroup, FileCard, FolderCard, AvatarGroup, IconField, InlineMessage, ScrollPanel y Toolbar."
           },
@@ -236,6 +260,18 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
           {
             "component": "FileSelect (Caribe)",
             "text": "no había indicador de foco visible al navegar con teclado; la cantidad de archivos elegidos se anuncia."
+          },
+          {
+            "component": "Calendar (Caribe)",
+            "text": "las iniciales de los días estaban fijas en español; ahora siguen el idioma activo (`weekdaysMin`). Además usaba `role=\"grid\"` sin filas ni celdas (ARIA inválido); ahora es un grupo nombrado por el mes."
+          },
+          {
+            "component": "Preloader (Caribe)",
+            "text": "`aria-busy=\"true\"` fijo impedía que el lector de pantalla anunciara el aviso de carga."
+          },
+          {
+            "component": "Voucher (Caribe)",
+            "text": "dos filas con la misma etiqueta rompían la lista."
           }
         ]
       }

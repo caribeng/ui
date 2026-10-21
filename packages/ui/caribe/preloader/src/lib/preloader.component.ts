@@ -22,7 +22,7 @@ import { injectCbTranslation } from '@caribeng/ui';
   host: { class: 'cb-preloader-host' },
   template: `
     @if (active()) {
-      <div class="cb-preloader" role="alert" aria-busy="true">
+      <div class="cb-preloader" role="alert">
         <strong class="cb-preloader__title">{{ title() }}</strong>
         <div class="cb-preloader__bar" aria-hidden="true">
           <span class="cb-preloader__bar-fill"></span>

@@ -28,7 +28,7 @@ import { injectCbTranslation } from '@caribeng/ui';
       </header>
       <div class="cb-voucher__intro"><ng-content /></div>
       <dl class="cb-voucher__list">
-        @for (row of rows(); track row.label) {
+        @for (row of rows(); track $index) {
           <div class="cb-voucher__row">
             <dt class="cb-voucher__label">{{ row.label }}</dt>
             <dd class="cb-voucher__value">{{ row.value }}</dd>

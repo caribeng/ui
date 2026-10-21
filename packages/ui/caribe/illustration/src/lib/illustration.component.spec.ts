@@ -8,4 +8,15 @@ describe('CbIllustration', () => {
     fixture.detectChanges();
     expect(fixture.nativeElement.querySelector('svg').getAttribute('aria-label')).toBe('Éxito en transferencia');
   });
+
+  it('es una imagen nombrada con alt o con el nombre por defecto', () => {
+    const fixture = TestBed.createComponent(CbIllustration);
+    fixture.detectChanges();
+    const svg = (fixture.nativeElement as HTMLElement).querySelector('svg')!;
+    expect(svg.getAttribute('role')).toBe('img');
+    expect(svg.getAttribute('aria-label')).toBeTruthy();
+    fixture.componentRef.setInput('alt', 'Transferencia completada');
+    fixture.detectChanges();
+    expect(svg.getAttribute('aria-label')).toBe('Transferencia completada');
+  });
 });

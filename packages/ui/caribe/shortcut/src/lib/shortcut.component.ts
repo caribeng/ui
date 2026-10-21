@@ -26,6 +26,7 @@ import { CbIcon } from '@caribeng/ui/icon';
     <button
       type="button"
       class="cb-shortcut"
+      [attr.aria-label]="ariaLabel() || null"
       [disabled]="disabled()"
       (click)="!disabled() && action.emit()"
     >
@@ -44,6 +45,8 @@ export class CbShortcut {
   readonly icon = input<string>('arrow-right');
   /** Deshabilita el acceso. */
   readonly disabled = input<boolean>(false);
+  /** Nombre accesible cuando el atajo no tiene `label` visible. */
+  readonly ariaLabel = input<string | undefined>(undefined);
   /** Emite al activar el acceso. */
   readonly action = output<void>();
 }

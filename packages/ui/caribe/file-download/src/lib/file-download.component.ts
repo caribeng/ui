@@ -17,6 +17,8 @@ import { injectCbTranslation } from '@caribeng/ui';
  * <cb-file-download fileName="Extracto.pdf" fileSize="420 KB" (download)="go($event)" />
  * ```
  */
+let nextId = 0;
+
 @Component({
   selector: 'cb-file-download',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -26,17 +28,31 @@ import { injectCbTranslation } from '@caribeng/ui';
     <div class="cb-file-download">
       <span class="cb-file-download__icon" aria-hidden="true">{{ extension() }}</span>
       <div class="cb-file-download__meta">
-        <strong class="cb-file-download__name">{{ fileName() }}</strong>
+        <strong class="cb-file-download__name" [id]="nameId">{{ fileName() }}</strong>
         <span class="cb-file-download__size">{{ fileSize() }}</span>
       </div>
-      <button
-        type="button"
-        class="cb-file-download__btn"
-        (click)="onDownload()"
-        [disabled]="disabled()"
-      >
-        {{ (buttonLabel() ?? t().download) }}
-      </button>
+      <!-- Con href, enlace de descarga nativo; sin él, botón que emite (download) para descargarlo desde la app. -->
+      @if (href() && !disabled()) {
+        <a
+          class="cb-file-download__btn"
+          [href]="href()"
+          [attr.download]="fileName() || ''"
+          [attr.aria-describedby]="fileName() ? nameId : null"
+          (click)="onDownload()"
+        >
+          {{ (buttonLabel() ?? t().download) }}
+        </a>
+      } @else {
+        <button
+          type="button"
+          class="cb-file-download__btn"
+          [attr.aria-describedby]="fileName() ? nameId : null"
+          (click)="onDownload()"
+          [disabled]="disabled()"
+        >
+          {{ (buttonLabel() ?? t().download) }}
+        </button>
+      }
     </div>
   `,
   styleUrl: './file-download.component.css',
@@ -57,6 +73,9 @@ export class CbFileDownload {
   readonly disabled = input<boolean>(false);
 
   readonly download = output<string>();
+
+  /** Id del nombre: describe el botón ("Descargar" → "Certificado.pdf"). */
+  protected readonly nameId = `cb-file-download-${++nextId}-name`;
 
   protected onDownload(): void {
     if (this.disabled()) return;

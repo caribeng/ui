@@ -6,6 +6,7 @@ import {
   input,
   model,
 } from '@angular/core';
+import { injectCbTranslation } from '@caribeng/ui';
 
 /**
  * Calendar de Caribe Design: cuadrícula mensual con selección de día.
@@ -26,11 +27,11 @@ import {
         <strong class="cb-calendar__month">{{ monthLabel() }}</strong>
       </header>
       <div class="cb-calendar__weekdays" aria-hidden="true">
-        @for (w of weekdays; track w) {
+        @for (w of weekdays(); track $index) {
           <span class="cb-calendar__weekday">{{ w }}</span>
         }
       </div>
-      <div class="cb-calendar__grid" role="grid">
+      <div class="cb-calendar__grid" role="group" [attr.aria-label]="monthLabel() || null">
         @for (d of days(); track d) {
           <button
             type="button"
@@ -52,7 +53,10 @@ export class CbCalendar {
   readonly totalDays = input<number>(31);
   readonly selectedDay = model<number>(17);
 
-  protected readonly weekdays = ['L', 'M', 'X', 'J', 'V', 'S', 'D'];
+  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+  protected readonly t = injectCbTranslation();
+  /** Iniciales de lunes a domingo en el idioma activo. */
+  protected readonly weekdays = computed(() => this.t().weekdaysMin.split(','));
 
   protected readonly days = computed(() =>
     Array.from(

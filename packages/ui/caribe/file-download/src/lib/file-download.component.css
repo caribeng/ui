@@ -63,6 +63,7 @@
   border: none;
   border-radius: var(--cb-radius-md, 0.5rem);
   cursor: pointer;
+  text-decoration: none;
   transition: background-color var(--cb-duration-fast, 0.12s) var(--cb-ease, ease);
 }
 .cb-file-download__btn:hover:not(:disabled) {

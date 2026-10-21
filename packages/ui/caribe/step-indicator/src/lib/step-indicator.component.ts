@@ -29,6 +29,7 @@ import { cbFormat, injectCbTranslation } from '@caribeng/ui';
       [attr.aria-valuenow]="current()"
       aria-valuemin="1"
       [attr.aria-valuemax]="total()"
+      [attr.aria-valuetext]="fmt(t().stepOf, current(), total())"
       [attr.aria-label]="label() || t().stepsProgress"
     >
       <div class="cb-step-indicator__track" aria-hidden="true">

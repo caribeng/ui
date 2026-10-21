@@ -67,6 +67,8 @@ export interface CbTranslation {
   dialog: string;
   panel: string;
   sidePanel: string;
+  /** Aviso para enlaces que se abren en otra pestaña. */
+  opensInNewTab: string;
   showInfo: string;
   closeEditing: string;
 
@@ -113,6 +115,8 @@ export interface CbTranslation {
   previousMonth: string;
   nextMonth: string;
   today: string;
+  /** Iniciales de los días de la semana, de lunes a domingo, separadas por comas. */
+  weekdaysMin: string;
 
   // --- Archivos ---
   chooseFile: string;
@@ -283,6 +287,7 @@ export const CB_LOCALE_ES: CbTranslation = {
   dialog: 'Diálogo',
   panel: 'Panel',
   sidePanel: 'Panel lateral',
+  opensInNewTab: '(se abre en una pestaña nueva)',
   showInfo: 'Mostrar información',
   closeEditing: 'Cerrar edición',
 
@@ -324,6 +329,7 @@ export const CB_LOCALE_ES: CbTranslation = {
   previousMonth: 'Mes anterior',
   nextMonth: 'Mes siguiente',
   today: 'Hoy',
+  weekdaysMin: 'L,M,X,J,V,S,D',
 
   chooseFile: 'Elegir archivo',
   upload: 'Subir',
@@ -477,6 +483,7 @@ export const CB_LOCALE_EN: CbTranslation = {
   dialog: 'Dialog',
   panel: 'Panel',
   sidePanel: 'Side panel',
+  opensInNewTab: '(opens in a new tab)',
   showInfo: 'Show information',
   closeEditing: 'Close editing',
 
@@ -518,6 +525,7 @@ export const CB_LOCALE_EN: CbTranslation = {
   previousMonth: 'Previous month',
   nextMonth: 'Next month',
   today: 'Today',
+  weekdaysMin: 'M,T,W,T,F,S,S',
 
   chooseFile: 'Choose file',
   upload: 'Upload',

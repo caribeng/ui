@@ -9,4 +9,15 @@ describe('CbStatus', () => {
     fixture.detectChanges();
     expect(fixture.componentInstance).toBeTruthy();
   });
+
+  it('aplica la clase del estado y el punto es decorativo', () => {
+    const fixture = TestBed.createComponent(CbStatus);
+    fixture.componentRef.setInput('status', 'warning');
+    fixture.componentRef.setInput('text', 'Pendiente');
+    fixture.detectChanges();
+    const pill = (fixture.nativeElement as HTMLElement).querySelector('.cb-status')!;
+    expect(pill.classList).toContain('cb-status--warning');
+    expect(pill.querySelector('.cb-status__dot')!.getAttribute('aria-hidden')).toBe('true');
+    expect(pill.textContent!.trim()).toBe('Pendiente');
+  });
 });

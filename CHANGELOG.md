@@ -40,6 +40,12 @@ Desde la 22.0.0 el major de la librería coincide con el de Angular (22.x = Angu
 - **Modal / OffCanvas / PopOver (Caribe):** trampa de foco (Modal, OffCanvas), Escape cierra y el foco entra al abrir y vuelve al disparador al cerrar.
 - **Coachmark / Onboarding (Caribe):** el cambio de paso se anuncia ("Paso 2 de 3") y Escape cierra.
 - **ExpansionPanel (Caribe):** la cabecera controla una región nombrada (`aria-controls`, `role="region"`).
+- **CardSelect / DotsIndicator (Caribe):** un solo tabindex activo y navegación con flechas, Inicio y Fin (patrones *listbox* y *tabs*).
+- **CardMove (Caribe):** cada botón de mover se describe con su elemento y el foco sigue al elemento movido.
+- **FileDownload (Caribe):** con `href` se renderiza un enlace de descarga nativo (antes `href` no se usaba); el botón se describe con el nombre del archivo.
+- **Link (Caribe):** los enlaces externos avisan al lector de pantalla de que se abren en una pestaña nueva.
+- **DataTable / Shortcut (Caribe):** `ariaLabel` para nombrar la tabla o un atajo sin texto visible; las cabeceras de DataTable tienen `scope="col"`.
+- **StepIndicator (Caribe):** `aria-valuetext` ("Paso 2 de 4").
 - **Tests:** base de tests de comportamiento, teclado, accesibilidad y formularios en los 23 componentes del núcleo que tenían uno solo y en los de Caribe Design: CascadeSelect, TreeSelect, InputMask, InputOtp, FileUpload, Image, Carousel, Galleria, Inplace, Chip, Editor, Terminal, BlockUI, ScrollTop, FloatLabel, MeterGroup, FileCard, FolderCard, AvatarGroup, IconField, InlineMessage, ScrollPanel y Toolbar.
 - **Showcase:** páginas de Tree, TreeTable, VirtualScroller, DataView, Timeline, OrderList, PickList, ConfirmDialog, ConfirmPopup, DynamicDialog y MegaMenu reescritas con ejemplos por funcionalidad y sección de accesibilidad.
 - **Idioma (i18n):** sistema de traducción de los textos de interfaz (etiquetas accesibles, botones, placeholders y mensajes) en español e inglés, con `provideCaribeNG({ locale, translation })`, cambio en caliente con `CbLocaleService.use()` y `setTranslation()`, y `cbFormat()` para textos con valores. Aplica a 79 componentes.
@@ -70,6 +76,9 @@ Desde la 22.0.0 el major de la librería coincide con el de Angular (22.x = Angu
 - **InputSelect (Caribe):** el valor inicial no quedaba seleccionado (el `<select>` recibía el valor antes de crear las opciones).
 - **InputSearch (Caribe):** al limpiar, el foco se perdía; ahora vuelve al campo.
 - **FileSelect (Caribe):** no había indicador de foco visible al navegar con teclado; la cantidad de archivos elegidos se anuncia.
+- **Calendar (Caribe):** las iniciales de los días estaban fijas en español; ahora siguen el idioma activo (`weekdaysMin`). Además usaba `role="grid"` sin filas ni celdas (ARIA inválido); ahora es un grupo nombrado por el mes.
+- **Preloader (Caribe):** `aria-busy="true"` fijo impedía que el lector de pantalla anunciara el aviso de carga.
+- **Voucher (Caribe):** dos filas con la misma etiqueta rompían la lista.
 
 ---
 

@@ -21,11 +21,11 @@ import { injectCbTranslation } from '@caribeng/ui';
   encapsulation: ViewEncapsulation.Emulated,
   template: `
     <div class="cb-data-table">
-      <table class="cb-data-table__table">
+      <table class="cb-data-table__table" [attr.aria-label]="ariaLabel() || null">
         <thead>
           <tr>
             @for (col of columns(); track col) {
-              <th class="cb-data-table__th">{{ col }}</th>
+              <th class="cb-data-table__th" scope="col">{{ col }}</th>
             }
           </tr>
         </thead>
@@ -55,4 +55,6 @@ export class CbDataTable {
   readonly columns = input<readonly string[]>([]);
   readonly rows = input<readonly Record<string, unknown>[]>([]);
   readonly emptyMessage = input<string | undefined>(undefined);
+  /** Nombre accesible de la tabla (p. ej. "Movimientos del mes"). */
+  readonly ariaLabel = input<string | undefined>(undefined);
 }
