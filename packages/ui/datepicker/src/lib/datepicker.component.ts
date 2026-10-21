@@ -16,8 +16,9 @@ import {
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
 import { OverlayModule, type ConnectedPosition } from '@angular/cdk/overlay';
-import { cbFieldState, type CbRequiredIndicator, type CbSize, injectCbTranslation } from '@caribeng/ui';
+import { cbFieldState, cbFormat, type CbRequiredIndicator, type CbSize, injectCbTranslation } from '@caribeng/ui';
 import { CbIcon } from '@caribeng/ui/icon';
+import { dateNames, formatDate, localeDateFormat, parseDate } from './date-format';
 
 let nextUid = 0;
 
@@ -27,11 +28,16 @@ export type CbDateRange = readonly [Date, Date | null];
 /** Valor que la DatePicker entrega a Angular Forms: una fecha, un rango (`selectionMode="range"`) o `null`. */
 export type CbDatepickerValue = Date | CbDateRange | null;
 
+/** Qué se elige: un día, un mes (día 1) o un año (1 de enero). */
+export type CbDatepickerView = 'date' | 'month' | 'year';
+
 interface DayCell {
   date: Date;
   day: number;
   label: string;
   otherMonth: boolean;
+  /** Día de otro mes en un calendario de varios meses: la celda queda vacía. */
+  hidden: boolean;
   today: boolean;
   selected: boolean;
   rangeStart: boolean;
@@ -41,22 +47,43 @@ interface DayCell {
   active: boolean;
 }
 
+/** Celda de la vista de meses o de años. */
+interface UnitCell {
+  date: Date;
+  text: string;
+  label: string;
+  /** Año fuera de la década mostrada (primero y último de la cuadrícula). */
+  outside: boolean;
+  current: boolean;
+  selected: boolean;
+  rangeStart: boolean;
+  rangeEnd: boolean;
+  inRange: boolean;
+  disabled: boolean;
+  active: boolean;
+}
+
+type TimeTarget = 'single' | 'start' | 'end';
+
 /**
- * Selector de fecha de CaribeNG. Campo de solo lectura que abre un calendario
- * sobre CDK Overlay, con navegación por teclado (patrón WAI-ARIA *date picker
- * dialog*), rango min/max, selección de rangos y hora. Integrado con Angular
- * Forms vía `ControlValueAccessor`.
+ * Selector de fecha de CaribeNG. Abre un calendario sobre CDK Overlay, con
+ * navegación por teclado (patrón WAI-ARIA *date picker dialog*), rango
+ * min/max, selección de rangos, hora y vistas de mes y año. Integrado con
+ * Angular Forms vía `ControlValueAccessor`.
  *
  * - `selectionMode="single"` (por defecto): `[(value)]` es `Date | null`.
- * - `selectionMode="range"`: `[(range)]` es `[inicio, fin] | null`.
- * - Con Angular Forms, el control recibe la fecha o el rango según el modo.
- * - `showTime`: añade horas y minutos (`hourFormat` 24 o 12).
+ * - `selectionMode="range"`: `[(range)]` es `[inicio, fin] | null`; muestra dos meses (`numberOfMonths`).
+ * - `view="month"` / `view="year"`: se elige un mes (día 1) o un año (1 de enero).
+ * - `showTime`: añade horas y minutos (`hourFormat` 24 o 12), también en rangos.
+ * - `dateFormat`: formato con la sintaxis de PrimeNG (`dd/mm/yy`, `d 'de' MM`…); `editable` permite escribir la fecha.
  *
  * @example
  * ```html
  * <cb-datepicker formControlName="fecha" locale="es-CO" [minDate]="hoy" />
  * <cb-datepicker selectionMode="range" [(range)]="viaje" />
  * <cb-datepicker showTime hourFormat="12" [(value)]="cita" />
+ * <cb-datepicker view="month" dateFormat="mm/yy" [(value)]="vencimiento" />
+ * <cb-datepicker editable dateFormat="dd/mm/yy" [(value)]="nacimiento" />
  * ```
  */
 @Component({
@@ -90,7 +117,7 @@ interface DayCell {
       class="cb-datepicker"
       [class]="'cb-datepicker--' + size()"
       [class.cb-is-open]="open()"
-      [class.cb-is-invalid]="fieldState.invalid()"
+      [class.cb-is-invalid]="fieldInvalid()"
       [class.cb-is-disabled]="isDisabled()"
     >
       <input
@@ -98,17 +125,19 @@ interface DayCell {
         class="cb-datepicker__field"
         [id]="inputId()"
         type="text"
-        readonly
+        [readOnly]="!editable()"
         role="combobox"
         aria-haspopup="dialog"
         [attr.aria-expanded]="open()"
-        [attr.aria-invalid]="fieldState.invalid() ? 'true' : null"
+        [attr.aria-invalid]="fieldInvalid() ? 'true' : null"
         [attr.aria-describedby]="describedBy()"
-        [value]="display()"
-        [placeholder]="placeholder()"
+        [attr.autocomplete]="editable() ? 'off' : null"
+        [value]="fieldText()"
+        [placeholder]="placeholder() || (editable() ? formatHint() : '')"
         [disabled]="isDisabled()"
         [required]="fieldState.required()"
-        (click)="toggle()"
+        (click)="onFieldClick()"
+        (input)="draft.set($any($event.target).value)"
         (keydown)="onFieldKeydown($event)"
         (blur)="onBlur()"
       />
@@ -136,73 +165,171 @@ interface DayCell {
       <div
         #panel
         class="cb-datepicker__panel"
+        [class.cb-datepicker__panel--multi]="panelView() === 'date' && monthCount() > 1"
         role="dialog"
         aria-modal="false"
-        [attr.aria-label]="monthYearLabel()"
+        [attr.aria-label]="panelLabel()"
         tabindex="-1"
         (keydown)="onPanelKeydown($event)"
       >
-        <div class="cb-datepicker__header">
-          <button type="button" class="cb-datepicker__nav" [attr.aria-label]="t().previousMonth" (click)="shiftMonth(-1)">
-            <cb-icon name="chevron-left" [size]="18" aria-hidden="true" />
-          </button>
-          <span class="cb-datepicker__title" aria-live="polite">{{ monthYearLabel() }}</span>
-          <button type="button" class="cb-datepicker__nav" [attr.aria-label]="t().nextMonth" (click)="shiftMonth(1)">
-            <cb-icon name="chevron-right" [size]="18" aria-hidden="true" />
-          </button>
-        </div>
-
-        <table class="cb-datepicker__grid" role="grid" [class.cb-datepicker__grid--range]="isRange()" (mouseleave)="hoverDate.set(null)">
-          <thead>
-            <tr>
-              @for (wd of weekdays(); track wd.index) {
-                <th class="cb-datepicker__weekday" scope="col" [attr.abbr]="wd.long">{{ wd.short }}</th>
-              }
-            </tr>
-          </thead>
-          <tbody>
-            @for (week of weeks(); track week[0].date.getTime()) {
-              <tr>
-                @for (cell of week; track cell.date.getTime()) {
-                  <td
-                    class="cb-datepicker__cell"
-                    role="gridcell"
-                    [class.cb-is-in-range]="cell.inRange"
-                    [class.cb-is-range-start]="cell.rangeStart"
-                    [class.cb-is-range-end]="cell.rangeEnd"
-                    [attr.aria-selected]="cell.selected || cell.inRange"
-                  >
-                    <!-- aria-disabled (no disabled) para que las flechas puedan pasar por los días no elegibles. -->
+        @switch (panelView()) {
+          @case ('date') {
+            <div class="cb-datepicker__months">
+              @for (m of months(); track m.date.getTime(); let first = $first, last = $last) {
+                <div class="cb-datepicker__month">
+                  <div class="cb-datepicker__header">
+                    @if (first) {
+                      <button type="button" class="cb-datepicker__nav" [attr.aria-label]="t().previousMonth" (click)="shiftMonth(-1)">
+                        <cb-icon name="chevron-left" [size]="18" aria-hidden="true" />
+                      </button>
+                    } @else {
+                      <span class="cb-datepicker__nav-spacer"></span>
+                    }
                     <button
                       type="button"
-                      class="cb-datepicker__day"
-                      [class.cb-is-other-month]="cell.otherMonth"
-                      [class.cb-is-today]="cell.today"
-                      [class.cb-is-selected]="cell.selected"
-                      [class.cb-is-active]="cell.active"
-                      [class.cb-is-disabled]="cell.disabled"
-                      [attr.aria-disabled]="cell.disabled || null"
-                      [attr.aria-label]="cell.label"
-                      [attr.tabindex]="cell.active ? 0 : -1"
-                      [attr.aria-current]="cell.today ? 'date' : null"
-                      (click)="selectDate(cell.date)"
-                      (mouseenter)="hoverDate.set(cell.date)"
+                      class="cb-datepicker__title"
+                      [attr.aria-label]="m.title + '. ' + t().chooseMonth"
+                      (click)="showMonths(m.date)"
+                    >{{ m.title }}</button>
+                    @if (last) {
+                      <button type="button" class="cb-datepicker__nav" [attr.aria-label]="t().nextMonth" (click)="shiftMonth(1)">
+                        <cb-icon name="chevron-right" [size]="18" aria-hidden="true" />
+                      </button>
+                    } @else {
+                      <span class="cb-datepicker__nav-spacer"></span>
+                    }
+                  </div>
+
+                  <table
+                    class="cb-datepicker__grid"
+                    role="grid"
+                    [attr.aria-label]="m.title"
+                    [class.cb-datepicker__grid--range]="isRange()"
+                    (mouseleave)="hoverDate.set(null)"
+                  >
+                    <thead>
+                      <tr>
+                        @for (wd of weekdays(); track wd.index) {
+                          <th class="cb-datepicker__weekday" scope="col" [attr.abbr]="wd.long">{{ wd.short }}</th>
+                        }
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @for (week of m.weeks; track week[0].date.getTime()) {
+                        <tr>
+                          @for (cell of week; track cell.date.getTime()) {
+                            @if (cell.hidden) {
+                              <td class="cb-datepicker__cell" role="gridcell"></td>
+                            } @else {
+                              <td
+                                class="cb-datepicker__cell"
+                                role="gridcell"
+                                [class.cb-is-in-range]="cell.inRange"
+                                [class.cb-is-range-start]="cell.rangeStart"
+                                [class.cb-is-range-end]="cell.rangeEnd"
+                                [attr.aria-selected]="cell.selected || cell.inRange"
+                              >
+                                <!-- aria-disabled (no disabled) para que las flechas puedan pasar por los días no elegibles. -->
+                                <button
+                                  type="button"
+                                  class="cb-datepicker__day"
+                                  [class.cb-is-other-month]="cell.otherMonth"
+                                  [class.cb-is-today]="cell.today"
+                                  [class.cb-is-selected]="cell.selected"
+                                  [class.cb-is-active]="cell.active"
+                                  [class.cb-is-disabled]="cell.disabled"
+                                  [attr.aria-disabled]="cell.disabled || null"
+                                  [attr.aria-label]="cell.label"
+                                  [attr.tabindex]="cell.active ? 0 : -1"
+                                  [attr.aria-current]="cell.today ? 'date' : null"
+                                  (click)="selectDate(cell.date)"
+                                  (mouseenter)="hoverDate.set(cell.date)"
+                                >
+                                  {{ cell.day }}
+                                </button>
+                              </td>
+                            }
+                          }
+                        </tr>
+                      }
+                    </tbody>
+                  </table>
+                </div>
+              }
+            </div>
+          }
+          @default {
+            <div class="cb-datepicker__header">
+              <button
+                type="button"
+                class="cb-datepicker__nav"
+                [attr.aria-label]="panelView() === 'month' ? t().previousYear : t().previousDecade"
+                (click)="shiftPage(-1)"
+              >
+                <cb-icon name="chevron-left" [size]="18" aria-hidden="true" />
+              </button>
+              @if (panelView() === 'month') {
+                <button type="button" class="cb-datepicker__title" [attr.aria-label]="unitTitle() + '. ' + t().chooseYear" (click)="showYears()">
+                  {{ unitTitle() }}
+                </button>
+              } @else {
+                <span class="cb-datepicker__title cb-datepicker__title--static">{{ unitTitle() }}</span>
+              }
+              <button
+                type="button"
+                class="cb-datepicker__nav"
+                [attr.aria-label]="panelView() === 'month' ? t().nextYear : t().nextDecade"
+                (click)="shiftPage(1)"
+              >
+                <cb-icon name="chevron-right" [size]="18" aria-hidden="true" />
+              </button>
+            </div>
+            <div class="cb-datepicker__units" role="grid" [attr.aria-label]="unitTitle()" (mouseleave)="hoverDate.set(null)">
+              @for (row of unitRows(); track $index) {
+                <div class="cb-datepicker__unit-row" role="row">
+                  @for (cell of row; track cell.date.getTime()) {
+                    <div
+                      class="cb-datepicker__cell cb-datepicker__unit-cell"
+                      role="gridcell"
+                      [class.cb-is-in-range]="cell.inRange"
+                      [class.cb-is-range-start]="cell.rangeStart"
+                      [class.cb-is-range-end]="cell.rangeEnd"
+                      [attr.aria-selected]="cell.selected || cell.inRange"
                     >
-                      {{ cell.day }}
-                    </button>
-                  </td>
-                }
-              </tr>
-            }
-          </tbody>
-        </table>
+                      <button
+                        type="button"
+                        class="cb-datepicker__unit"
+                        [class.cb-is-other-month]="cell.outside"
+                        [class.cb-is-today]="cell.current"
+                        [class.cb-is-selected]="cell.selected"
+                        [class.cb-is-active]="cell.active"
+                        [class.cb-is-disabled]="cell.disabled"
+                        [attr.aria-disabled]="cell.disabled || null"
+                        [attr.aria-label]="cell.label"
+                        [attr.aria-current]="cell.current ? (panelView() === 'month' ? 'date' : 'true') : null"
+                        [attr.tabindex]="cell.active ? 0 : -1"
+                        (click)="selectUnit(cell.date)"
+                        (mouseenter)="hoverDate.set(cell.date)"
+                      >
+                        {{ cell.text }}
+                      </button>
+                    </div>
+                  }
+                </div>
+              }
+            </div>
+          }
+        }
 
         @if (isRange()) {
           <span class="cb-datepicker__sr" aria-live="polite">{{ choosingEnd() ? t().chooseEndDate : '' }}</span>
         }
 
-        @if (showTime() && !isRange()) {
-          <div class="cb-datepicker__time" role="group" [attr.aria-label]="timeLabel()">
+        @for (row of timeRows(); track row.target) {
+          <div class="cb-datepicker__time" role="group" [attr.aria-label]="row.label">
+            @if (row.caption) {
+              <span class="cb-datepicker__time-caption" aria-hidden="true">{{ row.caption }}</span>
+            }
             <label class="cb-datepicker__time-field">
               <span class="cb-datepicker__sr">{{ t().hours }}</span>
               <input
@@ -210,8 +337,9 @@ interface DayCell {
                 class="cb-datepicker__time-input"
                 [min]="hourFormat() === '12' ? 1 : 0"
                 [max]="hourFormat() === '12' ? 12 : 23"
-                [value]="displayHour()"
-                (input)="setHour($any($event.target).value)"
+                [value]="displayHour(row.target)"
+                [disabled]="!row.enabled"
+                (input)="setHour(row.target, $any($event.target).value)"
               />
             </label>
             <span class="cb-datepicker__time-sep" aria-hidden="true">:</span>
@@ -223,13 +351,20 @@ interface DayCell {
                 min="0"
                 max="59"
                 [step]="stepMinute()"
-                [value]="pad(currentTime().minutes)"
-                (input)="setMinute($any($event.target).value)"
+                [value]="pad(timeOf(row.target).minutes)"
+                [disabled]="!row.enabled"
+                (input)="setMinute(row.target, $any($event.target).value)"
               />
             </label>
             @if (hourFormat() === '12') {
-              <button type="button" class="cb-datepicker__period" [attr.aria-label]="t().period" (click)="togglePeriod()">
-                {{ currentTime().hours < 12 ? 'AM' : 'PM' }}
+              <button
+                type="button"
+                class="cb-datepicker__period"
+                [attr.aria-label]="t().period"
+                [disabled]="!row.enabled"
+                (click)="togglePeriod(row.target)"
+              >
+                {{ timeOf(row.target).hours < 12 ? 'AM' : 'PM' }}
               </button>
             }
           </div>
@@ -244,7 +379,11 @@ interface DayCell {
       </div>
     </ng-template>
 
-    @if (fieldState.invalid() && error()) {
+    @if (typedInvalid()) {
+      <p class="cb-datepicker__message cb-datepicker__message--error" [id]="errorId()" role="alert">
+        {{ invalidMessage() }}
+      </p>
+    } @else if (fieldState.invalid() && error()) {
       <p class="cb-datepicker__message cb-datepicker__message--error" [id]="errorId()" role="alert">
         {{ error() }}
       </p>
@@ -257,14 +396,10 @@ interface DayCell {
   styleUrl: './datepicker.component.css',
 })
 export class CbDatepicker implements ControlValueAccessor {
-  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
-  protected readonly t = injectCbTranslation();
-  private readonly injector = inject(Injector);
   /** Fecha seleccionada en modo `single` (two-way opcional fuera de Angular Forms). */
   readonly value = model<Date | null>(null);
   /** Rango seleccionado en modo `range` (two-way opcional fuera de Angular Forms). */
   readonly range = model<CbDateRange | null>(null);
-
   readonly label = input<string>('');
   readonly hint = input<string>('');
   readonly error = input<string>('');
@@ -272,9 +407,10 @@ export class CbDatepicker implements ControlValueAccessor {
   readonly size = input<CbSize>('md');
   readonly invalid = input<boolean, unknown>(false, { transform: toBoolean });
   readonly required = input<boolean, unknown>(false, { transform: toBoolean });
-  /** Indicador de obligatoriedad de este campo; si se omite usa el global de `provideCaribeNG()`. */
+  /** Cómo se marca un campo obligatorio u opcional; por defecto el global de `provideCaribeNG`. */
   readonly requiredIndicator = input<CbRequiredIndicator | undefined>(undefined);
-  /** Estado de validación: inputs manuales + estado de Angular Forms. */
+  protected readonly t = injectCbTranslation();
+  private readonly injector = inject(Injector);
   protected readonly fieldState = cbFieldState({
     invalid: () => this.invalid(),
     required: () => this.required(),
@@ -282,44 +418,66 @@ export class CbDatepicker implements ControlValueAccessor {
   });
   readonly disabled = input<boolean, unknown>(false, { transform: toBoolean });
   readonly inputId = input<string>(`cb-datepicker-${++nextUid}`);
-
   /** Locale BCP 47 para nombres y formato (por defecto el del navegador). */
   readonly locale = input<string | undefined>(undefined);
-  /** Primer día de la semana: 0 = domingo (por defecto), 1 = lunes. */
+  /** Primer día de la semana: 0 = domingo, 1 = lunes. */
   readonly firstDayOfWeek = input<number>(0);
-  /** Fecha mínima seleccionable. */
+  /** Fecha mínima elegible (incluida). */
   readonly minDate = input<Date | null>(null);
-  /** Fecha máxima seleccionable. */
+  /** Fecha máxima elegible (incluida). */
   readonly maxDate = input<Date | null>(null);
   /** `single` (una fecha) o `range` (inicio y fin). */
   readonly selectionMode = input<'single' | 'range'>('single');
-  /** Añade horas y minutos (solo con `selectionMode="single"`). */
+  /** Qué se elige: un día (`date`), un mes (`month`, día 1) o un año (`year`, 1 de enero). */
+  readonly view = input<CbDatepickerView>('date');
+  /** Meses visibles a la vez (vista de días). Por defecto 2 en rangos y 1 en fecha simple. */
+  readonly numberOfMonths = input<number | undefined>(undefined);
+  /** Añade horas y minutos (en rangos, del inicio y del fin). Solo con `view="date"`. */
   readonly showTime = input<boolean, unknown>(false, { transform: toBoolean });
-  /** Formato de la hora: `24` (por defecto) o `12` con AM/PM. */
+  /** Formato de la hora: 24 h o 12 h (AM/PM). */
   readonly hourFormat = input<'24' | '12'>('24');
   /** Paso de los minutos (p. ej. 15). */
   readonly stepMinute = input<number>(1);
+  /**
+   * Formato de la fecha con la sintaxis de PrimeNG: `d`, `dd`, `o`, `oo`, `D`, `DD`,
+   * `m`, `mm`, `M`, `MM`, `y`, `yy`, `@`, `!` y `'texto'`. Sin él, el campo usa el
+   * formato largo del `locale` (o el numérico si es `editable`).
+   */
+  readonly dateFormat = input<string | undefined>(undefined);
+  /** Permite escribir la fecha en el campo con `dateFormat` (Enter o al salir del campo la aplica). */
+  readonly editable = input<boolean, unknown>(false, { transform: toBoolean });
 
   protected readonly open = signal(false);
-  /** Día bajo el puntero: previsualiza el rango mientras se elige la fecha final. */
+  /** Día (o mes, o año) bajo el puntero: previsualiza el rango mientras se elige el final. */
   protected readonly hoverDate = signal<Date | null>(null);
-  /** Primer día del mes mostrado. */
+  /** Primer mes mostrado (vista de días) o fecha de referencia del año / la década. */
   private readonly viewDate = signal<Date>(startOfMonth(new Date()));
-  /** Día con foco dentro del calendario. */
+  /** Día, mes o año con foco dentro del calendario. */
   private readonly activeDate = signal<Date>(stripTime(new Date()));
+  /** Vista del panel: puede pasar a meses o años para navegar aunque se elija un día. */
+  protected readonly panelView = signal<CbDatepickerView>('date');
+  /** Texto escrito en el campo (`editable`) que aún no se ha aplicado. */
+  protected readonly draft = signal<string | null>(null);
+  /** El texto escrito no es una fecha válida (o elegible). */
+  protected readonly typedInvalid = signal(false);
+  /** Día del mes que se conserva al navegar por meses y años para volver a los días. */
+  private navDay = 1;
 
-  private readonly triggerRef = viewChild.required<ElementRef<HTMLElement>>('trigger');
   private readonly fieldRef = viewChild.required<ElementRef<HTMLInputElement>>('field');
   private readonly panelRef = viewChild<ElementRef<HTMLElement>>('panel');
 
   private readonly cvaDisabled = signal(false);
   protected readonly isDisabled = computed(() => this.disabled() || this.cvaDisabled());
   protected readonly isRange = computed(() => this.selectionMode() === 'range');
+  /** La hora solo tiene sentido al elegir días. */
+  private readonly withTime = computed(() => this.showTime() && this.view() === 'date');
+  protected readonly monthCount = computed(() => clamp(this.numberOfMonths() ?? (this.isRange() ? 2 : 1), 1, 4));
+  protected readonly fieldInvalid = computed(() => this.fieldState.invalid() || this.typedInvalid());
 
   protected readonly errorId = computed(() => `${this.inputId()}-error`);
   protected readonly hintId = computed(() => `${this.inputId()}-hint`);
   protected readonly describedBy = computed(() => {
-    if (this.fieldState.invalid() && this.error()) return this.errorId();
+    if (this.typedInvalid() || (this.fieldState.invalid() && this.error())) return this.errorId();
     if (this.hint()) return this.hintId();
     return null;
   });
@@ -327,6 +485,7 @@ export class CbDatepicker implements ControlValueAccessor {
   protected readonly positions: ConnectedPosition[] = [
     { originX: 'start', originY: 'bottom', overlayX: 'start', overlayY: 'top', offsetY: 4 },
     { originX: 'start', originY: 'top', overlayX: 'start', overlayY: 'bottom', offsetY: -4 },
+    { originX: 'end', originY: 'bottom', overlayX: 'end', overlayY: 'top', offsetY: 4 },
   ];
 
   /** La fecha (modo simple) o `null`. */
@@ -338,21 +497,55 @@ export class CbDatepicker implements ControlValueAccessor {
   /** Hay algo elegido (para mostrar "Limpiar"). */
   protected readonly hasValue = computed(() => !!this.single() || !!this.activeRange());
 
-  protected readonly display = computed(() => {
-    const fmt = new Intl.DateTimeFormat(this.locale(), {
-      dateStyle: 'medium',
-      ...(this.showTime() && !this.isRange() ? { timeStyle: 'short', hour12: this.hourFormat() === '12' } : {}),
-    });
-    const range = this.activeRange();
-    if (range) return `${fmt.format(range[0])} – ${range[1] ? fmt.format(range[1]) : ''}`.trim();
-    const single = this.single();
-    return single ? fmt.format(single) : '';
+  // --- Formato ------------------------------------------------------------------------
+  private readonly names = computed(() => dateNames(this.locale()));
+  /** Formato con el que se escribe y se lee el campo (si hay `dateFormat` o es editable). */
+  private readonly pattern = computed(
+    () => this.dateFormat() ?? (this.editable() ? localeDateFormat(this.locale(), this.view()) : null),
+  );
+  /** Ayuda del formato para el placeholder y el error (`dd/mm/yyyy`, con la hora si la hay). */
+  protected readonly formatHint = computed(() => {
+    const pattern = this.pattern();
+    if (!pattern) return '';
+    const date = pattern.replace(/yy/g, 'yyyy').replace(/(^|[^y])y(?!y)/g, '$1yy').replace(/'/g, '');
+    return this.withTime() ? `${date} ${this.hourFormat() === '12' ? 'hh:mm AM' : 'HH:mm'}` : date;
   });
+  protected readonly invalidMessage = computed(() => cbFormat(this.t().invalidDate, this.formatHint()));
 
-  protected readonly monthYearLabel = computed(() => {
-    const label = new Intl.DateTimeFormat(this.locale(), { month: 'long', year: 'numeric' }).format(this.viewDate());
-    return label.charAt(0).toUpperCase() + label.slice(1);
+  private formatOne(date: Date): string {
+    const pattern = this.pattern();
+    let text: string;
+    if (pattern) {
+      text = formatDate(date, pattern, this.names());
+    } else {
+      const options: Intl.DateTimeFormatOptions =
+        this.view() === 'year' ? { year: 'numeric' } : this.view() === 'month' ? { month: 'long', year: 'numeric' } : { dateStyle: 'medium' };
+      text = new Intl.DateTimeFormat(this.locale(), options).format(date);
+    }
+    return this.withTime() ? `${text} ${this.timeText(date)}` : text;
+  }
+
+  private timeText(date: Date): string {
+    const h = date.getHours();
+    const m = this.pad(date.getMinutes());
+    return this.hourFormat() === '12' ? `${this.pad(h % 12 || 12)}:${m} ${h < 12 ? 'AM' : 'PM'}` : `${this.pad(h)}:${m}`;
+  }
+
+  protected readonly display = computed(() => {
+    const range = this.activeRange();
+    if (range) return `${this.formatOne(range[0])} – ${range[1] ? this.formatOne(range[1]) : ''}`.trim();
+    const single = this.single();
+    return single ? this.formatOne(single) : '';
   });
+  protected readonly fieldText = computed(() => this.draft() ?? this.display());
+
+  // --- Vista de días -------------------------------------------------------------------
+  private monthTitle(date: Date): string {
+    const label = new Intl.DateTimeFormat(this.locale(), { month: 'long', year: 'numeric' }).format(date);
+    return label.charAt(0).toUpperCase() + label.slice(1);
+  }
+
+  protected readonly panelLabel = computed(() => (this.panelView() === 'date' ? this.monthTitle(this.viewDate()) : this.unitTitle()));
 
   protected readonly weekdays = computed(() => {
     const fmt = new Intl.DateTimeFormat(this.locale(), { weekday: 'short' });
@@ -368,69 +561,141 @@ export class CbDatepicker implements ControlValueAccessor {
     });
   });
 
-  protected readonly weeks = computed<DayCell[][]>(() => {
-    const view = this.viewDate();
-    const monthStart = startOfMonth(view);
-    const first = this.firstDayOfWeek();
-    const offset = (monthStart.getDay() - first + 7) % 7;
-    const gridStart = new Date(monthStart);
-    gridStart.setDate(monthStart.getDate() - offset);
+  /** Inicio y fin del rango (o del rango en curso hasta el puntero), ordenados y en la unidad `unit`. */
+  private rangeBounds(unit: CbDatepickerView): [Date | null, Date | null, boolean] {
+    const range = this.activeRange();
+    if (!range) return [null, null, false];
+    const start = startOf(range[0], unit);
+    // Mientras se elige el fin, el rango llega hasta el elemento bajo el puntero.
+    const endSource = range[1] ?? (this.choosingEnd() ? this.hoverDate() : null);
+    const end = endSource ? startOf(endSource, unit) : null;
+    const [from, to] = start && end && end < start ? [end, start] : [start, end];
+    return [from, to, !!range[1]];
+  }
 
+  protected readonly months = computed(() => {
+    const count = this.monthCount();
     const fullDate = new Intl.DateTimeFormat(this.locale(), { dateStyle: 'full' });
     const today = stripTime(new Date());
     const single = this.single() ? stripTime(this.single()!) : null;
-    const range = this.activeRange();
-    const start = range ? stripTime(range[0]) : null;
-    // Mientras se elige el fin, el rango llega hasta el día bajo el puntero.
-    const endSource = range?.[1] ?? (this.choosingEnd() ? this.hoverDate() : null);
-    const end = endSource ? stripTime(endSource) : null;
-    const [from, to] = start && end && end < start ? [end, start] : [start, end];
+    const [from, to, complete] = this.rangeBounds('date');
     const active = this.activeDate();
-    const month = view.getMonth();
+    const first = this.firstDayOfWeek();
 
-    const weeks: DayCell[][] = [];
-    const cursor = new Date(gridStart);
-    for (let w = 0; w < 6; w++) {
-      const row: DayCell[] = [];
-      for (let d = 0; d < 7; d++) {
-        const date = new Date(cursor);
-        const isStart = !!from && isSameDay(date, from);
-        const isEnd = !!to && isSameDay(date, to);
-        row.push({
-          date,
-          day: date.getDate(),
-          label: fullDate.format(date),
-          otherMonth: date.getMonth() !== month,
-          today: isSameDay(date, today),
-          selected: (single != null && isSameDay(date, single)) || isStart || (isEnd && !!range?.[1]),
-          rangeStart: isStart && !!to,
-          rangeEnd: isEnd && !!from,
-          inRange: !!from && !!to && date > from && date < to,
-          disabled: this.isDisabledDate(date),
-          active: isSameDay(date, active),
-        });
-        cursor.setDate(cursor.getDate() + 1);
+    return Array.from({ length: count }, (_, i) => {
+      const monthStart = addMonths(this.viewDate(), i);
+      const offset = (monthStart.getDay() - first + 7) % 7;
+      const cursor = new Date(monthStart);
+      cursor.setDate(monthStart.getDate() - offset);
+      const month = monthStart.getMonth();
+      const weeks: DayCell[][] = [];
+      for (let w = 0; w < 6; w++) {
+        const row: DayCell[] = [];
+        for (let d = 0; d < 7; d++) {
+          const date = new Date(cursor);
+          const otherMonth = date.getMonth() !== month;
+          const hidden = count > 1 && otherMonth;
+          const isStart = !!from && isSameDay(date, from);
+          const isEnd = !!to && isSameDay(date, to);
+          row.push({
+            date,
+            day: date.getDate(),
+            label: fullDate.format(date),
+            otherMonth,
+            hidden,
+            today: isSameDay(date, today),
+            selected: (single != null && isSameDay(date, single)) || isStart || (isEnd && complete),
+            rangeStart: isStart && !!to,
+            rangeEnd: isEnd && !!from,
+            inRange: !!from && !!to && date > from && date < to,
+            disabled: this.isDisabledIn(date, 'date'),
+            // Con varios meses, el foco va al día dentro de su mes (no a la copia de otro mes).
+            active: !hidden && isSameDay(date, active) && (count === 1 || !otherMonth),
+          });
+          cursor.setDate(cursor.getDate() + 1);
+        }
+        weeks.push(row);
       }
-      weeks.push(row);
-    }
-    return weeks;
+      return { date: monthStart, title: this.monthTitle(monthStart), weeks };
+    });
   });
 
-  /** Hora y minutos del valor (o 00:00). */
-  protected readonly currentTime = computed(() => {
-    const v = this.single();
-    return { hours: v?.getHours() ?? 0, minutes: v?.getMinutes() ?? 0 };
+  // --- Vistas de meses y años ----------------------------------------------------------------
+  /** Título de la vista de meses (el año) o de años (la década). */
+  protected readonly unitTitle = computed(() => {
+    const year = this.viewDate().getFullYear();
+    if (this.panelView() === 'month') return String(year);
+    const start = year - (year % 10);
+    return `${start} – ${start + 9}`;
   });
-  protected readonly displayHour = computed(() => {
-    const h = this.currentTime().hours;
+
+  protected readonly unitRows = computed<UnitCell[][]>(() => {
+    const view = this.panelView();
+    const year = this.viewDate().getFullYear();
+    const active = this.activeDate();
+    const now = new Date();
+    const unit = view === 'month' ? 'month' : 'year';
+    const single = this.single();
+    const [from, to, complete] = this.rangeBounds(unit);
+    const names = this.names();
+    const dates =
+      view === 'month'
+        ? Array.from({ length: 12 }, (_, i) => new Date(year, i, 1))
+        : Array.from({ length: 12 }, (_, i) => new Date(year - (year % 10) - 1 + i, 0, 1));
+    const cells = dates.map<UnitCell>((date, i) => {
+      const same = (a: Date | null | undefined) => !!a && sameUnit(a, date, unit);
+      const isStart = same(from);
+      const isEnd = same(to);
+      return {
+        date,
+        text: view === 'month' ? names.monthShort[i] : String(date.getFullYear()),
+        label: view === 'month' ? `${names.monthLong[i]} ${year}` : String(date.getFullYear()),
+        outside: view === 'year' && (i === 0 || i === 11),
+        current: same(now),
+        selected: same(single) || isStart || (isEnd && complete),
+        rangeStart: isStart && !!to,
+        rangeEnd: isEnd && !!from,
+        inRange: !!from && !!to && date > from && date < to,
+        disabled: this.isDisabledIn(date, unit),
+        active: sameUnit(active, date, unit),
+      };
+    });
+    return [0, 1, 2, 3].map((r) => cells.slice(r * 3, r * 3 + 3));
+  });
+
+  // --- Hora --------------------------------------------------------------------------
+  protected readonly timeRows = computed(() => {
+    if (!this.withTime()) return [];
+    if (!this.isRange()) return [{ target: 'single' as TimeTarget, label: `${this.t().hours} / ${this.t().minutes}`, caption: '', enabled: true }];
+    const range = this.activeRange();
+    return [
+      { target: 'start' as TimeTarget, label: this.t().startTime, caption: this.t().startTime, enabled: !!range },
+      { target: 'end' as TimeTarget, label: this.t().endTime, caption: this.t().endTime, enabled: !!range?.[1] },
+    ];
+  });
+
+  private dateOf(target: TimeTarget): Date | null {
+    if (target === 'single') return this.single();
+    const range = this.activeRange();
+    return (target === 'start' ? range?.[0] : range?.[1]) ?? null;
+  }
+
+  /** Hora y minutos de la fecha (o 00:00). */
+  protected timeOf(target: TimeTarget): { hours: number; minutes: number } {
+    const d = this.dateOf(target);
+    return { hours: d?.getHours() ?? 0, minutes: d?.getMinutes() ?? 0 };
+  }
+
+  protected displayHour(target: TimeTarget): string {
+    const h = this.timeOf(target).hours;
     return this.pad(this.hourFormat() === '12' ? h % 12 || 12 : h);
-  });
-  protected readonly timeLabel = computed(() => `${this.t().hours} / ${this.t().minutes}`);
+  }
 
   constructor() {
-    // Al abrir, enfoca el día activo.
+    // Al abrir o cambiar de vista, enfoca el elemento activo.
     effect(() => {
-      if (this.open()) this.focusActiveDay();
+      this.panelView();
+      if (this.open()) this.focusActive();
     });
   }
 
@@ -442,9 +707,11 @@ export class CbDatepicker implements ControlValueAccessor {
     const v = normalizeValue(value);
     if (Array.isArray(v)) this.range.set(v as CbDateRange);
     else this.value.set(v as Date | null);
+    this.draft.set(null);
+    this.typedInvalid.set(false);
     const anchor = (Array.isArray(v) ? v[0] : (v as Date | null)) ?? new Date();
     this.viewDate.set(startOfMonth(anchor));
-    this.activeDate.set(stripTime(anchor));
+    this.activeDate.set(startOf(anchor, this.view()));
   }
   registerOnChange(fn: (value: CbDatepickerValue) => void): void {
     this.onChange = fn;
@@ -462,10 +729,16 @@ export class CbDatepicker implements ControlValueAccessor {
     this.open() ? this.close() : this.openPanel();
   }
 
+  protected onFieldClick(): void {
+    // Si se puede escribir, el clic coloca el cursor; el calendario se abre con el botón o Alt + ↓.
+    if (!this.editable()) this.toggle();
+  }
+
   private openPanel(): void {
     const anchor = this.activeRange()?.[0] ?? this.single() ?? new Date();
+    this.panelView.set(this.view());
     this.viewDate.set(startOfMonth(anchor));
-    this.activeDate.set(stripTime(anchor));
+    this.activeDate.set(startOf(anchor, this.view()));
     this.open.set(true);
   }
 
@@ -478,31 +751,40 @@ export class CbDatepicker implements ControlValueAccessor {
   }
 
   protected onBlur(): void {
+    if (this.editable()) this.applyDraft();
     if (!this.open()) this.onTouched();
   }
 
   // --- Selección -------------------------------------------------------------
-  protected selectDate(date: Date): void {
-    if (this.isDisabledDate(date)) return;
-    const picked = stripTime(date);
+  /** Elige un valor en la unidad de `view` (día, mes o año), en modo simple o rango. */
+  private pick(date: Date): void {
+    const unit = this.view();
+    if (this.isDisabledIn(date, unit)) return;
+    const picked = startOf(date, unit);
     this.activeDate.set(picked);
 
     if (this.isRange()) {
       const range = this.activeRange();
       if (!range || range[1]) {
-        // Primer clic: fecha inicial; el panel sigue abierto para elegir la final.
+        // Primer clic: inicio (con la hora que tuviera); el panel sigue abierto para elegir el fin.
+        if (this.withTime() && range) picked.setHours(range[0].getHours(), range[0].getMinutes());
         this.commit([picked, null]);
         return;
       }
       const [start] = range;
-      this.commit(picked < stripTime(start) ? [picked, start] : [start, picked]);
-      this.close();
+      if (this.withTime()) {
+        const end = range[1] as Date | null;
+        picked.setHours(end?.getHours() ?? 0, end?.getMinutes() ?? 0);
+      }
+      this.commit(picked < startOf(start, unit) ? [picked, start] : [start, picked]);
+      // Con hora el panel sigue abierto para ajustarla.
+      if (!this.withTime()) this.close();
       return;
     }
 
-    if (this.showTime()) {
+    if (this.withTime()) {
       // Con hora, se conserva la hora elegida y el panel sigue abierto.
-      const { hours, minutes } = this.currentTime();
+      const { hours, minutes } = this.timeOf('single');
       picked.setHours(hours, minutes);
       this.commit(picked);
       return;
@@ -512,11 +794,56 @@ export class CbDatepicker implements ControlValueAccessor {
     this.close();
   }
 
+  protected selectDate(date: Date): void {
+    this.pick(date);
+  }
+
+  /** Clic en un mes o un año: lo elige (si es la unidad de `view`) o baja a la vista siguiente. */
+  protected selectUnit(date: Date): void {
+    const view = this.panelView();
+    if (view === this.view()) {
+      this.pick(date);
+      return;
+    }
+    if (view === 'year') {
+      // Navegación: del año a sus meses.
+      this.viewDate.set(new Date(date.getFullYear(), this.viewDate().getMonth(), 1));
+      this.activeDate.set(new Date(date.getFullYear(), this.activeDate().getMonth(), 1));
+      this.panelView.set('month');
+      return;
+    }
+    // Navegación: del mes a sus días (mismo día del mes, ajustado al último si no existe).
+    const day = this.navDay;
+    const last = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
+    this.viewDate.set(startOfMonth(date));
+    this.activeDate.set(new Date(date.getFullYear(), date.getMonth(), Math.min(day, last)));
+    this.panelView.set('date');
+  }
+
+  /** Del título de un mes a la vista de meses de su año. */
+  protected showMonths(month: Date): void {
+    this.navDay = this.activeDate().getDate();
+    this.viewDate.set(startOfMonth(month));
+    this.activeDate.set(startOfMonth(this.isSameMonthShown(this.activeDate()) ? this.activeDate() : month));
+    this.panelView.set('month');
+  }
+
+  protected showYears(): void {
+    this.activeDate.set(new Date(this.activeDate().getFullYear(), 0, 1));
+    this.panelView.set('year');
+  }
+
+  private isSameMonthShown(date: Date): boolean {
+    const first = this.viewDate();
+    const last = addMonths(first, this.monthCount() - 1);
+    return date >= first && date < addMonths(last, 1);
+  }
+
   protected goToday(): void {
-    const today = stripTime(new Date());
+    const today = startOf(new Date(), this.panelView());
     this.viewDate.set(startOfMonth(today));
     this.activeDate.set(today);
-    this.focusActiveDay();
+    this.focusActive();
   }
 
   protected clear(): void {
@@ -528,42 +855,138 @@ export class CbDatepicker implements ControlValueAccessor {
     this.viewDate.set(addMonths(this.viewDate(), delta));
   }
 
+  /** Año anterior / siguiente (vista de meses) o década (vista de años). */
+  protected shiftPage(delta: number): void {
+    const years = this.panelView() === 'month' ? delta : delta * 10;
+    this.viewDate.set(addMonths(this.viewDate(), years * 12));
+  }
+
   // --- Hora ------------------------------------------------------------------
-  protected setHour(raw: string): void {
+  protected setHour(target: TimeTarget, raw: string): void {
     const n = Number.parseInt(raw, 10);
     if (Number.isNaN(n)) return;
     let hours: number;
     if (this.hourFormat() === '12') {
       const h12 = clamp(n, 1, 12) % 12;
-      hours = this.currentTime().hours < 12 ? h12 : h12 + 12;
+      hours = this.timeOf(target).hours < 12 ? h12 : h12 + 12;
     } else {
       hours = clamp(n, 0, 23);
     }
-    this.setTime(hours, this.currentTime().minutes);
+    this.setTime(target, hours, this.timeOf(target).minutes);
   }
 
-  protected setMinute(raw: string): void {
+  protected setMinute(target: TimeTarget, raw: string): void {
     const n = Number.parseInt(raw, 10);
-    if (!Number.isNaN(n)) this.setTime(this.currentTime().hours, clamp(n, 0, 59));
+    if (!Number.isNaN(n)) this.setTime(target, this.timeOf(target).hours, clamp(n, 0, 59));
   }
 
-  protected togglePeriod(): void {
-    const { hours, minutes } = this.currentTime();
-    this.setTime((hours + 12) % 24, minutes);
+  protected togglePeriod(target: TimeTarget): void {
+    const { hours, minutes } = this.timeOf(target);
+    this.setTime(target, (hours + 12) % 24, minutes);
   }
 
-  private setTime(hours: number, minutes: number): void {
-    const base = new Date(this.single() ?? this.activeDate());
-    base.setHours(hours, minutes, 0, 0);
-    this.commit(base);
+  private setTime(target: TimeTarget, hours: number, minutes: number): void {
+    if (target === 'single') {
+      const base = new Date(this.single() ?? this.activeDate());
+      base.setHours(hours, minutes, 0, 0);
+      this.commit(base);
+      return;
+    }
+    const range = this.activeRange();
+    if (!range) return;
+    const [start, end] = range;
+    if (target === 'start') {
+      const next = new Date(start);
+      next.setHours(hours, minutes, 0, 0);
+      this.commit([next, end]);
+    } else if (end) {
+      const next = new Date(end);
+      next.setHours(hours, minutes, 0, 0);
+      this.commit([start, next]);
+    }
   }
 
   protected pad(n: number): string {
     return String(n).padStart(2, '0');
   }
 
+  // --- Campo editable ---------------------------------------------------------
+  /** Aplica lo escrito: fecha válida y elegible → valor; vacío → `null`; si no, marca el error. */
+  private applyDraft(): void {
+    const text = this.draft();
+    if (text === null) return;
+    if (!text.trim()) {
+      this.draft.set(null);
+      this.typedInvalid.set(false);
+      if (this.hasValue()) this.commit(null);
+      return;
+    }
+    let parsed: CbDatepickerValue = null;
+    if (this.isRange()) {
+      const parts = text.split(/\s+[–-]\s+/);
+      const start = this.parseOne(parts[0] ?? '');
+      const end = parts[1] ? this.parseOne(parts[1]) : null;
+      if (start && (parts.length === 1 || end)) parsed = end && end < start ? [end, start] : [start, end];
+    } else {
+      parsed = this.parseOne(text);
+    }
+    if (!parsed) {
+      this.typedInvalid.set(true);
+      return;
+    }
+    this.typedInvalid.set(false);
+    this.draft.set(null);
+    this.commit(parsed);
+    const anchor = Array.isArray(parsed) ? parsed[0] : parsed;
+    this.viewDate.set(startOfMonth(anchor));
+    this.activeDate.set(startOf(anchor, this.view()));
+  }
+
+  /** Lee una fecha (y la hora, si `showTime`) con el formato del campo. */
+  private parseOne(text: string): Date | null {
+    const pattern = this.pattern();
+    if (!pattern) return null;
+    let datePart = text.trim();
+    let hours = 0;
+    let minutes = 0;
+    if (this.withTime()) {
+      const time = /\s+(\d{1,2}):(\d{2})(?:\s*([AaPp])\.?\s?[Mm]\.?)?$/.exec(datePart);
+      if (time) {
+        datePart = datePart.slice(0, time.index);
+        hours = Number(time[1]);
+        minutes = Number(time[2]);
+        if (time[3]) {
+          if (hours < 1 || hours > 12) return null;
+          hours = (hours % 12) + (time[3].toLowerCase() === 'p' ? 12 : 0);
+        }
+        if (hours > 23 || minutes > 59) return null;
+      }
+    }
+    const date = parseDate(datePart, pattern, this.names());
+    if (!date) return null;
+    const value = startOf(date, this.view());
+    if (this.isDisabledIn(value, this.view())) return null;
+    value.setHours(hours, minutes);
+    return value;
+  }
+
   // --- Teclado ---------------------------------------------------------------
   protected onFieldKeydown(event: KeyboardEvent): void {
+    if (this.editable()) {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        this.applyDraft();
+      } else if (event.key === 'ArrowDown') {
+        event.preventDefault();
+        this.applyDraft();
+        this.openPanel();
+      } else if (event.key === 'Escape' && this.draft() !== null) {
+        event.preventDefault();
+        this.draft.set(null);
+        this.typedInvalid.set(false);
+      }
+      return;
+    }
     if (['ArrowDown', 'Enter', ' '].includes(event.key)) {
       event.preventDefault();
       this.openPanel();
@@ -573,11 +996,22 @@ export class CbDatepicker implements ControlValueAccessor {
   protected onPanelKeydown(event: KeyboardEvent): void {
     if (event.key === 'Escape') {
       event.preventDefault();
+      // En la vista de meses o años abierta para navegar, Escape vuelve a la vista anterior.
+      const view = this.panelView();
+      if (view !== this.view()) {
+        this.panelView.set(view === 'year' && this.view() === 'date' ? 'month' : this.view());
+        return;
+      }
       this.close();
       return;
     }
+    const target = event.target as HTMLElement;
+    if (target.classList?.contains('cb-datepicker__unit')) {
+      this.onUnitKeydown(event);
+      return;
+    }
     // Solo los días se mueven con las flechas (no los campos de hora ni los botones).
-    if (!(event.target as HTMLElement).classList?.contains('cb-datepicker__day')) return;
+    if (!target.classList?.contains('cb-datepicker__day')) return;
     const active = this.activeDate();
     let next: Date | null = null;
     switch (event.key) {
@@ -601,16 +1035,53 @@ export class CbDatepicker implements ControlValueAccessor {
     event.preventDefault();
     this.activeDate.set(next);
     if (this.choosingEnd()) this.hoverDate.set(next);
-    if (next.getMonth() !== this.viewDate().getMonth() || next.getFullYear() !== this.viewDate().getFullYear()) {
-      this.viewDate.set(startOfMonth(next));
-    }
-    this.focusActiveDay();
+    // Si el día queda fuera de los meses visibles, se desplaza la vista lo justo.
+    const first = this.viewDate();
+    const last = addMonths(first, this.monthCount() - 1);
+    if (next < first) this.viewDate.set(startOfMonth(next));
+    else if (next >= addMonths(last, 1)) this.viewDate.set(addMonths(startOfMonth(next), -(this.monthCount() - 1)));
+    this.focusActive();
   }
 
-  /** Enfoca el día activo tras el render: el panel vive en un overlay que se pinta en el ciclo siguiente. */
-  private focusActiveDay(): void {
+  /** Flechas en la cuadrícula de meses o años (3 columnas). */
+  private onUnitKeydown(event: KeyboardEvent): void {
+    const view = this.panelView();
+    const active = this.activeDate();
+    const step = (n: number) => (view === 'month' ? addMonths(active, n) : new Date(active.getFullYear() + n, 0, 1));
+    let next: Date;
+    switch (event.key) {
+      case 'ArrowLeft': next = step(-1); break;
+      case 'ArrowRight': next = step(1); break;
+      case 'ArrowUp': next = step(-3); break;
+      case 'ArrowDown': next = step(3); break;
+      case 'PageUp': next = step(view === 'month' ? -12 : -10); break;
+      case 'PageDown': next = step(view === 'month' ? 12 : 10); break;
+      case 'Home': next = view === 'month' ? new Date(active.getFullYear(), 0, 1) : new Date(active.getFullYear() - (active.getFullYear() % 10), 0, 1); break;
+      case 'End': next = view === 'month' ? new Date(active.getFullYear(), 11, 1) : new Date(active.getFullYear() - (active.getFullYear() % 10) + 9, 0, 1); break;
+      case 'Enter':
+      case ' ':
+        event.preventDefault();
+        this.selectUnit(active);
+        return;
+      default:
+        return;
+    }
+    event.preventDefault();
+    this.activeDate.set(next);
+    if (this.choosingEnd()) this.hoverDate.set(next);
+    const shown = this.viewDate().getFullYear();
+    const visible = view === 'month' ? next.getFullYear() === shown : Math.floor(next.getFullYear() / 10) === Math.floor(shown / 10);
+    if (!visible) this.viewDate.set(new Date(next.getFullYear(), view === 'month' ? 0 : this.viewDate().getMonth(), 1));
+    this.focusActive();
+  }
+
+  /** Enfoca el elemento activo tras el render: el panel vive en un overlay que se pinta en el ciclo siguiente. */
+  private focusActive(): void {
     afterNextRender(
-      () => this.panelRef()?.nativeElement.querySelector<HTMLButtonElement>('.cb-datepicker__day.cb-is-active')?.focus(),
+      () =>
+        this.panelRef()
+          ?.nativeElement.querySelector<HTMLButtonElement>('.cb-datepicker__day.cb-is-active, .cb-datepicker__unit.cb-is-active')
+          ?.focus(),
       { injector: this.injector },
     );
   }
@@ -618,17 +1089,21 @@ export class CbDatepicker implements ControlValueAccessor {
   // --- Helpers ---------------------------------------------------------------
   /** Guarda en el modelo del modo activo y avisa a Angular Forms. */
   private commit(value: CbDatepickerValue): void {
+    this.draft.set(null);
+    this.typedInvalid.set(false);
     if (this.isRange()) this.range.set(value as CbDateRange | null);
     else this.value.set(value as Date | null);
     this.onChange(value);
   }
 
-  private isDisabledDate(date: Date): boolean {
+  /** El día, mes o año queda entero fuera de [minDate, maxDate]. */
+  private isDisabledIn(date: Date, unit: CbDatepickerView): boolean {
     const min = this.minDate();
     const max = this.maxDate();
-    const d = stripTime(date);
-    if (min && d < stripTime(min)) return true;
-    if (max && d > stripTime(max)) return true;
+    const start = startOf(date, unit);
+    const end = unit === 'date' ? start : unit === 'month' ? addDays(addMonths(start, 1), -1) : new Date(start.getFullYear(), 11, 31);
+    if (min && end < stripTime(min)) return true;
+    if (max && start > stripTime(max)) return true;
     return false;
   }
 }
@@ -658,6 +1133,13 @@ function stripTime(d: Date): Date {
 }
 function startOfMonth(d: Date): Date {
   return new Date(d.getFullYear(), d.getMonth(), 1);
+}
+/** Inicio del día, del mes o del año. */
+function startOf(d: Date, unit: CbDatepickerView): Date {
+  return unit === 'year' ? new Date(d.getFullYear(), 0, 1) : unit === 'month' ? startOfMonth(d) : stripTime(d);
+}
+function sameUnit(a: Date, b: Date, unit: CbDatepickerView): boolean {
+  return startOf(a, unit).getTime() === startOf(b, unit).getTime();
 }
 function addDays(d: Date, n: number): Date {
   const r = new Date(d);

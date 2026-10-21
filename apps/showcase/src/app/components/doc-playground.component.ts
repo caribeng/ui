@@ -47,10 +47,12 @@ import type { DocApi, DocChild, DocProp } from './doc-api.model';
         <div class="pg__stage">
           <!-- Demo viva -->
           <div class="pg__preview">
-            @if (openable() && !model()['visible']) {
-              <button type="button" class="pg__open" (click)="set('visible', true)">
+            @if (openProp(); as prop) {
+              @if (!model()[prop]) {
+              <button type="button" class="pg__open" (click)="set(prop, true)">
                 {{ i18n.t('Abrir', 'Open') }} {{ api().selector }}
               </button>
+              }
             }
             <ng-container
               [ngComponentOutlet]="api().demo ?? api().component"
@@ -237,9 +239,9 @@ export class DocPlaygroundComponent {
     () => this.api().content?.default ?? '',
   );
 
-  /** Overlays que arrancan cerrados (`visible` = false): la vista previa ofrece un botón para abrirlos. */
-  protected readonly openable = computed(() =>
-    this.api().props.some((p) => p.name === 'visible' && p.kind === 'boolean' && p.default === false),
+  /** Overlays que arrancan cerrados (`visible` u `open` = false): la vista previa ofrece un botón para abrirlos. */
+  protected readonly openProp = computed(
+    () => this.api().props.find((p) => (p.name === 'visible' || p.name === 'open') && p.kind === 'boolean' && p.default === false)?.name ?? null,
   );
 
   /** Props que generan control interactivo. */

@@ -133,6 +133,18 @@ export interface CbTranslation {
   chooseEndDate: string;
   previousMonth: string;
   nextMonth: string;
+  previousYear: string;
+  nextYear: string;
+  previousDecade: string;
+  nextDecade: string;
+  /** Botón del título del calendario que abre la vista de meses / de años. */
+  chooseMonth: string;
+  chooseYear: string;
+  /** Horas del rango (inicio y fin). */
+  startTime: string;
+  endTime: string;
+  /** Campo escrito con una fecha que no se reconoce. `{0}`: formato esperado. */
+  invalidDate: string;
   today: string;
   /** Iniciales de los días de la semana, de lunes a domingo, separadas por comas. */
   weekdaysMin: string;
@@ -414,6 +426,15 @@ export const CB_LOCALE_ES: CbTranslation = {
   chooseEndDate: 'Elige la fecha final',
   previousMonth: 'Mes anterior',
   nextMonth: 'Mes siguiente',
+  previousYear: 'Año anterior',
+  nextYear: 'Año siguiente',
+  previousDecade: 'Década anterior',
+  nextDecade: 'Década siguiente',
+  chooseMonth: 'Elegir mes',
+  chooseYear: 'Elegir año',
+  startTime: 'Hora de inicio',
+  endTime: 'Hora de fin',
+  invalidDate: 'Fecha no válida. Usa el formato {0}.',
   today: 'Hoy',
   weekdaysMin: 'L,M,X,J,V,S,D',
 
@@ -665,6 +686,15 @@ export const CB_LOCALE_EN: CbTranslation = {
   chooseEndDate: 'Choose the end date',
   previousMonth: 'Previous month',
   nextMonth: 'Next month',
+  previousYear: 'Previous year',
+  nextYear: 'Next year',
+  previousDecade: 'Previous decade',
+  nextDecade: 'Next decade',
+  chooseMonth: 'Choose month',
+  chooseYear: 'Choose year',
+  startTime: 'Start time',
+  endTime: 'End time',
+  invalidDate: 'Invalid date. Use the format {0}.',
   today: 'Today',
   weekdaysMin: 'M,T,W,T,F,S,S',
 
