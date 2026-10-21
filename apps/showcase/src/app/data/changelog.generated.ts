@@ -64,6 +64,10 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
             "text": "accesibilidad: grupo enfocable con instrucciones, recorrido con flechas anunciado en una región viva y tabla de datos equivalente para lectores de pantalla."
           },
           {
+            "component": "Chart",
+            "text": "seis tipos nuevos: `waterfall` (cascada con subtotales en `sums`), `gauge` (medidor con `min`, `max` y franjas `bands`), `radar`, `polarArea`, `heatmap` (flechas arriba / abajo cambian de fila) y `treemap`. Internamente cada tipo lo dibuja un renderer independiente sobre un motor común; la API `type` + `data` no cambia."
+          },
+          {
             "component": "Instalación",
             "text": "`ng add @caribeng/ui` instala la librería, pregunta idioma, tema y color primario, registra `provideCaribeNG()` (app standalone o `AppModule`) y añade `@caribeng/ui/styles.css` a `angular.json`. Es idempotente: ejecutarlo de nuevo no duplica nada."
           },
@@ -285,6 +289,10 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
       {
         "type": "fixed",
         "items": [
+          {
+            "component": "VirtualScroller",
+            "text": "ocupa todo el ancho disponible; dentro de un contenedor flex se quedaba sin ancho."
+          },
           {
             "component": "Slider",
             "text": "la pista usaba tonos claros también en tema oscuro."

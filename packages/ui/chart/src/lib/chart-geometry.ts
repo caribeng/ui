@@ -32,7 +32,7 @@ export function round(value: number): number {
 }
 
 /** Punto de una circunferencia; el ángulo 0 está arriba y crece en sentido horario. */
-function polar(cx: number, cy: number, r: number, angle: number): [number, number] {
+export function polar(cx: number, cy: number, r: number, angle: number): [number, number] {
   const rad = ((angle - 90) * Math.PI) / 180;
   return [round(cx + r * Math.cos(rad)), round(cy + r * Math.sin(rad))];
 }
@@ -54,4 +54,68 @@ export function arcPath(cx: number, cy: number, outer: number, inner: number, st
   const [x3, y3] = polar(cx, cy, inner, stop);
   const [x4, y4] = polar(cx, cy, inner, start);
   return `M ${x1} ${y1} A ${outer} ${outer} 0 ${large} 1 ${x2} ${y2} L ${x3} ${y3} A ${inner} ${inner} 0 ${large} 0 ${x4} ${y4} Z`;
+}
+
+/** Trazado de una polilínea (`closed` la cierra, para polígonos). */
+export function polyline(points: readonly { x: number; y: number }[], closed = false): string {
+  if (!points.length) return '';
+  return points.map((p, i) => `${i ? 'L' : 'M'} ${p.x} ${p.y}`).join(' ') + (closed ? ' Z' : '');
+}
+
+export interface CbChartRect {
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+}
+
+/**
+ * Reparte un rectángulo en celdas de área proporcional a cada valor, lo más
+ * cuadradas posible (algoritmo "squarified" de Bruls, Huizing y van Wijk).
+ * Devuelve las celdas en el mismo orden que `values`; los valores ≤ 0 quedan vacíos.
+ */
+export function squarify(values: readonly number[], rect: CbChartRect): (CbChartRect | null)[] {
+  const result: (CbChartRect | null)[] = values.map(() => null);
+  const total = values.reduce((sum, v) => sum + Math.max(0, v), 0);
+  if (total <= 0 || rect.w <= 0 || rect.h <= 0) return result;
+  const scale = (rect.w * rect.h) / total;
+  const order = values
+    .map((v, i) => ({ i, area: Math.max(0, v) * scale }))
+    .filter((n) => n.area > 0)
+    .sort((a, b) => b.area - a.area);
+  let free = { ...rect };
+  let row: typeof order = [];
+  const worst = (r: typeof order, side: number): number => {
+    const sum = r.reduce((s, n) => s + n.area, 0);
+    const max = Math.max(...r.map((n) => n.area));
+    const min = Math.min(...r.map((n) => n.area));
+    return Math.max((side * side * max) / (sum * sum), (sum * sum) / (side * side * min));
+  };
+  const layout = (r: typeof order): void => {
+    const sum = r.reduce((s, n) => s + n.area, 0);
+    const horizontal = free.w >= free.h;
+    const thickness = sum / (horizontal ? free.h : free.w);
+    let offset = 0;
+    for (const n of r) {
+      const length = n.area / thickness;
+      result[n.i] = horizontal
+        ? { x: round(free.x), y: round(free.y + offset), w: round(thickness), h: round(length) }
+        : { x: round(free.x + offset), y: round(free.y), w: round(length), h: round(thickness) };
+      offset += length;
+    }
+    free = horizontal
+      ? { x: free.x + thickness, y: free.y, w: free.w - thickness, h: free.h }
+      : { x: free.x, y: free.y + thickness, w: free.w, h: free.h - thickness };
+  };
+  for (const node of order) {
+    const side = Math.min(free.w, free.h);
+    if (!row.length || worst([...row, node], side) <= worst(row, side)) {
+      row.push(node);
+    } else {
+      layout(row);
+      row = [node];
+    }
+  }
+  if (row.length) layout(row);
+  return result;
 }

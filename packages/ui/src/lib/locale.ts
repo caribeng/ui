@@ -196,6 +196,10 @@ export interface CbTranslation {
   chartItem: string;
   /** Cómo recorrer un gráfico con el teclado. */
   chartInstructions: string;
+  /** Total acumulado (cascada). */
+  chartTotal: string;
+  /** Variación de un paso (cascada). */
+  chartChange: string;
 
   // --- Multimedia ---
   carousel: string;
@@ -448,6 +452,8 @@ export const CB_LOCALE_ES: CbTranslation = {
   chartLegend: 'Leyenda del gráfico',
   chartItem: 'Elemento {0}',
   chartInstructions: 'Usa las flechas para recorrer los datos.',
+  chartTotal: 'Total',
+  chartChange: 'Variación',
 
   carousel: 'Carrusel',
   slide: 'Diapositiva {0}',
@@ -691,6 +697,8 @@ export const CB_LOCALE_EN: CbTranslation = {
   chartLegend: 'Chart legend',
   chartItem: 'Item {0}',
   chartInstructions: 'Use the arrow keys to explore the data.',
+  chartTotal: 'Total',
+  chartChange: 'Change',
 
   carousel: 'Carousel',
   slide: 'Slide {0}',

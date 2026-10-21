@@ -90,9 +90,84 @@
   font-weight: var(--cb-font-weight-semibold, 600);
   font-variant-numeric: tabular-nums;
 }
+.cb-chart__center-sub {
+  fill: var(--cb-color-text-muted);
+  font-size: 12px;
+}
 .cb-chart__hit {
   fill: transparent;
   cursor: pointer;
+}
+.cb-chart__axis--tick {
+  font-size: 9px;
+}
+
+/* Cascada: conector entre barras a la altura del acumulado */
+.cb-chart__connector {
+  stroke: var(--cb-color-border-strong);
+  stroke-dasharray: 3 3;
+}
+
+/* Medidor: franjas de umbral por fuera del arco */
+.cb-chart__band {
+  opacity: 0.85;
+}
+
+/* Área polar: anillos de la escala sobre los sectores */
+.cb-chart__ring {
+  fill: none;
+  stroke: var(--cb-color-surface-raised);
+  stroke-opacity: 0.7;
+  pointer-events: none;
+}
+.cb-chart__slice--polar {
+  stroke: var(--cb-color-surface-raised);
+  stroke-width: 1.5;
+}
+
+/* Celdas de mapa de calor y treemap */
+.cb-chart__cell {
+  cursor: pointer;
+  transition: opacity var(--cb-duration-fast, 0.12s) ease;
+}
+.cb-chart__cell--tree {
+  stroke: var(--cb-color-surface-raised);
+  stroke-width: 2;
+}
+.cb-chart__cell.cb-is-active {
+  stroke: var(--cb-color-text);
+  stroke-width: 2;
+}
+.cb-chart__label {
+  fill: var(--cb-color-text);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  pointer-events: none;
+}
+.cb-chart__label--inverse {
+  fill: #fff;
+  /* Contorno oscuro para que se lea también sobre colores claros. */
+  paint-order: stroke;
+  stroke: rgb(0 0 0 / 0.35);
+  stroke-width: 3px;
+  stroke-linejoin: round;
+}
+.cb-chart__label--strong {
+  font-size: 12px;
+  font-weight: var(--cb-font-weight-semibold, 600);
+}
+
+@media (forced-colors: active) {
+  .cb-chart__cell,
+  .cb-chart__bar,
+  .cb-chart__slice {
+    stroke: CanvasText;
+    stroke-width: 1;
+  }
+  .cb-chart__label,
+  .cb-chart__label--inverse {
+    fill: CanvasText;
+  }
 }
 .cb-chart__slice {
   cursor: pointer;
@@ -200,7 +275,8 @@
   animation: cb-chart-draw 0.7s var(--cb-ease, ease) both;
 }
 :host(.cb-chart--animate) .cb-chart__area,
-:host(.cb-chart--animate) .cb-chart__slice {
+:host(.cb-chart--animate) .cb-chart__slice,
+:host(.cb-chart--animate) .cb-chart__cell {
   animation: cb-chart-fade 0.5s var(--cb-ease, ease) both;
 }
 
@@ -222,7 +298,8 @@
   :host(.cb-chart--animate) .cb-chart__bar,
   :host(.cb-chart--animate) .cb-chart__line,
   :host(.cb-chart--animate) .cb-chart__area,
-  :host(.cb-chart--animate) .cb-chart__slice {
+  :host(.cb-chart--animate) .cb-chart__slice,
+  :host(.cb-chart--animate) .cb-chart__cell {
     animation: none;
   }
 }

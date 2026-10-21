@@ -478,11 +478,13 @@ export const DOC_A11Y: Record<string, DocA11y> = {
     screenReader: [
       'El gráfico es un grupo enfocable nombrado con `ariaLabel`, con instrucciones de uso; el dibujo SVG es decorativo (`aria-hidden`).',
       'Incluye los mismos datos como una tabla oculta visualmente (título, series y valores formateados), que los lectores de pantalla pueden recorrer.',
-      'Al moverse con las flechas, una región viva anuncia la categoría y sus valores (en torta y dona, el valor y el porcentaje). La leyenda son botones con `aria-pressed`.',
+      'Al moverse con las flechas, una región viva anuncia la categoría y sus valores (en torta, dona, medidor y treemap, el valor y el porcentaje; en la cascada, la variación y el total acumulado; en el mapa de calor, la fila, la columna y el valor). La leyenda son botones con `aria-pressed`.',
+      'En el mapa de calor la tabla oculta tiene una columna por cada etiqueta y una fila por dataset; el color nunca es la única pista: cada celda tiene su valor en el tooltip y en la tabla.',
     ],
     keyboard: [
       { keys: 'Tab', action: 'Enfoca el gráfico y muestra el primer dato.' },
-      { keys: 'Flechas', action: 'Pasan a la categoría o segmento siguiente o anterior (de forma circular).' },
+      { keys: 'Flechas', action: 'Pasan a la categoría, segmento o celda siguiente o anterior (de forma circular).' },
+      { keys: 'Flecha arriba / abajo (mapa de calor)', action: 'Cambian de fila manteniendo la columna.' },
       { keys: 'Inicio / Fin', action: 'Van al primer o al último dato.' },
       { keys: 'Enter', action: 'Selecciona el dato activo (emite itemSelect).' },
       { keys: 'Escape', action: 'Oculta el tooltip.' },
