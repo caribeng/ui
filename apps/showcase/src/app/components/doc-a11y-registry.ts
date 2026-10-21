@@ -470,6 +470,62 @@ export const DOC_A11Y: Record<string, DocA11y> = {
       { keys: 'Escape', action: 'Oculta el tooltip.' },
     ],
   },
+  'cb-split-button': {
+    screenReader: [
+      'El control es un `role="group"` nombrado con `label`. La flecha es un botón con nombre ("Más acciones"), `aria-haspopup="menu"` y `aria-expanded`; el menú sigue el patrón *menu*.',
+    ],
+    keyboard: [
+      { keys: 'Tab', action: 'Pasa de la acción principal a la flecha.' },
+      { keys: 'Enter / Espacio', action: 'Ejecuta la acción principal o abre el menú.' },
+      { keys: 'Flecha abajo', action: 'Sobre la flecha, abre el menú.' },
+      { keys: 'Escape', action: 'Cierra el menú y devuelve el foco a la flecha.' },
+    ],
+  },
+  'cb-empty': {
+    screenReader: [
+      'El icono o la ilustración son decorativos; el título y la descripción son texto normal y las acciones, botones o enlaces proyectados.',
+    ],
+  },
+  'cb-descriptions': {
+    screenReader: [
+      'Usa una lista de descripción nativa (`dl`, `dt`, `dd`), así cada valor se lee junto a su etiqueta. El título es un encabezado (`headingLevel`) que nombra la lista.',
+    ],
+  },
+  'cb-result': {
+    screenReader: [
+      'El título es un encabezado (`headingLevel`, 2 por defecto) y el icono o el código HTTP son decorativos. Si el resultado aparece sin cambiar de página, mueve el foco al título o anúncialo con un Toast.',
+    ],
+  },
+  'cb-statistic': {
+    screenReader: [
+      'La tendencia no depende solo del color: incluye el texto "aumenta" / "disminuye" para lectores de pantalla. `cb-countdown` es un `role="timer"`: no anuncia cada segundo, pero el valor se puede consultar.',
+    ],
+  },
+  'cbKeyFilter': {
+    screenReader: [
+      'Solo restringe lo que se escribe; no sustituye a la validación. Indica el formato esperado en la etiqueta o en un texto de ayuda y usa el `inputmode` adecuado (numeric, decimal, email) para mostrar el teclado correcto en móviles.',
+    ],
+  },
+  'cb-anchor': {
+    screenReader: [
+      'Es una `nav` nombrada ("En esta página") con listas de enlaces; la sección visible se marca con `aria-current="location"`.',
+      'Al elegir un enlace, el foco pasa a la sección de destino (con `tabindex="-1"`), así el lector continúa leyendo desde ahí.',
+    ],
+    keyboard: [
+      { keys: 'Tab', action: 'Recorre los enlaces del índice.' },
+      { keys: 'Enter', action: 'Va a la sección y le pasa el foco.' },
+    ],
+  },
+  'cb-repeater': {
+    screenReader: [
+      'Cada elemento es un `role="group"` nombrado ("Beneficiario 2") con su botón "Quitar Beneficiario 2". Al agregar o quitar, una región viva lo anuncia.',
+      'Al agregar, el foco pasa al primer campo del elemento nuevo; al quitar, al elemento anterior (o al botón de agregar si no queda ninguno).',
+    ],
+    keyboard: [
+      { keys: 'Tab', action: 'Recorre los campos, los botones de quitar y el de agregar.' },
+      { keys: 'Enter / Espacio', action: 'Agrega o quita un elemento.' },
+    ],
+  },
   'cb-dynamic-dialog': {
     screenReader: [
       'El panel tiene `role="dialog"` con `aria-modal="true"` y se nombra con `header` (`aria-labelledby`) o, si no hay título, con `ariaLabel` de la configuración.',

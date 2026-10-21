@@ -28,6 +28,18 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
         "type": "added",
         "items": [
           {
+            "component": "Componentes nuevos",
+            "text": "`SplitButton` (acción principal + menú), `Empty` (estado vacío), `Descriptions` (pares etiqueta / valor), `Result` (pantallas de éxito, error y 404/403/500), `Statistic` y `Countdown` (cifras con formato y tendencia, cuenta regresiva), `KeyFilter` (directiva que limita los caracteres de un campo), `Anchor` (índice \"En esta página\" con sección activa) y `Repeater` (lista repetible de campos sobre un `FormArray`). 150 entry points."
+          },
+          {
+            "component": "Button",
+            "text": "`ariaLabel`, `ariaHaspopup`, `ariaExpanded` y `ariaControls` para botones de solo icono o que abren algo."
+          },
+          {
+            "component": "Menu",
+            "text": "evento `hidden` al cerrarse."
+          },
+          {
             "component": "Table",
             "text": "datos desde el servidor (`lazy`, `totalRecords`, `loading` y evento `lazyLoad` con página, orden y filtros); cabecera fija con `scrollHeight`; columnas fijas (`frozen`); agrupación de filas (`groupRowsBy` y plantilla `cbTableGroupHeader`); exportación con `exportCSV()` / `toCSV()` (BOM para Excel, `exportable: false` y `selectionOnly`)."
           },

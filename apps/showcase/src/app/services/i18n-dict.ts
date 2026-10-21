@@ -1985,6 +1985,132 @@ export const ES_EN: Record<string, string> = {
   'Las cabeceras de grupo son celdas `th scope="rowgroup"`. Mientras `loading` está activo la tabla expone `aria-busy="true"` y la capa de carga es un `role="status"`.':
     'Group headers are `th scope="rowgroup"` cells. While `loading` is on, the table exposes `aria-busy="true"` and the loading overlay is a `role="status"`.',
 
+  // --- Componentes nuevos: SplitButton, Empty, Descriptions, Result, Statistic, KeyFilter, Anchor, Repeater ---
+  'Índice de la página que resalta la sección visible y lleva a cada una, teniendo en cuenta la cabecera fija.':
+    'Page index that highlights the visible section and takes you to each one, taking the fixed header into account.',
+  'links apunta a los id de las secciones (admite un nivel de anidación). offset es el alto de la cabecera fija; activeChange avisa de la sección visible. Este índice recorre las secciones de esta misma página.':
+    'links point to the section ids (one nesting level is supported). offset is the fixed header height; activeChange reports the visible section. This index walks through the sections of this very page.',
+  'Lista de pares etiqueta / valor para mostrar el detalle de un registro: un cliente, una cuenta o una transacción.':
+    'List of label / value pairs to show the details of a record: a customer, an account or a transaction.',
+  'items define los pares; columns, las columnas en pantallas anchas (en móvil siempre una). span hace que un elemento ocupe varias.':
+    'items defines the pairs; columns, the columns on wide screens (always one on mobile). span makes an item take several.',
+  'bordered separa los elementos en celdas; layout="horizontal" pone la etiqueta junto al valor.':
+    'bordered splits the items into cells; layout="horizontal" puts the label next to the value.',
+  'Con bordes y en horizontal': 'Bordered and horizontal',
+  'Mensaje principal.': 'Main message.',
+  'Texto de apoyo.': 'Supporting text.',
+  'Icono (se ignora si hay image).': 'Icon (ignored when image is set).',
+  'Ilustración decorativa opcional.': 'Optional decorative illustration.',
+  'sm para tablas y paneles.': 'sm for tables and panels.',
+  'Pares etiqueta / valor (label, value, key, span).':
+    'Label / value pairs (label, value, key, span).',
+  'Título (encabezado) del bloque.': 'Block title (heading).',
+  'Nivel del encabezado del título.': 'Heading level of the title.',
+  'Columnas en pantallas anchas.': 'Columns on wide screens.',
+  'Etiqueta encima o al lado del valor.': 'Label above or next to the value.',
+  'Bordes entre elementos.': 'Borders between items.',
+  'Tipo de resultado (icono y color).': 'Result type (icon and color).',
+  'Icono propio en lugar del del estado.': 'Custom icon instead of the status one.',
+  'Enlaces a los id de las secciones (label, href, children).':
+    'Links to the section ids (label, href, children).',
+  'Alto (px) de la cabecera fija.': 'Fixed header height (px).',
+  'Nombre de la navegación.': 'Navigation name.',
+  'Sección visible (su href).': 'Visible section (its href).',
+  'Texto de la acción principal (también nombra el grupo).':
+    'Main action text (also names the group).',
+  'Icono de la acción principal.': 'Main action icon.',
+  'Acciones secundarias del menú.': 'Secondary menu actions.',
+  'Deshabilita los dos botones.': 'Disables both buttons.',
+  'Spinner en la acción principal.': 'Spinner on the main action.',
+  'Nombre del botón de la flecha y del menú.': 'Name of the arrow button and the menu.',
+  'Clic en la acción principal.': 'Click on the main action.',
+  'Acción secundaria elegida.': 'Chosen secondary action.',
+  'Título de la cifra.': 'Figure title.',
+  'Valor (número formateado o texto tal cual).': 'Value (formatted number or text as is).',
+  'Texto antes del valor.': 'Text before the value.',
+  'Texto después del valor.': 'Text after the value.',
+  'Opciones de Intl.NumberFormat.': 'Intl.NumberFormat options.',
+  'Locale BCP 47 del formato.': 'BCP 47 locale for formatting.',
+  'Tendencia: flecha, color y texto para lectores de pantalla.':
+    'Trend: arrow, color and text for screen readers.',
+  'Texto junto a la tendencia.': 'Text next to the trend.',
+  'Estado vacío: qué pasa cuando una lista, búsqueda o tabla no tiene datos, y qué puede hacer el usuario.':
+    'Empty state: what happens when a list, search or table has no data, and what the user can do.',
+  'title, description y las acciones proyectadas como contenido.':
+    'title, description and the actions projected as content.',
+  'size="sm" para tablas y paneles. Sin title usa "Sin datos" del idioma activo.':
+    'size="sm" for tables and panels. Without title it uses "No data" from the active language.',
+  'Dentro de una tabla': 'Inside a table',
+  'Directiva que limita los caracteres que se pueden escribir o pegar en un campo.':
+    'Directive that limits the characters that can be typed or pasted into a field.',
+  'int, pint (enteros positivos), num, pnum, money, alpha, alphanum, hex y email. Filtra lo tecleado, lo pegado y lo autocompletado.':
+    'int, pint (positive integers), num, pnum, money, alpha, alphanum, hex and email. It filters what is typed, pasted and autocompleted.',
+  'Una RegExp que debe cumplir cada carácter; aquí, placas en mayúsculas y números.':
+    'A RegExp each character must match; here, uppercase and numeric license plates.',
+  'En los componentes de CaribeNG aplícala al input nativo que proyectan, o usa sus propios filtros (InputNumber, InputMask).':
+    'With CaribeNG components, apply it to the native input they project, or use their own filters (InputNumber, InputMask).',
+  'Filtros predefinidos': 'Built-in filters',
+  'Expresión propia': 'Custom expression',
+  'Con cb-input': 'With cb-input',
+  'Lista repetible de campos sobre un FormArray: agregar y quitar beneficiarios, teléfonos o direcciones.':
+    'Repeatable list of fields over a FormArray: add and remove beneficiaries, phone numbers or addresses.',
+  'formArray y createItem (crea el control de un elemento nuevo). La plantilla cbRepeaterItem recibe el FormGroup de cada elemento; min y max limitan cuántos hay.':
+    'formArray and createItem (creates the control of a new item). The cbRepeaterItem template receives each item FormGroup; min and max limit how many there are.',
+  'Pantalla de resultado de una operación (éxito, error, aviso) o de error de navegación (404, 403, 500), con acciones.':
+    'Result screen for an operation (success, error, warning) or a navigation error (404, 403, 500), with actions.',
+  'status define el icono y el color; las acciones se proyectan como contenido.':
+    'status sets the icon and color; actions are projected as content.',
+  'success, error, warning, info y los errores HTTP 404, 403 y 500 (muestran el código en grande).':
+    'success, error, warning, info and the HTTP errors 404, 403 and 500 (they show the code in large type).',
+  'Estados': 'Statuses',
+  'Una acción principal y un menú con acciones secundarias relacionadas, en un solo control.':
+    'A main action and a menu of related secondary actions, in a single control.',
+  'primaryClick se emite al pulsar la acción principal; la flecha abre el menú con items e itemSelect avisa de la opción elegida.':
+    'primaryClick is emitted when pressing the main action; the arrow opens the menu with items and itemSelect reports the chosen option.',
+  'Acepta las mismas severity, variant y size que Button.':
+    'Accepts the same severity, variant and size as Button.',
+  'Severidad, variante y tamaño': 'Severity, variant and size',
+  'Cifras destacadas para dashboards, con formato, tendencia y cuenta regresiva.':
+    'Highlighted figures for dashboards, with formatting, trend and countdown.',
+  'format recibe opciones de Intl.NumberFormat (moneda, porcentaje, decimales) y locale el idioma del formato; prefix y suffix añaden texto alrededor.':
+    'format takes Intl.NumberFormat options (currency, percent, decimals) and locale the formatting language; prefix and suffix add text around it.',
+  'trend añade flecha, color y el texto "aumenta" / "disminuye" para el lector de pantalla; trendLabel, el detalle.':
+    'trend adds an arrow, color and the text "up" / "down" for screen readers; trendLabel, the detail.',
+  'cb-countdown cuenta hasta target (una fecha) y emite finished al llegar a cero. Es un role="timer": no anuncia cada segundo.':
+    'cb-countdown counts down to target (a date) and emits finished at zero. It is a role="timer": it does not announce every second.',
+  'Tendencia': 'Trend',
+  'Cuenta regresiva': 'Countdown',
+  'El control es un `role="group"` nombrado con `label`. La flecha es un botón con nombre ("Más acciones"), `aria-haspopup="menu"` y `aria-expanded`; el menú sigue el patrón *menu*.':
+    'The control is a `role="group"` named with `label`. The arrow is a named button ("More actions") with `aria-haspopup="menu"` and `aria-expanded`; the menu follows the *menu* pattern.',
+  'Pasa de la acción principal a la flecha.': 'Moves from the main action to the arrow.',
+  'Ejecuta la acción principal o abre el menú.': 'Runs the main action or opens the menu.',
+  'Sobre la flecha, abre el menú.': 'On the arrow, opens the menu.',
+  'Cierra el menú y devuelve el foco a la flecha.':
+    'Closes the menu and returns focus to the arrow.',
+  'El icono o la ilustración son decorativos; el título y la descripción son texto normal y las acciones, botones o enlaces proyectados.':
+    'The icon or illustration is decorative; the title and description are plain text and the actions are projected buttons or links.',
+  'Usa una lista de descripción nativa (`dl`, `dt`, `dd`), así cada valor se lee junto a su etiqueta. El título es un encabezado (`headingLevel`) que nombra la lista.':
+    'It uses a native description list (`dl`, `dt`, `dd`), so each value is read with its label. The title is a heading (`headingLevel`) that names the list.',
+  'El título es un encabezado (`headingLevel`, 2 por defecto) y el icono o el código HTTP son decorativos. Si el resultado aparece sin cambiar de página, mueve el foco al título o anúncialo con un Toast.':
+    'The title is a heading (`headingLevel`, 2 by default) and the icon or HTTP code is decorative. If the result appears without a page change, move focus to the title or announce it with a Toast.',
+  'La tendencia no depende solo del color: incluye el texto "aumenta" / "disminuye" para lectores de pantalla. `cb-countdown` es un `role="timer"`: no anuncia cada segundo, pero el valor se puede consultar.':
+    'The trend does not rely on color alone: it includes the text "up" / "down" for screen readers. `cb-countdown` is a `role="timer"`: it does not announce every second, but the value can be queried.',
+  'Solo restringe lo que se escribe; no sustituye a la validación. Indica el formato esperado en la etiqueta o en un texto de ayuda y usa el `inputmode` adecuado (numeric, decimal, email) para mostrar el teclado correcto en móviles.':
+    'It only restricts what is typed; it does not replace validation. State the expected format in the label or a hint and use the right `inputmode` (numeric, decimal, email) to show the correct keyboard on mobile.',
+  'Es una `nav` nombrada ("En esta página") con listas de enlaces; la sección visible se marca con `aria-current="location"`.':
+    'It is a named `nav` ("On this page") with lists of links; the visible section is marked with `aria-current="location"`.',
+  'Al elegir un enlace, el foco pasa a la sección de destino (con `tabindex="-1"`), así el lector continúa leyendo desde ahí.':
+    'When a link is chosen, focus moves to the target section (with `tabindex="-1"`), so the screen reader continues reading from there.',
+  'Recorre los enlaces del índice.': 'Moves through the index links.',
+  'Va a la sección y le pasa el foco.': 'Goes to the section and moves focus to it.',
+  'Cada elemento es un `role="group"` nombrado ("Beneficiario 2") con su botón "Quitar Beneficiario 2". Al agregar o quitar, una región viva lo anuncia.':
+    'Each item is a named `role="group"` ("Beneficiary 2") with its "Remove Beneficiary 2" button. A live region announces additions and removals.',
+  'Al agregar, el foco pasa al primer campo del elemento nuevo; al quitar, al elemento anterior (o al botón de agregar si no queda ninguno).':
+    'When adding, focus moves to the first field of the new item; when removing, to the previous item (or the add button if none is left).',
+  'Recorre los campos, los botones de quitar y el de agregar.':
+    'Moves through the fields, the remove buttons and the add button.',
+  'Agrega o quita un elemento.': 'Adds or removes an item.',
+
   // --- API de Select / MultiSelect (etiquetado accesible) ---
   'Nombre accesible del disparador cuando no hay etiqueta visible.':
     'Accessible name of the trigger when there is no visible label.',

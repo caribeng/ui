@@ -79,6 +79,8 @@ export class CbMenu {
   readonly items = input<readonly CbMenuItem[]>([]);
   readonly ariaLabel = input<string | undefined>(undefined);
   readonly itemSelect = output<CbMenuItem>();
+  /** Se emite al cerrarse el menú (clic fuera, Escape o al elegir una opción). */
+  readonly hidden = output<void>();
 
   private readonly content = viewChild.required<TemplateRef<unknown>>('content');
   private overlayRef: OverlayRef | null = null;
@@ -127,6 +129,7 @@ export class CbMenu {
     const trigger = this.trigger;
     this.trigger = null;
     trigger?.focus();
+    this.hidden.emit();
   }
 
   activate(item: CbMenuItem, event: MouseEvent): void {

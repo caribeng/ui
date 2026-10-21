@@ -1,0 +1,22 @@
+.cb-split-button {
+  display: inline-flex;
+  align-items: stretch;
+}
+
+/* Une los dos botones: esquinas rectas en la unión y una línea divisoria. */
+.cb-split-button .cb-split-button__main .cb-button {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.cb-split-button .cb-split-button__toggle .cb-button {
+  padding-inline: var(--cb-space-2);
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.cb-split-button .cb-split-button__toggle {
+  margin-left: 1px;
+}
+/* En la variante outlined los bordes se solapan en lugar de separarse. */
+.cb-split-button.cb-split-button--outlined .cb-split-button__toggle {
+  margin-left: -1px;
+}

@@ -237,6 +237,30 @@
       "@caribeng/ui/dialog": [
         "./packages/ui/dialog/src/public-api.ts"
       ],
+      "@caribeng/ui/splitbutton": [
+        "./packages/ui/splitbutton/src/public-api.ts"
+      ],
+      "@caribeng/ui/empty": [
+        "./packages/ui/empty/src/public-api.ts"
+      ],
+      "@caribeng/ui/descriptions": [
+        "./packages/ui/descriptions/src/public-api.ts"
+      ],
+      "@caribeng/ui/result": [
+        "./packages/ui/result/src/public-api.ts"
+      ],
+      "@caribeng/ui/statistic": [
+        "./packages/ui/statistic/src/public-api.ts"
+      ],
+      "@caribeng/ui/keyfilter": [
+        "./packages/ui/keyfilter/src/public-api.ts"
+      ],
+      "@caribeng/ui/anchor": [
+        "./packages/ui/anchor/src/public-api.ts"
+      ],
+      "@caribeng/ui/repeater": [
+        "./packages/ui/repeater/src/public-api.ts"
+      ],
       "@caribeng/ui/divider": [
         "./packages/ui/divider/src/public-api.ts"
       ],

@@ -59,12 +59,14 @@ export const NAV_MENU: NavItem[] = [
           { label: 'InputMask', route: '/components/inputmask' },
           { label: 'InputNumber', route: '/components/input-number' },
           { label: 'InputOTP', route: '/components/inputotp' },
+          { label: 'KeyFilter', route: '/components/keyfilter', badge: 'NEW' },
           { label: 'Knob', route: '/components/knob' },
           { label: 'ListBox', route: '/components/listbox' },
           { label: 'MultiSelect', route: '/components/multiselect' },
           { label: 'Password', route: '/components/password' },
           { label: 'Radio', route: '/components/radio' },
           { label: 'Rating', route: '/components/rating' },
+          { label: 'Repeater', route: '/components/repeater', badge: 'NEW' },
           { label: 'Select', route: '/components/select' },
           { label: 'SelectButton', route: '/components/selectbutton' },
           { label: 'Slider', route: '/components/slider' },
@@ -79,17 +81,20 @@ export const NAV_MENU: NavItem[] = [
         children: [
           { label: 'Button', route: '/components/button' },
           { label: 'SpeedDial', route: '/components/speeddial' },
+          { label: 'SplitButton', route: '/components/splitbutton', badge: 'NEW' },
         ],
       },
       {
         label: 'Data',
         children: [
           { label: 'DataView', route: '/components/dataview' },
+          { label: 'Descriptions', route: '/components/descriptions', badge: 'NEW' },
           { label: 'OrderList', route: '/components/orderlist' },
           { label: 'OrganizationChart', route: '/components/organizationchart' },
           { label: 'Paginator', route: '/components/paginator' },
           { label: 'PickList', route: '/components/picklist' },
           { label: 'Pricing', route: '/components/pricing', badge: 'NEW' },
+          { label: 'Statistic', route: '/components/statistic', badge: 'NEW' },
           { label: 'Table', route: '/components/table' },
           { label: 'Timeline', route: '/components/timeline' },
           { label: 'Tree', route: '/components/tree' },
@@ -136,6 +141,7 @@ export const NAV_MENU: NavItem[] = [
       {
         label: 'Menu',
         children: [
+          { label: 'Anchor', route: '/components/anchor', badge: 'NEW' },
           { label: 'Breadcrumb', route: '/components/breadcrumb' },
           { label: 'ContextMenu', route: '/components/contextmenu' },
           { label: 'Dock', route: '/components/dock' },
@@ -157,8 +163,10 @@ export const NAV_MENU: NavItem[] = [
       {
         label: 'Messages',
         children: [
+          { label: 'Empty', route: '/components/empty', badge: 'NEW' },
           { label: 'InlineMessage', route: '/components/inlinemessage' },
           { label: 'Message', route: '/components/message' },
+          { label: 'Result', route: '/components/result', badge: 'NEW' },
           { label: 'Toast', route: '/components/toast' },
         ],
       },

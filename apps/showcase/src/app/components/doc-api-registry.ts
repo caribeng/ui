@@ -106,6 +106,12 @@ import { CbShortcut } from '@caribeng/ui/caribe/shortcut';
 import { CbSkeleton } from '@caribeng/ui/skeleton';
 import { CbSlider } from '@caribeng/ui/slider';
 import { CbSpeedDial } from '@caribeng/ui/speeddial';
+import { CbSplitButton } from '@caribeng/ui/splitbutton';
+import { CbStatistic } from '@caribeng/ui/statistic';
+import { CbEmpty } from '@caribeng/ui/empty';
+import { CbDescriptions } from '@caribeng/ui/descriptions';
+import { CbResult } from '@caribeng/ui/result';
+import { CbAnchor } from '@caribeng/ui/anchor';
 import { CbSpinner } from '@caribeng/ui/spinner';
 import { CbSplitter } from '@caribeng/ui/splitter';
 import { CbStatus } from '@caribeng/ui/caribe/status';
@@ -1477,6 +1483,54 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "changed", type: "number", description: "" }
     ]
   },
+  "cb-empty": {
+    component: CbEmpty,
+    selector: "cb-empty",
+    content: { default: "" },
+    props: [
+      { name: "title", kind: "string", type: "string", default: undefined, localeKey: "noData", description: "Mensaje principal." },
+      { name: "description", kind: "string", type: "string", default: "", description: "Texto de apoyo." },
+      { name: "icon", kind: "string", type: "string", default: "folder", description: "Icono (se ignora si hay image)." },
+      { name: "image", kind: "string", type: "string", default: "", description: "Ilustración decorativa opcional." },
+      { name: "size", kind: "enum", type: "'sm' | 'md'", options: ["sm", "md"], default: "md", description: "sm para tablas y paneles." }
+    ]
+  },
+  "cb-descriptions": {
+    component: CbDescriptions,
+    selector: "cb-descriptions",
+    props: [
+      { name: "items", kind: "string", type: "readonly CbDescriptionItem[]", default: [{ label: 'Name', value: 'Laura Gómez' }, { label: 'Account', value: '**** 1234' }, { label: 'Balance', value: '$ 1,250' }, { label: 'Status', value: 'Active' }], description: "Pares etiqueta / valor (label, value, key, span).", control: false },
+      { name: "title", kind: "string", type: "string", default: "Customer", description: "Título (encabezado) del bloque." },
+      { name: "headingLevel", kind: "number", type: "number", default: 3, description: "Nivel del encabezado del título." },
+      { name: "columns", kind: "number", type: "number", default: 2, description: "Columnas en pantallas anchas." },
+      { name: "layout", kind: "enum", type: "'horizontal' | 'vertical'", options: ["vertical", "horizontal"], default: "vertical", description: "Etiqueta encima o al lado del valor." },
+      { name: "bordered", kind: "boolean", type: "boolean", default: false, description: "Bordes entre elementos." }
+    ]
+  },
+  "cb-result": {
+    component: CbResult,
+    selector: "cb-result",
+    content: { default: "" },
+    props: [
+      { name: "status", kind: "enum", type: "CbResultStatus", options: ["success", "error", "warning", "info", "404", "403", "500"], default: "success", description: "Tipo de resultado (icono y color)." },
+      { name: "title", kind: "string", type: "string", default: "Transfer sent", description: "Título (encabezado)." },
+      { name: "subtitle", kind: "string", type: "string", default: "Receipt #48213", description: "Texto de apoyo." },
+      { name: "icon", kind: "string", type: "string", default: "", description: "Icono propio en lugar del del estado." },
+      { name: "headingLevel", kind: "number", type: "number", default: 2, description: "Nivel del encabezado del título." }
+    ]
+  },
+  "cb-anchor": {
+    component: CbAnchor,
+    selector: "cb-anchor",
+    props: [
+      { name: "links", kind: "string", type: "readonly CbAnchorLink[]", default: [{ label: 'Import', href: '#import' }, { label: 'Basic', href: '#basic' }, { label: 'Accessibility', href: '#accessibility' }], description: "Enlaces a los id de las secciones (label, href, children).", control: false },
+      { name: "offset", kind: "number", type: "number", default: 0, description: "Alto (px) de la cabecera fija." },
+      { name: "ariaLabel", kind: "string", type: "string", default: undefined, localeKey: "onThisPage", description: "Nombre de la navegación." }
+    ],
+    events: [
+      { name: "activeChange", type: "string | null", description: "Sección visible (su href)." }
+    ]
+  },
   "cb-speed-dial": {
     component: CbSpeedDial,
     selector: "cb-speed-dial",
@@ -1501,6 +1555,39 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "strokeWidth", kind: "number", type: "number", default: 4, description: "Grosor del trazo." },
       { name: "severity", kind: "enum", type: "CbSeverity", options: ["primary", "secondary", "success", "warning", "danger", "info", "help", "contrast"], default: "primary", description: "" },
       { name: "ariaLabel", kind: "string", type: "string", default: "", description: "" }
+    ]
+  },
+  "cb-split-button": {
+    component: CbSplitButton,
+    selector: "cb-split-button",
+    props: [
+      { name: "label", kind: "string", type: "string", default: "Save", description: "Texto de la acción principal (también nombra el grupo)." },
+      { name: "icon", kind: "string", type: "string", default: "check", description: "Icono de la acción principal." },
+      { name: "items", kind: "string", type: "readonly CbMenuItem[]", default: [{ label: 'Save draft' }, { label: 'Save and send' }], description: "Acciones secundarias del menú.", control: false },
+      { name: "severity", kind: "enum", type: "CbSeverity", options: ["primary", "secondary", "success", "warning", "danger", "info", "help", "contrast"], default: "primary", description: "Severidad semántica (color)." },
+      { name: "variant", kind: "enum", type: "CbButtonVariant", options: ["solid", "outlined", "text"], default: "solid", description: "Variante visual." },
+      { name: "size", kind: "enum", type: "CbSize", options: ["sm", "md", "lg"], default: "md", description: "Tamaño." },
+      { name: "disabled", kind: "boolean", type: "boolean", default: false, description: "Deshabilita los dos botones." },
+      { name: "loading", kind: "boolean", type: "boolean", default: false, description: "Spinner en la acción principal." },
+      { name: "menuAriaLabel", kind: "string", type: "string", default: undefined, localeKey: "moreActions", description: "Nombre del botón de la flecha y del menú." }
+    ],
+    events: [
+      { name: "primaryClick", type: "MouseEvent", description: "Clic en la acción principal." },
+      { name: "itemSelect", type: "CbMenuItem", description: "Acción secundaria elegida." }
+    ]
+  },
+  "cb-statistic": {
+    component: CbStatistic,
+    selector: "cb-statistic",
+    props: [
+      { name: "title", kind: "string", type: "string", default: "Balance", description: "Título de la cifra." },
+      { name: "value", kind: "number", type: "number | string | null", default: 12450, description: "Valor (número formateado o texto tal cual)." },
+      { name: "prefix", kind: "string", type: "string", default: "", description: "Texto antes del valor." },
+      { name: "suffix", kind: "string", type: "string", default: "", description: "Texto después del valor." },
+      { name: "format", kind: "string", type: "Intl.NumberFormatOptions", default: undefined, description: "Opciones de Intl.NumberFormat.", control: false },
+      { name: "locale", kind: "string", type: "string", default: "", description: "Locale BCP 47 del formato." },
+      { name: "trend", kind: "enum", type: "'up' | 'down' | null", options: ["up", "down"], default: null, description: "Tendencia: flecha, color y texto para lectores de pantalla." },
+      { name: "trendLabel", kind: "string", type: "string", default: "", description: "Texto junto a la tendencia." }
     ]
   },
   "cb-splitter": {

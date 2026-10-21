@@ -60,6 +60,14 @@ import { TogglebuttonDocComponent } from './pages/togglebutton-doc.component';
 import { ListboxDocComponent } from './pages/listbox-doc.component';
 import { KnobDocComponent } from './pages/knob-doc.component';
 import { TableDocComponent } from './pages/table-doc.component';
+import { SplitbuttonDocComponent } from './pages/splitbutton-doc.component';
+import { EmptyDocComponent } from './pages/empty-doc.component';
+import { DescriptionsDocComponent } from './pages/descriptions-doc.component';
+import { ResultDocComponent } from './pages/result-doc.component';
+import { StatisticDocComponent } from './pages/statistic-doc.component';
+import { KeyfilterDocComponent } from './pages/keyfilter-doc.component';
+import { AnchorDocComponent } from './pages/anchor-doc.component';
+import { RepeaterDocComponent } from './pages/repeater-doc.component';
 import { PaginatorDocComponent } from './pages/paginator-doc.component';
 import { MenuDocComponent } from './pages/menu-doc.component';
 import { MenubarDocComponent } from './pages/menubar-doc.component';
@@ -153,6 +161,14 @@ export const routes: Routes = [
   { path: 'components/editor', component: EditorDocComponent, title: 'Editor · CaribeNG' },
   { path: 'components/password', component: PasswordDocComponent, title: 'Password · CaribeNG' },
   { path: 'components/table', component: TableDocComponent, title: 'Table · CaribeNG' },
+  { path: 'components/splitbutton', component: SplitbuttonDocComponent, title: 'SplitButton · CaribeNG' },
+  { path: 'components/empty', component: EmptyDocComponent, title: 'Empty · CaribeNG' },
+  { path: 'components/descriptions', component: DescriptionsDocComponent, title: 'Descriptions · CaribeNG' },
+  { path: 'components/result', component: ResultDocComponent, title: 'Result · CaribeNG' },
+  { path: 'components/statistic', component: StatisticDocComponent, title: 'Statistic · CaribeNG' },
+  { path: 'components/keyfilter', component: KeyfilterDocComponent, title: 'KeyFilter · CaribeNG' },
+  { path: 'components/anchor', component: AnchorDocComponent, title: 'Anchor · CaribeNG' },
+  { path: 'components/repeater', component: RepeaterDocComponent, title: 'Repeater · CaribeNG' },
   { path: 'components/paginator', component: PaginatorDocComponent, title: 'Paginator · CaribeNG' },
   { path: 'components/menu', component: MenuDocComponent, title: 'Menu · CaribeNG' },
   { path: 'components/menubar', component: MenubarDocComponent, title: 'Menubar · CaribeNG' },

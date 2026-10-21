@@ -60,7 +60,7 @@ Guía completa (opciones del proveedor, tema, formularios, iconos y catálogo) e
 
 - [`packages/ui`](./packages/ui): Paquete publicable `@caribeng/ui` con entry point primario y **142 secondary entry points** (`@caribeng/ui/button`, `@caribeng/ui/table`, `@caribeng/ui/caribe/alert`, etc.).
 - [`packages/tokens`](./packages/tokens): Sistema de tokens CSS/SCSS (`--cb-*`), utilidades y soporte nativo de modo oscuro (`[data-theme="dark"]`).
-- [`apps/showcase`](./apps/showcase): Aplicación interactiva de documentación con ejemplos en vivo (HTML y TypeScript), accesibilidad y tablas de API para los 142 componentes y directivas.
+- [`apps/showcase`](./apps/showcase): Aplicación interactiva de documentación con ejemplos en vivo (HTML y TypeScript), accesibilidad y tablas de API para los 150 componentes y directivas.
 
 ---
 

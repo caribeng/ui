@@ -24,6 +24,15 @@ export interface CbTranslation {
   selectedCount: string;
   selectAll: string;
   options: string;
+  moreActions: string;
+  add: string;
+  onThisPage: string;
+  trendUp: string;
+  trendDown: string;
+  /** `{0}`: nombre del elemento (p. ej. "Beneficiario 2"). */
+  itemAdded: string;
+  /** `{0}`: nombre del elemento. */
+  itemRemoved: string;
   loading: string;
   loadingMessage: string;
   previous: string;
@@ -271,6 +280,13 @@ export const CB_LOCALE_ES: CbTranslation = {
   selectedCount: '{0} seleccionados',
   selectAll: 'Todos',
   options: 'Opciones',
+  moreActions: 'Más acciones',
+  add: 'Agregar',
+  onThisPage: 'En esta página',
+  trendUp: 'aumenta',
+  trendDown: 'disminuye',
+  itemAdded: '{0} agregado',
+  itemRemoved: '{0} eliminado',
   loading: 'Cargando',
   loadingMessage: 'Cargando información…',
   previous: 'Anterior',
@@ -479,6 +495,13 @@ export const CB_LOCALE_EN: CbTranslation = {
   selectedCount: '{0} selected',
   selectAll: 'All',
   options: 'Options',
+  moreActions: 'More actions',
+  add: 'Add',
+  onThisPage: 'On this page',
+  trendUp: 'up',
+  trendDown: 'down',
+  itemAdded: '{0} added',
+  itemRemoved: '{0} removed',
   loading: 'Loading',
   loadingMessage: 'Loading…',
   previous: 'Previous',

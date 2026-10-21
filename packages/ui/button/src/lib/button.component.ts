@@ -42,6 +42,10 @@ export type CbButtonType = 'button' | 'submit' | 'reset';
       [attr.type]="type()"
       [disabled]="disabled() || loading()"
       [attr.aria-busy]="loading() ? 'true' : null"
+      [attr.aria-label]="ariaLabel() || null"
+      [attr.aria-haspopup]="ariaHaspopup() || null"
+      [attr.aria-expanded]="ariaExpanded() ?? null"
+      [attr.aria-controls]="ariaControls() || null"
     >
       @if (loading()) {
         <cb-icon class="cb-button__spinner" name="loader" spin [size]="16" aria-hidden="true" />
@@ -68,6 +72,14 @@ export class CbButton {
   readonly fullWidth = input<boolean, unknown>(false, { transform: toBoolean });
   /** Tipo nativo del botón. */
   readonly type = input<CbButtonType>('button');
+  /** Nombre accesible (imprescindible en botones de solo icono). */
+  readonly ariaLabel = input<string | undefined>(undefined);
+  /** Tipo de elemento que abre (`menu`, `dialog`, `listbox`…). */
+  readonly ariaHaspopup = input<string | undefined>(undefined);
+  /** Si lo que abre está desplegado. */
+  readonly ariaExpanded = input<boolean | undefined>(undefined);
+  /** Id del elemento que controla. */
+  readonly ariaControls = input<string | undefined>(undefined);
 
   private static readonly CHROMATIC = new Set<CbSeverity>([
     'primary',
