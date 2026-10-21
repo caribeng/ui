@@ -264,6 +264,9 @@
       "@caribeng/ui/themetoggle": [
         "./packages/ui/themetoggle/src/public-api.ts"
       ],
+      "@caribeng/ui/pdfviewer": [
+        "./packages/ui/pdfviewer/src/public-api.ts"
+      ],
       "@caribeng/ui/divider": [
         "./packages/ui/divider/src/public-api.ts"
       ],

@@ -1,0 +1,204 @@
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { CbPdfViewer, type CbPdfSource, type CbPdfZoom } from '@caribeng/ui/pdfviewer';
+import { DocPlaygroundComponent } from '../components/doc-playground.component';
+import { DOC_API } from '../components/doc-api-registry';
+import { DocA11yComponent } from '../components/doc-a11y.component';
+import { DOC_A11Y } from '../components/doc-a11y-registry';
+import { DocSectionComponent } from '../shared/doc-section.component';
+import { CodeBlockComponent } from '../shared/code-block.component';
+import { DocPageHeaderComponent } from '../shared/page-header.component';
+import { TocService } from '../services/toc.service';
+
+@Component({
+  selector: 'doc-pdfviewer-page',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [CbPdfViewer, DocA11yComponent, DocPlaygroundComponent, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
+  template: `
+    <doc-page-header
+      eyebrow="Multimedia"
+      title="PDF Viewer"
+      lead="Visor de documentos PDF con miniaturas, búsqueda, zoom, giro, descarga, impresión y documentos con contraseña. El texto se puede seleccionar y lo leen los lectores de pantalla."
+    />
+
+    <doc-section id="import" title="Importación">
+      <doc-code-block [code]="importCode" lang="typescript" />
+    </doc-section>
+
+    <doc-section
+      id="setup"
+      title="Instalación"
+      description="El visor usa pdf.js de Mozilla (licencia Apache-2.0), una dependencia opcional: solo la instalan las aplicaciones que usan el visor, y se descarga al abrir el primer documento. Copia su worker y sus recursos en los assets para servirlos desde tu propio dominio (sin CDN), lo que también cumple políticas CSP estrictas."
+    >
+      <div style="display: grid; gap: 1rem; width: 100%">
+        <doc-code-block [code]="installCode" lang="bash" />
+        <doc-code-block [code]="assetsCode" lang="typescript" />
+        <doc-code-block [code]="providerCode" lang="typescript" />
+      </div>
+    </doc-section>
+
+    <doc-section
+      id="basic"
+      title="Básico"
+      description="src acepta una URL, un ArrayBuffer, un Uint8Array o un Blob / File. Las páginas se renderizan a medida que se ven. Prueba a buscar &quot;direccion&quot;: la búsqueda ignora tildes y mayúsculas."
+      [code]="basicCode"
+    >
+      <cb-pdf-viewer style="width: 100%" src="pdf/extracto-demo.pdf" />
+    </doc-section>
+
+    <doc-section
+      id="state"
+      title="Página, zoom y miniaturas"
+      description="[(page)], [(zoom)] y [(sidebar)] son bidireccionales. zoom acepta 'page-width', 'page-fit' o un factor (1 = 100 %, tamaño real)."
+      [code]="stateCode"
+      [codeTs]="stateTs"
+    >
+      <div style="display: grid; gap: 0.75rem; width: 100%">
+        <cb-pdf-viewer
+          style="--cb-pdf-viewer-height: 32rem"
+          src="pdf/extracto-demo.pdf"
+          [(page)]="pagina"
+          [(zoom)]="zoom"
+          [(sidebar)]="miniaturas"
+        />
+        <p style="margin: 0; font-size: 0.875rem; color: var(--cb-color-text-muted)">
+          Página {{ pagina() }} · zoom {{ zoom() }} · miniaturas {{ miniaturas() ? 'abiertas' : 'cerradas' }}
+        </p>
+      </div>
+    </doc-section>
+
+    <doc-section
+      id="password"
+      title="Documento con contraseña"
+      description="Si el PDF está cifrado, el visor pide la contraseña y avisa si es incorrecta. También puedes pasarla con [password]. La contraseña de este ejemplo es caribe."
+      [code]="passwordCode"
+    >
+      <cb-pdf-viewer style="width: 100%; --cb-pdf-viewer-height: 26rem" src="pdf/extracto-protegido.pdf" />
+    </doc-section>
+
+    <doc-section
+      id="file"
+      title="Archivo local"
+      description="Con un File de un input type=file el documento se abre sin subirlo a ningún servidor. fileName define el nombre al descargar."
+      [code]="fileCode"
+      [codeTs]="fileTs"
+    >
+      <div style="display: grid; gap: 0.75rem; width: 100%">
+        <label style="display: grid; gap: 0.375rem; font-size: 0.875rem">
+          Elige un PDF
+          <input type="file" accept="application/pdf" (change)="onFile($event)" />
+        </label>
+        @if (archivo(); as file) {
+          <cb-pdf-viewer style="--cb-pdf-viewer-height: 30rem" [src]="file" />
+        }
+      </div>
+    </doc-section>
+
+    <doc-section
+      id="api"
+      title="Barra propia"
+      description="Sin la barra (showToolbar en false), controla el visor con sus métodos: goToPage, zoomIn, zoomOut, rotate, search, findNext, findPrevious, download y print."
+      [code]="apiCode"
+    >
+      <div style="display: grid; gap: 0.75rem; width: 100%">
+        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap">
+          <button type="button" class="doc-btn" (click)="visor.previousPage()">Anterior</button>
+          <button type="button" class="doc-btn" (click)="visor.nextPage()">Siguiente</button>
+          <button type="button" class="doc-btn" (click)="visor.zoomIn()">Acercar</button>
+          <button type="button" class="doc-btn" (click)="visor.search('Supermercado')">Buscar "Supermercado"</button>
+          <button type="button" class="doc-btn" (click)="visor.findNext()">Siguiente coincidencia</button>
+        </div>
+        <cb-pdf-viewer #visor [showToolbar]="false" style="--cb-pdf-viewer-height: 26rem" src="pdf/extracto-demo.pdf" zoom="page-fit" />
+      </div>
+    </doc-section>
+
+    <doc-a11y [data]="a11y" />
+
+    <doc-playground [api]="docApi" />
+  `,
+  styles: `
+    .doc-btn {
+      padding: 0.375rem 0.75rem;
+      border: 1px solid var(--cb-color-border-strong);
+      border-radius: var(--cb-radius-md);
+      background: var(--cb-color-surface);
+      color: var(--cb-color-text);
+      font: inherit;
+      font-size: 0.875rem;
+      cursor: pointer;
+    }
+    .doc-btn:hover {
+      background: var(--cb-color-surface-hover);
+    }
+    .doc-btn:focus-visible {
+      outline: 2px solid var(--cb-color-focus-ring);
+      outline-offset: 2px;
+    }
+  `,
+})
+export class PdfviewerDocComponent {
+  protected readonly docApi = DOC_API['cb-pdf-viewer'];
+  protected readonly a11y = DOC_A11Y['cb-pdf-viewer'];
+
+  protected readonly pagina = signal(1);
+  protected readonly zoom = signal<CbPdfZoom>('page-width');
+  protected readonly miniaturas = signal(true);
+  protected readonly archivo = signal<CbPdfSource | null>(null);
+
+  protected onFile(event: Event): void {
+    this.archivo.set((event.target as HTMLInputElement).files?.[0] ?? null);
+  }
+
+  protected readonly importCode = `import { CbPdfViewer } from '@caribeng/ui/pdfviewer';`;
+  protected readonly installCode = `pnpm add pdfjs-dist`;
+  protected readonly assetsCode = `// angular.json → projects.<app>.architect.build.options.assets
+{ "glob": "pdf.worker.min.mjs", "input": "node_modules/pdfjs-dist/build", "output": "pdfjs/build" },
+{ "glob": "**/*", "input": "node_modules/pdfjs-dist/cmaps", "output": "pdfjs/cmaps" },
+{ "glob": "**/*", "input": "node_modules/pdfjs-dist/standard_fonts", "output": "pdfjs/standard_fonts" },
+{ "glob": "**/*", "input": "node_modules/pdfjs-dist/wasm", "output": "pdfjs/wasm" },
+{ "glob": "**/*", "input": "node_modules/pdfjs-dist/iccs", "output": "pdfjs/iccs" }`;
+  protected readonly providerCode = `// Opcional: solo si sirves los archivos en otra ruta.
+import { provideCbPdfViewer } from '@caribeng/ui/pdfviewer';
+
+bootstrapApplication(App, {
+  providers: [
+    provideCaribeNG(),
+    provideCbPdfViewer({
+      workerSrc: '/static/pdfjs/build/pdf.worker.min.mjs',
+      assetsUrl: '/static/pdfjs/',
+    }),
+  ],
+});`;
+  protected readonly basicCode = `<cb-pdf-viewer src="pdf/extracto-demo.pdf" />`;
+  protected readonly stateCode = `<cb-pdf-viewer
+  style="--cb-pdf-viewer-height: 32rem"
+  src="pdf/extracto-demo.pdf"
+  [(page)]="pagina"
+  [(zoom)]="zoom"
+  [(sidebar)]="miniaturas"
+/>`;
+  protected readonly stateTs = `pagina = signal(1);
+zoom = signal<CbPdfZoom>('page-width');
+miniaturas = signal(true);`;
+  protected readonly passwordCode = `<cb-pdf-viewer src="pdf/extracto-protegido.pdf" />
+
+<!-- o, si ya conoces la contraseña -->
+<cb-pdf-viewer src="pdf/extracto-protegido.pdf" password="caribe" />`;
+  protected readonly fileCode = `<input type="file" accept="application/pdf" (change)="onFile($event)" />
+@if (archivo(); as file) {
+  <cb-pdf-viewer [src]="file" />
+}`;
+  protected readonly fileTs = `archivo = signal<CbPdfSource | null>(null);
+
+onFile(event: Event) {
+  this.archivo.set((event.target as HTMLInputElement).files?.[0] ?? null);
+}`;
+  protected readonly apiCode = `<button (click)="visor.zoomIn()">Acercar</button>
+<button (click)="visor.search('Supermercado')">Buscar</button>
+<button (click)="visor.findNext()">Siguiente coincidencia</button>
+
+<cb-pdf-viewer #visor [showToolbar]="false" src="pdf/extracto-demo.pdf" zoom="page-fit" />`;
+
+  constructor() {
+    inject(TocService).reset();
+  }
+}

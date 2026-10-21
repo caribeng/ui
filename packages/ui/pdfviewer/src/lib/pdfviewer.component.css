@@ -1,0 +1,422 @@
+:host {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: var(--cb-pdf-viewer-height, 40rem);
+  min-height: 16rem;
+  overflow: hidden;
+  border: var(--cb-border-width, 1px) solid var(--cb-color-border);
+  border-radius: var(--cb-radius-lg);
+  background: var(--cb-color-surface);
+  color: var(--cb-color-text);
+  font-family: var(--cb-font-sans);
+  font-size: var(--cb-text-sm);
+  container-type: inline-size;
+}
+
+/* --- Barra --------------------------------------------------------------- */
+
+.cb-pdf__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--cb-space-2);
+  padding: var(--cb-space-2) var(--cb-space-3);
+  border-bottom: var(--cb-border-width, 1px) solid var(--cb-color-border);
+  background: var(--cb-color-surface);
+}
+
+.cb-pdf__group {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--cb-space-1);
+}
+
+.cb-pdf__spacer {
+  flex: 1;
+}
+
+.cb-pdf__tool {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+  border: none;
+  border-radius: var(--cb-radius-md);
+  background: transparent;
+  color: var(--cb-color-text);
+  cursor: pointer;
+  transition: background-color var(--cb-duration-fast) var(--cb-ease);
+}
+
+.cb-pdf__tool:hover:not(:disabled) {
+  background: var(--cb-color-surface-hover);
+}
+
+.cb-pdf__tool[aria-expanded='true'] {
+  background: var(--cb-color-surface-hover);
+  color: var(--cb-color-primary-600);
+}
+
+.cb-pdf__tool:disabled {
+  opacity: var(--cb-opacity-disabled, 0.5);
+  cursor: default;
+}
+
+.cb-pdf__tool:focus-visible,
+.cb-pdf__field:focus-visible,
+.cb-pdf__thumb:focus-visible,
+.cb-pdf__submit:focus-visible,
+.cb-pdf__viewport:focus-visible {
+  outline: 2px solid var(--cb-color-focus-ring);
+  outline-offset: 2px;
+}
+
+.cb-pdf__field {
+  height: 2.25rem;
+  padding: 0 var(--cb-space-2);
+  border: var(--cb-border-width, 1px) solid var(--cb-color-border-strong);
+  border-radius: var(--cb-radius-md);
+  background: var(--cb-color-surface);
+  color: var(--cb-color-text);
+  font: inherit;
+}
+
+.cb-pdf__field:disabled {
+  opacity: var(--cb-opacity-disabled, 0.5);
+}
+
+.cb-pdf__page-input {
+  width: 3.25rem;
+  text-align: center;
+}
+
+.cb-pdf__total {
+  min-width: 2.5rem;
+  color: var(--cb-color-text-muted);
+  white-space: nowrap;
+}
+
+.cb-pdf__zoom {
+  width: 9.5rem;
+}
+
+.cb-pdf__search {
+  position: relative;
+}
+
+.cb-pdf__search-icon {
+  position: absolute;
+  left: 0.625rem;
+  color: var(--cb-color-text-muted);
+  pointer-events: none;
+}
+
+.cb-pdf__search-input {
+  width: 14rem;
+  padding-left: 2rem;
+}
+
+.cb-pdf__status {
+  min-width: 4.5rem;
+  color: var(--cb-color-text-muted);
+  font-size: var(--cb-text-xs);
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* En contenedores estrechos se ocultan los controles menos usados. */
+@container (max-width: 40rem) {
+  .cb-pdf__zoom,
+  .cb-pdf__status {
+    display: none;
+  }
+
+  .cb-pdf__search-input {
+    width: 9rem;
+  }
+}
+
+/* --- Cuerpo --------------------------------------------------------------- */
+
+.cb-pdf__body {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
+.cb-pdf__sidebar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--cb-space-3);
+  flex: none;
+  width: 10rem;
+  padding: var(--cb-space-3) 0;
+  overflow-y: auto;
+  border-right: var(--cb-border-width, 1px) solid var(--cb-color-border);
+  background: var(--cb-color-surface);
+}
+
+.cb-pdf__thumb {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--cb-space-1);
+  padding: var(--cb-space-1);
+  border: 2px solid transparent;
+  border-radius: var(--cb-radius-md);
+  background: transparent;
+  color: var(--cb-color-text-muted);
+  font: inherit;
+  font-size: var(--cb-text-xs);
+  cursor: pointer;
+}
+
+.cb-pdf__thumb:hover {
+  background: var(--cb-color-surface-hover);
+}
+
+.cb-pdf__thumb.cb-is-active {
+  border-color: var(--cb-color-primary-500);
+  color: var(--cb-color-text-strong);
+  font-weight: var(--cb-font-weight-semibold);
+}
+
+.cb-pdf__thumb-canvas {
+  display: block;
+  background: #fff;
+  box-shadow: 0 1px 3px rgb(15 23 42 / 0.2);
+}
+
+:host ::ng-deep .cb-pdf__thumb-canvas canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.cb-pdf__viewport {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  overflow: auto;
+  background: var(--cb-color-surface-subtle);
+}
+
+.cb-pdf__pages {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  width: max-content;
+  min-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Las páginas de un PDF son blancas en ambos temas, como en papel. */
+.cb-pdf__page {
+  --user-unit: 1;
+  --total-scale-factor: calc(var(--scale-factor) * var(--user-unit));
+  --scale-round-x: 1px;
+  --scale-round-y: 1px;
+
+  position: relative;
+  flex: none;
+  background: #fff;
+  box-shadow: 0 1px 3px rgb(15 23 42 / 0.18), 0 4px 12px rgb(15 23 42 / 0.08);
+  direction: ltr;
+}
+
+.cb-pdf__canvas,
+:host ::ng-deep .cb-pdf__canvas canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/*
+ * Capa de texto: texto transparente encima del canvas para seleccionar, copiar,
+ * buscar y leer con lector de pantalla. Sigue el contrato de la capa de texto de
+ * pdf.js (variables --total-scale-factor, --font-height, --scale-x, --rotate).
+ */
+.cb-pdf__text {
+  position: absolute;
+  inset: 0;
+  overflow: clip;
+  opacity: 1;
+  line-height: 1;
+  text-align: initial;
+  letter-spacing: normal;
+  word-spacing: normal;
+  text-size-adjust: none;
+  forced-color-adjust: none;
+  transform-origin: 0 0;
+  caret-color: CanvasText;
+  z-index: 0;
+
+  --min-font-size: 1;
+  --text-scale-factor: calc(var(--total-scale-factor) * var(--min-font-size));
+  --min-font-size-inv: calc(1 / var(--min-font-size));
+}
+
+.cb-pdf__text[data-main-rotation='90'] {
+  transform: rotate(90deg) translateY(-100%);
+}
+
+.cb-pdf__text[data-main-rotation='180'] {
+  transform: rotate(180deg) translate(-100%, -100%);
+}
+
+.cb-pdf__text[data-main-rotation='270'] {
+  transform: rotate(270deg) translateX(-100%);
+}
+
+:host ::ng-deep .cb-pdf__text :is(span, br) {
+  position: absolute;
+  color: transparent;
+  white-space: pre;
+  cursor: text;
+  transform-origin: 0% 0%;
+  user-select: text;
+}
+
+:host ::ng-deep .cb-pdf__text > :not(.markedContent),
+:host ::ng-deep .cb-pdf__text .markedContent span:not(.markedContent) {
+  --font-height: 0;
+  --scale-x: 1;
+  --rotate: 0deg;
+
+  z-index: 1;
+  font-size: calc(var(--text-scale-factor) * var(--font-height));
+  transform: rotate(var(--rotate)) scaleX(var(--scale-x)) scale(var(--min-font-size-inv));
+}
+
+:host ::ng-deep .cb-pdf__text .markedContent {
+  display: contents;
+}
+
+:host ::ng-deep .cb-pdf__text span[role='img'] {
+  user-select: none;
+  cursor: default;
+}
+
+:host ::ng-deep .cb-pdf__text ::selection {
+  background: color-mix(in srgb, var(--cb-color-primary-500) 35%, transparent);
+  color: transparent;
+}
+
+/* Resaltado de búsqueda (lo crea el componente dentro de la capa de pdf.js). */
+:host ::ng-deep .cb-pdf__text .cb-pdf__hl {
+  position: relative;
+  margin: -1px;
+  padding: 1px;
+  border-radius: 3px;
+  background: rgb(250 204 21 / 0.45);
+  font-size: inherit;
+  transform: none;
+}
+
+:host ::ng-deep .cb-pdf__text .cb-pdf__hl.cb-is-selected {
+  background: rgb(249 115 22 / 0.55);
+  outline: 2px solid rgb(234 88 12);
+}
+
+@media (forced-colors: active) {
+  :host ::ng-deep .cb-pdf__text .cb-pdf__hl {
+    background: transparent;
+    outline: 1px solid Highlight;
+  }
+
+  :host ::ng-deep .cb-pdf__text .cb-pdf__hl.cb-is-selected {
+    outline: 3px solid Highlight;
+  }
+}
+
+/* --- Estados -------------------------------------------------------------- */
+
+.cb-pdf__message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--cb-space-3);
+  height: 100%;
+  padding: var(--cb-space-6);
+  color: var(--cb-color-text-muted);
+  text-align: center;
+}
+
+.cb-pdf__message--error {
+  color: var(--cb-color-danger);
+}
+
+.cb-pdf__password {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--cb-space-2);
+  max-width: 24rem;
+  margin: var(--cb-space-6) auto;
+  padding: var(--cb-space-6);
+  border: var(--cb-border-width, 1px) solid var(--cb-color-border);
+  border-radius: var(--cb-radius-lg);
+  background: var(--cb-color-surface);
+  text-align: center;
+}
+
+.cb-pdf__password-text {
+  margin: 0;
+}
+
+.cb-pdf__password-label {
+  align-self: flex-start;
+  font-weight: var(--cb-font-weight-medium);
+}
+
+.cb-pdf__password-row {
+  display: flex;
+  gap: var(--cb-space-2);
+  width: 100%;
+}
+
+.cb-pdf__password-row .cb-pdf__field {
+  flex: 1;
+  min-width: 0;
+}
+
+.cb-pdf__password-error {
+  margin: 0;
+  color: var(--cb-color-danger);
+}
+
+.cb-pdf__submit {
+  height: 2.25rem;
+  padding: 0 var(--cb-space-4);
+  border: none;
+  border-radius: var(--cb-radius-md);
+  background: var(--cb-color-primary-500);
+  color: var(--cb-color-primary-contrast);
+  font: inherit;
+  font-weight: var(--cb-font-weight-semibold);
+  cursor: pointer;
+}
+
+.cb-pdf__submit:hover {
+  background: var(--cb-color-primary-600);
+}
+
+.cb-pdf__toast {
+  position: absolute;
+  left: 50%;
+  bottom: var(--cb-space-4);
+  transform: translateX(-50%);
+  padding: var(--cb-space-2) var(--cb-space-4);
+  border-radius: var(--cb-radius-full);
+  background: var(--cb-color-surface-950);
+  color: #fff;
+  box-shadow: var(--cb-shadow-md);
+}

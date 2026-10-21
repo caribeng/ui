@@ -15,7 +15,7 @@
 
 ## ✨ Características
 
-- **151 componentes y directivas** standalone, cada uno en su propio entry point (`@caribeng/ui/button`, `@caribeng/ui/table`…): solo empaquetas lo que importas.
+- **152 componentes y directivas** standalone, cada uno en su propio entry point (`@caribeng/ui/button`, `@caribeng/ui/table`…): solo empaquetas lo que importas.
 - **Angular moderno:** `input()` / `model()` / `output()` con Signals, `ChangeDetectionStrategy.OnPush` y compatible con apps zoneless.
 - **Formularios sin fricción:** `ControlValueAccessor` en todos los controles; el error y el indicador de obligatorio se sincronizan solos con Angular Forms.
 - **Accesibles:** roles y atributos ARIA, soporte de teclado y gestión de foco (WCAG 2.2 AA).
@@ -215,7 +215,7 @@ providers: [provideCbIcons({ 'heart-pulse': heartPulse, rocket })];
 - **Messages:** `badge`, `chip`, `empty`, `inlinemessage`, `message`, `result`, `tag`, `toast`.
 - **Menu:** `anchor`, `breadcrumb`, `contextmenu`, `dock`, `megamenu`, `menu`, `menubar`, `panelmenu`, `speeddial`, `splitbutton`, `steps`, `tabmenu`, `tieredmenu`.
 - **Panel:** `accordion`, `card`, `divider`, `fieldset`, `panel`, `scrollpanel`, `scrolltop`, `splitter`, `stepper`, `tabs`, `toolbar`.
-- **Media:** `avatar`, `avatargroup`, `carousel`, `galleria`, `image`.
+- **Media:** `avatar`, `avatargroup`, `carousel`, `galleria`, `image`, `pdfviewer`.
 - **Archivos y precios:** `file-card`, `folder-card`, `pricing`.
 - **Misc y directivas:** `animateonscroll`, `autofocus`, `blockui`, `chart`, `focustrap`, `icon`, `icons`, `inplace`, `metergroup`, `progressbar`, `ripple`, `skeleton`, `spinner`, `styleclass`, `terminal`, `themetoggle`.
 - **Caribe Design (`@caribeng/ui/caribe/*`):** `alert`, `animation-lottie`, `button-group`, `calendar`, `card-content`, `card-move`, `card-primary`, `card-select`, `circle-loading`, `coachmark`, `data-table`, `dots-indicator`, `expansion-panel`, `fab-menu`, `file-download`, `file-select`, `float-menu`, `footer`, `header`, `icon-button`, `illustration`, `inline-alert`, `input-date`, `input-search`, `input-select`, `input-token`, `link`, `loader`, `logo`, `modal`, `off-canvas`, `onboarding`, `pictogram`, `pop-over`, `preloader`, `progress-bar`, `shortcut`, `status`, `step-indicator`, `stroke`, `switch`, `tag-button`, `tracker`, `transaction-status`, `voucher`.

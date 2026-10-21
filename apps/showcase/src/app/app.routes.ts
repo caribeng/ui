@@ -107,6 +107,7 @@ import { FileuploadDocComponent } from './pages/fileupload-doc.component';
 import { EditorDocComponent } from './pages/editor-doc.component';
 import { CarouselDocComponent } from './pages/carousel-doc.component';
 import { ImageDocComponent } from './pages/image-doc.component';
+import { PdfviewerDocComponent } from './pages/pdfviewer-doc.component';
 import { GalleriaDocComponent } from './pages/galleria-doc.component';
 import { AvatargroupDocComponent } from './pages/avatargroup-doc.component';
 import { ChipDocComponent } from './pages/chip-doc.component';
@@ -205,6 +206,7 @@ export const routes: Routes = [
   { path: 'components/avatargroup', component: AvatargroupDocComponent, title: 'AvatarGroup · CaribeNG' },
   { path: 'components/carousel', component: CarouselDocComponent, title: 'Carousel · CaribeNG' },
   { path: 'components/image', component: ImageDocComponent, title: 'Image · CaribeNG' },
+  { path: 'components/pdfviewer', component: PdfviewerDocComponent, title: 'PDF Viewer · CaribeNG' },
   { path: 'components/galleria', component: GalleriaDocComponent, title: 'Galleria · CaribeNG' },
   { path: 'components/progressbar', component: ProgressbarDocComponent, title: 'ProgressBar · CaribeNG' },
   { path: 'components/spinner', component: SpinnerDocComponent, title: 'Spinner · CaribeNG' },

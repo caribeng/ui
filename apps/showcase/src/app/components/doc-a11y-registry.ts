@@ -373,6 +373,23 @@ export const DOC_A11Y: Record<string, DocA11y> = {
       { keys: 'Inicio / Fin', action: 'En las miniaturas, va a la primera o a la última imagen.' },
     ],
   },
+  'cb-pdf-viewer': {
+    screenReader: [
+      'El visor es una región con nombre ("Visor de PDF") y cada página es un grupo con nombre ("Página 2 de 3"). El canvas es decorativo: el texto del PDF está en una capa transparente encima, así que el lector de pantalla lo lee y se puede seleccionar y copiar. Un PDF escaneado sin texto no tiene contenido legible.',
+      'Todos los botones de la barra tienen nombre; el de miniaturas indica con `aria-expanded` si el panel está abierto, y la miniatura de la página actual tiene `aria-current="page"`.',
+      'El resultado de la búsqueda ("3 de 12", "Sin resultados") se anuncia en una región `aria-live`. El campo de página se describe con el total ("de 3").',
+      'Si el documento tiene contraseña, el formulario la pide con una etiqueta visible y anuncia con `role="alert"` si es incorrecta. Los errores de carga también usan `role="alert"`.',
+    ],
+    keyboard: [
+      { keys: 'Tab', action: 'Recorre la barra, el panel de miniaturas y el documento (que se desplaza con las flechas, Re Pág / Av Pág e Inicio / Fin).' },
+      { keys: 'Enter / Mayús + Enter', action: 'En la búsqueda: coincidencia siguiente / anterior.' },
+      { keys: 'Escape', action: 'En la búsqueda: la vacía y quita los resaltados.' },
+      { keys: 'Flecha arriba / abajo', action: 'En las miniaturas: mueve el foco a la página anterior / siguiente.' },
+      { keys: 'Ctrl + F', action: 'Lleva el foco a la búsqueda del documento.' },
+      { keys: 'Ctrl + + / Ctrl + - / Ctrl + 0', action: 'Acerca, aleja o ajusta al ancho.' },
+      { keys: 'Ctrl + P', action: 'Imprime el documento (no la página).' },
+    ],
+  },
   'cb-image': {
     screenReader: [
       'El botón de ampliar se nombra con el `alt` de la imagen. La previsualización es un `role="dialog"` con `aria-modal="true"` y cada herramienta (rotar, voltear, zoom, descargar) tiene su etiqueta.',

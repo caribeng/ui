@@ -220,6 +220,30 @@ export interface CbTranslation {
   reset: string;
   fullscreen: string;
 
+  // Visor de PDF
+  pdfViewer: string;
+  pdfDocument: string;
+  pageOf: string;
+  pageNumber: string;
+  ofTotal: string;
+  zoomLevel: string;
+  fitWidth: string;
+  fitPage: string;
+  print: string;
+  preparingPrint: string;
+  thumbnails: string;
+  searchInDocument: string;
+  previousMatch: string;
+  nextMatch: string;
+  matchOf: string;
+  searching: string;
+  loadingDocument: string;
+  documentError: string;
+  protectedDocument: string;
+  incorrectPassword: string;
+  password: string;
+  open: string;
+
   // --- Varios ---
   scrollableArea: string;
   scrollTop: string;
@@ -443,6 +467,30 @@ export const CB_LOCALE_ES: CbTranslation = {
   reset: 'Restablecer',
   fullscreen: 'Pantalla completa',
 
+  // Visor de PDF
+  pdfViewer: 'Visor de PDF',
+  pdfDocument: 'Documento PDF',
+  pageOf: 'Página {0} de {1}',
+  pageNumber: 'Número de página',
+  ofTotal: 'de {0}',
+  zoomLevel: 'Nivel de zoom',
+  fitWidth: 'Ajustar al ancho',
+  fitPage: 'Página completa',
+  print: 'Imprimir',
+  preparingPrint: 'Preparando impresión… {0} de {1}',
+  thumbnails: 'Miniaturas',
+  searchInDocument: 'Buscar en el documento',
+  previousMatch: 'Coincidencia anterior',
+  nextMatch: 'Coincidencia siguiente',
+  matchOf: '{0} de {1}',
+  searching: 'Buscando…',
+  loadingDocument: 'Cargando documento…',
+  documentError: 'No se pudo abrir el documento.',
+  protectedDocument: 'Este documento está protegido. Escribe la contraseña para abrirlo.',
+  incorrectPassword: 'Contraseña incorrecta. Inténtalo de nuevo.',
+  password: 'Contraseña',
+  open: 'Abrir',
+
   scrollableArea: 'Área desplazable',
   scrollTop: 'Volver arriba',
   resizePanels: 'Redimensionar paneles',
@@ -661,6 +709,30 @@ export const CB_LOCALE_EN: CbTranslation = {
   zoomOut: 'Zoom out',
   reset: 'Reset',
   fullscreen: 'Full screen',
+
+  // Visor de PDF
+  pdfViewer: 'PDF viewer',
+  pdfDocument: 'PDF document',
+  pageOf: 'Page {0} of {1}',
+  pageNumber: 'Page number',
+  ofTotal: 'of {0}',
+  zoomLevel: 'Zoom level',
+  fitWidth: 'Fit to width',
+  fitPage: 'Fit page',
+  print: 'Print',
+  preparingPrint: 'Preparing to print… {0} of {1}',
+  thumbnails: 'Thumbnails',
+  searchInDocument: 'Search in document',
+  previousMatch: 'Previous match',
+  nextMatch: 'Next match',
+  matchOf: '{0} of {1}',
+  searching: 'Searching…',
+  loadingDocument: 'Loading document…',
+  documentError: 'The document could not be opened.',
+  protectedDocument: 'This document is protected. Enter the password to open it.',
+  incorrectPassword: 'Incorrect password. Try again.',
+  password: 'Password',
+  open: 'Open',
 
   scrollableArea: 'Scrollable area',
   scrollTop: 'Back to top',

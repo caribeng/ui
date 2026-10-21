@@ -56,6 +56,7 @@ import { CbIconButton } from '@caribeng/ui/caribe/icon-button';
 import { CbIconField } from '@caribeng/ui/iconfield';
 import { CbIllustration } from '@caribeng/ui/caribe/illustration';
 import { CbImage } from '@caribeng/ui/image';
+import { CbPdfViewer } from '@caribeng/ui/pdfviewer';
 import { CbInlineAlert } from '@caribeng/ui/caribe/inline-alert';
 import { CbInlineMessage } from '@caribeng/ui/inlinemessage';
 import { CbInplace } from '@caribeng/ui/inplace';
@@ -816,6 +817,32 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "name", kind: "string", type: "string", default: "transfer-success", description: "" },
       { name: "size", kind: "string", type: "string", default: "160px", description: "" },
       { name: "alt", kind: "string", type: "string", default: undefined, localeKey: "illustration", description: "" }
+    ]
+  },
+  "cb-pdf-viewer": {
+    component: CbPdfViewer,
+    selector: "cb-pdf-viewer",
+    props: [
+      { name: "src", kind: "string", type: "string | URL | ArrayBuffer | Uint8Array | Blob", default: "pdf/extracto-demo.pdf", description: "Documento: URL, bytes o un Blob / File." },
+      { name: "page", kind: "number", type: "number (model)", default: 1, description: "Página actual (desde 1)." },
+      { name: "zoom", kind: "enum", type: "'page-width' | 'page-fit' | number (model)", options: ["page-width", "page-fit"], default: "page-width", description: "Ajustar al ancho, página completa o un factor (1 = 100 %)." },
+      { name: "rotation", kind: "number", type: "0 | 90 | 180 | 270 (model)", default: 0, description: "Giro del documento.", control: false },
+      { name: "sidebar", kind: "boolean", type: "boolean (model)", default: false, description: "Panel de miniaturas abierto." },
+      { name: "fileName", kind: "string", type: "string", default: "", description: "Nombre del archivo al descargar." },
+      { name: "password", kind: "string", type: "string", default: undefined, description: "Contraseña para abrir el documento sin pedirla.", control: false },
+      { name: "withCredentials", kind: "boolean", type: "boolean", default: false, description: "Envía cookies en peticiones a otro origen.", control: false },
+      { name: "httpHeaders", kind: "string", type: "Record<string, string>", default: undefined, description: "Cabeceras HTTP para descargar el documento.", control: false },
+      { name: "showToolbar", kind: "boolean", type: "boolean", default: true, description: "Muestra la barra de herramientas." },
+      { name: "showSearch", kind: "boolean", type: "boolean", default: true, description: "Búsqueda en la barra." },
+      { name: "showThumbnails", kind: "boolean", type: "boolean", default: true, description: "Botón y panel de miniaturas." },
+      { name: "showRotate", kind: "boolean", type: "boolean", default: true, description: "Botón de girar." },
+      { name: "downloadable", kind: "boolean", type: "boolean", default: true, description: "Botón de descargar." },
+      { name: "printable", kind: "boolean", type: "boolean", default: true, description: "Botón de imprimir (y Ctrl+P)." },
+      { name: "ariaLabel", kind: "string", type: "string", default: undefined, localeKey: "pdfViewer", description: "Nombre accesible del visor." }
+    ],
+    events: [
+      { name: "loaded", type: "{ numPages: number }", description: "Documento abierto." },
+      { name: "loadError", type: "unknown", description: "No se pudo abrir el documento." }
     ]
   },
   "cb-image": {

@@ -2132,6 +2132,66 @@ export const ES_EN: Record<string, string> = {
     'It is a button whose name describes the action ("Switch to dark theme" / "Switch to light theme") and changes after pressing it; the icon is decorative.',
   'Cambia de tema.': 'Switches the theme.',
 
+  // --- PDF Viewer ---
+  'Documento: URL, bytes o un Blob / File.': 'Document: URL, bytes or a Blob / File.',
+  'Página actual (desde 1).': 'Current page (from 1).',
+  'Ajustar al ancho, página completa o un factor (1 = 100 %).': 'Fit to width, fit page or a factor (1 = 100%).',
+  'Giro del documento.': 'Document rotation.',
+  'Panel de miniaturas abierto.': 'Thumbnails panel open.',
+  'Nombre del archivo al descargar.': 'File name when downloading.',
+  'Contraseña para abrir el documento sin pedirla.': 'Password to open the document without asking for it.',
+  'Envía cookies en peticiones a otro origen.': 'Sends cookies on cross-origin requests.',
+  'Cabeceras HTTP para descargar el documento.': 'HTTP headers used to download the document.',
+  'Muestra la barra de herramientas.': 'Shows the toolbar.',
+  'Búsqueda en la barra.': 'Search in the toolbar.',
+  'Botón y panel de miniaturas.': 'Thumbnails button and panel.',
+  'Botón de girar.': 'Rotate button.',
+  'Botón de descargar.': 'Download button.',
+  'Botón de imprimir (y Ctrl+P).': 'Print button (and Ctrl+P).',
+  'Nombre accesible del visor.': 'Accessible name of the viewer.',
+  'Documento abierto.': 'Document opened.',
+  'No se pudo abrir el documento.': 'The document could not be opened.',
+  'Visor de documentos PDF con miniaturas, búsqueda, zoom, giro, descarga, impresión y documentos con contraseña. El texto se puede seleccionar y lo leen los lectores de pantalla.':
+    'PDF document viewer with thumbnails, search, zoom, rotation, download, printing and password-protected documents. The text can be selected and is read by screen readers.',
+  'El visor usa pdf.js de Mozilla (licencia Apache-2.0), una dependencia opcional: solo la instalan las aplicaciones que usan el visor, y se descarga al abrir el primer documento. Copia su worker y sus recursos en los assets para servirlos desde tu propio dominio (sin CDN), lo que también cumple políticas CSP estrictas.':
+    "The viewer uses Mozilla's pdf.js (Apache-2.0 license), an optional dependency: only apps that use the viewer install it, and it is downloaded when the first document opens. Copy its worker and resources into your assets to serve them from your own domain (no CDN), which also works with strict CSP policies.",
+  'src acepta una URL, un ArrayBuffer, un Uint8Array o un Blob / File. Las páginas se renderizan a medida que se ven. Prueba a buscar "direccion": la búsqueda ignora tildes y mayúsculas.':
+    'src accepts a URL, an ArrayBuffer, a Uint8Array or a Blob / File. Pages are rendered as they come into view. Try searching for "direccion": search ignores accents and case.',
+  "[(page)], [(zoom)] y [(sidebar)] son bidireccionales. zoom acepta 'page-width', 'page-fit' o un factor (1 = 100 %, tamaño real).":
+    "[(page)], [(zoom)] and [(sidebar)] are two-way. zoom accepts 'page-width', 'page-fit' or a factor (1 = 100%, actual size).",
+  'Si el PDF está cifrado, el visor pide la contraseña y avisa si es incorrecta. También puedes pasarla con [password]. La contraseña de este ejemplo es caribe.':
+    'If the PDF is encrypted, the viewer asks for the password and tells you when it is wrong. You can also pass it with [password]. The password for this example is caribe.',
+  'Con un File de un input type=file el documento se abre sin subirlo a ningún servidor. fileName define el nombre al descargar.':
+    'With a File from an input type=file, the document opens without being uploaded to any server. fileName sets the name used when downloading.',
+  'Sin la barra (showToolbar en false), controla el visor con sus métodos: goToPage, zoomIn, zoomOut, rotate, search, findNext, findPrevious, download y print.':
+    'Without the toolbar (showToolbar set to false), control the viewer with its methods: goToPage, zoomIn, zoomOut, rotate, search, findNext, findPrevious, download and print.',
+  'Instalación': 'Installation',
+  'Página, zoom y miniaturas': 'Page, zoom and thumbnails',
+  'Documento con contraseña': 'Password-protected document',
+  'Archivo local': 'Local file',
+  'Barra propia': 'Custom toolbar',
+  'El visor es una región con nombre ("Visor de PDF") y cada página es un grupo con nombre ("Página 2 de 3"). El canvas es decorativo: el texto del PDF está en una capa transparente encima, así que el lector de pantalla lo lee y se puede seleccionar y copiar. Un PDF escaneado sin texto no tiene contenido legible.':
+    'The viewer is a named region ("PDF viewer") and each page is a named group ("Page 2 of 3"). The canvas is decorative: the PDF text sits in a transparent layer on top, so screen readers read it and it can be selected and copied. A scanned PDF without text has no readable content.',
+  'Todos los botones de la barra tienen nombre; el de miniaturas indica con `aria-expanded` si el panel está abierto, y la miniatura de la página actual tiene `aria-current="page"`.':
+    'Every toolbar button has a name; the thumbnails button reports with `aria-expanded` whether the panel is open, and the current page thumbnail has `aria-current="page"`.',
+  'El resultado de la búsqueda ("3 de 12", "Sin resultados") se anuncia en una región `aria-live`. El campo de página se describe con el total ("de 3").':
+    'The search result ("3 of 12", "No results found") is announced in an `aria-live` region. The page field is described by the total ("of 3").',
+  'Si el documento tiene contraseña, el formulario la pide con una etiqueta visible y anuncia con `role="alert"` si es incorrecta. Los errores de carga también usan `role="alert"`.':
+    'If the document has a password, the form asks for it with a visible label and announces with `role="alert"` when it is wrong. Loading errors also use `role="alert"`.',
+  'Recorre la barra, el panel de miniaturas y el documento (que se desplaza con las flechas, Re Pág / Av Pág e Inicio / Fin).':
+    'Moves through the toolbar, the thumbnails panel and the document (which scrolls with the arrows, Page Up / Page Down and Home / End).',
+  'Enter / Mayús + Enter': 'Enter / Shift + Enter',
+  'En la búsqueda: coincidencia siguiente / anterior.': 'In the search: next / previous match.',
+  'En la búsqueda: la vacía y quita los resaltados.': 'In the search: clears it and removes the highlights.',
+  'Flecha arriba / abajo': 'Up / Down arrow',
+  'En las miniaturas: mueve el foco a la página anterior / siguiente.': 'In the thumbnails: moves focus to the previous / next page.',
+  'Ctrl + F': 'Ctrl + F',
+  'Lleva el foco a la búsqueda del documento.': 'Moves focus to the document search.',
+  'Ctrl + + / Ctrl + - / Ctrl + 0': 'Ctrl + + / Ctrl + - / Ctrl + 0',
+  'Acerca, aleja o ajusta al ancho.': 'Zooms in, zooms out or fits to width.',
+  'Ctrl + P': 'Ctrl + P',
+  'Imprime el documento (no la página).': 'Prints the document (not the page).',
+
   // --- API de Select / MultiSelect (etiquetado accesible) ---
   'Nombre accesible del disparador cuando no hay etiqueta visible.':
     'Accessible name of the trigger when there is no visible label.',
