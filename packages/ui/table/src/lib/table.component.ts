@@ -3,8 +3,11 @@ import {
   Component,
   DestroyRef,
   Directive,
+  ElementRef,
   TemplateRef,
   ViewEncapsulation,
+  afterEveryRender,
+  afterNextRender,
   computed,
   contentChild,
   contentChildren,
@@ -14,6 +17,7 @@ import {
   model,
   output,
   signal,
+  viewChild,
 } from '@angular/core';
 import { DOCUMENT, NgTemplateOutlet } from '@angular/common';
 import { CbIcon } from '@caribeng/ui/icon';
@@ -40,6 +44,10 @@ export interface CbTableColumn {
   align?: 'left' | 'center' | 'right';
   /** Ancho CSS de la columna. */
   width?: string;
+  /** Fija la columna a la izquierda al hacer scroll horizontal (las fijas se muestran primero). */
+  frozen?: boolean;
+  /** Incluir la columna en `toCSV()` / `exportCSV()`. Por defecto `true`. */
+  exportable?: boolean;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any -- como PrimeNG: la plantilla recibe la fila sin tipar.
@@ -56,6 +64,32 @@ export interface CbTableRowExpansionContext<T = any> {
   $implicit: T;
   /** Posición de la fila en los datos filtrados y ordenados. */
   index: number;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- el valor del grupo llega sin tipar.
+export interface CbTableGroupHeaderContext<T = any> {
+  /** Valor del campo `groupRowsBy` del grupo. */
+  $implicit: T;
+  /** Filas del grupo (en todos los datos filtrados). */
+  count: number;
+}
+
+/** Petición de datos en modo `lazy`: la tabla pide la página, el orden y los filtros al servidor. */
+export interface CbTableLazyLoadEvent {
+  first: number;
+  rows: number;
+  sortField: string | null;
+  sortOrder: 1 | -1;
+  globalFilter: string;
+  filters: Readonly<Partial<Record<string, string>>>;
+}
+
+/** Opciones de `toCSV()` / `exportCSV()`. */
+export interface CbTableCsvOptions {
+  /** Solo las filas seleccionadas. */
+  selectionOnly?: boolean;
+  /** Separador de columnas. Por defecto `,`. */
+  separator?: string;
 }
 
 /** Estado de los filtros, emitido por `filterChange`. */
@@ -92,13 +126,27 @@ export class CbTableRowExpansion {
   }
 }
 
+/** Cabecera de grupo: `<ng-template cbTableGroupHeader let-valor let-count="count">`. */
+@Directive({
+  selector: 'ng-template[cbTableGroupHeader]',
+  standalone: true,
+})
+export class CbTableGroupHeader {
+  readonly template = inject<TemplateRef<CbTableGroupHeaderContext>>(TemplateRef);
+
+  static ngTemplateContextGuard(_dir: CbTableGroupHeader, ctx: unknown): ctx is CbTableGroupHeaderContext {
+    return true;
+  }
+}
+
 let nextId = 0;
 const MIN_COLUMN_WIDTH = 48;
 
 /**
  * Table de CaribeNG: tabla de datos con columnas declarativas, ordenación,
  * filtros (global y por columna), paginación, selección (simple/múltiple),
- * columnas redimensionables y filas expandibles.
+ * columnas redimensionables y fijas, cabecera fija, filas expandibles y
+ * agrupadas, exportación a CSV y carga desde el servidor (`lazy`).
  *
  * @example
  * ```html
@@ -117,22 +165,27 @@ const MIN_COLUMN_WIDTH = 48;
   host: { class: 'cb-table-host' },
   template: `
     <ng-content select="[cbTableHeader]" />
-    <div class="cb-table__wrap">
+    <div class="cb-table__wrap" [class.cb-table__wrap--scroll]="!!scrollHeight()" [style.max-height]="scrollHeight()">
       <table
+        #table
         class="cb-table"
         [class]="'cb-table--' + size()"
         [class.cb-table--striped]="striped()"
         [class.cb-table--hover]="rowHover()"
         [class.cb-table--resizable]="resizableColumns()"
+        [class.cb-table--scroll]="!!scrollHeight()"
         [attr.aria-label]="ariaLabel() || null"
+        [attr.aria-busy]="loading() || null"
       >
         <thead>
           <tr>
             @if (expansion()) {
-              <th class="cb-table__sel" scope="col"><span class="cb-table__sr">{{ t().details }}</span></th>
+              <th class="cb-table__sel" scope="col" data-key="__exp" [class.cb-is-frozen]="hasFrozen()" [style.left.px]="frozenLeft('__exp')">
+                <span class="cb-table__sr">{{ t().details }}</span>
+              </th>
             }
             @if (selectionMode() === 'multiple') {
-              <th class="cb-table__sel" scope="col">
+              <th class="cb-table__sel" scope="col" data-key="__sel" [class.cb-is-frozen]="hasFrozen()" [style.left.px]="frozenLeft('__sel')">
                 <span
                   class="cb-table__check"
                   [class.cb-is-checked]="allSelected()"
@@ -152,12 +205,18 @@ const MIN_COLUMN_WIDTH = 48;
                 </span>
               </th>
             } @else if (selectionMode() === 'single') {
-              <th class="cb-table__sel" scope="col"><span class="cb-table__sr">{{ t().select }}</span></th>
+              <th class="cb-table__sel" scope="col" data-key="__sel" [class.cb-is-frozen]="hasFrozen()" [style.left.px]="frozenLeft('__sel')">
+                <span class="cb-table__sr">{{ t().select }}</span>
+              </th>
             }
-            @for (col of columns(); track col.field) {
+            @for (col of displayColumns(); track col.field) {
               <th
                 class="cb-table__th"
                 scope="col"
+                [attr.data-key]="col.field"
+                [class.cb-is-frozen]="!!col.frozen"
+                [class.cb-is-frozen-last]="col.field === lastFrozen()"
+                [style.left.px]="col.frozen ? frozenLeft(col.field) : null"
                 [class.cb-is-sortable]="col.sortable"
                 [style.width]="columnWidth(col)"
                 [style.text-align]="col.align || null"
@@ -195,13 +254,18 @@ const MIN_COLUMN_WIDTH = 48;
           @if (hasColumnFilters()) {
             <tr class="cb-table__filter-row">
               @if (expansion()) {
-                <td class="cb-table__sel"></td>
+                <td class="cb-table__sel" [class.cb-is-frozen]="hasFrozen()" [style.left.px]="frozenLeft('__exp')"></td>
               }
               @if (selectionMode()) {
-                <td class="cb-table__sel"></td>
+                <td class="cb-table__sel" [class.cb-is-frozen]="hasFrozen()" [style.left.px]="frozenLeft('__sel')"></td>
               }
-              @for (col of columns(); track col.field) {
-                <td class="cb-table__filter-cell">
+              @for (col of displayColumns(); track col.field) {
+                <td
+                  class="cb-table__filter-cell"
+                  [class.cb-is-frozen]="!!col.frozen"
+                  [class.cb-is-frozen-last]="col.field === lastFrozen()"
+                  [style.left.px]="col.frozen ? frozenLeft(col.field) : null"
+                >
                   @if (col.filter) {
                     <input
                       type="search"
@@ -219,6 +283,20 @@ const MIN_COLUMN_WIDTH = 48;
         </thead>
         <tbody>
           @for (row of pageRows(); track rowKey(row, $index); let i = $index) {
+            @if (groupRowsBy() && isGroupStart(i)) {
+              <tr class="cb-table__group">
+                <th scope="rowgroup" [attr.colspan]="colspan()">
+                  @if (groupHeader(); as gh) {
+                    <ng-container
+                      [ngTemplateOutlet]="gh.template"
+                      [ngTemplateOutletContext]="{ $implicit: groupOf(row), count: groupCount(row) }"
+                    />
+                  } @else {
+                    {{ groupOf(row) }} <span class="cb-table__group-count">({{ groupCount(row) }})</span>
+                  }
+                </th>
+              </tr>
+            }
             <tr
               class="cb-table__row"
               [class.cb-is-selected]="isSelected(row)"
@@ -226,7 +304,7 @@ const MIN_COLUMN_WIDTH = 48;
               (click)="onRowClick(row)"
             >
               @if (expansion()) {
-                <td class="cb-table__sel">
+                <td class="cb-table__sel" [class.cb-is-frozen]="hasFrozen()" [style.left.px]="frozenLeft('__exp')">
                   <button
                     type="button"
                     class="cb-table__expander"
@@ -240,7 +318,7 @@ const MIN_COLUMN_WIDTH = 48;
                 </td>
               }
               @if (selectionMode()) {
-                <td class="cb-table__sel">
+                <td class="cb-table__sel" [class.cb-is-frozen]="hasFrozen()" [style.left.px]="frozenLeft('__sel')">
                   <span
                     class="cb-table__check"
                     [class.cb-table__check--radio]="selectionMode() === 'single'"
@@ -257,8 +335,14 @@ const MIN_COLUMN_WIDTH = 48;
                   </span>
                 </td>
               }
-              @for (col of columns(); track col.field) {
-                <td class="cb-table__td" [style.text-align]="col.align || null">
+              @for (col of displayColumns(); track col.field) {
+                <td
+                  class="cb-table__td"
+                  [class.cb-is-frozen]="!!col.frozen"
+                  [class.cb-is-frozen-last]="col.field === lastFrozen()"
+                  [style.left.px]="col.frozen ? frozenLeft(col.field) : null"
+                  [style.text-align]="col.align || null"
+                >
                   @if (cellTemplate(col.field); as cell) {
                     <ng-container [ngTemplateOutlet]="cell.template" [ngTemplateOutletContext]="cellContext(row, col)" />
                   } @else {
@@ -286,15 +370,21 @@ const MIN_COLUMN_WIDTH = 48;
           }
         </tbody>
       </table>
+      @if (loading()) {
+        <div class="cb-table__loading" role="status">
+          <cb-icon name="loader" [size]="22" [spin]="true" aria-hidden="true" />
+          <span class="cb-table__sr">{{ t().loading }}</span>
+        </div>
+      }
     </div>
     @if (isFiltering()) {
-      <span class="cb-table__sr" aria-live="polite">{{ fmt(t().resultsCount, sorted().length) }}</span>
+      <span class="cb-table__sr" aria-live="polite">{{ fmt(t().resultsCount, total()) }}</span>
     }
 
     @if (paginator()) {
       <cb-paginator
         class="cb-table__paginator"
-        [totalRecords]="sorted().length"
+        [totalRecords]="total()"
         [(first)]="first"
         [(rows)]="rows"
         [rowsPerPageOptions]="rowsPerPageOptions()"
@@ -314,6 +404,9 @@ export class CbTable {
   private readonly cellTemplates = contentChildren(CbTableCellDirective);
   /** Plantilla de fila expandida; si existe, se añade la columna de expandir. */
   protected readonly expansion = contentChild(CbTableRowExpansion);
+  /** Plantilla de cabecera de grupo (con `groupRowsBy`). */
+  protected readonly groupHeader = contentChild(CbTableGroupHeader);
+  private readonly tableRef = viewChild<ElementRef<HTMLTableElement>>('table');
 
   readonly value = input<readonly unknown[]>([]);
   readonly columns = input<readonly CbTableColumn[]>([]);
@@ -338,6 +431,19 @@ export class CbTable {
   readonly resizableColumns = input<boolean, unknown>(false, { transform: toBoolean });
   /** Claves (`dataKey`) o filas expandidas (two-way). */
   readonly expandedRowKeys = model<readonly unknown[]>([]);
+  /** Alto máximo (CSS) de la tabla: hace scroll con la cabecera fija. */
+  readonly scrollHeight = input<string | null>(null);
+  /** Agrupa las filas por este campo, con una fila de cabecera por grupo. */
+  readonly groupRowsBy = input<string | null>(null);
+  /**
+   * Datos desde el servidor: la tabla no filtra, ordena ni pagina; emite `lazyLoad`
+   * y muestra `value` tal cual (la página actual).
+   */
+  readonly lazy = input<boolean, unknown>(false, { transform: toBoolean });
+  /** Total de filas en el servidor (modo `lazy`), para el paginador. */
+  readonly totalRecords = input<number | null>(null);
+  /** Muestra la capa de carga y marca la tabla con `aria-busy`. */
+  readonly loading = input<boolean, unknown>(false, { transform: toBoolean });
 
   readonly selection = model<unknown>(null);
   readonly sortChange = output<{ field: string | null; order: 1 | -1 }>();
@@ -345,11 +451,23 @@ export class CbTable {
   readonly columnResize = output<{ field: string; width: number }>();
   readonly rowExpand = output<unknown>();
   readonly rowCollapse = output<unknown>();
+  /** En modo `lazy`: página, orden y filtros que hay que pedir al servidor. */
+  readonly lazyLoad = output<CbTableLazyLoadEvent>();
 
   private readonly sortField = signal<string | null>(null);
   private readonly sortOrder = signal<1 | -1>(1);
   protected readonly columnFilters = signal<Readonly<Partial<Record<string, string>>>>({});
   protected readonly widths = signal<Readonly<Partial<Record<string, number>>>>({});
+
+  /** Columnas en orden de pantalla: las fijas primero. */
+  protected readonly displayColumns = computed(() => [
+    ...this.columns().filter((c) => c.frozen),
+    ...this.columns().filter((c) => !c.frozen),
+  ]);
+  protected readonly hasFrozen = computed(() => this.columns().some((c) => c.frozen));
+  protected readonly lastFrozen = computed(() => this.displayColumns().filter((c) => c.frozen).at(-1)?.field ?? null);
+  /** Desplazamiento `left` (px) de cada celda fija, medido tras el render. */
+  private readonly frozenOffsets = signal<Readonly<Partial<Record<string, number>>>>({});
 
   protected readonly hasColumnFilters = computed(() => this.columns().some((c) => c.filter));
   protected readonly isFiltering = computed(
@@ -357,6 +475,7 @@ export class CbTable {
   );
 
   protected readonly filtered = computed(() => {
+    if (this.lazy()) return this.value();
     const global = normalize(this.globalFilter());
     const globalFields = this.globalFilterFields() ?? this.columns().map((c) => c.field);
     const columnFilters = Object.entries(this.columnFilters())
@@ -370,28 +489,52 @@ export class CbTable {
   });
 
   protected readonly sorted = computed(() => {
+    if (this.lazy()) return this.value();
     const field = this.sortField();
+    const group = this.groupRowsBy();
     const data = [...this.filtered()];
-    if (!field) return data;
+    if (!field && !group) return data;
     const order = this.sortOrder();
-    return data.sort((a, b) => this.compare(a, b, field) * order);
+    // Con grupos, primero se ordena por el campo del grupo para que sus filas queden juntas.
+    return data.sort((a, b) => (group ? this.compare(a, b, group) : 0) || (field ? this.compare(a, b, field) * order : 0));
   });
 
-  /** Primera fila de la página; vuelve a 0 al filtrar u ordenar. */
+  /** Filas totales: las del servidor en modo `lazy`, las filtradas si no. */
+  protected readonly total = computed(() => (this.lazy() ? (this.totalRecords() ?? this.value().length) : this.sorted().length));
+
+  /** Primera fila de la página; vuelve a 0 al filtrar u ordenar (y, sin `lazy`, al cambiar los datos). */
   protected readonly first = linkedSignal({
-    source: () => [this.filtered(), this.sortField(), this.sortOrder()],
+    source: () => [
+      this.sortField(),
+      this.sortOrder(),
+      this.globalFilter(),
+      this.columnFilters(),
+      this.lazy() ? null : this.value(),
+    ],
     computation: () => 0,
+  });
+
+  /** Filas por grupo en todos los datos (no solo en la página). */
+  private readonly groupCounts = computed(() => {
+    const field = this.groupRowsBy();
+    const counts = new Map<unknown, number>();
+    if (!field) return counts;
+    for (const row of this.sorted()) {
+      const key = fieldValue(row, field);
+      counts.set(key, (counts.get(key) ?? 0) + 1);
+    }
+    return counts;
   });
 
   protected readonly pageRows = computed(() => {
     const data = this.sorted();
-    if (!this.paginator()) return data;
+    if (!this.paginator() || this.lazy()) return data;
     const start = Math.min(this.first(), Math.max(0, data.length - 1));
     return data.slice(start, start + this.rows());
   });
 
   protected readonly colspan = computed(
-    () => this.columns().length + (this.selectionMode() ? 1 : 0) + (this.expansion() ? 1 : 0),
+    () => this.displayColumns().length + (this.selectionMode() ? 1 : 0) + (this.expansion() ? 1 : 0),
   );
 
   private readonly selectedCount = computed(() => {
@@ -406,6 +549,12 @@ export class CbTable {
 
   constructor() {
     inject(DestroyRef).onDestroy(() => this.stopResize?.());
+    // En modo lazy, la primera página se pide al montar la tabla.
+    afterNextRender(() => {
+      if (this.lazy()) this.emitLazy();
+    });
+    // Columnas fijas: se miden los encabezados para saber dónde anclar cada una.
+    afterEveryRender(() => this.measureFrozen());
   }
 
   // --- Filtros ---------------------------------------------------------------
@@ -427,6 +576,20 @@ export class CbTable {
   }
   private emitFilters(): void {
     this.filterChange.emit({ global: this.globalFilter(), columns: this.columnFilters() });
+    this.emitLazy(0);
+  }
+
+  /** Pide al servidor la página actual (solo en modo `lazy`). */
+  private emitLazy(first = this.first()): void {
+    if (!this.lazy()) return;
+    this.lazyLoad.emit({
+      first,
+      rows: this.rows(),
+      sortField: this.sortField(),
+      sortOrder: this.sortOrder(),
+      globalFilter: this.globalFilter(),
+      filters: this.columnFilters(),
+    });
   }
   private matchMode(field: string): CbTableFilterMatchMode {
     return this.columns().find((c) => c.field === field)?.filterMatchMode ?? 'contains';
@@ -442,6 +605,7 @@ export class CbTable {
       this.sortOrder.set(1);
     }
     this.sortChange.emit({ field: this.sortField(), order: this.sortOrder() });
+    this.emitLazy(0);
   }
   protected sortIcon(col: CbTableColumn): string {
     if (this.sortField() !== col.field) return 'arrow-up-down';
@@ -539,6 +703,70 @@ export class CbTable {
   protected onPageChange(state: CbPaginatorState): void {
     this.first.set(state.first);
     this.rows.set(state.rows);
+    this.emitLazy(state.first);
+  }
+
+  // --- Grupos --------------------------------------------------------------------
+  protected groupOf(row: unknown): unknown {
+    const field = this.groupRowsBy();
+    return field ? fieldValue(row, field) : null;
+  }
+  protected groupCount(row: unknown): number {
+    return this.groupCounts().get(this.groupOf(row)) ?? 0;
+  }
+  /** La fila abre grupo si es la primera de la página o cambia el valor del grupo. */
+  protected isGroupStart(index: number): boolean {
+    const rows = this.pageRows();
+    return index === 0 || this.groupOf(rows[index - 1]) !== this.groupOf(rows[index]);
+  }
+
+  // --- Columnas fijas ----------------------------------------------------------------
+  protected frozenLeft(key: string): number | null {
+    return this.hasFrozen() ? (this.frozenOffsets()[key] ?? 0) : null;
+  }
+  /** Suma los anchos de las celdas fijas anteriores (expandir, selección y columnas `frozen`). */
+  private measureFrozen(): void {
+    const table = this.tableRef()?.nativeElement;
+    if (!table || !this.hasFrozen()) return;
+    const frozen = new Set(['__exp', '__sel', ...this.columns().filter((c) => c.frozen).map((c) => c.field)]);
+    const offsets: Record<string, number> = {};
+    let left = 0;
+    for (const th of Array.from(table.querySelectorAll<HTMLElement>('thead tr:first-child > th[data-key]'))) {
+      const key = th.dataset['key']!;
+      if (!frozen.has(key)) break;
+      offsets[key] = Math.round(left);
+      left += th.getBoundingClientRect().width;
+    }
+    const current = this.frozenOffsets();
+    const changed = Object.keys(offsets).some((k) => current[k] !== offsets[k]) || Object.keys(current).length !== Object.keys(offsets).length;
+    if (changed) this.frozenOffsets.set(offsets);
+  }
+
+  // --- Exportación ---------------------------------------------------------------------
+  /**
+   * Datos en CSV: columnas visibles (salvo `exportable: false`) y todas las filas
+   * filtradas y ordenadas (no solo la página), o las seleccionadas con `selectionOnly`.
+   */
+  toCSV(options: CbTableCsvOptions = {}): string {
+    const sep = options.separator ?? ',';
+    const cols = this.displayColumns().filter((c) => c.exportable !== false);
+    const rows = options.selectionOnly ? this.sorted().filter((row) => this.isSelected(row)) : this.sorted();
+    const cell = (v: unknown) => {
+      const text = v == null ? '' : String(v);
+      return /["\n\r]/.test(text) || text.includes(sep) ? `"${text.replace(/"/g, '""')}"` : text;
+    };
+    return [cols.map((c) => cell(c.header)).join(sep), ...rows.map((row) => cols.map((c) => cell(fieldValue(row, c.field))).join(sep))].join('\r\n');
+  }
+
+  /** Descarga el CSV (`nombre.csv`), con BOM para que Excel respete tildes y eñes. */
+  exportCSV(filename = 'datos', options: CbTableCsvOptions = {}): void {
+    const blob = new Blob(['\uFEFF' + this.toCSV(options)], { type: 'text/csv;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const link = this.document.createElement('a');
+    link.href = url;
+    link.download = filename.endsWith('.csv') ? filename : `${filename}.csv`;
+    link.click();
+    setTimeout(() => URL.revokeObjectURL(url));
   }
 
   // --- Helpers ---------------------------------------------------------------

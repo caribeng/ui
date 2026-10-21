@@ -1,5 +1,12 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import { CbTableCellDirective, CbTable, CbTableRowExpansion, type CbTableColumn } from '@caribeng/ui/table';
+import {
+  CbTableCellDirective,
+  CbTable,
+  CbTableGroupHeader,
+  CbTableRowExpansion,
+  type CbTableColumn,
+  type CbTableLazyLoadEvent,
+} from '@caribeng/ui/table';
 import { CbAvatar } from '@caribeng/ui/avatar';
 import { CbTag } from '@caribeng/ui/tag';
 import { CbButton } from '@caribeng/ui/button';
@@ -40,6 +47,7 @@ interface Usuario {
     CbTable,
     CbTableCellDirective,
     CbTableRowExpansion,
+    CbTableGroupHeader,
     CbAvatar,
     CbTag,
     CbButton,
@@ -52,7 +60,7 @@ interface Usuario {
     DocPageHeaderComponent,
   ],
   template: `
-    <doc-page-header eyebrow="Datos" title="Table" lead="Tabla de datos con columnas declarativas, ordenación, filtros, paginación, selección, columnas redimensionables, filas expandibles y celdas personalizadas." />
+    <doc-page-header eyebrow="Datos" title="Table" lead="Tabla de datos con columnas declarativas, ordenación, filtros, paginación, selección, columnas redimensionables y fijas, filas expandibles y agrupadas, exportación a CSV y carga desde el servidor." />
 
     <doc-section id="import" title="Importación">
       <doc-code-block [code]="installCode" lang="bash" />
@@ -189,6 +197,69 @@ interface Usuario {
           </div>
         </ng-template>
       </cb-table>
+    </doc-section>
+
+    <doc-section
+      id="lazy"
+      title="Datos desde el servidor (lazy)"
+      description="Con lazy la tabla no filtra, ordena ni pagina: emite lazyLoad con la página, el orden y los filtros, y muestra en value la página que devuelva tu API. totalRecords alimenta el paginador y loading muestra la capa de carga. Aquí, un servidor simulado con 57 movimientos."
+      [code]="lazyCode"
+      [codeTs]="lazyTs"
+    >
+      <cb-table
+        style="width: 100%"
+        [value]="paginaServidor()"
+        [columns]="movCols"
+        lazy
+        [totalRecords]="totalServidor()"
+        [loading]="cargando()"
+        [paginator]="true"
+        [rows]="5"
+        size="sm"
+        (lazyLoad)="cargarPagina($event)"
+      />
+    </doc-section>
+
+    <doc-section
+      id="frozen"
+      title="Cabecera y columnas fijas"
+      description="scrollHeight limita el alto y deja la cabecera fija; frozen: true ancla una columna a la izquierda al desplazarse en horizontal (las fijas se muestran primero)."
+      [code]="frozenCode"
+      [codeTs]="frozenTs"
+    >
+      <cb-table style="width: 100%" [value]="movimientos" [columns]="anchas" scrollHeight="260px" size="sm" />
+    </doc-section>
+
+    <doc-section
+      id="group"
+      title="Agrupación"
+      description="groupRowsBy agrupa las filas por un campo y añade una cabecera por grupo con su recuento; la plantilla cbTableGroupHeader la personaliza."
+      [code]="groupCode"
+    >
+      <cb-table style="width: 100%" [value]="primerosMovimientos" [columns]="movCols" groupRowsBy="tipo" size="sm">
+        <ng-template cbTableGroupHeader let-tipo let-count="count">
+          <span style="display: inline-flex; align-items: center; gap: 0.5rem">
+            <cb-tag [value]="tipo" [severity]="tipo === 'Ingreso' ? 'success' : 'danger'" />
+            {{ count }} movimientos
+          </span>
+        </ng-template>
+      </cb-table>
+    </doc-section>
+
+    <doc-section
+      id="export"
+      title="Exportar a CSV"
+      description="exportCSV() descarga las filas filtradas y ordenadas (todas, no solo la página) con BOM para que Excel respete tildes; toCSV() devuelve el texto. exportable: false excluye una columna y selectionOnly exporta solo lo seleccionado."
+      [code]="exportCode"
+    >
+      <div style="display: grid; gap: 0.75rem; width: 100%">
+        <div>
+          <cb-button size="sm" variant="outlined" (click)="tablaCsv.exportCSV('movimientos')">
+            <cb-icon name="download" [size]="15" aria-hidden="true" /> Exportar CSV
+          </cb-button>
+        </div>
+        <cb-table #tablaCsv style="width: 100%" [value]="movimientos" [columns]="movCols" [paginator]="true" [rows]="4" size="sm" />
+      </div>
     </doc-section>
 
     <doc-section id="pro" title="Completo (PRO) · con header/toolbar" description="Tabla con cabecera (título, contador, búsqueda y acción), avatares, estados, acciones y paginación. Composición lista para producción." [code]="proCode">
@@ -369,6 +440,89 @@ export class TableDocComponent {
   ];
 
   protected readonly seleccion = signal<Producto[]>([]);
+
+  // --- Nivel 2: lazy, fijas, grupos y CSV ---
+  protected readonly movCols: CbTableColumn[] = [
+    { field: 'fecha', header: 'Fecha', sortable: true },
+    { field: 'descripcion', header: 'Descripción', sortable: true, filter: true },
+    { field: 'tipo', header: 'Tipo' },
+    { field: 'valor', header: 'Valor', sortable: true, align: 'right' },
+  ];
+  protected readonly anchas: CbTableColumn[] = [
+    { field: 'fecha', header: 'Fecha', frozen: true, width: '120px' },
+    { field: 'descripcion', header: 'Descripción', width: '260px' },
+    { field: 'tipo', header: 'Tipo', width: '140px' },
+    { field: 'canal', header: 'Canal', width: '180px' },
+    { field: 'referencia', header: 'Referencia', width: '200px' },
+    { field: 'valor', header: 'Valor', align: 'right', width: '140px' },
+  ];
+  protected readonly movimientos = Array.from({ length: 57 }, (_, i) => {
+    const ingreso = i % 3 === 0;
+    return {
+      id: i + 1,
+      fecha: `2026-10-${String((i % 28) + 1).padStart(2, '0')}`,
+      descripcion: ingreso ? `Abono nómina ${i + 1}` : `Compra comercio ${i + 1}`,
+      tipo: ingreso ? 'Ingreso' : 'Gasto',
+      canal: ['App', 'Web', 'Oficina'][i % 3],
+      referencia: `REF-${100200 + i}`,
+      valor: ingreso ? 2_500_000 + i * 1000 : -(35_000 + i * 2500),
+    };
+  });
+
+  protected readonly primerosMovimientos = this.movimientos.slice(0, 8);
+  protected readonly paginaServidor = signal<unknown[]>([]);
+  protected readonly totalServidor = signal(0);
+  protected readonly cargando = signal(false);
+
+  /** Simula una API: filtra, ordena y pagina "en el servidor" con 400 ms de latencia. */
+  protected cargarPagina(e: CbTableLazyLoadEvent): void {
+    this.cargando.set(true);
+    setTimeout(() => {
+      const texto = (e.filters['descripcion'] ?? '').toLowerCase();
+      let datos = this.movimientos.filter((m) => m.descripcion.toLowerCase().includes(texto));
+      if (e.sortField) {
+        const campo = e.sortField as keyof (typeof datos)[number];
+        datos = [...datos].sort((a, b) => (a[campo] > b[campo] ? 1 : a[campo] < b[campo] ? -1 : 0) * e.sortOrder);
+      }
+      this.totalServidor.set(datos.length);
+      this.paginaServidor.set(datos.slice(e.first, e.first + e.rows));
+      this.cargando.set(false);
+    }, 400);
+  }
+
+  protected readonly lazyCode = `<cb-table
+  [value]="pagina()"
+  [columns]="columnas"
+  lazy
+  [totalRecords]="total()"
+  [loading]="cargando()"
+  [paginator]="true"
+  [rows]="5"
+  (lazyLoad)="cargarPagina($event)"
+/>`;
+  protected readonly lazyTs = `cargarPagina(e: CbTableLazyLoadEvent): void {
+  this.cargando.set(true);
+  this.api.movimientos({ first: e.first, rows: e.rows, sort: e.sortField, order: e.sortOrder, filters: e.filters })
+    .subscribe(({ items, total }) => {
+      this.pagina.set(items);
+      this.total.set(total);
+      this.cargando.set(false);
+    });
+}`;
+  protected readonly frozenCode = `<cb-table [value]="movimientos" [columns]="anchas" scrollHeight="260px" size="sm" />`;
+  protected readonly frozenTs = `anchas: CbTableColumn[] = [
+  { field: 'fecha', header: 'Fecha', frozen: true, width: '120px' },
+  { field: 'descripcion', header: 'Descripción', width: '260px' },
+  // …más columnas anchas que obligan a desplazarse en horizontal
+];`;
+  protected readonly groupCode = `<cb-table [value]="movimientos" [columns]="movCols" groupRowsBy="tipo" size="sm">
+  <ng-template cbTableGroupHeader let-tipo let-count="count">
+    <cb-tag [value]="tipo" [severity]="tipo === 'Ingreso' ? 'success' : 'danger'" />
+    {{ count }} movimientos
+  </ng-template>
+</cb-table>`;
+  protected readonly exportCode = `<cb-button size="sm" variant="outlined" (click)="tablaCsv.exportCSV('movimientos')">Exportar CSV</cb-button>
+<cb-table #tablaCsv [value]="movimientos" [columns]="movCols" [paginator]="true" [rows]="4" size="sm" />`;
   protected readonly elegido = signal<Producto | null>(null);
   protected readonly busqueda = signal('');
   protected readonly ancho = signal('—');

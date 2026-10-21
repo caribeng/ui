@@ -1956,6 +1956,35 @@ export const ES_EN: Record<string, string> = {
     'Selects the active data point (emits itemSelect).',
   'Oculta el tooltip.': 'Hides the tooltip.',
 
+  // --- Table nivel 2: lazy, columnas fijas, grupos y CSV ---
+  'Datos desde el servidor: la tabla emite lazyLoad y muestra value tal cual.':
+    'Server-side data: the table emits lazyLoad and shows value as is.',
+  'Total de filas en el servidor (modo lazy), para el paginador.':
+    'Total rows on the server (lazy mode), for the paginator.',
+  'Capa de carga y aria-busy.': 'Loading overlay and aria-busy.',
+  'Alto máximo (CSS): la tabla hace scroll con la cabecera fija.':
+    'Maximum height (CSS): the table scrolls with a fixed header.',
+  'Agrupa las filas por este campo, con una cabecera por grupo.':
+    'Groups rows by this field, with a header per group.',
+  'Modo lazy: { first, rows, sortField, sortOrder, globalFilter, filters } a pedir al servidor.':
+    'Lazy mode: { first, rows, sortField, sortOrder, globalFilter, filters } to request from the server.',
+  'Tabla de datos con columnas declarativas, ordenación, filtros, paginación, selección, columnas redimensionables y fijas, filas expandibles y agrupadas, exportación a CSV y carga desde el servidor.':
+    'Data table with declarative columns, sorting, filters, pagination, selection, resizable and frozen columns, expandable and grouped rows, CSV export and server-side loading.',
+  'Con lazy la tabla no filtra, ordena ni pagina: emite lazyLoad con la página, el orden y los filtros, y muestra en value la página que devuelva tu API. totalRecords alimenta el paginador y loading muestra la capa de carga. Aquí, un servidor simulado con 57 movimientos.':
+    'With lazy the table does not filter, sort or paginate: it emits lazyLoad with the page, sort and filters, and shows in value the page your API returns. totalRecords feeds the paginator and loading shows the overlay. Here, a simulated server with 57 transactions.',
+  'scrollHeight limita el alto y deja la cabecera fija; frozen: true ancla una columna a la izquierda al desplazarse en horizontal (las fijas se muestran primero).':
+    'scrollHeight limits the height and keeps the header fixed; frozen: true pins a column to the left when scrolling horizontally (frozen columns are shown first).',
+  'groupRowsBy agrupa las filas por un campo y añade una cabecera por grupo con su recuento; la plantilla cbTableGroupHeader la personaliza.':
+    'groupRowsBy groups rows by a field and adds a header per group with its count; the cbTableGroupHeader template customizes it.',
+  'exportCSV() descarga las filas filtradas y ordenadas (todas, no solo la página) con BOM para que Excel respete tildes; toCSV() devuelve el texto. exportable: false excluye una columna y selectionOnly exporta solo lo seleccionado.':
+    'exportCSV() downloads the filtered and sorted rows (all of them, not just the page) with a BOM so Excel keeps accents; toCSV() returns the text. exportable: false excludes a column and selectionOnly exports only the selection.',
+  'Datos desde el servidor (lazy)': 'Server-side data (lazy)',
+  'Cabecera y columnas fijas': 'Fixed header and frozen columns',
+  'Exportar a CSV': 'Export to CSV',
+  'Agrupación': 'Grouping',
+  'Las cabeceras de grupo son celdas `th scope="rowgroup"`. Mientras `loading` está activo la tabla expone `aria-busy="true"` y la capa de carga es un `role="status"`.':
+    'Group headers are `th scope="rowgroup"` cells. While `loading` is on, the table exposes `aria-busy="true"` and the loading overlay is a `role="status"`.',
+
   // --- API de Select / MultiSelect (etiquetado accesible) ---
   'Nombre accesible del disparador cuando no hay etiqueta visible.':
     'Accessible name of the trigger when there is no visible label.',

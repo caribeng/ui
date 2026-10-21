@@ -1606,9 +1606,15 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "rowHover", kind: "boolean", type: "boolean", default: true, description: "Resalta la fila bajo el puntero." },
       { name: "size", kind: "enum", type: "'sm' | 'md' | 'lg'", options: ["sm", "md", "lg"], default: "md", description: "Densidad de las celdas." },
       { name: "emptyMessage", kind: "string", type: "string", default: undefined, localeKey: "noData", description: "Mensaje cuando no hay filas." },
-      { name: "ariaLabel", kind: "string", type: "string", default: "", description: "Nombre accesible de la tabla." }
+      { name: "ariaLabel", kind: "string", type: "string", default: "", description: "Nombre accesible de la tabla." },
+      { name: "lazy", kind: "boolean", type: "boolean", default: false, description: "Datos desde el servidor: la tabla emite lazyLoad y muestra value tal cual." },
+      { name: "totalRecords", kind: "number", type: "number | null", default: null, description: "Total de filas en el servidor (modo lazy), para el paginador.", control: false },
+      { name: "loading", kind: "boolean", type: "boolean", default: false, description: "Capa de carga y aria-busy." },
+      { name: "scrollHeight", kind: "string", type: "string | null", default: "", description: "Alto máximo (CSS): la tabla hace scroll con la cabecera fija." },
+      { name: "groupRowsBy", kind: "string", type: "string | null", default: "", description: "Agrupa las filas por este campo, con una cabecera por grupo." }
     ],
     events: [
+      { name: "lazyLoad", type: "CbTableLazyLoadEvent", description: "Modo lazy: { first, rows, sortField, sortOrder, globalFilter, filters } a pedir al servidor." },
       { name: "sortChange", type: "{ field: string | null; order: 1 | -1 }", description: "Se emite al cambiar la ordenación." },
       { name: "filterChange", type: "CbTableFilterState", description: "Se emite al cambiar un filtro (global o de columna)." },
       { name: "columnResize", type: "{ field: string; width: number }", description: "Se emite al terminar de cambiar el ancho de una columna." },
