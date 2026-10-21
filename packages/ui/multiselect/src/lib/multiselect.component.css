@@ -39,7 +39,7 @@
 .cb-multiselect__trigger.cb-is-disabled {
   opacity: var(--cb-opacity-disabled, 0.55);
   cursor: default;
-  background-color: var(--cb-color-surface-100);
+  background-color: var(--cb-color-surface);
 }
 
 .cb-multiselect__label {
@@ -94,7 +94,7 @@
   white-space: nowrap;
 }
 .cb-multiselect__all:hover {
-  background-color: var(--cb-color-surface-100);
+  background-color: var(--cb-color-surface-hover);
 }
 .cb-multiselect__filter-input {
   flex: 1 1 auto;
@@ -128,7 +128,7 @@
   color: var(--cb-color-text);
 }
 .cb-multiselect__option.cb-is-active {
-  background-color: var(--cb-color-surface-100);
+  background-color: var(--cb-color-surface-hover);
 }
 .cb-multiselect__option.cb-is-selected {
   color: var(--cb-color-primary-700);

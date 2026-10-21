@@ -43,13 +43,13 @@
 }
 
 .cb-message--primary { --_accent: var(--cb-color-primary-500); --_bg: var(--cb-color-primary-50); --_fg: var(--cb-color-primary-500); --_border: var(--cb-color-primary-100); }
-.cb-message--secondary { --_accent: var(--cb-color-text-muted); --_bg: var(--cb-color-surface-100); --_fg: var(--cb-color-text); --_border: var(--cb-color-border); }
+.cb-message--secondary { --_accent: var(--cb-color-text-muted); --_bg: var(--cb-color-surface-hover); --_fg: var(--cb-color-text); --_border: var(--cb-color-border); }
 .cb-message--success { --_accent: var(--cb-color-success-500); --_bg: var(--cb-color-success-50); --_fg: var(--cb-color-success-500); --_border: var(--cb-color-success-100); }
 .cb-message--info { --_accent: var(--cb-color-info-500); --_bg: var(--cb-color-info-50); --_fg: var(--cb-color-info-500); --_border: var(--cb-color-info-100); }
 .cb-message--warning { --_accent: var(--cb-color-warning-500); --_bg: var(--cb-color-warning-50); --_fg: var(--cb-color-warning-500); --_border: var(--cb-color-warning-100); }
 .cb-message--danger { --_accent: var(--cb-color-danger-500); --_bg: var(--cb-color-danger-50); --_fg: var(--cb-color-danger-500); --_border: var(--cb-color-danger-100); }
 .cb-message--help { --_accent: var(--cb-color-help-500); --_bg: var(--cb-color-help-50); --_fg: var(--cb-color-help-500); --_border: var(--cb-color-help-100); }
-.cb-message--contrast { --_accent: var(--cb-color-text); --_bg: var(--cb-color-surface-100); --_fg: var(--cb-color-text); --_border: var(--cb-color-border-strong); }
+.cb-message--contrast { --_accent: var(--cb-color-text); --_bg: var(--cb-color-surface-hover); --_fg: var(--cb-color-text); --_border: var(--cb-color-border-strong); }
 
 :host-context([data-theme='dark']) .cb-message {
   --_bg: color-mix(in srgb, var(--_accent) 16%, transparent);

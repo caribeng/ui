@@ -113,7 +113,7 @@
   transition: background var(--cb-duration-fast) var(--cb-ease);
 }
 .cb-toast__close:hover {
-  background: var(--cb-color-surface-100);
+  background: var(--cb-color-surface-hover);
   color: var(--cb-color-text);
 }
 .cb-toast__close:focus-visible {

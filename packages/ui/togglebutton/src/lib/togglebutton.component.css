@@ -32,7 +32,7 @@
 }
 
 .cb-togglebutton:hover:not(:disabled):not(.cb-is-on) {
-  background-color: var(--cb-color-surface-100);
+  background-color: var(--cb-color-surface-hover);
 }
 .cb-togglebutton:focus-visible {
   outline: none;

@@ -54,7 +54,7 @@
   cursor: pointer;
 }
 .cb-listbox__option.cb-is-active {
-  background-color: var(--cb-color-surface-100);
+  background-color: var(--cb-color-surface-hover);
 }
 .cb-listbox__option.cb-is-selected:not(.cb-is-active) {
   background-color: var(--cb-color-primary-50);

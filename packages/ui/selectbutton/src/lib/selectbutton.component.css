@@ -35,7 +35,7 @@
 }
 
 .cb-selectbutton__btn:hover:not(:disabled):not(.cb-is-selected) {
-  background-color: var(--cb-color-surface-100);
+  background-color: var(--cb-color-surface-hover);
 }
 .cb-selectbutton__btn:focus-visible {
   outline: 2px solid var(--cb-color-focus-ring);

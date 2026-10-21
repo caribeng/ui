@@ -27,7 +27,7 @@
   transition: background var(--cb-duration-fast) var(--cb-ease);
 }
 .cb-accordion__header:hover {
-  background-color: var(--cb-color-surface-50);
+  background-color: var(--cb-color-surface-subtle);
 }
 .cb-accordion__header:focus-visible {
   outline: 2px solid var(--cb-color-focus-ring);
@@ -38,7 +38,7 @@
   cursor: default;
 }
 :host(.cb-is-open) .cb-accordion__header {
-  background-color: var(--cb-color-surface-50);
+  background-color: var(--cb-color-surface-subtle);
 }
 
 .cb-accordion__chevron {
@@ -60,7 +60,4 @@
   line-height: var(--cb-line-height-normal);
 }
 
-:host-context([data-theme='dark']) .cb-accordion__header:hover,
-:host-context([data-theme='dark']):host(.cb-is-open) .cb-accordion__header {
-  background-color: var(--cb-color-surface-100);
-}
+

@@ -63,7 +63,7 @@
   transition: background var(--cb-duration-fast) var(--cb-ease);
 }
 .cb-drawer__close:hover {
-  background: var(--cb-color-surface-100);
+  background: var(--cb-color-surface-hover);
   color: var(--cb-color-text);
 }
 .cb-drawer__close:focus-visible {

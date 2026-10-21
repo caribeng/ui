@@ -31,7 +31,7 @@
 }
 .cb-paginator__btn:hover:not(:disabled),
 .cb-paginator__page:hover:not(.cb-is-active) {
-  background-color: var(--cb-color-surface-100);
+  background-color: var(--cb-color-surface-hover);
 }
 .cb-paginator__btn:focus-visible,
 .cb-paginator__page:focus-visible,
@@ -62,7 +62,4 @@
   cursor: pointer;
 }
 
-:host-context([data-theme='dark']) .cb-paginator__btn:hover:not(:disabled),
-:host-context([data-theme='dark']) .cb-paginator__page:hover:not(.cb-is-active) {
-  background-color: var(--cb-color-surface-200);
-}
+

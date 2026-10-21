@@ -49,7 +49,7 @@
   transition: background var(--cb-duration-fast) var(--cb-ease);
 }
 .cb-dialog__close:hover {
-  background: var(--cb-color-surface-100);
+  background: var(--cb-color-surface-hover);
   color: var(--cb-color-text);
 }
 .cb-dialog__close:focus-visible {

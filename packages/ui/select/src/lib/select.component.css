@@ -135,7 +135,7 @@
 }
 
 .cb-select__option.cb-is-active {
-  background-color: var(--cb-color-surface-100);
+  background-color: var(--cb-color-surface-hover);
 }
 
 .cb-select__option.cb-is-selected {
@@ -228,7 +228,7 @@
 }
 .cb-select__clear:hover {
   color: var(--cb-color-text);
-  background-color: var(--cb-color-surface-100);
+  background-color: var(--cb-color-surface-hover);
 }
 .cb-select__clear:focus-visible {
   outline: 2px solid var(--cb-color-focus-ring);

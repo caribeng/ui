@@ -107,13 +107,13 @@
   width: 2rem;
   padding: 0;
   color: var(--cb-color-text-muted);
-  background-color: var(--cb-color-surface-50);
+  background-color: var(--cb-color-surface-subtle);
   border: none;
   cursor: pointer;
   transition: background-color var(--cb-duration-fast) var(--cb-ease);
 }
 .cb-input-number__btn:hover:not(:disabled) {
-  background-color: var(--cb-color-surface-100);
+  background-color: var(--cb-color-surface-hover);
   color: var(--cb-color-text);
 }
 .cb-input-number__btn:disabled {

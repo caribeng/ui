@@ -74,7 +74,7 @@
 .cb-chips.cb-is-disabled {
   opacity: var(--cb-opacity-disabled, 0.55);
   cursor: default;
-  background-color: var(--cb-color-surface-100);
+  background-color: var(--cb-color-surface);
 }
 
 :host-context([data-theme='dark']) .cb-chips__chip {

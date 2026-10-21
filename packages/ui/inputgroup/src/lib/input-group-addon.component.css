@@ -6,7 +6,7 @@
   padding: 0 var(--cb-space-3);
   white-space: nowrap;
   color: var(--cb-color-text-muted);
-  background-color: var(--cb-color-surface-100);
+  background-color: var(--cb-color-surface-hover);
   border: var(--cb-border-width) solid var(--cb-color-border-strong);
   font-size: var(--cb-text-sm);
   font-family: var(--cb-font-sans);
@@ -19,5 +19,5 @@
 }
 
 :host-context([data-theme='dark']) {
-  background-color: var(--cb-color-surface-200);
+  background-color: var(--cb-color-surface-subtle);
 }

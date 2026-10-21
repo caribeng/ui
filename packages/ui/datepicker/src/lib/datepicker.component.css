@@ -153,7 +153,7 @@
   cursor: pointer;
 }
 .cb-datepicker__nav:hover {
-  background-color: var(--cb-color-surface-100);
+  background-color: var(--cb-color-surface-hover);
   color: var(--cb-color-text);
 }
 .cb-datepicker__nav:focus-visible {
@@ -199,7 +199,7 @@
   transition: background-color var(--cb-duration-fast) var(--cb-ease);
 }
 .cb-datepicker__day:hover:not(.cb-is-disabled):not(.cb-is-selected) {
-  background-color: var(--cb-color-surface-100);
+  background-color: var(--cb-color-surface-hover);
 }
 .cb-datepicker__day:focus-visible {
   outline: none;
@@ -279,7 +279,7 @@
   font-size: var(--cb-text-sm);
   font-weight: var(--cb-font-weight-semibold);
   color: var(--cb-color-text);
-  background-color: var(--cb-color-surface-100);
+  background-color: var(--cb-color-surface-hover);
   border: 1px solid var(--cb-color-border);
   border-radius: var(--cb-radius-sm);
   cursor: pointer;
@@ -320,7 +320,7 @@
 }
 .cb-datepicker__today:hover,
 .cb-datepicker__clear:hover {
-  background-color: var(--cb-color-surface-100);
+  background-color: var(--cb-color-surface-hover);
 }
 .cb-datepicker__clear {
   color: var(--cb-color-text-muted);

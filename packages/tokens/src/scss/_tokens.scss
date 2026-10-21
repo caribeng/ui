@@ -129,6 +129,10 @@
   --cb-color-bg: var(--cb-color-surface-0);
   --cb-color-surface: var(--cb-color-surface-50);
   --cb-color-surface-raised: var(--cb-color-surface-0);
+  // Estados: las escalas son absolutas, así que hover y fondos suaves usan estos
+  // tokens semánticos, que cambian con el tema (surface-100 es casi blanco en dark).
+  --cb-color-surface-hover: var(--cb-color-surface-100);
+  --cb-color-surface-subtle: var(--cb-color-surface-50);
   --cb-color-border: var(--cb-color-surface-200);
   --cb-color-border-strong: var(--cb-color-surface-300);
   --cb-color-text: var(--cb-color-surface-700);
@@ -233,6 +237,8 @@
   --cb-color-bg: var(--cb-color-surface-950);
   --cb-color-surface: var(--cb-color-surface-900);
   --cb-color-surface-raised: var(--cb-color-surface-900);
+  --cb-color-surface-hover: var(--cb-color-surface-700);
+  --cb-color-surface-subtle: var(--cb-color-surface-800);
   --cb-color-border: var(--cb-color-surface-700);
   --cb-color-border-strong: var(--cb-color-surface-600);
   --cb-color-text: var(--cb-color-surface-0);
