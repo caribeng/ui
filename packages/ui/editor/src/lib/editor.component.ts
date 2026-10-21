@@ -23,6 +23,7 @@ import { DOCUMENT } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { CbIcon, CbIconRegistry } from '@caribeng/ui/icon';
 import {
+  aLargeSmall,
   alignCenterHorizontal,
   alignEndVertical,
   alignStartVertical,
@@ -30,17 +31,25 @@ import {
   betweenHorizontalStart,
   betweenVerticalEnd,
   betweenVerticalStart,
+  baseline,
   bold,
   captions,
+  chevronDown,
   code,
   codeXml,
   columns3,
   crop,
+  highlighter,
   image,
   italic,
   link,
   list,
+  listChecks,
+  listIndentDecrease,
+  listIndentIncrease,
   listOrdered,
+  maximize,
+  minimize,
   minus,
   panelTop,
   ratio,
@@ -49,9 +58,12 @@ import {
   removeFormatting,
   squareCode,
   strikethrough,
+  subscript,
+  superscript,
   table,
   textAlignCenter,
   textAlignEnd,
+  textAlignJustify,
   textAlignStart,
   textQuote,
   trash,
@@ -72,23 +84,45 @@ import {
   type CbImageAlign,
   type CbTableBorders,
 } from './html-sanitizer';
+import {
+  FONT_SIZES,
+  HIGHLIGHT_COLORS,
+  TEXT_COLORS,
+  clearInlineStyle,
+  fontSizeAt,
+  selectedBlocks,
+  setTaskList,
+  shiftIndent,
+  taskListOf,
+  toggleTask,
+} from './editor-format';
 import { clampRect, cropImage, fitRatio, initialRect, resizeRect, type CbCropRect } from './image-crop';
 
 /** Herramientas de la barra; `'|'` es un separador. */
 export type CbEditorTool =
   | 'heading'
+  | 'fontSize'
   | 'bold'
   | 'italic'
   | 'underline'
   | 'strike'
   | 'code'
+  | 'subscript'
+  | 'superscript'
+  | 'textColor'
+  | 'highlight'
   | 'bulletList'
   | 'orderedList'
+  | 'taskList'
+  | 'indent'
+  | 'outdent'
   | 'quote'
   | 'codeBlock'
+  | 'alignment'
   | 'alignLeft'
   | 'alignCenter'
   | 'alignRight'
+  | 'alignJustify'
   | 'link'
   | 'image'
   | 'table'
@@ -97,17 +131,19 @@ export type CbEditorTool =
   | 'undo'
   | 'redo'
   | 'source'
+  | 'fullscreen'
   | '|';
 
-/** Barra por defecto: todas las herramientas. */
+/** Barra por defecto: todas las herramientas, agrupadas (las de alineación y color en menús). */
 export const CB_EDITOR_DEFAULT_TOOLBAR: readonly CbEditorTool[] = [
-  'heading', '|',
-  'bold', 'italic', 'underline', 'strike', 'code', '|',
-  'bulletList', 'orderedList', 'quote', 'codeBlock', '|',
-  'alignLeft', 'alignCenter', 'alignRight', '|',
-  'link', 'image', 'table', 'horizontalRule', 'clear', '|',
   'undo', 'redo', '|',
-  'source',
+  'heading', 'fontSize', '|',
+  'bold', 'italic', 'underline', 'strike', '|',
+  'textColor', 'highlight', '|',
+  'bulletList', 'orderedList', 'taskList', 'outdent', 'indent', 'alignment', '|',
+  'link', 'image', 'table', 'codeBlock', 'quote', 'horizontalRule', '|',
+  'subscript', 'superscript', 'code', 'clear', '|',
+  'source', 'fullscreen',
 ];
 
 /** Sube una imagen y devuelve su URL pública (p. ej. a tu servidor o a un bucket). */
@@ -125,7 +161,12 @@ interface ToolDef {
   label: (t: CbTranslation) => string;
   /** Estado que la marca como activa (`aria-pressed`). */
   state?: keyof EditorState;
+  /** Atajo de teclado (se muestra en el tooltip y en `aria-keyshortcuts`). */
+  keys?: string;
 }
+
+/** Herramientas que abren un menú (paleta o lista de opciones). */
+const MENU_TOOLS = new Set<CbEditorTool>(['textColor', 'highlight', 'alignment']);
 
 interface EditorState {
   bold: boolean;
@@ -137,11 +178,16 @@ interface EditorState {
   orderedList: boolean;
   quote: boolean;
   codeBlock: boolean;
+  subscript: boolean;
+  superscript: boolean;
+  taskList: boolean;
   alignLeft: boolean;
   alignCenter: boolean;
   alignRight: boolean;
+  alignJustify: boolean;
   link: boolean;
   block: string;
+  fontSize: string;
 }
 
 const EMPTY_STATE: EditorState = {
@@ -154,35 +200,53 @@ const EMPTY_STATE: EditorState = {
   orderedList: false,
   quote: false,
   codeBlock: false,
+  subscript: false,
+  superscript: false,
+  taskList: false,
   alignLeft: false,
   alignCenter: false,
   alignRight: false,
+  alignJustify: false,
   link: false,
   block: 'P',
+  fontSize: '',
 };
 
-const TOOLS: Record<Exclude<CbEditorTool, 'heading' | '|'>, ToolDef> = {
-  bold: { icon: 'bold', label: (t) => t.bold, state: 'bold' },
-  italic: { icon: 'italic', label: (t) => t.italic, state: 'italic' },
-  underline: { icon: 'underline', label: (t) => t.underline, state: 'underline' },
-  strike: { icon: 'strikethrough', label: (t) => t.strikethrough, state: 'strike' },
-  code: { icon: 'code', label: (t) => t.inlineCode, state: 'code' },
-  bulletList: { icon: 'list', label: (t) => t.bulletList, state: 'bulletList' },
-  orderedList: { icon: 'list-ordered', label: (t) => t.numberedList, state: 'orderedList' },
-  quote: { icon: 'text-quote', label: (t) => t.quote, state: 'quote' },
-  codeBlock: { icon: 'code-xml', label: (t) => t.codeBlock, state: 'codeBlock' },
-  alignLeft: { icon: 'text-align-start', label: (t) => t.alignLeft, state: 'alignLeft' },
-  alignCenter: { icon: 'text-align-center', label: (t) => t.alignCenter, state: 'alignCenter' },
-  alignRight: { icon: 'text-align-end', label: (t) => t.alignRight, state: 'alignRight' },
-  link: { icon: 'link', label: (t) => t.insertLink, state: 'link' },
+const TOOLS: Record<Exclude<CbEditorTool, 'heading' | 'fontSize' | '|'>, ToolDef> = {
+  bold: { icon: 'bold', label: (t) => t.bold, state: 'bold', keys: 'Ctrl+B' },
+  italic: { icon: 'italic', label: (t) => t.italic, state: 'italic', keys: 'Ctrl+I' },
+  underline: { icon: 'underline', label: (t) => t.underline, state: 'underline', keys: 'Ctrl+U' },
+  strike: { icon: 'strikethrough', label: (t) => t.strikethrough, state: 'strike', keys: 'Ctrl+Shift+X' },
+  code: { icon: 'code', label: (t) => t.inlineCode, state: 'code', keys: 'Ctrl+E' },
+  subscript: { icon: 'subscript', label: (t) => t.subscript, state: 'subscript', keys: 'Ctrl+,' },
+  superscript: { icon: 'superscript', label: (t) => t.superscript, state: 'superscript', keys: 'Ctrl+.' },
+  textColor: { icon: 'baseline', label: (t) => t.textColor },
+  highlight: { icon: 'highlighter', label: (t) => t.highlight },
+  bulletList: { icon: 'list', label: (t) => t.bulletList, state: 'bulletList', keys: 'Ctrl+Shift+8' },
+  orderedList: { icon: 'list-ordered', label: (t) => t.numberedList, state: 'orderedList', keys: 'Ctrl+Shift+7' },
+  taskList: { icon: 'list-checks', label: (t) => t.taskList, state: 'taskList', keys: 'Ctrl+Shift+9' },
+  indent: { icon: 'list-indent-increase', label: (t) => t.indent, keys: 'Ctrl+]' },
+  outdent: { icon: 'list-indent-decrease', label: (t) => t.outdent, keys: 'Ctrl+[' },
+  quote: { icon: 'text-quote', label: (t) => t.quote, state: 'quote', keys: 'Ctrl+Shift+B' },
+  codeBlock: { icon: 'code-xml', label: (t) => t.codeBlock, state: 'codeBlock', keys: 'Ctrl+Alt+C' },
+  alignment: { icon: 'text-align-start', label: (t) => t.alignment },
+  alignLeft: { icon: 'text-align-start', label: (t) => t.alignLeft, state: 'alignLeft', keys: 'Ctrl+Shift+L' },
+  alignCenter: { icon: 'text-align-center', label: (t) => t.alignCenter, state: 'alignCenter', keys: 'Ctrl+Shift+E' },
+  alignRight: { icon: 'text-align-end', label: (t) => t.alignRight, state: 'alignRight', keys: 'Ctrl+Shift+R' },
+  alignJustify: { icon: 'text-align-justify', label: (t) => t.alignJustify, state: 'alignJustify', keys: 'Ctrl+Shift+J' },
+  link: { icon: 'link', label: (t) => t.insertLink, state: 'link', keys: 'Ctrl+K' },
   image: { icon: 'image', label: (t) => t.insertImage },
   table: { icon: 'table', label: (t) => t.insertTable },
   horizontalRule: { icon: 'minus', label: (t) => t.horizontalLine },
-  clear: { icon: 'remove-formatting', label: (t) => t.clearFormat },
-  undo: { icon: 'undo', label: (t) => t.undo },
-  redo: { icon: 'redo', label: (t) => t.redo },
+  clear: { icon: 'remove-formatting', label: (t) => t.clearFormat, keys: 'Ctrl+\\' },
+  undo: { icon: 'undo', label: (t) => t.undo, keys: 'Ctrl+Z' },
+  redo: { icon: 'redo', label: (t) => t.redo, keys: 'Ctrl+Y' },
   source: { icon: 'square-code', label: (t) => t.sourceCode },
+  fullscreen: { icon: 'maximize', label: (t) => t.fullscreen },
 };
+
+/** Opciones del menú de alineación. */
+const ALIGNMENTS: readonly ('alignLeft' | 'alignCenter' | 'alignRight' | 'alignJustify')[] = ['alignLeft', 'alignCenter', 'alignRight', 'alignJustify'];
 
 const EDITOR_ICONS: Record<string, string> = {
   bold,
@@ -205,6 +269,18 @@ const EDITOR_ICONS: Record<string, string> = {
   redo,
   'square-code': squareCode,
   'code-xml': codeXml,
+  'a-large-small': aLargeSmall,
+  baseline,
+  highlighter,
+  'chevron-down': chevronDown,
+  'list-checks': listChecks,
+  'list-indent-increase': listIndentIncrease,
+  'list-indent-decrease': listIndentDecrease,
+  'text-align-justify': textAlignJustify,
+  subscript,
+  superscript,
+  maximize,
+  minimize,
   table,
   'between-horizontal-start': betweenHorizontalStart,
   'between-horizontal-end': betweenHorizontalEnd,
@@ -266,8 +342,10 @@ let nextId = 0;
     '[class.cb-is-invalid]': 'invalidState()',
     '[class.cb-is-disabled]': 'isDisabled()',
     '[class.cb-is-readonly]': 'readonly()',
+    '[class.cb-is-fullscreen]': 'fullscreen()',
   },
   template: `
+    <div class="cb-editor__header">
     @if (!readonly()) {
       <div
         #toolbar
@@ -286,26 +364,117 @@ let nextId = 0;
               class="cb-editor__select"
               [disabled]="isDisabled() || sourceMode()"
               [attr.aria-label]="t().paragraphStyle"
+              [title]="t().paragraphStyle"
               (change)="format($any($event.target).value)"
             >
               <option value="P" [selected]="state().block === 'P'">{{ t().normal }}</option>
               <option value="H1" [selected]="state().block === 'H1'">{{ t().heading1 }}</option>
               <option value="H2" [selected]="state().block === 'H2'">{{ t().heading2 }}</option>
               <option value="H3" [selected]="state().block === 'H3'">{{ t().heading3 }}</option>
+              <option value="H4" [selected]="state().block === 'H4'">{{ t().heading4 }}</option>
             </select>
+          } @else if (tool === 'fontSize') {
+            <select
+              class="cb-editor__select cb-editor__select--size"
+              [disabled]="isDisabled() || sourceMode()"
+              [attr.aria-label]="t().fontSize"
+              [title]="t().fontSize"
+              (change)="setFontSize($any($event.target).value)"
+            >
+              @for (size of fontSizes; track size.value) {
+                <option [value]="size.value" [selected]="state().fontSize === size.value">{{ size.label(t()) }}</option>
+              }
+            </select>
+          } @else if (isMenu(tool)) {
+            <div class="cb-editor__menu-wrap">
+              <button
+                type="button"
+                class="cb-editor__tool cb-editor__menu-trigger"
+                [disabled]="isDisabled() || sourceMode()"
+                aria-haspopup="menu"
+                [attr.aria-expanded]="openMenu() === tool"
+                [attr.aria-label]="toolLabel(tool)"
+                [attr.title]="toolLabel(tool)"
+                (mousedown)="hold($event)"
+                (click)="toggleMenu(tool)"
+                (keydown)="onMenuTriggerKeydown($event, tool)"
+              >
+                <cb-icon [name]="menuIcon(tool)" [size]="16" aria-hidden="true" />
+                @if (tool !== 'alignment') {
+                  <span class="cb-editor__color-bar" [style.background]="tool === 'textColor' ? lastTextColor() : lastHighlight()"></span>
+                }
+                <cb-icon name="chevron-down" [size]="11" class="cb-editor__caret" aria-hidden="true" />
+              </button>
+              @if (openMenu() === tool) {
+                <div
+                  class="cb-editor__menu"
+                  [class.cb-editor__menu--palette]="tool !== 'alignment'"
+                  role="menu"
+                  [attr.aria-label]="toolLabel(tool)"
+                  (keydown)="onMenuKeydown($event)"
+                >
+                  @if (tool === 'alignment') {
+                    @for (option of alignments; track option) {
+                      <button
+                        type="button"
+                        class="cb-editor__menu-item"
+                        role="menuitemradio"
+                        [attr.aria-checked]="state()[option]"
+                        [tabindex]="-1"
+                        [attr.aria-keyshortcuts]="ariaKeys(option)"
+                        (mousedown)="hold($event)"
+                        (click)="applyMenu(tool, option)"
+                      >
+                        <cb-icon [name]="toolIcon(option)" [size]="16" aria-hidden="true" />
+                        <span>{{ toolLabel(option) }}</span>
+                        <kbd class="cb-editor__kbd">{{ toolKeys(option) }}</kbd>
+                      </button>
+                    }
+                  } @else {
+                    <button
+                      type="button"
+                      class="cb-editor__menu-item cb-editor__menu-item--wide"
+                      role="menuitem"
+                      [tabindex]="-1"
+                      (mousedown)="hold($event)"
+                      (click)="applyMenu(tool, null)"
+                    >
+                      <span class="cb-editor__swatch cb-editor__swatch--none" aria-hidden="true"></span>
+                      {{ tool === 'textColor' ? t().automaticColor : t().noHighlight }}
+                    </button>
+                    <div class="cb-editor__swatches">
+                      @for (color of tool === 'textColor' ? textColors : highlightColors; track color.value) {
+                        <button
+                          type="button"
+                          class="cb-editor__swatch"
+                          role="menuitem"
+                          [style.background]="color.value"
+                          [attr.aria-label]="color.label(t())"
+                          [attr.title]="color.label(t())"
+                          [tabindex]="-1"
+                          (mousedown)="hold($event)"
+                          (click)="applyMenu(tool, color.value)"
+                        ></button>
+                      }
+                    </div>
+                  }
+                </div>
+              }
+            </div>
           } @else {
             <button
               type="button"
               class="cb-editor__tool"
               [class.cb-is-active]="isActive(tool)"
-              [disabled]="isDisabled() || (sourceMode() && tool !== 'source')"
+              [disabled]="isDisabled() || (sourceMode() && tool !== 'source' && tool !== 'fullscreen')"
               [attr.aria-label]="toolLabel(tool)"
-              [attr.title]="toolLabel(tool)"
+              [attr.title]="toolTitle(tool)"
+              [attr.aria-keyshortcuts]="ariaKeys(tool)"
               [attr.aria-pressed]="pressable(tool) ? isActive(tool) : null"
               (mousedown)="hold($event)"
               (click)="run(tool)"
             >
-              <cb-icon [name]="toolIcon(tool)" [size]="16" aria-hidden="true" />
+              <cb-icon [name]="tool === 'fullscreen' && fullscreen() ? 'minimize' : toolIcon(tool)" [size]="16" aria-hidden="true" />
             </button>
           }
         }
@@ -565,6 +734,8 @@ let nextId = 0;
       </form>
     }
 
+    </div>
+
     <div #body class="cb-editor__body">
     <div
       #surface
@@ -583,6 +754,7 @@ let nextId = 0;
       [attr.contenteditable]="!isDisabled() && !readonly()"
       [attr.data-placeholder]="readonly() ? '' : (placeholder() ?? t().editorPlaceholder)"
       [style.minHeight]="readonly() ? null : height()"
+      [style.maxHeight]="readonly() || fullscreen() ? null : maxHeight()"
       (input)="onSurfaceInput($event)"
       (beforeinput)="onBeforeInput($event)"
       (keydown)="onSurfaceKeydown($event)"
@@ -618,15 +790,13 @@ let nextId = 0;
       ></textarea>
     }
 
-    @if (message() || maxLength()) {
+    @if (message() || maxLength() || (wordCount() && !readonly())) {
       <div class="cb-editor__footer">
         @if (message()) {
           <p class="cb-editor__error" role="alert">{{ message() }}</p>
         }
-        @if (maxLength()) {
-          <span class="cb-editor__count" [id]="countId" [class.cb-is-over]="length() > maxLength()!">
-            {{ countText() }}
-          </span>
+        @if (maxLength() || (wordCount() && !readonly())) {
+          <span class="cb-editor__count" [id]="countId" [class.cb-is-over]="!!maxLength() && length() > maxLength()!">{{ countLine() }}</span>
         }
       </div>
     }
@@ -644,7 +814,12 @@ export class CbEditor implements ControlValueAccessor {
   readonly placeholder = input<string | undefined>(undefined);
   /** Nombre accesible del área de texto. Por defecto, "Editor de texto" del idioma activo. */
   readonly ariaLabel = input<string | undefined>(undefined);
-  readonly height = input<string>('180px');
+  /** Alto mínimo del área de texto. */
+  readonly height = input<string>('320px');
+  /** Alto máximo: a partir de él, el área hace scroll (la barra queda fija). Sin él, crece con el contenido. */
+  readonly maxHeight = input<string | undefined>(undefined);
+  /** Muestra el número de palabras y caracteres al pie. */
+  readonly wordCount = input(true, { transform: booleanAttribute });
   readonly disabled = input(false, { transform: booleanAttribute });
   /** Muestra el contenido (saneado) sin barra ni edición. */
   readonly readonly = input(false, { transform: booleanAttribute });
@@ -696,7 +871,22 @@ export class CbEditor implements ControlValueAccessor {
   protected readonly isEmpty = computed(() => !this.value());
   protected readonly invalidState = computed(() => this.fieldState.invalid() || (!!this.maxLength() && this.length() > this.maxLength()!));
   protected readonly countText = computed(() => cbFormat(this.t().characterCount, this.length(), this.maxLength() ?? 0));
-  protected readonly describedBy = computed(() => (this.maxLength() ? this.countId : null));
+  protected readonly words = signal(0);
+  protected readonly wordsText = computed(() => cbFormat(this.words() === 1 ? this.t().wordCountOne : this.t().wordCount, this.words()));
+  /** Pie: palabras y caracteres (con `maxLength`, "N de M caracteres"). */
+  protected readonly countLine = computed(() => {
+    const chars = this.maxLength() ? this.countText() : cbFormat(this.t().charCount, this.length());
+    return this.wordCount() ? `${this.wordsText()} · ${chars}` : chars;
+  });
+  protected readonly fullscreen = signal(false);
+  protected readonly openMenu = signal<CbEditorTool | null>(null);
+  protected readonly lastTextColor = signal<string>('#dc2626');
+  protected readonly lastHighlight = signal<string>('#fef08a');
+  protected readonly textColors = TEXT_COLORS;
+  protected readonly highlightColors = HIGHLIGHT_COLORS;
+  protected readonly fontSizes = FONT_SIZES;
+  protected readonly alignments = ALIGNMENTS;
+  protected readonly describedBy = computed(() => (this.maxLength() || (this.wordCount() && !this.readonly()) ? this.countId : null));
   protected readonly toolbarItems = computed(() =>
     this.toolbar().filter((tool) => tool !== 'image' || this.images()),
   );
@@ -795,6 +985,11 @@ export class CbEditor implements ControlValueAccessor {
     });
     // El estado de la barra sigue a la selección.
     const onSelection = () => this.updateState();
+    const onPointer = (e: Event) => {
+      if (this.openMenu() && !(e.target as HTMLElement)?.closest?.('.cb-editor__menu-wrap')) this.openMenu.set(null);
+    };
+    this.document.addEventListener('mousedown', onPointer);
+    inject(DestroyRef).onDestroy(() => this.document.removeEventListener('mousedown', onPointer));
     // El marco de la imagen seleccionada sigue a la imagen si cambia el tamaño de la ventana.
     const onResize = () => this.refreshFrame();
     this.document.addEventListener('selectionchange', onSelection);
@@ -824,7 +1019,7 @@ export class CbEditor implements ControlValueAccessor {
   // --- Barra -------------------------------------------------------------------------
   private tools(): HTMLElement[] {
     const bar = this.toolbarRef()?.nativeElement;
-    return bar ? Array.from(bar.querySelectorAll<HTMLElement>('select, button')) : [];
+    return bar ? Array.from(bar.querySelectorAll<HTMLElement>(':scope > select, :scope > button, :scope > .cb-editor__menu-wrap > button')) : [];
   }
 
   /** Deja solo `active` en el orden de tabulación de la barra. */
@@ -855,15 +1050,116 @@ export class CbEditor implements ControlValueAccessor {
   }
 
   protected toolLabel(tool: CbEditorTool): string {
+    if (tool === 'fullscreen' && this.fullscreen()) return this.t().exitFullscreen;
     return TOOLS[tool as keyof typeof TOOLS].label(this.t());
   }
 
+  protected toolKeys(tool: CbEditorTool): string {
+    return TOOLS[tool as keyof typeof TOOLS]?.keys ?? '';
+  }
+
+  /** Tooltip: nombre y atajo, p. ej. "Negrita (Ctrl+B)". */
+  protected toolTitle(tool: CbEditorTool): string {
+    const keys = this.toolKeys(tool);
+    return keys ? `${this.toolLabel(tool)} (${keys})` : this.toolLabel(tool);
+  }
+
+  protected ariaKeys(tool: CbEditorTool): string | null {
+    const keys = this.toolKeys(tool);
+    return keys ? keys.replace('Ctrl', 'Control').replace('Alt', 'Alt').replace('Shift', 'Shift') : null;
+  }
+
+  protected isMenu(tool: CbEditorTool): boolean {
+    return MENU_TOOLS.has(tool);
+  }
+
+  /** Icono del botón de un menú: el de la alineación actual, o el de la herramienta. */
+  protected menuIcon(tool: CbEditorTool): string {
+    if (tool !== 'alignment') return this.toolIcon(tool);
+    const current = ALIGNMENTS.find((a) => this.state()[a]) ?? 'alignLeft';
+    return this.toolIcon(current);
+  }
+
+  protected toggleMenu(tool: CbEditorTool): void {
+    if (this.openMenu() === tool) {
+      this.openMenu.set(null);
+      return;
+    }
+    this.saveSelection();
+    this.openMenu.set(tool);
+  }
+
+  /** Flecha abajo, Enter o Espacio en el botón abren el menú y enfocan su primera opción. */
+  protected onMenuTriggerKeydown(event: KeyboardEvent, tool: CbEditorTool): void {
+    if (event.key !== 'ArrowDown' && event.key !== 'Enter' && event.key !== ' ') return;
+    event.preventDefault();
+    event.stopPropagation();
+    this.saveSelection();
+    this.openMenu.set(tool);
+    const wrap = (event.currentTarget as HTMLElement).parentElement;
+    afterNextRender(() => wrap?.querySelector<HTMLElement>('[role^="menuitem"]')?.focus(), { injector: this.injector });
+  }
+
+  /** Flechas (en la paleta, en cuadrícula de 5), Inicio, Fin, Escape y Tab dentro de un menú. */
+  protected onMenuKeydown(event: KeyboardEvent): void {
+    event.stopPropagation();
+    const menu = event.currentTarget as HTMLElement;
+    const items = Array.from(menu.querySelectorAll<HTMLElement>('[role^="menuitem"]'));
+    const cur = items.indexOf(event.target as HTMLElement);
+    const palette = menu.classList.contains('cb-editor__menu--palette');
+    const close = () => {
+      this.openMenu.set(null);
+      menu.parentElement?.querySelector<HTMLElement>('.cb-editor__menu-trigger')?.focus();
+    };
+    let next = -1;
+    switch (event.key) {
+      case 'Escape':
+        event.preventDefault();
+        return close();
+      case 'Tab':
+        this.openMenu.set(null);
+        return;
+      case 'ArrowDown':
+        next = palette && cur > 0 ? Math.min(items.length - 1, cur + 5) : cur + 1;
+        break;
+      case 'ArrowUp':
+        next = palette && cur > 5 ? cur - 5 : palette && cur > 0 ? 0 : cur - 1;
+        break;
+      case 'ArrowRight':
+        next = cur + 1;
+        break;
+      case 'ArrowLeft':
+        next = cur - 1;
+        break;
+      case 'Home':
+        next = 0;
+        break;
+      case 'End':
+        next = items.length - 1;
+        break;
+      default:
+        return;
+    }
+    event.preventDefault();
+    items[(next + items.length) % items.length]?.focus();
+  }
+
+  /** Aplica la opción elegida de un menú y lo cierra. */
+  protected applyMenu(tool: CbEditorTool, value: string | null): void {
+    this.openMenu.set(null);
+    this.restoreSelection();
+    if (tool === 'alignment' && value) return this.run(value as CbEditorTool);
+    if (tool === 'textColor') this.setTextColor(value);
+    if (tool === 'highlight') this.setHighlight(value);
+  }
+
   protected pressable(tool: CbEditorTool): boolean {
-    return !!TOOLS[tool as keyof typeof TOOLS]?.state || tool === 'source';
+    return !!TOOLS[tool as keyof typeof TOOLS]?.state || tool === 'source' || tool === 'fullscreen';
   }
 
   protected isActive(tool: CbEditorTool): boolean {
     if (tool === 'source') return this.sourceMode();
+    if (tool === 'fullscreen') return this.fullscreen();
     const key = TOOLS[tool as keyof typeof TOOLS]?.state;
     return key ? !!this.state()[key] : false;
   }
@@ -882,6 +1178,15 @@ export class CbEditor implements ControlValueAccessor {
       case 'code': return this.toggleCode();
       case 'bulletList': return this.exec('insertUnorderedList');
       case 'orderedList': return this.exec('insertOrderedList');
+      case 'subscript': return this.exec('subscript');
+      case 'superscript': return this.exec('superscript');
+      case 'taskList': return this.toggleTaskList();
+      case 'indent': return this.changeIndent(1);
+      case 'outdent': return this.changeIndent(-1);
+      case 'alignJustify': return this.exec('justifyFull');
+      case 'fullscreen': return this.toggleFullscreen();
+      case 'textColor': return this.setTextColor(this.lastTextColor());
+      case 'highlight': return this.setHighlight(this.lastHighlight());
       case 'quote': return this.format(this.state().quote ? 'P' : 'BLOCKQUOTE');
       case 'codeBlock': return this.format(this.state().codeBlock ? 'P' : 'PRE');
       case 'table': return this.openTablePanel();
@@ -899,7 +1204,7 @@ export class CbEditor implements ControlValueAccessor {
   }
 
   // --- Comandos ----------------------------------------------------------------------
-  exec(command: string, value?: string): void {
+  exec(command: string, value?: string, css = false): void {
     if (this.isDisabled() || this.readonly()) return;
     const el = this.surfaceRef()?.nativeElement;
     // Solo si no lo tiene: enfocar de nuevo puede mover el cursor al principio.
@@ -907,7 +1212,7 @@ export class CbEditor implements ControlValueAccessor {
     // execCommand sigue siendo la vía con deshacer nativo en contenteditable; el
     // resultado se normaliza al emitir, así el HTML no depende del navegador.
     if (typeof this.document.execCommand === 'function') {
-      this.document.execCommand('styleWithCSS', false, 'false');
+      this.document.execCommand('styleWithCSS', false, css ? 'true' : 'false');
       this.document.execCommand(command, false, value);
     }
     this.emit();
@@ -924,6 +1229,90 @@ export class CbEditor implements ControlValueAccessor {
     this.exec('removeFormat');
     this.exec('unlink');
     if (this.state().block !== 'P') this.format('P');
+  }
+
+  // --- Color, tamaño, sangría, tareas y pantalla completa ----------------------------------
+  private selectionRange(): Range | null {
+    const el = this.surfaceRef()?.nativeElement;
+    const sel = this.document.getSelection();
+    if (!el || !sel?.rangeCount) return null;
+    const range = sel.getRangeAt(0);
+    return el.contains(range.commonAncestorContainer) ? range : null;
+  }
+
+  /** Color del texto seleccionado; `null` = automático (quita el color). */
+  setTextColor(color: string | null): void {
+    if (color) {
+      this.lastTextColor.set(color);
+      this.exec('foreColor', color, true);
+      return;
+    }
+    const range = this.selectionRange();
+    if (range) clearInlineStyle(this.surfaceRef()!.nativeElement, range, 'color');
+    this.emit();
+  }
+
+  /** Resaltado (color de fondo) del texto seleccionado; `null` lo quita. */
+  setHighlight(color: string | null): void {
+    if (color) {
+      this.lastHighlight.set(color);
+      const supported = typeof this.document.queryCommandSupported !== 'function' || this.document.queryCommandSupported('hiliteColor');
+      this.exec(supported ? 'hiliteColor' : 'backColor', color, true);
+      return;
+    }
+    const range = this.selectionRange();
+    if (range) clearInlineStyle(this.surfaceRef()!.nativeElement, range, 'background-color');
+    this.emit();
+  }
+
+  /** Tamaño de letra de la selección (`''` = normal). */
+  setFontSize(value: string): void {
+    const size = FONT_SIZES.find((s) => s.value === value);
+    if (!size) return;
+    const range = this.selectionRange();
+    if (range) clearInlineStyle(this.surfaceRef()!.nativeElement, range, 'font-size');
+    if (value) this.exec('fontSize', size.command);
+    else this.emit();
+    this.updateState();
+  }
+
+  /** Sangría: anida en listas; en párrafos y títulos, margen en pasos de 2rem. */
+  changeIndent(delta: 1 | -1): void {
+    if (this.isDisabled() || this.readonly()) return;
+    const sel = this.document.getSelection();
+    if (sel?.anchorNode && this.closest(sel.anchorNode, 'LI')) {
+      this.exec(delta > 0 ? 'indent' : 'outdent');
+      return;
+    }
+    const range = this.selectionRange();
+    if (!range) return;
+    for (const block of selectedBlocks(this.surfaceRef()!.nativeElement, range)) shiftIndent(block, delta);
+    this.emit();
+  }
+
+  /** Lista de tareas: crea una, convierte la lista actual o la quita. */
+  toggleTaskList(): void {
+    const el = this.surfaceRef()?.nativeElement;
+    const sel = this.document.getSelection();
+    if (!el || this.isDisabled() || this.readonly()) return;
+    const current = taskListOf(sel?.anchorNode ?? null, el);
+    if (current) {
+      setTaskList(current, false);
+      this.exec('insertUnorderedList');
+      return;
+    }
+    const list = sel?.anchorNode ? (this.closest(sel.anchorNode, 'UL') as HTMLUListElement | null) : null;
+    if (!list) this.exec('insertUnorderedList');
+    const ul = this.document.getSelection()?.anchorNode ? (this.closest(this.document.getSelection()!.anchorNode, 'UL') as HTMLUListElement | null) : null;
+    if (ul) setTaskList(ul, true);
+    this.emit();
+    this.updateState();
+  }
+
+  /** Pantalla completa (Escape sale). */
+  toggleFullscreen(): void {
+    this.fullscreen.update((v) => !v);
+    afterNextRender(() => this.surfaceRef()?.nativeElement.focus(), { injector: this.injector });
   }
 
   /** Envuelve la selección en `<code>` o la saca de él. */
@@ -1121,12 +1510,22 @@ export class CbEditor implements ControlValueAccessor {
   }
 
   protected onSurfaceInput(event?: Event): void {
+    if (event instanceof InputEvent && event.inputType === 'insertParagraph') {
+      const sel = this.document.getSelection();
+      const li = sel?.anchorNode ? this.closest(sel.anchorNode, 'LI') : null;
+      if (li && li.parentElement?.getAttribute('data-type') === 'taskList' && !li.textContent?.trim()) li.setAttribute('data-checked', 'false');
+    }
     if (event instanceof InputEvent && event.inputType === 'insertText' && event.data === ' ') this.autoformat();
     this.emit();
   }
 
   /** Atajos de teclado: Ctrl + K enlace; Ctrl + Mayús + 7 / 8 listas; Ctrl + Alt + 0–3 bloques. */
   protected onSurfaceKeydown(event: KeyboardEvent): void {
+    if (event.key === 'Escape' && this.fullscreen()) {
+      event.preventDefault();
+      this.fullscreen.set(false);
+      return;
+    }
     if (this.selectedImage() && !['Shift', 'Control', 'Alt', 'Meta'].includes(event.key)) this.deselectImage();
     if (event.key === 'Tab' && !event.ctrlKey && !event.metaKey && !event.altKey) {
       const sel = this.document.getSelection();
@@ -1146,10 +1545,28 @@ export class CbEditor implements ControlValueAccessor {
     if (!mod) return;
     const key = event.key.toLowerCase();
     let handled = true;
+    const sel = this.document.getSelection();
     if (key === 'k' && !event.shiftKey && !event.altKey) this.openLink();
+    else if (event.key === 'Enter' && sel?.anchorNode && taskListOf(sel.anchorNode, this.surfaceRef()!.nativeElement)) {
+      const li = this.closest(sel.anchorNode, 'LI');
+      if (li) toggleTask(li);
+      this.emit();
+      this.updateState();
+    }
+    else if (!event.shiftKey && !event.altKey && (key === '.' || key === ',')) this.exec(key === '.' ? 'superscript' : 'subscript');
+    else if (!event.shiftKey && !event.altKey && (key === ']' || key === '[')) this.changeIndent(key === ']' ? 1 : -1);
+    else if (!event.shiftKey && !event.altKey && key === 'e') this.toggleCode();
+    else if (!event.shiftKey && !event.altKey && key === '\\') this.clearFormat();
+    else if (event.shiftKey && !event.altKey && key === 'x') this.exec('strikeThrough');
+    else if (event.shiftKey && !event.altKey && key === 'b') this.format(this.state().quote ? 'P' : 'BLOCKQUOTE');
+    else if (event.shiftKey && !event.altKey && (event.code === 'Digit9' || key === '9' || key === ')')) this.toggleTaskList();
+    else if (event.shiftKey && !event.altKey && ['l', 'e', 'r', 'j'].includes(key)) {
+      this.exec({ l: 'justifyLeft', e: 'justifyCenter', r: 'justifyRight', j: 'justifyFull' }[key]!);
+    }
+    else if (event.altKey && !event.shiftKey && key === 'c') this.format(this.state().codeBlock ? 'P' : 'PRE');
     else if (event.shiftKey && (event.code === 'Digit7' || key === '7' || key === '/')) this.exec('insertOrderedList');
     else if (event.shiftKey && (event.code === 'Digit8' || key === '8' || key === '(')) this.exec('insertUnorderedList');
-    else if (event.altKey && /^Digit[0-3]$/.test(event.code)) this.format(event.code === 'Digit0' ? 'P' : `H${event.code.slice(5)}`);
+    else if (event.altKey && /^Digit[0-4]$/.test(event.code)) this.format(event.code === 'Digit0' ? 'P' : `H${event.code.slice(5)}`);
     else handled = false;
     if (handled) event.preventDefault();
   }
@@ -1173,6 +1590,9 @@ export class CbEditor implements ControlValueAccessor {
       '# ': () => this.format('H1'),
       '## ': () => this.format('H2'),
       '### ': () => this.format('H3'),
+      '#### ': () => this.format('H4'),
+      '[] ': () => this.toggleTaskList(),
+      '[ ] ': () => this.toggleTaskList(),
       '* ': () => this.exec('insertUnorderedList'),
       '- ': () => this.exec('insertUnorderedList'),
       '1. ': () => this.exec('insertOrderedList'),
@@ -1381,6 +1801,15 @@ export class CbEditor implements ControlValueAccessor {
   // --- Imagen seleccionada ----------------------------------------------------------------
   protected onSurfaceClick(event: MouseEvent): void {
     const target = event.target as HTMLElement;
+    // Clic en la casilla de una tarea (la zona a la izquierda del texto).
+    if (target.tagName === 'LI' && target.parentElement?.getAttribute('data-type') === 'taskList' && !this.readonly() && !this.isDisabled()) {
+      const box = target.getBoundingClientRect();
+      if (event.clientX - box.left < 24) {
+        toggleTask(target);
+        this.emit();
+        return;
+      }
+    }
     if (target.tagName === 'IMG' && !this.readonly() && !this.isDisabled()) {
       this.selectedImage.set(target as HTMLImageElement);
       this.imageTick.update((n) => n + 1);
@@ -1649,7 +2078,9 @@ export class CbEditor implements ControlValueAccessor {
   }
 
   private textLength(el: HTMLElement): number {
-    return (el.textContent ?? '').replace(/​/g, '').length;
+    const text = (el.textContent ?? '').replace(/\u200b/g, '');
+    this.words.set(text.trim() ? text.trim().split(/\s+/).length : 0);
+    return text.length;
   }
 
   private remaining(): number | null {
@@ -1689,7 +2120,7 @@ export class CbEditor implements ControlValueAccessor {
     const root = this.surfaceRef()?.nativeElement ?? null;
     let cur: Node | null = node;
     while (cur && cur !== root) {
-      if (cur.nodeType === Node.ELEMENT_NODE && /^(P|DIV|H1|H2|H3|BLOCKQUOTE|PRE|LI)$/.test((cur as HTMLElement).tagName)) return cur as HTMLElement;
+      if (cur.nodeType === Node.ELEMENT_NODE && /^(P|DIV|H1|H2|H3|H4|BLOCKQUOTE|PRE|LI)$/.test((cur as HTMLElement).tagName)) return cur as HTMLElement;
       cur = cur.parentNode;
     }
     return root;
@@ -1720,11 +2151,16 @@ export class CbEditor implements ControlValueAccessor {
       orderedList: !!this.closest(sel.anchorNode, 'OL'),
       quote: !!this.closest(sel.anchorNode, 'BLOCKQUOTE'),
       codeBlock: !!this.closest(sel.anchorNode, 'PRE'),
+      subscript: query('subscript'),
+      superscript: query('superscript'),
+      taskList: !!taskListOf(sel.anchorNode, el),
+      alignJustify: query('justifyFull') || align === 'justify',
+      fontSize: fontSizeAt(sel.anchorNode, el),
       alignLeft: query('justifyLeft'),
       alignCenter: query('justifyCenter') || align === 'center',
       alignRight: query('justifyRight') || align === 'right',
       link: !!this.closest(sel.anchorNode, 'A'),
-      block: /^H[1-3]$/.test(blockTag) ? blockTag : 'P',
+      block: /^H[1-4]$/.test(blockTag) ? blockTag : 'P',
     });
     const cell = (this.closest(sel.anchorNode, 'TD') ?? this.closest(sel.anchorNode, 'TH')) as HTMLTableCellElement | null;
     this.tableCell.set(cell);

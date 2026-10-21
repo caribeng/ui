@@ -6,7 +6,16 @@
   background: var(--cb-color-surface);
   color: var(--cb-color-text);
   font-family: var(--cb-font-sans);
-  overflow: hidden;
+  /* clip (no hidden): recorta las esquinas sin crear un contenedor de scroll, así la barra puede ser sticky. */
+  overflow: clip;
+}
+
+/* Barra y paneles: fijos arriba al hacer scroll en la página */
+.cb-editor__header {
+  position: sticky;
+  top: var(--cb-editor-sticky-top, 0px);
+  z-index: 3;
+  background: var(--cb-color-surface);
 }
 
 .cb-editor__toolbar {
@@ -507,4 +516,179 @@
 .cb-editor__crop .cb-editor__link-actions {
   display: flex;
   flex-wrap: wrap;
+}
+
+/* Selector de tamaño de letra */
+.cb-editor__select--size {
+  width: 7.5rem;
+}
+
+/* Menús de la barra (color, resaltado, alineación) */
+.cb-editor__menu-wrap {
+  position: relative;
+  display: inline-flex;
+}
+.cb-editor__menu-trigger {
+  position: relative;
+  width: auto;
+  gap: 1px;
+  padding: 0 0.25rem;
+}
+.cb-editor__color-bar {
+  position: absolute;
+  left: 0.35rem;
+  right: 1rem;
+  bottom: 0.2rem;
+  height: 3px;
+  border-radius: 1px;
+}
+.cb-editor__caret {
+  opacity: 0.7;
+}
+.cb-editor__menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  z-index: 10;
+  display: grid;
+  gap: 2px;
+  min-width: 12rem;
+  padding: 0.35rem;
+  border: 1px solid var(--cb-color-border);
+  border-radius: var(--cb-radius-md);
+  background: var(--cb-color-surface-raised, var(--cb-color-surface));
+  box-shadow: var(--cb-shadow-md, 0 8px 24px rgb(0 0 0 / 0.12));
+}
+.cb-editor__menu-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.4rem 0.5rem;
+  border: none;
+  border-radius: var(--cb-radius-sm);
+  background: transparent;
+  color: var(--cb-color-text);
+  font: inherit;
+  font-size: var(--cb-text-sm);
+  text-align: left;
+  cursor: pointer;
+}
+.cb-editor__menu-item:hover,
+.cb-editor__menu-item:focus-visible {
+  background: var(--cb-color-surface-hover);
+  outline: none;
+}
+.cb-editor__menu-item:focus-visible {
+  box-shadow: inset 0 0 0 2px var(--cb-color-focus-ring);
+}
+.cb-editor__menu-item[aria-checked='true'] {
+  font-weight: var(--cb-font-weight-semibold, 600);
+  color: var(--cb-color-primary-700);
+}
+.cb-editor__kbd {
+  margin-left: auto;
+  font-family: var(--cb-font-sans);
+  font-size: var(--cb-text-xs);
+  color: var(--cb-color-text-muted);
+}
+.cb-editor__swatches {
+  display: grid;
+  grid-template-columns: repeat(5, 1.6rem);
+  gap: 0.35rem;
+  padding: 0.25rem;
+}
+.cb-editor__swatch {
+  width: 1.6rem;
+  height: 1.6rem;
+  padding: 0;
+  border: 1px solid rgb(0 0 0 / 0.15);
+  border-radius: var(--cb-radius-sm);
+  cursor: pointer;
+}
+.cb-editor__swatch:hover {
+  transform: scale(1.1);
+}
+.cb-editor__swatch:focus-visible {
+  outline: 2px solid var(--cb-color-focus-ring);
+  outline-offset: 2px;
+}
+.cb-editor__swatch--none {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  background: linear-gradient(135deg, transparent 45%, var(--cb-color-danger-500) 45% 55%, transparent 55%), var(--cb-color-surface);
+}
+
+/* Área de texto: se puede estirar desde la esquina */
+.cb-editor__surface {
+  resize: vertical;
+}
+:host(.cb-is-readonly) .cb-editor__surface {
+  resize: none;
+}
+
+/* Pantalla completa */
+:host(.cb-is-fullscreen) {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  border-radius: 0;
+}
+:host(.cb-is-fullscreen) .cb-editor__body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+:host(.cb-is-fullscreen) .cb-editor__surface {
+  flex: 1;
+  resize: none;
+  max-width: 60rem;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* Contenido: título 4, sangría y lista de tareas */
+.cb-editor__surface h4 {
+  margin: 0.75rem 0 0.35rem;
+  font-size: 1rem;
+}
+.cb-editor__surface ul[data-type='taskList'] {
+  padding-left: 0.25rem;
+  list-style: none;
+}
+.cb-editor__surface ul[data-type='taskList'] > li {
+  position: relative;
+  padding-left: 1.75rem;
+}
+.cb-editor__surface ul[data-type='taskList'] > li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.3em;
+  box-sizing: border-box;
+  width: 1.05rem;
+  height: 1.05rem;
+  border: 1.5px solid var(--cb-color-border-strong, var(--cb-color-border));
+  border-radius: 3px;
+  background: var(--cb-color-surface);
+  cursor: pointer;
+}
+.cb-editor__surface ul[data-type='taskList'] > li[data-checked='true']::before {
+  content: '✓';
+  display: grid;
+  place-items: center;
+  border-color: var(--cb-color-primary-600);
+  background: var(--cb-color-primary-600);
+  color: var(--cb-color-primary-contrast, #fff);
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1;
+}
+.cb-editor__surface ul[data-type='taskList'] > li[data-checked='true'] {
+  color: var(--cb-color-text-muted);
+  text-decoration: line-through;
 }

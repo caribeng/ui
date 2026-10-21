@@ -34,7 +34,8 @@ describe('cbSanitizeHtml', () => {
   it('normaliza etiquetas equivalentes y agrupa el texto suelto en párrafos', () => {
     expect(cbSanitizeHtml('<b>uno</b> <i>dos</i> <strike>tres</strike>')).toBe('<p><strong>uno</strong> <em>dos</em> <s>tres</s></p>');
     expect(cbSanitizeHtml('<div>uno</div><div>dos</div>')).toBe('<p>uno</p><p>dos</p>');
-    expect(cbSanitizeHtml('<h5>Sub</h5>')).toBe('<h3>Sub</h3>');
+    expect(cbSanitizeHtml('<h5>Sub</h5>')).toBe('<h4>Sub</h4>');
+    expect(cbSanitizeHtml('<h4>Cuatro</h4>')).toBe('<h4>Cuatro</h4>');
     expect(cbSanitizeHtml('<ul><li>a</li><li>b</li></ul>')).toBe('<ul><li>a</li><li>b</li></ul>');
   });
 
@@ -135,5 +136,34 @@ describe('código, tablas e imágenes', () => {
     );
     expect(readImageStyle(imageStyle('320px', 'center'))).toEqual({ width: '320px', align: 'center' });
     expect(readImageStyle('width: calc(100% - 1px); float: none')).toEqual({ width: null, align: null });
+  });
+});
+
+describe('color, tamaño, sangría y tareas', () => {
+  it('conserva el color, el resaltado y el tamaño en un <span> (y nada más)', () => {
+    expect(cbSanitizeHtml('<p><span style="color: #dc2626; position: absolute">rojo</span></p>')).toBe('<p><span style="color: #dc2626">rojo</span></p>');
+    expect(cbSanitizeHtml('<p><span style="background-color: rgb(254, 240, 138)">marcado</span></p>')).toBe(
+      '<p><span style="background-color: rgb(254, 240, 138)">marcado</span></p>',
+    );
+    expect(cbSanitizeHtml('<p><span style="background-color: transparent">x</span></p>')).toBe('<p>x</p>');
+    expect(cbSanitizeHtml('<p><span style="color: url(x)">x</span></p>')).toBe('<p>x</p>');
+    // <font> de execCommand: color y tamaño 1–7 → tamaños relativos.
+    expect(cbSanitizeHtml('<p><font color="#2563eb" size="6">grande</font></p>')).toBe('<p><span style="color: #2563eb; font-size: 1.5em">grande</span></p>');
+    expect(cbSanitizeHtml('<p><span style="font-size: x-large">a</span><span style="font-size: 37px">b</span></p>')).toBe(
+      '<p><span style="font-size: 1.5em">a</span>b</p>',
+    );
+  });
+
+  it('la sangría de los bloques va en pasos de 2rem (hasta 10rem)', () => {
+    expect(cbSanitizeHtml('<p style="margin-left: 4rem; text-align: center">a</p>')).toBe('<p style="text-align: center; margin-left: 4rem">a</p>');
+    expect(cbSanitizeHtml('<p style="margin-left: 40rem">a</p>')).toBe('<p style="margin-left: 10rem">a</p>');
+    expect(cbSanitizeHtml('<p style="margin-left: 30px">a</p>')).toBe('<p>a</p>');
+  });
+
+  it('lista de tareas: data-type y data-checked válidos; cada tarea lleva su estado', () => {
+    expect(cbSanitizeHtml('<ul data-type="taskList"><li data-checked="true">Hecho</li><li>Pendiente</li></ul>')).toBe(
+      '<ul data-type="taskList"><li data-checked="true">Hecho</li><li data-checked="false">Pendiente</li></ul>',
+    );
+    expect(cbSanitizeHtml('<ul data-type="evil"><li data-checked="x">a</li></ul>')).toBe('<ul><li>a</li></ul>');
   });
 });

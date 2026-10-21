@@ -20,11 +20,12 @@ const ALLOWED: Record<string, readonly string[]> = {
   h1: ['style'],
   h2: ['style'],
   h3: ['style'],
+  h4: ['style'],
   blockquote: ['style'],
   pre: ['style', 'data-language'],
-  ul: [],
+  ul: ['data-type'],
   ol: ['start'],
-  li: ['style'],
+  li: ['style', 'data-checked'],
   hr: [],
   br: [],
   strong: [],
@@ -54,9 +55,8 @@ const RENAME: Record<string, string> = {
   del: 's',
   ins: 'u',
   div: 'p',
-  h4: 'h3',
-  h5: 'h3',
-  h6: 'h3',
+  h5: 'h4',
+  h6: 'h4',
 };
 
 /** Etiquetas que se eliminan con todo su contenido. */
@@ -66,7 +66,7 @@ const DROP = new Set([
   'colgroup', 'col',
 ]);
 
-const BLOCKS = new Set(['p', 'h1', 'h2', 'h3', 'blockquote', 'pre', 'ul', 'ol', 'hr', 'table']);
+const BLOCKS = new Set(['p', 'h1', 'h2', 'h3', 'h4', 'blockquote', 'pre', 'ul', 'ol', 'hr', 'table']);
 const ALIGN = new Set(['left', 'center', 'right', 'justify']);
 const TABLE_PARTS = new Set(['thead', 'tbody', 'tfoot', 'tr', 'th', 'td', 'caption']);
 const INLINE = new Set(['strong', 'em', 'u', 's', 'code', 'sub', 'sup']);
@@ -90,8 +90,49 @@ export function isSafeImageSrc(src: string): boolean {
 /** Color CSS sin funciones peligrosas: #hex, rgb(), rgba(), hsl(), hsla() o un nombre. */
 function safeColor(value: string | undefined): string | null {
   const v = value?.trim();
-  if (!v) return null;
+  if (!v || /^(transparent|inherit|initial|unset|revert|currentcolor|none|auto)$/i.test(v)) return null;
   return /^(#[0-9a-f]{3,8}|rgba?\([\d\s.,%/]+\)|hsla?\([\d\s.,%/deg]+\)|[a-z]{3,20})$/i.test(v) ? v : null;
+}
+
+/** Tamaños de letra que produce el editor (relativos, para que escalen con el texto). */
+export const CB_FONT_SIZES = ['0.75em', '0.875em', '1.25em', '1.5em', '2em'] as const;
+
+/** Tamaño de letra normalizado a uno de `CB_FONT_SIZES` (acepta palabras clave y `<font size>`). */
+function safeFontSize(value: string | null | undefined): string | null {
+  const v = value?.trim().toLowerCase();
+  if (!v) return null;
+  const keywords: Record<string, string> = {
+    'xx-small': '0.75em',
+    'x-small': '0.75em',
+    small: '0.875em',
+    smaller: '0.875em',
+    large: '1.25em',
+    larger: '1.25em',
+    'x-large': '1.5em',
+    'xx-large': '2em',
+    'xxx-large': '2em',
+    '1': '0.75em',
+    '2': '0.875em',
+    '4': '1.25em',
+    '5': '1.25em',
+    '6': '1.5em',
+    '7': '2em',
+  };
+  if (keywords[v]) return keywords[v];
+  return (CB_FONT_SIZES as readonly string[]).includes(v) ? v : null;
+}
+
+/** Estilo de un bloque: alineación y sangría (en múltiplos de 2rem, hasta 10rem). */
+function blockStyle(style: string): string {
+  const parts: string[] = [];
+  const align = styleProp(style, 'text-align')?.toLowerCase();
+  if (align && ALIGN.has(align) && align !== 'left') parts.push(`text-align: ${align}`);
+  const indent = /^(\d{1,2}(\.\d+)?)rem$/.exec(styleProp(style, 'margin-left') ?? '');
+  if (indent) {
+    const steps = Math.min(5, Math.max(0, Math.round(Number(indent[1]) / 2)));
+    if (steps) parts.push(`margin-left: ${steps * 2}rem`);
+  }
+  return parts.join('; ');
 }
 
 /** Lee una declaración de un atributo `style` (`prop: valor`). */
@@ -291,7 +332,20 @@ function appendClean(parent: HTMLElement, node: Node, images: boolean): void {
       target.append(el);
       target = el;
     }
+    // Color de texto, resaltado y tamaño de letra (lo único que guarda un <span>).
+    const inline = [
+      ['color', safeColor(styleProp(style, 'color') ?? source.getAttribute('color') ?? undefined)],
+      ['background-color', safeColor(styleProp(style, 'background-color') ?? styleProp(style, 'background'))],
+      ['font-size', safeFontSize(styleProp(style, 'font-size') ?? (tag === 'font' ? source.getAttribute('size') : null))],
+    ].filter((d): d is [string, string] => !!d[1]);
+    if (inline.length) {
+      const span = document.createElement('span');
+      span.setAttribute('style', inline.map(([k, v]) => `${k}: ${v}`).join('; '));
+      target.append(span);
+      target = span;
+    }
     for (const child of Array.from(source.childNodes)) appendClean(target, child, images);
+    if (target !== parent && !target.textContent && !target.querySelector('img, br')) target.remove();
     return;
   }
   tag = RENAME[tag] ?? tag;
@@ -328,8 +382,8 @@ function appendClean(parent: HTMLElement, node: Node, images: boolean): void {
         const css = cellStyle(value);
         if (css) el.setAttribute('style', css);
       } else {
-        const align = /text-align\s*:\s*(\w+)/i.exec(value)?.[1]?.toLowerCase();
-        if (align && ALIGN.has(align) && align !== 'left') el.setAttribute('style', `text-align: ${align}`);
+        const css = blockStyle(value);
+        if (css) el.setAttribute('style', css);
       }
     } else if (name === 'href') {
       if (isSafeUrl(value)) el.setAttribute('href', value.trim());
@@ -339,6 +393,10 @@ function appendClean(parent: HTMLElement, node: Node, images: boolean): void {
       if (value === '_blank') el.setAttribute('target', '_blank');
     } else if (name === 'width' || name === 'height' || name === 'start' || name === 'colspan' || name === 'rowspan') {
       if (/^\d{1,4}$/.test(value) && Number(value) > 0) el.setAttribute(name, value);
+    } else if (name === 'data-type') {
+      if (value === 'taskList') el.setAttribute('data-type', 'taskList');
+    } else if (name === 'data-checked') {
+      if (value === 'true' || value === 'false') el.setAttribute('data-checked', value);
     } else if (name === 'scope') {
       if (/^(col|row|colgroup|rowgroup)$/.test(value)) el.setAttribute('scope', value);
     } else if (name !== 'rel') {
@@ -376,6 +434,8 @@ function appendClean(parent: HTMLElement, node: Node, images: boolean): void {
   parent.append(el);
   for (const child of Array.from(source.childNodes)) appendClean(el, child, images);
   if (tag === 'table') normalizeTable(el);
+  if (tag === 'li' && parent.getAttribute('data-type') === 'taskList' && !el.hasAttribute('data-checked')) el.setAttribute('data-checked', 'false');
+  if (tag === 'li' && parent.getAttribute('data-type') !== 'taskList') el.removeAttribute('data-checked');
 }
 
 /**
@@ -478,7 +538,7 @@ function wrapInlineRuns(root: HTMLElement): void {
 
 /** Bloques sin texto ni imagen (p. ej. `<p><br></p>` al final) se quitan, salvo `<hr>` y celdas. */
 function removeEmptyBlocks(root: HTMLElement): void {
-  for (const block of Array.from(root.querySelectorAll('p, h1, h2, h3, blockquote, li, pre, strong, em, u, s, code, caption'))) {
+  for (const block of Array.from(root.querySelectorAll('p, h1, h2, h3, h4, blockquote, li, pre, strong, em, u, s, code, caption, span'))) {
     if (block.closest('pre') && block.tagName !== 'PRE') continue;
     if (!block.textContent?.replace(/ /g, ' ').trim() && !block.querySelector('img, hr, table')) {
       // Un párrafo vacío entre otros es un salto de línea intencionado: se conserva con <br>.

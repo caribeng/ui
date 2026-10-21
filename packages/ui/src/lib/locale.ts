@@ -384,6 +384,37 @@ export interface CbTranslation {
   cropFree: string;
   cropInstructions: string;
   cropError: string;
+  exitFullscreen: string;
+  heading4: string;
+  fontSize: string;
+  fontTiny: string;
+  fontSmall: string;
+  fontNormal: string;
+  fontLarge: string;
+  fontXLarge: string;
+  fontHuge: string;
+  textColor: string;
+  highlight: string;
+  automaticColor: string;
+  noHighlight: string;
+  colorBlack: string;
+  colorRed: string;
+  colorOrange: string;
+  colorYellow: string;
+  colorTeal: string;
+  colorPurple: string;
+  colorPink: string;
+  subscript: string;
+  superscript: string;
+  taskList: string;
+  indent: string;
+  outdent: string;
+  alignJustify: string;
+  alignment: string;
+  wordCount: string;
+  /** Singular de `wordCount`. */
+  wordCountOne: string;
+  charCount: string;
 }
 
 /** Español (idioma por defecto). */
@@ -707,6 +738,36 @@ export const CB_LOCALE_ES: CbTranslation = {
   cropFree: 'Libre',
   cropInstructions: 'Arrastra el recuadro o sus esquinas. Con el teclado: flechas para mover, Mayús + flechas para cambiar el tamaño.',
   cropError: 'No se pudo recortar la imagen. Si viene de otro dominio, su servidor debe permitir CORS.',
+  exitFullscreen: 'Salir de pantalla completa',
+  heading4: 'Título 4',
+  fontSize: 'Tamaño de letra',
+  fontTiny: 'Muy pequeño',
+  fontSmall: 'Pequeño',
+  fontNormal: 'Normal',
+  fontLarge: 'Grande',
+  fontXLarge: 'Muy grande',
+  fontHuge: 'Enorme',
+  textColor: 'Color del texto',
+  highlight: 'Resaltado',
+  automaticColor: 'Automático',
+  noHighlight: 'Sin resaltado',
+  colorBlack: 'Negro',
+  colorRed: 'Rojo',
+  colorOrange: 'Naranja',
+  colorYellow: 'Amarillo',
+  colorTeal: 'Turquesa',
+  colorPurple: 'Morado',
+  colorPink: 'Rosa',
+  subscript: 'Subíndice',
+  superscript: 'Superíndice',
+  taskList: 'Lista de tareas',
+  indent: 'Aumentar sangría',
+  outdent: 'Reducir sangría',
+  alignJustify: 'Justificar',
+  alignment: 'Alineación',
+  wordCount: '{0} palabras',
+  wordCountOne: '{0} palabra',
+  charCount: '{0} caracteres',
 };
 
 /** Inglés. */
@@ -1030,6 +1091,36 @@ export const CB_LOCALE_EN: CbTranslation = {
   cropFree: 'Free',
   cropInstructions: 'Drag the box or its corners. With the keyboard: arrows to move, Shift + arrows to resize.',
   cropError: 'The image could not be cropped. If it comes from another domain, its server must allow CORS.',
+  exitFullscreen: 'Exit full screen',
+  heading4: 'Heading 4',
+  fontSize: 'Font size',
+  fontTiny: 'Tiny',
+  fontSmall: 'Small',
+  fontNormal: 'Normal',
+  fontLarge: 'Large',
+  fontXLarge: 'Extra large',
+  fontHuge: 'Huge',
+  textColor: 'Text color',
+  highlight: 'Highlight',
+  automaticColor: 'Automatic',
+  noHighlight: 'No highlight',
+  colorBlack: 'Black',
+  colorRed: 'Red',
+  colorOrange: 'Orange',
+  colorYellow: 'Yellow',
+  colorTeal: 'Teal',
+  colorPurple: 'Purple',
+  colorPink: 'Pink',
+  subscript: 'Subscript',
+  superscript: 'Superscript',
+  taskList: 'Task list',
+  indent: 'Increase indent',
+  outdent: 'Decrease indent',
+  alignJustify: 'Justify',
+  alignment: 'Alignment',
+  wordCount: '{0} words',
+  wordCountOne: '{0} word',
+  charCount: '{0} characters',
 };
 
 /** Idiomas incluidos. */

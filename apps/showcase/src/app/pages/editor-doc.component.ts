@@ -39,6 +39,29 @@ import { I18nService } from '../services/i18n.service';
     </doc-section>
 
     <doc-section
+      id="formatting"
+      title="Formato completo y atajos"
+      description="La barra agrupa: deshacer y rehacer; párrafo o título 1–4 y tamaño de letra; negrita, cursiva, subrayado y tachado; color de texto y resaltado (menús con paleta); listas con viñetas, numeradas y de tareas, sangría y alineación (menú); enlace, imagen, tabla, bloque de código, cita y línea; subíndice, superíndice, código y limpiar formato; vista de HTML y pantalla completa. La barra queda fija arriba al hacer scroll y cada botón muestra su atajo. El área mide 320 px y se puede estirar desde la esquina; maxHeight la limita y hace scroll."
+      [code]="formattingCode"
+    >
+      <div style="display: grid; gap: 1rem; width: 100%">
+        <cb-editor [(value)]="formato" maxHeight="560px" />
+        <div class="ed-keys">
+          <table>
+            <thead>
+              <tr><th>{{ i18n.t('Atajo', 'Shortcut') }}</th><th>{{ i18n.t('Acción', 'Action') }}</th></tr>
+            </thead>
+            <tbody>
+              @for (row of atajos; track row.keys) {
+                <tr><td><kbd>{{ row.keys }}</kbd></td><td>{{ i18n.auto(row.action) }}</td></tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </doc-section>
+
+    <doc-section
       id="security"
       title="Contenido no confiable"
       description="Este valor trae un script, un evento onerror y un enlace javascript:. El editor los descarta al cargar: solo pinta lo seguro. Lo mismo pasa al pegar y en la vista de HTML."
@@ -135,6 +158,30 @@ import { I18nService } from '../services/i18n.service';
     <doc-playground [api]="docApi" />
   `,
   styles: `
+    .ed-keys {
+      max-width: 640px;
+      overflow-x: auto;
+    }
+    .ed-keys table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.875rem;
+    }
+    .ed-keys th,
+    .ed-keys td {
+      padding: 0.4rem 0.75rem;
+      text-align: left;
+      border-bottom: 1px solid var(--cb-color-border);
+    }
+    .ed-keys th {
+      font-weight: 600;
+      color: var(--cb-color-text-muted);
+    }
+    .ed-keys kbd {
+      font-family: var(--cb-font-mono, monospace);
+      font-size: 0.8rem;
+      white-space: nowrap;
+    }
     .ed-output {
       margin: 0;
       padding: 0.75rem 1rem;
@@ -186,6 +233,32 @@ export class EditorDocComponent {
       '  <span style="color: #dcdcaa">avisar</span>(<span style="color: #ce9178">\'Saldo negativo\'</span>);\n' +
       '}</code></pre>',
   );
+  protected readonly formato = signal(
+    '<h2>Acta de comité</h2><p>Se revisaron las <span style="color: #2563eb">tasas</span> y los <span style="background-color: #fef08a">plazos pendientes</span>. ' +
+      'La fórmula del interés es I = C · r<sup>t</sup>; el CO<sub>2</sub> no aplica.</p>' +
+      '<p style="margin-left: 2rem">Párrafo con sangría.</p>' +
+      '<ul data-type="taskList"><li data-checked="true">Aprobar el presupuesto</li><li data-checked="false">Enviar el acta a los socios</li></ul>' +
+      '<p style="text-align: justify"><span style="font-size: 1.25em">Texto justificado y más grande</span> para comprobar la alineación de un párrafo largo dentro del editor.</p>',
+  );
+  protected readonly atajos = [
+    { keys: 'Ctrl + B / I / U', action: 'Negrita, cursiva, subrayado' },
+    { keys: 'Ctrl + Shift + X', action: 'Tachado' },
+    { keys: 'Ctrl + E', action: 'Código en línea' },
+    { keys: 'Ctrl + . / Ctrl + ,', action: 'Superíndice / subíndice' },
+    { keys: 'Ctrl + Alt + 0–4', action: 'Párrafo / título 1–4' },
+    { keys: 'Ctrl + Shift + 7 / 8 / 9', action: 'Lista numerada / con viñetas / de tareas' },
+    { keys: 'Ctrl + Enter', action: 'Marcar o desmarcar la tarea' },
+    { keys: 'Ctrl + ] / Ctrl + [', action: 'Aumentar / reducir sangría' },
+    { keys: 'Ctrl + Shift + L / E / R / J', action: 'Alinear a la izquierda / centrar / a la derecha / justificar' },
+    { keys: 'Ctrl + Shift + B', action: 'Cita' },
+    { keys: 'Ctrl + Alt + C', action: 'Bloque de código' },
+    { keys: 'Ctrl + K', action: 'Enlace' },
+    { keys: 'Ctrl + \\', action: 'Limpiar formato' },
+    { keys: 'Ctrl + Z / Ctrl + Y', action: 'Deshacer / rehacer' },
+    { keys: '# , ## , ### , #### + Espacio', action: 'Título 1–4 al inicio de un párrafo' },
+    { keys: '* , - , 1. , [ ] , > + Espacio', action: 'Lista, lista numerada, tareas o cita' },
+    { keys: 'Escape', action: 'Salir de pantalla completa' },
+  ];
   protected readonly comentario = new FormControl('', [Validators.required]);
   protected readonly barraCorta: CbEditorTool[] = ['bold', 'italic', 'underline', '|', 'bulletList', 'orderedList', '|', 'link'];
 
@@ -228,12 +301,18 @@ export class EditorDocComponent {
 <pre data-language="typescript" style="color: #cccccc; background-color: #1f1f1f"><code>
 <span style="color: #569cd6">const</span> saldo = ...
 </code></pre>`;
+  protected readonly formattingCode = `<cb-editor [(value)]="acta" maxHeight="560px" />
+
+<!-- Alto mínimo (height, 320px por defecto), alto máximo con scroll (maxHeight),
+     contador de palabras (wordCount) y barra a medida (toolbar). -->`;
   protected readonly limitsCode = `<cb-editor [formControl]="comentario" [maxLength]="280" />`;
   protected readonly limitsTs = `comentario = new FormControl('', [Validators.required]);`;
   protected readonly toolbarCode = `<cb-editor [toolbar]="barraCorta" height="120px" />`;
   protected readonly toolbarTs = `barraCorta: CbEditorTool[] = ['bold', 'italic', 'underline', '|', 'bulletList', 'orderedList', '|', 'link'];
 
-// Todas: heading, bold, italic, underline, strike, code, bulletList, orderedList, quote, codeBlock,
-// alignLeft, alignCenter, alignRight, link, image, table, horizontalRule, clear, undo, redo, source`;
+// Todas: undo, redo, heading, fontSize, bold, italic, underline, strike, textColor, highlight,
+// bulletList, orderedList, taskList, outdent, indent, alignment (o alignLeft / alignCenter /
+// alignRight / alignJustify sueltos), link, image, table, codeBlock, quote, horizontalRule,
+// subscript, superscript, code, clear, source, fullscreen`;
   protected readonly readonlyCode = `<cb-editor [value]="contenidoGuardado" readonly />`;
 }

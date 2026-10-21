@@ -689,7 +689,9 @@ export const DOC_API: Record<string, DocApi> = {
     props: [
       { name: "placeholder", kind: "string", type: "string", default: undefined, localeKey: "editorPlaceholder", description: "" },
       { name: "ariaLabel", kind: "string", type: "string", default: undefined, localeKey: "textEditor", description: "Nombre accesible del área editable." },
-      { name: "height", kind: "string", type: "string", default: "180px", description: "" },
+      { name: "height", kind: "string", type: "string", default: "320px", description: "Alto mínimo del área de texto (se puede estirar desde la esquina)." },
+      { name: "maxHeight", kind: "string", type: "string", default: undefined, description: "Alto máximo: a partir de él, el área hace scroll." },
+      { name: "wordCount", kind: "boolean", type: "boolean", default: true, description: "Muestra palabras y caracteres al pie." },
       { name: "disabled", kind: "boolean", type: "boolean", default: false, description: "" },
       { name: "invalid", kind: "boolean", type: "boolean", default: false, description: "Marca visual y ARIA de estado inválido (también se activa con Angular Forms)." },
       { name: "required", kind: "boolean", type: "boolean", default: false, description: "Obligatorio (aria-required); con Angular Forms lo toma de Validators.required." },

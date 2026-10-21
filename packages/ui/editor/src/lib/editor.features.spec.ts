@@ -168,7 +168,7 @@ describe('CbEditor · HTML seguro, enlaces, pegar, límites y vistas', () => {
       });
       await settle();
       const count = el.querySelector('.cb-editor__count')!;
-      expect(count.textContent!.trim()).toBe('8 de 10 caracteres');
+      expect(count.textContent!.trim()).toBe('1 palabra · 8 de 10 caracteres');
       expect(surface().getAttribute('aria-describedby')).toBe(count.id);
       const blocked = new InputEvent('beforeinput', { inputType: 'insertText', data: 'abc', cancelable: true });
       surface().dispatchEvent(blocked);
