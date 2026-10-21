@@ -1,6 +1,20 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { CbButton } from '@caribeng/ui/button';
-import { CbChart, type CbChartBand, type CbChartData, type CbChartItemEvent, type CbChartType } from '@caribeng/ui/chart';
+import {
+  CbChart,
+  CbChartAxis,
+  CbChartBar,
+  CbChartCandlestick,
+  CbChartLine,
+  CbChartRangeArea,
+  CbChartReferenceBand,
+  CbChartReferenceLine,
+  CbChartScatter,
+  type CbChartBand,
+  type CbChartData,
+  type CbChartItemEvent,
+  type CbChartType,
+} from '@caribeng/ui/chart';
 import { DocPlaygroundComponent } from '../components/doc-playground.component';
 import { DOC_API } from '../components/doc-api-registry';
 import { DocA11yComponent } from '../components/doc-a11y.component';
@@ -9,11 +23,28 @@ import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
 import { TocService } from '../services/toc.service';
+import { I18nService } from '../services/i18n.service';
 
 @Component({
   selector: 'cb-chart-doc',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbChart, CbButton, DocA11yComponent, DocPlaygroundComponent, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
+  imports: [
+    CbChart,
+    CbChartAxis,
+    CbChartBar,
+    CbChartCandlestick,
+    CbChartLine,
+    CbChartRangeArea,
+    CbChartReferenceBand,
+    CbChartReferenceLine,
+    CbChartScatter,
+    CbButton,
+    DocA11yComponent,
+    DocPlaygroundComponent,
+    DocSectionComponent,
+    CodeBlockComponent,
+    DocPageHeaderComponent,
+  ],
   template: `
     <doc-page-header
       eyebrow="Datos"
@@ -151,6 +182,97 @@ import { TocService } from '../services/toc.service';
     </doc-section>
 
     <doc-section
+      id="composable"
+      title="Modo composable"
+      description="Con series hijas, data es un array de registros y cada serie elige sus campos (x, y…). Se combinan tipos, cada serie va al eje izquierdo o derecho y se añaden ejes y referencias con sus propias etiquetas."
+      [code]="composableCode"
+      [codeTs]="composableTs"
+    >
+      <div class="chart-demo chart-demo--wide">
+        <cb-chart [data]="resultados" [height]="280" [valueFormat]="millones" ariaLabel="Ingresos y margen por mes">
+          <cb-chart-bar x="mes" y="ingresos" name="Ingresos" />
+          <cb-chart-line x="mes" y="margen" name="Margen" axis="right" curve="smooth" />
+          <cb-chart-axis position="right" label="Margen" [format]="{ style: 'percent' }" />
+          <cb-chart-axis position="left" label="Ingresos" />
+          <cb-chart-reference-line [value]="900" label="Meta de ingresos" />
+        </cb-chart>
+      </div>
+    </doc-section>
+
+    <doc-section
+      id="financial"
+      title="Velas, eje de tiempo y zoom"
+      description="cb-chart-candlestick lee apertura, máximo, mínimo y cierre; con fechas en x el eje es de tiempo. zoom permite acercar con la rueda o con + y −, desplazarse arrastrando y volver con doble clic, 0 o el botón."
+      [code]="financialCode"
+      [codeTs]="financialTs"
+    >
+      <div class="chart-demo chart-demo--wide">
+        <cb-chart [data]="velas" [height]="300" zoom [valueFormat]="{ style: 'currency', currency: 'USD' }" ariaLabel="Precio de PRIM/USD por minuto">
+          <cb-chart-candlestick x="ts" name="PRIM/USD" />
+          <cb-chart-line x="ts" y="media" name="Media móvil" curve="smooth" [points]="false" color="var(--cb-color-info-500)" />
+          <cb-chart-axis position="right" />
+          <cb-chart-reference-band axis="right" [from]="rangoObjetivo[0]" [to]="rangoObjetivo[1]" label="Rango objetivo" />
+        </cb-chart>
+      </div>
+    </doc-section>
+
+    <doc-section
+      id="forecast"
+      title="Rangos y proyecciones"
+      description="cb-chart-range-area dibuja una banda entre low y high (un intervalo de confianza, un mínimo y máximo); dashed marca una proyección y points en false quita los puntos."
+      [code]="forecastCode"
+      [codeTs]="forecastTs"
+    >
+      <div class="chart-demo chart-demo--wide">
+        <cb-chart [data]="pronostico" [height]="260" ariaLabel="Saldo real y proyectado">
+          <cb-chart-range-area x="mes" low="min" high="max" name="Rango esperado" curve="smooth" />
+          <cb-chart-line x="mes" y="real" name="Saldo real" />
+          <cb-chart-line x="mes" y="proyeccion" name="Proyección" dashed [points]="false" curve="smooth" />
+          <cb-chart-reference-line axis="x" value="Jul" label="Hoy" />
+        </cb-chart>
+      </div>
+    </doc-section>
+
+    <doc-section
+      id="scatter"
+      title="Dispersión"
+      description="Con números en x el eje es lineal. Cada punto es un elemento: el teclado los recorre de izquierda a derecha y anuncia sus dos valores."
+      [code]="scatterCode"
+      [codeTs]="scatterTs"
+    >
+      <div class="chart-demo chart-demo--wide">
+        <cb-chart [data]="clientes" [height]="260" ariaLabel="Saldo promedio según la edad">
+          <cb-chart-scatter x="edad" y="saldo" name="Personas" />
+          <cb-chart-scatter x="edad" y="saldoEmpresa" name="Empresas" [size]="6" />
+          <cb-chart-axis position="bottom" label="Edad" />
+          <cb-chart-axis position="left" label="Saldo (M)" />
+        </cb-chart>
+      </div>
+    </doc-section>
+
+    <doc-section
+      id="parts"
+      title="Piezas del modo composable"
+      description="Todas las series aceptan name, x, color, axis (left o right) y data (sus propios registros). Se importan desde @caribeng/ui/chart junto a CbChart."
+    >
+      <div class="chart-parts">
+        <table>
+          <thead>
+            <tr><th>{{ i18n.t('Pieza', 'Part') }}</th><th>{{ i18n.t('Inputs propios', 'Own inputs') }}</th></tr>
+          </thead>
+          <tbody>
+            @for (part of piezas; track part.tag) {
+              <tr>
+                <td><code>{{ part.tag }}</code></td>
+                <td>{{ part.inputs }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </doc-section>
+
+    <doc-section
       id="sparkline"
       title="Sparkline"
       description="sparkline quita ejes, rejilla, leyenda y tarjeta: un minigráfico para tarjetas de resumen o celdas de tabla."
@@ -198,6 +320,26 @@ import { TocService } from '../services/toc.service';
       .chart-demo--wide {
         max-width: 760px;
       }
+      .chart-parts {
+        width: 100%;
+        overflow-x: auto;
+      }
+      .chart-parts table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.875rem;
+      }
+      .chart-parts th,
+      .chart-parts td {
+        padding: 0.5rem 0.75rem;
+        text-align: left;
+        vertical-align: top;
+        border-bottom: 1px solid var(--cb-color-border);
+      }
+      .chart-parts th {
+        font-weight: 600;
+        color: var(--cb-color-text-muted);
+      }
       .chart-demo--grid3 {
         max-width: none;
         grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -231,6 +373,7 @@ import { TocService } from '../services/toc.service';
   ],
 })
 export class ChartDocComponent {
+  protected readonly i18n = inject(I18nService);
   protected readonly docApi = DOC_API['cb-chart'];
   protected readonly a11y = DOC_A11Y['cb-chart'];
 
@@ -358,6 +501,116 @@ umbrales: CbChartBand[] = [
   labels: ['Tecnología', 'Operaciones', 'Mercadeo', 'Talento humano', 'Riesgo', 'Jurídica', 'Otros'],
   datasets: [{ label: 'Presupuesto', data: [1850, 1320, 760, 640, 410, 230, 140] }],
 };`;
+
+  protected readonly resultados = [
+    { mes: 'Ene', ingresos: 720, margen: 0.16 },
+    { mes: 'Feb', ingresos: 810, margen: 0.18 },
+    { mes: 'Mar', ingresos: 760, margen: 0.17 },
+    { mes: 'Abr', ingresos: 930, margen: 0.21 },
+    { mes: 'May', ingresos: 980, margen: 0.23 },
+    { mes: 'Jun', ingresos: 890, margen: 0.2 },
+  ];
+
+  /** 90 minutos de precios simulados (deterministas, para que la demo no cambie). */
+  protected readonly velas = (() => {
+    const start = new Date(2026, 9, 21, 9, 30).getTime();
+    let seed = 7;
+    const rand = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
+    let close = 178;
+    const result: { ts: Date; open: number; high: number; low: number; close: number; media: number }[] = [];
+    for (let i = 0; i < 90; i++) {
+      const open = close;
+      close = Math.round((open + (rand() - 0.48) * 2.4) * 100) / 100;
+      const high = Math.round((Math.max(open, close) + rand() * 1.2) * 100) / 100;
+      const low = Math.round((Math.min(open, close) - rand() * 1.2) * 100) / 100;
+      const window = result.slice(-9).map((r) => r.close).concat(close);
+      const media = Math.round((window.reduce((a, b) => a + b, 0) / window.length) * 100) / 100;
+      result.push({ ts: new Date(start + i * 60_000), open, high, low, close, media });
+    }
+    return result;
+  })();
+  protected readonly rangoObjetivo = [177, 179] as const;
+
+  protected readonly pronostico = [
+    { mes: 'Ene', real: 12.4, min: 11.8, max: 13 },
+    { mes: 'Feb', real: 13.1, min: 12.2, max: 13.8 },
+    { mes: 'Mar', real: 12.8, min: 12.1, max: 13.9 },
+    { mes: 'Abr', real: 14.2, min: 13, max: 14.9 },
+    { mes: 'May', real: 14.9, min: 13.8, max: 15.6 },
+    { mes: 'Jun', real: 15.3, min: 14.2, max: 16.4 },
+    { mes: 'Jul', real: 15.8, proyeccion: 15.8, min: 14.6, max: 17 },
+    { mes: 'Ago', proyeccion: 16.4, min: 14.9, max: 18 },
+    { mes: 'Sep', proyeccion: 17.1, min: 15.2, max: 19.1 },
+    { mes: 'Oct', proyeccion: 17.6, min: 15.4, max: 20.2 },
+  ];
+
+  protected readonly clientes = Array.from({ length: 40 }, (_, i) => {
+    const edad = 20 + ((i * 37) % 45);
+    const base = 2 + edad * 0.18 + ((i * 53) % 17) / 4;
+    return i % 4 === 0 ? { edad, saldoEmpresa: Math.round(base * 2.4 * 10) / 10 } : { edad, saldo: Math.round(base * 10) / 10 };
+  });
+
+  protected readonly piezas = [
+    { tag: '<cb-chart-bar>', inputs: 'y, stack' },
+    { tag: '<cb-chart-line>', inputs: "y, curve ('linear' | 'smooth' | 'step'), dashed, points" },
+    { tag: '<cb-chart-area>', inputs: 'y, curve, stack' },
+    { tag: '<cb-chart-scatter>', inputs: 'y, size' },
+    { tag: '<cb-chart-range-area>', inputs: 'low, high, curve' },
+    { tag: '<cb-chart-candlestick>', inputs: "open, high, low, close, variant ('candle' | 'ohlc'), upColor, downColor" },
+    { tag: '<cb-chart-axis>', inputs: "position ('bottom' | 'left' | 'right'), type ('auto' | 'category' | 'linear' | 'time'), min, max, label, format, grid" },
+    { tag: '<cb-chart-reference-line>', inputs: "value, axis ('left' | 'right' | 'x'), label, color" },
+    { tag: '<cb-chart-reference-band>', inputs: 'from, to, axis, label, color' },
+  ];
+
+  protected readonly composableCode = `<cb-chart [data]="resultados" [valueFormat]="millones" ariaLabel="Ingresos y margen por mes">
+  <cb-chart-bar x="mes" y="ingresos" name="Ingresos" />
+  <cb-chart-line x="mes" y="margen" name="Margen" axis="right" curve="smooth" />
+  <cb-chart-axis position="right" label="Margen" [format]="{ style: 'percent' }" />
+  <cb-chart-axis position="left" label="Ingresos" />
+  <cb-chart-reference-line [value]="900" label="Meta de ingresos" />
+</cb-chart>`;
+  protected readonly composableTs = `import { CbChart, CbChartAxis, CbChartBar, CbChartLine, CbChartReferenceLine } from '@caribeng/ui/chart';
+
+resultados = [
+  { mes: 'Ene', ingresos: 720, margen: 0.16 },
+  { mes: 'Feb', ingresos: 810, margen: 0.18 },
+  // …
+];`;
+  protected readonly financialCode = `<cb-chart [data]="velas" zoom [valueFormat]="{ style: 'currency', currency: 'USD' }" ariaLabel="Precio de PRIM/USD por minuto">
+  <cb-chart-candlestick x="ts" name="PRIM/USD" />
+  <cb-chart-line x="ts" y="media" name="Media móvil" curve="smooth" [points]="false" />
+  <cb-chart-axis position="right" />
+  <cb-chart-reference-band axis="right" [from]="177" [to]="179" label="Rango objetivo" />
+</cb-chart>`;
+  protected readonly financialTs = `// x es una Date: el eje es de tiempo.
+velas = [
+  { ts: new Date(2026, 9, 21, 9, 30), open: 178, high: 178.9, low: 177.6, close: 178.4, media: 178.4 },
+  // …
+];`;
+  protected readonly forecastCode = `<cb-chart [data]="pronostico" ariaLabel="Saldo real y proyectado">
+  <cb-chart-range-area x="mes" low="min" high="max" name="Rango esperado" curve="smooth" />
+  <cb-chart-line x="mes" y="real" name="Saldo real" />
+  <cb-chart-line x="mes" y="proyeccion" name="Proyección" dashed [points]="false" curve="smooth" />
+  <cb-chart-reference-line axis="x" value="Jul" label="Hoy" />
+</cb-chart>`;
+  protected readonly forecastTs = `// Los registros sin un campo no dibujan ese punto.
+pronostico = [
+  { mes: 'Jun', real: 15.3, min: 14.2, max: 16.4 },
+  { mes: 'Jul', real: 15.8, proyeccion: 15.8, min: 14.6, max: 17 },
+  { mes: 'Ago', proyeccion: 16.4, min: 14.9, max: 18 },
+  // …
+];`;
+  protected readonly scatterCode = `<cb-chart [data]="clientes" ariaLabel="Saldo promedio según la edad">
+  <cb-chart-scatter x="edad" y="saldo" name="Personas" />
+  <cb-chart-scatter x="edad" y="saldoEmpresa" name="Empresas" [size]="6" />
+  <cb-chart-axis position="bottom" label="Edad" />
+  <cb-chart-axis position="left" label="Saldo (M)" />
+</cb-chart>`;
+  protected readonly scatterTs = `clientes = [
+  { edad: 27, saldo: 8.1 },
+  { edad: 44, saldoEmpresa: 24.6 },
+  // …
+];`;
 
   protected readonly importCode = `import { CbChart, type CbChartData } from '@caribeng/ui/chart';`;
 

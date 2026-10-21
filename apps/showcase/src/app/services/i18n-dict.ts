@@ -2226,6 +2226,22 @@ export const ES_EN: Record<string, string> = {
   'Pasan a la categoría, segmento o celda siguiente o anterior (de forma circular).': 'Move to the next or previous category, segment or cell (wrapping around).',
   'Flecha arriba / abajo (mapa de calor)': 'Up / Down arrow (heatmap)',
   'Cambian de fila manteniendo la columna.': 'Change rows keeping the column.',
+  // --- Chart: modo composable ---
+  'Con series hijas, data es un array de registros y cada serie elige sus campos (x, y…). Se combinan tipos, cada serie va al eje izquierdo o derecho y se añaden ejes y referencias con sus propias etiquetas.': 'With child series, data is an array of records and each series picks its fields (x, y…). Types can be combined, each series goes to the left or right axis, and axes and references are added with their own tags.',
+  'cb-chart-candlestick lee apertura, máximo, mínimo y cierre; con fechas en x el eje es de tiempo. zoom permite acercar con la rueda o con + y −, desplazarse arrastrando y volver con doble clic, 0 o el botón.': 'cb-chart-candlestick reads open, high, low and close; with dates in x the axis is a time axis. zoom lets you zoom in with the wheel or with + and −, pan by dragging and go back with a double click, 0 or the button.',
+  'cb-chart-range-area dibuja una banda entre low y high (un intervalo de confianza, un mínimo y máximo); dashed marca una proyección y points en false quita los puntos.': 'cb-chart-range-area draws a band between low and high (a confidence interval, a minimum and maximum); dashed marks a projection and points set to false removes the dots.',
+  'Con números en x el eje es lineal. Cada punto es un elemento: el teclado los recorre de izquierda a derecha y anuncia sus dos valores.': 'With numbers in x the axis is linear. Each point is an item: the keyboard goes through them from left to right and announces both values.',
+  'Todas las series aceptan name, x, color, axis (left o right) y data (sus propios registros). Se importan desde @caribeng/ui/chart junto a CbChart.': 'Every series accepts name, x, color, axis (left or right) and data (its own records). They are imported from @caribeng/ui/chart along with CbChart.',
+  'Modo composable': 'Composable mode',
+  'Velas, eje de tiempo y zoom': 'Candlesticks, time axis and zoom',
+  'Rangos y proyecciones': 'Ranges and projections',
+  'Dispersión': 'Scatter',
+  'Piezas del modo composable': 'Composable mode parts',
+  'Alto en píxeles; el ancho se adapta al contenedor.': 'Height in pixels; the width adapts to the container.',
+  'Modo composable: zoom y desplazamiento en el eje X (rueda, arrastre, + / − / 0).': 'Composable mode: zoom and pan on the X axis (wheel, drag, + / − / 0).',
+  'En el modo composable la tabla oculta tiene una columna por serie y una fila por valor de X (fechas completas en el eje de tiempo); las velas muestran apertura, máximo, mínimo y cierre. Las instrucciones explican el zoom cuando está activo, y el botón "Restablecer zoom" es un botón nativo.': 'In composable mode the hidden table has one column per series and one row per X value (full dates on the time axis); candlesticks show open, high, low and close. The instructions explain zoom when it is on, and the "Reset zoom" button is a native button.',
+  '+ / − / 0 (con zoom)': '+ / − / 0 (with zoom)',
+  'Acercan y alejan alrededor del dato activo, o vuelven a mostrar todo.': 'Zoom in and out around the active data point, or show everything again.',
   // --- API de Select / MultiSelect (etiquetado accesible) ---
   'Nombre accesible del disparador cuando no hay etiqueta visible.':
     'Accessible name of the trigger when there is no visible label.',

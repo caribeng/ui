@@ -2,17 +2,24 @@ import { NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
+  ElementRef,
   ViewEncapsulation,
+  afterNextRender,
   booleanAttribute,
   computed,
+  contentChildren,
+  inject,
   input,
   output,
   signal,
+  viewChild,
 } from '@angular/core';
 import { injectCbTranslation } from '@caribeng/ui';
 import {
   W,
   emptyScene,
+  paletteColor,
   type CbChartBand,
   type CbChartData,
   type CbChartItemEvent,
@@ -21,8 +28,18 @@ import {
   type ChartContext,
   type ChartScene,
   type ChartShape,
+  type ComposedSpec,
+  type SeriesSpec,
 } from './chart-model';
+import {
+  CbChartAxis,
+  CbChartReferenceBand,
+  CbChartReferenceLine,
+  CbChartSeries,
+  type CbChartRecord,
+} from './chart-parts';
 import { CHART_RENDERERS } from './renderers';
+import { renderComposed } from './renderers/composed';
 
 export type { CbChartBand, CbChartData, CbChartDataset, CbChartItemEvent, CbChartType, CbChartValueFormat } from './chart-model';
 
@@ -113,6 +130,7 @@ let nextId = 0;
     </ng-template>
 
     <div
+      #plot
       class="cb-chart__plot"
       tabindex="0"
       role="group"
@@ -122,19 +140,43 @@ let nextId = 0;
       (focus)="onFocus()"
       (blur)="active.set(null)"
     >
-      <svg class="cb-chart__svg" [attr.viewBox]="'0 0 ' + width + ' ' + height()" aria-hidden="true" (mouseleave)="active.set(null)">
+      <svg
+        class="cb-chart__svg"
+        [class.cb-chart__svg--pannable]="scene().zoomed"
+        [attr.viewBox]="'0 0 ' + width() + ' ' + height()"
+        aria-hidden="true"
+        (mouseleave)="active.set(null)"
+        (wheel)="onWheel($event)"
+        (pointerdown)="onPointerDown($event)"
+        (pointermove)="onPointerMove($event)"
+        (pointerup)="dragging = null"
+        (pointercancel)="dragging = null"
+        (dblclick)="resetZoom()"
+      >
+        @if (scene().clip; as clip) {
+          <defs>
+            <clipPath [attr.id]="clipId">
+              <rect [attr.x]="clip.x" [attr.y]="clip.y" [attr.width]="clip.w" [attr.height]="clip.h" />
+            </clipPath>
+          </defs>
+        }
         @if (isEmpty()) {
-          <text class="cb-chart__empty" [attr.x]="width / 2" [attr.y]="height() / 2" text-anchor="middle">{{ t().noData }}</text>
+          <text class="cb-chart__empty" [attr.x]="width() / 2" [attr.y]="height() / 2" text-anchor="middle">{{ t().noData }}</text>
         } @else {
           @for (s of scene().shapes; track $index) {
             <ng-container *ngTemplateOutlet="shapeTpl; context: { $implicit: s }" />
           }
-          @if (activeItem()?.cursor; as c) {
-            <line class="cb-chart__cursor" [attr.x1]="c.x" [attr.y1]="c.y1" [attr.x2]="c.x" [attr.y2]="c.y2" />
-          }
-          @for (s of scene().front ?? []; track $index) {
-            <ng-container *ngTemplateOutlet="shapeTpl; context: { $implicit: s }" />
-          }
+          <g [attr.clip-path]="scene().clip ? 'url(#' + clipId + ')' : null">
+            @for (s of scene().data ?? []; track $index) {
+              <ng-container *ngTemplateOutlet="shapeTpl; context: { $implicit: s }" />
+            }
+            @if (activeItem()?.cursor; as c) {
+              <line class="cb-chart__cursor" [attr.x1]="c.x" [attr.y1]="c.y1" [attr.x2]="c.x" [attr.y2]="c.y2" />
+            }
+            @for (s of scene().front ?? []; track $index) {
+              <ng-container *ngTemplateOutlet="shapeTpl; context: { $implicit: s }" />
+            }
+          </g>
           @if (scene().center; as center) {
             <text class="cb-chart__center" [attr.x]="center.x" [attr.y]="center.y" text-anchor="middle" dominant-baseline="central">
               {{ center.text }}
@@ -176,6 +218,9 @@ let nextId = 0;
           }
         </div>
       }
+      @if (scene().zoomed) {
+        <button type="button" class="cb-chart__reset" (click)="resetZoom()">{{ t().chartResetZoom }}</button>
+      }
     </div>
 
     @if (showLegend() && !sparkline() && scene().legend.length) {
@@ -197,7 +242,7 @@ let nextId = 0;
       </ul>
     }
 
-    <span class="cb-chart__sr" [id]="instructionsId">{{ t().chartInstructions }}</span>
+    <span class="cb-chart__sr" [id]="instructionsId">{{ t().chartInstructions }} {{ zoomEnabled() ? t().chartZoomInstructions : '' }}</span>
     <span class="cb-chart__sr" aria-live="polite" aria-atomic="true">{{ announcement() }}</span>
     <!-- Los mismos datos como tabla, para lectores de pantalla. -->
     <table class="cb-chart__sr">
@@ -229,12 +274,16 @@ let nextId = 0;
 export class CbChart {
   /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
   protected readonly t = injectCbTranslation();
-  protected readonly width = W;
   protected readonly instructionsId = `cb-chart-${++nextId}-help`;
+  protected readonly clipId = `cb-chart-${nextId}-clip`;
 
   readonly type = input<CbChartType>('bar');
-  readonly data = input<CbChartData>({ labels: [], datasets: [] });
-  /** Alto del lienzo (unidades del SVG; el ancho lógico es 520 y escala al contenedor). */
+  /**
+   * Datos. En el modo rápido, `{ labels, datasets }`. En el modo composable (con
+   * series hijas como `<cb-chart-line>`), un array de registros.
+   */
+  readonly data = input<CbChartData | readonly CbChartRecord[]>({ labels: [], datasets: [] });
+  /** Alto del gráfico en píxeles; el ancho se adapta al contenedor. */
   readonly height = input<number>(220);
   readonly showLegend = input<boolean>(true);
   readonly ariaLabel = input<string | undefined>(undefined);
@@ -254,48 +303,143 @@ export class CbChart {
   readonly bands = input<readonly CbChartBand[]>([]);
   /** Animación de entrada (se desactiva sola con `prefers-reduced-motion`). */
   readonly animate = input(true, { transform: booleanAttribute });
+  /** Modo composable: zoom y desplazamiento en el eje X (rueda, arrastre, `+` / `-` / `0`). */
+  readonly zoom = input(false, { transform: booleanAttribute });
 
   /** Clic o Enter sobre una categoría, un segmento o una celda. */
   readonly itemSelect = output<CbChartItemEvent>();
+
+  /** Series, ejes y referencias declarados como hijos (modo composable). */
+  private readonly seriesDefs = contentChildren(CbChartSeries);
+  private readonly axisDefs = contentChildren(CbChartAxis);
+  private readonly lineDefs = contentChildren(CbChartReferenceLine);
+  private readonly bandDefs = contentChildren(CbChartReferenceBand);
 
   /** Posición del elemento activo en `scene().items`. */
   protected readonly active = signal<number | null>(null);
   /** Series o elementos ocultos desde la leyenda. */
   protected readonly hidden = signal<ReadonlySet<number>>(new Set());
+  /** Ventana visible del eje X (fracción del dominio) en el modo composable. */
+  protected readonly view = signal<readonly [number, number]>([0, 1]);
+  /** Ancho real del área del gráfico (px); hasta medirlo, el ancho lógico por defecto. */
+  protected readonly width = signal(W);
+
+  private readonly plotRef = viewChild.required<ElementRef<HTMLElement>>('plot');
+  protected dragging: { x: number; view: readonly [number, number] } | null = null;
+
+  constructor() {
+    const destroyRef = inject(DestroyRef);
+    afterNextRender(() => {
+      if (typeof ResizeObserver === 'undefined') return;
+      const observer = new ResizeObserver(([entry]) => {
+        const w = Math.round(entry.contentRect.width);
+        if (w > 0) this.width.set(w);
+      });
+      observer.observe(this.plotRef().nativeElement);
+      destroyRef.onDestroy(() => observer.disconnect());
+    });
+  }
 
   protected readonly name = computed(() => this.ariaLabel() ?? this.t().chart);
+  protected readonly composed = computed(() => this.seriesDefs().length > 0);
+  protected readonly zoomEnabled = computed(() => this.zoom() && this.composed() && !this.sparkline());
+
+  /** Datos del modo rápido (en el composable, `data` es un array de registros). */
+  private readonly chartData = computed<CbChartData>(() => {
+    const data = this.data();
+    return Array.isArray(data) ? { labels: [], datasets: [] } : (data as CbChartData);
+  });
+
   protected readonly isEmpty = computed(() => {
-    const { labels, datasets } = this.data();
+    if (this.composed()) return !this.composedSpec()!.series.some((s) => s.records.length);
+    const { labels, datasets } = this.chartData();
     return !datasets.length || (this.type() !== 'gauge' && !labels.length);
   });
 
-  private readonly numberFormat = computed(() => {
-    const vf = this.valueFormat();
-    return typeof vf === 'function' ? vf : new Intl.NumberFormat(this.locale(), vf ?? { maximumFractionDigits: 2 }).format;
-  });
+  private readonly numberFormat = computed(() => this.formatter(this.valueFormat()));
   private readonly percentFormat = computed(
     () => new Intl.NumberFormat(this.locale(), { style: 'percent', maximumFractionDigits: 1 }).format,
   );
 
-  private readonly context = computed<ChartContext>(() => ({
-    type: this.type(),
-    data: this.data(),
-    width: W,
-    height: this.height(),
-    sparkline: this.sparkline(),
-    stacked: this.stacked(),
-    hidden: this.hidden(),
-    min: this.min(),
-    max: this.max(),
-    bands: this.bands(),
-    format: this.numberFormat(),
-    percent: this.percentFormat(),
-    text: { total: this.t().chartTotal, change: this.t().chartChange },
-  }));
+  private formatter(vf: CbChartValueFormat | undefined): (value: number) => string {
+    return typeof vf === 'function' ? vf : new Intl.NumberFormat(this.locale(), vf ?? { maximumFractionDigits: 2 }).format;
+  }
 
-  /** Lo que se dibuja: lo calcula el renderer del tipo. */
+  /** Lo declarado en los hijos, como datos planos para el renderer. */
+  private readonly composedSpec = computed<ComposedSpec | undefined>(() => {
+    const defs = this.seriesDefs();
+    if (!defs.length) return undefined;
+    const shared = this.data();
+    const records = Array.isArray(shared) ? (shared as readonly CbChartRecord[]) : [];
+    const series: SeriesSpec[] = defs.map((d, index) => {
+      const field = (name: string) => (name in d ? (d as unknown as Record<string, () => string>)[name]() : name);
+      return {
+        kind: d.kind,
+        index,
+        name: d.name() || `${index + 1}`,
+        color: d.color() ?? paletteColor(index),
+        axis: d.axis(),
+        records: d.data() ?? records,
+        x: d.x(),
+        y: field('y'),
+        low: field('low'),
+        high: field('high'),
+        open: field('open'),
+        close: field('close'),
+        curve: 'curve' in d ? (d.curve as () => SeriesSpec['curve'])() : 'linear',
+        dashed: 'dashed' in d ? (d.dashed as () => boolean)() : false,
+        points: 'points' in d ? (d.points as () => boolean)() : true,
+        stack: 'stack' in d ? (d.stack as () => string | undefined)() : undefined,
+        size: 'size' in d ? (d.size as () => number)() : 5,
+        variant: 'variant' in d ? (d.variant as () => 'candle' | 'ohlc')() : 'candle',
+        upColor: 'upColor' in d ? (d.upColor as () => string)() : '',
+        downColor: 'downColor' in d ? (d.downColor as () => string)() : '',
+      };
+    });
+    return {
+      series,
+      axes: this.axisDefs().map((a) => ({
+        position: a.position(),
+        type: a.type(),
+        min: a.min(),
+        max: a.max(),
+        label: a.label(),
+        format: a.format() === undefined ? undefined : this.formatter(a.format()),
+        grid: a.grid(),
+      })),
+      refs: [
+        ...this.bandDefs().map((b) => ({ kind: 'band' as const, axis: b.axis(), from: b.from(), to: b.to(), label: b.label(), color: b.color() })),
+        ...this.lineDefs().map((l) => ({ kind: 'line' as const, axis: l.axis(), value: l.value(), label: l.label(), color: l.color() })),
+      ],
+      view: this.zoomEnabled() ? this.view() : [0, 1],
+    };
+  });
+
+  private readonly context = computed<ChartContext>(() => {
+    const t = this.t();
+    return {
+      type: this.type(),
+      data: this.chartData(),
+      width: this.width(),
+      height: this.height(),
+      sparkline: this.sparkline(),
+      stacked: this.stacked(),
+      hidden: this.hidden(),
+      min: this.min(),
+      max: this.max(),
+      bands: this.bands(),
+      format: this.numberFormat(),
+      percent: this.percentFormat(),
+      locale: this.locale(),
+      text: { total: t.chartTotal, change: t.chartChange, open: t.chartOpen, high: t.chartHigh, low: t.chartLow, close: t.chartClose },
+      composed: this.composedSpec(),
+    };
+  });
+
+  /** Lo que se dibuja: lo calcula el renderer del tipo (o el composable si hay series hijas). */
   protected readonly scene = computed<ChartScene>(() => {
     if (this.isEmpty()) return emptyScene();
+    if (this.composed()) return renderComposed(this.context());
     const render = CHART_RENDERERS[this.type()] ?? CHART_RENDERERS.bar;
     return render(this.context());
   });
@@ -311,10 +455,65 @@ export class CbChart {
     return {
       title: item.title,
       rows: item.rows,
-      left: clamp((item.x / W) * 100, 12, 88),
+      left: clamp((item.x / this.width()) * 100, 12, 88),
       top: (item.y / this.height()) * 100,
     };
   });
+
+  // --- Zoom (modo composable) ----------------------------------------------------------
+  /** Acerca (`factor` < 1) o aleja la ventana alrededor de `anchor` (0–1 dentro del área). */
+  zoomBy(factor: number, anchor = 0.5): void {
+    if (!this.zoomEnabled()) return;
+    const [a, b] = this.view();
+    const w = b - a;
+    const minW = Math.min(1, Math.max(0.005, (this.scene().domainSize ?? 0.01) * 2));
+    const next = clamp(w * factor, minW, 1);
+    const center = a + w * anchor;
+    const start = clamp(center - next * anchor, 0, 1 - next);
+    this.active.set(null);
+    this.view.set([start, start + next]);
+  }
+
+  /** Vuelve a mostrar todo el eje X. */
+  resetZoom(): void {
+    this.active.set(null);
+    this.view.set([0, 1]);
+  }
+
+  /** Posición del ratón dentro del área de dibujo (0–1). */
+  private pointerFraction(event: MouseEvent): number {
+    const clip = this.scene().clip;
+    const svg = event.currentTarget as SVGSVGElement;
+    const rect = svg.getBoundingClientRect();
+    if (!clip || !rect.width) return 0.5;
+    const x = ((event.clientX - rect.left) * this.width()) / rect.width;
+    return clamp((x - clip.x) / clip.w, 0, 1);
+  }
+
+  protected onWheel(event: WheelEvent): void {
+    if (!this.zoomEnabled() || !event.deltaY) return;
+    event.preventDefault();
+    this.zoomBy(event.deltaY < 0 ? 0.8 : 1.25, this.pointerFraction(event));
+  }
+
+  protected onPointerDown(event: PointerEvent): void {
+    if (!this.zoomEnabled() || !this.scene().zoomed || event.button !== 0) return;
+    this.dragging = { x: event.clientX, view: this.view() };
+    (event.currentTarget as Element).setPointerCapture?.(event.pointerId);
+  }
+
+  protected onPointerMove(event: PointerEvent): void {
+    const drag = this.dragging;
+    const clip = this.scene().clip;
+    if (!drag || !clip) return;
+    const svg = event.currentTarget as SVGSVGElement;
+    const scale = this.width() / (svg.getBoundingClientRect().width || this.width());
+    const [a, b] = drag.view;
+    const shift = (((drag.x - event.clientX) * scale) / clip.w) * (b - a);
+    const start = clamp(a + shift, 0, 1 - (b - a));
+    this.active.set(null);
+    this.view.set([start, start + (b - a)]);
+  }
 
   /** Lo que anuncia el lector de pantalla al recorrer el gráfico con el teclado. */
   protected readonly announcement = computed(() => {
@@ -371,6 +570,18 @@ export class CbChart {
       case 'Escape':
         next = null;
         break;
+      case '+':
+      case '=':
+      case '-':
+      case '0': {
+        if (!this.zoomEnabled()) return;
+        event.preventDefault();
+        if (event.key === '0') return this.resetZoom();
+        const item = this.activeItem();
+        const clip = this.scene().clip;
+        const anchor = item && clip ? clamp((item.x - clip.x) / clip.w, 0, 1) : 0.5;
+        return this.zoomBy(event.key === '-' ? 1.5 : 1 / 1.5, anchor);
+      }
       default:
         return;
     }

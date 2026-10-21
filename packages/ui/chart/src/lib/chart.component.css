@@ -102,6 +102,79 @@
   font-size: 9px;
 }
 
+/* Modo composable: ejes, referencias y series */
+.cb-chart__baseline,
+.cb-chart__tick {
+  stroke: var(--cb-color-border-strong);
+}
+.cb-chart__axis-title {
+  font-weight: var(--cb-font-weight-semibold, 600);
+}
+.cb-chart__ref-line {
+  stroke: var(--cb-color-text-muted);
+  stroke-width: 1.25;
+  stroke-dasharray: 5 4;
+}
+.cb-chart__ref-label {
+  fill: var(--cb-color-text-muted);
+  font-size: 11px;
+  font-weight: var(--cb-font-weight-medium, 500);
+  paint-order: stroke;
+  stroke: var(--cb-color-surface-raised);
+  stroke-width: 3px;
+  stroke-linejoin: round;
+}
+.cb-chart__ref-band {
+  opacity: 0.1;
+}
+.cb-chart__line--dashed {
+  stroke-dasharray: 6 4;
+}
+.cb-chart__line--thin {
+  stroke-width: 1.25;
+}
+.cb-chart__area--range {
+  opacity: 0.18;
+}
+.cb-chart__point--scatter {
+  fill-opacity: 0.75;
+  stroke-width: 1;
+  cursor: pointer;
+}
+.cb-chart__wick {
+  stroke-width: 1.25;
+}
+.cb-chart__candle {
+  transition: opacity var(--cb-duration-fast, 0.12s) ease;
+}
+.cb-chart__svg--pannable {
+  cursor: grab;
+  touch-action: pan-y;
+}
+.cb-chart__svg--pannable:active {
+  cursor: grabbing;
+}
+.cb-chart__reset {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0.2rem 0.55rem;
+  font: inherit;
+  font-size: var(--cb-text-xs, 0.75rem);
+  color: var(--cb-color-text);
+  background: var(--cb-color-surface-raised);
+  border: 1px solid var(--cb-color-border);
+  border-radius: var(--cb-radius-sm, 0.25rem);
+  cursor: pointer;
+}
+.cb-chart__reset:hover {
+  background: var(--cb-color-surface-hover);
+}
+.cb-chart__reset:focus-visible {
+  outline: 2px solid var(--cb-color-focus-ring);
+  outline-offset: 1px;
+}
+
 /* Cascada: conector entre barras a la altura del acumulado */
 .cb-chart__connector {
   stroke: var(--cb-color-border-strong);

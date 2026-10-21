@@ -200,6 +200,15 @@ export interface CbTranslation {
   chartTotal: string;
   /** Variación de un paso (cascada). */
   chartChange: string;
+  /** Precio de apertura, máximo, mínimo y cierre (velas). */
+  chartOpen: string;
+  chartHigh: string;
+  chartLow: string;
+  chartClose: string;
+  /** Botón que vuelve a mostrar todos los datos tras hacer zoom. */
+  chartResetZoom: string;
+  /** Cómo hacer zoom con el teclado y el ratón. */
+  chartZoomInstructions: string;
 
   // --- Multimedia ---
   carousel: string;
@@ -454,6 +463,12 @@ export const CB_LOCALE_ES: CbTranslation = {
   chartInstructions: 'Usa las flechas para recorrer los datos.',
   chartTotal: 'Total',
   chartChange: 'Variación',
+  chartOpen: 'Apertura',
+  chartHigh: 'Máximo',
+  chartLow: 'Mínimo',
+  chartClose: 'Cierre',
+  chartResetZoom: 'Restablecer zoom',
+  chartZoomInstructions: 'Pulsa + o − para acercar o alejar y 0 para ver todo; con el ratón, usa la rueda, arrastra para desplazarte y haz doble clic para restablecer.',
 
   carousel: 'Carrusel',
   slide: 'Diapositiva {0}',
@@ -699,6 +714,12 @@ export const CB_LOCALE_EN: CbTranslation = {
   chartInstructions: 'Use the arrow keys to explore the data.',
   chartTotal: 'Total',
   chartChange: 'Change',
+  chartOpen: 'Open',
+  chartHigh: 'High',
+  chartLow: 'Low',
+  chartClose: 'Close',
+  chartResetZoom: 'Reset zoom',
+  chartZoomInstructions: 'Press + or − to zoom in or out and 0 to see everything; with the mouse, use the wheel, drag to pan and double-click to reset.',
 
   carousel: 'Carousel',
   slide: 'Slide {0}',

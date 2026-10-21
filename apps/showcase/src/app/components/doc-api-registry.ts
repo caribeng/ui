@@ -399,10 +399,10 @@ export const DOC_API: Record<string, DocApi> = {
     selector: "cb-chart",
     props: [
       { name: "type", kind: "enum", type: "CbChartType", options: ["bar", "horizontalBar", "line", "area", "waterfall", "pie", "doughnut", "radialBar", "gauge", "radar", "polarArea", "heatmap", "treemap"], default: "bar", description: "Tipo de gráfico." },
-      { name: "data", kind: "string", type: "CbChartData", default: { labels: [], datasets: [] }, example: { labels: ['Jan', 'Feb', 'Mar', 'Apr'], datasets: [{ label: 'Sales', data: [12, 19, 8, 15] }, { label: 'Costs', data: [7, 11, 10, 9] }] }, description: "Etiquetas y series (label, data, color, colors, type).", control: false },
+      { name: "data", kind: "string", type: "CbChartData | CbChartRecord[]", default: { labels: [], datasets: [] }, example: { labels: ['Jan', 'Feb', 'Mar', 'Apr'], datasets: [{ label: 'Sales', data: [12, 19, 8, 15] }, { label: 'Costs', data: [7, 11, 10, 9] }] }, description: "Etiquetas y series (label, data, color, colors, type).", control: false },
       { name: "stacked", kind: "boolean", type: "boolean", default: false, description: "Apila las series de barras o áreas." },
       { name: "sparkline", kind: "boolean", type: "boolean", default: false, description: "Minigráfico sin ejes, rejilla, leyenda ni tarjeta." },
-      { name: "height", kind: "number", type: "number", default: 220, description: "Alto del lienzo; el ancho se adapta al contenedor." },
+      { name: "height", kind: "number", type: "number", default: 220, description: "Alto en píxeles; el ancho se adapta al contenedor." },
       { name: "showLegend", kind: "boolean", type: "boolean", default: true, description: "Muestra la leyenda (botones que ocultan y muestran series)." },
       { name: "valueFormat", kind: "string", type: "Intl.NumberFormatOptions | ((v: number) => string)", default: undefined, description: "Formato de los valores en ejes, tooltip y tabla.", control: false },
       { name: "locale", kind: "enum", type: "string", options: ["es-CO", "es-ES", "en-US", "pt-BR"], default: undefined, description: "Locale BCP 47 del formato (por defecto, el del navegador)." },
@@ -410,6 +410,7 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "max", kind: "number", type: "number", default: 100, description: "Valor que representa el 100 % en radialBar y el máximo del medidor (gauge)." },
       { name: "bands", kind: "string", type: "CbChartBand[]", default: [], description: "Franjas de color del medidor: { from, to, color }.", control: false },
       { name: "animate", kind: "boolean", type: "boolean", default: true, description: "Animación de entrada (respeta prefers-reduced-motion)." },
+      { name: "zoom", kind: "boolean", type: "boolean", default: false, description: "Modo composable: zoom y desplazamiento en el eje X (rueda, arrastre, + / − / 0).", control: false },
       { name: "ariaLabel", kind: "string", type: "string", default: undefined, localeKey: "chart", description: "Nombre accesible del gráfico y título de su tabla de datos." }
     ],
     events: [

@@ -68,6 +68,10 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
             "text": "seis tipos nuevos: `waterfall` (cascada con subtotales en `sums`), `gauge` (medidor con `min`, `max` y franjas `bands`), `radar`, `polarArea`, `heatmap` (flechas arriba / abajo cambian de fila) y `treemap`. Internamente cada tipo lo dibuja un renderer independiente sobre un motor común; la API `type` + `data` no cambia."
           },
           {
+            "component": "Chart",
+            "text": "modo composable en el mismo `<cb-chart>`: series hijas (`cb-chart-bar`, `cb-chart-line`, `cb-chart-area`, `cb-chart-scatter`, `cb-chart-range-area` y `cb-chart-candlestick`) que leen sus campos de un array de registros en `data`; `cb-chart-axis` (eje X de categorías, lineal o de tiempo, ejes Y izquierdo y derecho con título, rango y formato propios); `cb-chart-reference-line` y `cb-chart-reference-band`; apilado por `stack`, curvas `smooth` y `step`, líneas discontinuas, y `zoom` en el eje X con rueda, arrastre, teclado (`+`, `-`, `0`) y botón para restablecer."
+          },
+          {
             "component": "Instalación",
             "text": "`ng add @caribeng/ui` instala la librería, pregunta idioma, tema y color primario, registra `provideCaribeNG()` (app standalone o `AppModule`) y añade `@caribeng/ui/styles.css` a `angular.json`. Es idempotente: ejecutarlo de nuevo no duplica nada."
           },
@@ -260,6 +264,10 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
       {
         "type": "changed",
         "items": [
+          {
+            "component": "Chart",
+            "text": "el gráfico se dibuja al ancho real de su contenedor (antes, un lienzo de 520 unidades que se escalaba): los textos mantienen su tamaño y `height` pasa a ser el alto en píxeles."
+          },
           {
             "component": "Menús y navegación",
             "text": "las etiquetas accesibles de Breadcrumb, Menu, Menubar, ContextMenu, MegaMenu, Dock, PanelMenu, TieredMenu, Steps y TabMenu estaban en inglés; ahora siguen el idioma activo (español por defecto)."

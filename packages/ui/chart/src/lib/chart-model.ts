@@ -85,7 +85,64 @@ export interface ChartContext {
   bands: readonly CbChartBand[];
   format: (value: number) => string;
   percent: (value: number) => string;
-  text: { total: string; change: string };
+  text: { total: string; change: string; open: string; high: string; low: string; close: string };
+  locale?: string;
+  /** Modo composable: series, ejes y referencias declarados como hijos. */
+  composed?: ComposedSpec;
+}
+
+// --- Modo composable ------------------------------------------------------------------
+
+export interface SeriesSpec {
+  kind: 'bar' | 'line' | 'area' | 'scatter' | 'rangeArea' | 'candlestick';
+  /** Posición entre las series (leyenda y ocultar). */
+  index: number;
+  name: string;
+  color: string;
+  axis: 'left' | 'right';
+  records: readonly Readonly<Record<string, unknown>>[];
+  x: string;
+  y: string;
+  low: string;
+  high: string;
+  open: string;
+  close: string;
+  curve: 'linear' | 'smooth' | 'step';
+  dashed: boolean;
+  points: boolean;
+  stack?: string;
+  size: number;
+  variant: 'candle' | 'ohlc';
+  upColor: string;
+  downColor: string;
+}
+
+export interface AxisSpec {
+  position: 'bottom' | 'left' | 'right';
+  type: 'auto' | 'category' | 'linear' | 'time';
+  min?: number;
+  max?: number;
+  label?: string;
+  format?: (value: number) => string;
+  grid?: boolean;
+}
+
+export interface RefSpec {
+  kind: 'line' | 'band';
+  axis: 'left' | 'right' | 'x';
+  value?: unknown;
+  from?: unknown;
+  to?: unknown;
+  label?: string;
+  color?: string;
+}
+
+export interface ComposedSpec {
+  series: SeriesSpec[];
+  axes: AxisSpec[];
+  refs: RefSpec[];
+  /** Ventana visible del eje X como fracción del dominio completo ([0, 1] = todo). */
+  view: readonly [number, number];
 }
 
 interface ShapeBase {
@@ -141,8 +198,16 @@ export interface ChartLegendEntry {
 
 export interface ChartScene {
   shapes: ChartShape[];
-  /** Formas que van encima de la guía del elemento activo (líneas y puntos). */
+  /** Datos detrás de la guía del elemento activo (barras, áreas, velas). Se recortan a `clip`. */
+  data?: ChartShape[];
+  /** Formas que van encima de la guía del elemento activo (líneas y puntos). Se recortan a `clip`. */
   front?: ChartShape[];
+  /** Área de dibujo: recorta los datos (zoom) y sirve para convertir el ratón en posición. */
+  clip?: { x: number; y: number; w: number; h: number };
+  /** Hay más datos fuera de la ventana visible (zoom activo). */
+  zoomed?: boolean;
+  /** Pasos de la ventana (fracción del dominio) que avanza un elemento, para el zoom con teclado. */
+  domainSize?: number;
   hits: ChartHit[];
   items: ChartItem[];
   /** Columnas de una cuadrícula navegable (mapa de calor): flechas arriba / abajo saltan filas. */
