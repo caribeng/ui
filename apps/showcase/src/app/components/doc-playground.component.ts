@@ -1,18 +1,24 @@
 import { NgComponentOutlet } from '@angular/common';
 import {
+  ApplicationRef,
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
+  EnvironmentInjector,
   afterNextRender,
   computed,
+  createComponent,
   inject,
   input,
   linkedSignal,
+  untracked,
+  type ComponentRef,
 } from '@angular/core';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { I18nService } from '../services/i18n.service';
 import { TocService } from '../services/toc.service';
 import { injectCbTranslation } from '@caribeng/ui';
-import type { DocApi } from './doc-api.model';
+import type { DocApi, DocChild } from './doc-api.model';
 
 /**
  * Playground interactivo y tabla de API completa para un componente.
@@ -87,7 +93,7 @@ import type { DocApi } from './doc-api.model';
                 }
               </label>
             }
-            @if (api().content) {
+            @if (api().content && !api().content?.children) {
               <label class="pg__control">
                 <span class="pg__control-label">{{ i18n.t('Contenido', 'Content') }}</span>
                 <input
@@ -169,7 +175,12 @@ export class DocPlaygroundComponent {
 
   readonly api = input.required<DocApi>();
 
+  private readonly appRef = inject(ApplicationRef);
+  private readonly environmentInjector = inject(EnvironmentInjector);
+  private children: ComponentRef<unknown>[] = [];
+
   constructor() {
+    inject(DestroyRef).onDestroy(() => this.destroyChildren());
     // Va al final de la página: sus secciones se registran tras las de ejemplos.
     const toc = inject(TocService);
     afterNextRender(() => {
@@ -201,9 +212,28 @@ export class DocPlaygroundComponent {
 
   /** Nodos proyectados (un único slot de texto). */
   protected readonly contentNodes = computed<Node[][] | undefined>(() => {
-    if (!this.api().content || typeof document === 'undefined') return undefined;
+    const content = this.api().content;
+    if (!content || typeof document === 'undefined') return undefined;
+    if (content.children) return [untracked(() => this.createChildren(content.children!))];
     return [[document.createTextNode(this.content())]];
   });
+
+  /** Crea los componentes hijos proyectados (se recrean si cambia la API). */
+  private createChildren(children: DocChild[]): Node[] {
+    this.destroyChildren();
+    this.children = children.map((child) => {
+      const ref = createComponent(child.component, { environmentInjector: this.environmentInjector });
+      for (const [name, value] of Object.entries(child.inputs)) ref.setInput(name, value);
+      this.appRef.attachView(ref.hostView);
+      return ref;
+    });
+    return this.children.map((ref) => ref.location.nativeElement as Node);
+  }
+
+  private destroyChildren(): void {
+    for (const ref of this.children) ref.destroy();
+    this.children = [];
+  }
 
   /** Código generado a partir del estado actual. */
   protected readonly code = computed(() => {
@@ -223,6 +253,14 @@ export class DocPlaygroundComponent {
       }
     }
     const attrs = parts.length ? ' ' + parts.join(' ') : '';
+    const children = this.api().content?.children;
+    if (children) {
+      const lines = children.map((c) => {
+        const childAttrs = Object.entries(c.inputs).map(([k, v]) => (typeof v === 'string' ? `${k}="${v}"` : `[${k}]="${v}"`));
+        return `  <${c.selector}${childAttrs.length ? ' ' + childAttrs.join(' ') : ''} />`;
+      });
+      return `<${sel}${attrs}>\n${lines.join('\n')}\n</${sel}>`;
+    }
     const inner = this.api().content ? this.content() : '';
     return inner ? `<${sel}${attrs}>${inner}</${sel}>` : `<${sel}${attrs} />`;
   });

@@ -39,6 +39,20 @@ export interface DocEvent {
 export interface DocContent {
   /** Texto proyectado inicial (para componentes con <ng-content>). */
   default: string;
+  /**
+   * Componentes hijos que se proyectan en lugar del texto (p. ej. los
+   * `<cb-avatar>` de un `<cb-avatar-group>`). Con ellos no hay control de texto.
+   */
+  children?: DocChild[];
+}
+
+export interface DocChild {
+  /** Clase del componente hijo. */
+  component: Type<unknown>;
+  /** Selector para el código generado (ej. "cb-avatar"). */
+  selector: string;
+  /** Inputs del hijo; también se muestran en el código. */
+  inputs: Record<string, string | number | boolean>;
 }
 
 export interface DocApi {

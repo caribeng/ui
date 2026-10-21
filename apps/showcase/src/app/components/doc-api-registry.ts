@@ -225,7 +225,15 @@ export const DOC_API: Record<string, DocApi> = {
   "cb-avatar-group": {
     component: CbAvatarGroup,
     selector: "cb-avatar-group",
-    content: { default: "Content" },
+    content: {
+      default: "",
+      children: [
+        { component: CbAvatar, selector: "cb-avatar", inputs: { label: "OZ", severity: "primary" } },
+        { component: CbAvatar, selector: "cb-avatar", inputs: { label: "CL", severity: "info" } },
+        { component: CbAvatar, selector: "cb-avatar", inputs: { label: "CX", severity: "success" } },
+        { component: CbAvatar, selector: "cb-avatar", inputs: { label: "+3", severity: "secondary" } }
+      ]
+    },
     props: [
       { name: "ariaLabel", kind: "string", type: "string", default: "", description: "Nombre accesible del grupo (p. ej. \"Participantes\")." }
     ]
