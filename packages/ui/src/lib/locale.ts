@@ -181,6 +181,8 @@ export interface CbTranslation {
   chartLegend: string;
   /** `{0}`: posición. */
   chartItem: string;
+  /** Cómo recorrer un gráfico con el teclado. */
+  chartInstructions: string;
 
   // --- Multimedia ---
   carousel: string;
@@ -397,6 +399,7 @@ export const CB_LOCALE_ES: CbTranslation = {
   chart: 'Gráfico de datos',
   chartLegend: 'Leyenda del gráfico',
   chartItem: 'Elemento {0}',
+  chartInstructions: 'Usa las flechas para recorrer los datos.',
 
   carousel: 'Carrusel',
   slide: 'Diapositiva {0}',
@@ -604,6 +607,7 @@ export const CB_LOCALE_EN: CbTranslation = {
   chart: 'Data chart',
   chartLegend: 'Chart legend',
   chartItem: 'Item {0}',
+  chartInstructions: 'Use the arrow keys to explore the data.',
 
   carousel: 'Carousel',
   slide: 'Slide {0}',

@@ -28,6 +28,14 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
         "type": "added",
         "items": [
           {
+            "component": "Chart",
+            "text": "tipos `area`, `horizontalBar` y `radialBar`; `stacked`; gráfico combinado (serie con `type: 'line'` dentro de `bar`); `sparkline`; eje de valores con escala legible y valores negativos; `valueFormat` (opciones de `Intl.NumberFormat` o función) y `locale`; tooltip con ratón y teclado; leyenda que oculta y muestra series; evento `itemSelect`; animación de entrada y colores por elemento (`colors`) en torta y dona."
+          },
+          {
+            "component": "Chart",
+            "text": "accesibilidad: grupo enfocable con instrucciones, recorrido con flechas anunciado en una región viva y tabla de datos equivalente para lectores de pantalla."
+          },
+          {
             "component": "Instalación",
             "text": "`ng add @caribeng/ui` instala la librería, pregunta idioma, tema y color primario, registra `provideCaribeNG()` (app standalone o `AppModule`) y añade `@caribeng/ui/styles.css` a `angular.json`. Es idempotente: ejecutarlo de nuevo no duplica nada."
           },
@@ -249,6 +257,10 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
       {
         "type": "fixed",
         "items": [
+          {
+            "component": "Chart",
+            "text": "la tarjeta era blanca en tema oscuro (usaba tokens inexistentes), los valores negativos se mostraban como 0 y la torta ignoraba los colores del dataset."
+          },
           {
             "component": "Tema oscuro",
             "text": "el hover y la opción activa de Select, MultiSelect, Autocomplete, Listbox, DatePicker, Tree, Paginator, SelectButton, ToggleButton, InputNumber, Table, Accordion y los botones de cerrar de Dialog, Drawer y Toast usaban `surface-100` / `surface-50`, que en oscuro siguen siendo casi blancos: el texto blanco desaparecía. Ahora usan los tokens semánticos nuevos."

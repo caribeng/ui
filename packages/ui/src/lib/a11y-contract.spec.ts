@@ -50,9 +50,13 @@ describe('Auditoría transversal WCAG 2.2 AA y Contratos ARIA', () => {
     expect(liveMeter?.getAttribute('role')).toBe('status');
     expect(liveMeter?.getAttribute('aria-live')).toBe('polite');
 
-    // 3. El lienzo SVG del gráfico tiene role="img" y aria-label descriptivo
-    const svg = host.querySelector('svg.cb-chart__svg');
-    expect(svg?.getAttribute('role')).toBe('img');
-    expect(svg?.getAttribute('aria-label')).toBe('Ventas trimestrales');
+    // 3. El gráfico es un grupo enfocable con nombre; el SVG es decorativo y los
+    //    datos llegan al lector de pantalla como tabla con el mismo título.
+    const plot = host.querySelector('.cb-chart__plot');
+    expect(plot?.getAttribute('role')).toBe('group');
+    expect(plot?.getAttribute('tabindex')).toBe('0');
+    expect(plot?.getAttribute('aria-label')).toBe('Ventas trimestrales');
+    expect(host.querySelector('svg.cb-chart__svg')?.getAttribute('aria-hidden')).toBe('true');
+    expect(host.querySelector('cb-chart table caption')?.textContent).toBe('Ventas trimestrales');
   });
 });

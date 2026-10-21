@@ -1901,6 +1901,61 @@ export const ES_EN: Record<string, string> = {
 
   'Rango elegido en modo range: [inicio, fin].': 'Range chosen in range mode: [start, end].',
 
+  // --- Chart: tipos, formato, interacción y accesibilidad ---
+  'Gráficos SVG accesibles y sin dependencias: barras, líneas, áreas, torta, dona y radial, con tooltip, leyenda interactiva y tabla de datos para lectores de pantalla.':
+    'Accessible, dependency-free SVG charts: bars, lines, areas, pie, doughnut and radial, with tooltip, interactive legend and a data table for screen readers.',
+  'El mismo data sirve para bar, horizontalBar, line y area. Pasa el ratón por el gráfico o enfócalo y usa las flechas.':
+    'The same data works for bar, horizontalBar, line and area. Hover over the chart, or focus it and use the arrow keys.',
+  'stacked apila las series de barras o de áreas; la escala se ajusta a la suma.':
+    'stacked stacks bar or area series; the scale adjusts to the sum.',
+  'En un gráfico bar, una serie con type: \'line\' se dibuja como línea. valueFormat acepta opciones de Intl.NumberFormat (moneda, porcentaje…) o una función; los negativos crecen hacia abajo desde el 0.':
+    'In a bar chart, a series with type: \'line\' is drawn as a line. valueFormat accepts Intl.NumberFormat options (currency, percent…) or a function; negative values grow downwards from 0.',
+  'pie y doughnut usan el primer dataset (colors fija un color por elemento); la dona muestra el total. radialBar dibuja un anillo por elemento respecto a max (100 por defecto).':
+    'pie and doughnut use the first dataset (colors sets one color per item); the doughnut shows the total. radialBar draws one ring per item relative to max (100 by default).',
+  'sparkline quita ejes, rejilla, leyenda y tarjeta: un minigráfico para tarjetas de resumen o celdas de tabla.':
+    'sparkline removes axes, grid, legend and card: a mini chart for summary cards or table cells.',
+  'itemSelect se emite al hacer clic en una categoría o un segmento, o al pulsar Enter mientras se recorre con el teclado.':
+    'itemSelect is emitted when clicking a category or segment, or pressing Enter while exploring with the keyboard.',
+  'Tipos cartesianos': 'Cartesian types',
+  'Apilado': 'Stacked',
+  'Combinado y moneda': 'Combo and currency',
+  'Torta, dona y radial': 'Pie, doughnut and radial',
+  'Selección': 'Selection',
+  'Tipo de gráfico.': 'Chart type.',
+  'Etiquetas y series (label, data, color, colors, type).':
+    'Labels and series (label, data, color, colors, type).',
+  'Apila las series de barras o áreas.': 'Stacks bar or area series.',
+  'Minigráfico sin ejes, rejilla, leyenda ni tarjeta.':
+    'Mini chart without axes, grid, legend or card.',
+  'Alto del lienzo; el ancho se adapta al contenedor.':
+    'Canvas height; the width adapts to the container.',
+  'Muestra la leyenda (botones que ocultan y muestran series).':
+    'Shows the legend (buttons that hide and show series).',
+  'Formato de los valores en ejes, tooltip y tabla.': 'Value format for axes, tooltip and table.',
+  'Locale BCP 47 del formato (por defecto, el del navegador).':
+    'BCP 47 locale for formatting (defaults to the browser one).',
+  'Valor que representa el 100 % en radialBar.': 'Value that represents 100 % in radialBar.',
+  'Animación de entrada (respeta prefers-reduced-motion).':
+    'Entry animation (respects prefers-reduced-motion).',
+  'Nombre accesible del gráfico y título de su tabla de datos.':
+    'Accessible name of the chart and caption of its data table.',
+  'Clic o Enter sobre una categoría o un segmento: { index, label }.':
+    'Click or Enter on a category or segment: { index, label }.',
+  'El gráfico es un grupo enfocable nombrado con `ariaLabel`, con instrucciones de uso; el dibujo SVG es decorativo (`aria-hidden`).':
+    'The chart is a focusable group named with `ariaLabel`, with usage instructions; the SVG drawing is decorative (`aria-hidden`).',
+  'Incluye los mismos datos como una tabla oculta visualmente (título, series y valores formateados), que los lectores de pantalla pueden recorrer.':
+    'It includes the same data as a visually hidden table (caption, series and formatted values) that screen readers can browse.',
+  'Al moverse con las flechas, una región viva anuncia la categoría y sus valores (en torta y dona, el valor y el porcentaje). La leyenda son botones con `aria-pressed`.':
+    'When moving with the arrow keys, a live region announces the category and its values (in pie and doughnut, the value and percentage). The legend items are buttons with `aria-pressed`.',
+  'Enfoca el gráfico y muestra el primer dato.':
+    'Focuses the chart and shows the first data point.',
+  'Pasan a la categoría o segmento siguiente o anterior (de forma circular).':
+    'Move to the next or previous category or segment (wrapping around).',
+  'Van al primer o al último dato.': 'Go to the first or last data point.',
+  'Selecciona el dato activo (emite itemSelect).':
+    'Selects the active data point (emits itemSelect).',
+  'Oculta el tooltip.': 'Hides the tooltip.',
+
   // --- API de Select / MultiSelect (etiquetado accesible) ---
   'Nombre accesible del disparador cuando no hay etiqueta visible.':
     'Accessible name of the trigger when there is no visible label.',

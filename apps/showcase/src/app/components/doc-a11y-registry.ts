@@ -455,6 +455,20 @@ export const DOC_A11Y: Record<string, DocA11y> = {
       { keys: 'Flecha izquierda / Flecha derecha', action: 'En un separador, estrecha o ensancha la columna (10 px; 50 px con Mayús).' },
     ],
   },
+  'cb-chart': {
+    screenReader: [
+      'El gráfico es un grupo enfocable nombrado con `ariaLabel`, con instrucciones de uso; el dibujo SVG es decorativo (`aria-hidden`).',
+      'Incluye los mismos datos como una tabla oculta visualmente (título, series y valores formateados), que los lectores de pantalla pueden recorrer.',
+      'Al moverse con las flechas, una región viva anuncia la categoría y sus valores (en torta y dona, el valor y el porcentaje). La leyenda son botones con `aria-pressed`.',
+    ],
+    keyboard: [
+      { keys: 'Tab', action: 'Enfoca el gráfico y muestra el primer dato.' },
+      { keys: 'Flechas', action: 'Pasan a la categoría o segmento siguiente o anterior (de forma circular).' },
+      { keys: 'Inicio / Fin', action: 'Van al primer o al último dato.' },
+      { keys: 'Enter', action: 'Selecciona el dato activo (emite itemSelect).' },
+      { keys: 'Escape', action: 'Oculta el tooltip.' },
+    ],
+  },
   'cb-dynamic-dialog': {
     screenReader: [
       'El panel tiene `role="dialog"` con `aria-modal="true"` y se nombra con `header` (`aria-labelledby`) o, si no hay título, con `ariaLabel` de la configuración.',

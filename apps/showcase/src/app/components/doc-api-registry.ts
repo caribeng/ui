@@ -363,11 +363,20 @@ export const DOC_API: Record<string, DocApi> = {
     component: CbChart,
     selector: "cb-chart",
     props: [
-      { name: "type", kind: "enum", type: "CbChartType", options: ["bar", "line", "doughnut", "pie"], default: "bar", description: "" },
-      { name: "data", kind: "string", type: "CbChartData", default: { labels: ['Jan', 'Feb', 'Mar'], datasets: [{ label: 'Sales', data: [12, 19, 8] }] }, description: "", control: false },
-      { name: "height", kind: "number", type: "number", default: 220, description: "" },
-      { name: "showLegend", kind: "boolean", type: "boolean", default: true, description: "" },
-      { name: "ariaLabel", kind: "string", type: "string", default: undefined, localeKey: "chart", description: "" }
+      { name: "type", kind: "enum", type: "CbChartType", options: ["bar", "horizontalBar", "line", "area", "pie", "doughnut", "radialBar"], default: "bar", description: "Tipo de gráfico." },
+      { name: "data", kind: "string", type: "CbChartData", default: { labels: ['Jan', 'Feb', 'Mar', 'Apr'], datasets: [{ label: 'Sales', data: [12, 19, 8, 15] }, { label: 'Costs', data: [7, 11, 10, 9] }] }, description: "Etiquetas y series (label, data, color, colors, type).", control: false },
+      { name: "stacked", kind: "boolean", type: "boolean", default: false, description: "Apila las series de barras o áreas." },
+      { name: "sparkline", kind: "boolean", type: "boolean", default: false, description: "Minigráfico sin ejes, rejilla, leyenda ni tarjeta." },
+      { name: "height", kind: "number", type: "number", default: 220, description: "Alto del lienzo; el ancho se adapta al contenedor." },
+      { name: "showLegend", kind: "boolean", type: "boolean", default: true, description: "Muestra la leyenda (botones que ocultan y muestran series)." },
+      { name: "valueFormat", kind: "string", type: "Intl.NumberFormatOptions | ((v: number) => string)", default: undefined, description: "Formato de los valores en ejes, tooltip y tabla.", control: false },
+      { name: "locale", kind: "string", type: "string", default: "", description: "Locale BCP 47 del formato (por defecto, el del navegador)." },
+      { name: "max", kind: "number", type: "number", default: 100, description: "Valor que representa el 100 % en radialBar." },
+      { name: "animate", kind: "boolean", type: "boolean", default: true, description: "Animación de entrada (respeta prefers-reduced-motion)." },
+      { name: "ariaLabel", kind: "string", type: "string", default: undefined, localeKey: "chart", description: "Nombre accesible del gráfico y título de su tabla de datos." }
+    ],
+    events: [
+      { name: "itemSelect", type: "CbChartItemEvent", description: "Clic o Enter sobre una categoría o un segmento: { index, label }." }
     ]
   },
   "cb-checkbox": {
