@@ -40,6 +40,18 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
             "text": "filas expandibles con la plantilla `cbTableRowExpansion`, `[(expandedRowKeys)]` y eventos `rowExpand` / `rowCollapse`."
           },
           {
+            "component": "DatePicker",
+            "text": "selección de rangos (`selectionMode=\"range\"` con `[(range)]`, previsualización bajo el puntero y aviso \"Elige la fecha final\"); con Angular Forms el control recibe `[inicio, fin]`."
+          },
+          {
+            "component": "DatePicker",
+            "text": "hora (`showTime`, `hourFormat` 24 / 12 con AM/PM, `stepMinute`)."
+          },
+          {
+            "component": "DatePicker",
+            "text": "Mayús + Re Pág / Av Pág cambian de año; cada día se nombra con su fecha completa."
+          },
+          {
             "component": "Select / MultiSelect",
             "text": "opciones agrupadas (`group`, `optionGroupLabel`, `optionGroupChildren`) con `role=\"group\"` nombrado por su título."
           },
@@ -232,6 +244,14 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
           {
             "component": "Table",
             "text": "ordenar y seleccionar filas solo era posible con ratón: el encabezado ordenable no era enfocable y los checkboxes de fila estaban ocultos al lector de pantalla. Ahora hay un botón \"Ordenar por …\" y un checkbox o radio enfocable por fila."
+          },
+          {
+            "component": "DatePicker",
+            "text": "Re Pág / Av Pág saltaban al día 1 del mes en lugar de al mismo día; al llegar con las flechas a un día fuera de `minDate` / `maxDate` se perdía el foco (ahora usan `aria-disabled`); `aria-selected` estaba en el botón en vez de en la celda."
+          },
+          {
+            "component": "DatePicker / Menubar / OrderList",
+            "text": "en apps zoneless, el foco se movía antes de que se pintara el día, el submenú o la lista reordenada, y quedaba en el elemento equivocado o se perdía. Ahora se mueve tras el render (`afterNextRender`)."
           },
           {
             "component": "MultiSelect",

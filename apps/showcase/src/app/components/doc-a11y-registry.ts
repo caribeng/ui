@@ -100,15 +100,17 @@ export const DOC_A11Y: Record<string, DocA11y> = {
   'cb-datepicker': {
     screenReader: [
       'El campo indica con `aria-haspopup="dialog"` y `aria-expanded` que abre un calendario. Con `invalid` se aplica `aria-invalid` y el error se anuncia con `role="alert"`.',
-      'El calendario es un `role="dialog"` con `aria-modal="true"`; los días forman un `role="grid"` donde el día elegido tiene `aria-selected` y el de hoy `aria-current="date"`. El mes visible se anuncia con `aria-live`.',
+      'El calendario es un `role="dialog"` no modal; los días forman un `role="grid"`: cada día se nombra con su fecha completa, la celda elegida (o dentro del rango) tiene `aria-selected` y el día de hoy `aria-current="date"`. El mes visible se anuncia con `aria-live`.',
+      'Los días fuera de `minDate` / `maxDate` usan `aria-disabled`: se puede pasar por ellos con las flechas, pero no elegirlos. En modo rango, tras elegir el inicio se anuncia "Elige la fecha final"; con `showTime`, horas y minutos son campos numéricos etiquetados.',
     ],
     keyboard: [
       { keys: 'Enter / Espacio / Flecha abajo', action: 'En el campo, abre el calendario.' },
       { keys: 'Flecha izquierda / Flecha derecha', action: 'Día anterior o siguiente.' },
       { keys: 'Flecha arriba / Flecha abajo', action: 'Mismo día de la semana anterior o siguiente.' },
       { keys: 'Inicio / Fin', action: 'Primer o último día de la semana.' },
-      { keys: 'Re Pág / Av Pág', action: 'Mes anterior o siguiente.' },
-      { keys: 'Enter / Espacio', action: 'Selecciona el día activo.' },
+      { keys: 'Re Pág / Av Pág', action: 'Mismo día del mes anterior o siguiente.' },
+      { keys: 'Mayús + Re Pág / Av Pág', action: 'Mismo día del año anterior o siguiente.' },
+      { keys: 'Enter / Espacio', action: 'Selecciona el día activo (en modo rango, el inicio y luego el fin).' },
       { keys: 'Escape', action: 'Cierra el calendario.' },
     ],
   },

@@ -54,6 +54,21 @@ describe('CbMenubar', () => {
     expect(fixture.nativeElement.querySelector('[role="menu"]')).toBeNull();
   });
 
+  it('ArrowDown mueve el foco al primer elemento del submenú (tras el render)', async () => {
+    const fixture = TestBed.createComponent(HostComponent);
+    fixture.detectChanges();
+    const el = fixture.nativeElement as HTMLElement;
+    document.body.appendChild(el);
+    const trigger = el.querySelector('[aria-haspopup="menu"]') as HTMLButtonElement;
+    trigger.focus();
+    trigger.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true, cancelable: true }));
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(document.activeElement!.textContent!.trim()).toBe('Todos');
+    expect(el.querySelector('.cb-menubar__submenu')!.contains(document.activeElement)).toBe(true);
+    el.remove();
+  });
+
   it('cierra el submenú al hacer clic fuera', () => {
     const fixture = TestBed.createComponent(HostComponent);
     fixture.detectChanges();

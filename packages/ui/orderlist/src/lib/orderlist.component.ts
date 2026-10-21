@@ -5,7 +5,9 @@ import {
   Directive,
   ElementRef,
   TemplateRef,
+  Injector,
   ViewEncapsulation,
+  afterNextRender,
   computed,
   contentChild,
   inject,
@@ -113,6 +115,7 @@ let nextUid = 0;
 export class CbOrderList {
   protected readonly t = injectCbTranslation();
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
+  private readonly injector = inject(Injector);
   protected readonly headerId = `cb-orderlist-${++nextUid}-header`;
 
   /** Elementos, en orden (two-way). */
@@ -204,6 +207,8 @@ export class CbOrderList {
   private focusItem(index: number): void {
     this.focusedIndex.set(index);
     // La lista puede haberse reordenado: se enfoca tras el siguiente render.
-    queueMicrotask(() => this.host.nativeElement.querySelectorAll<HTMLElement>('[role="option"]')[index]?.focus());
+    afterNextRender(() => this.host.nativeElement.querySelectorAll<HTMLElement>('[role="option"]')[index]?.focus(), {
+      injector: this.injector,
+    });
   }
 }

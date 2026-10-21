@@ -116,8 +116,12 @@ describe('CbDatepicker', () => {
           b.textContent!.trim() === String(n) &&
           !b.classList.contains('cb-is-other-month'),
       );
-    expect(dayBtn(5)!.disabled).toBe(true);
-    expect(dayBtn(18)!.disabled).toBe(false);
-    expect(dayBtn(25)!.disabled).toBe(true);
+    // aria-disabled (no disabled): siguen siendo enfocables al navegar con flechas.
+    expect(dayBtn(5)!.getAttribute('aria-disabled')).toBe('true');
+    expect(dayBtn(18)!.hasAttribute('aria-disabled')).toBe(false);
+    expect(dayBtn(25)!.getAttribute('aria-disabled')).toBe('true');
+    dayBtn(25)!.click();
+    fixture.detectChanges();
+    expect(fixture.componentInstance.ctrl.value!.getDate()).toBe(16);
   });
 });

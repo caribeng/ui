@@ -536,7 +536,12 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "locale", kind: "string", type: "string | undefined", default: "", description: "Locale BCP 47 para nombres y formato (por defecto el del navegador)." },
       { name: "firstDayOfWeek", kind: "number", type: "number", default: 0, description: "Primer día de la semana: 0 = domingo (por defecto), 1 = lunes." },
       { name: "minDate", kind: "string", type: "Date | null", default: "", description: "Fecha mínima seleccionable." },
-      { name: "maxDate", kind: "string", type: "Date | null", default: "", description: "Fecha máxima seleccionable." }
+      { name: "maxDate", kind: "string", type: "Date | null", default: "", description: "Fecha máxima seleccionable." },
+      { name: "selectionMode", kind: "enum", type: "'single' | 'range'", options: ["single", "range"], default: "single", description: "Una fecha o un rango [inicio, fin]." },
+      { name: "range", kind: "string", type: "CbDateRange | null (model)", default: null, description: "Rango elegido en modo range: [inicio, fin].", control: false },
+      { name: "showTime", kind: "boolean", type: "boolean", default: false, description: "Añade horas y minutos (solo en modo single)." },
+      { name: "hourFormat", kind: "enum", type: "'24' | '12'", options: ["24", "12"], default: "24", description: "Formato de la hora: 24 h o 12 h con AM/PM." },
+      { name: "stepMinute", kind: "number", type: "number", default: 1, description: "Paso de los minutos." }
     ]
   },
   "cb-dialog": {

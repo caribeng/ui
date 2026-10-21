@@ -112,6 +112,12 @@ export interface CbTranslation {
 
   // --- Fechas ---
   openCalendar: string;
+  hours: string;
+  minutes: string;
+  /** AM / PM en formato de 12 horas. */
+  period: string;
+  /** Aviso tras elegir la fecha inicial de un rango. */
+  chooseEndDate: string;
   previousMonth: string;
   nextMonth: string;
   today: string;
@@ -339,6 +345,10 @@ export const CB_LOCALE_ES: CbTranslation = {
   ratingOf: '{0} de {1}',
 
   openCalendar: 'Abrir calendario',
+  hours: 'Horas',
+  minutes: 'Minutos',
+  period: 'AM / PM',
+  chooseEndDate: 'Elige la fecha final',
   previousMonth: 'Mes anterior',
   nextMonth: 'Mes siguiente',
   today: 'Hoy',
@@ -542,6 +552,10 @@ export const CB_LOCALE_EN: CbTranslation = {
   ratingOf: '{0} of {1}',
 
   openCalendar: 'Open calendar',
+  hours: 'Hours',
+  minutes: 'Minutes',
+  period: 'AM / PM',
+  chooseEndDate: 'Choose the end date',
   previousMonth: 'Previous month',
   nextMonth: 'Next month',
   today: 'Today',

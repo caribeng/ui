@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { DocPlaygroundComponent } from '../components/doc-playground.component';
 import { DOC_API } from '../components/doc-api-registry';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CbDatepicker } from '@caribeng/ui/datepicker';
+import { CbDatepicker, type CbDateRange } from '@caribeng/ui/datepicker';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
@@ -70,6 +70,31 @@ import { DOC_A11Y } from '../components/doc-a11y-registry';
     </doc-section>
 
     <doc-section
+      id="date-range"
+      title="Rango de fechas"
+      description="selectionMode=&quot;range&quot;: el primer clic marca el inicio y el segundo el fin (se ordenan solos). [(range)] es [inicio, fin]."
+      [code]="dateRangeCode"
+      [codeTs]="dateRangeTs"
+    >
+      <div style="width: 100%; max-width: 320px">
+        <cb-datepicker selectionMode="range" [(range)]="viaje" label="Fechas del viaje" placeholder="Inicio – fin" />
+      </div>
+      <p style="margin: 0.75rem 0 0; color: var(--cb-color-text-muted); font-size: 0.875rem">Noches: {{ noches() }}</p>
+    </doc-section>
+
+    <doc-section
+      id="time"
+      title="Con hora"
+      description="showTime añade horas y minutos; hourFormat=&quot;12&quot; usa AM/PM y stepMinute el paso de los minutos. Elegir un día no cierra el calendario."
+      [code]="timeCode"
+    >
+      <div style="display: grid; gap: 0.75rem; width: 100%; max-width: 280px">
+        <cb-datepicker showTime [(value)]="cita24" label="Cita (24 h)" />
+        <cb-datepicker showTime hourFormat="12" [stepMinute]="15" [(value)]="cita12" label="Cita (12 h)" />
+      </div>
+    </doc-section>
+
+    <doc-section
       id="validation"
       title="Validación · Reactive Forms"
       description="Con formControl y Validators.required, el * y el mensaje de error aparecen solos; minDate limita las fechas anteriores."
@@ -112,6 +137,14 @@ export class DatepickerDocComponent {
   protected readonly fecha = signal<Date | null>(null);
   protected readonly fechaCo = signal<Date | null>(null);
   protected readonly fechaRango = signal<Date | null>(null);
+  protected readonly viaje = signal<CbDateRange | null>(null);
+  protected readonly cita24 = signal<Date | null>(null);
+  protected readonly cita12 = signal<Date | null>(null);
+  protected readonly noches = computed(() => {
+    const v = this.viaje();
+    if (!v?.[1]) return '—';
+    return Math.round((v[1].getTime() - v[0].getTime()) / 86_400_000);
+  });
 
   protected readonly cita = new FormControl<Date | null>(null, [Validators.required]);
 
@@ -131,6 +164,17 @@ export class MyComponent {}`;
 
   protected readonly rangeCode = `<cb-datepicker [(value)]="fecha"
   [minDate]="hoy" [maxDate]="enTresSemanas" label="Próximas 3 semanas" />`;
+
+  protected readonly dateRangeCode = `<cb-datepicker selectionMode="range" [(range)]="viaje" label="Fechas del viaje" placeholder="Inicio – fin" />
+<p>Noches: {{ noches() }}</p>`;
+  protected readonly dateRangeTs = `viaje = signal<CbDateRange | null>(null);
+noches = computed(() => {
+  const v = this.viaje();
+  if (!v?.[1]) return '—';
+  return Math.round((v[1].getTime() - v[0].getTime()) / 86_400_000);
+});`;
+  protected readonly timeCode = `<cb-datepicker showTime [(value)]="cita24" label="Cita (24 h)" />
+<cb-datepicker showTime hourFormat="12" [stepMinute]="15" [(value)]="cita12" label="Cita (12 h)" />`;
 
   protected readonly validationCode = `<cb-datepicker
   [formControl]="cita"

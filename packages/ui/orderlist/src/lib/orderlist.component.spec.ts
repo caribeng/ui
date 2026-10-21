@@ -30,9 +30,10 @@ describe('CbOrderList', () => {
     document.body.appendChild(el);
     const options = () => Array.from(el.querySelectorAll<HTMLElement>('[role="option"]'));
     const btn = (label: string) => el.querySelector<HTMLButtonElement>(`button[aria-label="${label}"]`)!;
-    const key = (k: string, altKey = false) => {
+    const key = async (k: string, altKey = false) => {
       document.activeElement!.dispatchEvent(new KeyboardEvent('keydown', { key: k, altKey, bubbles: true }));
       fixture.detectChanges();
+      await fixture.whenStable();
     };
     return { fixture, el, options, btn, key, host: fixture.componentInstance };
   }
@@ -65,16 +66,17 @@ describe('CbOrderList', () => {
     expect(host.onReorder).toHaveBeenCalledWith(expect.objectContaining({ from: 3, to: 0 }));
   });
 
-  it('navega, selecciona y mueve con el teclado', () => {
+  it('navega, selecciona y mueve con el teclado (el foco sigue al elemento movido)', async () => {
     const { options, key, host } = setup();
     options()[0].focus();
-    key('ArrowDown');
+    await key('ArrowDown');
     expect(document.activeElement).toBe(options()[1]);
-    key(' ');
+    await key(' ');
     expect(options()[1].getAttribute('aria-selected')).toBe('true');
-    key('ArrowDown', true); // Alt + ↓
+    await key('ArrowDown', true); // Alt + ↓
     expect(host.items()).toEqual(['A', 'C', 'B', 'B']);
     expect(options()[2].getAttribute('aria-selected')).toBe('true');
+    expect(document.activeElement).toBe(options()[2]);
   });
 
   it('se nombra con header o con la etiqueta del idioma', () => {

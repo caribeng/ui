@@ -1395,8 +1395,6 @@ export const ES_EN: Record<string, string> = {
     'Closes the suggestions and moves to the next element.',
   'El campo indica con `aria-haspopup="dialog"` y `aria-expanded` que abre un calendario. Con `invalid` se aplica `aria-invalid` y el error se anuncia con `role="alert"`.':
     'The field signals with `aria-haspopup="dialog"` and `aria-expanded` that it opens a calendar. With `invalid`, `aria-invalid` is applied and the error is announced with `role="alert"`.',
-  'El calendario es un `role="dialog"` con `aria-modal="true"`; los días forman un `role="grid"` donde el día elegido tiene `aria-selected` y el de hoy `aria-current="date"`. El mes visible se anuncia con `aria-live`.':
-    'The calendar is a `role="dialog"` with `aria-modal="true"`; the days form a `role="grid"` where the selected day has `aria-selected` and today has `aria-current="date"`. The visible month is announced with `aria-live`.',
   'Enter / Espacio / Flecha abajo': 'Enter / Space / Down arrow',
   'En el campo, abre el calendario.': 'On the field, opens the calendar.',
   'Flecha izquierda / Flecha derecha': 'Left arrow / Right arrow',
@@ -1405,8 +1403,6 @@ export const ES_EN: Record<string, string> = {
   'Mismo día de la semana anterior o siguiente.': 'Same weekday of the previous or next week.',
   'Primer o último día de la semana.': 'First or last day of the week.',
   'Re Pág / Av Pág': 'Page Up / Page Down',
-  'Mes anterior o siguiente.': 'Previous or next month.',
-  'Selecciona el día activo.': 'Selects the active day.',
   'Cierra el calendario.': 'Closes the calendar.',
   'El campo tiene `role="spinbutton"` con `aria-valuenow`, `aria-valuemin` y `aria-valuemax`. Con `invalid` se aplica `aria-invalid` y `aria-describedby` enlaza la ayuda o el error.':
     'The field has `role="spinbutton"` with `aria-valuenow`, `aria-valuemin` and `aria-valuemax`. With `invalid`, `aria-invalid` is applied and `aria-describedby` links the help text or the error.',
@@ -1881,6 +1877,29 @@ export const ES_EN: Record<string, string> = {
     'The panel uses `role="listbox"` with `aria-multiselectable="true"`; each option has `role="option"` with `aria-selected` and `aria-disabled`. `aria-activedescendant` points to the active option while navigating with the keyboard.',
   'Marca o desmarca la opción activa; el panel sigue abierto (en el filtro, Espacio escribe).':
     'Checks or unchecks the active option; the panel stays open (in the filter, Space types).',
+
+  // --- DatePicker: rangos, hora y teclado ---
+  'selectionMode="range": el primer clic marca el inicio y el segundo el fin (se ordenan solos). [(range)] es [inicio, fin].':
+    'selectionMode="range": the first click sets the start and the second the end (they are ordered automatically). [(range)] is [start, end].',
+  'showTime añade horas y minutos; hourFormat="12" usa AM/PM y stepMinute el paso de los minutos. Elegir un día no cierra el calendario.':
+    'showTime adds hours and minutes; hourFormat="12" uses AM/PM and stepMinute sets the minute step. Choosing a day does not close the calendar.',
+  'Rango de fechas': 'Date range',
+  'Con hora': 'With time',
+  'Una fecha o un rango [inicio, fin].': 'A single date or a range [start, end].',
+  'Añade horas y minutos (solo en modo single).': 'Adds hours and minutes (single mode only).',
+  'Formato de la hora: 24 h o 12 h con AM/PM.': 'Time format: 24 h or 12 h with AM/PM.',
+  'Paso de los minutos.': 'Minute step.',
+  'El calendario es un `role="dialog"` no modal; los días forman un `role="grid"`: cada día se nombra con su fecha completa, la celda elegida (o dentro del rango) tiene `aria-selected` y el día de hoy `aria-current="date"`. El mes visible se anuncia con `aria-live`.':
+    'The calendar is a non-modal `role="dialog"`; days form a `role="grid"`: each day is named with its full date, the chosen cell (or those in the range) has `aria-selected` and today `aria-current="date"`. The visible month is announced with `aria-live`.',
+  'Los días fuera de `minDate` / `maxDate` usan `aria-disabled`: se puede pasar por ellos con las flechas, pero no elegirlos. En modo rango, tras elegir el inicio se anuncia "Elige la fecha final"; con `showTime`, horas y minutos son campos numéricos etiquetados.':
+    'Days outside `minDate` / `maxDate` use `aria-disabled`: the arrow keys can move through them, but they cannot be chosen. In range mode, "Choose the end date" is announced after picking the start; with `showTime`, hours and minutes are labelled number fields.',
+  'Mismo día del mes anterior o siguiente.': 'Same day of the previous or next month.',
+  'Mayús + Re Pág / Av Pág': 'Shift + Page Up / Page Down',
+  'Mismo día del año anterior o siguiente.': 'Same day of the previous or next year.',
+  'Selecciona el día activo (en modo rango, el inicio y luego el fin).':
+    'Selects the active day (in range mode, the start and then the end).',
+
+  'Rango elegido en modo range: [inicio, fin].': 'Range chosen in range mode: [start, end].',
 
   // --- API de Select / MultiSelect (etiquetado accesible) ---
   'Nombre accesible del disparador cuando no hay etiqueta visible.':

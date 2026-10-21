@@ -2,7 +2,9 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  Injector,
   ViewEncapsulation,
+  afterNextRender,
   inject,
   input,
   output,
@@ -91,6 +93,7 @@ export class CbMenubar {
   /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
   protected readonly t = injectCbTranslation();
   private readonly host = inject(ElementRef<HTMLElement>);
+  private readonly injector = inject(Injector);
   readonly items = input<readonly CbMenubarItem[]>([]);
   readonly ariaLabel = input<string | undefined>(undefined);
   readonly itemSelect = output<CbMenubarItem>();
@@ -142,7 +145,11 @@ export class CbMenubar {
     if (event.key === 'ArrowDown' && root && this.items()[rootIndex]?.items?.length) {
       event.preventDefault();
       this.openIndex.set(rootIndex);
-      queueMicrotask(() => (this.host.nativeElement as HTMLElement).querySelector<HTMLElement>('.cb-menubar__submenu [role="menuitem"]:not([aria-disabled="true"]):not(:disabled)')?.focus());
+      // El submenú se pinta en el siguiente render (zoneless): se enfoca después.
+      afterNextRender(
+        () => (this.host.nativeElement as HTMLElement).querySelector<HTMLElement>('.cb-menubar__submenu [role="menuitem"]:not([aria-disabled="true"]):not(:disabled)')?.focus(),
+        { injector: this.injector },
+      );
     }
 
     if ((event.key === 'ArrowDown' || event.key === 'ArrowUp') && target.closest('.cb-menubar__submenu')) {
