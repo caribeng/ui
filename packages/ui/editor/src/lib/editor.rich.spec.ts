@@ -53,23 +53,64 @@ afterEach(() => {
 const TABLE = '<table><thead><tr><th scope="col">Mes</th><th scope="col">Saldo</th></tr></thead><tbody><tr><td>Ene</td><td>10</td></tr></tbody></table>';
 
 describe('CbEditor · tablas', () => {
-  it('"Insertar tabla" abre un formulario y crea la tabla con su fila de encabezado', async () => {
+  it('"Insertar tabla" muestra una cuadrícula: el tamaño se elige con el ratón o las flechas', async () => {
     const { el, button, settle } = setup('<p>Texto</p>');
     await settle();
     button('Insertar tabla').click();
     await settle();
-    const form = el.querySelector<HTMLFormElement>('form.cb-editor__link')!;
-    expect(form.getAttribute('aria-label')).toBe('Insertar tabla');
-    const [rows, cols] = Array.from(form.querySelectorAll<HTMLInputElement>('input[type="number"]'));
-    rows.value = '2';
-    cols.value = '2';
-    form.dispatchEvent(new Event('submit', { cancelable: true }));
+    const panel = el.querySelector<HTMLElement>('.cb-editor__picker-panel')!;
+    expect(panel.getAttribute('aria-label')).toBe('Insertar tabla');
+    // Empieza en 3 × 3 con el foco; las flechas cambian el tamaño y lo anuncian.
+    const focused = panel.querySelector<HTMLButtonElement>('.cb-editor__picker-cell[tabindex="0"]')!;
+    expect(focused.getAttribute('aria-label')).toBe('3 filas × 3 columnas');
+    focused.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true, cancelable: true }));
     await settle();
+    expect(panel.querySelector('.cb-editor__picker-size')!.textContent!.trim()).toBe('3 filas × 4 columnas');
+    expect(panel.querySelectorAll('.cb-editor__picker-cell.cb-is-on')).toHaveLength(12);
+    button('2 filas × 2 columnas', panel).click();
+    await settle();
+    const cell = (tag: string) => `<${tag}${tag === 'th' ? ' scope="col"' : ''} style="border: 1px solid #d0d5dd"><br></${tag}>`;
     expect(exec).toHaveBeenCalledWith(
       'insertHTML',
       false,
-      '<table><thead><tr><th scope="col"><br></th><th scope="col"><br></th></tr></thead><tbody><tr><td><br></td><td><br></td></tr></tbody></table><p><br></p>',
+      `<table style="border-collapse: collapse; width: 100%"><thead><tr>${cell('th')}${cell('th')}</tr></thead><tbody><tr>${cell('td')}${cell('td')}</tr></tbody></table><p><br></p>`,
     );
+  });
+
+  it('los bordes se guardan en el HTML de cada celda: todos, solo horizontales o ninguno, y su color', async () => {
+    const { surface, caret, bar, host, settle } = setup(TABLE);
+    await caret(surface().querySelector('td')!);
+    const [mode, color] = Array.from(bar('Tabla')!.querySelectorAll<HTMLSelectElement>('select'));
+    expect(mode.getAttribute('aria-label')).toBe('Bordes');
+    expect(color.disabled).toBe(true);
+    mode.value = 'all';
+    mode.dispatchEvent(new Event('change'));
+    await settle();
+    expect(host.html()).toContain('<table style="border-collapse: collapse; width: 100%">');
+    expect(host.html()).toContain('<td style="border: 1px solid #d0d5dd">Ene</td>');
+    expect(host.html().match(/border: 1px solid #d0d5dd/g)).toHaveLength(4);
+    color.value = '#2563eb';
+    color.dispatchEvent(new Event('change'));
+    await settle();
+    expect(host.html().match(/border: 1px solid #2563eb/g)).toHaveLength(4);
+    mode.value = 'horizontal';
+    mode.dispatchEvent(new Event('change'));
+    await settle();
+    expect(host.html()).toContain('<td style="border-bottom: 1px solid #2563eb">Ene</td>');
+    mode.value = 'none';
+    mode.dispatchEvent(new Event('change'));
+    await settle();
+    expect(host.html()).not.toContain('border-bottom');
+  });
+
+  it('una fila o columna nueva copia los bordes de su vecina', async () => {
+    const bordered = '<table style="border-collapse: collapse; width: 100%"><tbody><tr><td style="border: 1px solid #344054">a</td></tr></tbody></table>';
+    const { surface, caret, button, bar, host } = setup(bordered);
+    await caret(surface().querySelector('td')!);
+    button('Insertar fila abajo', bar('Tabla')!).click();
+    await caret(surface().querySelector('td')!);
+    button('Insertar columna a la derecha', bar('Tabla')!).click();
+    expect(host.html().match(/border: 1px solid #344054/g)).toHaveLength(4);
   });
 
   it('con el cursor en una celda aparece la barra de tabla; añade y quita filas y columnas', async () => {

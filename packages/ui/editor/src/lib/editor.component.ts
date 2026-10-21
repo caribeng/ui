@@ -35,6 +35,7 @@ import {
   code,
   codeXml,
   columns3,
+  crop,
   image,
   italic,
   link,
@@ -60,7 +61,18 @@ import {
   unlink,
 } from '@caribeng/ui/icons';
 import { cbFieldState, cbFormat, injectCbTranslation, type CbTranslation } from '@caribeng/ui';
-import { cbHtmlToText, cbSanitizeHtml, imageStyle, isSafeUrl, readImageStyle, type CbImageAlign } from './html-sanitizer';
+import {
+  cbHtmlToText,
+  cbSanitizeHtml,
+  imageStyle,
+  isSafeUrl,
+  readCellBorders,
+  readImageStyle,
+  withCellBorders,
+  type CbImageAlign,
+  type CbTableBorders,
+} from './html-sanitizer';
+import { clampRect, cropImage, fitRatio, initialRect, resizeRect, type CbCropRect } from './image-crop';
 
 /** Herramientas de la barra; `'|'` es un separador. */
 export type CbEditorTool =
@@ -200,6 +212,7 @@ const EDITOR_ICONS: Record<string, string> = {
   'between-vertical-end': betweenVerticalEnd,
   'rows-3': rows3,
   'columns-3': columns3,
+  crop,
   'panel-top': panelTop,
   trash,
   type,
@@ -209,6 +222,9 @@ const EDITOR_ICONS: Record<string, string> = {
   ratio,
   captions,
 };
+
+/** Borde por defecto de las tablas nuevas (gris claro, legible en temas claro y oscuro). */
+const DEFAULT_BORDER = '#d0d5dd';
 
 /** Anchos rápidos de una imagen (porcentaje del área de texto). */
 const IMAGE_WIDTHS = ['25%', '50%', '75%', '100%'];
@@ -297,27 +313,66 @@ let nextId = 0;
     }
 
     @if (tableCell() && !readonly() && !sourceMode()) {
-      <div class="cb-editor__context" role="toolbar" [attr.aria-label]="t().tableTools" (keydown)="onContextKeydown($event)">
-        @for (action of tableActions; track $index) {
-          @if (action.id === 'sep') {
-            <span class="cb-editor__sep" aria-hidden="true"></span>
-          } @else {
-            <button
-              type="button"
-              class="cb-editor__tool"
-              [class.cb-editor__tool--danger]="action.danger"
-              [class.cb-is-active]="action.id === 'header' && tableHasHeader()"
-              [attr.aria-pressed]="action.id === 'header' ? tableHasHeader() : null"
-              [attr.aria-label]="action.label(t())"
-              [attr.title]="action.label(t())"
-              [tabindex]="$first ? 0 : -1"
-              (mousedown)="hold($event)"
-              (click)="tableAction(action.id)"
-            >
-              <cb-icon [name]="action.icon" [size]="16" aria-hidden="true" />
-            </button>
+      <div class="cb-editor__context cb-editor__context--table" role="toolbar" [attr.aria-label]="t().tableTools" (keydown)="onContextKeydown($event)">
+        <div class="cb-editor__group" role="group" [attr.aria-label]="t().tableRow">
+          <span class="cb-editor__group-label" aria-hidden="true">{{ t().tableRow }}</span>
+          <button type="button" class="cb-editor__tool cb-editor__tool--labeled" tabindex="0" [attr.aria-label]="t().insertRowAbove" (mousedown)="hold($event)" (click)="tableAction('rowAbove')">
+            <cb-icon name="between-horizontal-start" [size]="15" aria-hidden="true" />{{ t().above }}
+          </button>
+          <button type="button" class="cb-editor__tool cb-editor__tool--labeled" tabindex="-1" [attr.aria-label]="t().insertRowBelow" (mousedown)="hold($event)" (click)="tableAction('rowBelow')">
+            <cb-icon name="between-horizontal-end" [size]="15" aria-hidden="true" />{{ t().below }}
+          </button>
+          <button type="button" class="cb-editor__tool cb-editor__tool--labeled cb-editor__tool--danger" tabindex="-1" [attr.aria-label]="t().deleteRow" (mousedown)="hold($event)" (click)="tableAction('deleteRow')">
+            <cb-icon name="trash" [size]="15" aria-hidden="true" />{{ t().tableDelete }}
+          </button>
+        </div>
+        <span class="cb-editor__sep" aria-hidden="true"></span>
+        <div class="cb-editor__group" role="group" [attr.aria-label]="t().tableColumn">
+          <span class="cb-editor__group-label" aria-hidden="true">{{ t().tableColumn }}</span>
+          <button type="button" class="cb-editor__tool cb-editor__tool--labeled" tabindex="-1" [attr.aria-label]="t().insertColumnLeft" (mousedown)="hold($event)" (click)="tableAction('colLeft')">
+            <cb-icon name="between-vertical-start" [size]="15" aria-hidden="true" />{{ t().toLeft }}
+          </button>
+          <button type="button" class="cb-editor__tool cb-editor__tool--labeled" tabindex="-1" [attr.aria-label]="t().insertColumnRight" (mousedown)="hold($event)" (click)="tableAction('colRight')">
+            <cb-icon name="between-vertical-end" [size]="15" aria-hidden="true" />{{ t().toRight }}
+          </button>
+          <button type="button" class="cb-editor__tool cb-editor__tool--labeled cb-editor__tool--danger" tabindex="-1" [attr.aria-label]="t().deleteColumn" (mousedown)="hold($event)" (click)="tableAction('deleteCol')">
+            <cb-icon name="trash" [size]="15" aria-hidden="true" />{{ t().tableDelete }}
+          </button>
+        </div>
+        <span class="cb-editor__sep" aria-hidden="true"></span>
+        <button
+          type="button"
+          class="cb-editor__tool cb-editor__tool--labeled"
+          tabindex="-1"
+          [class.cb-is-active]="tableHasHeader()"
+          [attr.aria-pressed]="tableHasHeader()"
+          [attr.aria-label]="t().tableHeaderRow"
+          (mousedown)="hold($event)"
+          (click)="tableAction('header')"
+        >
+          <cb-icon name="panel-top" [size]="15" aria-hidden="true" />{{ t().tableHeaderRow }}
+        </button>
+        <span class="cb-editor__sep" aria-hidden="true"></span>
+        <select class="cb-editor__select" tabindex="-1" [attr.aria-label]="t().tableBorders" (change)="setTableBorders($any($event.target).value, null)">
+          <option value="all" [selected]="tableBorders().borders === 'all'">{{ t().bordersAll }}</option>
+          <option value="horizontal" [selected]="tableBorders().borders === 'horizontal'">{{ t().bordersHorizontal }}</option>
+          <option value="none" [selected]="tableBorders().borders === 'none'">{{ t().bordersNone }}</option>
+        </select>
+        <select
+          class="cb-editor__select"
+          tabindex="-1"
+          [attr.aria-label]="t().borderColor"
+          [disabled]="tableBorders().borders === 'none'"
+          (change)="setTableBorders(null, $any($event.target).value)"
+        >
+          @for (color of borderColors; track color.value) {
+            <option [value]="color.value" [selected]="tableBorders().color === color.value">{{ color.label(t()) }}</option>
           }
-        }
+        </select>
+        <span class="cb-editor__sep" aria-hidden="true"></span>
+        <button type="button" class="cb-editor__tool cb-editor__tool--labeled cb-editor__tool--danger" tabindex="-1" [attr.aria-label]="t().deleteTable" (mousedown)="hold($event)" (click)="tableAction('deleteTable')">
+          <cb-icon name="trash" [size]="15" aria-hidden="true" />{{ t().deleteTable }}
+        </button>
       </div>
     }
 
@@ -365,6 +420,9 @@ let nextId = 0;
           <cb-icon name="ratio" [size]="16" aria-hidden="true" />
         </button>
         <span class="cb-editor__sep" aria-hidden="true"></span>
+        <button type="button" class="cb-editor__tool cb-editor__tool--labeled" [attr.aria-label]="t().cropImage" [tabindex]="-1" (click)="openCrop()">
+          <cb-icon name="crop" [size]="15" aria-hidden="true" />{{ t().cropImage }}
+        </button>
         <button type="button" class="cb-editor__tool" [attr.aria-label]="t().altText" [attr.title]="t().altText" [tabindex]="-1" (click)="openAlt()">
           <cb-icon name="captions" [size]="16" aria-hidden="true" />
         </button>
@@ -383,24 +441,79 @@ let nextId = 0;
     }
 
     @if (tablePanel()) {
-      <form class="cb-editor__link" role="group" [attr.aria-label]="t().insertTable" (submit)="insertTable($event)" (keydown.escape)="closeTablePanel()">
-        <label class="cb-editor__link-field cb-editor__link-field--narrow">
-          <span class="cb-editor__link-label">{{ t().tableRows }}</span>
-          <input #tableRows class="cb-editor__link-input" type="number" min="1" max="50" value="3" />
-        </label>
-        <label class="cb-editor__link-field cb-editor__link-field--narrow">
-          <span class="cb-editor__link-label">{{ t().tableColumns }}</span>
-          <input #tableCols class="cb-editor__link-input" type="number" min="1" max="12" value="3" />
-        </label>
-        <label class="cb-editor__link-check">
-          <input #tableHeader type="checkbox" checked />
-          {{ t().tableHeaderRow }}
-        </label>
-        <div class="cb-editor__link-actions">
-          <button type="submit" class="cb-editor__btn cb-editor__btn--primary">{{ t().insert }}</button>
+      <div class="cb-editor__link cb-editor__picker-panel" role="group" [attr.aria-label]="t().insertTable" (keydown.escape)="closeTablePanel()">
+        <div class="cb-editor__picker" (mouseleave)="pickerHover.set(null)">
+          @for (r of pickerRows; track r) {
+            <div class="cb-editor__picker-row">
+              @for (c of pickerCols; track c) {
+                <button
+                  type="button"
+                  class="cb-editor__picker-cell"
+                  [class.cb-is-on]="pickerOn(r, c)"
+                  [attr.aria-label]="tableSizeLabel(r, c)"
+                  [tabindex]="r === pickerFocus().r && c === pickerFocus().c ? 0 : -1"
+                  (mouseenter)="pickerHover.set({ r, c })"
+                  (focus)="pickerHover.set({ r, c }); pickerFocus.set({ r, c })"
+                  (keydown)="onPickerKeydown($event, r, c)"
+                  (click)="insertTable(r, c)"
+                ></button>
+              }
+            </div>
+          }
+        </div>
+        <div class="cb-editor__picker-side">
+          <span class="cb-editor__picker-size" aria-live="polite">{{ pickerHover() ? tableSizeLabel(pickerHover()!.r, pickerHover()!.c) : t().insertTable }}</span>
+          <label class="cb-editor__link-check">
+            <input type="checkbox" [checked]="tableHeader()" (change)="tableHeader.set($any($event.target).checked)" />
+            {{ t().tableHeaderRow }}
+          </label>
           <button type="button" class="cb-editor__btn" (click)="closeTablePanel()">{{ t().cancel }}</button>
         </div>
-      </form>
+      </div>
+    }
+
+    @if (crop(); as c) {
+      <div class="cb-editor__crop" role="group" [attr.aria-label]="t().cropImage" (keydown.escape)="closeCrop()">
+        <div class="cb-editor__crop-stage" #cropStage>
+          <img class="cb-editor__crop-img" [src]="c.src" alt="" draggable="false" />
+          <div
+            class="cb-editor__crop-box"
+            role="slider"
+            tabindex="0"
+            [attr.aria-label]="t().cropArea"
+            [attr.aria-valuetext]="cropValueText()"
+            [attr.aria-describedby]="cropHelpId"
+            [style.left.%]="c.rect.x * 100"
+            [style.top.%]="c.rect.y * 100"
+            [style.width.%]="c.rect.w * 100"
+            [style.height.%]="c.rect.h * 100"
+            (pointerdown)="startCropDrag($event, null)"
+            (keydown)="onCropKeydown($event)"
+          >
+            @for (corner of cropCorners; track corner) {
+              <span class="cb-editor__crop-handle" [class]="'cb-editor__crop-handle cb-editor__crop-handle--' + corner" (pointerdown)="startCropDrag($event, corner)"></span>
+            }
+          </div>
+        </div>
+        <p class="cb-editor__crop-help" [id]="cropHelpId">{{ t().cropInstructions }}</p>
+        <div class="cb-editor__link-actions">
+          @for (ratio of cropRatios; track ratio.label) {
+            <button
+              type="button"
+              class="cb-editor__btn"
+              [class.cb-is-active]="c.ratio === ratio.value"
+              [attr.aria-pressed]="c.ratio === ratio.value"
+              (click)="setCropRatio(ratio.value)"
+            >{{ ratio.value === null ? t().cropFree : ratio.label }}</button>
+          }
+          <span class="cb-editor__crop-spacer"></span>
+          <button type="button" class="cb-editor__btn cb-editor__btn--primary" [disabled]="c.busy" (click)="applyCrop()">{{ t().cropImage }}</button>
+          <button type="button" class="cb-editor__btn" (click)="closeCrop()">{{ t().cancel }}</button>
+        </div>
+        @if (c.error) {
+          <p class="cb-editor__error" role="alert">{{ t().cropError }}</p>
+        }
+      </div>
     }
 
     @if (altPanel()) {
@@ -604,6 +717,40 @@ export class CbEditor implements ControlValueAccessor {
   protected readonly tableCell = signal<HTMLTableCellElement | null>(null);
   protected readonly tableHasHeader = computed(() => !!this.tableCell()?.closest('table')?.tHead?.rows.length);
   protected readonly tablePanel = signal(false);
+  protected readonly tableHeader = signal(true);
+  protected readonly pickerRows = [1, 2, 3, 4, 5, 6, 7, 8];
+  protected readonly pickerCols = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  protected readonly pickerHover = signal<{ r: number; c: number } | null>(null);
+  protected readonly pickerFocus = signal({ r: 1, c: 1 });
+  /** Se incrementa al cambiar los bordes (viven en el DOM de las celdas). */
+  private readonly tableTick = signal(0);
+  protected readonly tableBorders = computed(() => {
+    this.tableTick();
+    return readCellBorders(this.tableCell()?.getAttribute('style') ?? '');
+  });
+  protected readonly borderColors: { value: string; label: (t: CbTranslation) => string }[] = [
+    { value: '#d0d5dd', label: (t) => t.colorGray },
+    { value: '#344054', label: (t) => t.colorDark },
+    { value: '#10b981', label: (t) => t.colorGreen },
+    { value: '#2563eb', label: (t) => t.colorBlue },
+  ];
+
+  protected readonly crop = signal<{ src: string; rect: CbCropRect; ratio: number | null; natural: { w: number; h: number }; busy: boolean; error: boolean } | null>(null);
+  protected readonly cropRatios: { label: string; value: number | null }[] = [
+    { label: 'free', value: null },
+    { label: '1:1', value: 1 },
+    { label: '4:3', value: 4 / 3 },
+    { label: '16:9', value: 16 / 9 },
+  ];
+  protected readonly cropCorners = ['nw', 'ne', 'sw', 'se'] as const;
+  protected readonly cropHelpId = `${this.surfaceId}-crop-help`;
+  private readonly cropStageRef = viewChild<ElementRef<HTMLElement>>('cropStage');
+  protected readonly cropValueText = computed(() => {
+    const c = this.crop();
+    if (!c) return '';
+    const pct = (n: number) => `${Math.round(n * 100)} %`;
+    return `${pct(c.rect.w)} × ${pct(c.rect.h)}`;
+  });
   /** Imagen seleccionada con un clic (muestra su barra y el tirador de tamaño). */
   protected readonly selectedImage = signal<HTMLImageElement | null>(null);
   /** Se incrementa al cambiar la imagen seleccionada (su estilo vive en el DOM, no en una señal). */
@@ -622,18 +769,6 @@ export class CbEditor implements ControlValueAccessor {
     { align: 'left', icon: 'align-start-vertical', label: (t) => t.imageAlignLeft },
     { align: 'center', icon: 'align-center-horizontal', label: (t) => t.imageAlignCenter },
     { align: 'right', icon: 'align-end-vertical', label: (t) => t.imageAlignRight },
-  ];
-  protected readonly tableActions: { id: string; icon: string; label: (t: CbTranslation) => string; danger?: boolean }[] = [
-    { id: 'rowAbove', icon: 'between-horizontal-start', label: (t) => t.insertRowAbove },
-    { id: 'rowBelow', icon: 'between-horizontal-end', label: (t) => t.insertRowBelow },
-    { id: 'colLeft', icon: 'between-vertical-start', label: (t) => t.insertColumnLeft },
-    { id: 'colRight', icon: 'between-vertical-end', label: (t) => t.insertColumnRight },
-    { id: 'sep', icon: '', label: () => '' },
-    { id: 'header', icon: 'panel-top', label: (t) => t.tableHeaderRow },
-    { id: 'sep', icon: '', label: () => '' },
-    { id: 'deleteRow', icon: 'rows-3', label: (t) => t.deleteRow, danger: true },
-    { id: 'deleteCol', icon: 'columns-3', label: (t) => t.deleteColumn, danger: true },
-    { id: 'deleteTable', icon: 'trash', label: (t) => t.deleteTable, danger: true },
   ];
   /** Último HTML emitido o cargado: evita reescribir el DOM (y mover el cursor) con su propio valor. */
   private lastHtml: string | null = null;
@@ -1053,8 +1188,13 @@ export class CbEditor implements ControlValueAccessor {
   protected openTablePanel(): void {
     if (this.isDisabled() || this.readonly()) return;
     this.saveSelection();
+    this.pickerHover.set(null);
+    this.pickerFocus.set({ r: 3, c: 3 });
     this.tablePanel.set(true);
-    afterNextRender(() => this.tableRowsRef()?.nativeElement.focus(), { injector: this.injector });
+    afterNextRender(
+      () => this.document.querySelector<HTMLButtonElement>(`#${this.surfaceId}`)?.closest('.cb-editor')?.querySelector<HTMLButtonElement>('.cb-editor__picker-cell[tabindex="0"]')?.focus(),
+      { injector: this.injector },
+    );
   }
 
   protected closeTablePanel(): void {
@@ -1062,18 +1202,55 @@ export class CbEditor implements ControlValueAccessor {
     this.restoreSelection();
   }
 
-  /** Inserta una tabla de filas × columnas (con fila de encabezado opcional) y un párrafo después. */
-  protected insertTable(event: Event): void {
+  protected pickerOn(r: number, c: number): boolean {
+    const hover = this.pickerHover();
+    return !!hover && r <= hover.r && c <= hover.c;
+  }
+
+  protected tableSizeLabel(r: number, c: number): string {
+    return cbFormat(this.t().tableSize, r, c);
+  }
+
+  /** Flechas en la cuadrícula de tamaño; Enter inserta. */
+  protected onPickerKeydown(event: KeyboardEvent, r: number, c: number): void {
+    const moves: Record<string, [number, number]> = { ArrowUp: [-1, 0], ArrowDown: [1, 0], ArrowLeft: [0, -1], ArrowRight: [0, 1] };
+    const move = moves[event.key];
+    if (!move) return;
     event.preventDefault();
-    const rows = clampInt(this.tableRowsRef()?.nativeElement.value, 1, 50, 3);
-    const cols = clampInt(this.tableColsRef()?.nativeElement.value, 1, 12, 3);
-    const header = this.tableHeaderRef()?.nativeElement.checked ?? true;
+    const next = { r: Math.min(this.pickerRows.length, Math.max(1, r + move[0])), c: Math.min(this.pickerCols.length, Math.max(1, c + move[1])) };
+    this.pickerFocus.set(next);
+    this.pickerHover.set(next);
+    const panel = (event.target as HTMLElement).closest('.cb-editor__picker');
+    afterNextRender(() => panel?.querySelector<HTMLButtonElement>('.cb-editor__picker-cell[tabindex="0"]')?.focus(), { injector: this.injector });
+  }
+
+  /** Inserta una tabla de filas × columnas con bordes grises (se ven igual fuera del editor). */
+  insertTable(rows: number, cols: number): void {
+    const header = this.tableHeader();
     this.tablePanel.set(false);
     this.restoreSelection();
-    const row = (tag: string) => `<tr>${`<${tag}${tag === 'th' ? ' scope="col"' : ''}><br></${tag}>`.repeat(cols)}</tr>`;
+    const cell = (tag: string) => `<${tag}${tag === 'th' ? ' scope="col"' : ''} style="border: 1px solid ${DEFAULT_BORDER}"><br></${tag}>`;
+    const row = (tag: string) => `<tr>${cell(tag).repeat(cols)}</tr>`;
     const head = header ? `<thead>${row('th')}</thead>` : '';
     const body = `<tbody>${row('td').repeat(header ? Math.max(1, rows - 1) : rows)}</tbody>`;
-    this.exec('insertHTML', `<table>${head}${body}</table><p><br></p>`);
+    this.exec('insertHTML', `<table style="border-collapse: collapse; width: 100%">${head}${body}</table><p><br></p>`);
+  }
+
+  /** Bordes de toda la tabla: todos, solo horizontales o ninguno; y su color. */
+  setTableBorders(borders: CbTableBorders | null, color: string | null): void {
+    const table = this.tableCell()?.closest('table');
+    if (!table) return;
+    const current = this.tableBorders();
+    const mode = borders ?? current.borders;
+    const tone = color ?? current.color ?? DEFAULT_BORDER;
+    if (!table.style.borderCollapse) table.setAttribute('style', 'border-collapse: collapse; width: 100%');
+    for (const cell of Array.from(table.querySelectorAll<HTMLTableCellElement>('th, td'))) {
+      const css = withCellBorders(cell.getAttribute('style') ?? '', mode, tone);
+      if (css) cell.setAttribute('style', css);
+      else cell.removeAttribute('style');
+    }
+    this.tableTick.update((n) => n + 1);
+    this.emit();
   }
 
   /** Acciones de la barra de tabla sobre la celda actual. */
@@ -1083,9 +1260,12 @@ export class CbEditor implements ControlValueAccessor {
     if (!cell || !table) return;
     const row = cell.parentElement as HTMLTableRowElement;
     const index = cell.cellIndex;
-    const newCell = (tag: string) => {
+    const newCell = (tag: string, like: Element | null = cell) => {
       const c = this.document.createElement(tag);
       if (tag === 'th') c.setAttribute('scope', 'col');
+      const style = like?.getAttribute('style');
+      // Misma apariencia (bordes, fondo) que su vecina; sin su alineación.
+      if (style) c.setAttribute('style', withCellBorders(style, readCellBorders(style).borders, readCellBorders(style).color ?? DEFAULT_BORDER));
       c.innerHTML = '<br>';
       return c;
     };
@@ -1094,7 +1274,7 @@ export class CbEditor implements ControlValueAccessor {
       case 'rowAbove':
       case 'rowBelow': {
         const tr = this.document.createElement('tr');
-        for (let i = 0; i < row.cells.length; i++) tr.append(newCell('td'));
+        for (let i = 0; i < row.cells.length; i++) tr.append(newCell('td', row.cells[i]));
         if (row.parentElement?.tagName === 'THEAD') {
           // Las filas nuevas van al cuerpo: el encabezado tiene una sola fila.
           const body = table.tBodies[0] ?? table.createTBody();
@@ -1108,7 +1288,7 @@ export class CbEditor implements ControlValueAccessor {
       case 'colRight':
         for (const r of Array.from(table.rows)) {
           const ref = r.cells[Math.min(index, r.cells.length - 1)];
-          const c = newCell(r.parentElement?.tagName === 'THEAD' ? 'th' : 'td');
+          const c = newCell(r.parentElement?.tagName === 'THEAD' ? 'th' : 'td', ref ?? null);
           if (!ref) r.append(c);
           else if (id === 'colLeft') ref.before(c);
           else ref.after(c);
@@ -1157,6 +1337,7 @@ export class CbEditor implements ControlValueAccessor {
       case 'deleteTable':
         return this.deleteTable(table);
     }
+    this.tableTick.update((n) => n + 1);
     this.emit();
     if (focus) this.placeCaret(focus);
     this.updateState();
@@ -1213,6 +1394,7 @@ export class CbEditor implements ControlValueAccessor {
     this.selectedImage.set(null);
     this.imageFrame.set(null);
     this.altPanel.set(false);
+    this.crop.set(null);
   }
 
   /** Coloca el marco y el tirador sobre la imagen seleccionada. */
@@ -1286,6 +1468,96 @@ export class CbEditor implements ControlValueAccessor {
     this.altPanel.set(false);
   }
 
+  // --- Recorte ------------------------------------------------------------------------
+  protected openCrop(): void {
+    const img = this.selectedImage();
+    if (!img) return;
+    const natural = { w: img.naturalWidth || img.width || 1, h: img.naturalHeight || img.height || 1 };
+    this.altPanel.set(false);
+    this.crop.set({ src: img.getAttribute('src') ?? '', rect: initialRect(null, natural.w, natural.h), ratio: null, natural, busy: false, error: false });
+    afterNextRender(() => this.cropStageRef()?.nativeElement.querySelector<HTMLElement>('.cb-editor__crop-box')?.focus(), { injector: this.injector });
+  }
+
+  protected closeCrop(): void {
+    this.crop.set(null);
+  }
+
+  /** Proporción fija (ancho / alto) o libre (`null`). */
+  setCropRatio(ratio: number | null): void {
+    this.crop.update((c) => (c ? { ...c, ratio, rect: fitRatio(c.rect, ratio, c.natural.w, c.natural.h) } : c));
+  }
+
+  /** Mueve (`corner` null) o redimensiona el recuadro arrastrando. */
+  protected startCropDrag(event: PointerEvent, corner: 'nw' | 'ne' | 'sw' | 'se' | null): void {
+    const stage = this.cropStageRef()?.nativeElement;
+    const start = this.crop();
+    if (!stage || !start) return;
+    event.preventDefault();
+    event.stopPropagation();
+    const box = stage.getBoundingClientRect();
+    const from = { x: event.clientX, y: event.clientY, rect: start.rect };
+    const move = (e: PointerEvent) => {
+      const dx = (e.clientX - from.x) / (box.width || 1);
+      const dy = (e.clientY - from.y) / (box.height || 1);
+      this.crop.update((c) => {
+        if (!c) return c;
+        const rect = corner
+          ? resizeRect(from.rect, corner, dx, dy, c.ratio, c.natural.w, c.natural.h)
+          : clampRect({ ...from.rect, x: from.rect.x + dx, y: from.rect.y + dy });
+        return { ...c, rect };
+      });
+    };
+    const up = () => {
+      this.document.removeEventListener('pointermove', move);
+      this.document.removeEventListener('pointerup', up);
+    };
+    this.document.addEventListener('pointermove', move);
+    this.document.addEventListener('pointerup', up);
+  }
+
+  /** Flechas: mover un 2 %; Mayús + flechas: cambiar el tamaño desde la esquina inferior derecha; Enter: aplicar. */
+  protected onCropKeydown(event: KeyboardEvent): void {
+    const step = 0.02;
+    const deltas: Record<string, [number, number]> = { ArrowLeft: [-step, 0], ArrowRight: [step, 0], ArrowUp: [0, -step], ArrowDown: [0, step] };
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      void this.applyCrop();
+      return;
+    }
+    const d = deltas[event.key];
+    if (!d) return;
+    event.preventDefault();
+    this.crop.update((c) => {
+      if (!c) return c;
+      const rect = event.shiftKey
+        ? resizeRect(c.rect, 'se', d[0], d[1], c.ratio, c.natural.w, c.natural.h)
+        : clampRect({ ...c.rect, x: c.rect.x + d[0], y: c.rect.y + d[1] });
+      return { ...c, rect };
+    });
+  }
+
+  /** Recorta los píxeles y sustituye la imagen (subiéndola con `imageUpload` si lo hay). */
+  async applyCrop(): Promise<void> {
+    const c = this.crop();
+    const img = this.selectedImage();
+    if (!c || !img) return;
+    this.crop.set({ ...c, busy: true, error: false });
+    try {
+      const blob = await cropImage(c.src, c.rect, this.document);
+      const ext = blob.type === 'image/jpeg' ? 'jpg' : 'png';
+      const file = new File([blob], `${(img.getAttribute('alt') || 'imagen').replace(/[^\w-]+/g, '-')}-recorte.${ext}`, { type: blob.type });
+      const upload = this.imageUpload();
+      const src = upload ? await upload(file) : await readAsDataUrl(file);
+      img.setAttribute('src', src);
+      this.crop.set(null);
+      this.emit();
+      afterNextRender(() => this.refreshFrame(), { injector: this.injector });
+    } catch (error) {
+      this.crop.set({ ...c, busy: false, error: true });
+      this.imageError.emit({ file: new File([], 'crop'), reason: 'upload', error });
+    }
+  }
+
   /** Arrastrar el tirador cambia el ancho (en % del área, para que se adapte a la pantalla). */
   protected startResize(event: PointerEvent): void {
     const img = this.selectedImage();
@@ -1317,8 +1589,10 @@ export class CbEditor implements ControlValueAccessor {
   /** Flechas, Inicio y Fin en las barras de tabla e imagen (patrón *toolbar*). */
   protected onContextKeydown(event: KeyboardEvent): void {
     const bar = event.currentTarget as HTMLElement;
-    const buttons = Array.from(bar.querySelectorAll<HTMLButtonElement>('button'));
-    const cur = buttons.indexOf(event.target as HTMLButtonElement);
+    // En un select, las flechas cambian la opción.
+    if ((event.target as HTMLElement).tagName === 'SELECT' && (event.key === 'ArrowUp' || event.key === 'ArrowDown')) return;
+    const buttons = Array.from(bar.querySelectorAll<HTMLElement>('button, select'));
+    const cur = buttons.indexOf(event.target as HTMLElement);
     if (cur < 0) return;
     const last = buttons.length - 1;
     const next =

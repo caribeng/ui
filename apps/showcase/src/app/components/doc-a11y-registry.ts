@@ -440,6 +440,7 @@ export const DOC_A11Y: Record<string, DocA11y> = {
       'La barra es un `role="toolbar"` con nombre que controla el área editable (`aria-controls`); cada herramienta tiene su etiqueta (también como `title`), las de formato indican con `aria-pressed` si están activas y solo una entra en el orden de tabulación.',
       'El enlace se edita en un formulario propio (no en `window.prompt`): su campo tiene etiqueta visible y, si la URL no es segura, `aria-invalid` y un `role="alert"`. El contador de `maxLength` describe el área editable (`aria-describedby`) y los errores de imagen se anuncian con `role="alert"`.',
       'Con el cursor en una tabla aparece una segunda barra (`role="toolbar"`, "Tabla") y, al seleccionar una imagen, otra ("Imagen"); se recorren con las flechas, y alineación, ancho y fila de encabezado indican con `aria-pressed` la opción activa. Las tablas guardan `<th scope="col">` en la fila de encabezado y las imágenes su texto alternativo.',
+      'La barra de tabla agrupa sus botones ("Fila", "Columna") con `role="group"` y texto visible; los bordes y su color son `<select>` con nombre. El tamaño de una tabla nueva se elige en una cuadrícula de botones con nombre ("3 filas × 4 columnas") y el tamaño elegido se anuncia. El recuadro de recorte es un `role="slider"` con su tamaño en `aria-valuetext` e instrucciones enlazadas.',
       'Con `readonly` el área tiene `aria-readonly="true"` y no hay barra. El contenido siempre se sanea: un lector de pantalla nunca recibe scripts ni enlaces `javascript:`.',
     ],
     keyboard: [
@@ -451,6 +452,8 @@ export const DOC_A11Y: Record<string, DocA11y> = {
       { keys: '# , * , 1. , > + Espacio', action: 'Al inicio de un párrafo, lo convierten en título, lista o cita.' },
       { keys: 'Tab / Mayús + Tab (en una tabla)', action: 'Celda siguiente o anterior; en la última, añade una fila.' },
       { keys: 'Tab (en un bloque de código)', action: 'Inserta dos espacios.' },
+      { keys: 'Flechas / Enter (tamaño de la tabla)', action: 'Eligen filas y columnas en la cuadrícula e insertan la tabla.' },
+      { keys: 'Flechas / Mayús + flechas / Enter (recorte)', action: 'Mueven o redimensionan el recuadro de recorte y lo aplican.' },
       { keys: 'Flecha derecha / Flecha izquierda', action: 'En la barra, va a la herramienta siguiente o anterior (de forma circular).' },
       { keys: 'Inicio / Fin', action: 'En la barra, va a la primera o a la última herramienta.' },
     ],

@@ -362,6 +362,28 @@ export interface CbTranslation {
   imageResize: string;
   altText: string;
   deleteImage: string;
+  tableSize: string;
+  tableRow: string;
+  tableColumn: string;
+  above: string;
+  below: string;
+  toLeft: string;
+  toRight: string;
+  tableDelete: string;
+  tableBorders: string;
+  bordersAll: string;
+  bordersHorizontal: string;
+  bordersNone: string;
+  borderColor: string;
+  colorGray: string;
+  colorDark: string;
+  colorGreen: string;
+  colorBlue: string;
+  cropImage: string;
+  cropArea: string;
+  cropFree: string;
+  cropInstructions: string;
+  cropError: string;
 }
 
 /** Español (idioma por defecto). */
@@ -663,6 +685,28 @@ export const CB_LOCALE_ES: CbTranslation = {
   imageResize: 'Redimensionar imagen',
   altText: 'Texto alternativo',
   deleteImage: 'Eliminar imagen',
+  tableSize: '{0} filas × {1} columnas',
+  tableRow: 'Fila',
+  tableColumn: 'Columna',
+  above: 'Arriba',
+  below: 'Abajo',
+  toLeft: 'Izquierda',
+  toRight: 'Derecha',
+  tableDelete: 'Eliminar',
+  tableBorders: 'Bordes',
+  bordersAll: 'Todos los bordes',
+  bordersHorizontal: 'Solo líneas horizontales',
+  bordersNone: 'Sin bordes',
+  borderColor: 'Color del borde',
+  colorGray: 'Gris',
+  colorDark: 'Oscuro',
+  colorGreen: 'Verde',
+  colorBlue: 'Azul',
+  cropImage: 'Recortar',
+  cropArea: 'Área de recorte',
+  cropFree: 'Libre',
+  cropInstructions: 'Arrastra el recuadro o sus esquinas. Con el teclado: flechas para mover, Mayús + flechas para cambiar el tamaño.',
+  cropError: 'No se pudo recortar la imagen. Si viene de otro dominio, su servidor debe permitir CORS.',
 };
 
 /** Inglés. */
@@ -964,6 +1008,28 @@ export const CB_LOCALE_EN: CbTranslation = {
   imageResize: 'Resize image',
   altText: 'Alternative text',
   deleteImage: 'Delete image',
+  tableSize: '{0} rows × {1} columns',
+  tableRow: 'Row',
+  tableColumn: 'Column',
+  above: 'Above',
+  below: 'Below',
+  toLeft: 'Left',
+  toRight: 'Right',
+  tableDelete: 'Delete',
+  tableBorders: 'Borders',
+  bordersAll: 'All borders',
+  bordersHorizontal: 'Horizontal lines only',
+  bordersNone: 'No borders',
+  borderColor: 'Border color',
+  colorGray: 'Gray',
+  colorDark: 'Dark',
+  colorGreen: 'Green',
+  colorBlue: 'Blue',
+  cropImage: 'Crop',
+  cropArea: 'Crop area',
+  cropFree: 'Free',
+  cropInstructions: 'Drag the box or its corners. With the keyboard: arrows to move, Shift + arrows to resize.',
+  cropError: 'The image could not be cropped. If it comes from another domain, its server must allow CORS.',
 };
 
 /** Idiomas incluidos. */

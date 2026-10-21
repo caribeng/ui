@@ -36,7 +36,7 @@ const ALLOWED: Record<string, readonly string[]> = {
   sup: [],
   a: ['href', 'target', 'rel', 'title'],
   img: ['src', 'alt', 'width', 'height', 'title', 'style'],
-  table: [],
+  table: ['style'],
   caption: [],
   thead: [],
   tbody: [],
@@ -123,6 +123,57 @@ export function readImageStyle(style: string): { width: string | null; align: Cb
   const align: CbImageAlign | null =
     float === 'left' || float === 'right' ? float : display === 'block' && /auto/.test(margin) ? 'center' : null;
   return { width, align };
+}
+
+/** Bordes de una tabla: todos, solo líneas horizontales o ninguno. */
+export type CbTableBorders = 'all' | 'horizontal' | 'none';
+
+/** Borde `1px solid <color>` (también dashed / dotted, 1–4 px) o `null` si no es seguro. */
+function safeBorder(value: string | undefined): string | null {
+  const match = /^([1-4])px\s+(solid|dashed|dotted)\s+(.+)$/i.exec(value?.trim() ?? '');
+  if (!match) return null;
+  const color = safeColor(match[3]);
+  return color ? `${match[1]}px ${match[2].toLowerCase()} ${color}` : null;
+}
+
+/** Estilo de una tabla: solo `border-collapse: collapse` y el ancho. */
+function tableStyle(style: string): string {
+  const parts: string[] = [];
+  if (/border-collapse\s*:\s*collapse/i.test(style)) parts.push('border-collapse: collapse');
+  const width = styleProp(style, 'width');
+  if (width && /^\d{1,4}(\.\d+)?(%|px)$/.test(width)) parts.push(`width: ${width}`);
+  return parts.join('; ');
+}
+
+/** Estilo de una celda: alineación, bordes (todos o el inferior) y color de fondo. */
+export function cellStyle(style: string): string {
+  const parts: string[] = [];
+  const align = styleProp(style, 'text-align')?.toLowerCase();
+  if (align && ALIGN.has(align) && align !== 'left') parts.push(`text-align: ${align}`);
+  const border = safeBorder(styleProp(style, 'border'));
+  const bottom = safeBorder(styleProp(style, 'border-bottom'));
+  if (border) parts.push(`border: ${border}`);
+  else if (bottom) parts.push(`border-bottom: ${bottom}`);
+  const background = safeColor(styleProp(style, 'background-color'));
+  if (background) parts.push(`background-color: ${background}`);
+  return parts.join('; ');
+}
+
+/** Estilo de celda con los bordes indicados (conserva alineación y fondo). */
+export function withCellBorders(style: string, borders: CbTableBorders, color: string): string {
+  const current = cellStyle(style);
+  const align = styleProp(current, 'text-align');
+  const background = styleProp(current, 'background-color');
+  const border = borders === 'all' ? `border: 1px solid ${color}` : borders === 'horizontal' ? `border-bottom: 1px solid ${color}` : '';
+  return cellStyle([align && `text-align: ${align}`, border, background && `background-color: ${background}`].filter(Boolean).join('; '));
+}
+
+/** Bordes y color que tiene una celda. */
+export function readCellBorders(style: string): { borders: CbTableBorders; color: string | null } {
+  const border = safeBorder(styleProp(style, 'border'));
+  const bottom = safeBorder(styleProp(style, 'border-bottom'));
+  const value = border ?? bottom;
+  return { borders: border ? 'all' : bottom ? 'horizontal' : 'none', color: value ? value.replace(/^\S+\s+\S+\s+/, '') : null };
 }
 
 export interface CbSanitizeOptions {
@@ -269,6 +320,12 @@ function appendClean(parent: HTMLElement, node: Node, images: boolean): void {
       if (tag === 'img') {
         const { width, align } = readImageStyle(value);
         const css = imageStyle(width, align);
+        if (css) el.setAttribute('style', css);
+      } else if (tag === 'table') {
+        const css = tableStyle(value);
+        if (css) el.setAttribute('style', css);
+      } else if (tag === 'td' || tag === 'th') {
+        const css = cellStyle(value);
         if (css) el.setAttribute('style', css);
       } else {
         const align = /text-align\s*:\s*(\w+)/i.exec(value)?.[1]?.toLowerCase();

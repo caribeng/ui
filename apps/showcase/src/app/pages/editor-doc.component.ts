@@ -77,7 +77,7 @@ import { I18nService } from '../services/i18n.service';
     <doc-section
       id="tables"
       title="Tablas"
-      description="El botón de tabla pide filas, columnas y si lleva fila de encabezado. Con el cursor en una celda aparece la barra de tabla: insertar filas y columnas, quitar o poner el encabezado y eliminar filas, columnas o la tabla. Tab y Mayús + Tab pasan de celda en celda; Tab en la última añade una fila."
+      description="1) Pulsa el botón de tabla y elige el tamaño en la cuadrícula (ratón o flechas). 2) Haz clic dentro de una celda: aparece la barra Tabla con Fila (arriba, abajo, eliminar), Columna (izquierda, derecha, eliminar), Fila de encabezado, Bordes (todos, solo horizontales o ninguno) y su color, y Eliminar tabla. Los bordes se guardan en el HTML, así la tabla se ve igual fuera del editor; en el editor, las celdas sin borde se marcan con una guía punteada que no se guarda. Tab y Mayús + Tab pasan de celda en celda; Tab en la última añade una fila."
       [code]="tablesCode"
     >
       <cb-editor [(value)]="tabla" style="width: 100%" />
@@ -85,8 +85,8 @@ import { I18nService } from '../services/i18n.service';
 
     <doc-section
       id="image-layout"
-      title="Tamaño y alineación de imágenes"
-      description="Haz clic en una imagen: su barra permite ponerla en línea con el texto, a la izquierda o a la derecha (el texto la rodea) o centrada, elegir un ancho (25 %, 50 %, 75 %, 100 % o el original), escribir el texto alternativo o eliminarla. El tirador de la esquina cambia el ancho arrastrando. Todo se guarda como estilo en la propia imagen, así se ve igual en cualquier pantalla."
+      title="Tamaño, alineación y recorte de imágenes"
+      description="Haz clic en una imagen: su barra permite ponerla en línea con el texto, a la izquierda o a la derecha (el texto la rodea) o centrada, elegir un ancho (25 %, 50 %, 75 %, 100 % o el original), recortarla, escribir el texto alternativo o eliminarla. El tirador de la esquina cambia el ancho arrastrando. Recortar abre un recuadro libre o con proporción fija (1:1, 4:3, 16:9) que se mueve con el ratón o las flechas; al aplicarlo se recortan los píxeles y la imagen nueva se sube con imageUpload (o se guarda como data URL). Las imágenes de otro dominio necesitan que su servidor permita CORS para poder recortarlas."
       [code]="imageLayoutCode"
     >
       <cb-editor [(value)]="conImagen" style="width: 100%" />
@@ -165,8 +165,13 @@ export class EditorDocComponent {
   protected readonly htmlPeligroso =
     '<p>Mensaje del cliente<script>robarSesion()</script></p><img src="x" onerror="alert(\'xss\')"><p><a href="javascript:alert(1)">Haz clic aquí</a> para ver tu premio.</p>';
   protected readonly tabla = signal(
-    '<p>Tarifas vigentes:</p><table><thead><tr><th scope="col">Producto</th><th scope="col">Tasa E.A.</th><th scope="col">Plazo</th></tr></thead>' +
-      '<tbody><tr><td>CDT</td><td style="text-align: right">11,2 %</td><td>360 días</td></tr><tr><td>Ahorro</td><td style="text-align: right">4,5 %</td><td>—</td></tr></tbody></table>',
+    '<p>Tarifas vigentes:</p><table style="border-collapse: collapse; width: 100%"><thead><tr>' +
+      ['Producto', 'Tasa E.A.', 'Plazo'].map((h) => `<th scope="col" style="border: 1px solid #d0d5dd">${h}</th>`).join('') +
+      '</tr></thead><tbody>' +
+      [['CDT', '11,2 %', '360 días'], ['Ahorro', '4,5 %', '—']]
+        .map((r) => `<tr><td style="border: 1px solid #d0d5dd">${r[0]}</td><td style="text-align: right; border: 1px solid #d0d5dd">${r[1]}</td><td style="border: 1px solid #d0d5dd">${r[2]}</td></tr>`)
+        .join('') +
+      '</tbody></table>',
   );
   protected readonly conImagen = signal(
     '<p><img src="https://picsum.photos/seed/caribeng/480/300" alt="Paisaje" style="width: 40%; height: auto; float: left; margin: 0 1rem 0.5rem 0">' +
@@ -210,10 +215,10 @@ export class EditorDocComponent {
 };`;
   protected readonly tablesCode = `<cb-editor [(value)]="tarifas" />
 
-<!-- El HTML guardado:
-<table>
-  <thead><tr><th scope="col">Producto</th><th scope="col">Tasa E.A.</th></tr></thead>
-  <tbody><tr><td>CDT</td><td>11,2 %</td></tr></tbody>
+<!-- El HTML guardado (los bordes van en cada celda):
+<table style="border-collapse: collapse; width: 100%">
+  <thead><tr><th scope="col" style="border: 1px solid #d0d5dd">Producto</th>…</tr></thead>
+  <tbody><tr><td style="border: 1px solid #d0d5dd">CDT</td>…</tr></tbody>
 </table> -->`;
   protected readonly imageLayoutCode = `<!-- Imagen a la izquierda al 40 %: -->
 <img src="..." alt="Paisaje" style="width: 40%; height: auto; float: left; margin: 0 1rem 0.5rem 0">

@@ -114,12 +114,18 @@ describe('código, tablas e imágenes', () => {
         '<tbody><tr><td onclick="x()">Ene</td><td style="text-align:right">10</td></tr><tr><td>Feb</td></tr></tbody></table>',
     );
     expect(clean).toBe(
-      '<table><thead><tr><th scope="col">Mes</th><th scope="col">Saldo</th></tr></thead>' +
+      '<table style="width: 100%"><thead><tr><th scope="col">Mes</th><th scope="col">Saldo</th></tr></thead>' +
         '<tbody><tr><td>Ene</td><td style="text-align: right">10</td></tr><tr><td>Feb</td><td></td></tr></tbody></table>',
     );
     // Filas sueltas pasan a un <tbody>; partes de tabla fuera de una tabla, a texto.
     expect(cbSanitizeHtml('<table><tr><td>a</td></tr></table>')).toBe('<table><tbody><tr><td>a</td></tr></tbody></table>');
     expect(cbSanitizeHtml('<td>suelta</td>')).toBe('<p>suelta</p>');
+    // Bordes y fondo de celda: solo valores seguros.
+    expect(
+      cbSanitizeHtml('<table style="border-collapse: collapse; position: absolute"><tbody><tr><td style="border: 1px solid #344054; color: red">a</td><td style="border: 1px solid url(x)">b</td><td style="border-bottom: 2px dashed rgb(0, 0, 0); background-color: #f2f4f7">c</td></tr></tbody></table>'),
+    ).toBe(
+      '<table style="border-collapse: collapse"><tbody><tr><td style="border: 1px solid #344054">a</td><td>b</td><td style="border-bottom: 2px dashed rgb(0, 0, 0); background-color: #f2f4f7">c</td></tr></tbody></table>',
+    );
     expect(cbSanitizeHtml('<table><tbody><tr><td><br></td><td>&nbsp;</td></tr></tbody></table>')).toBe('<table><tbody><tr><td></td><td></td></tr></tbody></table>');
   });
 
