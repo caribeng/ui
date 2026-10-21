@@ -12,6 +12,7 @@ import {
   computed,
   effect,
   inject,
+  isDevMode,
   input,
   model,
   output,
@@ -684,6 +685,7 @@ export class CbPdfViewer {
     } catch (error) {
       if (token !== this.loadToken) return;
       this.state.set('error');
+      if (isDevMode()) console.error('[cb-pdf-viewer]', error);
       this.loadError.emit(error);
     }
   }

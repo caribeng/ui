@@ -151,7 +151,7 @@ export class PdfviewerDocComponent {
   protected readonly importCode = `import { CbPdfViewer } from '@caribeng/ui/pdfviewer';`;
   protected readonly installCode = `pnpm add pdfjs-dist`;
   protected readonly assetsCode = `// angular.json → projects.<app>.architect.build.options.assets
-{ "glob": "pdf.worker.min.mjs", "input": "node_modules/pdfjs-dist/build", "output": "pdfjs/build" },
+{ "glob": "pdf.worker.min.mjs", "input": "node_modules/pdfjs-dist/legacy/build", "output": "pdfjs/build" },
 { "glob": "**/*", "input": "node_modules/pdfjs-dist/cmaps", "output": "pdfjs/cmaps" },
 { "glob": "**/*", "input": "node_modules/pdfjs-dist/standard_fonts", "output": "pdfjs/standard_fonts" },
 { "glob": "**/*", "input": "node_modules/pdfjs-dist/wasm", "output": "pdfjs/wasm" },

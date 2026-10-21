@@ -25,7 +25,11 @@ export interface CbPdfViewerOptions {
    * `iccs/`). Por defecto `pdfjs/`.
    */
   assetsUrl?: string;
-  /** Carga de pdf.js. Por defecto `import('pdfjs-dist')` (se descarga al abrir el primer PDF). */
+  /**
+   * Carga de pdf.js. Por defecto su build `legacy` (se descarga al abrir el primer PDF):
+   * la build moderna usa APIs que los navegadores estables aún no tienen
+   * (`Map.prototype.getOrInsertComputed`, `Math.sumPrecise`) y la legacy las incluye.
+   */
   loader?: () => Promise<CbPdfJs>;
 }
 
@@ -65,7 +69,7 @@ export class CbPdfEngine {
   private pdfjs?: Promise<CbPdfJs>;
 
   load(): Promise<CbPdfJs> {
-    this.pdfjs ??= (this.options.loader ?? (() => import('pdfjs-dist')))().then((pdfjs) => {
+    this.pdfjs ??= (this.options.loader ?? (() => import('pdfjs-dist/legacy/build/pdf.mjs') as Promise<CbPdfJs>))().then((pdfjs) => {
       if (pdfjs.GlobalWorkerOptions && !pdfjs.GlobalWorkerOptions.workerSrc && !pdfjs.GlobalWorkerOptions.workerPort) {
         pdfjs.GlobalWorkerOptions.workerSrc = this.resolve(this.options.workerSrc ?? 'pdfjs/build/pdf.worker.min.mjs');
       }

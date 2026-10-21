@@ -255,9 +255,12 @@ describe('CbPdfViewer', () => {
   });
 
   it('si no se puede abrir muestra un error y emite loadError', async () => {
+    const log = vi.spyOn(console, 'error').mockImplementation(() => undefined);
     const { host, q } = await setup(PAGES, { fail: true });
     expect(q('[role="alert"]').textContent!.trim()).toBe('No se pudo abrir el documento.');
     expect(host.error).toBeInstanceOf(Error);
+    expect(log).toHaveBeenCalledWith('[cb-pdf-viewer]', host.error);
+    log.mockRestore();
   });
 
   it('acepta bytes y Blob (copia los datos antes de enviarlos a pdf.js)', async () => {
