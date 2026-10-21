@@ -31,3 +31,13 @@ Debes implementar tu lote exclusivo de **15 componentes de Caribe Design** toman
   - `NODE_OPTIONS=--dns-result-order=ipv4first .\node_modules\.bin\nx.cmd test ui`
 - Usa únicamente iconos del set núcleo en los tests (`check`, `x`, `plus`, `info`, `search`, `chevron-down`, `chevron-right`, `user`, `house`, `settings`) para no emitir warnings en `stderr`.
 - Cuando los 15 componentes pasen el Pre-Commit Gate, haz commit en `feat/v1.1-claude-caribe-nav-actions`.
+
+## graphify
+
+This project has a knowledge graph at graphify-out/ with god nodes, community structure, and cross-file relationships.
+
+Rules:
+- For codebase questions, first run `graphify query "<question>"` when graphify-out/graph.json exists. Use `graphify path "<A>" "<B>"` for relationships and `graphify explain "<concept>"` for focused concepts. These return a scoped subgraph, usually much smaller than GRAPH_REPORT.md or raw grep output.
+- If graphify-out/wiki/index.md exists, use it for broad navigation instead of raw source browsing.
+- Read graphify-out/GRAPH_REPORT.md only for broad architecture review or when query/path/explain do not surface enough context.
+- After modifying code, run `graphify update .` to keep the graph current (AST-only, no API cost).
