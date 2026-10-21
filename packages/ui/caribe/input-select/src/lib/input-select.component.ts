@@ -56,16 +56,16 @@ export interface CbInputSelectOption {
           [class.cb-is-invalid]="fieldState.invalid()"
           [attr.aria-invalid]="fieldState.invalid() ? 'true' : null"
           [attr.aria-required]="fieldState.required() || null"
-          [value]="value()"
           [disabled]="disabled() || cvaDisabled()"
           (change)="onSelect($event)"
           (blur)="onTouched()"
         >
           @if ((placeholder() ?? t().select)) {
-            <option value="" disabled>{{ (placeholder() ?? t().select) }}</option>
+            <option value="" disabled [selected]="!value()">{{ (placeholder() ?? t().select) }}</option>
           }
+          <!-- [selected] por opción: [value] en el <select> se aplicaría antes de crear las opciones -->
           @for (opt of options(); track opt.value) {
-            <option [value]="opt.value">{{ opt.label }}</option>
+            <option [value]="opt.value" [selected]="opt.value === value()">{{ opt.label }}</option>
           }
         </select>
         <span class="cb-input-select__chevron" aria-hidden="true">▾</span>

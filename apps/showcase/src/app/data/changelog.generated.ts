@@ -100,8 +100,32 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
             "text": "`ariaLabel` para nombrar el grupo o el medidor."
           },
           {
+            "component": "Core",
+            "text": "`cbOverlayFocus()`, utilidad para overlays: al abrir mueve el foco al elemento inicial y al cerrar lo devuelve a quien lo tenía."
+          },
+          {
+            "component": "InputToken (Caribe)",
+            "text": "avance automático al escribir, solo dígitos, flechas, Backspace (borra la casilla actual o la anterior) y pegar un código completo, como la referencia de Caribe."
+          },
+          {
+            "component": "FabMenu (Caribe)",
+            "text": "patrón WAI-ARIA *menu*: el foco entra al abrir, flechas, Inicio, Fin y Escape; `aria-haspopup` y `aria-controls`."
+          },
+          {
+            "component": "Modal / OffCanvas / PopOver (Caribe)",
+            "text": "trampa de foco (Modal, OffCanvas), Escape cierra y el foco entra al abrir y vuelve al disparador al cerrar."
+          },
+          {
+            "component": "Coachmark / Onboarding (Caribe)",
+            "text": "el cambio de paso se anuncia (\"Paso 2 de 3\") y Escape cierra."
+          },
+          {
+            "component": "ExpansionPanel (Caribe)",
+            "text": "la cabecera controla una región nombrada (`aria-controls`, `role=\"region\"`)."
+          },
+          {
             "component": "Tests",
-            "text": "base de tests de comportamiento, teclado, accesibilidad y formularios en los 23 componentes del núcleo que tenían uno solo: CascadeSelect, TreeSelect, InputMask, InputOtp, FileUpload, Image, Carousel, Galleria, Inplace, Chip, Editor, Terminal, BlockUI, ScrollTop, FloatLabel, MeterGroup, FileCard, FolderCard, AvatarGroup, IconField, InlineMessage, ScrollPanel y Toolbar."
+            "text": "base de tests de comportamiento, teclado, accesibilidad y formularios en los 23 componentes del núcleo que tenían uno solo y en los de Caribe Design: CascadeSelect, TreeSelect, InputMask, InputOtp, FileUpload, Image, Carousel, Galleria, Inplace, Chip, Editor, Terminal, BlockUI, ScrollTop, FloatLabel, MeterGroup, FileCard, FolderCard, AvatarGroup, IconField, InlineMessage, ScrollPanel y Toolbar."
           },
           {
             "component": "Showcase",
@@ -200,6 +224,18 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
           {
             "component": "Editor",
             "text": "el área editable no tenía nombre accesible ni `aria-disabled`."
+          },
+          {
+            "component": "InputSelect (Caribe)",
+            "text": "el valor inicial no quedaba seleccionado (el `<select>` recibía el valor antes de crear las opciones)."
+          },
+          {
+            "component": "InputSearch (Caribe)",
+            "text": "al limpiar, el foco se perdía; ahora vuelve al campo."
+          },
+          {
+            "component": "FileSelect (Caribe)",
+            "text": "no había indicador de foco visible al navegar con teclado; la cantidad de archivos elegidos se anuncia."
           }
         ]
       }

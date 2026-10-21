@@ -16,6 +16,7 @@ export { CbThemeService } from './lib/theme.service';
 export { provideCaribeNG } from './lib/provide-caribeng';
 export { type CbSize, type CbSeverity } from './lib/types';
 export { cbFieldState, type CbFieldIndicator, type CbFieldState } from './lib/field-state';
+export { cbOverlayFocus, type CbOverlayFocusOptions } from './lib/overlay-focus';
 export {
   CB_LOCALE_EN,
   CB_LOCALE_ES,

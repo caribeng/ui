@@ -23,11 +23,19 @@ import { cbFormat, injectCbTranslation } from '@caribeng/ui';
   encapsulation: ViewEncapsulation.Emulated,
   template: `
     @if (visible() && steps().length) {
-      <aside class="cb-coachmark" role="dialog" [attr.aria-label]="t().guidedHelp">
-        <span class="cb-coachmark__counter">
-          {{ fmt(t().stepOf, index() + 1, steps().length) }}
-        </span>
-        <h3 class="cb-coachmark__title">{{ steps()[index()] }}</h3>
+      <aside
+        class="cb-coachmark"
+        role="dialog"
+        [attr.aria-label]="t().guidedHelp"
+        (keydown.escape)="close()"
+      >
+        <!-- Región viva: al cambiar de paso se anuncian el contador y el título. -->
+        <div class="cb-coachmark__announce" aria-live="polite" aria-atomic="true">
+          <span class="cb-coachmark__counter">
+            {{ fmt(t().stepOf, index() + 1, steps().length) }}
+          </span>
+          <h3 class="cb-coachmark__title">{{ steps()[index()] }}</h3>
+        </div>
         <div class="cb-coachmark__actions">
           <button
             type="button"
@@ -68,7 +76,8 @@ export class CbCoachmark {
   readonly stepChange = output<number>();
 
   protected previous(): void {
-    this.index.update((i) => Math.max(0, i - 1));
+    if (this.index() === 0) return;
+    this.index.update((i) => i - 1);
     this.stepChange.emit(this.index());
   }
   protected next(): void {

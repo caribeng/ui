@@ -37,6 +37,13 @@
   background-color: var(--cb-color-primary-500, #10b981);
 }
 
+/* Agrupa contador y título (región viva) con la misma separación que el resto. */
+.cb-onboarding__announce {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cb-space-3, 0.75rem);
+}
+
 .cb-onboarding__counter {
   font-size: var(--cb-text-xs, 0.75rem);
   font-weight: var(--cb-font-weight-semibold, 600);
@@ -114,4 +121,16 @@
 }
 :host-context([data-theme='dark']) .cb-onboarding__btn--primary {
   background-color: var(--cb-color-primary-500, #10b981);
+}
+
+.cb-onboarding__sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
 }

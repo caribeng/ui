@@ -41,6 +41,7 @@ import { cbFieldState, injectCbTranslation } from '@caribeng/ui';
     >
       <span class="cb-input-search__icon" aria-hidden="true">⌕</span>
       <input
+        #field
         class="cb-input-search__field"
         [attr.aria-invalid]="fieldState.invalid() ? 'true' : null"
         [attr.aria-required]="fieldState.required() || null"
@@ -58,7 +59,7 @@ import { cbFieldState, injectCbTranslation } from '@caribeng/ui';
           type="button"
           class="cb-input-search__clear"
           [attr.aria-label]="t().clearSearch"
-          (click)="clear()"
+          (click)="clear(); field.focus()"
         >
           ×
         </button>

@@ -1,9 +1,11 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   ViewEncapsulation,
   computed,
   forwardRef,
+  inject,
   input,
   model,
   signal,
@@ -52,6 +54,8 @@ import { cbFormat, cbFieldState, injectCbTranslation } from '@caribeng/ui';
             [disabled]="disabled() || cvaDisabled()"
             [attr.aria-label]="fmt(t().digit, slot + 1)"
             (input)="onDigitInput($event, slot)"
+            (keydown)="onKeydown($event, slot)"
+            (paste)="onPaste($event)"
             (blur)="onTouched()"
           />
         }
@@ -79,6 +83,7 @@ export class CbInputToken implements ControlValueAccessor {
 
   readonly value = model<string>('');
   protected readonly cvaDisabled = signal(false);
+  private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
 
   protected readonly slots = computed(() =>
     Array.from(
@@ -91,17 +96,61 @@ export class CbInputToken implements ControlValueAccessor {
   protected onTouched: () => void = () => {};
 
   protected charAt(index: number): string {
-    return (this.value() ?? '')[index] ?? '';
+    const ch = (this.value() ?? '')[index] ?? '';
+    return ch === ' ' ? '' : ch;
   }
 
+  /** Solo acepta dígitos y pasa a la casilla siguiente al escribir uno. */
   protected onDigitInput(event: Event, index: number): void {
-    const ch = ((event.target as HTMLInputElement).value || '').slice(-1);
-    const chars = this.slots().map((i) => this.charAt(i));
-    chars[index] = ch;
-    const next = chars.join('');
+    const el = event.target as HTMLInputElement;
+    const ch = (el.value || '').slice(-1);
+    const digit = /^[0-9]$/.test(ch) ? ch : '';
+    el.value = digit;
+    this.setChar(index, digit);
+    if (digit) this.focusSlot(index + 1);
+  }
+
+  /** Flechas mueven el foco; Backspace borra la casilla actual o, si está vacía, la anterior. */
+  protected onKeydown(event: KeyboardEvent, index: number): void {
+    if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+      event.preventDefault();
+      this.focusSlot(index + (event.key === 'ArrowLeft' ? -1 : 1));
+    } else if (event.key === 'Backspace') {
+      event.preventDefault();
+      const target = this.charAt(index) || index === 0 ? index : index - 1;
+      this.setChar(target, '');
+      this.slotEls()[target].value = '';
+      this.focusSlot(target);
+    }
+  }
+
+  /** Pegar reparte los dígitos entre las casillas y enfoca la última rellenada. */
+  protected onPaste(event: ClipboardEvent): void {
+    event.preventDefault();
+    const digits = (event.clipboardData?.getData('text') ?? '').replace(/[^0-9]/g, '').slice(0, this.slots().length);
+    if (!digits) return;
+    this.updateValue(digits);
+    this.focusSlot(digits.length - 1);
+  }
+
+  private setChar(index: number, ch: string): void {
+    const chars = this.slots().map((i) => this.charAt(i) || ' ');
+    chars[index] = ch || ' ';
+    this.updateValue(chars.join('').trimEnd());
+  }
+
+  private updateValue(next: string): void {
     this.value.set(next);
     this.onChange(next);
     this.onTouched();
+  }
+
+  private slotEls(): HTMLInputElement[] {
+    return Array.from(this.host.nativeElement.querySelectorAll<HTMLInputElement>('.cb-input-token__slot'));
+  }
+
+  private focusSlot(index: number): void {
+    this.slotEls()[index]?.focus();
   }
 
   writeValue(val: string | null | undefined): void {

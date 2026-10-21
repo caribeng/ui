@@ -16,6 +16,8 @@ import { injectCbTranslation } from '@caribeng/ui';
  * <cb-expansion-panel title="Detalles" [(expanded)]="open">…</cb-expansion-panel>
  * ```
  */
+let nextId = 0;
+
 @Component({
   selector: 'cb-expansion-panel',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -26,14 +28,16 @@ import { injectCbTranslation } from '@caribeng/ui';
       <button
         type="button"
         class="cb-expansion-panel__header"
+        [id]="headerId"
         [attr.aria-expanded]="expanded()"
+        [attr.aria-controls]="expanded() ? bodyId : null"
         (click)="expanded.set(!expanded())"
       >
         <span class="cb-expansion-panel__title">{{ (title() ?? t().details) }}</span>
         <span class="cb-expansion-panel__chevron" aria-hidden="true">▾</span>
       </button>
       @if (expanded()) {
-        <div class="cb-expansion-panel__body">
+        <div class="cb-expansion-panel__body" role="region" [id]="bodyId" [attr.aria-labelledby]="headerId">
           <ng-content />
         </div>
       }
@@ -48,4 +52,8 @@ export class CbExpansionPanel {
   readonly title = input<string | undefined>(undefined);
   /** Estado abierto/cerrado (two-way). */
   readonly expanded = model<boolean>(false);
+
+  private readonly uid = ++nextId;
+  protected readonly headerId = `cb-expansion-panel-${this.uid}-header`;
+  protected readonly bodyId = `cb-expansion-panel-${this.uid}-body`;
 }

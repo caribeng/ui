@@ -60,12 +60,23 @@
   color: var(--cb-color-primary-700, #065f46);
 }
 
+/* Sin archivos, la región viva queda vacía y sin ocupar espacio. */
+.cb-file-select__count:empty {
+  margin-top: 0;
+}
+
 .cb-file-select__input {
   position: absolute;
   width: 1px;
   height: 1px;
   opacity: 0;
   overflow: hidden;
+}
+
+/* El input real está oculto: el foco de teclado se marca en la tarjeta. */
+.cb-file-select:has(.cb-file-select__input:focus-visible) {
+  outline: 2px solid var(--cb-color-focus-ring, var(--cb-color-primary-500, #10b981));
+  outline-offset: 2px;
 }
 
 :host-context([data-theme='dark']) .cb-file-select {

@@ -1,11 +1,14 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   ViewEncapsulation,
   input,
   model,
+  viewChild,
 } from '@angular/core';
-import { injectCbTranslation } from '@caribeng/ui';
+import { A11yModule } from '@angular/cdk/a11y';
+import { cbOverlayFocus, injectCbTranslation } from '@caribeng/ui';
 
 /**
  * Off-canvas de Caribe Design: panel lateral deslizable con cabecera, botón de
@@ -20,6 +23,7 @@ import { injectCbTranslation } from '@caribeng/ui';
   selector: 'cb-off-canvas',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
+  imports: [A11yModule],
   host: { class: 'cb-off-canvas-host' },
   template: `
     @if (open()) {
@@ -28,10 +32,13 @@ import { injectCbTranslation } from '@caribeng/ui';
         role="dialog"
         aria-modal="true"
         [attr.aria-label]="(title() ?? t().sidePanel)"
+        cdkTrapFocus
+        (keydown.escape)="open.set(false)"
       >
         <div class="cb-off-canvas__header">
           <strong class="cb-off-canvas__title">{{ (title() ?? t().sidePanel) }}</strong>
           <button
+            #closeBtn
             type="button"
             class="cb-off-canvas__close"
             [attr.aria-label]="t().close"
@@ -57,4 +64,10 @@ export class CbOffCanvas {
   readonly position = input<'left' | 'right' | 'bottom'>('right');
   /** Estado abierto/cerrado (two-way). */
   readonly open = model<boolean>(false);
+
+  private readonly closeBtn = viewChild<ElementRef<HTMLButtonElement>>('closeBtn');
+
+  constructor() {
+    cbOverlayFocus({ open: this.open, initialFocus: () => this.closeBtn()?.nativeElement });
+  }
 }

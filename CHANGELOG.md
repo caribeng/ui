@@ -34,7 +34,13 @@ Desde la 22.0.0 el major de la librería coincide con el de Angular (22.x = Angu
 - **Terminal:** flecha arriba / abajo recorren los comandos anteriores; el historial es un `role="log"` que anuncia las respuestas.
 - **BlockUI:** `message`, texto que anuncia el lector de pantalla al bloquear (por defecto, "Cargando").
 - **AvatarGroup / MeterGroup:** `ariaLabel` para nombrar el grupo o el medidor.
-- **Tests:** base de tests de comportamiento, teclado, accesibilidad y formularios en los 23 componentes del núcleo que tenían uno solo: CascadeSelect, TreeSelect, InputMask, InputOtp, FileUpload, Image, Carousel, Galleria, Inplace, Chip, Editor, Terminal, BlockUI, ScrollTop, FloatLabel, MeterGroup, FileCard, FolderCard, AvatarGroup, IconField, InlineMessage, ScrollPanel y Toolbar.
+- **Core:** `cbOverlayFocus()`, utilidad para overlays: al abrir mueve el foco al elemento inicial y al cerrar lo devuelve a quien lo tenía.
+- **InputToken (Caribe):** avance automático al escribir, solo dígitos, flechas, Backspace (borra la casilla actual o la anterior) y pegar un código completo, como la referencia de Caribe.
+- **FabMenu (Caribe):** patrón WAI-ARIA *menu*: el foco entra al abrir, flechas, Inicio, Fin y Escape; `aria-haspopup` y `aria-controls`.
+- **Modal / OffCanvas / PopOver (Caribe):** trampa de foco (Modal, OffCanvas), Escape cierra y el foco entra al abrir y vuelve al disparador al cerrar.
+- **Coachmark / Onboarding (Caribe):** el cambio de paso se anuncia ("Paso 2 de 3") y Escape cierra.
+- **ExpansionPanel (Caribe):** la cabecera controla una región nombrada (`aria-controls`, `role="region"`).
+- **Tests:** base de tests de comportamiento, teclado, accesibilidad y formularios en los 23 componentes del núcleo que tenían uno solo y en los de Caribe Design: CascadeSelect, TreeSelect, InputMask, InputOtp, FileUpload, Image, Carousel, Galleria, Inplace, Chip, Editor, Terminal, BlockUI, ScrollTop, FloatLabel, MeterGroup, FileCard, FolderCard, AvatarGroup, IconField, InlineMessage, ScrollPanel y Toolbar.
 - **Showcase:** páginas de Tree, TreeTable, VirtualScroller, DataView, Timeline, OrderList, PickList, ConfirmDialog, ConfirmPopup, DynamicDialog y MegaMenu reescritas con ejemplos por funcionalidad y sección de accesibilidad.
 - **Idioma (i18n):** sistema de traducción de los textos de interfaz (etiquetas accesibles, botones, placeholders y mensajes) en español e inglés, con `provideCaribeNG({ locale, translation })`, cambio en caliente con `CbLocaleService.use()` y `setTranslation()`, y `cbFormat()` para textos con valores. Aplica a 79 componentes.
 - **Showcase:** página Idioma (i18n) con todas las claves; el selector ES/EN del sitio cambia también el idioma de los componentes.
@@ -61,6 +67,9 @@ Desde la 22.0.0 el major de la librería coincide con el de Angular (22.x = Angu
 - **BlockUI:** la máscara `role="status"` no tenía texto, así que no anunciaba nada.
 - **Terminal:** tras pulsar Enter, el campo podía seguir mostrando el comando enviado.
 - **Editor:** el área editable no tenía nombre accesible ni `aria-disabled`.
+- **InputSelect (Caribe):** el valor inicial no quedaba seleccionado (el `<select>` recibía el valor antes de crear las opciones).
+- **InputSearch (Caribe):** al limpiar, el foco se perdía; ahora vuelve al campo.
+- **FileSelect (Caribe):** no había indicador de foco visible al navegar con teclado; la cantidad de archivos elegidos se anuncia.
 
 ---
 

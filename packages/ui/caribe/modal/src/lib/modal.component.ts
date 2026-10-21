@@ -1,13 +1,16 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   ViewEncapsulation,
   input,
   model,
   output,
+  viewChild,
 } from '@angular/core';
+import { A11yModule } from '@angular/cdk/a11y';
 import { CbButton } from '@caribeng/ui/button';
-import { injectCbTranslation } from '@caribeng/ui';
+import { cbOverlayFocus, injectCbTranslation } from '@caribeng/ui';
 
 /**
  * Modal de Caribe Design: diálogo centrado con backdrop, cabecera, contenido y
@@ -18,11 +21,13 @@ import { injectCbTranslation } from '@caribeng/ui';
  * <cb-modal title="Confirmar" [(visible)]="open" (confirm)="ok()">…</cb-modal>
  * ```
  */
+let nextId = 0;
+
 @Component({
   selector: 'cb-modal',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
-  imports: [CbButton],
+  imports: [A11yModule, CbButton],
   template: `
     @if (visible()) {
       <div class="cb-modal__backdrop" (click)="close()">
@@ -30,12 +35,15 @@ import { injectCbTranslation } from '@caribeng/ui';
           class="cb-modal"
           role="dialog"
           aria-modal="true"
-          [attr.aria-label]="title()"
+          [attr.aria-labelledby]="title() ? titleId : null"
+          cdkTrapFocus
           (click)="$event.stopPropagation()"
+          (keydown.escape)="close()"
         >
           <header class="cb-modal__head">
-            <h2 class="cb-modal__title">{{ title() }}</h2>
+            <h2 class="cb-modal__title" [id]="titleId">{{ title() }}</h2>
             <button
+              #closeBtn
               type="button"
               class="cb-modal__close"
               [attr.aria-label]="t().close"
@@ -65,6 +73,13 @@ export class CbModal {
   readonly visible = model(false);
   readonly confirm = output<void>();
   readonly closed = output<void>();
+
+  protected readonly titleId = `cb-modal-${++nextId}-title`;
+  private readonly closeBtn = viewChild<ElementRef<HTMLButtonElement>>('closeBtn');
+
+  constructor() {
+    cbOverlayFocus({ open: this.visible, initialFocus: () => this.closeBtn()?.nativeElement });
+  }
 
   protected close(): void {
     this.visible.set(false);

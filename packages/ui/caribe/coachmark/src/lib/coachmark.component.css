@@ -18,6 +18,13 @@
   box-shadow: var(--cb-shadow-lg, 0 16px 36px rgba(0, 0, 0, 0.3));
 }
 
+/* Agrupa contador y título (región viva) con la misma separación que el resto. */
+.cb-coachmark__announce {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cb-space-2, 0.5rem);
+}
+
 .cb-coachmark__counter {
   font-size: var(--cb-text-xs, 0.72rem);
   font-weight: var(--cb-font-weight-semibold, 600);

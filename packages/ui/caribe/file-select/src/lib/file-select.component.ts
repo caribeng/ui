@@ -27,11 +27,11 @@ import { cbFormat, injectCbTranslation } from '@caribeng/ui';
       <span class="cb-file-select__icon" aria-hidden="true">↑</span>
       <span class="cb-file-select__title">{{ (label() ?? t().selectDocument) }}</span>
       <span class="cb-file-select__hint">{{ fmt(t().formats, accept()) }}</span>
-      @if (files().length) {
-        <span class="cb-file-select__count">
+      <span class="cb-file-select__count" aria-live="polite">
+        @if (files().length) {
           {{ fmt(t().filesSelected, files().length) }}
-        </span>
-      }
+        }
+      </span>
       <input
         class="cb-file-select__input"
         type="file"
