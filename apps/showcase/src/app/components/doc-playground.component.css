@@ -27,9 +27,6 @@
   gap: var(--cb-space-3, 0.75rem);
   min-height: 7rem;
   padding: var(--cb-space-6, 1.5rem);
-  background:
-    linear-gradient(45deg, var(--cb-color-surface-50, #f8fafc) 25%, transparent 25%) -8px 0/16px 16px,
-    linear-gradient(-45deg, var(--cb-color-surface-50, #f8fafc) 25%, transparent 25%) -8px 0/16px 16px;
   background-color: var(--cb-color-surface-0, #ffffff);
 }
 
