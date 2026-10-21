@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/cor
 import { DocPlaygroundComponent } from '../components/doc-playground.component';
 import { DOC_API } from '../components/doc-api-registry';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { CbSlider } from '@caribeng/ui/slider';
+import { CbSlider, type CbSliderRange } from '@caribeng/ui/slider';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
@@ -51,6 +51,29 @@ import { DOC_A11Y } from '../components/doc-a11y-registry';
       </p>
     </doc-section>
 
+    <doc-section
+      id="range"
+      title="Rango"
+      description="range añade un segundo tirador y [(rangeValue)] enlaza el par [mínimo, máximo]; los tiradores no se cruzan. valueFormat da formato al valor visible (showValue) y al que anuncia el lector de pantalla."
+      [code]="rangeCode"
+      [codeTs]="rangeTs"
+    >
+      <div style="display: grid; gap: 0.5rem; width: 100%; max-width: 420px">
+        <cb-slider
+          range
+          [(rangeValue)]="precio"
+          [min]="0"
+          [max]="2000000"
+          [step]="50000"
+          showValue
+          locale="es-CO"
+          [valueFormat]="{ style: 'currency', currency: 'COP', maximumFractionDigits: 0 }"
+          ariaLabel="Precio"
+        />
+        <p style="margin: 0; font-size: 0.875rem; color: var(--cb-color-text-muted)">Rango: {{ precio()[0] }} – {{ precio()[1] }}</p>
+      </div>
+    </doc-section>
+
     <doc-section id="sizes" title="Tamaños" description="Tres tamaños con size: sm, md (por defecto) y lg." [code]="sizesCode">
       <div style="display: flex; flex-direction: column; gap: 1rem; width: 320px">
         <cb-slider [(value)]="a" size="sm" ariaLabel="sm" />
@@ -79,6 +102,7 @@ export class SliderDocComponent {
   }
 
   protected readonly volumen = signal(40);
+  protected readonly precio = signal<CbSliderRange>([300000, 1200000]);
   protected readonly temp = signal(22);
   protected readonly a = signal(30);
   protected readonly b = signal(50);
@@ -87,6 +111,19 @@ export class SliderDocComponent {
 
   protected readonly installCode = `npm install @caribeng/ui`;
   protected readonly importCode = `import { CbSlider } from '@caribeng/ui/slider';`;
+  protected readonly rangeCode = `<cb-slider
+  range
+  [(rangeValue)]="precio"
+  [min]="0"
+  [max]="2000000"
+  [step]="50000"
+  showValue
+  locale="es-CO"
+  [valueFormat]="{ style: 'currency', currency: 'COP', maximumFractionDigits: 0 }"
+  ariaLabel="Precio"
+/>
+<p>Rango: {{ precio()[0] }} – {{ precio()[1] }}</p>`;
+  protected readonly rangeTs = `precio = signal<CbSliderRange>([300000, 1200000]);`;
   protected readonly basicCode = `<cb-slider [(value)]="volumen" ariaLabel="Volumen" />`;
   protected readonly stepCode = `<cb-slider [(value)]="temp" [min]="16" [max]="30" [step]="0.5" />`;
   protected readonly sizesCode = `<cb-slider [(value)]="a" size="sm" />

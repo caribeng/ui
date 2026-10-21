@@ -107,6 +107,7 @@ import { CbSkeleton } from '@caribeng/ui/skeleton';
 import { CbSlider } from '@caribeng/ui/slider';
 import { CbSpeedDial } from '@caribeng/ui/speeddial';
 import { CbSplitButton } from '@caribeng/ui/splitbutton';
+import { CbThemeToggle } from '@caribeng/ui/themetoggle';
 import { CbStatistic } from '@caribeng/ui/statistic';
 import { CbEmpty } from '@caribeng/ui/empty';
 import { CbDescriptions } from '@caribeng/ui/descriptions';
@@ -1476,11 +1477,17 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "size", kind: "enum", type: "CbSize", options: ["sm", "md", "lg"], default: "md", description: "" },
       { name: "disabled", kind: "boolean", type: "boolean", default: false, description: "" },
       { name: "invalid", kind: "boolean", type: "boolean", default: false, description: "Marca visual y ARIA de estado inválido (también se activa con Angular Forms)." },
-      { name: "ariaLabel", kind: "string", type: "string", default: "", description: "" },
+      { name: "range", kind: "boolean", type: "boolean", default: false, description: "Dos tiradores para elegir un rango ([(rangeValue)])." },
+      { name: "rangeValue", kind: "string", type: "readonly [number, number] (model)", default: [20, 80], description: "Valor en modo range: [mínimo, máximo].", control: false },
+      { name: "showValue", kind: "boolean", type: "boolean", default: false, description: "Muestra el valor encima de cada tirador." },
+      { name: "valueFormat", kind: "string", type: "Intl.NumberFormatOptions | ((v: number) => string)", default: undefined, description: "Formato del valor visible y de aria-valuetext.", control: false },
+      { name: "locale", kind: "string", type: "string", default: "", description: "Locale BCP 47 del formato." },
+      { name: "ariaLabel", kind: "string", type: "string", default: "", description: "Nombre accesible; en rango se completa con mínimo / máximo." },
       { name: "inputId", kind: "string", type: "string", default: "", description: "", control: false }
     ],
     events: [
-      { name: "changed", type: "number", description: "" }
+      { name: "changed", type: "number", description: "" },
+      { name: "rangeChanged", type: "readonly [number, number]", description: "Nuevo rango (modo range)." }
     ]
   },
   "cb-empty": {
@@ -1588,6 +1595,14 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "locale", kind: "string", type: "string", default: "", description: "Locale BCP 47 del formato." },
       { name: "trend", kind: "enum", type: "'up' | 'down' | null", options: ["up", "down"], default: null, description: "Tendencia: flecha, color y texto para lectores de pantalla." },
       { name: "trendLabel", kind: "string", type: "string", default: "", description: "Texto junto a la tendencia." }
+    ]
+  },
+  "cb-theme-toggle": {
+    component: CbThemeToggle,
+    selector: "cb-theme-toggle",
+    props: [
+      { name: "size", kind: "enum", type: "CbSize", options: ["sm", "md", "lg"], default: "md", description: "Tamaño del botón." },
+      { name: "showLabel", kind: "boolean", type: "boolean", default: false, description: "Muestra el texto además del icono." }
     ]
   },
   "cb-splitter": {

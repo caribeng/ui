@@ -198,6 +198,7 @@ export const NAV_MENU: NavItem[] = [
           { label: 'StyleClass', route: '/components/styleclass' },
           { label: 'Tag', route: '/components/tag' },
           { label: 'Terminal', route: '/components/terminal' },
+          { label: 'ThemeToggle', route: '/components/themetoggle', badge: 'NEW' },
         ],
       },
     ],

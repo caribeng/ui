@@ -28,6 +28,14 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
         "type": "added",
         "items": [
           {
+            "component": "Slider",
+            "text": "modo rango con dos tiradores (`range` + `[(rangeValue)]`, que no se cruzan), `showValue`, `valueFormat` / `locale` con `aria-valuetext`, y evento `rangeChanged`. Con Angular Forms, el control recibe el par `[mínimo, máximo]`."
+          },
+          {
+            "component": "ThemeToggle",
+            "text": "`cb-theme-toggle`, botón listo para alternar entre tema claro y oscuro."
+          },
+          {
             "component": "Componentes nuevos",
             "text": "`SplitButton` (acción principal + menú), `Empty` (estado vacío), `Descriptions` (pares etiqueta / valor), `Result` (pantallas de éxito, error y 404/403/500), `Statistic` y `Countdown` (cifras con formato y tendencia, cuenta regresiva), `KeyFilter` (directiva que limita los caracteres de un campo), `Anchor` (índice \"En esta página\" con sección activa) y `Repeater` (lista repetible de campos sobre un `FormArray`). 150 entry points."
           },
@@ -273,6 +281,10 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
       {
         "type": "fixed",
         "items": [
+          {
+            "component": "Slider",
+            "text": "la pista usaba tonos claros también en tema oscuro."
+          },
           {
             "component": "Chart",
             "text": "la tarjeta era blanca en tema oscuro (usaba tokens inexistentes), los valores negativos se mostraban como 0 y la torta ignoraba los colores del dataset."

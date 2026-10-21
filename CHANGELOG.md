@@ -16,6 +16,8 @@ Desde la 22.0.0 el major de la librería coincide con el de Angular (22.x = Angu
 - **DynamicDialog:** `cb-dynamic-dialog` ahora se apoya en `cb-dialog` (trampa de foco, Escape y devolución del foco).
 
 ### Added
+- **Slider:** modo rango con dos tiradores (`range` + `[(rangeValue)]`, que no se cruzan), `showValue`, `valueFormat` / `locale` con `aria-valuetext`, y evento `rangeChanged`. Con Angular Forms, el control recibe el par `[mínimo, máximo]`.
+- **ThemeToggle:** `cb-theme-toggle`, botón listo para alternar entre tema claro y oscuro.
 - **Componentes nuevos:** `SplitButton` (acción principal + menú), `Empty` (estado vacío), `Descriptions` (pares etiqueta / valor), `Result` (pantallas de éxito, error y 404/403/500), `Statistic` y `Countdown` (cifras con formato y tendencia, cuenta regresiva), `KeyFilter` (directiva que limita los caracteres de un campo), `Anchor` (índice "En esta página" con sección activa) y `Repeater` (lista repetible de campos sobre un `FormArray`). 150 entry points.
 - **Button:** `ariaLabel`, `ariaHaspopup`, `ariaExpanded` y `ariaControls` para botones de solo icono o que abren algo.
 - **Menu:** evento `hidden` al cerrarse.
@@ -79,6 +81,7 @@ Desde la 22.0.0 el major de la librería coincide con el de Angular (22.x = Angu
 - **ConfirmDialog / ConfirmPopup / OrderList / PickList:** los botones usan `cb-button` y el código de los 11 componentes reescritos es legible (antes estaba minificado).
 
 ### Fixed
+- **Slider:** la pista usaba tonos claros también en tema oscuro.
 - **Chart:** la tarjeta era blanca en tema oscuro (usaba tokens inexistentes), los valores negativos se mostraban como 0 y la torta ignoraba los colores del dataset.
 - **Tema oscuro:** el hover y la opción activa de Select, MultiSelect, Autocomplete, Listbox, DatePicker, Tree, Paginator, SelectButton, ToggleButton, InputNumber, Table, Accordion y los botones de cerrar de Dialog, Drawer y Toast usaban `surface-100` / `surface-50`, que en oscuro siguen siendo casi blancos: el texto blanco desaparecía. Ahora usan los tokens semánticos nuevos.
 - **Table:** ordenar y seleccionar filas solo era posible con ratón: el encabezado ordenable no era enfocable y los checkboxes de fila estaban ocultos al lector de pantalla. Ahora hay un botón "Ordenar por …" y un checkbox o radio enfocable por fila.

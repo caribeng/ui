@@ -60,6 +60,7 @@ import { TogglebuttonDocComponent } from './pages/togglebutton-doc.component';
 import { ListboxDocComponent } from './pages/listbox-doc.component';
 import { KnobDocComponent } from './pages/knob-doc.component';
 import { TableDocComponent } from './pages/table-doc.component';
+import { ThemetoggleDocComponent } from './pages/themetoggle-doc.component';
 import { SplitbuttonDocComponent } from './pages/splitbutton-doc.component';
 import { EmptyDocComponent } from './pages/empty-doc.component';
 import { DescriptionsDocComponent } from './pages/descriptions-doc.component';
@@ -161,6 +162,7 @@ export const routes: Routes = [
   { path: 'components/editor', component: EditorDocComponent, title: 'Editor · CaribeNG' },
   { path: 'components/password', component: PasswordDocComponent, title: 'Password · CaribeNG' },
   { path: 'components/table', component: TableDocComponent, title: 'Table · CaribeNG' },
+  { path: 'components/themetoggle', component: ThemetoggleDocComponent, title: 'ThemeToggle · CaribeNG' },
   { path: 'components/splitbutton', component: SplitbuttonDocComponent, title: 'SplitButton · CaribeNG' },
   { path: 'components/empty', component: EmptyDocComponent, title: 'Empty · CaribeNG' },
   { path: 'components/descriptions', component: DescriptionsDocComponent, title: 'Descriptions · CaribeNG' },

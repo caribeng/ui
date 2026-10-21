@@ -261,6 +261,9 @@
       "@caribeng/ui/repeater": [
         "./packages/ui/repeater/src/public-api.ts"
       ],
+      "@caribeng/ui/themetoggle": [
+        "./packages/ui/themetoggle/src/public-api.ts"
+      ],
       "@caribeng/ui/divider": [
         "./packages/ui/divider/src/public-api.ts"
       ],

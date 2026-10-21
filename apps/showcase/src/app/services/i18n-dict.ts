@@ -2111,6 +2111,27 @@ export const ES_EN: Record<string, string> = {
     'Moves through the fields, the remove buttons and the add button.',
   'Agrega o quita un elemento.': 'Adds or removes an item.',
 
+  // --- Slider (rango) y ThemeToggle ---
+  'Rango': 'Range',
+  'range añade un segundo tirador y [(rangeValue)] enlaza el par [mínimo, máximo]; los tiradores no se cruzan. valueFormat da formato al valor visible (showValue) y al que anuncia el lector de pantalla.':
+    'range adds a second thumb and [(rangeValue)] binds the [min, max] pair; the thumbs never cross. valueFormat formats both the visible value (showValue) and the one announced by screen readers.',
+  'Dos tiradores para elegir un rango ([(rangeValue)]).': 'Two thumbs to pick a range ([(rangeValue)]).',
+  'Valor en modo range: [mínimo, máximo].': 'Value in range mode: [min, max].',
+  'Muestra el valor encima de cada tirador.': 'Shows the value above each thumb.',
+  'Formato del valor visible y de aria-valuetext.': 'Format of the visible value and of aria-valuetext.',
+  'Nombre accesible; en rango se completa con mínimo / máximo.': 'Accessible name; in range mode it is completed with minimum / maximum.',
+  'Nuevo rango (modo range).': 'New range (range mode).',
+  'Muestra el texto además del icono.': 'Shows the text next to the icon.',
+  'Botón listo para usar que alterna entre tema claro y oscuro con CbThemeService.':
+    'Ready-to-use button that switches between light and dark theme with CbThemeService.',
+  'Cambia el tema de toda la aplicación (pruébalo: cambia también este sitio). Con provideCaribeNG({ persistTheme: true }) recuerda la elección.':
+    'Changes the theme of the whole application (try it: it switches this site too). With provideCaribeNG({ persistTheme: true }) it remembers the choice.',
+  'Con `range` hay dos sliders ("Precio mínimo" / "Precio máximo") cuyos límites dependen del otro, así no se cruzan. Con `valueFormat`, `aria-valuetext` anuncia el valor con formato (p. ej. "$ 300.000").':
+    'With `range` there are two sliders ("Price minimum" / "Price maximum") whose limits depend on each other, so they never cross. With `valueFormat`, `aria-valuetext` announces the formatted value (e.g. "$300,000").',
+  'Es un botón cuyo nombre describe la acción ("Cambiar a tema oscuro" / "Cambiar a tema claro") y cambia tras pulsarlo; el icono es decorativo.':
+    'It is a button whose name describes the action ("Switch to dark theme" / "Switch to light theme") and changes after pressing it; the icon is decorative.',
+  'Cambia de tema.': 'Switches the theme.',
+
   // --- API de Select / MultiSelect (etiquetado accesible) ---
   'Nombre accesible del disparador cuando no hay etiqueta visible.':
     'Accessible name of the trigger when there is no visible label.',

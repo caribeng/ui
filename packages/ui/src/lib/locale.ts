@@ -33,6 +33,10 @@ export interface CbTranslation {
   itemAdded: string;
   /** `{0}`: nombre del elemento. */
   itemRemoved: string;
+  minimum: string;
+  maximum: string;
+  switchToDark: string;
+  switchToLight: string;
   loading: string;
   loadingMessage: string;
   previous: string;
@@ -287,6 +291,10 @@ export const CB_LOCALE_ES: CbTranslation = {
   trendDown: 'disminuye',
   itemAdded: '{0} agregado',
   itemRemoved: '{0} eliminado',
+  minimum: 'Mínimo',
+  maximum: 'Máximo',
+  switchToDark: 'Cambiar a tema oscuro',
+  switchToLight: 'Cambiar a tema claro',
   loading: 'Cargando',
   loadingMessage: 'Cargando información…',
   previous: 'Anterior',
@@ -502,6 +510,10 @@ export const CB_LOCALE_EN: CbTranslation = {
   trendDown: 'down',
   itemAdded: '{0} added',
   itemRemoved: '{0} removed',
+  minimum: 'Minimum',
+  maximum: 'Maximum',
+  switchToDark: 'Switch to dark theme',
+  switchToLight: 'Switch to light theme',
   loading: 'Loading',
   loadingMessage: 'Loading…',
   previous: 'Previous',

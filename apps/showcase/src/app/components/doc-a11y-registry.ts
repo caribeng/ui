@@ -127,6 +127,7 @@ export const DOC_A11Y: Record<string, DocA11y> = {
   'cb-slider': {
     screenReader: [
       'El control tiene `role="slider"` con `aria-valuemin`, `aria-valuemax` y `aria-valuenow`, y `aria-disabled` cuando está deshabilitado. Define su nombre con `ariaLabel`.',
+      'Con `range` hay dos sliders ("Precio mínimo" / "Precio máximo") cuyos límites dependen del otro, así no se cruzan. Con `valueFormat`, `aria-valuetext` anuncia el valor con formato (p. ej. "$ 300.000").',
     ],
     keyboard: [
       TAB_FOCUS('al control'),
@@ -525,6 +526,12 @@ export const DOC_A11Y: Record<string, DocA11y> = {
       { keys: 'Tab', action: 'Recorre los campos, los botones de quitar y el de agregar.' },
       { keys: 'Enter / Espacio', action: 'Agrega o quita un elemento.' },
     ],
+  },
+  'cb-theme-toggle': {
+    screenReader: [
+      'Es un botón cuyo nombre describe la acción ("Cambiar a tema oscuro" / "Cambiar a tema claro") y cambia tras pulsarlo; el icono es decorativo.',
+    ],
+    keyboard: [{ keys: 'Enter / Espacio', action: 'Cambia de tema.' }],
   },
   'cb-dynamic-dialog': {
     screenReader: [
