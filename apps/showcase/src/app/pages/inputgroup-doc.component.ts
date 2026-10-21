@@ -10,11 +10,13 @@ import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
 import { TocService } from '../services/toc.service';
+import { DocPlaygroundComponent } from '../components/doc-playground.component';
+import { DOC_API } from '../components/doc-api-registry';
 
 @Component({
   selector: 'doc-inputgroup-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbInputGroup,
+  imports: [DocPlaygroundComponent, CbInputGroup,
     CbInputGroupAddon,
     CbInput,
     CbButton,
@@ -67,9 +69,12 @@ import { TocService } from '../services/toc.service';
         </cb-input-group>
       </div>
     </doc-section>
+
+    <doc-playground [api]="docApi" />
   `,
 })
 export class InputgroupDocComponent {
+  protected readonly docApi = DOC_API['cb-input-group'];
 
   constructor() {
     inject(TocService).reset();

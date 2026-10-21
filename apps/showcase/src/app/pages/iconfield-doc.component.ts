@@ -6,11 +6,13 @@ import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
 import { TocService } from '../services/toc.service';
+import { DocPlaygroundComponent } from '../components/doc-playground.component';
+import { DOC_API } from '../components/doc-api-registry';
 
 @Component({
   selector: 'doc-iconfield-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbIconField,
+  imports: [DocPlaygroundComponent, CbIconField,
     CbInputIcon,
     CbInput,
     CbIcon,
@@ -32,9 +34,12 @@ import { TocService } from '../services/toc.service';
         </cb-icon-field>
       </div>
     </doc-section>
+
+    <doc-playground [api]="docApi" />
   `,
 })
 export class IconfieldDocComponent {
+  protected readonly docApi = DOC_API['cb-icon-field'];
 
   constructor() {
     inject(TocService).reset();

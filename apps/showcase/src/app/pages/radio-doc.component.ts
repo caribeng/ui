@@ -5,13 +5,15 @@ import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
 import { TocService } from '../services/toc.service';
+import { DocPlaygroundComponent } from '../components/doc-playground.component';
+import { DOC_API } from '../components/doc-api-registry';
 import { DocA11yComponent } from '../components/doc-a11y.component';
 import { DOC_A11Y } from '../components/doc-a11y-registry';
 
 @Component({
   selector: 'doc-radio-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [DocA11yComponent, 
+  imports: [DocPlaygroundComponent, DocA11yComponent, 
     ReactiveFormsModule,
     CbRadioGroup,
     CbRadio,
@@ -92,9 +94,12 @@ import { DOC_A11Y } from '../components/doc-a11y-registry';
     </doc-section>
 
     <doc-a11y [data]="a11y" />
+
+    <doc-playground [api]="docApi" />
   `,
 })
 export class RadioDocComponent {
+  protected readonly docApi = DOC_API['cb-radio-group'];
   protected readonly a11y = DOC_A11Y['cb-radio-group'];
   constructor() {
     inject(TocService).reset();

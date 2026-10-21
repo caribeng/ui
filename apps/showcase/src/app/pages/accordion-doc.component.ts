@@ -4,11 +4,13 @@ import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
 import { TocService } from '../services/toc.service';
+import { DocPlaygroundComponent } from '../components/doc-playground.component';
+import { DOC_API } from '../components/doc-api-registry';
 
 @Component({
   selector: 'doc-accordion-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbAccordion,
+  imports: [DocPlaygroundComponent, CbAccordion,
     CbAccordionPanel,
     DocSectionComponent,
     CodeBlockComponent,
@@ -44,9 +46,12 @@ import { TocService } from '../services/toc.service';
         <cb-accordion-panel header="Garantía" disabled>No disponible.</cb-accordion-panel>
       </cb-accordion>
     </doc-section>
+
+    <doc-playground [api]="docApi" />
   `,
 })
 export class AccordionDocComponent {
+  protected readonly docApi = DOC_API['cb-accordion'];
 
   constructor() {
     inject(TocService).reset();

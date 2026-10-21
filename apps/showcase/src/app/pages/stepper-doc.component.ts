@@ -4,11 +4,13 @@ import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
 import { TocService } from '../services/toc.service';
+import { DocPlaygroundComponent } from '../components/doc-playground.component';
+import { DOC_API } from '../components/doc-api-registry';
 
 @Component({
   selector: 'doc-stepper-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbStepper,
+  imports: [DocPlaygroundComponent, CbStepper,
     CbStep,
     DocSectionComponent,
     CodeBlockComponent,
@@ -43,9 +45,12 @@ import { TocService } from '../services/toc.service';
         <cb-step label="Pago"><p style="margin: 0">Introduce el método de pago.</p></cb-step>
       </cb-stepper>
     </doc-section>
+
+    <doc-playground [api]="docApi" />
   `,
 })
 export class StepperDocComponent {
+  protected readonly docApi = DOC_API['cb-stepper'];
 
   constructor() {
     inject(TocService).reset();

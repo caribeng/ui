@@ -2192,6 +2192,18 @@ export const ES_EN: Record<string, string> = {
   'Ctrl + P': 'Ctrl + P',
   'Imprime el documento (no la página).': 'Prints the document (not the page).',
 
+  // --- Playground (props completadas) ---
+  'Color del botón de aceptar.': 'Color of the accept button.',
+  'Filas: objetos con una propiedad por columna.': 'Rows: objects with one property per column.',
+  'Muestra el selector de vista lista / cuadrícula.': 'Shows the list / grid view switch.',
+  'Elementos por página (0 = sin paginar).': 'Items per page (0 = no pagination).',
+  'Propiedad que identifica cada elemento.': 'Property that identifies each item.',
+  'Título de la lista.': 'List title.',
+  'Título de la lista de origen.': 'Source list title.',
+  'Título de la lista de destino.': 'Target list title.',
+  'Nombre accesible (si difiere de label).': 'Accessible name (if it differs from label).',
+  'Lado del contenido respecto a la línea.': 'Side of the content relative to the line.',
+  'Filas extra que se pintan fuera de la vista.': 'Extra rows rendered outside the view.',
   // --- API de Select / MultiSelect (etiquetado accesible) ---
   'Nombre accesible del disparador cuando no hay etiqueta visible.':
     'Accessible name of the trigger when there is no visible label.',

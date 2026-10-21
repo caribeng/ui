@@ -6,19 +6,24 @@ import {
   DestroyRef,
   EnvironmentInjector,
   afterNextRender,
+  afterRenderEffect,
   computed,
   createComponent,
   inject,
   input,
   linkedSignal,
+  reflectComponentType,
   untracked,
+  viewChild,
   type ComponentRef,
+  type OutputRefSubscription,
+  type Type,
 } from '@angular/core';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { I18nService } from '../services/i18n.service';
 import { TocService } from '../services/toc.service';
 import { injectCbTranslation } from '@caribeng/ui';
-import type { DocApi, DocChild } from './doc-api.model';
+import type { DocApi, DocChild, DocProp } from './doc-api.model';
 
 /**
  * Playground interactivo y tabla de API completa para un componente.
@@ -42,8 +47,13 @@ import type { DocApi, DocChild } from './doc-api.model';
         <div class="pg__stage">
           <!-- Demo viva -->
           <div class="pg__preview">
+            @if (openable() && !model()['visible']) {
+              <button type="button" class="pg__open" (click)="set('visible', true)">
+                {{ i18n.t('Abrir', 'Open') }} {{ api().selector }}
+              </button>
+            }
             <ng-container
-              [ngComponentOutlet]="api().component"
+              [ngComponentOutlet]="api().demo ?? api().component"
               [ngComponentOutletInputs]="inputs()"
               [ngComponentOutletContent]="contentNodes()"
             ></ng-container>
@@ -59,8 +69,11 @@ import type { DocApi, DocChild } from './doc-api.model';
                   @case ('enum') {
                     <select
                       class="pg__select"
-                      (change)="set(p.name, $any($event.target).value)"
+                      (change)="set(p.name, fromOption(p, $any($event.target).value))"
                     >
+                      @if (hasEmptyOption(p)) {
+                        <option value="" [selected]="model()[p.name] === p.default">—</option>
+                      }
                       @for (opt of p.options ?? []; track opt) {
                         <option [value]="opt" [selected]="opt === model()[p.name]">{{ opt }}</option>
                       }
@@ -78,16 +91,16 @@ import type { DocApi, DocChild } from './doc-api.model';
                     <input
                       type="number"
                       class="pg__input"
-                      [value]="$any(model()[p.name])"
-                      (input)="set(p.name, toNumber($any($event.target).value))"
+                      [value]="display(model()[p.name])"
+                      (input)="set(p.name, fromNumber(p, $any($event.target).value))"
                     />
                   }
                   @default {
                     <input
                       type="text"
                       class="pg__input"
-                      [value]="$any(model()[p.name])"
-                      (input)="set(p.name, $any($event.target).value)"
+                      [value]="display(model()[p.name])"
+                      (input)="set(p.name, fromText(p, $any($event.target).value))"
                     />
                   }
                 }
@@ -177,15 +190,37 @@ export class DocPlaygroundComponent {
 
   private readonly appRef = inject(ApplicationRef);
   private readonly environmentInjector = inject(EnvironmentInjector);
+  private readonly outlet = viewChild(NgComponentOutlet);
   private children: ComponentRef<unknown>[] = [];
+  private synced: unknown;
+  private subscriptions: OutputRefSubscription[] = [];
 
   constructor() {
-    inject(DestroyRef).onDestroy(() => this.destroyChildren());
+    inject(DestroyRef).onDestroy(() => {
+      this.destroyChildren();
+      this.unsubscribe();
+    });
     // Va al final de la página: sus secciones se registran tras las de ejemplos.
     const toc = inject(TocService);
     afterNextRender(() => {
       toc.register({ id: 'playground', label: 'Playground' });
       toc.register({ id: 'api', label: 'API' });
+    });
+    // Los model() que cambia el propio componente (cerrar un diálogo, elegir un valor)
+    // vuelven a los controles; si no, el control quedaría desfasado.
+    afterRenderEffect(() => {
+      const props = this.api().props;
+      const instance = this.outlet()?.componentInstance as Record<string, unknown> | null | undefined;
+      if (instance === this.synced) return;
+      this.unsubscribe();
+      this.synced = instance;
+      if (!instance) return;
+      for (const p of props) {
+        const output = instance[`${p.name}Change`] as { subscribe?: (fn: (v: unknown) => void) => OutputRefSubscription } | undefined;
+        if (typeof output?.subscribe === 'function') {
+          this.subscriptions.push(output.subscribe((value) => this.set(p.name, value)));
+        }
+      }
     });
   }
 
@@ -202,37 +237,87 @@ export class DocPlaygroundComponent {
     () => this.api().content?.default ?? '',
   );
 
+  /** Overlays que arrancan cerrados (`visible` = false): la vista previa ofrece un botón para abrirlos. */
+  protected readonly openable = computed(() =>
+    this.api().props.some((p) => p.name === 'visible' && p.kind === 'boolean' && p.default === false),
+  );
+
   /** Props que generan control interactivo. */
   protected readonly controlProps = computed(() =>
     this.api().props.filter((p) => p.control !== false),
   );
 
-  /** Inputs que recibe la instancia viva. */
-  protected readonly inputs = computed(() => this.model());
+  /** Props que ya recibieron un valor (para volver a pasarles `undefined` al vaciarlas). */
+  private readonly touched = computed(() => (this.api(), new Set<string>()));
 
-  /** Nodos proyectados (un único slot de texto). */
+  /**
+   * Inputs que recibe la instancia viva. Un `undefined` que nunca se tocó no se
+   * pasa: pisaría defaults generados (como el `inputId` de cada campo).
+   */
+  protected readonly inputs = computed(() => {
+    const touched = this.touched();
+    const inputs: Record<string, unknown> = {};
+    for (const [name, value] of Object.entries(this.model())) {
+      if (value !== undefined) touched.add(name);
+      if (value !== undefined || touched.has(name)) inputs[name] = value;
+    }
+    return inputs;
+  });
+
+  /** Nodos proyectados en cada `<ng-content>` del componente. */
   protected readonly contentNodes = computed<Node[][] | undefined>(() => {
     const content = this.api().content;
     if (!content || typeof document === 'undefined') return undefined;
-    if (content.children) return [untracked(() => this.createChildren(content.children!))];
+    if (content.children) {
+      const component = this.api().demo ?? this.api().component;
+      const children = content.children;
+      return untracked(() => this.project(component, children));
+    }
     return [[document.createTextNode(this.content())]];
   });
 
-  /** Crea los componentes hijos proyectados (se recrean si cambia la API). */
-  private createChildren(children: DocChild[]): Node[] {
+  /** Crea los hijos y los reparte por slots según su atributo `slot`. */
+  private project(component: Type<unknown>, children: DocChild[]): Node[][] {
     this.destroyChildren();
-    this.children = children.map((child) => {
-      const ref = createComponent(child.component, { environmentInjector: this.environmentInjector });
-      for (const [name, value] of Object.entries(child.inputs)) ref.setInput(name, value);
+    const selectors = reflectComponentType(component)?.ngContentSelectors ?? ['*'];
+    const nodes: Node[][] = selectors.map(() => []);
+    const wildcard = Math.max(0, selectors.indexOf('*'));
+    for (const child of children) {
+      const node = this.createChild(child);
+      const index = child.slot ? selectors.indexOf(`[${child.slot}]`) : -1;
+      (nodes[index >= 0 ? index : wildcard] ??= []).push(node);
+    }
+    return nodes;
+  }
+
+  private createChild(child: DocChild): Node {
+    const text = child.text ? [document.createTextNode(child.text)] : [];
+    let element: HTMLElement;
+    if (child.component) {
+      const selectors = reflectComponentType(child.component)?.ngContentSelectors ?? [];
+      const projectableNodes = selectors.map((s) => (s === '*' ? text : []));
+      const ref = createComponent(child.component, { environmentInjector: this.environmentInjector, projectableNodes });
+      for (const [name, value] of Object.entries(child.inputs ?? {})) ref.setInput(name, value);
       this.appRef.attachView(ref.hostView);
-      return ref;
-    });
-    return this.children.map((ref) => ref.location.nativeElement as Node);
+      this.children.push(ref);
+      element = ref.location.nativeElement as HTMLElement;
+    } else {
+      element = document.createElement(child.selector);
+      element.append(...text);
+    }
+    for (const [name, value] of Object.entries(child.attrs ?? {})) element.setAttribute(name, value);
+    if (child.slot) element.setAttribute(child.slot, '');
+    return element;
   }
 
   private destroyChildren(): void {
     for (const ref of this.children) ref.destroy();
     this.children = [];
+  }
+
+  private unsubscribe(): void {
+    for (const sub of this.subscriptions) sub.unsubscribe();
+    this.subscriptions = [];
   }
 
   /** Código generado a partir del estado actual. */
@@ -241,23 +326,39 @@ export class DocPlaygroundComponent {
     const sel = this.api().selector;
     const parts: string[] = [];
     for (const p of this.api().props) {
-      if (p.control === false) continue;
       const v = m[p.name];
-      if (v === undefined || v === p.default) continue;
-      if (p.kind === 'boolean') {
+      if (v === undefined || v === null || v === p.default) continue;
+      if (p.control === false) {
+        // Datos (arrays, objetos): se enlazan a una propiedad con el mismo nombre.
+        if (isEmpty(v)) continue;
+        parts.push(typeof v === 'string' ? `${p.name}="${v}"` : `[${p.name}]="${p.name}"`);
+      } else if (p.kind === 'boolean') {
         parts.push(v === true ? p.name : `[${p.name}]="false"`);
-      } else if (p.kind === 'number') {
+      } else if (p.kind === 'number' || typeof v === 'number') {
         parts.push(`[${p.name}]="${v}"`);
-      } else {
+      } else if (Array.isArray(v) || typeof v === 'object') {
+        parts.push(`[${p.name}]="${p.name}"`);
+      } else if (v !== '') {
         parts.push(`${p.name}="${v}"`);
       }
     }
     const attrs = parts.length ? ' ' + parts.join(' ') : '';
+    const codeContent = this.api().codeContent;
+    if (codeContent) {
+      const inner = codeContent.split('\n').map((line) => `  ${line}`).join('\n');
+      return `<${sel}${attrs}>\n${inner}\n</${sel}>`;
+    }
     const children = this.api().content?.children;
     if (children) {
       const lines = children.map((c) => {
-        const childAttrs = Object.entries(c.inputs).map(([k, v]) => (typeof v === 'string' ? `${k}="${v}"` : `[${k}]="${v}"`));
-        return `  <${c.selector}${childAttrs.length ? ' ' + childAttrs.join(' ') : ''} />`;
+        const childAttrs = [
+          ...(c.slot ? [c.slot] : []),
+          ...Object.entries(c.attrs ?? {}).map(([k, v]) => `${k}="${v}"`),
+          ...Object.entries(c.inputs ?? {}).map(([k, v]) => (typeof v === 'string' ? `${k}="${v}"` : `[${k}]="${v}"`)),
+        ];
+        const open = `<${c.selector}${childAttrs.length ? ' ' + childAttrs.join(' ') : ''}`;
+        if (c.text) return `  ${open}>${c.text}</${c.selector}>`;
+        return c.component ? `  ${open} />` : `  ${open}></${c.selector}>`;
       });
       return `<${sel}${attrs}>\n${lines.join('\n')}\n</${sel}>`;
     }
@@ -266,19 +367,49 @@ export class DocPlaygroundComponent {
   });
 
   protected set(name: string, value: unknown): void {
-    this.model.update((m) => ({ ...m, [name]: value }));
+    this.model.update((m) => (Object.is(m[name], value) ? m : { ...m, [name]: value }));
   }
 
-  protected toNumber(value: string): number {
+  /** Valor que muestra un campo de texto o número (null / undefined = vacío). */
+  protected display(value: unknown): string {
+    return value === null || value === undefined ? '' : String(value);
+  }
+
+  /** Un campo vacío vuelve al default si es null / undefined (p. ej. `locale`, `max`). */
+  protected fromText(p: DocProp, value: string): unknown {
+    return value === '' && (p.default === null || p.default === undefined) ? p.default : value;
+  }
+
+  protected fromNumber(p: DocProp, value: string): unknown {
+    if (value === '') return p.default === null || p.default === undefined ? p.default : 0;
     const n = Number(value);
     return Number.isNaN(n) ? 0 : n;
+  }
+
+  /** El select ofrece "—" cuando el default (null / undefined) no es una de las opciones. */
+  protected hasEmptyOption(p: DocProp): boolean {
+    return !(p.options ?? []).includes(p.default as string);
+  }
+
+  /** Valor del select de un enum ("" = default fuera de las opciones). */
+  protected fromOption(p: DocProp, value: string): unknown {
+    return value === '' ? p.default : value;
   }
 
   protected formatDefault(value: unknown, localeKey?: string): string {
     // Valor por defecto tomado del idioma activo de la librería.
     if (localeKey) return `'${(this.translation() as unknown as Record<string, string>)[localeKey] ?? ''}'`;
     if (value === undefined || value === '') return '—';
+    if (value === null) return 'null';
     if (typeof value === 'string') return `'${value}'`;
+    if (Array.isArray(value)) return value.length ? '[…]' : '[]';
+    if (typeof value === 'object') return '{…}';
     return String(value);
   }
+}
+
+function isEmpty(value: unknown): boolean {
+  if (value === '' || value === null || value === undefined) return true;
+  if (Array.isArray(value)) return value.length === 0;
+  return false;
 }

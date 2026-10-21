@@ -17,7 +17,9 @@
   gap: var(--cb-space-4, 1rem);
   border: 1px solid var(--cb-color-border, #e2e8f0);
   border-radius: var(--cb-radius-lg, 0.75rem);
-  overflow: hidden;
+  /* Sin overflow: hidden, para no recortar paneles desplegables (menús, selects).
+     Las esquinas las redondean la vista previa y los controles. */
+  --pg-radius: calc(var(--cb-radius-lg, 0.75rem) - 1px);
 }
 
 .pg__preview {
@@ -25,8 +27,10 @@
   flex-wrap: wrap;
   align-items: center;
   gap: var(--cb-space-3, 0.75rem);
+  min-width: 0;
   min-height: 7rem;
   padding: var(--cb-space-6, 1.5rem);
+  border-radius: var(--pg-radius) 0 0 var(--pg-radius);
   background-color: var(--cb-color-surface-0, #ffffff);
 }
 
@@ -37,6 +41,7 @@
   padding: var(--cb-space-4, 1rem);
   background: var(--cb-color-surface-50, #f8fafc);
   border-left: 1px solid var(--cb-color-border, #e2e8f0);
+  border-radius: 0 var(--pg-radius) var(--pg-radius) 0;
 }
 
 .pg__controls-title,
@@ -127,9 +132,13 @@
   .pg__stage {
     grid-template-columns: 1fr;
   }
+  .pg__preview {
+    border-radius: var(--pg-radius) var(--pg-radius) 0 0;
+  }
   .pg__controls {
     border-left: none;
     border-top: 1px solid var(--cb-color-border, #e2e8f0);
+    border-radius: 0 0 var(--pg-radius) var(--pg-radius);
   }
 }
 
@@ -191,4 +200,22 @@
   color: var(--cb-color-text-muted);
   margin: 0 0 var(--cb-space-4, 1rem);
   max-width: 60ch;
+}
+
+.pg__open {
+  padding: 0.5rem 0.875rem;
+  border: 1px solid var(--cb-color-border-strong, #cbd5e1);
+  border-radius: var(--cb-radius-md, 0.5rem);
+  background: var(--cb-color-surface, #ffffff);
+  color: var(--cb-color-text, #0f172a);
+  font: inherit;
+  font-size: var(--cb-text-sm, 0.875rem);
+  cursor: pointer;
+}
+.pg__open:hover {
+  background: var(--cb-color-surface-hover, #f1f5f9);
+}
+.pg__open:focus-visible {
+  outline: 2px solid var(--cb-color-focus-ring, #10b981);
+  outline-offset: 2px;
 }

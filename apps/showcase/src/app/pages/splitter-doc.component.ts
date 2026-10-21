@@ -4,11 +4,13 @@ import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
 import { TocService } from '../services/toc.service';
+import { DocPlaygroundComponent } from '../components/doc-playground.component';
+import { DOC_API } from '../components/doc-api-registry';
 
 @Component({
   selector: 'doc-splitter-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbSplitter,
+  imports: [DocPlaygroundComponent, CbSplitter,
     CbSplitterPanel,
     DocSectionComponent,
     CodeBlockComponent,
@@ -59,9 +61,12 @@ import { TocService } from '../services/toc.service';
         </cb-splitter-panel>
       </cb-splitter>
     </doc-section>
+
+    <doc-playground [api]="docApi" />
   `,
 })
 export class SplitterDocComponent {
+  protected readonly docApi = DOC_API['cb-splitter'];
 
   constructor() {
     inject(TocService).reset();
