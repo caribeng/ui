@@ -218,7 +218,7 @@ export const DOC_API: Record<string, DocApi> = {
     selector: "cb-avatar-group",
     content: { default: "Content" },
     props: [
-
+      { name: "ariaLabel", kind: "string", type: "string", default: "", description: "Nombre accesible del grupo (p. ej. \"Participantes\")." }
     ]
   },
   "cb-badge": {
@@ -236,7 +236,8 @@ export const DOC_API: Record<string, DocApi> = {
     selector: "cb-block-ui",
     content: { default: "Content" },
     props: [
-      { name: "blocked", kind: "boolean", type: "boolean", default: false, description: "" }
+      { name: "blocked", kind: "boolean", type: "boolean", default: false, description: "Bloquea el contenido: lo hace inerte y muestra la máscara." },
+      { name: "message", kind: "string", type: "string", default: undefined, localeKey: "loading", description: "Texto que anuncia el lector de pantalla al bloquear." }
     ]
   },
   "cb-breadcrumb": {
@@ -621,6 +622,7 @@ export const DOC_API: Record<string, DocApi> = {
     selector: "cb-editor",
     props: [
       { name: "placeholder", kind: "string", type: "string", default: undefined, localeKey: "editorPlaceholder", description: "" },
+      { name: "ariaLabel", kind: "string", type: "string", default: undefined, localeKey: "textEditor", description: "Nombre accesible del área editable." },
       { name: "height", kind: "string", type: "string", default: "140px", description: "" },
       { name: "disabled", kind: "boolean", type: "boolean", default: false, description: "" },
       { name: "invalid", kind: "boolean", type: "boolean", default: false, description: "Marca visual y ARIA de estado inválido (también se activa con Angular Forms)." },
@@ -699,7 +701,8 @@ export const DOC_API: Record<string, DocApi> = {
     ],
     events: [
       { name: "selectFiles", type: "CbFileUploadEvent", description: "" },
-      { name: "uploadHandler", type: "CbFileUploadEvent", description: "" }
+      { name: "uploadHandler", type: "CbFileUploadEvent", description: "" },
+      { name: "rejectFiles", type: "CbFileRejectEvent", description: "Archivos descartados por tamaño (maxFileSize) o tipo (accept), con el motivo." }
     ]
   },
   "cb-float-label": {
@@ -1096,7 +1099,8 @@ export const DOC_API: Record<string, DocApi> = {
     selector: "cb-meter-group",
     props: [
       { name: "values", kind: "string", type: "CbMeterItem[]", default: [{ label: 'Used', value: 60 }, { label: 'Reserved', value: 25 }, { label: 'Free', value: 15 }], description: "", control: false },
-      { name: "max", kind: "number", type: "number", default: 100, description: "" }
+      { name: "max", kind: "number", type: "number", default: 100, description: "" },
+      { name: "ariaLabel", kind: "string", type: "string", default: "", description: "Nombre accesible del medidor (p. ej. \"Almacenamiento\")." }
     ]
   },
   "cb-modal": {

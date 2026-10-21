@@ -30,7 +30,11 @@ Desde la 22.0.0 el major de la librería coincide con el de Angular (22.x = Angu
 - **FileUpload:** evento `rejectFiles` y aviso visible (`role="alert"`) con los archivos descartados por tamaño o tipo.
 - **Carousel / Galleria:** navegación con flechas, Inicio y Fin en los indicadores y miniaturas (patrón *tabs* con un solo tabindex activo); cada diapositiva se nombra por su posición ("1 de 3").
 - **CascadeSelect / TreeSelect / Image / Inplace:** Escape cierra el panel o la previsualización y devuelve el foco.
-- **Tests:** base de tests de comportamiento, teclado, accesibilidad y formularios en CascadeSelect, TreeSelect, InputMask, InputOtp, FileUpload, Image, Carousel, Galleria, Inplace y Chip.
+- **Editor:** barra de herramientas con un solo tabindex activo y navegación con flechas, Inicio y Fin (patrón *toolbar*); `ariaLabel` para el área editable.
+- **Terminal:** flecha arriba / abajo recorren los comandos anteriores; el historial es un `role="log"` que anuncia las respuestas.
+- **BlockUI:** `message`, texto que anuncia el lector de pantalla al bloquear (por defecto, "Cargando").
+- **AvatarGroup / MeterGroup:** `ariaLabel` para nombrar el grupo o el medidor.
+- **Tests:** base de tests de comportamiento, teclado, accesibilidad y formularios en los 23 componentes del núcleo que tenían uno solo: CascadeSelect, TreeSelect, InputMask, InputOtp, FileUpload, Image, Carousel, Galleria, Inplace, Chip, Editor, Terminal, BlockUI, ScrollTop, FloatLabel, MeterGroup, FileCard, FolderCard, AvatarGroup, IconField, InlineMessage, ScrollPanel y Toolbar.
 - **Showcase:** páginas de Tree, TreeTable, VirtualScroller, DataView, Timeline, OrderList, PickList, ConfirmDialog, ConfirmPopup, DynamicDialog y MegaMenu reescritas con ejemplos por funcionalidad y sección de accesibilidad.
 - **Idioma (i18n):** sistema de traducción de los textos de interfaz (etiquetas accesibles, botones, placeholders y mensajes) en español e inglés, con `provideCaribeNG({ locale, translation })`, cambio en caliente con `CbLocaleService.use()` y `setTranslation()`, y `cbFormat()` para textos con valores. Aplica a 79 componentes.
 - **Showcase:** página Idioma (i18n) con todas las claves; el selector ES/EN del sitio cambia también el idioma de los componentes.
@@ -50,6 +54,13 @@ Desde la 22.0.0 el major de la librería coincide con el de Angular (22.x = Angu
 - **Image:** la previsualización se declaraba modal pero no atrapaba el foco ni devolvía el foco al cerrarse.
 - **Inplace:** el foco se perdía al abrir o cerrar; ahora pasa al contenido y vuelve a la vista previa.
 - **Galleria:** las flechas se mostraban con una sola imagen y no se deshabilitaban en los extremos sin `circular`.
+- **FloatLabel:** la etiqueta no subía cuando el valor se asignaba por código (`patchValue`, `setValue`).
+- **MeterGroup:** `role="meter"` sin `aria-valuenow` (ARIA inválido); ahora expone el total y un desglose en `aria-valuetext`. La leyenda mostraba el valor bruto como porcentaje aunque `max` no fuera 100.
+- **FileCard:** el fondo tintado solo funcionaba con colores hex de 6 dígitos; ahora acepta cualquier color CSS.
+- **FolderCard:** sin número de archivos mostraba la etiqueta "archivos" suelta.
+- **BlockUI:** la máscara `role="status"` no tenía texto, así que no anunciaba nada.
+- **Terminal:** tras pulsar Enter, el campo podía seguir mostrando el comando enviado.
+- **Editor:** el área editable no tenía nombre accesible ni `aria-disabled`.
 
 ---
 

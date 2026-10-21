@@ -3,6 +3,7 @@ import {
   Component,
   ElementRef,
   ViewEncapsulation,
+  afterNextRender,
   computed,
   effect,
   forwardRef,
@@ -39,7 +40,14 @@ import { cbFieldState, injectCbTranslation } from '@caribeng/ui';
     '[class.cb-is-disabled]': 'isDisabled()',
   },
   template: `
-    <div class="cb-editor__toolbar" role="toolbar" [attr.aria-label]="t().textFormatting">
+    <div
+      #toolbar
+      class="cb-editor__toolbar"
+      role="toolbar"
+      [attr.aria-label]="t().textFormatting"
+      (keydown)="onToolbarKeydown($event)"
+      (focusin)="setActiveTool($any($event.target))"
+    >
       <select
         class="cb-editor__select"
         [disabled]="isDisabled()"
@@ -116,6 +124,8 @@ import { cbFieldState, injectCbTranslation } from '@caribeng/ui';
       #surface
       class="cb-editor__surface"
       role="textbox"
+      [attr.aria-label]="ariaLabel() ?? t().textEditor"
+      [attr.aria-disabled]="isDisabled() || null"
       [attr.aria-invalid]="fieldState.invalid() ? 'true' : null"
       [attr.aria-required]="fieldState.required() || null"
       aria-multiline="true"
@@ -139,6 +149,8 @@ export class CbEditor implements ControlValueAccessor {
   /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
   protected readonly t = injectCbTranslation();
   readonly placeholder = input<string | undefined>(undefined);
+  /** Nombre accesible del área de texto. Por defecto, "Editor de texto" del idioma activo. */
+  readonly ariaLabel = input<string | undefined>(undefined);
   readonly height = input<string>('180px');
   readonly disabled = input<boolean>(false);
   /** Marca visual y ARIA de estado inválido (también se activa con Angular Forms). */
@@ -153,12 +165,15 @@ export class CbEditor implements ControlValueAccessor {
 
   private readonly surfaceRef = viewChild<ElementRef<HTMLElement>>('surface');
   private readonly imageInputRef = viewChild<ElementRef<HTMLInputElement>>('imageInput');
+  private readonly toolbarRef = viewChild<ElementRef<HTMLElement>>('toolbar');
   private savedRange: Range | null = null;
 
   private onChange: (val: string) => void = () => {};
   private onTouched: () => void = () => {};
 
   constructor() {
+    // Barra de herramientas con un solo tabindex activo (patrón WAI-ARIA *toolbar*).
+    afterNextRender(() => this.setActiveTool(this.tools()[0]));
     effect(() => {
       const val = this.value() ?? '';
       const el = this.surfaceRef()?.nativeElement;
@@ -182,6 +197,34 @@ export class CbEditor implements ControlValueAccessor {
 
   setDisabledState(isDisabled: boolean): void {
     this.cvaDisabled.set(isDisabled);
+  }
+
+  private tools(): HTMLElement[] {
+    const bar = this.toolbarRef()?.nativeElement;
+    return bar ? Array.from(bar.querySelectorAll<HTMLElement>('select, button')) : [];
+  }
+
+  /** Deja solo `active` en el orden de tabulación de la barra. */
+  protected setActiveTool(active: HTMLElement | undefined): void {
+    if (!active) return;
+    for (const tool of this.tools()) tool.tabIndex = tool === active ? 0 : -1;
+  }
+
+  /** Flechas, Inicio y Fin mueven el foco entre las herramientas (de forma circular). */
+  protected onToolbarKeydown(event: KeyboardEvent): void {
+    const tools = this.tools();
+    const cur = tools.indexOf(event.target as HTMLElement);
+    if (cur < 0) return;
+    const last = tools.length - 1;
+    const target =
+      event.key === 'ArrowRight' ? (cur < last ? cur + 1 : 0)
+      : event.key === 'ArrowLeft' ? (cur > 0 ? cur - 1 : last)
+      : event.key === 'Home' ? 0
+      : event.key === 'End' ? last
+      : -1;
+    if (target < 0) return;
+    event.preventDefault();
+    tools[target].focus();
   }
 
   /** Evita que el botón robe la selección del área editable. */

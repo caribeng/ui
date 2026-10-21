@@ -26,4 +26,14 @@ describe('CbScrollPanel', () => {
     expect(viewport.getAttribute('aria-label')).toBe('Historial');
     expect(host.querySelector('.scroll-inner')?.textContent).toBe('Línea 1');
   });
+
+  it('el viewport es enfocable para desplazarlo con teclado y scrollTop() lo mueve', () => {
+    const fixture = TestBed.createComponent(CbScrollPanel);
+    fixture.detectChanges();
+    const viewport = (fixture.nativeElement as HTMLElement).querySelector<HTMLElement>('.cb-scroll-panel__viewport')!;
+    expect(viewport.getAttribute('tabindex')).toBe('0');
+    expect(viewport.getAttribute('aria-label')).toBe('Área desplazable');
+    fixture.componentInstance.scrollTop(40);
+    expect(viewport.scrollTop).toBe(40);
+  });
 });

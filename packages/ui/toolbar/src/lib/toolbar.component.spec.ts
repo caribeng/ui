@@ -26,4 +26,10 @@ describe('CbToolbar', () => {
     expect(host.querySelector('.cb-toolbar__center .txt-center')?.textContent).toBe('Título');
     expect(host.querySelector('.cb-toolbar__end .btn-end')?.textContent).toBe('Exportar');
   });
+
+  it('sin ariaLabel usa el nombre por defecto del idioma activo', () => {
+    const fixture = TestBed.createComponent(CbToolbar);
+    fixture.detectChanges();
+    expect((fixture.nativeElement as HTMLElement).getAttribute('aria-label')).toBe('Barra de herramientas');
+  });
 });

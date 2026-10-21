@@ -21,4 +21,17 @@ describe('CbFileCard', () => {
     expect(el.querySelector('.cb-file-card__value')!.textContent).toContain('245 archivos');
     expect(el.querySelector('.cb-file-card__value-sub')!.textContent).toContain('26.4 GB');
   });
+
+  it('tiñe el fondo del icono con cualquier color CSS y oculta los textos opcionales vacíos', () => {
+    const fixture = TestBed.createComponent(CbFileCard);
+    fixture.componentRef.setInput('title', 'Vídeos');
+    fixture.componentRef.setInput('color', 'var(--cb-color-primary-500)');
+    fixture.detectChanges();
+    const el = fixture.nativeElement as HTMLElement;
+    const icon = el.querySelector<HTMLElement>('.cb-file-card__icon')!;
+    expect(icon.getAttribute('style')).toContain('color-mix(in srgb, var(--cb-color-primary-500) 12%, transparent)');
+    expect(el.querySelector('.cb-file-card__subtitle')).toBeNull();
+    expect(el.querySelector('.cb-file-card__value-sub')).toBeNull();
+    expect(el.querySelector('cb-icon')!.getAttribute('aria-hidden')).toBe('true');
+  });
 });

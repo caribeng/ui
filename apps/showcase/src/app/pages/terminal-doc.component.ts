@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component, inject, viewChild } from '@angular/core';
 import { DocPlaygroundComponent } from '../components/doc-playground.component';
 import { DOC_API } from '../components/doc-api-registry';
+import { DocA11yComponent } from '../components/doc-a11y.component';
+import { DOC_A11Y } from '../components/doc-a11y-registry';
 import { CbTerminal } from '@caribeng/ui/terminal';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
@@ -10,7 +12,7 @@ import { TocService } from '../services/toc.service';
 @Component({
   selector: 'doc-terminal-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [DocPlaygroundComponent, CbTerminal, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
+  imports: [DocA11yComponent, DocPlaygroundComponent, CbTerminal, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
     <doc-page-header eyebrow="Varios" title="Terminal" lead="Emulador de consola interactivo con historial de comandos." />
 
@@ -26,11 +28,14 @@ import { TocService } from '../services/toc.service';
       />
     </doc-section>
 
+    <doc-a11y [data]="a11y" />
+
     <doc-playground [api]="docApi" />
   `,
 })
 export class TerminalDocComponent {
   protected readonly docApi = DOC_API['cb-terminal'];
+  protected readonly a11y = DOC_A11Y['cb-terminal'];
 
   protected readonly term = viewChild.required(CbTerminal);
 

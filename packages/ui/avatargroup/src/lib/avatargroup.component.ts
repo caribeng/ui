@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   ViewEncapsulation,
+  input,
 } from '@angular/core';
 
 /**
@@ -14,8 +15,12 @@ import {
   host: {
     class: 'cb-avatar-group',
     role: 'group',
+    '[attr.aria-label]': 'ariaLabel() || null',
   },
   template: `<ng-content />`,
   styleUrl: './avatargroup.component.css',
 })
-export class CbAvatarGroup {}
+export class CbAvatarGroup {
+  /** Nombre accesible del grupo (p. ej. "Participantes"). */
+  readonly ariaLabel = input<string | undefined>(undefined);
+}

@@ -33,7 +33,9 @@ import { injectCbTranslation } from '@caribeng/ui';
     </div>
     <div class="cb-folder-card__name">{{ name() }}</div>
     <div class="cb-folder-card__meta">
-      <span>{{ files() }} {{ (filesLabel() ?? t().files) }}</span>
+      @if (files() !== '') {
+        <span>{{ files() }} {{ (filesLabel() ?? t().files) }}</span>
+      }
       @if (size()) {
         <span>{{ size() }}</span>
       }

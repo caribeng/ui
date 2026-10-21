@@ -5,6 +5,7 @@ import {
   input,
 } from '@angular/core';
 import { CbIcon } from '@caribeng/ui/icon';
+import { injectCbTranslation } from '@caribeng/ui';
 
 /**
  * BlockUI de CaribeNG: bloquea la interacción sobre el contenido proyectado
@@ -27,11 +28,16 @@ import { CbIcon } from '@caribeng/ui/icon';
     @if (blocked()) {
       <div class="cb-block-ui__mask" role="status" aria-live="polite">
         <cb-icon name="loader" [size]="22" [spin]="true" aria-hidden="true" />
+        <span class="cb-block-ui__sr">{{ message() ?? t().loading }}</span>
       </div>
     }
   `,
   styleUrl: './blockui.component.css',
 })
 export class CbBlockUi {
+  /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
+  protected readonly t = injectCbTranslation();
   readonly blocked = input<boolean>(false);
+  /** Texto que anuncia el lector de pantalla al bloquear. Por defecto, "Cargando" del idioma activo. */
+  readonly message = input<string | undefined>(undefined);
 }

@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { DocPlaygroundComponent } from '../components/doc-playground.component';
 import { DOC_API } from '../components/doc-api-registry';
+import { DocA11yComponent } from '../components/doc-a11y.component';
+import { DOC_A11Y } from '../components/doc-a11y-registry';
 import { CbBlockUi } from '@caribeng/ui/blockui';
 import { CbCard } from '@caribeng/ui/card';
 import { CbButton } from '@caribeng/ui/button';
@@ -12,7 +14,7 @@ import { TocService } from '../services/toc.service';
 @Component({
   selector: 'doc-blockui-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [DocPlaygroundComponent, 
+  imports: [DocA11yComponent, DocPlaygroundComponent, 
     CbBlockUi,
     CbCard,
     CbButton,
@@ -41,11 +43,14 @@ import { TocService } from '../services/toc.service';
       </div>
     </doc-section>
 
+    <doc-a11y [data]="a11y" />
+
     <doc-playground [api]="docApi" />
   `,
 })
 export class BlockuiDocComponent {
   protected readonly docApi = DOC_API['cb-block-ui'];
+  protected readonly a11y = DOC_A11Y['cb-block-ui'];
 
   constructor() {
     inject(TocService).reset();

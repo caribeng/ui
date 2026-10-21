@@ -22,4 +22,12 @@ describe('CbIconField', () => {
     expect(field.classList.contains('cb-icon-field--right')).toBe(true);
     expect(field.querySelector('cb-input-icon')?.getAttribute('aria-hidden')).toBe('true');
   });
+
+  it('por defecto coloca el icono a la izquierda', () => {
+    const fixture = TestBed.createComponent(CbIconField);
+    fixture.detectChanges();
+    const host = fixture.nativeElement as HTMLElement;
+    expect(host.classList).toContain('cb-icon-field--left');
+    expect(host.classList).not.toContain('cb-icon-field--right');
+  });
 });

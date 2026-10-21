@@ -227,6 +227,7 @@ export interface CbTranslation {
   undo: string;
   redo: string;
   editorPlaceholder: string;
+  textEditor: string;
   linkUrl: string;
 }
 
@@ -420,6 +421,7 @@ export const CB_LOCALE_ES: CbTranslation = {
   undo: 'Deshacer',
   redo: 'Rehacer',
   editorPlaceholder: 'Escribe aquí…',
+  textEditor: 'Editor de texto',
   linkUrl: 'URL del enlace:',
 };
 
@@ -613,6 +615,7 @@ export const CB_LOCALE_EN: CbTranslation = {
   undo: 'Undo',
   redo: 'Redo',
   editorPlaceholder: 'Write here…',
+  textEditor: 'Text editor',
   linkUrl: 'Link URL:',
 };
 

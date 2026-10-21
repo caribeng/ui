@@ -18,4 +18,17 @@ describe('CbFolderCard', () => {
     expect(el.querySelector('.cb-folder-card__meta')!.textContent).toContain('345');
     expect(el.querySelector('.cb-folder-card__meta')!.textContent).toContain('26.4 GB');
   });
+
+  it('no muestra la etiqueta de archivos sin número y usa filesLabel si se indica', () => {
+    const fixture = TestBed.createComponent(CbFolderCard);
+    fixture.componentRef.setInput('name', 'Vacía');
+    fixture.detectChanges();
+    const meta = () => (fixture.nativeElement as HTMLElement).querySelector('.cb-folder-card__meta')!.textContent!.trim();
+    expect(meta()).toBe('');
+
+    fixture.componentRef.setInput('files', 3);
+    fixture.componentRef.setInput('filesLabel', 'documentos');
+    fixture.detectChanges();
+    expect(meta()).toBe('3 documentos');
+  });
 });

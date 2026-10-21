@@ -1764,6 +1764,33 @@ export const ES_EN: Record<string, string> = {
   'Abre o cierra el panel, expande un nodo o elige el nodo enfocado.': 'Opens or closes the panel, expands a node or chooses the focused node.',
   'Mueve el foco entre los nodos y sus botones de expandir.': 'Moves focus between the nodes and their expand buttons.',
 
+  // --- API: base de tests ---
+  'Nombre accesible del grupo (p. ej. "Participantes").': 'Accessible name of the group (e.g. "Participants").',
+  'Bloquea el contenido: lo hace inerte y muestra la máscara.': 'Blocks the content: makes it inert and shows the mask.',
+  'Texto que anuncia el lector de pantalla al bloquear.': 'Text announced by screen readers when blocking.',
+  'Nombre accesible del área editable.': 'Accessible name of the editable area.',
+  'Archivos descartados por tamaño (maxFileSize) o tipo (accept), con el motivo.':
+    'Files discarded by size (maxFileSize) or type (accept), with the reason.',
+  'Nombre accesible del medidor (p. ej. "Almacenamiento").': 'Accessible name of the meter (e.g. "Storage").',
+
+  // --- Accesibilidad: base de tests (Editor, Terminal, MeterGroup, BlockUI) ---
+  'El área editable es un `role="textbox"` con `aria-multiline="true"`, nombrado con `ariaLabel` (por defecto, "Editor de texto"). Refleja `aria-invalid`, `aria-required` y `aria-disabled`.':
+    'The editable area is a `role="textbox"` with `aria-multiline="true"`, named with `ariaLabel` (by default, "Text editor"). It reflects `aria-invalid`, `aria-required` and `aria-disabled`.',
+  'La barra es un `role="toolbar"` con nombre; cada herramienta tiene su etiqueta y solo una entra en el orden de tabulación.':
+    'The bar is a named `role="toolbar"`; each tool has its own label and only one is in the tab order.',
+  'Pasa de la barra de herramientas al área editable.': 'Moves from the toolbar to the editable area.',
+  'En la barra, va a la herramienta siguiente o anterior (de forma circular).':
+    'On the toolbar, goes to the next or previous tool (wrapping around).',
+  'En la barra, va a la primera o a la última herramienta.': 'On the toolbar, goes to the first or last tool.',
+  'El historial es un `role="log"` con `aria-live="polite"`: los comandos y respuestas nuevos se anuncian. La entrada se nombra con el prompt.':
+    'The history is a `role="log"` with `aria-live="polite"`: new commands and responses are announced. The input is named after the prompt.',
+  'Ejecuta el comando (`clear` vacía el historial).': 'Runs the command (`clear` empties the history).',
+  'Recorre los comandos anteriores.': 'Goes through the previous commands.',
+  'El medidor es un `role="meter"` nombrado con `ariaLabel`, con `aria-valuenow` (la suma de los valores), `aria-valuemax` y un desglose en `aria-valuetext` ("Apps 25%, Datos 40%"). La leyenda visual se oculta al lector para no repetirlo.':
+    'The meter is a `role="meter"` named with `ariaLabel`, with `aria-valuenow` (the sum of the values), `aria-valuemax` and a breakdown in `aria-valuetext` ("Apps 25%, Data 40%"). The visual legend is hidden from screen readers to avoid repeating it.',
+  'Mientras está bloqueado, el contenido es `inert` (no recibe foco ni clics), el contenedor expone `aria-busy="true"` y la máscara es un `role="status"` que anuncia `message` (por defecto, "Cargando").':
+    'While blocked, the content is `inert` (it receives no focus or clicks), the container exposes `aria-busy="true"` and the mask is a `role="status"` that announces `message` (by default, "Loading").',
+
   // --- API de Select / MultiSelect (etiquetado accesible) ---
   'Nombre accesible del disparador cuando no hay etiqueta visible.':
     'Accessible name of the trigger when there is no visible label.',

@@ -23,4 +23,11 @@ describe('CbAvatarGroup', () => {
     expect(group.getAttribute('role')).toBe('group');
     expect(group.querySelectorAll('cb-avatar').length).toBe(2);
   });
+
+  it('acepta un nombre accesible para el grupo', () => {
+    const fixture = TestBed.createComponent(CbAvatarGroup);
+    fixture.componentRef.setInput('ariaLabel', 'Participantes');
+    fixture.detectChanges();
+    expect((fixture.nativeElement as HTMLElement).getAttribute('aria-label')).toBe('Participantes');
+  });
 });

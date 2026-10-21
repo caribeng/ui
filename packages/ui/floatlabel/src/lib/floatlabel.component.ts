@@ -3,7 +3,7 @@ import {
   Component,
   ElementRef,
   ViewEncapsulation,
-  afterNextRender,
+  afterEveryRender,
   inject,
   input,
   signal,
@@ -42,7 +42,9 @@ export class CbFloatLabel {
   readonly filled = signal(false);
 
   constructor() {
-    afterNextRender(() => {
+    // Tras cada render: detecta también valores asignados por código (p. ej. `patchValue`),
+    // que no disparan los eventos `input` / `change`.
+    afterEveryRender(() => {
       this.checkFilled();
     });
   }

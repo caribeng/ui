@@ -58,9 +58,9 @@ export class CbFileCard {
   /** Valor secundario a la derecha (p. ej. "26.4 GB"). */
   readonly valueSub = input<string>('');
 
-  /** Fondo tintado derivado del color (con alpha). */
+  /** Fondo tintado derivado del color (cualquier color CSS: hex, rgb(), var(--…)). */
   protected tintBg(): string | null {
     const c = this.color();
-    return c ? `${c}1f` : null;
+    return c ? `color-mix(in srgb, ${c} 12%, transparent)` : null;
   }
 }

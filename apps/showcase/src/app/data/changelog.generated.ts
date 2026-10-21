@@ -84,8 +84,24 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
             "text": "Escape cierra el panel o la previsualización y devuelve el foco."
           },
           {
+            "component": "Editor",
+            "text": "barra de herramientas con un solo tabindex activo y navegación con flechas, Inicio y Fin (patrón *toolbar*); `ariaLabel` para el área editable."
+          },
+          {
+            "component": "Terminal",
+            "text": "flecha arriba / abajo recorren los comandos anteriores; el historial es un `role=\"log\"` que anuncia las respuestas."
+          },
+          {
+            "component": "BlockUI",
+            "text": "`message`, texto que anuncia el lector de pantalla al bloquear (por defecto, \"Cargando\")."
+          },
+          {
+            "component": "AvatarGroup / MeterGroup",
+            "text": "`ariaLabel` para nombrar el grupo o el medidor."
+          },
+          {
             "component": "Tests",
-            "text": "base de tests de comportamiento, teclado, accesibilidad y formularios en CascadeSelect, TreeSelect, InputMask, InputOtp, FileUpload, Image, Carousel, Galleria, Inplace y Chip."
+            "text": "base de tests de comportamiento, teclado, accesibilidad y formularios en los 23 componentes del núcleo que tenían uno solo: CascadeSelect, TreeSelect, InputMask, InputOtp, FileUpload, Image, Carousel, Galleria, Inplace, Chip, Editor, Terminal, BlockUI, ScrollTop, FloatLabel, MeterGroup, FileCard, FolderCard, AvatarGroup, IconField, InlineMessage, ScrollPanel y Toolbar."
           },
           {
             "component": "Showcase",
@@ -156,6 +172,34 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
           {
             "component": "Galleria",
             "text": "las flechas se mostraban con una sola imagen y no se deshabilitaban en los extremos sin `circular`."
+          },
+          {
+            "component": "FloatLabel",
+            "text": "la etiqueta no subía cuando el valor se asignaba por código (`patchValue`, `setValue`)."
+          },
+          {
+            "component": "MeterGroup",
+            "text": "`role=\"meter\"` sin `aria-valuenow` (ARIA inválido); ahora expone el total y un desglose en `aria-valuetext`. La leyenda mostraba el valor bruto como porcentaje aunque `max` no fuera 100."
+          },
+          {
+            "component": "FileCard",
+            "text": "el fondo tintado solo funcionaba con colores hex de 6 dígitos; ahora acepta cualquier color CSS."
+          },
+          {
+            "component": "FolderCard",
+            "text": "sin número de archivos mostraba la etiqueta \"archivos\" suelta."
+          },
+          {
+            "component": "BlockUI",
+            "text": "la máscara `role=\"status\"` no tenía texto, así que no anunciaba nada."
+          },
+          {
+            "component": "Terminal",
+            "text": "tras pulsar Enter, el campo podía seguir mostrando el comando enviado."
+          },
+          {
+            "component": "Editor",
+            "text": "el área editable no tenía nombre accesible ni `aria-disabled`."
           }
         ]
       }

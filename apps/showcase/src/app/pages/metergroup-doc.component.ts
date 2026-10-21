@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { DocPlaygroundComponent } from '../components/doc-playground.component';
 import { DOC_API } from '../components/doc-api-registry';
+import { DocA11yComponent } from '../components/doc-a11y.component';
+import { DOC_A11Y } from '../components/doc-a11y-registry';
 import { CbMeterGroup, CbMeterItem } from '@caribeng/ui/metergroup';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
@@ -10,7 +12,7 @@ import { TocService } from '../services/toc.service';
 @Component({
   selector: 'doc-metergroup-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [DocPlaygroundComponent, CbMeterGroup, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
+  imports: [DocA11yComponent, DocPlaygroundComponent, CbMeterGroup, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
     <doc-page-header eyebrow="Varios" title="MeterGroup" lead="Barra de métricas proporcional multisegmento con leyenda." />
 
@@ -21,11 +23,14 @@ import { TocService } from '../services/toc.service';
       <cb-meter-group [values]="metrics" style="width: 100%" />
     </doc-section>
 
+    <doc-a11y [data]="a11y" />
+
     <doc-playground [api]="docApi" />
   `,
 })
 export class MetergroupDocComponent {
   protected readonly docApi = DOC_API['cb-meter-group'];
+  protected readonly a11y = DOC_A11Y['cb-meter-group'];
 
   constructor() {
     inject(TocService).reset();

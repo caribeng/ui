@@ -406,6 +406,36 @@ export const DOC_A11Y: Record<string, DocA11y> = {
       { keys: 'Escape', action: 'Cierra el panel y devuelve el foco al disparador.' },
     ],
   },
+  'cb-editor': {
+    screenReader: [
+      'El área editable es un `role="textbox"` con `aria-multiline="true"`, nombrado con `ariaLabel` (por defecto, "Editor de texto"). Refleja `aria-invalid`, `aria-required` y `aria-disabled`.',
+      'La barra es un `role="toolbar"` con nombre; cada herramienta tiene su etiqueta y solo una entra en el orden de tabulación.',
+    ],
+    keyboard: [
+      { keys: 'Tab', action: 'Pasa de la barra de herramientas al área editable.' },
+      { keys: 'Flecha derecha / Flecha izquierda', action: 'En la barra, va a la herramienta siguiente o anterior (de forma circular).' },
+      { keys: 'Inicio / Fin', action: 'En la barra, va a la primera o a la última herramienta.' },
+    ],
+  },
+  'cb-terminal': {
+    screenReader: [
+      'El historial es un `role="log"` con `aria-live="polite"`: los comandos y respuestas nuevos se anuncian. La entrada se nombra con el prompt.',
+    ],
+    keyboard: [
+      { keys: 'Enter', action: 'Ejecuta el comando (`clear` vacía el historial).' },
+      { keys: 'Flecha arriba / Flecha abajo', action: 'Recorre los comandos anteriores.' },
+    ],
+  },
+  'cb-meter-group': {
+    screenReader: [
+      'El medidor es un `role="meter"` nombrado con `ariaLabel`, con `aria-valuenow` (la suma de los valores), `aria-valuemax` y un desglose en `aria-valuetext` ("Apps 25%, Datos 40%"). La leyenda visual se oculta al lector para no repetirlo.',
+    ],
+  },
+  'cb-block-ui': {
+    screenReader: [
+      'Mientras está bloqueado, el contenido es `inert` (no recibe foco ni clics), el contenedor expone `aria-busy="true"` y la máscara es un `role="status"` que anuncia `message` (por defecto, "Cargando").',
+    ],
+  },
   'cb-dynamic-dialog': {
     screenReader: [
       'El panel tiene `role="dialog"` con `aria-modal="true"` y se nombra con `header` (`aria-labelledby`) o, si no hay título, con `ariaLabel` de la configuración.',
