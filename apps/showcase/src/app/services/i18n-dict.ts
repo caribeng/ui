@@ -2658,7 +2658,6 @@ export const ES_EN: Record<string, string> = {
   'Flechas izquierda / derecha': 'Left / Right arrows',
   'Lleva la tarjeta tomada a la columna anterior o siguiente.': 'Moves the picked-up card to the previous or next column.',
   'Cancela el movimiento y la devuelve a su sitio.': 'Cancels the move and returns it to its place.',
-  'Abre la tarjeta (cardOpen).': 'Opens the card (cardOpen).',
   'Campo de texto con menciones: al escribir @ (u otro disparador como #) muestra sugerencias junto al cursor, que se filtran sin tildes y se eligen con el teclado o el ratón.':
     'Text field with mentions: typing @ (or another trigger such as #) shows suggestions next to the caret, filtered ignoring accents and chosen with the keyboard or mouse.',
   'Personas y etiquetas': 'People and tags',
@@ -2684,11 +2683,7 @@ export const ES_EN: Record<string, string> = {
   'Mueve la sugerencia activa.': 'Moves the active suggestion.',
   'Inserta la mención elegida.': 'Inserts the chosen mention.',
   // --- Kanban completo ---
-  'Tablero de columnas con tarjetas que se reordenan y se mueven entre columnas arrastrando (ratón o dedo) o con el teclado. Se crean, editan y eliminan tarjetas y columnas; admite límite por columna y plantilla de tarjeta propia.':
-    'Board of columns with cards that are reordered and moved between columns by dragging (mouse or touch) or with the keyboard. Cards and columns can be created, edited and deleted; supports a limit per column and a custom card template.',
   'Tablero completo': 'Full board',
-  'Arrastra una tarjeta a cualquier punto de otra columna (también sobre otras tarjetas o la cabecera); el tablero se desplaza solo hacia las columnas ocultas. El menú ⋮ de cada tarjeta edita, mueve o elimina (F2 y Supr con el teclado); "Añadir tarjeta" abre un campo al pie; las columnas se renombran (doble clic o menú), se contraen, se eliminan y se añaden. Cada cambio actualiza [(columns)] y emite su evento para guardarlo. En curso tiene límite de 2 (enforceLimit).':
-    'Drag a card to any point of another column (also over other cards or the header); the board scrolls by itself towards hidden columns. Each card’s ⋮ menu edits, moves or deletes it (F2 and Delete with the keyboard); "Add card" opens a field at the bottom; columns can be renamed (double-click or menu), collapsed, deleted and added. Every change updates [(columns)] and emits its event so you can save it. In progress has a limit of 2 (enforceLimit).',
   'Menú en cada tarjeta (editar, mover a, eliminar) y atajos F2 / Supr.': 'Menu on each card (edit, move to, delete) and F2 / Delete shortcuts.',
   'Campo Añadir tarjeta al pie de cada columna.': 'Add card field at the bottom of each column.',
   'Renombrar, eliminar y añadir columnas.': 'Rename, delete and add columns.',
@@ -2696,7 +2691,6 @@ export const ES_EN: Record<string, string> = {
   'Pide confirmación antes de eliminar.': 'Asks for confirmation before deleting.',
   'Crea la tarjeta nueva a partir del título.': 'Creates the new card from its title.',
   'Tarjeta creada ({ item, column, index }).': 'Card created ({ item, column, index }).',
-  'Título editado ({ item, previous, column, index }).': 'Title edited ({ item, previous, column, index }).',
   'Tarjeta eliminada ({ item, column, index }).': 'Card deleted ({ item, column, index }).',
   'Columna añadida.': 'Column added.',
   'Columna renombrada ({ column, previousTitle }).': 'Column renamed ({ column, previousTitle }).',
@@ -2707,4 +2701,27 @@ export const ES_EN: Record<string, string> = {
     'Editing, adding, renaming and confirming deletion use labelled fields and buttons; focus goes to the field when they open and returns to the card (or the originating button) when they close. Each change is announced in the `role="status"` region.',
   'Edita el título de la tarjeta (editable). Enter guarda, Escape cancela.': 'Edits the card title (editable). Enter saves, Escape cancels.',
   'Pide confirmar la eliminación de la tarjeta (editable).': 'Asks to confirm deleting the card (editable).',
+  // --- Kanban: detalle de la tarea ---
+  'Tablero de columnas con tarjetas que se reordenan y se mueven entre columnas arrastrando (ratón o dedo) o con el teclado. Cada tarea se abre en un panel con responsables, prioridad, fechas de inicio y fin, descripción y adjuntos; también se crean, editan y eliminan tarjetas y columnas.':
+    'Board of columns with cards that are reordered and moved between columns by dragging (mouse or touch) or with the keyboard. Each task opens in a panel with assignees, priority, start and due dates, description and attachments; cards and columns can also be created, edited and deleted.',
+  'Haz clic (o Enter) en una tarjeta para abrir su detalle: cambia la columna, asigna personas, elige la prioridad, pon fecha de inicio y de fin, escribe la descripción y adjunta archivos (botón o arrastrándolos). Cada cambio se aplica al momento, actualiza [(columns)] y emite cardEdit. Arrastra tarjetas a cualquier punto de otra columna; el menú ⋮ edita, mueve o elimina (F2 y Supr con el teclado); las columnas se renombran, se contraen, se eliminan y se añaden. En curso tiene límite de 3 (enforceLimit).':
+    'Click (or press Enter on) a card to open its details: change the column, assign people, pick the priority, set start and due dates, write the description and attach files (button or drag and drop). Every change applies immediately, updates [(columns)] and emits cardEdit. Drag cards to any point of another column; the ⋮ menu edits, moves or deletes (F2 and Delete with the keyboard); columns can be renamed, collapsed, deleted and added. In progress has a limit of 3 (enforceLimit).',
+  'Tarjeta personalizada': 'Custom card',
+  'Con una plantilla cbKanbanCard pintas la tarjeta a tu manera; recibe la tarjeta, su columna y su posición.':
+    'With a cbKanbanCard template you render the card your way; it receives the card, its column and its position.',
+  'Al abrir una tarjeta muestra el panel de detalle (responsables, prioridad, fechas, descripción y adjuntos).':
+    'Opening a card shows the details panel (assignees, priority, dates, description and attachments).',
+  'Personas que se pueden asignar (id, name, image).': 'People that can be assigned (id, name, image).',
+  'Niveles de prioridad (id, label, severity). Por defecto: baja, media y alta.': 'Priority levels (id, label, severity). Defaults: low, medium and high.',
+  'Tipos de archivo admitidos en los adjuntos (p. ej. image/*,.pdf).': 'File types accepted as attachments (e.g. image/*,.pdf).',
+  'Tarjeta editada: título o campos del panel ({ item, previous, column, index }).': 'Card edited: title or panel fields ({ item, previous, column, index }).',
+  'Con `details`, la tarjeta indica que abre un diálogo (`aria-haspopup="dialog"`). El panel es un `dialog` modal con el foco atrapado; cada campo tiene etiqueta y, al cerrarlo, el foco vuelve a la tarjeta aunque haya cambiado de columna.':
+    'With `details`, the card announces that it opens a dialog (`aria-haspopup="dialog"`). The panel is a modal `dialog` with trapped focus; every field is labelled and, when it closes, focus returns to the card even if it changed column.',
+  'En la tarjeta, la prioridad, las fechas (y si está vencida), los adjuntos y los responsables se leen con texto: los avatares son decorativos y llevan los nombres en texto oculto.':
+    'On the card, the priority, dates (and whether it is overdue), attachments and assignees are read as text: avatars are decorative and carry the names in hidden text.',
+  'Los adjuntos se añaden con un botón (el arrastre de archivos es opcional) y cada uno tiene su botón "Quitar" con nombre.':
+    'Attachments are added with a button (dropping files is optional) and each one has its own named "Remove" button.',
+  'Abre la tarjeta (cardOpen) y, con details, su panel de detalle.': 'Opens the card (cardOpen) and, with details, its details panel.',
+  'Escape (en el panel)': 'Escape (in the panel)',
+  'Cierra el panel de detalle y devuelve el foco a la tarjeta.': 'Closes the details panel and returns focus to the card.',
 };

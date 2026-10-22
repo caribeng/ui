@@ -1790,13 +1790,17 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "createCard", kind: "string", type: "(title: string, columnId: string) => T", default: null, description: "Crea la tarjeta nueva a partir del título.", control: false },
       { name: "disabled", kind: "boolean", type: "boolean", default: false, description: "Deshabilita mover tarjetas." },
       { name: "emptyMessage", kind: "string", type: "string", default: undefined, localeKey: "noData", description: "Texto de una columna vacía." },
-      { name: "ariaLabel", kind: "string", type: "string", default: "", description: "Nombre del tablero." }
+      { name: "ariaLabel", kind: "string", type: "string", default: "", description: "Nombre del tablero." },
+      { name: "details", kind: "boolean", type: "boolean", default: false, example: true, description: "Al abrir una tarjeta muestra el panel de detalle (responsables, prioridad, fechas, descripción y adjuntos)." },
+      { name: "people", kind: "string", type: "readonly CbKanbanPerson[]", default: [], example: [{ id: 'ana', name: 'Ana Ruiz' }, { id: 'leo', name: 'Leo Mora' }], description: "Personas que se pueden asignar (id, name, image).", control: false },
+      { name: "priorities", kind: "string", type: "readonly CbKanbanPriority[] | null", default: null, description: "Niveles de prioridad (id, label, severity). Por defecto: baja, media y alta.", control: false },
+      { name: "accept", kind: "string", type: "string", default: "", description: "Tipos de archivo admitidos en los adjuntos (p. ej. image/*,.pdf)." }
     ],
     events: [
       { name: "cardMove", type: "CbKanbanMove", description: "Tarjeta movida ({ item, from, to, fromIndex, toIndex })." },
       { name: "cardOpen", type: "T", description: "Se pulsó una tarjeta (o Enter)." },
       { name: "cardAdd", type: "CbKanbanCardEvent", description: "Tarjeta creada ({ item, column, index })." },
-      { name: "cardEdit", type: "CbKanbanCardEvent", description: "Título editado ({ item, previous, column, index })." },
+      { name: "cardEdit", type: "CbKanbanCardEvent", description: "Tarjeta editada: título o campos del panel ({ item, previous, column, index })." },
       { name: "cardDelete", type: "CbKanbanCardEvent", description: "Tarjeta eliminada ({ item, column, index })." },
       { name: "columnAdd", type: "CbKanbanColumnEvent", description: "Columna añadida." },
       { name: "columnRename", type: "CbKanbanColumnEvent", description: "Columna renombrada ({ column, previousTitle })." },

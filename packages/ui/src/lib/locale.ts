@@ -116,6 +116,35 @@ export interface CbTranslation {
   kanbanExpand: string;
   /** `{0}`: columna, `{1}`: cantidad de tarjetas. */
   kanbanConfirmDeleteColumn: string;
+  kanbanDetails: string;
+  kanbanOpenDetails: string;
+  kanbanStatus: string;
+  kanbanAssignees: string;
+  kanbanNoAssignees: string;
+  /** `{0}`: persona. */
+  kanbanUnassign: string;
+  /** `{0}`: nombres. */
+  kanbanAssignedTo: string;
+  kanbanPriority: string;
+  kanbanNoPriority: string;
+  kanbanPriorityLow: string;
+  kanbanPriorityMedium: string;
+  kanbanPriorityHigh: string;
+  kanbanStartDate: string;
+  kanbanEndDate: string;
+  kanbanDates: string;
+  kanbanOverdue: string;
+  kanbanDescription: string;
+  kanbanDescriptionPlaceholder: string;
+  kanbanAttachments: string;
+  kanbanAttach: string;
+  kanbanDropFiles: string;
+  /** `{0}`: archivo. */
+  kanbanRemoveAttachment: string;
+  /** `{0}`: cantidad. */
+  kanbanAttachmentCount: string;
+  /** `{0}`: tarjeta. */
+  kanbanUpdated: string;
   save: string;
   /** `{0}`: cantidad. */
   mentionsCount: string;
@@ -620,6 +649,30 @@ export const CB_LOCALE_ES: CbTranslation = {
   kanbanCollapse: 'Contraer {0}',
   kanbanExpand: 'Expandir {0}',
   kanbanConfirmDeleteColumn: '¿Eliminar la columna «{0}» y sus {1} tarjetas?',
+  kanbanDetails: 'Detalles de la tarea',
+  kanbanOpenDetails: 'Abrir detalles',
+  kanbanStatus: 'Columna',
+  kanbanAssignees: 'Responsables',
+  kanbanNoAssignees: 'Sin responsable',
+  kanbanUnassign: 'Quitar a {0}',
+  kanbanAssignedTo: 'Responsables: {0}',
+  kanbanPriority: 'Prioridad',
+  kanbanNoPriority: 'Sin prioridad',
+  kanbanPriorityLow: 'Baja',
+  kanbanPriorityMedium: 'Media',
+  kanbanPriorityHigh: 'Alta',
+  kanbanStartDate: 'Fecha de inicio',
+  kanbanEndDate: 'Fecha de fin',
+  kanbanDates: 'Fechas',
+  kanbanOverdue: 'vencida',
+  kanbanDescription: 'Descripción',
+  kanbanDescriptionPlaceholder: '¿De qué trata esta tarea?',
+  kanbanAttachments: 'Adjuntos',
+  kanbanAttach: 'Adjuntar archivos',
+  kanbanDropFiles: 'o arrástralos aquí',
+  kanbanRemoveAttachment: 'Quitar {0}',
+  kanbanAttachmentCount: '{0} adjuntos',
+  kanbanUpdated: '{0} actualizada.',
   save: 'Guardar',
   mentionsCount: '{0} sugerencias',
   add: 'Agregar',
@@ -1068,6 +1121,30 @@ export const CB_LOCALE_EN: CbTranslation = {
   kanbanCollapse: 'Collapse {0}',
   kanbanExpand: 'Expand {0}',
   kanbanConfirmDeleteColumn: 'Delete column “{0}” and its {1} cards?',
+  kanbanDetails: 'Task details',
+  kanbanOpenDetails: 'Open details',
+  kanbanStatus: 'Column',
+  kanbanAssignees: 'Assignees',
+  kanbanNoAssignees: 'Unassigned',
+  kanbanUnassign: 'Remove {0}',
+  kanbanAssignedTo: 'Assignees: {0}',
+  kanbanPriority: 'Priority',
+  kanbanNoPriority: 'No priority',
+  kanbanPriorityLow: 'Low',
+  kanbanPriorityMedium: 'Medium',
+  kanbanPriorityHigh: 'High',
+  kanbanStartDate: 'Start date',
+  kanbanEndDate: 'Due date',
+  kanbanDates: 'Dates',
+  kanbanOverdue: 'overdue',
+  kanbanDescription: 'Description',
+  kanbanDescriptionPlaceholder: 'What is this task about?',
+  kanbanAttachments: 'Attachments',
+  kanbanAttach: 'Attach files',
+  kanbanDropFiles: 'or drop them here',
+  kanbanRemoveAttachment: 'Remove {0}',
+  kanbanAttachmentCount: '{0} attachments',
+  kanbanUpdated: '{0} updated.',
   save: 'Save',
   mentionsCount: '{0} suggestions',
   add: 'Add',

@@ -12,13 +12,13 @@
 /* Tamaño y animación por borde ------------------------------------------------ */
 .cb-drawer--left,
 .cb-drawer--right {
-  width: min(22rem, 100vw);
+  width: min(var(--cb-drawer-size, 22rem), 100vw);
   height: 100vh;
 }
 .cb-drawer--top,
 .cb-drawer--bottom {
   width: 100vw;
-  height: min(18rem, 100vh);
+  height: min(var(--cb-drawer-size, 18rem), 100vh);
 }
 
 .cb-drawer--right { animation: cb-drawer-right var(--cb-duration-normal, 220ms) var(--cb-ease, ease); }

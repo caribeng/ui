@@ -42,6 +42,7 @@ type CbDrawerPosition = 'left' | 'right' | 'top' | 'bottom';
       <div
         class="cb-drawer"
         [class]="'cb-drawer--' + position()"
+        [style.--cb-drawer-size]="size() || null"
         role="dialog"
         aria-modal="true"
         [attr.aria-labelledby]="header() ? titleId : null"
@@ -82,6 +83,8 @@ export class CbDrawer {
   readonly dismissableMask = input<boolean, unknown>(true, { transform: toBoolean });
   readonly closeOnEscape = input<boolean, unknown>(true, { transform: toBoolean });
   readonly ariaLabel = input<string | undefined>(undefined);
+  /** Ancho (izquierda/derecha) o alto (arriba/abajo) del panel, p. ej. `'32rem'`. */
+  readonly size = input<string>('');
 
   readonly onShow = output<void>();
   readonly onHide = output<void>();

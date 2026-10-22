@@ -9,6 +9,7 @@ import {
   ViewEncapsulation,
   afterNextRender,
   booleanAttribute,
+  computed,
   contentChild,
   inject,
   input,
@@ -20,8 +21,19 @@ import {
 import { CdkDrag, CdkDragPlaceholder, CdkDropList, CdkDropListGroup, type CdkDragDrop } from '@angular/cdk/drag-drop';
 import { CdkScrollable } from '@angular/cdk/scrolling';
 import { cbFormat, injectCbTranslation } from '@caribeng/ui';
+import { CbDrawer } from '@caribeng/ui/drawer';
 import { CbIcon } from '@caribeng/ui/icon';
 import { CbMenu, type CbMenuItem } from '@caribeng/ui/menu';
+import { CbKanbanTaskPanel } from './kanban-task-panel.component';
+import {
+  formatDateRange,
+  initials,
+  newId,
+  toDate,
+  type CbKanbanPerson,
+  type CbKanbanPriority,
+  type CbKanbanTaskPatch,
+} from './kanban-task';
 
 /** Columna del tablero. */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any -- como Table: los items llegan sin tipar.
@@ -89,12 +101,6 @@ interface Grab {
 
 let nextUid = 0;
 
-/** Id único para tarjetas y columnas nuevas. */
-function newId(): string {
-  const c = globalThis.crypto as Crypto | undefined;
-  return c?.randomUUID ? c.randomUUID() : `cb-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
-}
-
 /**
  * Tablero Kanban de CaribeNG. Las tarjetas se reordenan y se mueven entre
  * columnas arrastrando (ratón o dedo, con `@angular/cdk/drag-drop`; toda la
@@ -107,6 +113,12 @@ function newId(): string {
  * añadir tarjetas al pie de cada columna; con `columnsEditable`, las columnas se
  * renombran, se eliminan y se añaden; con `collapsible`, se contraen.
  *
+ * Con `details`, al abrir una tarjeta aparece un panel lateral para editar la
+ * tarea completa: columna, responsables (`people`), prioridad (`priorities`),
+ * fechas de inicio y fin, descripción y adjuntos (ver `CbKanbanTask`). La
+ * tarjeta por defecto muestra la prioridad, las fechas, los adjuntos y los
+ * responsables.
+ *
  * @example
  * ```html
  * <cb-kanban [(columns)]="columnas" editable addable columnsEditable (cardMove)="guardar($event)">
@@ -118,7 +130,7 @@ function newId(): string {
   selector: 'cb-kanban',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
-  imports: [NgTemplateOutlet, CdkScrollable, CdkDropListGroup, CdkDropList, CdkDrag, CdkDragPlaceholder, CbIcon, CbMenu],
+  imports: [NgTemplateOutlet, CdkScrollable, CdkDropListGroup, CdkDropList, CdkDrag, CdkDragPlaceholder, CbDrawer, CbIcon, CbKanbanTaskPanel, CbMenu],
   host: { class: 'cb-kanban' },
   template: `
     <div class="cb-kanban__board" cdkScrollable cdkDropListGroup [attr.aria-label]="ariaLabel() || null" [attr.role]="ariaLabel() ? 'group' : null">
@@ -234,8 +246,9 @@ function newId(): string {
                     [attr.aria-roledescription]="t().kanbanCard"
                     [attr.aria-describedby]="uid + '-help'"
                     [attr.aria-pressed]="isGrabbed(item)"
+                    [attr.aria-haspopup]="details() ? 'dialog' : null"
                     (keydown)="onCardKeydown($event, c, i)"
-                    (click)="cardOpen.emit(item)"
+                    (click)="openCard(item)"
                   >
                     <ng-container *ngTemplateOutlet="cardTpl()?.template ?? defaultCard; context: { $implicit: item, column: col, index: i }" />
                   </div>
@@ -303,10 +316,81 @@ function newId(): string {
     <div class="cb-kanban__sr" role="status">{{ announcement() }}</div>
     <cb-menu #menu [items]="menuItems()" [ariaLabel]="menuLabel()" />
 
+    @if (details()) {
+      <cb-drawer
+        [visible]="detailOpen()"
+        (visibleChange)="!$event && closeDetails()"
+        [header]="t().kanbanDetails"
+        size="34rem"
+        (onHide)="onDetailsHidden()"
+      >
+        @if (detailTask(); as task) {
+          <cb-kanban-task-panel
+            [task]="task"
+            [itemLabel]="itemLabel()"
+            [columns]="columns()"
+            [columnId]="detailColumnId()"
+            [people]="people()"
+            [priorities]="resolvedPriorities()"
+            [editable]="editable() && !disabled()"
+            [accept]="accept()"
+            [confirmDelete]="confirmDelete()"
+            (patch)="updateTask(task, $event)"
+            (move)="moveTask(task, $event)"
+            (remove)="removeFromDetails(task)"
+          />
+        }
+      </cb-drawer>
+    }
+
     <ng-template #defaultCard let-item>
       <span class="cb-kanban__card-title">{{ label(item) }}</span>
       @if (item?.description) {
         <span class="cb-kanban__card-description">{{ item.description }}</span>
+      }
+      @if (hasMeta(item)) {
+        <span class="cb-kanban__meta">
+          @if (priorityOf(item); as p) {
+            <span class="cb-kanban__priority" [attr.data-severity]="p.severity || 'secondary'">
+              <span class="cb-kanban__sr">{{ t().kanbanPriority }}: </span>{{ p.label }}
+            </span>
+          }
+          @if (dateLabel(item); as d) {
+            <span class="cb-kanban__date" [class.cb-kanban__date--overdue]="isOverdue(item)">
+              <cb-icon name="calendar" [size]="13" aria-hidden="true" />
+              <span class="cb-kanban__sr">{{ t().kanbanDates }}: </span>{{ d }}
+              @if (isOverdue(item)) {
+                <span class="cb-kanban__sr"> ({{ t().kanbanOverdue }})</span>
+              }
+            </span>
+          }
+          @if (attachmentCount(item); as n) {
+            <span class="cb-kanban__attachments">
+              <cb-icon name="file" [size]="13" aria-hidden="true" />
+              <span aria-hidden="true">{{ n }}</span>
+              <span class="cb-kanban__sr">{{ fmt(t().kanbanAttachmentCount, n) }}</span>
+            </span>
+          }
+          @if (peopleOf(item); as people) {
+            @if (people.length) {
+              <span class="cb-kanban__avatars">
+                @for (person of people.slice(0, 3); track person.id) {
+                  <span class="cb-kanban__avatar" aria-hidden="true" [attr.title]="person.name">
+                    @if (person.image) {
+                      <img [src]="person.image" alt="" />
+                    } @else {
+                      {{ initialsOf(person.name) }}
+                    }
+                  </span>
+                }
+                @if (people.length > 3) {
+                  <span class="cb-kanban__avatar cb-kanban__avatar--more" aria-hidden="true">+{{ people.length - 3 }}</span>
+                }
+                <span class="cb-kanban__sr">{{ fmt(t().kanbanAssignedTo, names(people)) }}</span>
+              </span>
+            }
+          }
+        </span>
       }
     </ng-template>
     <ng-template #dots>
@@ -353,6 +437,14 @@ export class CbKanban {
   readonly emptyMessage = input<string | undefined>(undefined);
   /** Nombre del tablero. */
   readonly ariaLabel = input<string>('');
+  /** Al abrir una tarjeta (clic o Enter) se muestra el panel de detalle de la tarea. */
+  readonly details = input(false, { transform: booleanAttribute });
+  /** Personas que se pueden asignar (campo `assignees` con sus ids). */
+  readonly people = input<readonly CbKanbanPerson[]>([]);
+  /** Niveles de prioridad (campo `priority` con su id). Por defecto: baja, media y alta. */
+  readonly priorities = input<readonly CbKanbanPriority[] | null>(null);
+  /** Tipos de archivo admitidos en los adjuntos (atributo `accept`, p. ej. `'image/*,.pdf'`). */
+  readonly accept = input<string>('');
 
   /** Tarjeta movida (al soltarla o con "Mover a"). */
   readonly cardMove = output<CbKanbanMove>();
@@ -361,7 +453,7 @@ export class CbKanban {
   readonly cardOpen = output<any>();
   /** Tarjeta creada con el campo "Añadir tarjeta". */
   readonly cardAdd = output<CbKanbanCardEvent>();
-  /** Título de una tarjeta editado (`previous` es la tarjeta anterior). */
+  /** Tarjeta editada: título, o cualquier campo desde el panel de detalle (`previous` es la tarjeta anterior). */
   readonly cardEdit = output<CbKanbanCardEvent>();
   /** Tarjeta eliminada. */
   readonly cardDelete = output<CbKanbanCardEvent>();
@@ -384,6 +476,33 @@ export class CbKanban {
   protected readonly menuLabel = signal('');
   /** Al renombrar con Enter, el blur posterior no vuelve a guardar. */
   private renameDone = false;
+  private readonly detailKey = signal<unknown>(undefined);
+  protected readonly detailOpen = signal(false);
+  /** La tarea abierta en el panel, siempre en su versión actual. */
+  protected readonly detailTask = computed(() => {
+    const key = this.detailKey();
+    if (key === undefined) return undefined;
+    for (const col of this.columns()) {
+      const item = col.items.find((i) => this.key(i) === key);
+      if (item !== undefined) return item;
+    }
+    return undefined;
+  });
+  protected readonly detailColumnId = computed(() => {
+    const key = this.detailKey();
+    return this.columns().find((c) => c.items.some((i) => this.key(i) === key))?.id ?? '';
+  });
+  protected readonly resolvedPriorities = computed<readonly CbKanbanPriority[]>(() => {
+    const t = this.t();
+    return (
+      this.priorities() ?? [
+        { id: 'low', label: t.kanbanPriorityLow, severity: 'success' },
+        { id: 'medium', label: t.kanbanPriorityMedium, severity: 'warning' },
+        { id: 'high', label: t.kanbanPriorityHigh, severity: 'danger' },
+      ]
+    );
+  });
+  protected readonly initialsOf = initials;
 
   // --- Datos ---------------------------------------------------------------
   protected key(item: unknown): unknown {
@@ -399,6 +518,50 @@ export class CbKanban {
     const field = this.itemLabel();
     if (item && typeof item === 'object' && field in item) return String((item as Record<string, unknown>)[field]);
     return String(item);
+  }
+
+  private field(item: unknown, name: string): unknown {
+    return item && typeof item === 'object' ? (item as Record<string, unknown>)[name] : undefined;
+  }
+
+  protected priorityOf(item: unknown): CbKanbanPriority | undefined {
+    const id = this.field(item, 'priority');
+    return id == null ? undefined : this.resolvedPriorities().find((p) => p.id === id);
+  }
+
+  protected peopleOf(item: unknown): CbKanbanPerson[] {
+    const ids = this.field(item, 'assignees');
+    if (!Array.isArray(ids)) return [];
+    const people = this.people();
+    return ids.map((id) => people.find((p) => p.id === id) ?? { id: String(id), name: String(id) });
+  }
+
+  protected names(people: readonly CbKanbanPerson[]): string {
+    return people.map((p) => p.name).join(', ');
+  }
+
+  protected dateLabel(item: unknown): string {
+    const start = toDate(this.field(item, 'startDate'));
+    const end = toDate(this.field(item, 'endDate'));
+    return start || end ? formatDateRange(start, end, this.t().intlLocale) : '';
+  }
+
+  /** La fecha de fin ya pasó. */
+  protected isOverdue(item: unknown): boolean {
+    const end = toDate(this.field(item, 'endDate'));
+    if (!end) return false;
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    return end < today;
+  }
+
+  protected attachmentCount(item: unknown): number {
+    const list = this.field(item, 'attachments');
+    return Array.isArray(list) ? list.length : 0;
+  }
+
+  protected hasMeta(item: unknown): boolean {
+    return !!(this.priorityOf(item) || this.dateLabel(item) || this.attachmentCount(item) || this.peopleOf(item).length);
   }
 
   protected isFull(col: CbKanbanColumn): boolean {
@@ -468,7 +631,7 @@ export class CbKanban {
         this.announce('kanbanGrabbed', item, column, index);
       } else if (event.key === 'Enter') {
         event.preventDefault();
-        this.cardOpen.emit(item);
+        this.openCard(item);
       } else if (event.key === 'F2' && this.editable()) {
         event.preventDefault();
         this.startEdit(item);
@@ -554,6 +717,7 @@ export class CbKanban {
       }));
     this.menuLabel.set(cbFormat(this.t().kanbanCardActions, this.label(item)));
     this.menuItems.set([
+      ...(this.details() ? [{ label: this.t().kanbanOpenDetails, icon: 'panel-right-open', command: () => this.openDetails(item) }] : []),
       { label: this.t().kanbanEdit, icon: 'pencil', command: () => this.startEdit(item) },
       ...moveTo,
       { label: '', separator: true },
@@ -582,6 +746,66 @@ export class CbKanban {
     const key = this.key(item);
     const col = this.columns()[this.columnIndexOf(item)];
     return col ? col.items.findIndex((i) => this.key(i) === key) : -1;
+  }
+
+  // --- Detalle de la tarea ------------------------------------------------------
+  protected openCard(item: unknown): void {
+    this.cardOpen.emit(item);
+    if (this.details()) this.openDetails(item);
+  }
+
+  /** Abre el panel de detalle de una tarjeta. */
+  openDetails(item: unknown): void {
+    this.detailKey.set(this.key(item));
+    this.detailOpen.set(true);
+  }
+
+  /** Cierra el panel de detalle. */
+  closeDetails(): void {
+    this.detailOpen.set(false);
+  }
+
+  protected onDetailsHidden(): void {
+    const key = this.detailKey();
+    this.detailKey.set(undefined);
+    // La tarjeta pudo cambiar de columna mientras el panel estaba abierto.
+    if (key !== undefined) this.focusCard(key);
+  }
+
+  /** Aplica cambios a una tarjeta (emite `cardEdit`). */
+  updateTask(item: unknown, patch: CbKanbanTaskPatch): void {
+    const next = this.cloneColumns();
+    const key = this.key(item);
+    const column = next.findIndex((c) => c.items.some((i) => this.key(i) === key));
+    if (column < 0) return;
+    const index = next[column].items.findIndex((i) => this.key(i) === key);
+    const previous = next[column].items[index];
+    const updated = { ...(previous as object), ...patch };
+    next[column].items.splice(index, 1, updated);
+    this.columns.set(next);
+    this.cardEdit.emit({ item: updated, previous, column: next[column].id, index });
+    this.announcement.set(cbFormat(this.t().kanbanUpdated, this.label(updated)));
+  }
+
+  /** Mueve una tarjeta al final de otra columna. */
+  moveTask(item: unknown, columnId: string): void {
+    const columns = this.columns();
+    const to = columns.findIndex((c) => c.id === columnId);
+    const from = this.columnIndexOf(item);
+    if (to < 0 || from < 0 || to === from) return;
+    if (this.enforceLimit() && this.isFull(columns[to])) {
+      this.announcement.set(cbFormat(this.t().kanbanFull, columns[to].title));
+      return;
+    }
+    this.moveCard(from, this.indexOf(item), to, columns[to].items.length);
+  }
+
+  protected removeFromDetails(item: unknown): void {
+    const column = this.columnIndexOf(item);
+    if (column < 0) return;
+    this.detailKey.set(undefined);
+    this.closeDetails();
+    this.deleteCard(column, this.indexOf(item));
   }
 
   // --- Editar ------------------------------------------------------------------

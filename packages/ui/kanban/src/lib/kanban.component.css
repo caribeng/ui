@@ -333,8 +333,97 @@
 }
 
 .cb-kanban__card-description {
+  display: -webkit-box;
+  overflow: hidden;
   color: var(--cb-color-text-muted);
   font-size: var(--cb-text-xs, 0.75rem);
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+}
+
+/* Datos de la tarea en la tarjeta por defecto: prioridad, fechas, adjuntos y responsables. */
+.cb-kanban__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.375rem 0.5rem;
+  margin-top: 0.5rem;
+  color: var(--cb-color-text-muted);
+  font-size: var(--cb-text-xs, 0.75rem);
+}
+
+.cb-kanban__priority {
+  --_fg: var(--cb-color-text-muted);
+  --_bg: var(--cb-color-surface-hover);
+  padding: 0.0625rem 0.5rem;
+  border-radius: var(--cb-radius-full, 999px);
+  background: var(--_bg);
+  color: var(--_fg);
+  font-weight: var(--cb-font-weight-medium, 500);
+}
+
+.cb-kanban__priority[data-severity='info'] { --_bg: var(--cb-color-info-100); --_fg: var(--cb-color-info-700, var(--cb-color-info-500)); }
+.cb-kanban__priority[data-severity='success'] { --_bg: var(--cb-color-success-100); --_fg: var(--cb-color-success-700, var(--cb-color-success-500)); }
+.cb-kanban__priority[data-severity='warning'] { --_bg: var(--cb-color-warning-100); --_fg: var(--cb-color-warning-700, var(--cb-color-warning-500)); }
+.cb-kanban__priority[data-severity='danger'] { --_bg: var(--cb-color-danger-100); --_fg: var(--cb-color-danger-700, var(--cb-color-danger-500)); }
+
+:host-context([data-theme='dark']) .cb-kanban__priority {
+  --_bg: color-mix(in srgb, var(--_fg) 22%, transparent);
+}
+
+:host-context([data-theme='dark']) .cb-kanban__priority[data-severity='info'] { --_fg: var(--cb-color-info-300, var(--cb-color-info-500)); }
+:host-context([data-theme='dark']) .cb-kanban__priority[data-severity='success'] { --_fg: var(--cb-color-success-300, var(--cb-color-success-500)); }
+:host-context([data-theme='dark']) .cb-kanban__priority[data-severity='warning'] { --_fg: var(--cb-color-warning-300, var(--cb-color-warning-500)); }
+:host-context([data-theme='dark']) .cb-kanban__priority[data-severity='danger'] { --_fg: var(--cb-color-danger-300, var(--cb-color-danger-500)); }
+
+.cb-kanban__date,
+.cb-kanban__attachments {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.cb-kanban__date--overdue {
+  color: var(--cb-color-danger-700, var(--cb-color-danger));
+  font-weight: var(--cb-font-weight-medium, 500);
+}
+
+:host-context([data-theme='dark']) .cb-kanban__date--overdue {
+  color: var(--cb-color-danger-400, var(--cb-color-danger));
+}
+
+.cb-kanban__avatars {
+  display: inline-flex;
+  margin-left: auto;
+  padding-left: 0.375rem;
+}
+
+.cb-kanban__avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-left: -0.375rem;
+  overflow: hidden;
+  border: 2px solid var(--cb-color-surface-raised);
+  border-radius: 50%;
+  background: var(--cb-color-primary-100, var(--cb-color-surface-hover));
+  color: var(--cb-color-primary-700, var(--cb-color-text));
+  font-size: 0.5625rem;
+  font-weight: var(--cb-font-weight-semibold, 600);
+}
+
+.cb-kanban__avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cb-kanban__avatar--more {
+  background: var(--cb-color-surface-hover);
+  color: var(--cb-color-text-muted);
 }
 
 .cb-kanban__placeholder {
