@@ -6,7 +6,7 @@
 
 [![npm](https://img.shields.io/npm/v/@caribeng/ui.svg?style=flat-square&color=10b981)](https://www.npmjs.com/package/@caribeng/ui)
 [![Angular](https://img.shields.io/badge/angular-%5E22.0.0-dd0031.svg?style=flat-square)](https://angular.dev)
-[![Entry points](https://img.shields.io/badge/entry%20points-152-10b981.svg?style=flat-square)](packages/ui/README.md#-catálogo)
+[![Entry points](https://img.shields.io/badge/entry%20points-155-10b981.svg?style=flat-square)](packages/ui/README.md#-catálogo)
 [![Licencia MIT](https://img.shields.io/badge/licencia-MIT-blue.svg?style=flat-square)](#️-licencia)
 
 [Primeros pasos](packages/ui/README.md#-instalación) · [Catálogo](packages/ui/README.md#-catálogo) · [Migrar desde PrimeNG](packages/ui/README.md#migrar-desde-primeng) · [Changelog](CHANGELOG.md)
@@ -17,7 +17,7 @@
 
 ## ✨ Características
 
-- **152 componentes y directivas** standalone, cada uno en su propio entry point: solo empaquetas lo que importas.
+- **155 componentes y directivas** standalone, cada uno en su propio entry point: solo empaquetas lo que importas.
 - **Angular moderno:** Signals (`input()`, `model()`, `output()`), `OnPush` y compatible con apps zoneless.
 - **Formularios sin fricción:** `ControlValueAccessor` en todos los controles, compatibles con Reactive Forms y formularios por plantilla.
 - **Accesibles:** ARIA, teclado y gestión de foco según WCAG 2.2 AA.

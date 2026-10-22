@@ -2413,4 +2413,61 @@ export const ES_EN: Record<string, string> = {
     'Accessible name of the trigger when there is no visible label.',
   'Id del elemento que etiqueta al disparador (p. ej. un label visible).':
     'Id of the element that labels the trigger (e.g. a visible label).',
+  // --- Componentes nuevos: Kbd, CopyButton, QRCode ---
+  'Teclas y atajos de teclado. Con keys adapta la combinación a la plataforma: ⌘ K en Mac y Ctrl + K en Windows y Linux.':
+    'Keys and keyboard shortcuts. With keys it adapts the combination to the platform: ⌘ K on Mac and Ctrl + K on Windows and Linux.',
+  'Una tecla suelta como contenido.': 'A single key as content.',
+  Combinaciones: 'Combinations',
+  'keys acepta nombres (mod, shift, alt, ctrl, enter, backspace, esc, space, up, down, left, right) y texto libre. mod es ⌘ en Mac y Ctrl en el resto; con platform puedes forzar una.':
+    'keys accepts names (mod, shift, alt, ctrl, enter, backspace, esc, space, up, down, left, right) and free text. mod is ⌘ on Mac and Ctrl elsewhere; platform forces one.',
+  'Teclas de la combinación: nombres (mod, shift, alt, enter, up…) o texto libre.':
+    'Keys of the combination: names (mod, shift, alt, enter, up…) or free text.',
+  'Plataforma a mostrar; auto la detecta (⌘ en Mac).': 'Platform to display; auto detects it (⌘ on Mac).',
+  'Usa el elemento nativo `kbd`; una combinación es un `kbd` que contiene un `kbd` por tecla, como recomienda HTML.':
+    'Uses the native `kbd` element; a combination is a `kbd` containing one `kbd` per key, as HTML recommends.',
+  'Los símbolos de Mac (⌘ ⌥ ⇧ ↵) se ocultan al lector y se lee su nombre (Command, Option, Shift, Enter).':
+    'Mac symbols (⌘ ⌥ ⇧ ↵) are hidden from screen readers, which read their name instead (Command, Option, Shift, Enter).',
+  'Copia un texto al portapapeles y confirma con un ✓. Incluye la directiva cbCopy para cualquier elemento y el servicio CbClipboard para copiar desde código.':
+    'Copies text to the clipboard and confirms with a ✓. Includes the cbCopy directive for any element and the CbClipboard service to copy from code.',
+  'Botón de solo icono junto al dato. Al copiar muestra ✓ durante timeout milisegundos y lo anuncia a los lectores de pantalla.':
+    'Icon-only button next to the value. After copying it shows ✓ for timeout milliseconds and announces it to screen readers.',
+  'Con texto': 'With text',
+  'showLabel muestra "Copiar" / "Copiado"; label y copiedLabel cambian los textos.':
+    'showLabel shows "Copy" / "Copied"; label and copiedLabel change the texts.',
+  'Directiva cbCopy': 'cbCopy directive',
+  'Copia al pulsar cualquier elemento propio; reacciona a copied o copyError.':
+    'Copies when any custom element is clicked; react to copied or copyError.',
+  'Texto que se copia.': 'Text to copy.',
+  'Muestra el texto junto al icono.': 'Shows the text next to the icon.',
+  'Texto del botón y nombre accesible.': 'Button text and accessible name.',
+  'Texto tras copiar.': 'Text after copying.',
+  'Milisegundos que dura la confirmación.': 'How long the confirmation lasts, in milliseconds.',
+  'Variante del botón.': 'Button variant.',
+  'Color del botón.': 'Button color.',
+  'Texto copiado.': 'Copied text.',
+  'El navegador no permitió copiar.': 'The browser did not allow copying.',
+  'Sin `showLabel` es un botón de solo icono con nombre accesible ("Copiar" del idioma activo, o `label`).':
+    'Without `showLabel` it is an icon-only button with an accessible name ("Copy" in the active language, or `label`).',
+  'El resultado ("Copiado" o "No se pudo copiar") se anuncia en una región `role="status"` sin mover el foco.':
+    'The result ("Copied" or "Could not copy") is announced in a `role="status"` region without moving focus.',
+  'Lleva el foco al botón.': 'Moves focus to the button.',
+  'Copia el valor.': 'Copies the value.',
+  'Código QR en SVG con un codificador propio, sin dependencias: elige solo la versión y la máscara, y admite color, margen y logo.':
+    'SVG QR code with a built-in encoder and no dependencies: it picks the version and mask by itself, and supports color, margin and a logo.',
+  'value es el texto o la URL. Escribe para ver cómo cambia.': 'value is the text or URL. Type to see it change.',
+  'Corrección de errores': 'Error correction',
+  'L, M (por defecto), Q y H recuperan ~7, 15, 25 y 30 % del código si se daña o se tapa. Más corrección = más módulos. Usa M o más en impresos y pantallas.':
+    'L, M (default), Q and H recover ~7, 15, 25 and 30% of the code if it is damaged or covered. More correction = more modules. Use M or higher for print and screens.',
+  'Color y logo': 'Color and logo',
+  'color y background aceptan cualquier color CSS (mantén buen contraste). image centra un logo; combínalo con errorCorrection="H".':
+    'color and background accept any CSS color (keep good contrast). image centers a logo; combine it with errorCorrection="H".',
+  'Texto o URL a codificar.': 'Text or URL to encode.',
+  'Lado en píxeles.': 'Side length in pixels.',
+  'Corrección de errores (usa H con logo).': 'Error correction (use H with a logo).',
+  'Color de los módulos.': 'Module color.',
+  'Color de fondo.': 'Background color.',
+  'Margen claro en módulos (el estándar pide 4).': 'Light margin in modules (the standard asks for 4).',
+  'Logo centrado (URL).': 'Centered logo (URL).',
+  'Es una imagen (`role="img"`) con nombre "Código QR" o `ariaLabel`. El lector no puede leer el contenido: si importa, muéstralo también como texto o enlace junto al QR.':
+    'It is an image (`role="img"`) named "QR code" or `ariaLabel`. Screen readers cannot read its content: if it matters, also show it as text or a link next to the QR.',
 };

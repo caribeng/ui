@@ -533,6 +533,27 @@ export const DOC_A11Y: Record<string, DocA11y> = {
       'El icono o la ilustración son decorativos; el título y la descripción son texto normal y las acciones, botones o enlaces proyectados.',
     ],
   },
+  'cb-kbd': {
+    screenReader: [
+      'Usa el elemento nativo `kbd`; una combinación es un `kbd` que contiene un `kbd` por tecla, como recomienda HTML.',
+      'Los símbolos de Mac (⌘ ⌥ ⇧ ↵) se ocultan al lector y se lee su nombre (Command, Option, Shift, Enter).',
+    ],
+  },
+  'cb-copy-button': {
+    screenReader: [
+      'Sin `showLabel` es un botón de solo icono con nombre accesible ("Copiar" del idioma activo, o `label`).',
+      'El resultado ("Copiado" o "No se pudo copiar") se anuncia en una región `role="status"` sin mover el foco.',
+    ],
+    keyboard: [
+      { keys: 'Tab', action: 'Lleva el foco al botón.' },
+      { keys: 'Enter / Espacio', action: 'Copia el valor.' },
+    ],
+  },
+  'cb-qrcode': {
+    screenReader: [
+      'Es una imagen (`role="img"`) con nombre "Código QR" o `ariaLabel`. El lector no puede leer el contenido: si importa, muéstralo también como texto o enlace junto al QR.',
+    ],
+  },
   'cb-descriptions': {
     screenReader: [
       'Usa una lista de descripción nativa (`dl`, `dt`, `dd`), así cada valor se lee junto a su etiqueta. El título es un encabezado (`headingLevel`) que nombra la lista.',

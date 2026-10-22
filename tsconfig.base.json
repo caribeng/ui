@@ -243,6 +243,15 @@
       "@caribeng/ui/empty": [
         "./packages/ui/empty/src/public-api.ts"
       ],
+      "@caribeng/ui/copy-button": [
+        "./packages/ui/copy-button/src/public-api.ts"
+      ],
+      "@caribeng/ui/kbd": [
+        "./packages/ui/kbd/src/public-api.ts"
+      ],
+      "@caribeng/ui/qrcode": [
+        "./packages/ui/qrcode/src/public-api.ts"
+      ],
       "@caribeng/ui/descriptions": [
         "./packages/ui/descriptions/src/public-api.ts"
       ],

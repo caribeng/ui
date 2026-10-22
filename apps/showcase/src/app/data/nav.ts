@@ -80,6 +80,7 @@ export const NAV_MENU: NavItem[] = [
         label: 'Button',
         children: [
           { label: 'Button', route: '/components/button' },
+          { label: 'CopyButton', route: '/components/copy-button', badge: 'NEW' },
           { label: 'SpeedDial', route: '/components/speeddial' },
           { label: 'SplitButton', route: '/components/splitbutton', badge: 'NEW' },
         ],
@@ -179,6 +180,7 @@ export const NAV_MENU: NavItem[] = [
           { label: 'Galleria', route: '/components/galleria' },
           { label: 'Image', route: '/components/image' },
           { label: 'PDF Viewer', route: '/components/pdfviewer', badge: 'NEW' },
+          { label: 'QRCode', route: '/components/qrcode', badge: 'NEW' },
         ],
       },
       {
@@ -191,6 +193,7 @@ export const NAV_MENU: NavItem[] = [
           { label: 'Chip', route: '/components/chip' },
           { label: 'FocusTrap', route: '/components/focustrap' },
           { label: 'Inplace', route: '/components/inplace' },
+          { label: 'Kbd', route: '/components/kbd', badge: 'NEW' },
           { label: 'MeterGroup', route: '/components/metergroup' },
           { label: 'ProgressBar', route: '/components/progressbar' },
           { label: 'Ripple', route: '/components/ripple' },

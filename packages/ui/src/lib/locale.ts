@@ -25,6 +25,10 @@ export interface CbTranslation {
   selectAll: string;
   options: string;
   moreActions: string;
+  copy: string;
+  copied: string;
+  copyFailed: string;
+  qrCode: string;
   add: string;
   onThisPage: string;
   trendUp: string;
@@ -457,6 +461,10 @@ export const CB_LOCALE_ES: CbTranslation = {
   selectAll: 'Todos',
   options: 'Opciones',
   moreActions: 'Más acciones',
+  copy: 'Copiar',
+  copied: 'Copiado',
+  copyFailed: 'No se pudo copiar',
+  qrCode: 'Código QR',
   add: 'Agregar',
   onThisPage: 'En esta página',
   trendUp: 'aumenta',
@@ -834,6 +842,10 @@ export const CB_LOCALE_EN: CbTranslation = {
   selectAll: 'All',
   options: 'Options',
   moreActions: 'More actions',
+  copy: 'Copy',
+  copied: 'Copied',
+  copyFailed: 'Could not copy',
+  qrCode: 'QR code',
   add: 'Add',
   onThisPage: 'On this page',
   trendUp: 'up',
