@@ -1,4 +1,5 @@
 :host {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -9,6 +10,20 @@
   background: var(--cb-color-surface);
   font-family: var(--cb-font-sans);
   color: var(--cb-color-text);
+}
+
+:host(.cb-file-card--clickable) {
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+:host(.cb-file-card--clickable:hover) {
+  background: var(--cb-color-surface-hover);
+}
+
+:host(.cb-file-card--clickable:has(.cb-file-card__open:focus-visible)) {
+  outline: 2px solid var(--cb-color-focus-ring);
+  outline-offset: 2px;
 }
 
 .cb-file-card__left {
@@ -40,9 +55,69 @@
   font-size: 0.9rem;
 }
 
+.cb-file-card__open {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-align: start;
+  cursor: pointer;
+}
+
+.cb-file-card__open:focus-visible {
+  outline: none;
+}
+
+/* El botón del título cubre toda la tarjeta: un único control para abrir. */
+.cb-file-card__open::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+
 .cb-file-card__subtitle {
   font-size: 0.8rem;
   color: var(--cb-color-text-muted);
+}
+
+.cb-file-card__end {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  flex: none;
+}
+
+.cb-file-card__menu-button {
+  /* Por encima del área pulsable de la tarjeta (`clickable`). */
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  margin-right: -0.5rem;
+  padding: 0;
+  border: 0;
+  border-radius: var(--cb-radius-md, 8px);
+  background: transparent;
+  color: var(--cb-color-text-muted);
+  cursor: pointer;
+}
+
+.cb-file-card__menu-button:hover,
+.cb-file-card__menu-button[aria-expanded='true'] {
+  background: var(--cb-color-surface-hover);
+  color: var(--cb-color-text);
+}
+
+.cb-file-card__menu-button:focus-visible {
+  outline: 2px solid var(--cb-color-focus-ring);
+  outline-offset: 2px;
 }
 
 .cb-file-card__values {
