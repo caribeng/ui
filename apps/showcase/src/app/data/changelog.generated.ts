@@ -27,6 +27,14 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
             "text": "los items de Menu, Menubar, TieredMenu, ContextMenu, PanelMenu, TabMenu, Breadcrumb y MegaMenu (y SplitButton, que usa los de Menu) aceptan `command` (se ejecuta al elegirlos, con `{ item, originalEvent }`, además del evento de selección) y `visible: false` para ocultarlos. `cbRunCommand`, `cbVisibleItems` y `CbMenuCommandEvent` exportados en `@caribeng/ui`."
           },
           {
+            "component": "Table",
+            "text": "`field` admite rutas (`cliente.nombre`) para mostrar, ordenar, filtrar, agrupar y exportar valores anidados, como en PrimeNG. Una clave que contenga el punto tiene prioridad."
+          },
+          {
+            "component": "Migración",
+            "text": "`p-table` con columnas escritas en `#header`/`#body` se convierte a `cb-table` con `[columns]` (`pSortableColumn`, `p-columnFilter`, `pFrozenColumn` y el ancho de la cabecera) y un `cbTableCell` por cada celda personalizada, con su contenido migrado; selección con checkbox o radio, `#rowexpansion`, `#emptymessage`, `#caption` y `#summary` incluidos. Las tablas con columnas dinámicas o plantillas sin equivalente quedan con aviso y conservan `TableModule`."
+          },
+          {
             "component": "Migración",
             "text": "menús (`p-menu`, `p-menubar`, `p-tieredmenu`, `p-panelmenu`, `p-breadcrumb` con `home`, `p-tabmenu`, `p-splitbutton`) con sus arrays de `MenuItem` (tipo según el menú que los recibe, iconos, `routerLink` → `url`); `p-tabs` y `p-accordion` de PrimeNG 18+ se reestructuran (cabecera → `label`/`header`) y los de PrimeNG 17 (`p-tabView`, `p-accordionTab`) se traducen directamente. `p-contextmenu` y `p-megamenu` quedan con aviso."
           },

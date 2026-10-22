@@ -54,7 +54,8 @@ export function rewriteTemplate(compiler: Compiler, text: string, url: string): 
       if (removed.has(node)) continue;
       if (node instanceof compiler.Element) {
         if (!converted.has(node)) visitElement(node);
-        visit(node.children);
+        // Si la reestructuración sustituyó el elemento entero, su contenido ya está migrado.
+        if (!removed.has(node)) visit(node.children);
       } else if (node instanceof compiler.Block) {
         visit(node.children);
       } else if (node instanceof compiler.Expansion) {
@@ -87,6 +88,23 @@ export function rewriteTemplate(compiler: Compiler, text: string, url: string): 
           pending.push({ ...lineRange(text, html.sourceSpan.start.offset, html.sourceSpan.end.offset), text: '' });
           pendingRemoved.push(html);
         },
+        replace: (node, replacement) => {
+          const html = nodes.get(node)!;
+          pending.push({ start: html.sourceSpan.start.offset, end: html.sourceSpan.end.offset, text: replacement });
+          pendingRemoved.push(html);
+        },
+        migrate: (fragment) => {
+          const result = rewriteTemplate(compiler, fragment, url);
+          result.icons.forEach((icon) => icons.add(icon));
+          return result.text;
+        },
+        rules: (node, nodeMapping) => {
+          const html = nodes.get(node) as HtmlElement;
+          const el = applyRules(text, html, nodeMapping, directivesOf(html));
+          el.icons.forEach((icon) => icons.add(icon));
+          return { attrs: el.attrs, todos: el.todos };
+        },
+        eol: text.includes('\r\n') ? '\r\n' : '\n',
         unwrap: (node) => {
           const html = nodes.get(node) as HtmlElement;
           pending.push({ ...lineRange(text, html.startSourceSpan.start.offset, html.startSourceSpan.end.offset), text: '' });
@@ -137,8 +155,10 @@ function templateNode(compiler: Compiler, text: string, node: HtmlNode, nodes: M
       kind: 'element',
       name: node.name,
       bindings: node.attrs.map((attr) => classify(text, attr)).filter((b): b is Binding => b !== null),
+      attrs: node.attrs.map((attr) => ({ name: attr.name, value: attr.value, source: text.slice(attr.sourceSpan.start.offset, attr.sourceSpan.end.offset) })),
       children: node.children.map((child) => templateNode(compiler, text, child, nodes)),
       inner,
+      indent: lineIndent(text, node.sourceSpan.start.offset) ?? '',
     };
   } else {
     const isText = node instanceof compiler.Text;
@@ -146,8 +166,10 @@ function templateNode(compiler: Compiler, text: string, node: HtmlNode, nodes: M
       kind: isText ? 'text' : node instanceof compiler.Block ? 'block' : 'other',
       name: '',
       bindings: [],
+      attrs: [],
       children: [],
       inner: text.slice(node.sourceSpan.start.offset, node.sourceSpan.end.offset),
+      indent: lineIndent(text, node.sourceSpan.start.offset) ?? '',
     };
   }
   nodes.set(result, node);
@@ -191,19 +213,8 @@ export function classify(text: string, attr: HtmlAttribute): Binding | null {
   return { kind: 'static', name, value, bare, source };
 }
 
-/**
- * Reescribe un elemento: con `mapping` cambia el tag (`p-button` →
- * `cb-button`); sin él solo traduce los atributos de sus directivas
- * (`pTooltip` → `cbTooltip`) y conserva el tag y su contenido.
- */
-function rewriteElement(
-  text: string,
-  element: HtmlElement,
-  mapping: ElementMapping | null,
-  directives: readonly DirectiveMapping[],
-  edits: Edit[],
-  icons: Set<string>,
-): void {
+/** Aplica las reglas del mapeo y de las directivas a los atributos del elemento (sin editar el texto). */
+function applyRules(text: string, element: HtmlElement, mapping: ElementMapping | null, directives: readonly DirectiveMapping[]): ElementRewrite {
   const tag = mapping?.to ?? element.name;
   const bindings: Binding[] = [];
   const attrs: string[] = [];
@@ -245,6 +256,25 @@ function rewriteElement(
   }
   mapping?.finalize?.(el);
   mergeClasses(attrs);
+  return el;
+}
+
+/**
+ * Reescribe un elemento: con `mapping` cambia el tag (`p-button` →
+ * `cb-button`); sin él solo traduce los atributos de sus directivas
+ * (`pTooltip` → `cbTooltip`) y conserva el tag y su contenido.
+ */
+function rewriteElement(
+  text: string,
+  element: HtmlElement,
+  mapping: ElementMapping | null,
+  directives: readonly DirectiveMapping[],
+  edits: Edit[],
+  icons: Set<string>,
+): void {
+  const tag = mapping?.to ?? element.name;
+  const el = applyRules(text, element, mapping, directives);
+  const { attrs } = el;
   el.icons.forEach((icon) => icons.add(icon));
 
   const start = element.sourceSpan.start.offset;

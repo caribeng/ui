@@ -107,9 +107,13 @@ export interface TemplateNode {
   /** Tag (solo elementos). */
   readonly name: string;
   readonly bindings: readonly Binding[];
+  /** Todos los atributos tal cual, también `#ref` y `let-x` (que no son bindings). */
+  readonly attrs: readonly { readonly name: string; readonly value: string; readonly source: string }[];
   readonly children: readonly TemplateNode[];
   /** Texto fuente del contenido (entre las etiquetas, o el texto del nodo). */
   readonly inner: string;
+  /** Sangría de la línea donde empieza el nodo (vacía si no empieza la línea). */
+  readonly indent: string;
 }
 
 /** Ediciones que puede hacer `restructure`. */
@@ -120,6 +124,14 @@ export interface Restructure {
   remove(node: TemplateNode): void;
   /** Quita las etiquetas del elemento y deja su contenido. */
   unwrap(node: TemplateNode): void;
+  /** Sustituye el nodo entero por `text`; su contenido no se migra (usa `migrate` para lo que se conserve). */
+  replace(node: TemplateNode, text: string): void;
+  /** Migra un fragmento de plantilla (contenido que se mueve a otro sitio, p. ej. el de una celda). */
+  migrate(fragment: string): string;
+  /** Atributos y avisos que darían las reglas de `mapping` sobre el elemento (sin editar nada). */
+  rules(node: TemplateNode, mapping: ElementMapping): { readonly attrs: readonly string[]; readonly todos: readonly string[] };
+  /** Fin de línea del archivo. */
+  readonly eol: string;
 }
 
 /**
@@ -175,6 +187,8 @@ export interface ComponentMapping {
   readonly symbol: string;
   /** Otros tags CaribeNG que genera el mapeo (p. ej. desde `restructure`) → símbolo a importar. */
   readonly tags?: Readonly<Record<string, string>>;
+  /** Directivas CaribeNG que genera el mapeo (`cbTableCell`) → símbolo a importar. */
+  readonly attrs?: Readonly<Record<string, string>>;
   /**
    * Módulo PrimeNG → (símbolo PrimeNG → símbolo CaribeNG). El símbolo se
    * importa de `entry`, salvo que indique el suyo (`{ name, entry }`), p. ej.

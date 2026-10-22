@@ -316,6 +316,47 @@ describe('ng generate @caribeng/ui:migrate-from-primeng', () => {
     assert.match(tree.readText(`${APP}/app.config.ts`), /provideCbIcons\(\{ 'bookmark': bookmark \}\)/);
   });
 
+  it('p-table: convierte la tabla estática e importa sus directivas; la dinámica conserva TableModule', async () => {
+    const app = await createPrimengApp();
+    const component = (name: string) =>
+      [
+        "import { Component } from '@angular/core';",
+        "import { CurrencyPipe } from '@angular/common';",
+        "import { TableModule } from 'primeng/table';",
+        '',
+        '@Component({',
+        `  selector: 'app-${name}',`,
+        '  imports: [CurrencyPipe, TableModule],',
+        `  templateUrl: './${name}.html',`,
+        '})',
+        `export class ${name[0].toUpperCase()}${name.slice(1)} {}`,
+        '',
+      ].join('\n');
+    app.create(`${APP}/estatica.ts`, component('estatica'));
+    app.create(
+      `${APP}/estatica.html`,
+      '<p-table [value]="filas"><ng-template #header><tr><th>Precio</th></tr></ng-template><ng-template #body let-f><tr><td>{{ f.precio | currency }}</td></tr></ng-template></p-table>\n',
+    );
+    app.create(`${APP}/dinamica.ts`, component('dinamica'));
+    app.create(
+      `${APP}/dinamica.html`,
+      '<p-table [value]="filas" [columns]="cols"><ng-template #header let-columns><tr>@for (c of columns; track c) {<th>{{ c.header }}</th>}</tr></ng-template><ng-template #body let-f let-columns="columns"><tr>@for (c of columns; track c) {<td>{{ f[c.field] }}</td>}</tr></ng-template></p-table>\n',
+    );
+
+    const tree = await migrate(app);
+    const estatica = tree.readText(`${APP}/estatica.ts`);
+    assert.match(estatica, /imports: \[CurrencyPipe, CbTable, CbTableCellDirective\]/);
+    assert.match(estatica, /import \{ CbTable, CbTableCellDirective \} from '@caribeng\/ui\/table';/);
+    assert.doesNotMatch(estatica, /primeng/);
+    assert.match(tree.readText(`${APP}/estatica.html`), /<ng-template cbTableCell="precio" let-f>\{\{ f\.precio \| currency \}\}<\/ng-template>/);
+
+    const dinamica = tree.readText(`${APP}/dinamica.ts`);
+    assert.match(dinamica, /import \{ TableModule \} from 'primeng\/table';/, 'la tabla sin convertir sigue compilando');
+    assert.match(dinamica, /imports: \[CurrencyPipe, CbTable, TableModule\]/);
+    assert.match(tree.readText(`${APP}/dinamica.html`), /^<!-- TODO\(caribeng\): las celdas se generan con @for/);
+    assert.equal(deps(tree)['primeng'], '^21.1.0');
+  });
+
   it('con referencias pendientes mantiene PrimeNG instalado y las lista en el informe', async () => {
     const app = await createPrimengApp();
     app.overwrite(`${APP}/app.html`, `<p-table [value]="filas"></p-table>\n<p-button label="X" />\n`);
@@ -323,7 +364,8 @@ describe('ng generate @caribeng/ui:migrate-from-primeng', () => {
     assert.equal(deps(tree)['primeng'], '^21.1.0');
     const report = tree.readText('/caribeng-migration-report.md');
     assert.match(report, /Referencias a PrimeNG sin migrar: \*\*1\*\*/);
-    assert.match(report, /### `projects\/demo\/src\/app\/app.html`\n\n- Línea 1: <p-table/);
+    assert.match(report, /- Línea 1: p-table sin plantillas header y body\./);
+    assert.match(report, /## Referencias a PrimeNG pendientes[\s\S]*### `projects\/demo\/src\/app\/app.html`\n\n- Línea 2: <p-table/);
   });
 
   it('--path migra solo esa carpeta', async () => {

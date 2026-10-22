@@ -3,7 +3,7 @@ import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 import { addRootProvider, readWorkspace } from '@schematics/angular/utility';
 import { addStyles, containsText } from '../ng-add/index';
 import { catalogExport, isCoreIcon } from './icons';
-import { ATTR_SYMBOLS, type CaribeSymbol, TAG_SYMBOLS } from './mappings';
+import { ATTR_SYMBOLS, type CaribeSymbol, MAPPING_BY_TAG, TAG_SYMBOLS } from './mappings';
 import { REPORT_PATH, renderReport, scanWorkspace } from './report';
 import type { Schema } from './schema';
 import { type Compiler, loadCompiler, rewriteTemplate } from './template';
@@ -135,6 +135,24 @@ function introducedSymbols(before: string, after: string): CaribeSymbol[] {
   return [...symbols.values()];
 }
 
+/**
+ * Módulos PrimeNG que el componente importaba y que su plantilla migrada aún
+ * necesita porque algún elemento no se pudo convertir (p. ej. una p-table con
+ * columnas dinámicas): se vuelven a importar para que siga compilando.
+ */
+function keptPrimengModules(source: string, template: string): CaribeSymbol[] {
+  const code = template.replace(/<!--[\s\S]*?-->/g, '');
+  const kept = new Map<string, CaribeSymbol>();
+  for (const [tag, mapping] of MAPPING_BY_TAG) {
+    if (!new RegExp(`<${tag}[\\s/>]`).test(code)) continue;
+    for (const [module, symbols] of Object.entries(mapping.modules)) {
+      const name = Object.keys(symbols).find((symbol) => new RegExp(`import\\s*\\{[^}]*\\b${symbol}\\b[^}]*\\}\\s*from\\s*['"]${module}['"]`).test(source));
+      if (name) kept.set(name, { name, entry: module });
+    }
+  }
+  return [...kept.values()];
+}
+
 function addIcons(migration: Migration, path: string, icons: ReadonlySet<string>): void {
   if (!icons.size) return;
   const set = migration.icons.get(path) ?? new Set<string>();
@@ -181,7 +199,9 @@ function migrateSource(tree: Tree, path: string, migration: Migration): void {
         addIcons(migration, templatePath, result.icons);
       }
     }
-    if (before !== undefined && after !== undefined) needed.set(component.index, introducedSymbols(before, after));
+    if (before !== undefined && after !== undefined) {
+      needed.set(component.index, [...introducedSymbols(before, after), ...keptPrimengModules(original, after)]);
+    }
   }
 
   const imports = ensureComponentImports(path, text, needed);

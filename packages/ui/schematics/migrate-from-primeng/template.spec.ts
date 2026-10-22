@@ -504,6 +504,105 @@ describe('plantillas: accordion', () => {
   });
 });
 
+describe('plantillas: table', () => {
+  const productos = [
+    '<p-table #dt [value]="productos" [paginator]="true" rows="5" dataKey="id" [stripedRows]="true" [tableStyle]="{ \'min-width\': \'50rem\' }">',
+    '  <ng-template #header>',
+    '    <tr>',
+    '      <th pSortableColumn="codigo" style="width: 20%">Código <p-sortIcon field="codigo" /></th>',
+    '      <th>Nombre <p-columnFilter type="text" field="nombre" matchMode="startsWith" /></th>',
+    '      <th>Cliente</th>',
+    '      <th pSortableColumn="precio">Precio <p-sortIcon field="precio" /></th>',
+    '      <th>Estado</th>',
+    '    </tr>',
+    '  </ng-template>',
+    '  <ng-template #body let-producto>',
+    '    <tr>',
+    '      <td>{{ producto.codigo }}</td>',
+    '      <td>{{ producto.nombre }}</td>',
+    '      <td>{{ producto.cliente.nombre }}</td>',
+    '      <td>{{ producto.precio | currency: \'EUR\' }}</td>',
+    '      <td><p-tag [value]="producto.estado" severity="warn" /></td>',
+    '    </tr>',
+    '  </ng-template>',
+    '  <ng-template #emptymessage>',
+    '    <tr><td colspan="5">No hay productos.</td></tr>',
+    '  </ng-template>',
+    '</p-table>',
+  ].join('\n');
+
+  it('columnas estáticas → [columns] y plantillas cbTableCell con el contenido migrado', () => {
+    const out = text(productos);
+    assert.match(out, /^<!-- TODO\(caribeng\): \[tableStyle\]=.* — ajusta el ancho mínimo con CSS sobre cb-table\. -->\n<cb-table\n  #dt\n  \[value\]="productos"\n  \[paginator\]="true"\n  \[rows\]="5"\n  dataKey="id"\n  \[striped\]="true"\n  emptyMessage="No hay productos\."/);
+    assert.match(out, /\{ field: 'codigo', header: 'Código', sortable: true, width: '20%' \},/);
+    assert.match(out, /\{ field: 'nombre', header: 'Nombre', filter: true, filterMatchMode: 'startsWith' \},/);
+    assert.match(out, /\{ field: 'cliente\.nombre', header: 'Cliente' \},/);
+    assert.match(out, /\{ field: 'precio', header: 'Precio', sortable: true \},/);
+    assert.match(out, /\{ field: 'estado', header: 'Estado' \}\n/);
+    assert.match(out, /<ng-template cbTableCell="precio" let-producto>\{\{ producto\.precio \| currency: 'EUR' \}\}<\/ng-template>/);
+    assert.match(out, /<ng-template cbTableCell="estado" let-producto><cb-tag \[value\]="producto\.estado" severity="warning" \/><\/ng-template>/);
+    assert.doesNotMatch(out, /cbTableCell="codigo"|cbTableCell="cliente/, 'las celdas {{ fila.campo }} no necesitan plantilla');
+    assert.doesNotMatch(out, /p-table|p-sortIcon|p-columnFilter|<tr>/);
+  });
+
+  it('selección con checkbox, expansión de filas y cabecera con interpolación', () => {
+    const out = text(
+      [
+        '<p-table [value]="pedidos" [(selection)]="elegidos" dataKey="id" (onRowExpand)="abrir($event.data)">',
+        '  <ng-template #header>',
+        '    <tr><th><p-tableHeaderCheckbox /></th><th></th><th>{{ "Pedido" }}</th><th>Total ({{ moneda }})</th></tr>',
+        '  </ng-template>',
+        '  <ng-template #body let-pedido let-expanded="expanded">',
+        '    <tr><td><p-tableCheckbox [value]="pedido" /></td><td><button type="button" [pRowToggler]="pedido"></button></td><td>{{ pedido.id }}</td><td>{{ pedido.total }}</td></tr>',
+        '  </ng-template>',
+        '  <ng-template #rowexpansion let-pedido>',
+        '    <tr><td colspan="4"><p-button label="Ver" /></td></tr>',
+        '  </ng-template>',
+        '</p-table>',
+      ].join('\n'),
+    );
+    assert.match(out, /\[\(selection\)\]="elegidos"/);
+    assert.match(out, /selectionMode="multiple"/);
+    assert.match(out, /\(rowExpand\)="abrir\(\$event\)"/);
+    assert.match(out, /\{ field: 'id', header: \("Pedido"\) \},/);
+    assert.match(out, /\{ field: 'total', header: 'Total \(' \+ \(moneda\) \+ '\)' \}\n/);
+    assert.match(out, /<ng-template cbTableRowExpansion let-pedido><cb-button>Ver<\/cb-button><\/ng-template>/);
+    assert.doesNotMatch(out, /Checkbox|pRowToggler/);
+  });
+
+  it('caption con filtro global: se mueve antes de la tabla y filterGlobal pierde el matchMode', () => {
+    const out = text(
+      [
+        '<p-table #dt [value]="filas" [globalFilterFields]="[\'nombre\']">',
+        '  <ng-template #caption><input pInputText (input)="dt.filterGlobal($any($event.target).value, \'contains\')" /></ng-template>',
+        '  <ng-template #header><tr><th>Nombre</th></tr></ng-template>',
+        '  <ng-template #body let-f><tr><td>{{ f.nombre }}</td></tr></ng-template>',
+        '</p-table>',
+      ].join('\n'),
+    );
+    assert.match(out, /TODO\(caribeng\): el contenido de #caption de p-table está antes de cb-table/);
+    assert.match(out, /<cb-input \(input\)="dt\.filterGlobal\(\$any\(\$event\.target\)\.value\)" \/>\n<cb-table\n  #dt/);
+  });
+
+  it('columnas dinámicas, varias filas o plantillas sin equivalente: no se toca, aviso con el motivo', () => {
+    const dinamica = `<p-table [value]="filas" [columns]="cols"><ng-template #header let-columns><tr>@for (c of columns; track c.field) {<th>{{ c.header }}</th>}</tr></ng-template><ng-template #body let-f let-columns="columns"><tr>@for (c of columns; track c.field) {<td>{{ f[c.field] }}</td>}</tr></ng-template></p-table>`;
+    const out = text(dinamica);
+    assert.match(out, /^<!-- TODO\(caribeng\): las celdas se generan con @for\/@if \(columnas dinámicas\)\./);
+    assert.match(out, /<p-table \[value\]="filas"/);
+    assert.match(text(dinamica.replace('#header', '#groupheader')), /TODO\(caribeng\): p-table usa la plantilla "groupheader"/);
+    assert.match(text(productos.replace('let-producto>', 'let-producto let-i="rowIndex">').replace('{{ producto.codigo }}', '{{ i }}')), /TODO\(caribeng\): las celdas usan i, que cbTableCell no ofrece/);
+  });
+
+  it('estilos de celda y atributos de fila: aviso, pero la tabla se convierte', () => {
+    const out = text(
+      `<p-table [value]="f"><ng-template #header><tr><th>A</th></tr></ng-template><ng-template #body let-r><tr [class.rojo]="r.mal"><td class="num">{{ r.a }}</td></tr></ng-template></p-table>`,
+    );
+    assert.match(out, /TODO\(caribeng\): la celda de "A" tenía class="num"/);
+    assert.match(out, /TODO\(caribeng\): la fila tenía \[class\.rojo\]="r\.mal"/);
+    assert.match(out, /<cb-table/);
+  });
+});
+
 describe('plantillas: iconos sueltos', () => {
   it('<i class="pi pi-…"> → <cb-icon>', () => {
     assert.equal(text(`<i class="pi pi-search"></i>`), `<cb-icon name="search" />`);

@@ -131,6 +131,7 @@ Todos los avisos, las referencias a PrimeNG que aún quedan (por ejemplo compone
 | `<p-menu>`, `<p-menubar>`, `<p-tieredmenu>`, `<p-panelmenu>`, `<p-breadcrumb>`, `<p-tabmenu>` | `<cb-menu>`, `<cb-menubar>`, `<cb-tieredmenu>`, `<cb-panelmenu>`, `<cb-breadcrumb>`, `<cb-tabmenu>` |
 | `MenuItem[]` (`icon`, `command`, `routerLink`…) | el tipo de item del menú que lo recibe (`CbMenubarItem[]`…) |
 | `<p-splitbutton>` | `<cb-split-button>` |
+| `<p-table>` con columnas escritas en `#header`/`#body` | `<cb-table [columns]>` + un `cbTableCell` por celda personalizada |
 | `<p-tabs>` (y `<p-tabView>`) | `<cb-tabs>` + `<cb-tab label="…">` |
 | `<p-accordion>` (y `<p-accordionTab>`) | `<cb-accordion>` + `<cb-accordion-panel header="…">` |
 | `<p-tag>` | `<cb-tag>` |
@@ -140,7 +141,7 @@ Todos los avisos, las referencias a PrimeNG que aún quedan (por ejemplo compone
 | `<p-checkbox>` | `<cb-checkbox>` |
 | `<i class="pi pi-*">` | `<cb-icon>` |
 
-En los menús, los arrays de `MenuItem` cambian de tipo según el menú que los recibe en la plantilla; `icon: 'pi pi-plus'` pasa a `'plus'`, `command` y `visible` se conservan, y `routerLink: '/x'` pasa a `url` (los `routerLink` con parámetros quedan con aviso). Las pestañas y los acordeones de PrimeNG 18+ se reestructuran (la cabecera pasa a `label`/`header`); si se generan con `@for` o la cabecera lleva iconos, quedan con aviso.
+En los menús, los arrays de `MenuItem` cambian de tipo según el menú que los recibe en la plantilla; `icon: 'pi pi-plus'` pasa a `'plus'`, `command` y `visible` se conservan, y `routerLink: '/x'` pasa a `url` (los `routerLink` con parámetros quedan con aviso). En las tablas, cada `<th>`/`<td>` pasa a una columna de `[columns]` (`pSortableColumn` → `sortable`, `<p-columnFilter>` → `filter`, `pFrozenColumn` → `frozen`); las celdas que no son solo `{{ fila.campo }}` pasan a un `<ng-template cbTableCell>` con su contenido migrado, y las columnas de checkbox y de expandir desaparecen porque `cb-table` las pone sola. Las tablas con columnas dinámicas (`@for`), varias filas por registro o plantillas sin equivalente se dejan con aviso y conservan `TableModule`, para que sigan compilando. Las pestañas y los acordeones de PrimeNG 18+ se reestructuran (la cabecera pasa a `label`/`header`); si se generan con `@for` o la cabecera lleva iconos, quedan con aviso.
 
 Los radios (`<p-radiobutton>`) y los menús contextuales (`<p-contextmenu>`) se marcan con un aviso pero no se convierten, porque cambia la estructura de la página: en CaribeNG el modelo de los radios va en un `<cb-radio-group>` que envuelve las opciones, y `<cb-contextmenu>` envuelve el área sobre la que se abre en vez de apuntar a ella con `[target]`. El resto de componentes aparece en el informe para migrarlo a mano; se irán añadiendo en próximas versiones.
 

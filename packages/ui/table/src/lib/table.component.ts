@@ -28,7 +28,7 @@ import { cbFormat, injectCbTranslation } from '@caribeng/ui';
 export type CbTableFilterMatchMode = 'contains' | 'startsWith' | 'equals';
 
 export interface CbTableColumn {
-  /** Propiedad de la fila a mostrar. */
+  /** Propiedad de la fila a mostrar. Admite rutas (`cliente.nombre`). */
   field: string;
   /** Texto del encabezado. */
   header: string;
@@ -771,7 +771,7 @@ export class CbTable {
 
   // --- Helpers ---------------------------------------------------------------
   protected cellValue(row: unknown, col: CbTableColumn): unknown {
-    return row != null && typeof row === 'object' ? (row as Record<string, unknown>)[col.field] : row;
+    return fieldValue(row, col.field);
   }
   protected cellTemplate(field: string): CbTableCellDirective | undefined {
     return this.cellTemplates().find((cell) => cell.cbTableCell() === field);
@@ -800,8 +800,8 @@ export class CbTable {
     return a === b;
   }
   private compare(a: unknown, b: unknown, field: string): number {
-    const av = (a as Record<string, unknown>)?.[field];
-    const bv = (b as Record<string, unknown>)?.[field];
+    const av = fieldValue(a, field);
+    const bv = fieldValue(b, field);
     if (av == null) return bv == null ? 0 : -1;
     if (bv == null) return 1;
     if (typeof av === 'number' && typeof bv === 'number') return av - bv;
@@ -813,8 +813,12 @@ function toBoolean(value: unknown): boolean {
   return value !== false && value != null && `${value}` !== 'false';
 }
 
+/** Valor de `field` en la fila; admite rutas (`cliente.nombre`), como `field` en PrimeNG. */
 function fieldValue(row: unknown, field: string): unknown {
-  return row != null && typeof row === 'object' ? (row as Record<string, unknown>)[field] : row;
+  if (row == null || typeof row !== 'object') return row;
+  const record = row as Record<string, unknown>;
+  if (field in record || !field.includes('.')) return record[field];
+  return field.split('.').reduce<unknown>((value, key) => (value != null && typeof value === 'object' ? (value as Record<string, unknown>)[key] : undefined), row);
 }
 
 /** Minúsculas y sin tildes, para que "jose" encuentre "José". */

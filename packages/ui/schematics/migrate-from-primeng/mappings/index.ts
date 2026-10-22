@@ -11,6 +11,7 @@ import { multiselect } from './multiselect';
 import { radiobutton } from './radiobutton';
 import { select } from './select';
 import { accordion, tabs } from './tabs';
+import { table } from './table';
 import { tag } from './tag';
 import { textarea } from './textarea';
 import { toast } from './toast';
@@ -41,6 +42,7 @@ export const MAPPINGS: readonly ComponentMapping[] = [
   tabmenu,
   splitbutton,
   contextmenu,
+  table,
   tabs,
   accordion,
   tag,
@@ -76,9 +78,10 @@ export const TAG_SYMBOLS: ReadonlyMap<string, CaribeSymbol> = new Map([
 ]);
 
 /** Atributo de directiva CaribeNG (`cbTooltip`) → símbolo que hay que importar. */
-export const ATTR_SYMBOLS: ReadonlyMap<string, CaribeSymbol> = new Map(
-  MAPPINGS.flatMap((mapping) => (mapping.directives ?? []).map((directive) => [directive.to, { name: mapping.symbol, entry: mapping.entry }] as const)),
-);
+export const ATTR_SYMBOLS: ReadonlyMap<string, CaribeSymbol> = new Map([
+  ...MAPPINGS.flatMap((mapping) => (mapping.directives ?? []).map((directive) => [directive.to, { name: mapping.symbol, entry: mapping.entry }] as const)),
+  ...MAPPINGS.flatMap((mapping) => Object.entries(mapping.attrs ?? {}).map(([attr, name]) => [attr, { name, entry: mapping.entry }] as const)),
+]);
 
 /** Selectores por tag (`p-button`) y por directiva de atributo (`pButton`). */
 export const ELEMENTS_BY_TAG: ReadonlyMap<string, ElementMapping> = new Map(
@@ -86,6 +89,11 @@ export const ELEMENTS_BY_TAG: ReadonlyMap<string, ElementMapping> = new Map(
 );
 export const ELEMENTS_BY_ATTR: ReadonlyMap<string, ElementMapping> = new Map(
   MAPPINGS.flatMap((mapping) => mapping.elements.filter((element) => element.attr).map((element) => [element.attr!, element] as const)),
+);
+
+/** Tag PrimeNG → su mapeo completo (para saber qué módulo PrimeNG conservar si no se convierte). */
+export const MAPPING_BY_TAG: ReadonlyMap<string, ComponentMapping> = new Map(
+  MAPPINGS.flatMap((mapping) => mapping.elements.filter((element) => element.tag).map((element) => [element.tag!, mapping] as const)),
 );
 
 /** Directivas que se traducen sin cambiar el elemento (`pTooltip`). */

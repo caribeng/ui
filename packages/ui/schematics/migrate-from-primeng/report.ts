@@ -40,7 +40,8 @@ export function scanWorkspace(tree: Tree): Scan {
       .forEach((line, i) => {
         const at = line.indexOf(TODO_MARK);
         if (at >= 0) {
-          const message = line.slice(at + TODO_MARK.length + 1).replace(/\s*(-->|\*\/)\s*$/, '').trim();
+          // Hasta el cierre del comentario: en TypeScript puede seguir código en la misma línea.
+          const message = line.slice(at + TODO_MARK.length + 1).replace(/\s*(-->|\*\/)[\s\S]*$/, '').trim();
           todos.push({ path, line: i + 1, text: message });
           return;
         }
