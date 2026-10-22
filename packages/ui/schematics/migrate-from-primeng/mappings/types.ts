@@ -86,14 +86,56 @@ export interface ElementMapping {
   readonly child?: (child: ChildElement) => ChildRewrite | null;
 }
 
+/**
+ * Directiva de atributo que se traduce sin cambiar el elemento que la lleva
+ * (`<span pTooltip="x">` → `<span cbTooltip="x">`). Se aplica en cualquier
+ * tag, también sobre elementos que migra otro mapeo (`<p-button pTooltip>`).
+ */
+export interface DirectiveMapping {
+  /** Atributo PrimeNG (`pTooltip`). */
+  readonly attr: string;
+  /** Atributo CaribeNG que lo sustituye (`cbTooltip`). */
+  readonly to: string;
+  /** Reglas de los inputs/outputs asociados (`tooltipPosition`…). */
+  readonly rules: Readonly<Record<string, AttrRule>>;
+  /** Inputs con el mismo nombre en las dos librerías (se comprueban en un test). */
+  readonly same?: readonly string[];
+}
+
+/** Ediciones de TypeScript que un mapeo hace sobre el uso de sus servicios. */
+export interface SourceEdit {
+  readonly start: number;
+  readonly end: number;
+  readonly text: string;
+}
+
+/**
+ * Reescribe usos de un servicio PrimeNG en un archivo (p. ej. las llamadas a
+ * `MessageService.add`). `locals` son los nombres locales de los símbolos
+ * PrimeNG importados en el archivo (símbolo → nombre local).
+ */
+export type SourceRewriter = (sf: import('typescript').SourceFile, locals: ReadonlyMap<string, string>, edits: SourceEdit[]) => void;
+
 /** Mapeo completo de un componente. */
 export interface ComponentMapping {
   /** Nombre corto (para informes y tests). */
   readonly name: string;
   /** Entry point CaribeNG del que se importan los símbolos. */
   readonly entry: string;
+  /** Símbolo que importa un componente cuando su plantilla usa el tag o la directiva CaribeNG. */
+  readonly symbol: string;
   /** Módulo PrimeNG → (símbolo PrimeNG → símbolo CaribeNG). */
   readonly modules: Readonly<Record<string, Readonly<Record<string, string>>>>;
   /** Selectores que se traducen en las plantillas. */
   readonly elements: readonly ElementMapping[];
+  /** Directivas de atributo que se traducen sin cambiar el elemento. */
+  readonly directives?: readonly DirectiveMapping[];
+  /**
+   * Servicios CaribeNG `providedIn: 'root'`: se quitan de los `providers` de
+   * componentes y módulos (PrimeNG obligaba a proveerlos; aquí una instancia
+   * local dejaría de compartir estado con la del resto de la app).
+   */
+  readonly rootServices?: readonly string[];
+  /** Reescritura del uso de sus servicios en TypeScript. */
+  readonly rewriteSource?: SourceRewriter;
 }

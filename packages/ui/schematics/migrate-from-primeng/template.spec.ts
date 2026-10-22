@@ -165,6 +165,95 @@ describe('plantillas: dialog', () => {
   });
 });
 
+describe('plantillas: dialog (contenido)', () => {
+  it('#content se desenvuelve en <ng-container>', () => {
+    assert.equal(
+      text(`<p-dialog [(visible)]="v"><ng-template #content>Hola</ng-template></p-dialog>`),
+      `<cb-dialog [(visible)]="v"><ng-container>Hola</ng-container></cb-dialog>`,
+    );
+  });
+});
+
+describe('plantillas: tag', () => {
+  it('icono pi → nombre, warn → warning', () => {
+    const result = migrate(`<p-tag value="Nuevo" severity="warn" icon="pi pi-bookmark" [rounded]="true" />`);
+    assert.equal(result.text, `<cb-tag value="Nuevo" severity="warning" icon="bookmark" [rounded]="true" />`);
+    assert.deepEqual([...result.icons], ['bookmark']);
+  });
+
+  it('icono dinámico: se conserva con aviso', () => {
+    const out = text(`<p-tag [value]="e.nombre" [icon]="e.icono" />`);
+    assert.match(out, /TODO\(caribeng\): \[icon\]="e.icono" — icon recibe el nombre de un icono de CaribeNG/);
+    assert.match(out, /<cb-tag \[value\]="e.nombre" \[icon\]="e.icono" \/>/);
+  });
+});
+
+describe('plantillas: toast', () => {
+  it('posición y opciones sin equivalente', () => {
+    assert.equal(text(`<p-toast position="bottom-center" [baseZIndex]="5000" />`), `<cb-toast position="bottom-center" />`);
+    const out = text(`<p-toast key="tc" position="center" />`);
+    assert.match(out, /TODO\(caribeng\): key="tc" — cb-toast muestra todos los mensajes/);
+    assert.match(out, /TODO\(caribeng\): position="center" — valor sin equivalente/);
+  });
+});
+
+describe('plantillas: card', () => {
+  it('subheader → subtitle; pie y contenido', () => {
+    assert.equal(
+      text(`<p-card header="Resumen" subheader="Octubre"><p>Texto</p><ng-template #footer><p-button label="Ver" /></ng-template></p-card>`),
+      `<cb-card header="Resumen" subtitle="Octubre"><p>Texto</p><div cb-card-footer><cb-button>Ver</cb-button></div></cb-card>`,
+    );
+  });
+
+  it('cabecera con imagen: aviso', () => {
+    assert.match(text(`<p-card><ng-template #header><img src="a.png" /></ng-template></p-card>`), /TODO\(caribeng\): cb-card no tiene zona de cabecera/);
+  });
+});
+
+describe('plantillas: tooltip', () => {
+  it('en cualquier elemento, conserva el tag y su contenido', () => {
+    assert.equal(
+      text(`<span pTooltip="Ayuda" tooltipPosition="bottom" class="x">?</span>`),
+      `<span cbTooltip="Ayuda" cbTooltipPosition="bottom" class="x">?</span>`,
+    );
+    assert.equal(text(`<input [pTooltip]="msg" [tooltipDisabled]="!msg">`), `<input [cbTooltip]="msg" [cbTooltipDisabled]="!msg">`);
+  });
+
+  it('sobre un componente que también se migra', () => {
+    assert.equal(
+      text(`<p-button label="Guardar" pTooltip="Guarda los cambios" tooltipPosition="left" />`),
+      `<cb-button cbTooltip="Guarda los cambios" cbTooltipPosition="left">Guardar</cb-button>`,
+    );
+  });
+
+  it('opciones sin equivalente: aviso', () => {
+    const out = text(`<span pTooltip="x" [showDelay]="500" tooltipEvent="focus">?</span>`);
+    assert.match(out, /TODO\(caribeng\): \[showDelay\]="500"/);
+    assert.match(out, /TODO\(caribeng\): tooltipEvent="focus"/);
+    assert.match(out, /<span cbTooltip="x">\?<\/span>$/);
+  });
+});
+
+describe('plantillas: checkbox', () => {
+  it('binario: binary desaparece', () => {
+    assert.equal(
+      text(`<p-checkbox [(ngModel)]="acepto" [binary]="true" inputId="acepto" />`),
+      `<cb-checkbox [(ngModel)]="acepto" inputId="acepto" />`,
+    );
+  });
+
+  it('lista con value, tamaño y (onChange) con $event.checked', () => {
+    assert.equal(
+      text(`<p-checkbox formControlName="gustos" value="cafe" size="small" (onChange)="cambio($event.checked)" />`),
+      `<cb-checkbox formControlName="gustos" value="cafe" size="sm" (changed)="cambio($event)" />`,
+    );
+  });
+
+  it('trueValue sin equivalente: aviso', () => {
+    assert.match(text(`<p-checkbox [(ngModel)]="v" trueValue="S" falseValue="N" />`), /TODO\(caribeng\): trueValue="S"/);
+  });
+});
+
 describe('plantillas: iconos sueltos', () => {
   it('<i class="pi pi-…"> → <cb-icon>', () => {
     assert.equal(text(`<i class="pi pi-search"></i>`), `<cb-icon name="search" />`);

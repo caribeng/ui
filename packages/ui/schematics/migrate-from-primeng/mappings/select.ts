@@ -96,6 +96,7 @@ const child = (element: ChildElement): ChildRewrite | null => (element.name === 
 export const select: ComponentMapping = {
   name: 'select',
   entry: '@caribeng/ui/select',
+  symbol: 'CbSelect',
   modules: {
     'primeng/select': { SelectModule: 'CbSelect', Select: 'CbSelect' },
     // Nombre anterior a PrimeNG 18.

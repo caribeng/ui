@@ -146,6 +146,72 @@ describe('ng generate @caribeng/ui:migrate-from-primeng', () => {
     assert.match(report, /provideCaribeNG|elige locale/);
   });
 
+  it('migra tag, toast con MessageService, card, tooltip y checkbox', async () => {
+    const app = await createPrimengApp();
+    app.create(
+      `${APP}/panel.ts`,
+      [
+        "import { Component, inject } from '@angular/core';",
+        "import { FormsModule } from '@angular/forms';",
+        "import { MessageService } from 'primeng/api';",
+        "import { CardModule } from 'primeng/card';",
+        "import { CheckboxModule } from 'primeng/checkbox';",
+        "import { TagModule } from 'primeng/tag';",
+        "import { ToastModule } from 'primeng/toast';",
+        "import { TooltipModule } from 'primeng/tooltip';",
+        '',
+        '@Component({',
+        "  selector: 'app-panel',",
+        '  imports: [FormsModule, CardModule, CheckboxModule, TagModule, ToastModule, TooltipModule],',
+        '  providers: [MessageService],',
+        "  templateUrl: './panel.html',",
+        '})',
+        'export class Panel {',
+        '  private readonly messages = inject(MessageService);',
+        '  protected acepto = false;',
+        "  guardar() { this.messages.add({ severity: 'warn', summary: 'Guardado', sticky: true }); }",
+        '}',
+        '',
+      ].join('\n'),
+    );
+    app.create(
+      `${APP}/panel.html`,
+      [
+        '<p-toast position="bottom-right" />',
+        '<p-card header="Pedido" subheader="#123">',
+        '  <p-tag value="Pendiente" severity="warn" icon="pi pi-clock" />',
+        '  <p-checkbox [(ngModel)]="acepto" [binary]="true" inputId="acepto" />',
+        '  <label for="acepto" pTooltip="Obligatorio">Acepto</label>',
+        '</p-card>',
+        '',
+      ].join('\n'),
+    );
+
+    const tree = await migrate(app);
+    assert.equal(
+      tree.readText(`${APP}/panel.html`),
+      [
+        '<cb-toast position="bottom-right" />',
+        '<cb-card header="Pedido" subtitle="#123">',
+        '  <cb-tag value="Pendiente" severity="warning" icon="clock" />',
+        '  <cb-checkbox [(ngModel)]="acepto" inputId="acepto" />',
+        '  <label for="acepto" cbTooltip="Obligatorio">Acepto</label>',
+        '</cb-card>',
+        '',
+      ].join('\n'),
+    );
+    const panel = tree.readText(`${APP}/panel.ts`);
+    assert.match(panel, /imports: \[FormsModule, CbCard, CbCheckbox, CbTag, CbToast, CbTooltipDirective\]/);
+    assert.match(panel, /providers: \[\]/);
+    assert.match(panel, /import \{ CbToastService, CbToast \} from '@caribeng\/ui\/toast';/);
+    assert.match(panel, /inject\(CbToastService\)/);
+    assert.match(panel, /this\.messages\.add\(\{ severity: 'warning', summary: 'Guardado', life: 0 \}\)/);
+    assert.doesNotMatch(panel, /primeng/);
+    // `clock` es del set núcleo: no se registra con provideCbIcons.
+    assert.doesNotMatch(tree.readText(`${APP}/app.config.ts`), /'clock'/);
+    assert.equal(deps(tree)['primeng'], undefined);
+  });
+
   it('con referencias pendientes mantiene PrimeNG instalado y las lista en el informe', async () => {
     const app = await createPrimengApp();
     app.overwrite(`${APP}/app.html`, `<p-table [value]="filas"></p-table>\n<p-button label="X" />\n`);

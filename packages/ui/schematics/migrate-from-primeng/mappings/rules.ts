@@ -1,4 +1,5 @@
-import type { AttrRule, Binding } from './types';
+import { parsePrimeIcon } from '../icons';
+import type { AttrRule, Binding, ChildElement, ChildRewrite } from './types';
 
 /** Escribe un atributo de plantilla con la sintaxis de su tipo. */
 export function renderAttr(kind: Binding['kind'], name: string, value: string, bare = false): string {
@@ -122,6 +123,48 @@ export const SEVERITY_VALUES: Readonly<Record<string, string>> = {
   help: 'help',
   contrast: 'contrast',
 };
+
+/**
+ * `icon="pi pi-check"` → `icon="check"` en componentes CaribeNG cuyo input
+ * `icon` recibe el nombre del icono (Tag…).
+ */
+export const iconName =
+  (to = 'icon'): AttrRule =>
+  (binding, el) => {
+    const parsed = binding.kind === 'static' ? parsePrimeIcon(binding.value) : null;
+    if (parsed?.name) {
+      el.attrs.push(renderAttr('static', to, parsed.name));
+      el.icons.add(parsed.name);
+    } else if (binding.kind === 'static') {
+      el.todos.push(`${binding.source} — ${parsed ? `pi-${parsed.prime} no tiene equivalente conocido` : 'icono que no es de PrimeIcons'}; usa un nombre de @caribeng/ui/icon.`);
+    } else {
+      el.attrs.push(renderAttr(binding.kind, to, binding.value));
+      el.todos.push(`${binding.source} — ${to} recibe el nombre de un icono de CaribeNG ("check"), no clases "pi pi-check".`);
+    }
+  };
+
+/** Nombre de la plantilla PrimeNG de un hijo (`#footer` o `pTemplate="footer"`). */
+export function templateName(child: ChildElement): string | undefined {
+  if (child.name !== 'ng-template') return undefined;
+  return child.references[0] ?? child.bindings.find((b) => b.kind === 'static' && b.name === 'pTemplate')?.value;
+}
+
+/**
+ * Hijos de los componentes con pie y contenido proyectado (Dialog, Card):
+ * `#footer`/`<p-footer>` pasan al slot `[footerAttr]`, `#content` se desenvuelve
+ * y el resto de plantillas se marca con un aviso.
+ */
+export function slotChild(tag: string, footerAttr: string, others: Readonly<Record<string, string>>): (child: ChildElement) => ChildRewrite | null {
+  return (child) => {
+    if (child.name === 'p-footer') return { tag: 'div', attrs: [footerAttr] };
+    if (child.name === 'p-header') return { todo: others['header'] ?? `${tag} no tiene cabecera personalizada.` };
+    const name = templateName(child);
+    if (!name) return null;
+    if (name === 'footer') return { tag: 'div', attrs: [footerAttr] };
+    if (name === 'content') return { tag: 'ng-container', attrs: [] };
+    return { todo: others[name] ?? `${tag} no tiene la plantilla "${name}"; pon el contenido directamente dentro de ${tag}.` };
+  };
+}
 
 /** Outputs de foco: los de PrimeNG pasan a los eventos nativos que burbujean hasta el host. */
 export const FOCUS_EVENTS: Readonly<Record<string, AttrRule>> = {

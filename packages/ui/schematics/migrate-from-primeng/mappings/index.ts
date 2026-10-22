@@ -1,11 +1,16 @@
 import { button } from './button';
+import { card } from './card';
+import { checkbox } from './checkbox';
 import { dialog } from './dialog';
 import { inputtext } from './inputtext';
 import { select } from './select';
-import type { ComponentMapping, ElementMapping } from './types';
+import { tag } from './tag';
+import { toast } from './toast';
+import { tooltip } from './tooltip';
+import type { ComponentMapping, DirectiveMapping, ElementMapping, SourceRewriter } from './types';
 
 /** Componentes que el migrador sabe traducir. Para añadir uno, crea su archivo y regístralo aquí. */
-export const MAPPINGS: readonly ComponentMapping[] = [button, inputtext, select, dialog];
+export const MAPPINGS: readonly ComponentMapping[] = [button, inputtext, select, dialog, tag, toast, card, tooltip, checkbox];
 
 /** Símbolo CaribeNG y entry point del que se importa. */
 export interface CaribeSymbol {
@@ -27,16 +32,15 @@ export const SYMBOLS: ReadonlyMap<string, ReadonlyMap<string, CaribeSymbol>> = (
 })();
 
 /** Tag CaribeNG → símbolo que hay que importar en el componente que lo usa. */
-export const TAG_SYMBOLS: ReadonlyMap<string, CaribeSymbol> = (() => {
-  const index = new Map<string, CaribeSymbol>([['cb-icon', { name: 'CbIcon', entry: '@caribeng/ui/icon' }]]);
-  for (const mapping of MAPPINGS) {
-    const names = new Set(Object.values(mapping.modules).flatMap((symbols) => Object.values(symbols)));
-    if (names.size !== 1) continue;
-    const [name] = names;
-    for (const element of mapping.elements) index.set(element.to, { name, entry: mapping.entry });
-  }
-  return index;
-})();
+export const TAG_SYMBOLS: ReadonlyMap<string, CaribeSymbol> = new Map([
+  ['cb-icon', { name: 'CbIcon', entry: '@caribeng/ui/icon' }],
+  ...MAPPINGS.flatMap((mapping) => mapping.elements.map((element) => [element.to, { name: mapping.symbol, entry: mapping.entry }] as const)),
+]);
+
+/** Atributo de directiva CaribeNG (`cbTooltip`) → símbolo que hay que importar. */
+export const ATTR_SYMBOLS: ReadonlyMap<string, CaribeSymbol> = new Map(
+  MAPPINGS.flatMap((mapping) => (mapping.directives ?? []).map((directive) => [directive.to, { name: mapping.symbol, entry: mapping.entry }] as const)),
+);
 
 /** Selectores por tag (`p-button`) y por directiva de atributo (`pButton`). */
 export const ELEMENTS_BY_TAG: ReadonlyMap<string, ElementMapping> = new Map(
@@ -45,3 +49,14 @@ export const ELEMENTS_BY_TAG: ReadonlyMap<string, ElementMapping> = new Map(
 export const ELEMENTS_BY_ATTR: ReadonlyMap<string, ElementMapping> = new Map(
   MAPPINGS.flatMap((mapping) => mapping.elements.filter((element) => element.attr).map((element) => [element.attr!, element] as const)),
 );
+
+/** Directivas que se traducen sin cambiar el elemento (`pTooltip`). */
+export const DIRECTIVES_BY_ATTR: ReadonlyMap<string, DirectiveMapping> = new Map(
+  MAPPINGS.flatMap((mapping) => (mapping.directives ?? []).map((directive) => [directive.attr, directive] as const)),
+);
+
+/** Servicios `providedIn: 'root'` que no deben quedar en `providers`. */
+export const ROOT_SERVICES: ReadonlySet<string> = new Set(MAPPINGS.flatMap((mapping) => mapping.rootServices ?? []));
+
+/** Reescrituras de uso de servicios (`MessageService.add`…). */
+export const SOURCE_REWRITERS: readonly SourceRewriter[] = MAPPINGS.flatMap((mapping) => (mapping.rewriteSource ? [mapping.rewriteSource] : []));

@@ -1,5 +1,5 @@
-import { drop, renderAttr, staticBoolean, styleClass, unsupported } from './rules';
-import type { AttrRule, ChildElement, ChildRewrite, ComponentMapping } from './types';
+import { drop, renderAttr, slotChild, staticBoolean, styleClass, unsupported } from './rules';
+import type { AttrRule, ComponentMapping } from './types';
 
 /** `{ width: '25rem' }` · `{ 'width': "50vw" }`. */
 const WIDTH_OBJECT = /^\s*\{\s*(['"]?)width\1\s*:\s*(['"])([^'"]+)\2\s*,?\s*\}\s*$/;
@@ -61,26 +61,15 @@ const rules: Record<string, AttrRule> = {
   '(onMaximize)': unsupported('cb-dialog no se puede maximizar.'),
 };
 
-/** Nombre de la plantilla PrimeNG de un hijo (`#footer` o `pTemplate="footer"`). */
-function templateName(child: ChildElement): string | undefined {
-  return child.references[0] ?? child.bindings.find((b) => b.kind === 'static' && b.name === 'pTemplate')?.value;
-}
+const HEADER = 'cb-dialog solo admite una cabecera de texto (input header).';
 
-/** El pie pasa a un `<div cb-dialog-footer>`; el resto de plantillas no tiene equivalente. */
-function child(element: ChildElement): ChildRewrite | null {
-  if (element.name === 'p-footer') return { tag: 'div', attrs: ['cb-dialog-footer'] };
-  if (element.name === 'p-header') return { todo: 'cb-dialog solo admite una cabecera de texto (input header).' };
-  if (element.name !== 'ng-template') return null;
-  const name = templateName(element);
-  if (name === 'footer') return { tag: 'div', attrs: ['cb-dialog-footer'] };
-  if (name === 'header') return { todo: 'cb-dialog solo admite una cabecera de texto (input header).' };
-  if (name) return { todo: `cb-dialog no tiene la plantilla "${name}"; pon el contenido directamente dentro de cb-dialog.` };
-  return null;
-}
+/** El pie pasa a un `<div cb-dialog-footer>` y `#content` se desenvuelve; el resto de plantillas no tiene equivalente. */
+const child = slotChild('cb-dialog', 'cb-dialog-footer', { header: HEADER });
 
 export const dialog: ComponentMapping = {
   name: 'dialog',
   entry: '@caribeng/ui/dialog',
+  symbol: 'CbDialog',
   modules: {
     'primeng/dialog': { DialogModule: 'CbDialog', Dialog: 'CbDialog' },
   },

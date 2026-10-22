@@ -3,7 +3,7 @@ import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 import { addRootProvider, readWorkspace } from '@schematics/angular/utility';
 import { addStyles, containsText } from '../ng-add/index';
 import { catalogExport, isCoreIcon } from './icons';
-import { type CaribeSymbol, TAG_SYMBOLS } from './mappings';
+import { ATTR_SYMBOLS, type CaribeSymbol, TAG_SYMBOLS } from './mappings';
 import { REPORT_PATH, renderReport, scanWorkspace } from './report';
 import type { Schema } from './schema';
 import { type Compiler, loadCompiler, rewriteTemplate } from './template';
@@ -115,14 +115,20 @@ function resolvePath(from: string, relative: string): string {
   return parts.join('/');
 }
 
-/** Tags CaribeNG que aparecen en `after` pero no en `before` → símbolos a importar. */
+/** Tags (`cb-button`) y directivas (`cbTooltip`) CaribeNG que aparecen en `after` pero no en `before` → símbolos a importar. */
 function introducedSymbols(before: string, after: string): CaribeSymbol[] {
   const tags = (text: string) => new Set([...text.matchAll(/<(cb-[a-z0-9-]+)/g)].map((m) => m[1]));
-  const previous = tags(before);
+  const attrs = (text: string) => new Set([...text.matchAll(/[\s[](cb[A-Z][A-Za-z]*)\]?(?=[\s=/>])/g)].map((m) => m[1]));
   const symbols = new Map<string, CaribeSymbol>();
-  for (const tag of tags(after)) {
-    const symbol = TAG_SYMBOLS.get(tag);
-    if (symbol && !previous.has(tag)) symbols.set(symbol.name, symbol);
+  for (const [found, index] of [
+    [tags, TAG_SYMBOLS],
+    [attrs, ATTR_SYMBOLS],
+  ] as const) {
+    const previous = found(before);
+    for (const name of found(after)) {
+      const symbol = index.get(name);
+      if (symbol && !previous.has(name)) symbols.set(symbol.name, symbol);
+    }
   }
   return [...symbols.values()];
 }

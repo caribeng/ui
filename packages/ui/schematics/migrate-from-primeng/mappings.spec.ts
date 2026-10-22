@@ -8,7 +8,7 @@ import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, it } from 'node:test';
 import { PRIME_ICONS, catalogExport, isCoreIcon } from './icons';
-import { MAPPINGS, TAG_SYMBOLS } from './mappings';
+import { ATTR_SYMBOLS, MAPPINGS, ROOT_SERVICES, TAG_SYMBOLS } from './mappings';
 import type { Binding, ElementRewrite } from './mappings/types';
 
 /** Raíz del repo desde dist/out-tsc/schematics/migrate-from-primeng. */
@@ -23,10 +23,13 @@ function caribeApi(entry: string): Set<string> {
   const names = new Set<string>();
   const lib = join(entryDir(entry), 'lib');
   for (const file of readdirSync(lib).filter((f) => f.endsWith('.ts') && !f.endsWith('.spec.ts'))) {
-    for (const [, name, kind] of readFileSync(join(lib, file), 'utf8').matchAll(/(\w+) = (input|model|output)\b/g)) {
+    const source = readFileSync(join(lib, file), 'utf8');
+    for (const [, name, kind] of source.matchAll(/(\w+) = (input|model|output)\b/g)) {
       names.add(name);
       if (kind === 'model') names.add(`${name}Change`);
     }
+    // Inputs con alias (`input('', { alias: 'cbTooltip' })`): en la plantilla se usa el alias.
+    for (const [, alias] of source.matchAll(/alias: '(\w+)'/g)) names.add(alias);
   }
   return names;
 }
@@ -81,17 +84,44 @@ describe('mapeos PrimeNG → CaribeNG', () => {
           for (const name of element.same ?? []) assert.ok(api.has(name), `${element.to} ya no tiene "${name}"`);
         });
       }
+
+      for (const directive of mapping.directives ?? []) {
+        it(`${directive.attr}: ${directive.to} y los inputs que escriben sus reglas existen en ${mapping.symbol}`, () => {
+          assert.ok(api.has(directive.to), `${mapping.symbol} no tiene el input "${directive.to}"`);
+          for (const attr of writtenAttrs(directive.rules, directive.to)) {
+            const name = attrName(attr);
+            assert.ok(api.has(name), `${mapping.symbol} no tiene "${name}" (escrito por una regla de ${directive.attr})`);
+          }
+          for (const name of directive.same ?? []) assert.ok(api.has(name), `${mapping.symbol} ya no tiene "${name}"`);
+        });
+      }
     });
   }
 
-  it('cada tag de destino tiene un símbolo que importar y su entry point lo exporta', () => {
+  it('cada tag y directiva de destino tiene un símbolo que importar y su entry point lo exporta', () => {
     for (const mapping of MAPPINGS) {
       for (const element of mapping.elements) assert.ok(TAG_SYMBOLS.has(element.to), `sin símbolo para ${element.to}`);
+      for (const directive of mapping.directives ?? []) assert.ok(ATTR_SYMBOLS.has(directive.to), `sin símbolo para ${directive.to}`);
     }
-    for (const [tag, symbol] of TAG_SYMBOLS) {
+    for (const [tag, symbol] of [...TAG_SYMBOLS, ...ATTR_SYMBOLS]) {
       const publicApi = join(entryDir(symbol.entry), 'public-api.ts');
       assert.ok(existsSync(publicApi), `no existe ${symbol.entry}`);
       assert.match(readFileSync(publicApi, 'utf8'), new RegExp(`\\b${symbol.name}\\b`), `${symbol.entry} no exporta ${symbol.name} (${tag})`);
+    }
+  });
+
+  it("los servicios que se quitan de providers son providedIn: 'root'", () => {
+    for (const mapping of MAPPINGS) {
+      for (const service of mapping.rootServices ?? []) {
+        assert.ok(ROOT_SERVICES.has(service));
+        const lib = join(entryDir(mapping.entry), 'lib');
+        const sources = readdirSync(lib)
+          .filter((f) => f.endsWith('.ts') && !f.endsWith('.spec.ts'))
+          .map((f) => readFileSync(join(lib, f), 'utf8'));
+        const declared = sources.find((source) => new RegExp(`export class ${service}\\b`).test(source));
+        assert.ok(declared, `${mapping.entry} no declara ${service}`);
+        assert.match(declared!, new RegExp(`providedIn: 'root'[\\s\\S]*?export class ${service}\\b`), `${service} no es providedIn: 'root'`);
+      }
     }
   });
 

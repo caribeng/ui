@@ -1,7 +1,8 @@
 import { parsePrimeIcon } from './icons';
-import { ELEMENTS_BY_ATTR, ELEMENTS_BY_TAG } from './mappings';
+import { TODO_MARK } from './todo';
+import { DIRECTIVES_BY_ATTR, ELEMENTS_BY_ATTR, ELEMENTS_BY_TAG } from './mappings';
 import { renderAttr } from './mappings/rules';
-import type { Binding, ChildElement, ElementMapping, ElementRewrite } from './mappings/types';
+import type { Binding, ChildElement, DirectiveMapping, ElementMapping, ElementRewrite } from './mappings/types';
 
 /** `@angular/compiler` (ESM): se carga con `import()` desde los schematics (CommonJS). */
 export type Compiler = typeof import('@angular/compiler');
@@ -13,8 +14,7 @@ export function loadCompiler(): Promise<Compiler> {
   return import('@angular/compiler');
 }
 
-/** Marca de los avisos que deja el migrador (se buscan para el informe). */
-export const TODO_MARK = 'TODO(caribeng)';
+export { TODO_MARK };
 
 export interface TemplateResult {
   readonly text: string;
@@ -59,15 +59,18 @@ export function rewriteTemplate(compiler: Compiler, text: string, url: string): 
   };
 
   const visitElement = (element: HtmlElement): void => {
+    const directives = element.attrs
+      .map((attr) => DIRECTIVES_BY_ATTR.get(attr.name.replace(/^\[(.+)\]$/, '$1')))
+      .filter((directive): directive is DirectiveMapping => directive !== undefined);
     const mapping = ELEMENTS_BY_TAG.get(element.name) ?? element.attrs.map((attr) => ELEMENTS_BY_ATTR.get(attr.name)).find(Boolean);
-    if (mapping) {
-      if (mapping.attr && mapping.on && !mapping.on.includes(element.name)) {
-        const hint = mapping.otherTags ?? `usa un <${mapping.to}> o el componente CaribeNG equivalente.`;
-        edits.push(todoEdit(text, element.sourceSpan.start.offset, `${mapping.attr} en <${element.name}> no se migra automáticamente: ${hint}`));
-      } else {
-        rewriteElement(text, element, mapping, edits, icons);
-        rewriteChildren(compiler, text, element, mapping, edits);
-      }
+    if (mapping?.attr && mapping.on && !mapping.on.includes(element.name)) {
+      const hint = mapping.otherTags ?? `usa un <${mapping.to}> o el componente CaribeNG equivalente.`;
+      edits.push(todoEdit(text, element.sourceSpan.start.offset, `${mapping.attr} en <${element.name}> no se migra automáticamente: ${hint}`));
+      return;
+    }
+    if (mapping || directives.length) {
+      rewriteElement(text, element, mapping ?? null, directives, edits, icons);
+      if (mapping) rewriteChildren(compiler, text, element, mapping, edits);
       return;
     }
     rewriteIcon(compiler, text, element, edits, icons);
@@ -107,7 +110,20 @@ export function classify(text: string, attr: HtmlAttribute): Binding | null {
   return { kind: 'static', name, value, bare, source };
 }
 
-function rewriteElement(text: string, element: HtmlElement, mapping: ElementMapping, edits: Edit[], icons: Set<string>): void {
+/**
+ * Reescribe un elemento: con `mapping` cambia el tag (`p-button` →
+ * `cb-button`); sin él solo traduce los atributos de sus directivas
+ * (`pTooltip` → `cbTooltip`) y conserva el tag y su contenido.
+ */
+function rewriteElement(
+  text: string,
+  element: HtmlElement,
+  mapping: ElementMapping | null,
+  directives: readonly DirectiveMapping[],
+  edits: Edit[],
+  icons: Set<string>,
+): void {
+  const tag = mapping?.to ?? element.name;
   const bindings: Binding[] = [];
   const attrs: string[] = [];
   const order: (Binding | string)[] = [];
@@ -118,7 +134,7 @@ function rewriteElement(text: string, element: HtmlElement, mapping: ElementMapp
   }
 
   const el: ElementRewrite = {
-    tag: mapping.to,
+    tag,
     attrs,
     before: [],
     after: [],
@@ -133,13 +149,20 @@ function rewriteElement(text: string, element: HtmlElement, mapping: ElementMapp
       attrs.push(item);
       continue;
     }
-    // La propia directiva PrimeNG (`pButton`) desaparece.
-    if (mapping.attr && item.kind === 'static' && item.name === mapping.attr) continue;
-    const rule = mapping.rules[item.kind === 'event' ? `(${item.name})` : item.name];
+    // La propia directiva PrimeNG del componente (`pButton`) desaparece.
+    if (mapping?.attr && item.kind === 'static' && item.name === mapping.attr) continue;
+    // La de una directiva (`pTooltip`) pasa a la de CaribeNG (`cbTooltip`).
+    const directive = directives.find((d) => d.attr === item.name && item.kind !== 'event');
+    if (directive) {
+      attrs.push(renderAttr(item.kind, directive.to, item.value, item.bare));
+      continue;
+    }
+    const key = item.kind === 'event' ? `(${item.name})` : item.name;
+    const rule = directives.find((d) => d.rules[key])?.rules[key] ?? mapping?.rules[key];
     if (rule) rule(item, el);
     else attrs.push(item.source);
   }
-  mapping.finalize?.(el);
+  mapping?.finalize?.(el);
   mergeClasses(attrs);
   el.icons.forEach((icon) => icons.add(icon));
 
@@ -149,9 +172,16 @@ function rewriteElement(text: string, element: HtmlElement, mapping: ElementMapp
   const separator = /\r?\n[ \t]*(?=[^\s/>])/.exec(startTag)?.[0] ?? ' ';
   // `/>` o `>` en su propia línea se conserva; un simple espacio antes de `/>` no.
   const closingSpace = /(\s*)\/?>$/.exec(startTag)?.[1].match(/\r?\n[ \t]*$/)?.[0] ?? '';
-  const head = `<${mapping.to}${attrs.map((attr) => separator + attr).join('')}`;
+  const head = `<${tag}${attrs.map((attr) => separator + attr).join('')}`;
   const todos = el.todos.map((todo) => todoPrefix(text, start, todo)).join('');
   const content = [...el.before, ...el.after];
+
+  if (!mapping) {
+    // Solo directivas: el elemento, su cierre y su contenido no cambian.
+    const close = startTag.endsWith('/>') ? `${closingSpace || ' '}/>` : `${closingSpace}>`;
+    edits.push({ start, end: element.startSourceSpan.end.offset, text: `${todos}${head}${close}` });
+    return;
+  }
 
   const hasEndTag = !element.isSelfClosing && !element.isVoid && element.endSourceSpan && element.endSourceSpan.start.offset !== element.startSourceSpan.start.offset;
   if (mapping.selfClosing) {

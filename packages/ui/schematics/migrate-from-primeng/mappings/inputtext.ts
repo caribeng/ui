@@ -44,6 +44,7 @@ const rules: Record<string, AttrRule> = {
 export const inputtext: ComponentMapping = {
   name: 'inputtext',
   entry: '@caribeng/ui/input',
+  symbol: 'CbInput',
   modules: {
     'primeng/inputtext': { InputTextModule: 'CbInput', InputText: 'CbInput' },
   },

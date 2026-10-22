@@ -90,7 +90,7 @@ Cambia los imports, traduce las plantillas y los iconos `pi pi-*`, y sustituye `
 <cb-button variant="outlined" (click)="guardar()"><cb-icon name="check" />Guardar</cb-button>
 ```
 
-Lo que no puede traducir con seguridad lo marca con `TODO(caribeng)` y lo resume, con archivo y línea, en `caribeng-migration-report.md`. PrimeNG se queda instalado mientras quede alguna referencia, así que puedes migrar por partes. Hoy traduce Button, InputText, Select y Dialog; consulta la [guía de migración](packages/ui/README.md#migrar-desde-primeng) para las opciones y los casos manuales. Requiere PrimeNG 18 o superior.
+Lo que no puede traducir con seguridad lo marca con `TODO(caribeng)` y lo resume, con archivo y línea, en `caribeng-migration-report.md`. PrimeNG se queda instalado mientras quede alguna referencia, así que puedes migrar por partes. Hoy traduce Button, InputText, Select, Dialog, Tag, Toast (con `MessageService`), Card, Tooltip y Checkbox; consulta la [guía de migración](packages/ui/README.md#migrar-desde-primeng) para las opciones y los casos manuales. Requiere PrimeNG 18 o superior.
 
 ## 📁 Paquetes
 

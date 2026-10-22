@@ -78,6 +78,70 @@ describe('typescript: imports', () => {
   });
 });
 
+describe('typescript: MessageService → CbToastService', () => {
+  const component = (body: string) =>
+    [
+      "import { Component, inject } from '@angular/core';",
+      "import { MessageService, MenuItem } from 'primeng/api';",
+      "import { ToastModule } from 'primeng/toast';",
+      '',
+      '@Component({',
+      "  selector: 'app-x',",
+      '  imports: [ToastModule],',
+      '  providers: [MessageService],',
+      "  template: '<p-toast />',",
+      '})',
+      'export class X {',
+      body,
+      '}',
+    ].join('\n');
+
+  it('renombra el servicio, lo quita de providers y conserva los demás símbolos de primeng/api', () => {
+    const out = rewrite(component('  private readonly messages = inject(MessageService);'));
+    assert.match(out, /^import \{ CbToastService, CbToast \} from '@caribeng\/ui\/toast';$/m, 'un solo import por entry point');
+    assert.equal((out.match(/from '@caribeng\/ui\/toast'/g) ?? []).length, 1);
+    assert.match(out, /import \{ MenuItem \} from 'primeng\/api';/);
+    assert.match(out, /providers: \[\],/);
+    assert.match(out, /inject\(CbToastService\)/);
+  });
+
+  it("traduce severity, sticky y quita key con aviso", () => {
+    const out = rewrite(
+      component(
+        [
+          '  private readonly messages = inject(MessageService);',
+          "  ok() { this.messages.add({ severity: 'error', summary: 'Error', detail: 'Falló', sticky: true, key: 'tc' }); }",
+          "  aviso() { this.messages.add({ severity: 'warn', summary: 'Ojo' }); }",
+        ].join('\n'),
+      ),
+    );
+    assert.match(out, /\/\* TODO\(caribeng\): key: 'tc' — CbToastService no tiene estos campos. \*\/ this\.messages\.add\(\{ severity: 'danger', summary: 'Error', detail: 'Falló', life: 0 \}\)/);
+    assert.match(out, /this\.messages\.add\(\{ severity: 'warning', summary: 'Ojo' \}\)/);
+  });
+
+  it('servicio inyectado por constructor y clear(key)', () => {
+    const out = rewrite(component(['  constructor(private ms: MessageService) {}', "  limpiar() { this.ms.clear('tc'); }"].join('\n')));
+    assert.match(out, /constructor\(private ms: CbToastService\)/);
+    assert.match(out, /\/\* TODO\(caribeng\): cb-toast no tiene key: clear\(\) cierra todos los mensajes. \*\/ this\.ms\.clear\(\)/);
+  });
+
+  it('objeto en varias líneas conserva el formato', () => {
+    const out = rewrite(
+      component(
+        ['  private ms = inject(MessageService);', '  ok() {', '    this.ms.add({', "      severity: 'error',", "      summary: 'Error',", '    });', '  }'].join('\n'),
+      ),
+    );
+    assert.match(out, /this\.ms\.add\(\{\n      severity: 'danger',\n      summary: 'Error',\n    \}\);/);
+  });
+
+  it('providers con otros servicios: solo quita CbToastService', () => {
+    const out = rewrite(
+      ["import { MessageService, ConfirmationService } from 'primeng/api';", 'export const c = { providers: [MessageService, ConfirmationService] };'].join('\n'),
+    );
+    assert.match(out, /providers: \[ConfirmationService\]/);
+  });
+});
+
 describe('typescript: componentes', () => {
   const component = [
     "import { Component } from '@angular/core';",

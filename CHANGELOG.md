@@ -11,7 +11,7 @@ Desde la 22.0.0 el major de la librería coincide con el de Angular (22.x = Angu
 ## [Unreleased]
 
 ### Added
-- **Migración:** `ng generate @caribeng/ui:migrate-from-primeng` migra un proyecto PrimeNG 18+ a CaribeNG: imports y `imports` de los componentes, plantillas de Button, InputText, Select/Dropdown y Dialog (inputs, eventos, pie del diálogo), iconos `pi pi-*` a `<cb-icon>` (registra con `provideCbIcons` los que no son del set núcleo), `providePrimeNG()` → `provideCaribeNG()`, estilos de `angular.json` y PrimeIcons. Lo que no traduce lo marca con `TODO(caribeng)` y lo resume en `caribeng-migration-report.md`; quita PrimeNG de `package.json` solo cuando no quedan referencias. Opciones `--path`, `--remove-primeng`, `--report`, `--skip-install` y `--force`.
+- **Migración:** `ng generate @caribeng/ui:migrate-from-primeng` migra un proyecto PrimeNG 18+ a CaribeNG: imports y `imports` de los componentes, plantillas de Button, InputText, Select/Dropdown, Dialog, Tag, Toast, Card, Tooltip (`pTooltip` en cualquier elemento) y Checkbox (inputs, eventos, pie de Dialog y Card), `MessageService` → `CbToastService` (severidades, `sticky` → `life: 0`, se quita de `providers`), iconos `pi pi-*` a `<cb-icon>` (registra con `provideCbIcons` los que no son del set núcleo), `providePrimeNG()` → `provideCaribeNG()`, estilos de `angular.json` y PrimeIcons. Lo que no traduce lo marca con `TODO(caribeng)` y lo resume en `caribeng-migration-report.md`; quita PrimeNG de `package.json` solo cuando no quedan referencias. Opciones `--path`, `--remove-primeng`, `--report`, `--skip-install` y `--force`.
 - **Instalación:** `ng add @caribeng/ui` avisa del migrador si el proyecto usa PrimeNG.
 
 ## [22.2.0] - 2026-10-21

@@ -80,6 +80,7 @@ function finalize(el: ElementRewrite): void {
 export const button: ComponentMapping = {
   name: 'button',
   entry: '@caribeng/ui/button',
+  symbol: 'CbButton',
   modules: {
     'primeng/button': { ButtonModule: 'CbButton', Button: 'CbButton', ButtonDirective: 'CbButton' },
   },

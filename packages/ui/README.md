@@ -98,7 +98,8 @@ ng generate @caribeng/ui:migrate-from-primeng
 Qué hace:
 
 - cambia los imports de PrimeNG por los de CaribeNG (`ButtonModule` → `CbButton`, `providePrimeNG()` → `provideCaribeNG()`) y añade a cada componente los que usa su plantilla,
-- traduce las plantillas (`<p-button>`, `pButton`, `pInputText`, `<p-select>`/`<p-dropdown>`, `<p-dialog>`) con sus inputs y eventos (`[outlined]` → `variant`, `size="small"` → `size="sm"`, `(onClick)` → `(click)`…),
+- traduce las plantillas con sus inputs y eventos (`[outlined]` → `variant`, `size="small"` → `size="sm"`, `(onClick)` → `(click)`, `subheader` → `subtitle`…), incluido el pie de Dialog y Card (`#footer` → `<div cb-dialog-footer>` / `<div cb-card-footer>`),
+- cambia `MessageService` por `CbToastService`: traduce los mensajes (`severity: 'error'` → `'danger'`, `'warn'` → `'warning'`, `sticky: true` → `life: 0`) y lo quita de los `providers`, porque `CbToastService` es único para toda la app,
 - convierte los iconos `pi pi-*` en `<cb-icon>` y registra con `provideCbIcons` los que no están en el set núcleo,
 - quita PrimeIcons de `angular.json` y de las hojas de estilo, y añade `@caribeng/ui/styles.css`,
 - quita `primeng`, `primeicons` y `@primeuix/*` de `package.json` **solo cuando ya no queda ninguna referencia**; mientras tanto las dos librerías conviven.
@@ -112,7 +113,22 @@ Lo que no puede traducir con seguridad (un input sin equivalente, una plantilla 
 
 Todos los avisos, las referencias a PrimeNG que aún quedan (por ejemplo componentes que el migrador no traduce todavía) y los imports que haya que añadir a mano se resumen en `caribeng-migration-report.md`, con archivo y línea.
 
-**Componentes que traduce hoy:** Button (`p-button` y `pButton`), InputText (`pInputText`), Select (`p-select` y `p-dropdown`) y Dialog (`p-dialog`), además de los iconos `pi pi-*`. El resto aparece en el informe para migrarlo a mano; se irán añadiendo en próximas versiones.
+**Componentes que traduce hoy:**
+
+| PrimeNG | CaribeNG |
+|---|---|
+| `<p-button>`, `<button pButton>` | `<cb-button>` |
+| `<input pInputText>` | `<cb-input>` |
+| `<p-select>`, `<p-dropdown>` | `<cb-select>` |
+| `<p-dialog>` | `<cb-dialog>` |
+| `<p-tag>` | `<cb-tag>` |
+| `<p-toast>` + `MessageService` | `<cb-toast>` + `CbToastService` |
+| `<p-card>` | `<cb-card>` |
+| `pTooltip` (en cualquier elemento) | `cbTooltip` |
+| `<p-checkbox>` | `<cb-checkbox>` |
+| `<i class="pi pi-*">` | `<cb-icon>` |
+
+El resto aparece en el informe para migrarlo a mano; se irán añadiendo en próximas versiones.
 
 | Opción | Uso |
 |---|---|

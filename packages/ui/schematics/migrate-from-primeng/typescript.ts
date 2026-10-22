@@ -1,5 +1,5 @@
 import * as ts from 'typescript';
-import { type CaribeSymbol, SYMBOLS } from './mappings';
+import { type CaribeSymbol, ROOT_SERVICES, SOURCE_REWRITERS, SYMBOLS } from './mappings';
 import { TODO_MARK, applyEdits } from './template';
 
 interface Edit {
@@ -82,6 +82,8 @@ export function rewriteImports(fileName: string, text: string): SourceResult {
   const sf = parse(fileName, text);
   const edits: Edit[] = [];
   const renames = new Map<string, string>();
+  // Símbolo PrimeNG → nombre local, para las reescrituras de servicios.
+  const locals = new Map<string, string>();
   const existing = caribeImports(sf);
   const eol = newline(text);
   let providerLocal: string | undefined;
@@ -100,6 +102,7 @@ export function rewriteImports(fileName: string, text: string): SourceResult {
     const kept: string[] = [];
     for (const element of bindings.elements) {
       const imported = (element.propertyName ?? element.name).text;
+      locals.set(imported, element.name.text);
       const target = symbols.get(imported);
       if (!target) {
         kept.push(element.getText(sf));
@@ -162,28 +165,80 @@ export function rewriteImports(fileName: string, text: string): SourceResult {
   };
   visit(sf);
 
+  for (const rewriteSource of SOURCE_REWRITERS) rewriteSource(sf, locals, edits);
+
   if (!edits.length) return { text, changed: false };
-  const rewritten = dedupeImportArrays(fileName, applyEdits(text, edits));
+  const rewritten = mergeCaribeImports(fileName, cleanDecoratorArrays(fileName, applyEdits(text, edits)));
   return { text: pruneUnusedImports(fileName, rewritten), changed: true };
 }
 
-/** `imports: [ButtonModule, Button]` → tras renombrar quedaría `[CbButton, CbButton]`: se deja uno. */
-function dedupeImportArrays(fileName: string, text: string): string {
+/**
+ * Limpia los arrays de los decoradores tras renombrar:
+ * - `imports: [ButtonModule, Button]` quedaría `[CbButton, CbButton]`: se deja uno.
+ * - `providers: [MessageService]` quedaría `[CbToastService]`: se quita, porque
+ *   es `providedIn: 'root'` y una instancia local no compartiría los mensajes.
+ */
+function cleanDecoratorArrays(fileName: string, text: string): string {
   const sf = parse(fileName, text);
   const edits: Edit[] = [];
   const visit = (node: ts.Node): void => {
-    if (ts.isPropertyAssignment(node) && ts.isIdentifier(node.name) && ['imports', 'exports'].includes(node.name.text) && ts.isArrayLiteralExpression(node.initializer)) {
-      const seen = new Set<string>();
+    if (ts.isPropertyAssignment(node) && ts.isIdentifier(node.name) && ts.isArrayLiteralExpression(node.initializer)) {
+      const property = node.name.text;
       const elements = node.initializer.elements;
-      elements.forEach((element, i) => {
-        if (!ts.isIdentifier(element)) return;
-        if (seen.has(element.text)) edits.push({ start: elements[i - 1].getEnd(), end: element.getEnd(), text: '' });
-        seen.add(element.text);
-      });
+      if (['imports', 'exports', 'providers'].includes(property) && elements.length) {
+        const seen = new Set<string>();
+        const kept = elements.filter((element) => {
+          if (!ts.isIdentifier(element)) return true;
+          const drop = seen.has(element.text) || (property === 'providers' && ROOT_SERVICES.has(element.text));
+          seen.add(element.text);
+          return !drop;
+        });
+        if (kept.length !== elements.length) {
+          const first = elements[0];
+          const last = elements[elements.length - 1];
+          const between = text.slice(first.getEnd(), elements[1]?.getStart(sf) ?? first.getEnd());
+          // Array en varias líneas: se conserva el separador original (coma + salto + sangría).
+          const separator = between.includes('\n') ? between : ', ';
+          edits.push({ start: first.getStart(sf), end: last.getEnd(), text: kept.map((element) => element.getText(sf)).join(separator) });
+        }
+      }
     }
     ts.forEachChild(node, visit);
   };
   visit(sf);
+  return edits.length ? applyEdits(text, edits) : text;
+}
+
+/**
+ * Une los imports del mismo entry point de CaribeNG (`MessageService` de
+ * primeng/api y `ToastModule` de primeng/toast acaban ambos en @caribeng/ui/toast).
+ */
+function mergeCaribeImports(fileName: string, text: string): string {
+  const sf = parse(fileName, text);
+  const first = new Map<string, ts.ImportDeclaration>();
+  const extra = new Map<ts.ImportDeclaration, string[]>();
+  const edits: Edit[] = [];
+  for (const statement of sf.statements) {
+    if (!ts.isImportDeclaration(statement) || !ts.isStringLiteral(statement.moduleSpecifier)) continue;
+    const clause = statement.importClause;
+    const module = statement.moduleSpecifier.text;
+    if (!module.startsWith('@caribeng/') || !clause || clause.name || clause.isTypeOnly || !clause.namedBindings || !ts.isNamedImports(clause.namedBindings)) continue;
+    const target = first.get(module);
+    if (!target) {
+      first.set(module, statement);
+      continue;
+    }
+    const names = extra.get(target) ?? [];
+    names.push(...clause.namedBindings.elements.map((element) => element.getText(sf)));
+    extra.set(target, names);
+    edits.push({ ...statementRange(sf, statement), text: '' });
+  }
+  for (const [target, names] of extra) {
+    const elements = (target.importClause!.namedBindings as ts.NamedImports).elements;
+    const present = new Set(elements.map((element) => element.getText(sf)));
+    const missing = [...new Set(names)].filter((name) => !present.has(name));
+    if (missing.length) edits.push({ start: elements[elements.length - 1].getEnd(), end: elements[elements.length - 1].getEnd(), text: `, ${missing.join(', ')}` });
+  }
   return edits.length ? applyEdits(text, edits) : text;
 }
 
