@@ -631,6 +631,8 @@ export const DOC_A11Y: Record<string, DocA11y> = {
       'En la lista, el círculo es un botón conmutador (`aria-pressed`) con nombre ("Marcar «Diseño» como finalizada") y el nombre de la tarea es el botón que abre el detalle. Una tarea sin responsable lo dice con texto.',
       'En el calendario (cb-kanban-calendar) cada semana es un grupo con nombre ("Semana del 9 al 15 mar") y cada tarea un botón que dice su nombre, fechas, prioridad, responsables y columna. Arrastrar no es la única forma de cambiar las fechas: Alt + flechas lo hace con el teclado y el cambio se anuncia.',
       'Cada día tiene un botón "Añadir tarea el miércoles, 20 de marzo de 2030" y el mes visible se anuncia al cambiarlo con ‹ ›.',
+      'En el cronograma (cb-kanban-timeline) cada sección es un grupo con nombre ("En curso, 2 tareas") y un botón que la contrae; cada tarea es un botón con su nombre, fechas, prioridad, responsables y sección. La cabecera de días es decorativa: el rango visible se dice con texto y se anuncia al cambiarlo.',
+      'Arrastrar la barra o sus bordes no es la única forma de cambiar fechas o sección: Alt + flechas lo hace con el teclado y cada cambio se anuncia. Los botones del zoom tienen nombre ("Acercar", "Alejar") y se desactivan en los extremos.',
     ],
     keyboard: [
       { keys: 'Tab', action: 'Recorre las tarjetas y los botones Añadir tarjeta.' },
@@ -644,6 +646,9 @@ export const DOC_A11Y: Record<string, DocA11y> = {
       { keys: 'Supr', action: 'Pide confirmar la eliminación de la tarjeta (editable).' },
       { keys: 'Alt + flecha arriba / abajo (lista)', action: 'Mueve la tarea en la lista; en el borde pasa a la sección vecina.' },
       { keys: 'Alt + flechas (calendario)', action: 'Izquierda / derecha mueven la tarea un día; arriba / abajo, una semana. El calendario sigue a la tarea si cambia de mes.' },
+      { keys: 'Alt + izquierda / derecha (cronograma)', action: 'Mueve la tarea un día (mantiene la duración). El cronograma sigue a la tarea si sale del rango.' },
+      { keys: 'Alt + Mayús + izquierda / derecha (cronograma)', action: 'Adelanta o atrasa la fecha de fin (nunca antes del inicio).' },
+      { keys: 'Alt + flecha arriba / abajo (cronograma)', action: 'Pasa la tarea a la sección anterior o siguiente.' },
     ],
   },
   'cb-mentions': {

@@ -165,6 +165,14 @@ export interface CbTranslation {
   kanbanCalendarInstructions: string;
   /** `{0}`: tarea, `{1}`: fechas. */
   kanbanRescheduled: string;
+  kanbanPreviousWeek: string;
+  kanbanNextWeek: string;
+  kanbanDays: string;
+  kanbanZoomIn: string;
+  kanbanZoomOut: string;
+  /** `{0}`: sección. */
+  kanbanAddTaskIn: string;
+  kanbanTimelineInstructions: string;
   save: string;
   /** `{0}`: cantidad. */
   mentionsCount: string;
@@ -714,6 +722,13 @@ export const CB_LOCALE_ES: CbTranslation = {
   kanbanWeekOf: 'Semana del {0} al {1}',
   kanbanCalendarInstructions: 'Arrastra la tarea a otro día, o usa Alt + flechas: izquierda y derecha cambian el día; arriba y abajo, la semana.',
   kanbanRescheduled: '{0}: {1}.',
+  kanbanPreviousWeek: 'Semana anterior',
+  kanbanNextWeek: 'Semana siguiente',
+  kanbanDays: 'Días',
+  kanbanZoomIn: 'Acercar',
+  kanbanZoomOut: 'Alejar',
+  kanbanAddTaskIn: 'Añadir tarea en {0}',
+  kanbanTimelineInstructions: 'Arrastra la tarea para cambiar sus fechas, o sus bordes para cambiar la duración. Con el teclado: Alt + izquierda o derecha la mueve un día, Alt + Mayús + izquierda o derecha cambia la fecha de fin, y Alt + arriba o abajo la pasa a otra sección.',
   save: 'Guardar',
   mentionsCount: '{0} sugerencias',
   add: 'Agregar',
@@ -1205,6 +1220,13 @@ export const CB_LOCALE_EN: CbTranslation = {
   kanbanWeekOf: 'Week of {0} to {1}',
   kanbanCalendarInstructions: 'Drag the task to another day, or use Alt + arrows: left and right change the day; up and down, the week.',
   kanbanRescheduled: '{0}: {1}.',
+  kanbanPreviousWeek: 'Previous week',
+  kanbanNextWeek: 'Next week',
+  kanbanDays: 'Days',
+  kanbanZoomIn: 'Zoom in',
+  kanbanZoomOut: 'Zoom out',
+  kanbanAddTaskIn: 'Add task to {0}',
+  kanbanTimelineInstructions: 'Drag the task to change its dates, or its edges to change how long it lasts. With the keyboard: Alt + left or right moves it one day, Alt + Shift + left or right changes the end date, and Alt + up or down moves it to another section.',
   save: 'Save',
   mentionsCount: '{0} suggestions',
   add: 'Add',
