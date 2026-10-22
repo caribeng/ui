@@ -7,6 +7,8 @@
  * o, en caliente, `inject(CbLocaleService).use('en')`.
  */
 export interface CbTranslation {
+  /** Idioma BCP 47 para `Intl` (nombres de países, fechas…): `es`, `en`. */
+  intlLocale: string;
   // --- Genéricos ---
   close: string;
   clear: string;
@@ -53,6 +55,9 @@ export interface CbTranslation {
   chatGenerating: string;
   chatResponseReady: string;
   chatJumpToLatest: string;
+  phoneCountry: string;
+  searchCountry: string;
+  phoneInvalid: string;
   add: string;
   onThisPage: string;
   trendUp: string;
@@ -471,6 +476,7 @@ export interface CbTranslation {
 
 /** Español (idioma por defecto). */
 export const CB_LOCALE_ES: CbTranslation = {
+  intlLocale: 'es',
   close: 'Cerrar',
   clear: 'Limpiar',
   remove: 'Quitar',
@@ -512,6 +518,9 @@ export const CB_LOCALE_ES: CbTranslation = {
   chatGenerating: 'Generando respuesta…',
   chatResponseReady: 'Respuesta lista',
   chatJumpToLatest: 'Ir al último mensaje',
+  phoneCountry: 'País',
+  searchCountry: 'Buscar país',
+  phoneInvalid: 'Número de teléfono incompleto o no válido',
   add: 'Agregar',
   onThisPage: 'En esta página',
   trendUp: 'aumenta',
@@ -875,6 +884,7 @@ export const CB_LOCALE_ES: CbTranslation = {
 
 /** Inglés. */
 export const CB_LOCALE_EN: CbTranslation = {
+  intlLocale: 'en',
   close: 'Close',
   clear: 'Clear',
   remove: 'Remove',
@@ -916,6 +926,9 @@ export const CB_LOCALE_EN: CbTranslation = {
   chatGenerating: 'Generating response…',
   chatResponseReady: 'Response ready',
   chatJumpToLatest: 'Jump to latest message',
+  phoneCountry: 'Country',
+  searchCountry: 'Search country',
+  phoneInvalid: 'Incomplete or invalid phone number',
   add: 'Add',
   onThisPage: 'On this page',
   trendUp: 'up',

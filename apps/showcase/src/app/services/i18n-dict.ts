@@ -2562,4 +2562,63 @@ export const ES_EN: Record<string, string> = {
   'Recorre sugerencias, adjuntar, el campo y Enviar o Detener.': 'Moves through suggestions, attach, the field and Send or Stop.',
   'Tab (en la lista)': 'Tab (in the list)',
   'La conversación es enfocable y se desplaza con las flechas.': 'The conversation is focusable and scrolls with the arrow keys.',
+  // --- Componentes nuevos: CodeBlock y PhoneInput ---
+  'Bloque de código con resaltado de sintaxis propio y sin dependencias, botón de copiar, números de línea y líneas destacadas. Sigue el tema claro u oscuro.':
+    'Code block with built-in, dependency-free syntax highlighting, copy button, line numbers and highlighted lines. Follows the light or dark theme.',
+  'language elige el resaltado (ts, js, html, css, scss, json, bash, python, sql). La cabecera muestra el lenguaje y el botón de copiar.':
+    'language picks the highlighting (ts, js, html, css, scss, json, bash, python, sql). The header shows the language and the copy button.',
+  'Archivo, números y líneas destacadas': 'File, numbers and highlighted lines',
+  'filename sustituye al lenguaje en la cabecera; lineNumbers numera desde startLine y highlightLines destaca líneas ("3,5-6" o [3, 5, 6]).':
+    'filename replaces the language in the header; lineNumbers numbers from startLine and highlightLines highlights lines ("3,5-6" or [3, 5, 6]).',
+  'Más lenguajes': 'More languages',
+  'Un lenguaje no soportado se muestra como texto. wrap parte las líneas largas y maxHeight limita el alto con scroll.':
+    'An unsupported language is shown as text. wrap breaks long lines and maxHeight limits the height with scrolling.',
+  'Código a mostrar.': 'Code to display.',
+  'Lenguaje del resaltado.': 'Highlighting language.',
+  'Nombre de archivo en la cabecera.': 'File name in the header.',
+  'Números de línea.': 'Line numbers.',
+  'Número de la primera línea.': 'Number of the first line.',
+  'Líneas destacadas ("2,5-7").': 'Highlighted lines ("2,5-7").',
+  'Parte las líneas largas.': 'Breaks long lines.',
+  'Botón de copiar.': 'Copy button.',
+  'Cabecera con lenguaje o archivo.': 'Header with language or file.',
+  'Alto máximo con scroll.': 'Maximum height with scrolling.',
+  'Nombre del bloque.': 'Block name.',
+  'El código se pinta como texto dentro de `pre` y `code`; los colores son decorativos. Los números de línea se ocultan al lector (`aria-hidden`) y no se copian al seleccionar.':
+    'Code is rendered as text inside `pre` and `code`; colors are decorative. Line numbers are hidden from screen readers (`aria-hidden`) and not copied when selecting.',
+  'El área con scroll es enfocable (`tabindex="0"`) y se nombra con el archivo o el lenguaje, para recorrerla con el teclado.':
+    'The scrollable area is focusable (`tabindex="0"`) and named after the file or language, so it can be scrolled with the keyboard.',
+  'Enfoca el código (para desplazarlo con las flechas) y el botón de copiar.': 'Focuses the code (to scroll it with the arrows) and the copy button.',
+  'Teléfono internacional: selector de país con bandera, nombre y prefijo, y número que se formatea al escribir. Entrega el valor en E.164 (+573001234567), listo para guardar o enviar.':
+    'International phone: country selector with flag, name and dial code, and a number formatted as you type. It delivers the value in E.164 (+573001234567), ready to store or send.',
+  'Con Angular Forms': 'With Angular Forms',
+  'Funciona con formControlName, [formControl] y ngModel. Añade el error { phone: true } si el número está incompleto o no es válido para el país. Prueba a pegar +52 55 1234 5678: cambia de país solo.':
+    'Works with formControlName, [formControl] and ngModel. Adds the { phone: true } error if the number is incomplete or not valid for the country. Try pasting +52 55 1234 5678: it switches country by itself.',
+  'Países y tamaños': 'Countries and sizes',
+  'countries limita la lista (códigos ISO o tus propios datos CbPhoneCountry), countryLocked fija el país y showFlag oculta la bandera. Los tamaños son los de cb-input.':
+    'countries limits the list (ISO codes or your own CbPhoneCountry data), countryLocked fixes the country and showFlag hides the flag. Sizes match cb-input.',
+  'Número en E.164 (+573001234567).': 'Number in E.164 (+573001234567).',
+  'País seleccionado (ISO).': 'Selected country (ISO).',
+  'Etiqueta.': 'Label.',
+  'Texto de ayuda.': 'Help text.',
+  'Mensaje de error.': 'Error message.',
+  'Placeholder (por defecto, un ejemplo del país).': 'Placeholder (by default, a sample number of the country).',
+  'Países disponibles (ISO o datos propios). Por defecto, CB_PHONE_COUNTRIES.': 'Available countries (ISO or your own data). By default, CB_PHONE_COUNTRIES.',
+  'Países que aparecen primero.': 'Countries listed first.',
+  'Bloquea el país.': 'Locks the country.',
+  'Muestra la bandera.': 'Shows the flag.',
+  'Obligatorio.': 'Required.',
+  'Marca el error manualmente.': 'Marks the error manually.',
+  'Deshabilitado.': 'Disabled.',
+  'Cambio con { e164, national, country, valid }.': 'Change with { e164, national, country, valid }.',
+  'El botón del país se nombra con el país y su prefijo ("País: Colombia (+57)") y anuncia `aria-haspopup="listbox"` y `aria-expanded`. La bandera es decorativa.':
+    'The country button is named after the country and its dial code ("Country: Colombia (+57)") and announces `aria-haspopup="listbox"` and `aria-expanded`. The flag is decorative.',
+  'El número es un `input type="tel"` con su etiqueta, `inputmode="tel"` (teclado numérico) y `autocomplete="tel-national"`. Con error, `aria-invalid` y el mensaje con `role="alert"`.':
+    'The number is an `input type="tel"` with its label, `inputmode="tel"` (numeric keyboard) and `autocomplete="tel-national"`. On error, `aria-invalid` and the message with `role="alert"`.',
+  'En la lista, el buscador es un combobox que controla la lista de países con `aria-activedescendant`; el país elegido lleva `aria-selected`.':
+    'In the list, the search is a combobox that controls the country list with `aria-activedescendant`; the chosen country has `aria-selected`.',
+  'Sobre el país, abre la lista con el buscador enfocado.': 'On the country, opens the list with the search focused.',
+  'Mueve el país activo de la lista.': 'Moves the active country in the list.',
+  'Elige el país y vuelve al número.': 'Chooses the country and returns to the number.',
+  'Cierra la lista y devuelve el foco al botón del país.': 'Closes the list and returns focus to the country button.',
 };

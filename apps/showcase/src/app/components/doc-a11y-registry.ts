@@ -593,6 +593,28 @@ export const DOC_A11Y: Record<string, DocA11y> = {
       { keys: 'Tab (en la lista)', action: 'La conversación es enfocable y se desplaza con las flechas.' },
     ],
   },
+  'cb-code-block': {
+    screenReader: [
+      'El código se pinta como texto dentro de `pre` y `code`; los colores son decorativos. Los números de línea se ocultan al lector (`aria-hidden`) y no se copian al seleccionar.',
+      'El área con scroll es enfocable (`tabindex="0"`) y se nombra con el archivo o el lenguaje, para recorrerla con el teclado.',
+    ],
+    keyboard: [
+      { keys: 'Tab', action: 'Enfoca el código (para desplazarlo con las flechas) y el botón de copiar.' },
+    ],
+  },
+  'cb-phone-input': {
+    screenReader: [
+      'El botón del país se nombra con el país y su prefijo ("País: Colombia (+57)") y anuncia `aria-haspopup="listbox"` y `aria-expanded`. La bandera es decorativa.',
+      'El número es un `input type="tel"` con su etiqueta, `inputmode="tel"` (teclado numérico) y `autocomplete="tel-national"`. Con error, `aria-invalid` y el mensaje con `role="alert"`.',
+      'En la lista, el buscador es un combobox que controla la lista de países con `aria-activedescendant`; el país elegido lleva `aria-selected`.',
+    ],
+    keyboard: [
+      { keys: 'Enter / Espacio / Flecha abajo', action: 'Sobre el país, abre la lista con el buscador enfocado.' },
+      { keys: 'Flecha arriba / abajo', action: 'Mueve el país activo de la lista.' },
+      { keys: 'Enter', action: 'Elige el país y vuelve al número.' },
+      { keys: 'Escape', action: 'Cierra la lista y devuelve el foco al botón del país.' },
+    ],
+  },
   'cb-descriptions': {
     screenReader: [
       'Usa una lista de descripción nativa (`dl`, `dt`, `dd`), así cada valor se lee junto a su etiqueta. El título es un encabezado (`headingLevel`) que nombra la lista.',
