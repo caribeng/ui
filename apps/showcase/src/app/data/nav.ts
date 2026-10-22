@@ -63,6 +63,7 @@ export const NAV_MENU: NavItem[] = [
           { label: 'Knob', route: '/components/knob' },
           { label: 'ListBox', route: '/components/listbox' },
           { label: 'MultiSelect', route: '/components/multiselect' },
+          { label: 'Mentions', route: '/components/mentions', badge: 'NEW' },
           { label: 'Password', route: '/components/password' },
           { label: 'PhoneInput', route: '/components/phone-input', badge: 'NEW' },
           { label: 'Radio', route: '/components/radio' },
@@ -90,6 +91,7 @@ export const NAV_MENU: NavItem[] = [
         label: 'Data',
         children: [
           { label: 'DataView', route: '/components/dataview' },
+          { label: 'Kanban', route: '/components/kanban', badge: 'NEW' },
           { label: 'Descriptions', route: '/components/descriptions', badge: 'NEW' },
           { label: 'OrderList', route: '/components/orderlist' },
           { label: 'OrganizationChart', route: '/components/organizationchart' },

@@ -7,7 +7,7 @@
 
 <p align="center">
   <img alt="Angular 22" src="https://img.shields.io/badge/Angular-22-dd0031.svg?style=flat-square" />
-  <img alt="Entry points" src="https://img.shields.io/badge/entry%20points-160-10b981.svg?style=flat-square" />
+  <img alt="Entry points" src="https://img.shields.io/badge/entry%20points-162-10b981.svg?style=flat-square" />
   <img alt="Licencia MIT" src="https://img.shields.io/badge/licencia-MIT-blue.svg?style=flat-square" />
 </p>
 
@@ -15,7 +15,7 @@
 
 ## ✨ Características
 
-- **160 componentes y directivas** standalone, cada uno en su propio entry point (`@caribeng/ui/button`, `@caribeng/ui/table`…): solo empaquetas lo que importas.
+- **162 componentes y directivas** standalone, cada uno en su propio entry point (`@caribeng/ui/button`, `@caribeng/ui/table`…): solo empaquetas lo que importas.
 - **Angular moderno:** `input()` / `model()` / `output()` con Signals, `ChangeDetectionStrategy.OnPush` y compatible con apps zoneless.
 - **Formularios sin fricción:** `ControlValueAccessor` en todos los controles; el error y el indicador de obligatorio se sincronizan solos con Angular Forms.
 - **Accesibles:** roles y atributos ARIA, soporte de teclado y gestión de foco (WCAG 2.2 AA).
@@ -291,8 +291,8 @@ providers: [provideCbIcons({ 'heart-pulse': heartPulse, rocket })];
 
 ## 📚 Catálogo
 
-- **Form:** `autocomplete`, `button`, `cascadeselect`, `checkbox`, `chips`, `colorpicker`, `datepicker`, `editor`, `fileupload`, `floatlabel`, `iconfield`, `input`, `input-number`, `inputgroup`, `inputmask`, `inputotp`, `keyfilter`, `knob`, `listbox`, `multiselect`, `password`, `phone-input`, `radio`, `rating`, `repeater`, `select`, `selectbutton`, `slider`, `textarea`, `toggle`, `togglebutton`, `treeselect`.
-- **Data:** `dataview`, `descriptions`, `orderlist`, `organizationchart`, `paginator`, `picklist`, `statistic`, `table`, `timeline`, `tree`, `treetable`, `virtualscroller`.
+- **Form:** `autocomplete`, `button`, `cascadeselect`, `checkbox`, `chips`, `colorpicker`, `datepicker`, `editor`, `fileupload`, `floatlabel`, `iconfield`, `input`, `input-number`, `inputgroup`, `inputmask`, `inputotp`, `keyfilter`, `knob`, `listbox`, `mentions`, `multiselect`, `password`, `phone-input`, `radio`, `rating`, `repeater`, `select`, `selectbutton`, `slider`, `textarea`, `toggle`, `togglebutton`, `treeselect`.
+- **Data:** `dataview`, `descriptions`, `kanban`, `orderlist`, `organizationchart`, `paginator`, `picklist`, `statistic`, `table`, `timeline`, `tree`, `treetable`, `virtualscroller`.
 - **Overlay:** `command-palette`, `confirmdialog`, `confirmpopup`, `dialog`, `drawer`, `dynamicdialog`, `popover`, `tooltip`.
 - **Messages:** `badge`, `chat`, `chip`, `empty`, `inlinemessage`, `message`, `result`, `tag`, `toast`.
 - **Menu:** `anchor`, `breadcrumb`, `contextmenu`, `dock`, `megamenu`, `menu`, `menubar`, `panelmenu`, `sidebar`, `speeddial`, `splitbutton`, `steps`, `tabmenu`, `tieredmenu`.

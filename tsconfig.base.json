@@ -252,6 +252,12 @@
       "@caribeng/ui/phone-input": [
         "./packages/ui/phone-input/src/public-api.ts"
       ],
+      "@caribeng/ui/kanban": [
+        "./packages/ui/kanban/src/public-api.ts"
+      ],
+      "@caribeng/ui/mentions": [
+        "./packages/ui/mentions/src/public-api.ts"
+      ],
       "@caribeng/ui/command-palette": [
         "./packages/ui/command-palette/src/public-api.ts"
       ],

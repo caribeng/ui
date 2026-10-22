@@ -11,6 +11,10 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
         "type": "added",
         "items": [
           {
+            "component": "Componentes nuevos",
+            "text": "`Kanban` (tablero con columnas y tarjetas que se reordenan y se mueven arrastrando con `@angular/cdk/drag-drop` o con el teclado —Espacio toma y suelta, flechas mueven, Escape cancela— con cada paso anunciado; límite por columna con `enforceLimit`, plantilla `cbKanbanCard`, `[(columns)]`, `cardMove`, `cardOpen` y `addCard`) y `Mentions` (textarea con `@`/`#` y sugerencias junto al cursor, filtro sin tildes, teclado con `aria-activedescendant`, modo servidor con `search` + `loading`, `ControlValueAccessor` y `mentionsChange` con las menciones presentes; `cbCaretCoordinates()` exportado). 162 entry points."
+          },
+          {
             "component": "Chat (IA), nivel 2",
             "text": "`cb-chat-reasoning` (razonamiento plegable: \"Pensando…\" con brillo mientras llega y \"Razonó durante N s\" al terminar), `cb-chat-tool` (llamada a herramienta con estado Usando/Usó/Falló, anunciado, y entrada y resultado como JSON resaltado), adjuntos en `cb-chat-message` (miniaturas de imagen y tarjetas de archivo) y en `cb-chat-input` (miniaturas antes de enviar, con las URL temporales liberadas), valoración 👍/👎 (`showFeedback`, `[(feedback)]`, `aria-pressed`) y \"Regenerar respuesta\". Los bloques de código del mensaje se pintan con `cb-code-block` (`cbMarkdownToBlocks()`)."
           },

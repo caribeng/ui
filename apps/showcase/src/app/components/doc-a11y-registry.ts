@@ -617,6 +617,33 @@ export const DOC_A11Y: Record<string, DocA11y> = {
       { keys: 'Escape', action: 'Cierra la lista y devuelve el foco al botón del país.' },
     ],
   },
+  'cb-kanban': {
+    screenReader: [
+      'Cada columna es una región nombrada por su título, con una lista de tarjetas. Cada tarjeta es enfocable, se describe como "tarjeta" y lleva las instrucciones de teclado (`aria-describedby`).',
+      'Arrastrar no es la única forma de mover: con el teclado se toma, se mueve y se suelta (WCAG 2.5.7), y cada paso se anuncia en una región `role="status"` (columna y posición).',
+      'Si la plantilla de tarjeta lleva botones o enlaces, usa `cardOpen` para abrir un detalle en lugar de anidar controles dentro de la tarjeta.',
+    ],
+    keyboard: [
+      { keys: 'Tab', action: 'Recorre las tarjetas y los botones Añadir tarjeta.' },
+      { keys: 'Espacio', action: 'Toma la tarjeta; con ella tomada, la suelta.' },
+      { keys: 'Flechas arriba / abajo', action: 'Mueve la tarjeta tomada dentro de la columna.' },
+      { keys: 'Flechas izquierda / derecha', action: 'Lleva la tarjeta tomada a la columna anterior o siguiente.' },
+      { keys: 'Escape', action: 'Cancela el movimiento y la devuelve a su sitio.' },
+      { keys: 'Enter', action: 'Abre la tarjeta (cardOpen).' },
+    ],
+  },
+  'cb-mentions': {
+    screenReader: [
+      'El campo es un textarea con etiqueta y `aria-autocomplete="list"`; mientras hay sugerencias controla la lista (`aria-controls`) y marca la activa con `aria-activedescendant`, así el foco no sale del texto.',
+      'El número de sugerencias se anuncia en una región `role="status"`. Los avatares son decorativos.',
+    ],
+    keyboard: [
+      { keys: '@ (o el disparador)', action: 'Abre las sugerencias junto al cursor.' },
+      { keys: 'Flecha arriba / abajo', action: 'Mueve la sugerencia activa.' },
+      { keys: 'Enter / Tab', action: 'Inserta la mención elegida.' },
+      { keys: 'Escape', action: 'Cierra las sugerencias.' },
+    ],
+  },
   'cb-descriptions': {
     screenReader: [
       'Usa una lista de descripción nativa (`dl`, `dt`, `dd`), así cada valor se lee junto a su etiqueta. El título es un encabezado (`headingLevel`) que nombra la lista.',

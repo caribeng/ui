@@ -2635,4 +2635,59 @@ export const ES_EN: Record<string, string> = {
     'Reasoning and tools are disclosure buttons with `aria-expanded` and `aria-controls`; a tool status change ("Used…", "Failed…") is announced in a `role="status"` region.',
   'Los botones de valoración llevan `aria-pressed` y nombre ("Respuesta útil", "Respuesta no útil"); las miniaturas de imagen usan el nombre del archivo como texto alternativo.':
     'Feedback buttons have `aria-pressed` and a name ("Helpful response", "Not helpful response"); image thumbnails use the file name as alternative text.',
+  // --- Componentes nuevos: Kanban y Mentions ---
+  'Tablero de columnas con tarjetas que se reordenan y se mueven entre columnas arrastrando (ratón o dedo) o con el teclado. Admite límite de tarjetas por columna y plantilla de tarjeta propia.':
+    'Board of columns with cards that can be reordered and moved between columns by dragging (mouse or touch) or with the keyboard. Supports a card limit per column and a custom card template.',
+  'Tablero con plantilla propia': 'Board with a custom template',
+  '[(columns)] se actualiza al mover y (cardMove) avisa con { item, from, to, fromIndex, toIndex } para guardar. Con el teclado: enfoca una tarjeta, Espacio para tomarla, flechas para moverla, Espacio para soltarla y Escape para cancelar. En curso tiene límite de 2 (enforceLimit).':
+    '[(columns)] updates on move and (cardMove) reports { item, from, to, fromIndex, toIndex } so you can save. With the keyboard: focus a card, Space to pick it up, arrows to move it, Space to drop it and Escape to cancel. In progress has a limit of 2 (enforceLimit).',
+  'Columnas (id, title, items, limit, color).': 'Columns (id, title, items, limit, color).',
+  'Propiedad que identifica cada tarjeta.': 'Property that identifies each card.',
+  'Propiedad con el nombre de la tarjeta.': 'Property with the card name.',
+  'No deja superar el límite de una columna.': 'Prevents exceeding a column limit.',
+  'Botón Añadir tarjeta en cada columna.': 'Add card button in each column.',
+  'Deshabilita mover tarjetas.': 'Disables moving cards.',
+  'Texto de una columna vacía.': 'Text for an empty column.',
+  'Nombre del tablero.': 'Board name.',
+  'Tarjeta movida ({ item, from, to, fromIndex, toIndex }).': 'Card moved ({ item, from, to, fromIndex, toIndex }).',
+  'Se pulsó una tarjeta (o Enter).': 'A card was pressed (or Enter).',
+  'Se pulsó Añadir tarjeta (id de la columna).': 'Add card was pressed (column id).',
+  'Cada columna es una región nombrada por su título, con una lista de tarjetas. Cada tarjeta es enfocable, se describe como "tarjeta" y lleva las instrucciones de teclado (`aria-describedby`).':
+    'Each column is a region named by its title, with a list of cards. Each card is focusable, described as "card" and carries the keyboard instructions (`aria-describedby`).',
+  'Arrastrar no es la única forma de mover: con el teclado se toma, se mueve y se suelta (WCAG 2.5.7), y cada paso se anuncia en una región `role="status"` (columna y posición).':
+    'Dragging is not the only way to move: with the keyboard you pick up, move and drop (WCAG 2.5.7), and each step is announced in a `role="status"` region (column and position).',
+  'Si la plantilla de tarjeta lleva botones o enlaces, usa `cardOpen` para abrir un detalle en lugar de anidar controles dentro de la tarjeta.':
+    'If the card template has buttons or links, use `cardOpen` to open a detail view instead of nesting controls inside the card.',
+  'Recorre las tarjetas y los botones Añadir tarjeta.': 'Moves through the cards and the Add card buttons.',
+  'Toma la tarjeta; con ella tomada, la suelta.': 'Picks up the card; when picked up, drops it.',
+  'Flechas arriba / abajo': 'Up / Down arrows',
+  'Mueve la tarjeta tomada dentro de la columna.': 'Moves the picked-up card within the column.',
+  'Flechas izquierda / derecha': 'Left / Right arrows',
+  'Lleva la tarjeta tomada a la columna anterior o siguiente.': 'Moves the picked-up card to the previous or next column.',
+  'Cancela el movimiento y la devuelve a su sitio.': 'Cancels the move and returns it to its place.',
+  'Abre la tarjeta (cardOpen).': 'Opens the card (cardOpen).',
+  'Campo de texto con menciones: al escribir @ (u otro disparador como #) muestra sugerencias junto al cursor, que se filtran sin tildes y se eligen con el teclado o el ratón.':
+    'Text field with mentions: typing @ (or another trigger such as #) shows suggestions next to the caret, filtered ignoring accents and chosen with the keyboard or mouse.',
+  'Personas y etiquetas': 'People and tags',
+  'Escribe @ para mencionar a alguien o # para una etiqueta. Flechas para moverte, Enter o Tab para elegir y Escape para cerrar. El valor es el texto; (mentionsChange) entrega las menciones presentes con su id.':
+    'Type @ to mention someone or # for a tag. Arrows to move, Enter or Tab to choose and Escape to close. The value is the text; (mentionsChange) delivers the mentions present with their id.',
+  'Sugerencias del servidor': 'Server suggestions',
+  'Con [filter]="false" la lista no se filtra: escucha (search) con { trigger, query }, pide las sugerencias y activa loading mientras llegan.':
+    'With [filter]="false" the list is not filtered: listen to (search) with { trigger, query }, fetch the suggestions and set loading while they arrive.',
+  'Texto del campo.': 'Field text.',
+  'Elementos mencionables (id, label, description, avatar, trigger).': 'Mentionable items (id, label, description, avatar, trigger).',
+  'Caracteres que abren las sugerencias.': 'Characters that open the suggestions.',
+  'Filas visibles.': 'Visible rows.',
+  'Filtra las sugerencias con lo escrito.': 'Filters suggestions with what is typed.',
+  'Máximo de sugerencias visibles.': 'Maximum visible suggestions.',
+  'Muestra Cargando sin sugerencias.': 'Shows Loading when there are no suggestions.',
+  'Lo escrito tras el disparador ({ trigger, query }).': 'What was typed after the trigger ({ trigger, query }).',
+  'Menciones presentes en el texto.': 'Mentions present in the text.',
+  'El campo es un textarea con etiqueta y `aria-autocomplete="list"`; mientras hay sugerencias controla la lista (`aria-controls`) y marca la activa con `aria-activedescendant`, así el foco no sale del texto.':
+    'The field is a labelled textarea with `aria-autocomplete="list"`; while there are suggestions it controls the list (`aria-controls`) and marks the active one with `aria-activedescendant`, so focus stays in the text.',
+  'El número de sugerencias se anuncia en una región `role="status"`. Los avatares son decorativos.': 'The number of suggestions is announced in a `role="status"` region. Avatars are decorative.',
+  '@ (o el disparador)': '@ (or the trigger)',
+  'Abre las sugerencias junto al cursor.': 'Opens the suggestions next to the caret.',
+  'Mueve la sugerencia activa.': 'Moves the active suggestion.',
+  'Inserta la mención elegida.': 'Inserts the chosen mention.',
 };

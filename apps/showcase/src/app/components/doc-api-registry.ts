@@ -128,6 +128,8 @@ import { CbCopyButton } from '@caribeng/ui/copy-button';
 import { CbChatMessage } from '@caribeng/ui/chat';
 import { CbCodeBlock } from '@caribeng/ui/code-block';
 import { CbPhoneInput } from '@caribeng/ui/phone-input';
+import { CbKanban } from '@caribeng/ui/kanban';
+import { CbMentions } from '@caribeng/ui/mentions';
 import { CbCommandPalette } from '@caribeng/ui/command-palette';
 import { CbSidebar } from '@caribeng/ui/sidebar';
 import { CbKbd } from '@caribeng/ui/kbd';
@@ -1770,6 +1772,47 @@ export const DOC_API: Record<string, DocApi> = {
     ],
     events: [
       { name: "phoneChange", type: "CbPhoneChange", description: "Cambio con { e164, national, country, valid }." }
+    ]
+  },
+  "cb-kanban": {
+    component: CbKanban,
+    selector: "cb-kanban",
+    props: [
+      { name: "columns", kind: "string", type: "readonly CbKanbanColumn[] (model)", default: [], example: [{ id: 'todo', title: 'To do', items: [{ id: 1, title: 'Design', description: 'Transfers screen' }, { id: 2, title: 'API' }] }, { id: 'doing', title: 'In progress', limit: 2, items: [{ id: 3, title: 'Login' }] }, { id: 'done', title: 'Done', items: [] }], description: "Columnas (id, title, items, limit, color).", control: false },
+      { name: "itemKey", kind: "string", type: "string", default: "id", description: "Propiedad que identifica cada tarjeta." },
+      { name: "itemLabel", kind: "string", type: "string", default: "title", description: "Propiedad con el nombre de la tarjeta." },
+      { name: "enforceLimit", kind: "boolean", type: "boolean", default: false, description: "No deja superar el límite de una columna." },
+      { name: "addable", kind: "boolean", type: "boolean", default: false, description: "Botón Añadir tarjeta en cada columna." },
+      { name: "disabled", kind: "boolean", type: "boolean", default: false, description: "Deshabilita mover tarjetas." },
+      { name: "emptyMessage", kind: "string", type: "string", default: undefined, localeKey: "noData", description: "Texto de una columna vacía." },
+      { name: "ariaLabel", kind: "string", type: "string", default: "", description: "Nombre del tablero." }
+    ],
+    events: [
+      { name: "cardMove", type: "CbKanbanMove", description: "Tarjeta movida ({ item, from, to, fromIndex, toIndex })." },
+      { name: "cardOpen", type: "T", description: "Se pulsó una tarjeta (o Enter)." },
+      { name: "addCard", type: "string", description: "Se pulsó Añadir tarjeta (id de la columna)." }
+    ]
+  },
+  "cb-mentions": {
+    component: CbMentions,
+    selector: "cb-mentions",
+    props: [
+      { name: "value", kind: "string", type: "string (model)", default: "", description: "Texto del campo." },
+      { name: "suggestions", kind: "string", type: "readonly CbMentionItem[]", default: [], example: [{ id: 'u1', label: 'Laura Gómez', description: 'Product' }, { id: 'u2', label: 'Andrés Pérez', description: 'Engineering' }, { id: 'u3', label: 'Ángela Ruiz', description: 'Design' }], description: "Elementos mencionables (id, label, description, avatar, trigger).", control: false },
+      { name: "triggers", kind: "string", type: "readonly string[]", default: ["@"], description: "Caracteres que abren las sugerencias.", control: false },
+      { name: "label", kind: "string", type: "string", default: "", example: "Comment", description: "Etiqueta." },
+      { name: "placeholder", kind: "string", type: "string", default: "", example: "Type @ to mention", description: "Placeholder." },
+      { name: "hint", kind: "string", type: "string", default: "", description: "Texto de ayuda." },
+      { name: "rows", kind: "number", type: "number", default: 3, description: "Filas visibles." },
+      { name: "filter", kind: "boolean", type: "boolean", default: true, description: "Filtra las sugerencias con lo escrito." },
+      { name: "maxResults", kind: "number", type: "number", default: 8, description: "Máximo de sugerencias visibles." },
+      { name: "loading", kind: "boolean", type: "boolean", default: false, description: "Muestra Cargando sin sugerencias." },
+      { name: "required", kind: "boolean", type: "boolean", default: false, description: "Obligatorio." },
+      { name: "disabled", kind: "boolean", type: "boolean", default: false, description: "Deshabilitado." }
+    ],
+    events: [
+      { name: "search", type: "CbMentionSearch", description: "Lo escrito tras el disparador ({ trigger, query })." },
+      { name: "mentionsChange", type: "CbMention[]", description: "Menciones presentes en el texto." }
     ]
   },
   "cb-descriptions": {

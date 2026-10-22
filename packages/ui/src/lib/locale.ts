@@ -74,6 +74,23 @@ export interface CbTranslation {
   chatNotHelpful: string;
   chatRegenerate: string;
   chatAttachments: string;
+  kanbanCard: string;
+  kanbanInstructions: string;
+  /** `{0}`: tarjeta, `{1}`: columna, `{2}`: posición, `{3}`: total. */
+  kanbanGrabbed: string;
+  /** `{0}`: tarjeta, `{1}`: columna, `{2}`: posición, `{3}`: total. */
+  kanbanMoved: string;
+  /** `{0}`: tarjeta, `{1}`: columna, `{2}`: posición. */
+  kanbanDropped: string;
+  /** `{0}`: tarjeta, `{1}`: columna. */
+  kanbanCancelled: string;
+  /** `{0}`: columna. */
+  kanbanFull: string;
+  /** `{0}`: cantidad, `{1}`: límite. */
+  kanbanCount: string;
+  kanbanAdd: string;
+  /** `{0}`: cantidad. */
+  mentionsCount: string;
   add: string;
   onThisPage: string;
   trendUp: string;
@@ -549,6 +566,16 @@ export const CB_LOCALE_ES: CbTranslation = {
   chatNotHelpful: 'Respuesta no útil',
   chatRegenerate: 'Regenerar respuesta',
   chatAttachments: 'Adjuntos',
+  kanbanCard: 'tarjeta',
+  kanbanInstructions: 'Para mover la tarjeta, pulsa Espacio, usa las flechas y vuelve a pulsar Espacio para soltarla. Escape cancela.',
+  kanbanGrabbed: '{0} tomada. Columna {1}, posición {2} de {3}.',
+  kanbanMoved: '{0}: columna {1}, posición {2} de {3}.',
+  kanbanDropped: '{0} soltada en {1}, posición {2}.',
+  kanbanCancelled: 'Movimiento cancelado. {0} vuelve a {1}.',
+  kanbanFull: '{0} está llena.',
+  kanbanCount: '{0} de {1}',
+  kanbanAdd: 'Añadir tarjeta',
+  mentionsCount: '{0} sugerencias',
   add: 'Agregar',
   onThisPage: 'En esta página',
   trendUp: 'aumenta',
@@ -969,6 +996,16 @@ export const CB_LOCALE_EN: CbTranslation = {
   chatNotHelpful: 'Not helpful response',
   chatRegenerate: 'Regenerate response',
   chatAttachments: 'Attachments',
+  kanbanCard: 'card',
+  kanbanInstructions: 'To move the card, press Space, use the arrow keys and press Space again to drop it. Escape cancels.',
+  kanbanGrabbed: '{0} picked up. Column {1}, position {2} of {3}.',
+  kanbanMoved: '{0}: column {1}, position {2} of {3}.',
+  kanbanDropped: '{0} dropped in {1}, position {2}.',
+  kanbanCancelled: 'Move cancelled. {0} returns to {1}.',
+  kanbanFull: '{0} is full.',
+  kanbanCount: '{0} of {1}',
+  kanbanAdd: 'Add card',
+  mentionsCount: '{0} suggestions',
   add: 'Add',
   onThisPage: 'On this page',
   trendUp: 'up',
