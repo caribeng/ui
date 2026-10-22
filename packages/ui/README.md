@@ -126,6 +126,8 @@ Todos los avisos, las referencias a PrimeNG que aún quedan (por ejemplo compone
 | `<p-toggleswitch>`, `<p-inputSwitch>` | `<cb-toggle>` |
 | `<p-datepicker>`, `<p-calendar>` | `<cb-datepicker>` |
 | `<p-dialog>` | `<cb-dialog>` |
+| `<p-confirmdialog>` + `ConfirmationService` | `<cb-confirm-dialog service>` + `CbConfirmationService` |
+| `<p-confirmpopup>` | `<cb-confirm-popup service>` |
 | `<p-tag>` | `<cb-tag>` |
 | `<p-toast>` + `MessageService` | `<cb-toast>` + `CbToastService` |
 | `<p-card>` | `<cb-card>` |

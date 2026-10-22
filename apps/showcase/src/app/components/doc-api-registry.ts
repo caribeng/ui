@@ -516,7 +516,9 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "message", kind: "string", type: "string", default: undefined, localeKey: "confirmMessage", description: "" },
       { name: "acceptLabel", kind: "string", type: "string", default: undefined, localeKey: "accept", description: "" },
       { name: "rejectLabel", kind: "string", type: "string", default: undefined, localeKey: "cancel", description: "" },
-      { name: "acceptSeverity", kind: "enum", type: "'primary' | 'danger' | 'success' | 'warning'", options: ["primary", "danger", "success", "warning"], default: "primary", description: "Color del botón de aceptar." }
+      { name: "acceptSeverity", kind: "enum", type: "'primary' | 'danger' | 'success' | 'warning'", options: ["primary", "danger", "success", "warning"], default: "primary", description: "Color del botón de aceptar." },
+      { name: "service", kind: "boolean", type: "boolean", default: false, description: "Muestra las confirmaciones pedidas con CbConfirmationService.", control: false },
+      { name: "key", kind: "string", type: "string", default: undefined, description: "Con service: atiende solo las confirmaciones con este key.", control: false }
     ],
     events: [
       { name: "accepted", type: "void", description: "" },
@@ -531,7 +533,9 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "message", kind: "string", type: "string", default: undefined, localeKey: "confirmMessage", description: "" },
       { name: "acceptLabel", kind: "string", type: "string", default: undefined, localeKey: "accept", description: "" },
       { name: "rejectLabel", kind: "string", type: "string", default: undefined, localeKey: "cancel", description: "" },
-      { name: "acceptSeverity", kind: "enum", type: "'primary' | 'danger' | 'success' | 'warning'", options: ["primary", "danger", "success", "warning"], default: "primary", description: "Color del botón de aceptar." }
+      { name: "acceptSeverity", kind: "enum", type: "'primary' | 'danger' | 'success' | 'warning'", options: ["primary", "danger", "success", "warning"], default: "primary", description: "Color del botón de aceptar." },
+      { name: "service", kind: "boolean", type: "boolean", default: false, description: "Muestra las confirmaciones pedidas con CbConfirmationService.", control: false },
+      { name: "key", kind: "string", type: "string", default: undefined, description: "Con service: atiende solo las confirmaciones con este key.", control: false }
     ],
     events: [
       { name: "accepted", type: "void", description: "" },

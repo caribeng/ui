@@ -1,7 +1,7 @@
 import * as ts from 'typescript';
-import { TODO_MARK } from '../todo';
 import { drop, styleClass, unsupported, values } from './rules';
-import type { ComponentMapping, SourceEdit, SourceRewriter } from './types';
+import { forEachServiceCall, propertyName, rebuildObject, todoBefore } from './service-calls';
+import type { ComponentMapping, SourceRewriter } from './types';
 
 const POSITIONS = ['top-right', 'top-left', 'top-center', 'bottom-right', 'bottom-left', 'bottom-center'];
 
@@ -10,10 +10,6 @@ const MESSAGE_SEVERITY: Readonly<Record<string, string>> = { warn: 'warning', er
 
 /** Propiedades de un mensaje de PrimeNG sin equivalente en CbToastOptions. */
 const DROPPED_FIELDS = new Set(['key', 'icon', 'data', 'id', 'styleClass', 'contentStyleClass', 'closeIcon', 'text']);
-
-function propertyName(property: ts.ObjectLiteralElementLike): string | undefined {
-  return property.name && (ts.isIdentifier(property.name) || ts.isStringLiteral(property.name)) ? property.name.text : undefined;
-}
 
 /**
  * `{ severity: 'error', summary, sticky: true, key: 'x' }`
@@ -63,29 +59,7 @@ function rewriteMessage(sf: ts.SourceFile, message: ts.ObjectLiteralExpression, 
   if (dropped.length) todos.push(`${dropped.join(', ')} — CbToastService no tiene estos campos.`);
   if (!changed) return null;
 
-  const original = message.getText(sf);
-  if (!original.includes('\n')) return properties.length ? `{ ${properties.join(', ')} }` : '{}';
-  const first = message.properties[0];
-  const indent = /[ \t]*$/.exec(sf.text.slice(0, first.getStart(sf)))?.[0] ?? '  ';
-  const closing = /[ \t]*$/.exec(sf.text.slice(0, message.getEnd() - 1))?.[0] ?? '';
-  const eol = sf.text.includes('\r\n') ? '\r\n' : '\n';
-  return `{${eol}${properties.map((p) => indent + p).join(`,${eol}`)},${eol}${closing}}`;
-}
-
-/** El tipo es una referencia a `local` (`ms: MessageService`). */
-function isTypeOf(type: ts.TypeNode | undefined, local: string): boolean {
-  return !!type && ts.isTypeReferenceNode(type) && ts.isIdentifier(type.typeName) && type.typeName.text === local;
-}
-
-/** `inject(MessageService)`. */
-function isInjectOf(expression: ts.Expression | undefined, local: string): boolean {
-  return (
-    !!expression &&
-    ts.isCallExpression(expression) &&
-    ts.isIdentifier(expression.expression) &&
-    expression.expression.text === 'inject' &&
-    expression.arguments.some((arg) => ts.isIdentifier(arg) && arg.text === local)
-  );
+  return rebuildObject(sf, message, properties);
 }
 
 /**
@@ -96,54 +70,27 @@ function isInjectOf(expression: ts.Expression | undefined, local: string): boole
 const rewriteMessageService: SourceRewriter = (sf, locals, edits) => {
   const local = locals.get('MessageService');
   if (!local) return;
-
-  const receivers = new Set<string>();
-  const collect = (node: ts.Node): void => {
-    if ((ts.isPropertyDeclaration(node) || ts.isParameter(node) || ts.isVariableDeclaration(node)) && ts.isIdentifier(node.name)) {
-      if (isTypeOf(node.type, local) || isInjectOf(node.initializer, local)) receivers.add(node.name.text);
-    }
-    ts.forEachChild(node, collect);
-  };
-  collect(sf);
-  if (!receivers.size) return;
-
-  const isReceiver = (expression: ts.Expression): boolean =>
-    (ts.isIdentifier(expression) && receivers.has(expression.text)) ||
-    (ts.isPropertyAccessExpression(expression) && expression.expression.kind === ts.SyntaxKind.ThisKeyword && receivers.has(expression.name.text));
-
-  const todo = (node: ts.Node, messages: readonly string[]): SourceEdit => ({
-    start: node.getStart(sf),
-    end: node.getStart(sf),
-    text: messages.map((m) => `/* ${TODO_MARK}: ${m} */ `).join(''),
-  });
-
-  const visit = (node: ts.Node): void => {
-    if (ts.isPropertyAccessExpression(node) && isReceiver(node.expression)) {
-      const method = node.name.text;
-      const call = ts.isCallExpression(node.parent) && node.parent.expression === node ? node.parent : undefined;
-      const todos: string[] = [];
-      if (method === 'add' && call) {
-        const [message] = call.arguments;
-        if (message && ts.isObjectLiteralExpression(message)) {
-          const rewritten = rewriteMessage(sf, message, todos);
-          if (rewritten !== null) edits.push({ start: message.getStart(sf), end: message.getEnd(), text: rewritten });
-        } else if (message) {
-          todos.push(`mensaje no literal: CaribeNG usa severity 'warning'/'danger' (no 'warn'/'error') y life: 0 en vez de sticky.`);
-        }
-      } else if (method === 'addAll') {
-        todos.push('CbToastService no tiene addAll(); llama a add() por cada mensaje.');
-      } else if (method === 'clear' && call?.arguments.length) {
-        const args = call.arguments;
-        edits.push({ start: args[0].getStart(sf), end: args[args.length - 1].getEnd(), text: '' });
-        todos.push('cb-toast no tiene key: clear() cierra todos los mensajes.');
-      } else if (method === 'messageObserver' || method === 'clearObserver') {
-        todos.push(`CbToastService no expone ${method}; usa su señal toasts().`);
+  forEachServiceCall(sf, local, (method, access, call) => {
+    const todos: string[] = [];
+    if (method === 'add' && call) {
+      const [message] = call.arguments;
+      if (message && ts.isObjectLiteralExpression(message)) {
+        const rewritten = rewriteMessage(sf, message, todos);
+        if (rewritten !== null) edits.push({ start: message.getStart(sf), end: message.getEnd(), text: rewritten });
+      } else if (message) {
+        todos.push(`mensaje no literal: CaribeNG usa severity 'warning'/'danger' (no 'warn'/'error') y life: 0 en vez de sticky.`);
       }
-      if (todos.length) edits.push(todo(call ?? node, todos));
+    } else if (method === 'addAll') {
+      todos.push('CbToastService no tiene addAll(); llama a add() por cada mensaje.');
+    } else if (method === 'clear' && call?.arguments.length) {
+      const args = call.arguments;
+      edits.push({ start: args[0].getStart(sf), end: args[args.length - 1].getEnd(), text: '' });
+      todos.push('cb-toast no tiene key: clear() cierra todos los mensajes.');
+    } else if (method === 'messageObserver' || method === 'clearObserver') {
+      todos.push(`CbToastService no expone ${method}; usa su señal toasts().`);
     }
-    ts.forEachChild(node, visit);
-  };
-  visit(sf);
+    if (todos.length) edits.push(todoBefore(sf, call ?? access, todos));
+  });
 };
 
 /**

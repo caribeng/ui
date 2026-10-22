@@ -63,10 +63,13 @@ describe('mapeos PrimeNG → CaribeNG', () => {
     describe(mapping.name, () => {
       const api = caribeApi(mapping.entry);
 
-      it(`el entry point ${mapping.entry} exporta los símbolos de destino`, () => {
-        const publicApi = readFileSync(join(entryDir(mapping.entry), 'public-api.ts'), 'utf8');
+      it(`los entry points exportan los símbolos de destino de ${mapping.name}`, () => {
         for (const symbols of Object.values(mapping.modules)) {
-          for (const symbol of Object.values(symbols)) assert.match(publicApi, new RegExp(`\\b${symbol}\\b`), `${mapping.entry} no exporta ${symbol}`);
+          for (const target of Object.values(symbols)) {
+            const { name, entry } = typeof target === 'string' ? { name: target, entry: mapping.entry } : target;
+            const publicApi = readFileSync(join(entryDir(entry), 'public-api.ts'), 'utf8');
+            assert.match(publicApi, new RegExp(`\\b${name}\\b`), `${entry} no exporta ${name}`);
+          }
         }
       });
 
@@ -114,10 +117,13 @@ describe('mapeos PrimeNG → CaribeNG', () => {
     for (const mapping of MAPPINGS) {
       for (const service of mapping.rootServices ?? []) {
         assert.ok(ROOT_SERVICES.has(service));
-        const lib = join(entryDir(mapping.entry), 'lib');
-        const sources = readdirSync(lib)
-          .filter((f) => f.endsWith('.ts') && !f.endsWith('.spec.ts'))
-          .map((f) => readFileSync(join(lib, f), 'utf8'));
+        // El servicio puede estar en el entry point del componente o en el primario (@caribeng/ui).
+        const sources = [mapping.entry, '@caribeng/ui'].flatMap((entry) => {
+          const lib = join(entryDir(entry), 'lib');
+          return readdirSync(lib)
+            .filter((f) => f.endsWith('.ts') && !f.endsWith('.spec.ts'))
+            .map((f) => readFileSync(join(lib, f), 'utf8'));
+        });
         const declared = sources.find((source) => new RegExp(`export class ${service}\\b`).test(source));
         assert.ok(declared, `${mapping.entry} no declara ${service}`);
         assert.match(declared!, new RegExp(`providedIn: 'root'[\\s\\S]*?export class ${service}\\b`), `${service} no es providedIn: 'root'`);

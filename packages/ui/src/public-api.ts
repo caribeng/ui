@@ -13,6 +13,12 @@ export {
   type CbThemePreference,
 } from './lib/caribeng.config';
 export { CbThemeService } from './lib/theme.service';
+export {
+  CbConfirmationService,
+  type CbConfirmation,
+  type CbConfirmationRequest,
+  type CbConfirmSeverity,
+} from './lib/confirmation.service';
 export { provideCaribeNG } from './lib/provide-caribeng';
 export { type CbSize, type CbSeverity } from './lib/types';
 export { cbFieldState, type CbFieldIndicator, type CbFieldState } from './lib/field-state';

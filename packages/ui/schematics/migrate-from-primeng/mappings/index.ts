@@ -1,6 +1,7 @@
 import { button } from './button';
 import { card } from './card';
 import { checkbox } from './checkbox';
+import { confirmdialog, confirmpopup } from './confirm';
 import { datepicker } from './datepicker';
 import { dialog } from './dialog';
 import { inputnumber } from './inputnumber';
@@ -28,6 +29,8 @@ export const MAPPINGS: readonly ComponentMapping[] = [
   toggleswitch,
   datepicker,
   dialog,
+  confirmdialog,
+  confirmpopup,
   tag,
   toast,
   card,
@@ -46,7 +49,7 @@ export const SYMBOLS: ReadonlyMap<string, ReadonlyMap<string, CaribeSymbol>> = (
   for (const mapping of MAPPINGS) {
     for (const [module, symbols] of Object.entries(mapping.modules)) {
       const target = index.get(module) ?? new Map<string, CaribeSymbol>();
-      for (const [from, to] of Object.entries(symbols)) target.set(from, { name: to, entry: mapping.entry });
+      for (const [from, to] of Object.entries(symbols)) target.set(from, typeof to === 'string' ? { name: to, entry: mapping.entry } : to);
       index.set(module, target);
     }
   }

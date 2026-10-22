@@ -17,6 +17,14 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
           {
             "component": "Instalación",
             "text": "`ng add @caribeng/ui` avisa del migrador si el proyecto usa PrimeNG."
+          },
+          {
+            "component": "ConfirmDialog / ConfirmPopup",
+            "text": "`CbConfirmationService` (en `@caribeng/ui`) pide confirmaciones desde código con `confirm({ message, header, acceptLabel, rejectLabel, acceptSeverity, accept, reject, target, key })`, como `ConfirmationService` de PrimeNG. Las muestra el `<cb-confirm-dialog service />` o `<cb-confirm-popup service />` de la vista (el popup, las que traen `target`); `key` permite tener varios. Los componentes sin `service` siguen funcionando solo con `[(visible)]`."
+          },
+          {
+            "component": "Migración",
+            "text": "`p-confirmdialog`, `p-confirmpopup` y `ConfirmationService` se traducen a `cb-confirm-dialog service`, `cb-confirm-popup service` y `CbConfirmationService` (`acceptButtonProps.severity` → `acceptSeverity`, `acceptButtonProps.label` → `acceptLabel`)."
           }
         ]
       }

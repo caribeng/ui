@@ -6,6 +6,8 @@ import {
   ViewContainerRef,
   ViewEncapsulation,
   afterNextRender,
+  computed,
+  effect,
   inject,
   input,
   model,
@@ -13,10 +15,11 @@ import {
   signal,
   viewChild,
   Injector,
+  untracked,
 } from '@angular/core';
 import { Overlay, type ConnectedPosition, type OverlayRef } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
-import { injectCbTranslation } from '@caribeng/ui';
+import { CbConfirmationService, injectCbTranslation, type CbConfirmation, type CbConfirmSeverity } from '@caribeng/ui';
 import { CbButton } from '@caribeng/ui/button';
 
 let nextUid = 0;
@@ -30,6 +33,19 @@ let nextUid = 0;
  * ```html
  * <cb-button severity="danger" (click)="borrar.confirm($event)">Eliminar</cb-button>
  * <cb-confirm-popup #borrar message="¿Eliminar este archivo?" (accepted)="eliminar()" />
+ * ```
+ *
+ * Con `service` muestra las confirmaciones de `CbConfirmationService` que traen
+ * `target` (como `ConfirmationService` de PrimeNG):
+ *
+ * ```html
+ * <cb-button (click)="borrar($event)">Eliminar</cb-button>
+ * <cb-confirm-popup service />
+ * ```
+ * ```ts
+ * borrar(event: Event) {
+ *   inject(CbConfirmationService).confirm({ target: event.currentTarget, message: '¿Eliminar?', accept: () => this.eliminar() });
+ * }
  * ```
  */
 @Component({
@@ -51,13 +67,13 @@ let nextUid = 0;
         [attr.aria-describedby]="messageId"
         (keydown.escape)="reject()"
       >
-        <p class="cb-confirm-popup__message" [id]="messageId">{{ message() ?? t().confirmMessage }}</p>
+        <p class="cb-confirm-popup__message" [id]="messageId">{{ shown().message }}</p>
         <div class="cb-confirm-popup__actions">
           <cb-button size="sm" variant="text" severity="secondary" (click)="reject()">
-            {{ rejectLabel() ?? t().cancel }}
+            {{ shown().rejectLabel }}
           </cb-button>
-          <cb-button size="sm" [severity]="acceptSeverity()" (click)="accept()">
-            {{ acceptLabel() ?? t().accept }}
+          <cb-button size="sm" [severity]="shown().acceptSeverity" (click)="accept()">
+            {{ shown().acceptLabel }}
           </cb-button>
         </div>
       </section>
@@ -70,6 +86,7 @@ export class CbConfirmPopup {
   private readonly overlay = inject(Overlay);
   private readonly vcr = inject(ViewContainerRef);
   private readonly injector = inject(Injector);
+  private readonly confirmation = inject(CbConfirmationService);
   protected readonly messageId = `cb-confirm-popup-${++nextUid}-message`;
 
   /** Visibilidad (two-way). Con `[(visible)]` se muestra en línea. */
@@ -79,7 +96,15 @@ export class CbConfirmPopup {
   readonly acceptLabel = input<string | undefined>(undefined);
   readonly rejectLabel = input<string | undefined>(undefined);
   /** Severidad del botón de aceptar (p. ej. `danger` para acciones destructivas). */
-  readonly acceptSeverity = input<'primary' | 'danger' | 'success' | 'warning'>('primary');
+  readonly acceptSeverity = input<CbConfirmSeverity>('primary');
+  /**
+   * Muestra las confirmaciones pedidas con `CbConfirmationService`. Sin él, el
+   * componente solo responde a `[(visible)]` (así un diálogo declarativo no se
+   * abre con las confirmaciones de otra parte de la app).
+   */
+  readonly service = input<boolean, unknown>(false, { transform: toBoolean });
+  /** Con `service`: atiende solo las confirmaciones con este mismo `key` (o sin key si no se indica). */
+  readonly key = input<string | undefined>(undefined);
 
   readonly accepted = output<void>();
   readonly rejected = output<void>();
@@ -89,6 +114,41 @@ export class CbConfirmPopup {
   protected readonly anchored = signal(false);
   private overlayRef: OverlayRef | null = null;
   private trigger: HTMLElement | null = null;
+
+  /** Confirmación pedida con `CbConfirmationService` que se está mostrando. */
+  private readonly active = signal<CbConfirmation | null>(null);
+
+  /** Textos visibles: los de la confirmación del servicio, si la hay; si no, los inputs y el idioma. */
+  protected readonly shown = computed(() => {
+    const active = this.active();
+    const t = this.t();
+    return {
+      message: active?.message ?? this.message() ?? t.confirmMessage,
+      acceptLabel: active?.acceptLabel ?? this.acceptLabel() ?? t.accept,
+      rejectLabel: active?.rejectLabel ?? this.rejectLabel() ?? t.cancel,
+      acceptSeverity: active?.acceptSeverity ?? this.acceptSeverity(),
+    };
+  });
+
+  constructor() {
+    effect(() => {
+      if (!this.service()) return;
+      const request = this.confirmation.request();
+      untracked(() => {
+        const target = request?.confirmation.target;
+        if (request && request.confirmation.key === this.key() && target instanceof HTMLElement) {
+          // Una nueva petición sustituye a la que estuviera abierta.
+          if (this.overlayRef) this.dispose();
+          this.active.set(request.confirmation);
+          this.show(target);
+        } else if (!request && this.active()) {
+          // Cerrada desde el servicio (close()).
+          this.active.set(null);
+          this.close();
+        }
+      });
+    });
+  }
 
   private readonly positions: ConnectedPosition[] = [
     { originX: 'start', originY: 'bottom', overlayX: 'start', overlayY: 'top', offsetY: 8 },
@@ -122,22 +182,42 @@ export class CbConfirmPopup {
 
   protected accept(): void {
     this.accepted.emit();
-    this.close();
+    this.finish('accept');
   }
 
   protected reject(): void {
     this.rejected.emit();
+    this.finish('reject');
+  }
+
+  /** Cierra y, si venía del servicio, lo libera y ejecuta su callback (que puede pedir otra confirmación). */
+  private finish(action: 'accept' | 'reject'): void {
+    const active = this.active();
+    this.active.set(null);
     this.close();
+    if (active) {
+      this.confirmation.close();
+      active[action]?.();
+    }
   }
 
   private close(): void {
     this.visible.set(false);
     if (this.overlayRef) {
-      this.overlayRef.dispose();
-      this.overlayRef = null;
-      this.anchored.set(false);
+      this.dispose();
       this.trigger?.focus();
       this.trigger = null;
     }
   }
+
+  /** Quita el overlay sin devolver el foco. */
+  private dispose(): void {
+    this.overlayRef?.dispose();
+    this.overlayRef = null;
+    this.anchored.set(false);
+  }
+}
+
+function toBoolean(value: unknown): boolean {
+  return value !== false && value != null && `${value}` !== 'false';
 }

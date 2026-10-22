@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { CbButton } from '@caribeng/ui/button';
 import { CbConfirmDialog } from '@caribeng/ui/confirmdialog';
+import { CbConfirmationService } from '@caribeng/ui';
 import { DocPlaygroundComponent } from '../components/doc-playground.component';
 import { DOC_API } from '../components/doc-api-registry';
 import { DocA11yComponent } from '../components/doc-a11y.component';
@@ -63,6 +64,19 @@ import { TocService } from '../services/toc.service';
       />
     </doc-section>
 
+    <doc-section
+      id="service"
+      title="Desde código"
+      description="Con CbConfirmationService la confirmación se pide desde el componente, con la acción en accept. Basta un &lt;cb-confirm-dialog service /&gt; en la vista (como ConfirmationService de PrimeNG); los diálogos sin service no se abren."
+      [code]="serviceCode"
+    >
+      <div style="display: grid; gap: 0.75rem">
+        <cb-button severity="danger" (click)="eliminarPedido()">Eliminar pedido</cb-button>
+        <cb-confirm-dialog service />
+        <p style="margin: 0; font-size: 0.875rem">Resultado: {{ serviceResult() }}</p>
+      </div>
+    </doc-section>
+
     <doc-a11y [data]="a11y" />
 
     <doc-playground [api]="docApi" />
@@ -75,8 +89,12 @@ export class ConfirmdialogDocComponent {
   protected readonly basic = signal(false);
   protected readonly danger = signal(false);
   protected readonly result = signal('—');
+  protected readonly serviceResult = signal('—');
+  private readonly confirmation = inject(CbConfirmationService);
 
-  protected readonly importCode = `import { CbConfirmDialog } from '@caribeng/ui/confirmdialog';`;
+  protected readonly importCode = `import { CbConfirmDialog } from '@caribeng/ui/confirmdialog';
+// Para pedir confirmaciones desde código:
+import { CbConfirmationService } from '@caribeng/ui';`;
 
   protected readonly basicCode = `<cb-button (click)="basic.set(true)">Confirmar acción</cb-button>
 <cb-confirm-dialog [(visible)]="basic" (accepted)="result.set('Aceptado')" (rejected)="result.set('Cancelado')" />`;
@@ -90,6 +108,20 @@ export class ConfirmdialogDocComponent {
   rejectLabel="Conservar"
   acceptSeverity="danger"
 />`;
+
+  protected readonly serviceCode = `<cb-button severity="danger" (click)="eliminarPedido()">Eliminar pedido</cb-button>
+<cb-confirm-dialog service />`;
+
+  protected eliminarPedido(): void {
+    this.confirmation.confirm({
+      header: 'Eliminar pedido',
+      message: '¿Eliminar el pedido #1042? Esta acción no se puede deshacer.',
+      acceptLabel: 'Eliminar',
+      acceptSeverity: 'danger',
+      accept: () => this.serviceResult.set('Pedido eliminado'),
+      reject: () => this.serviceResult.set('Cancelado'),
+    });
+  }
 
   constructor() {
     inject(TocService).reset();

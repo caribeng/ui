@@ -357,6 +357,24 @@ describe('plantillas: radiobutton', () => {
   });
 });
 
+describe('plantillas: confirmdialog y confirmpopup', () => {
+  it('se convierten en hosts del servicio', () => {
+    assert.equal(text(`<p-confirmdialog />`), `<cb-confirm-dialog service />`);
+    assert.equal(text(`<p-confirmpopup />`), `<cb-confirm-popup service />`);
+  });
+
+  it('conserva key y los textos por defecto; avisa de iconos y Escape desactivado', () => {
+    const out = text(`<p-confirmDialog key="borrar" header="Atención" icon="pi pi-exclamation-triangle" [closeOnEscape]="false" [dismissableMask]="true" />`);
+    assert.match(out, /<cb-confirm-dialog key="borrar" header="Atención" service \/>$/);
+    assert.match(out, /TODO\(caribeng\): icon="pi pi-exclamation-triangle" — las confirmaciones de CaribeNG no tienen iconos/);
+    assert.match(out, /TODO\(caribeng\): \[closeOnEscape\]="false" — cb-confirm-dialog siempre se cancela con Escape/);
+  });
+
+  it('plantillas personalizadas: aviso', () => {
+    assert.match(text(`<p-confirmdialog><ng-template #message let-m>{{ m.message }}</ng-template></p-confirmdialog>`), /TODO\(caribeng\): las confirmaciones de CaribeNG no admiten plantillas/);
+  });
+});
+
 describe('plantillas: iconos sueltos', () => {
   it('<i class="pi pi-…"> → <cb-icon>', () => {
     assert.equal(text(`<i class="pi pi-search"></i>`), `<cb-icon name="search" />`);

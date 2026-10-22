@@ -130,8 +130,12 @@ export interface ComponentMapping {
   readonly entry: string;
   /** Símbolo que importa un componente cuando su plantilla usa el tag o la directiva CaribeNG. */
   readonly symbol: string;
-  /** Módulo PrimeNG → (símbolo PrimeNG → símbolo CaribeNG). */
-  readonly modules: Readonly<Record<string, Readonly<Record<string, string>>>>;
+  /**
+   * Módulo PrimeNG → (símbolo PrimeNG → símbolo CaribeNG). El símbolo se
+   * importa de `entry`, salvo que indique el suyo (`{ name, entry }`), p. ej.
+   * un servicio del entry point primario `@caribeng/ui`.
+   */
+  readonly modules: Readonly<Record<string, Readonly<Record<string, string | { readonly name: string; readonly entry: string }>>>>;
   /** Selectores que se traducen en las plantillas. */
   readonly elements: readonly ElementMapping[];
   /** Directivas de atributo que se traducen sin cambiar el elemento. */

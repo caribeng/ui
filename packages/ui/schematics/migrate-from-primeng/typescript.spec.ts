@@ -136,9 +136,77 @@ describe('typescript: MessageService → CbToastService', () => {
 
   it('providers con otros servicios: solo quita CbToastService', () => {
     const out = rewrite(
-      ["import { MessageService, ConfirmationService } from 'primeng/api';", 'export const c = { providers: [MessageService, ConfirmationService] };'].join('\n'),
+      ["import { MessageService, FilterService } from 'primeng/api';", 'export const c = { providers: [MessageService, FilterService] };'].join('\n'),
     );
-    assert.match(out, /providers: \[ConfirmationService\]/);
+    assert.match(out, /providers: \[FilterService\]/);
+    assert.match(out, /import \{ FilterService \} from 'primeng\/api';/);
+  });
+});
+
+describe('typescript: ConfirmationService → CbConfirmationService', () => {
+  const component = (body: string) =>
+    [
+      "import { Component, inject } from '@angular/core';",
+      "import { ConfirmationService } from 'primeng/api';",
+      "import { ConfirmDialogModule } from 'primeng/confirmdialog';",
+      '',
+      '@Component({',
+      "  selector: 'app-x',",
+      '  imports: [ConfirmDialogModule],',
+      '  providers: [ConfirmationService],',
+      "  template: '<p-confirmdialog />',",
+      '})',
+      'export class X {',
+      '  private readonly confirmation = inject(ConfirmationService);',
+      body,
+      '}',
+    ].join('\n');
+
+  it('importa el servicio del entry point primario y lo quita de providers', () => {
+    const out = rewrite(component(''));
+    assert.match(out, /^import \{ CbConfirmationService \} from '@caribeng\/ui';$/m);
+    assert.match(out, /^import \{ CbConfirmDialog \} from '@caribeng\/ui\/confirmdialog';$/m);
+    assert.match(out, /providers: \[\],/);
+    assert.match(out, /inject\(CbConfirmationService\)/);
+    assert.doesNotMatch(out, /primeng/);
+  });
+
+  it('acceptButtonProps → acceptSeverity/acceptLabel; conserva message, header, accept y target', () => {
+    const out = rewrite(
+      component(
+        [
+          '  borrar(event: Event, id: number) {',
+          '    this.confirmation.confirm({',
+          '      target: event.target as EventTarget,',
+          "      message: '¿Eliminar?',",
+          "      header: 'Confirmar',",
+          "      acceptButtonProps: { severity: 'danger', label: 'Eliminar' },",
+          "      rejectButtonProps: { label: 'Cancelar', severity: 'secondary', outlined: true },",
+          '      accept: () => this.eliminar(id),',
+          '    });',
+          '  }',
+        ].join('\n'),
+      ),
+    );
+    assert.match(
+      out,
+      /this\.confirmation\.confirm\(\{\n      target: event\.target as EventTarget,\n      message: '¿Eliminar\?',\n      header: 'Confirmar',\n      acceptLabel: 'Eliminar',\n      rejectLabel: 'Cancelar',\n      accept: \(\) => this\.eliminar\(id\),\n      acceptSeverity: 'danger',\n    \}\)/,
+    );
+    assert.match(out, /\/\* TODO\(caribeng\): rejectButtonProps\.severity: 'secondary', rejectButtonProps\.outlined: true — CbConfirmationService no tiene estas opciones/);
+  });
+
+  it("acceptButtonStyleClass 'p-button-danger' (PrimeNG ≤ 17) → acceptSeverity; icon con aviso", () => {
+    const out = rewrite(
+      component("  ok() { this.confirmation.confirm({ message: '¿Seguro?', icon: 'pi pi-exclamation-triangle', acceptButtonStyleClass: 'p-button-danger p-button-text' }); }"),
+    );
+    assert.match(out, /this\.confirmation\.confirm\(\{ message: '¿Seguro\?', acceptSeverity: 'danger' \}\)/);
+    assert.match(out, /TODO\(caribeng\): icon: 'pi pi-exclamation-triangle' — /);
+  });
+
+  it('una confirmación sin cambios no se toca', () => {
+    const out = rewrite(component("  ok() { this.confirmation.confirm({ message: 'Hola', accept: () => {} }); }"));
+    assert.match(out, /this\.confirmation\.confirm\(\{ message: 'Hola', accept: \(\) => \{\} \}\)/);
+    assert.doesNotMatch(out, /TODO/);
   });
 });
 
