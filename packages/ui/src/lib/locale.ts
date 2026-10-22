@@ -29,6 +29,15 @@ export interface CbTranslation {
   copied: string;
   copyFailed: string;
   qrCode: string;
+  commandPalette: string;
+  commandPlaceholder: string;
+  /** `{0}`: cantidad. */
+  commandResults: string;
+  commandNavigate: string;
+  commandSelect: string;
+  expandSidebar: string;
+  collapseSidebar: string;
+  openMenu: string;
   add: string;
   onThisPage: string;
   trendUp: string;
@@ -465,6 +474,14 @@ export const CB_LOCALE_ES: CbTranslation = {
   copied: 'Copiado',
   copyFailed: 'No se pudo copiar',
   qrCode: 'Código QR',
+  commandPalette: 'Paleta de comandos',
+  commandPlaceholder: 'Busca una página o acción…',
+  commandResults: '{0} resultados',
+  commandNavigate: 'navegar',
+  commandSelect: 'elegir',
+  expandSidebar: 'Expandir menú lateral',
+  collapseSidebar: 'Contraer menú lateral',
+  openMenu: 'Abrir menú',
   add: 'Agregar',
   onThisPage: 'En esta página',
   trendUp: 'aumenta',
@@ -846,6 +863,14 @@ export const CB_LOCALE_EN: CbTranslation = {
   copied: 'Copied',
   copyFailed: 'Could not copy',
   qrCode: 'QR code',
+  commandPalette: 'Command palette',
+  commandPlaceholder: 'Search for a page or action…',
+  commandResults: '{0} results',
+  commandNavigate: 'navigate',
+  commandSelect: 'select',
+  expandSidebar: 'Expand sidebar',
+  collapseSidebar: 'Collapse sidebar',
+  openMenu: 'Open menu',
   add: 'Add',
   onThisPage: 'On this page',
   trendUp: 'up',

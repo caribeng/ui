@@ -554,6 +554,32 @@ export const DOC_A11Y: Record<string, DocA11y> = {
       'Es una imagen (`role="img"`) con nombre "Código QR" o `ariaLabel`. El lector no puede leer el contenido: si importa, muéstralo también como texto o enlace junto al QR.',
     ],
   },
+  'cb-command-palette': {
+    screenReader: [
+      'Es un diálogo modal (`role="dialog"`, `aria-modal`) con un campo `role="combobox"` que controla la lista (`role="listbox"`); la opción activa se indica con `aria-activedescendant`, así el foco no sale del campo.',
+      'Los grupos son `role="group"` con su título; los items deshabilitados llevan `aria-disabled`. El número de resultados se anuncia en una región `role="status"`.',
+      'Al cerrar, el foco vuelve al elemento que lo tenía antes de abrir.',
+    ],
+    keyboard: [
+      { keys: 'Ctrl + K / ⌘ K', action: 'Abre o cierra la paleta (configurable con shortcut).' },
+      { keys: 'Flecha abajo / arriba', action: 'Mueve la opción activa (salta las deshabilitadas y da la vuelta).' },
+      { keys: 'Ctrl + Inicio / Fin', action: 'Primera o última opción.' },
+      { keys: 'Enter', action: 'Elige la opción activa.' },
+      { keys: 'Escape', action: 'Cierra la paleta.' },
+    ],
+  },
+  'cb-sidebar': {
+    screenReader: [
+      'Es un `nav` con nombre ("Navegación principal"); cada sección es una lista nombrada por su título. El item activo lleva `aria-current="page"`.',
+      'Los grupos con hijos son botones con `aria-expanded` y `aria-controls`. Contraído, el texto se oculta a la vista pero sigue siendo el nombre accesible, y aparece como tooltip.',
+      'En `cb-app-shell` móvil el panel está `inert` mientras está cerrado; abierto, atrapa el foco, se cierra con Escape o con el fondo y devuelve el foco al botón `cbSidebarToggle` (que gestiona `aria-expanded` y `aria-controls`).',
+    ],
+    keyboard: [
+      { keys: 'Tab', action: 'Recorre los enlaces y botones del menú.' },
+      { keys: 'Enter / Espacio', action: 'Abre el enlace o despliega el grupo.' },
+      { keys: 'Escape', action: 'En móvil, cierra el panel.' },
+    ],
+  },
   'cb-descriptions': {
     screenReader: [
       'Usa una lista de descripción nativa (`dl`, `dt`, `dd`), así cada valor se lee junto a su etiqueta. El título es un encabezado (`headingLevel`) que nombra la lista.',

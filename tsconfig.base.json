@@ -243,6 +243,12 @@
       "@caribeng/ui/empty": [
         "./packages/ui/empty/src/public-api.ts"
       ],
+      "@caribeng/ui/command-palette": [
+        "./packages/ui/command-palette/src/public-api.ts"
+      ],
+      "@caribeng/ui/sidebar": [
+        "./packages/ui/sidebar/src/public-api.ts"
+      ],
       "@caribeng/ui/copy-button": [
         "./packages/ui/copy-button/src/public-api.ts"
       ],

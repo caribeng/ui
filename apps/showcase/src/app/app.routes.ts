@@ -63,6 +63,8 @@ import { TableDocComponent } from './pages/table-doc.component';
 import { ThemetoggleDocComponent } from './pages/themetoggle-doc.component';
 import { SplitbuttonDocComponent } from './pages/splitbutton-doc.component';
 import { CopyButtonDocComponent } from './pages/copy-button-doc.component';
+import { CommandPaletteDocComponent } from './pages/command-palette-doc.component';
+import { SidebarDocComponent } from './pages/sidebar-doc.component';
 import { KbdDocComponent } from './pages/kbd-doc.component';
 import { QrcodeDocComponent } from './pages/qrcode-doc.component';
 import { EmptyDocComponent } from './pages/empty-doc.component';
@@ -169,6 +171,8 @@ export const routes: Routes = [
   { path: 'components/themetoggle', component: ThemetoggleDocComponent, title: 'ThemeToggle · CaribeNG' },
   { path: 'components/splitbutton', component: SplitbuttonDocComponent, title: 'SplitButton · CaribeNG' },
   { path: 'components/copy-button', component: CopyButtonDocComponent, title: 'CopyButton · CaribeNG' },
+  { path: 'components/command-palette', component: CommandPaletteDocComponent, title: 'CommandPalette · CaribeNG' },
+  { path: 'components/sidebar', component: SidebarDocComponent, title: 'Sidebar · CaribeNG' },
   { path: 'components/kbd', component: KbdDocComponent, title: 'Kbd · CaribeNG' },
   { path: 'components/qrcode', component: QrcodeDocComponent, title: 'QRCode · CaribeNG' },
   { path: 'components/empty', component: EmptyDocComponent, title: 'Empty · CaribeNG' },

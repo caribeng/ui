@@ -12,6 +12,10 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
         "items": [
           {
             "component": "Componentes nuevos",
+            "text": "`CommandPalette` (Ctrl/⌘ + K: buscador global de páginas y acciones con grupos, sinónimos, atajos con `cb-kbd`, resaltado, filtro sin tildes, items deshabilitados y modo servidor con `[filter]=\"false\"` + `loading`; combobox con `aria-activedescendant` y foco devuelto al cerrar), `Sidebar` (secciones, badges, grupos desplegables, modo contraído con tooltip, `aria-current` y navegación SPA con `[navigate]`) y `AppShell` (esqueleto sidebar + cabecera + contenido que, por debajo de `breakpoint` medido en el propio shell, convierte el menú en panel deslizante con fondo, `inert`, foco atrapado y Escape; directiva `cbSidebarToggle`). 157 entry points. Textos nuevos en el idioma: `commandPalette`, `commandPlaceholder`, `commandResults`, `commandNavigate`, `commandSelect`, `expandSidebar`, `collapseSidebar` y `openMenu`."
+          },
+          {
+            "component": "Componentes nuevos",
             "text": "`Kbd` (teclas y atajos; `[keys]=\"['mod', 'K']\"` muestra ⌘ K en Mac y Ctrl + K en el resto, con el nombre de los símbolos para lectores de pantalla), `CopyButton` (copia al portapapeles con confirmación ✓ anunciada en `role=\"status\"`; incluye la directiva `cbCopy` y el servicio `CbClipboard` con alternativa para navegadores sin API de portapapeles) y `QRCode` (QR en SVG con codificador propio sin dependencias: modos numérico, alfanumérico y UTF-8, versiones 1–40, niveles L/M/Q/H, máscara automática, color, margen, logo centrado y `toSvg()`; `cbQrEncode()` exportado para otros usos). 155 entry points. Textos nuevos en el idioma: `copy`, `copied`, `copyFailed` y `qrCode`."
           },
           {

@@ -125,6 +125,8 @@ import { CbThemeToggle } from '@caribeng/ui/themetoggle';
 import { CbStatistic } from '@caribeng/ui/statistic';
 import { CbEmpty } from '@caribeng/ui/empty';
 import { CbCopyButton } from '@caribeng/ui/copy-button';
+import { CbCommandPalette } from '@caribeng/ui/command-palette';
+import { CbSidebar } from '@caribeng/ui/sidebar';
 import { CbKbd } from '@caribeng/ui/kbd';
 import { CbQrcode } from '@caribeng/ui/qrcode';
 import { CbDescriptions } from '@caribeng/ui/descriptions';
@@ -1665,6 +1667,40 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "margin", kind: "number", type: "number", default: 4, description: "Margen claro en módulos (el estándar pide 4)." },
       { name: "image", kind: "string", type: "string", default: "", description: "Logo centrado (URL)." },
       { name: "ariaLabel", kind: "string", type: "string", default: undefined, localeKey: "qrCode", description: "Nombre accesible." }
+    ]
+  },
+  "cb-command-palette": {
+    component: CbCommandPalette,
+    selector: "cb-command-palette",
+    props: [
+      { name: "items", kind: "string", type: "readonly CbCommandItem[]", default: [], example: [{ label: 'Home', icon: 'house', group: 'Pages' }, { label: 'Settings', icon: 'settings', group: 'Pages', keywords: ['preferences'] }, { label: 'New transfer', icon: 'arrow-right-left', group: 'Actions', shortcut: ['mod', 'T'] }, { label: 'Download statement', icon: 'download', group: 'Actions' }], description: "Páginas y acciones (label, group, icon, description, keywords, shortcut, disabled, command).", control: false },
+      { name: "visible", kind: "boolean", type: "boolean (model)", default: false, description: "Abierta o cerrada (two-way)." },
+      { name: "query", kind: "string", type: "string (model)", default: "", description: "Texto buscado (two-way)." },
+      { name: "shortcut", kind: "string", type: "string", default: "mod+k", example: "", description: "Atajo global que la abre; '' lo desactiva." },
+      { name: "placeholder", kind: "string", type: "string", default: undefined, localeKey: "commandPlaceholder", description: "Texto del campo de búsqueda." },
+      { name: "emptyMessage", kind: "string", type: "string", default: undefined, localeKey: "noResults", description: "Mensaje sin resultados." },
+      { name: "filter", kind: "boolean", type: "boolean", default: true, description: "Filtra items con la búsqueda (desactívalo con resultados del servidor)." },
+      { name: "loading", kind: "boolean", type: "boolean", default: false, description: "Muestra Cargando mientras no hay resultados." },
+      { name: "closeOnSelect", kind: "boolean", type: "boolean", default: true, description: "Cierra al elegir un item." },
+      { name: "ariaLabel", kind: "string", type: "string", default: undefined, localeKey: "commandPalette", description: "Nombre del diálogo." }
+    ],
+    events: [
+      { name: "itemSelect", type: "CbCommandSelectEvent", description: "Item elegido ({ item, query, originalEvent })." }
+    ]
+  },
+  "cb-sidebar": {
+    component: CbSidebar,
+    selector: "cb-sidebar",
+    props: [
+      { name: "groups", kind: "string", type: "readonly CbSidebarGroup[]", default: [], example: [{ label: 'General', items: [{ id: 'home', label: 'Home', icon: 'house' }, { id: 'clients', label: 'Clients', icon: 'user', badge: 3 }, { id: 'settings', label: 'Settings', icon: 'settings', children: [{ id: 'profile', label: 'Profile' }, { id: 'security', label: 'Security' }] }] }], description: "Secciones con items (label, icon, url, badge, children, disabled, command).", control: false },
+      { name: "active", kind: "string", type: "string | null (model)", default: null, example: "home", description: "Clave del item activo (id, url o label)." },
+      { name: "collapsed", kind: "boolean", type: "boolean (model)", default: false, description: "Contraído a iconos (en cb-app-shell lo controla el shell)." },
+      { name: "collapsible", kind: "boolean", type: "boolean", default: true, description: "Botón de contraer en el pie." },
+      { name: "ariaLabel", kind: "string", type: "string", default: undefined, localeKey: "mainNavigation", description: "Nombre de la navegación." },
+      { name: "navigate", kind: "string", type: "((url: string) => unknown) | null", default: null, description: "Navegación SPA para los enlaces internos.", control: false }
+    ],
+    events: [
+      { name: "itemSelect", type: "CbSidebarSelectEvent", description: "Item elegido ({ item, originalEvent })." }
     ]
   },
   "cb-descriptions": {

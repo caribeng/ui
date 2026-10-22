@@ -2470,4 +2470,58 @@ export const ES_EN: Record<string, string> = {
   'Logo centrado (URL).': 'Centered logo (URL).',
   'Es una imagen (`role="img"`) con nombre "Código QR" o `ariaLabel`. El lector no puede leer el contenido: si importa, muéstralo también como texto o enlace junto al QR.':
     'It is an image (`role="img"`) named "QR code" or `ariaLabel`. Screen readers cannot read its content: if it matters, also show it as text or a link next to the QR.',
+  // --- Componentes nuevos: CommandPalette, Sidebar y AppShell ---
+  'Buscador global de páginas y acciones con teclado (Ctrl/⌘ + K). Filtra sin tildes ni mayúsculas, agrupa, resalta la coincidencia y muestra atajos.':
+    'Global keyboard search for pages and actions (Ctrl/⌘ + K). Filters ignoring accents and case, groups, highlights the match and shows shortcuts.',
+  'Pulsa Ctrl + K (⌘ K en Mac) en cualquier parte de esta página, o usa el botón. Cada item puede tener group, icon, description, keywords (sinónimos), shortcut y command.':
+    'Press Ctrl + K (⌘ K on Mac) anywhere on this page, or use the button. Each item can have group, icon, description, keywords (synonyms), shortcut and command.',
+  'Resultados del servidor': 'Server results',
+  'Con [filter]="false" la paleta no filtra: escucha (queryChange) o [(query)], pide los resultados y actívalo con loading mientras llegan. shortcut cambia o desactiva ("") el atajo.':
+    'With [filter]="false" the palette does not filter: listen to (queryChange) or [(query)], fetch the results and set loading while they arrive. shortcut changes or disables ("") the shortcut.',
+  'Páginas y acciones (label, group, icon, description, keywords, shortcut, disabled, command).':
+    'Pages and actions (label, group, icon, description, keywords, shortcut, disabled, command).',
+  'Abierta o cerrada (two-way).': 'Open or closed (two-way).',
+  'Texto buscado (two-way).': 'Search text (two-way).',
+  "Atajo global que la abre; '' lo desactiva.": "Global shortcut that opens it; '' disables it.",
+  'Texto del campo de búsqueda.': 'Search field text.',
+  'Mensaje sin resultados.': 'Message when there are no results.',
+  'Filtra items con la búsqueda (desactívalo con resultados del servidor).': 'Filters items with the search (disable it for server results).',
+  'Muestra Cargando mientras no hay resultados.': 'Shows Loading while there are no results.',
+  'Cierra al elegir un item.': 'Closes when an item is chosen.',
+  'Nombre del diálogo.': 'Dialog name.',
+  'Item elegido ({ item, query, originalEvent }).': 'Chosen item ({ item, query, originalEvent }).',
+  'Es un diálogo modal (`role="dialog"`, `aria-modal`) con un campo `role="combobox"` que controla la lista (`role="listbox"`); la opción activa se indica con `aria-activedescendant`, así el foco no sale del campo.':
+    'It is a modal dialog (`role="dialog"`, `aria-modal`) with a `role="combobox"` field that controls the list (`role="listbox"`); the active option is set with `aria-activedescendant`, so focus never leaves the field.',
+  'Los grupos son `role="group"` con su título; los items deshabilitados llevan `aria-disabled`. El número de resultados se anuncia en una región `role="status"`.':
+    'Groups are `role="group"` with their title; disabled items have `aria-disabled`. The number of results is announced in a `role="status"` region.',
+  'Al cerrar, el foco vuelve al elemento que lo tenía antes de abrir.': 'On close, focus returns to the element that had it before opening.',
+  'Abre o cierra la paleta (configurable con shortcut).': 'Opens or closes the palette (configurable with shortcut).',
+  'Mueve la opción activa (salta las deshabilitadas y da la vuelta).': 'Moves the active option (skips disabled ones and wraps around).',
+  'Primera o última opción.': 'First or last option.',
+  'Elige la opción activa.': 'Chooses the active option.',
+  'Cierra la paleta.': 'Closes the palette.',
+  'Sidebar y AppShell': 'Sidebar and AppShell',
+  'Menú lateral con secciones, badges y grupos desplegables, que se contrae a iconos. Con cb-app-shell forma el esqueleto de una aplicación y en móvil pasa a ser un panel deslizante.':
+    'Side menu with sections, badges and collapsible groups that collapses to icons. With cb-app-shell it forms the skeleton of an application and becomes a sliding panel on mobile.',
+  'App shell': 'App shell',
+  'cb-app-shell coloca el sidebar, la cabecera [cb-app-shell-header] y el contenido. cbSidebarToggle convierte cualquier botón en el control del menú. Por debajo de breakpoint (medido en el propio shell) el menú se desliza sobre el contenido.':
+    'cb-app-shell lays out the sidebar, the [cb-app-shell-header] header and the content. cbSidebarToggle turns any button into the menu control. Below breakpoint (measured on the shell itself) the menu slides over the content.',
+  'Solo el sidebar': 'Sidebar only',
+  'Fuera del shell, [(collapsed)] controla el modo contraído. Los enlaces usan href; pasa [navigate] para navegar con el router sin recargar.':
+    'Outside the shell, [(collapsed)] controls the collapsed mode. Links use href; pass [navigate] to navigate with the router without reloading.',
+  'Secciones con items (label, icon, url, badge, children, disabled, command).': 'Sections with items (label, icon, url, badge, children, disabled, command).',
+  'Clave del item activo (id, url o label).': 'Key of the active item (id, url or label).',
+  'Contraído a iconos (en cb-app-shell lo controla el shell).': 'Collapsed to icons (inside cb-app-shell the shell controls it).',
+  'Botón de contraer en el pie.': 'Collapse button in the footer.',
+  'Navegación SPA para los enlaces internos.': 'SPA navigation for internal links.',
+  'Item elegido ({ item, originalEvent }).': 'Chosen item ({ item, originalEvent }).',
+  'Es un `nav` con nombre ("Navegación principal"); cada sección es una lista nombrada por su título. El item activo lleva `aria-current="page"`.':
+    'It is a named `nav` ("Main navigation"); each section is a list named by its title. The active item has `aria-current="page"`.',
+  'Los grupos con hijos son botones con `aria-expanded` y `aria-controls`. Contraído, el texto se oculta a la vista pero sigue siendo el nombre accesible, y aparece como tooltip.':
+    'Groups with children are buttons with `aria-expanded` and `aria-controls`. When collapsed, the text is visually hidden but remains the accessible name, and appears as a tooltip.',
+  'En `cb-app-shell` móvil el panel está `inert` mientras está cerrado; abierto, atrapa el foco, se cierra con Escape o con el fondo y devuelve el foco al botón `cbSidebarToggle` (que gestiona `aria-expanded` y `aria-controls`).':
+    'In a mobile `cb-app-shell` the panel is `inert` while closed; when open it traps focus, closes with Escape or the backdrop and returns focus to the `cbSidebarToggle` button (which manages `aria-expanded` and `aria-controls`).',
+  'Recorre los enlaces y botones del menú.': 'Moves through the menu links and buttons.',
+  'Abre el enlace o despliega el grupo.': 'Opens the link or expands the group.',
+  'En móvil, cierra el panel.': 'On mobile, closes the panel.',
 };

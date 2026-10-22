@@ -122,6 +122,7 @@ export const NAV_MENU: NavItem[] = [
       {
         label: 'Overlay',
         children: [
+          { label: 'CommandPalette', route: '/components/command-palette', badge: 'NEW' },
           { label: 'ConfirmDialog', route: '/components/confirmdialog' },
           { label: 'ConfirmPopup', route: '/components/confirmpopup' },
           { label: 'Dialog', route: '/components/dialog' },
@@ -150,6 +151,7 @@ export const NAV_MENU: NavItem[] = [
           { label: 'Menu', route: '/components/menu' },
           { label: 'Menubar', route: '/components/menubar' },
           { label: 'PanelMenu', route: '/components/panelmenu' },
+          { label: 'Sidebar / AppShell', route: '/components/sidebar', badge: 'NEW' },
           { label: 'Steps', route: '/components/steps' },
           { label: 'TabMenu', route: '/components/tabmenu' },
           { label: 'TieredMenu', route: '/components/tieredmenu' },

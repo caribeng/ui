@@ -1,0 +1,67 @@
+:host {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+  background: var(--cb-color-bg, var(--cb-color-surface-raised));
+  color: var(--cb-color-text);
+  font-family: var(--cb-font-sans);
+}
+
+.cb-app-shell__sidebar {
+  height: 100%;
+  min-height: 0;
+}
+
+.cb-app-shell__main {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+}
+
+.cb-app-shell__content {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+}
+
+/* Móvil: el sidebar sale por la izquierda sobre el contenido. */
+:host(.cb-app-shell--mobile) {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+:host(.cb-app-shell--mobile) .cb-app-shell__sidebar {
+  position: absolute;
+  inset-block: 0;
+  left: 0;
+  z-index: 20;
+  max-width: calc(100% - 3rem);
+  transform: translateX(-100%);
+  visibility: hidden;
+  transition:
+    transform var(--cb-duration-normal, 200ms) ease,
+    visibility 0s linear var(--cb-duration-normal, 200ms);
+}
+
+:host(.cb-app-shell--open) .cb-app-shell__sidebar {
+  transform: none;
+  visibility: visible;
+  box-shadow: var(--cb-shadow-lg);
+  transition: transform var(--cb-duration-normal, 200ms) ease;
+}
+
+.cb-app-shell__backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 15;
+  background: var(--cb-color-overlay, rgb(2 6 23 / 0.5));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :host(.cb-app-shell--mobile) .cb-app-shell__sidebar {
+    transition: none;
+  }
+}
