@@ -243,6 +243,9 @@
       "@caribeng/ui/empty": [
         "./packages/ui/empty/src/public-api.ts"
       ],
+      "@caribeng/ui/chat": [
+        "./packages/ui/chat/src/public-api.ts"
+      ],
       "@caribeng/ui/command-palette": [
         "./packages/ui/command-palette/src/public-api.ts"
       ],

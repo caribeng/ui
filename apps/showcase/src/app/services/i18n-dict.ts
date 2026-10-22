@@ -2524,4 +2524,42 @@ export const ES_EN: Record<string, string> = {
   'Recorre los enlaces y botones del menú.': 'Moves through the menu links and buttons.',
   'Abre el enlace o despliega el grupo.': 'Opens the link or expands the group.',
   'En móvil, cierra el panel.': 'On mobile, closes the panel.',
+  // --- Kit de chat (IA) ---
+  'Chat (IA)': 'Chat (AI)',
+  'Kit para interfaces de chat y asistentes de IA: mensajes con markdown seguro y streaming, lista que sigue la conversación y campo de prompt con adjuntos, sugerencias y Detener.':
+    'Kit for chat interfaces and AI assistants: messages with safe markdown and streaming, a list that follows the conversation and a prompt field with attachments, suggestions and Stop.',
+  'Asistente completo': 'Full assistant',
+  'cb-chat-messages + cb-chat-message + cb-chat-input. La respuesta llega palabra a palabra (streaming): pulsa Detener para cortarla. Escribe la palabra error para ver un mensaje fallido con Reintentar.':
+    'cb-chat-messages + cb-chat-message + cb-chat-input. The answer arrives word by word (streaming): press Stop to cut it. Type the word error to see a failed message with Retry.',
+  'Markdown seguro': 'Safe markdown',
+  'text se interpreta como markdown: negrita, cursiva, código, enlaces, listas (también de tareas), citas, tablas y bloques de código con lenguaje. Todo el HTML de entrada se escapa y solo se enlazan URLs http(s), mailto o relativas. Con markdown="false" se muestra tal cual.':
+    'text is interpreted as markdown: bold, italics, code, links, lists (including task lists), quotes, tables and code blocks with a language. All incoming HTML is escaped and only http(s), mailto or relative URLs become links. With markdown="false" it is shown as is.',
+  'cb-chat-input y cb-chat-messages': 'cb-chat-input and cb-chat-messages',
+  'Entradas y eventos de las otras dos piezas del kit. El playground de abajo es el de cb-chat-message.':
+    'Inputs and events of the other two pieces of the kit. The playground below is for cb-chat-message.',
+  'Quién escribe el mensaje.': 'Who writes the message.',
+  'Contenido (markdown seguro).': 'Content (safe markdown).',
+  'Interpreta text como markdown.': 'Interprets text as markdown.',
+  'Nombre del autor.': 'Author name.',
+  'Hora ya formateada.': 'Already formatted time.',
+  'Imagen del avatar.': 'Avatar image.',
+  'Muestra el avatar.': 'Shows the avatar.',
+  'Muestra el nombre del autor.': 'Shows the author name.',
+  'Estado de envío; error muestra Reintentar.': 'Sending status; error shows Retry.',
+  'La respuesta sigue llegando (cursor y aria-busy).': 'The answer is still arriving (caret and aria-busy).',
+  'Botón para copiar el texto.': 'Button to copy the text.',
+  'Se pulsó Reintentar.': 'Retry was pressed.',
+  'La conversación es un `role="log"` con nombre ("Conversación"): los lectores anuncian los mensajes nuevos sin mover el foco.':
+    'The conversation is a named `role="log"` ("Conversation"): screen readers announce new messages without moving focus.',
+  'Mientras se genera una respuesta (`busy`, y `streaming` en el mensaje) se marca `aria-busy` para que no se lea cada fragmento; al terminar se anuncia "Respuesta lista" una sola vez.':
+    'While an answer is generated (`busy`, and `streaming` on the message) it is marked `aria-busy` so each chunk is not read; when done "Response ready" is announced once.',
+  'Cada mensaje es un `article` nombrado por su autor y hora. El markdown se pinta con etiquetas semánticas (listas, tablas, código) y los enlaces externos se abren en otra pestaña con `rel="noopener"`.':
+    'Each message is an `article` named by its author and time. Markdown is rendered with semantic tags (lists, tables, code) and external links open in a new tab with `rel="noopener"`.',
+  'El campo de prompt tiene nombre ("Mensaje"); Enviar, Detener, Adjuntar y Quitar archivo son botones con nombre accesible. Los estados de envío y error se muestran como texto, no solo con color.':
+    'The prompt field is named ("Message"); Send, Stop, Attach and Remove file are buttons with accessible names. Sending and error states are shown as text, not only with color.',
+  'Envía el mensaje (Shift + Enter, salto de línea; no envía durante la composición IME).':
+    'Sends the message (Shift + Enter, line break; does not send during IME composition).',
+  'Recorre sugerencias, adjuntar, el campo y Enviar o Detener.': 'Moves through suggestions, attach, the field and Send or Stop.',
+  'Tab (en la lista)': 'Tab (in the list)',
+  'La conversación es enfocable y se desplaza con las flechas.': 'The conversation is focusable and scrolls with the arrow keys.',
 };

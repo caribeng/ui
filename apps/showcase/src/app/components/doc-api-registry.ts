@@ -125,6 +125,7 @@ import { CbThemeToggle } from '@caribeng/ui/themetoggle';
 import { CbStatistic } from '@caribeng/ui/statistic';
 import { CbEmpty } from '@caribeng/ui/empty';
 import { CbCopyButton } from '@caribeng/ui/copy-button';
+import { CbChatMessage } from '@caribeng/ui/chat';
 import { CbCommandPalette } from '@caribeng/ui/command-palette';
 import { CbSidebar } from '@caribeng/ui/sidebar';
 import { CbKbd } from '@caribeng/ui/kbd';
@@ -1701,6 +1702,26 @@ export const DOC_API: Record<string, DocApi> = {
     ],
     events: [
       { name: "itemSelect", type: "CbSidebarSelectEvent", description: "Item elegido ({ item, originalEvent })." }
+    ]
+  },
+  "cb-chat-message": {
+    component: CbChatMessage,
+    selector: "cb-chat-message",
+    props: [
+      { name: "role", kind: "enum", type: "'user' | 'assistant' | 'system'", options: ["assistant", "user", "system"], default: "assistant", description: "Quién escribe el mensaje." },
+      { name: "text", kind: "string", type: "string", default: "", example: "Your balance is **$ 4,250**. See [statement](/statements).", description: "Contenido (markdown seguro)." },
+      { name: "markdown", kind: "boolean", type: "boolean", default: true, description: "Interpreta text como markdown." },
+      { name: "author", kind: "string", type: "string", default: undefined, localeKey: "chatAssistant", description: "Nombre del autor." },
+      { name: "time", kind: "string", type: "string", default: "", example: "10:30", description: "Hora ya formateada." },
+      { name: "avatar", kind: "string", type: "string", default: "", description: "Imagen del avatar." },
+      { name: "showAvatar", kind: "boolean", type: "boolean", default: true, description: "Muestra el avatar." },
+      { name: "showAuthor", kind: "boolean", type: "boolean", default: false, description: "Muestra el nombre del autor." },
+      { name: "status", kind: "enum", type: "'sending' | 'sent' | 'error'", options: ["sent", "sending", "error"], default: undefined, description: "Estado de envío; error muestra Reintentar." },
+      { name: "streaming", kind: "boolean", type: "boolean", default: false, description: "La respuesta sigue llegando (cursor y aria-busy)." },
+      { name: "copyable", kind: "boolean", type: "boolean", default: false, description: "Botón para copiar el texto." }
+    ],
+    events: [
+      { name: "retry", type: "void", description: "Se pulsó Reintentar." }
     ]
   },
   "cb-descriptions": {

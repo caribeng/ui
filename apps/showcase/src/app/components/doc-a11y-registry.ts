@@ -580,6 +580,19 @@ export const DOC_A11Y: Record<string, DocA11y> = {
       { keys: 'Escape', action: 'En móvil, cierra el panel.' },
     ],
   },
+  'cb-chat': {
+    screenReader: [
+      'La conversación es un `role="log"` con nombre ("Conversación"): los lectores anuncian los mensajes nuevos sin mover el foco.',
+      'Mientras se genera una respuesta (`busy`, y `streaming` en el mensaje) se marca `aria-busy` para que no se lea cada fragmento; al terminar se anuncia "Respuesta lista" una sola vez.',
+      'Cada mensaje es un `article` nombrado por su autor y hora. El markdown se pinta con etiquetas semánticas (listas, tablas, código) y los enlaces externos se abren en otra pestaña con `rel="noopener"`.',
+      'El campo de prompt tiene nombre ("Mensaje"); Enviar, Detener, Adjuntar y Quitar archivo son botones con nombre accesible. Los estados de envío y error se muestran como texto, no solo con color.',
+    ],
+    keyboard: [
+      { keys: 'Enter', action: 'Envía el mensaje (Shift + Enter, salto de línea; no envía durante la composición IME).' },
+      { keys: 'Tab', action: 'Recorre sugerencias, adjuntar, el campo y Enviar o Detener.' },
+      { keys: 'Tab (en la lista)', action: 'La conversación es enfocable y se desplaza con las flechas.' },
+    ],
+  },
   'cb-descriptions': {
     screenReader: [
       'Usa una lista de descripción nativa (`dl`, `dt`, `dd`), así cada valor se lee junto a su etiqueta. El título es un encabezado (`headingLevel`) que nombra la lista.',

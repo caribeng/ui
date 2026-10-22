@@ -11,6 +11,10 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
         "type": "added",
         "items": [
           {
+            "component": "Chat (IA)",
+            "text": "`@caribeng/ui/chat` con `cb-chat-message` (burbuja de usuario, asistente o sistema con autor, hora, avatar, estado de envío con Reintentar, botón de copiar y cursor de streaming), `cb-chat-messages` (`role=\"log\"` que sigue la conversación sin forzar el scroll si el usuario subió, botón \"Ir al último mensaje\", indicador de escritura y `aria-busy` mientras se genera, con un único aviso \"Respuesta lista\") y `cb-chat-input` (prompt que crece con el texto, Enter envía respetando IME, adjuntos con botón, pegar o arrastrar y filtro `accept`, sugerencias, contador y Detener). `cbMarkdownToHtml()` propio y seguro: escapa todo el HTML de entrada, solo enlaza http(s)/mailto/relativas y tolera markdown incompleto en streaming (listas, tareas, tablas, citas y código con lenguaje). 158 entry points."
+          },
+          {
             "component": "Componentes nuevos",
             "text": "`CommandPalette` (Ctrl/⌘ + K: buscador global de páginas y acciones con grupos, sinónimos, atajos con `cb-kbd`, resaltado, filtro sin tildes, items deshabilitados y modo servidor con `[filter]=\"false\"` + `loading`; combobox con `aria-activedescendant` y foco devuelto al cerrar), `Sidebar` (secciones, badges, grupos desplegables, modo contraído con tooltip, `aria-current` y navegación SPA con `[navigate]`) y `AppShell` (esqueleto sidebar + cabecera + contenido que, por debajo de `breakpoint` medido en el propio shell, convierte el menú en panel deslizante con fondo, `inert`, foco atrapado y Escape; directiva `cbSidebarToggle`). 157 entry points. Textos nuevos en el idioma: `commandPalette`, `commandPlaceholder`, `commandResults`, `commandNavigate`, `commandSelect`, `expandSidebar`, `collapseSidebar` y `openMenu`."
           },
