@@ -48,7 +48,50 @@ describe('CbChatMessage', () => {
     expect(el.querySelectorAll('.cb-md-check')).toHaveLength(2);
     expect(el.querySelector('a')!.getAttribute('rel')).toBe('noopener noreferrer');
     expect(el.querySelector('a')!.getAttribute('target')).toBe('_blank');
-    expect(el.querySelector('pre code.language-ts')!.textContent).toBe('const a = 1;');
+    // El bloque de código del nivel superior se pinta con cb-code-block (resaltado y copiar).
+    const code = el.querySelector('cb-code-block')!;
+    expect(code.querySelector('code')!.textContent).toBe('const a = 1;');
+    expect(code.querySelector('.cb-tok-keyword')!.textContent).toBe('const');
+    expect(code.querySelector('cb-copy-button')).not.toBeNull();
+  });
+
+  it('adjuntos: imágenes en miniatura con alt y archivos con nombre y tamaño', () => {
+    const { el } = setup({
+      role: 'user',
+      attachments: [
+        { name: 'recibo.png', type: 'image/png', url: 'blob:recibo' },
+        { name: 'extracto.pdf', type: 'application/pdf', size: 245_000, url: '/extracto.pdf' },
+      ],
+    });
+    const list = el.querySelector('.cb-chat-message__attachments')!;
+    expect(list.getAttribute('aria-label')).toBe('Adjuntos');
+    expect(list.querySelector('img')!.getAttribute('alt')).toBe('recibo.png');
+    const file = list.querySelector<HTMLAnchorElement>('.cb-chat-message__file')!;
+    expect(file.textContent).toContain('extracto.pdf');
+    expect(file.textContent).toContain('239 KB');
+    expect(file.getAttribute('rel')).toBe('noopener noreferrer');
+    expect(el.querySelector('.cb-chat-message__bubble')!.children).toHaveLength(0);
+  });
+
+  it('feedback 👍/👎 con aria-pressed (pulsar de nuevo lo quita) y Regenerar', () => {
+    const { el, fixture } = setup({ text: 'Listo', showFeedback: true, regenerable: true });
+    let regenerated = 0;
+    fixture.componentInstance.regenerate.subscribe(() => regenerated++);
+    const up = el.querySelector<HTMLButtonElement>('[aria-label="Respuesta útil"]')!;
+    const down = el.querySelector<HTMLButtonElement>('[aria-label="Respuesta no útil"]')!;
+    expect(up.getAttribute('aria-pressed')).toBe('false');
+    up.click();
+    fixture.detectChanges();
+    expect(fixture.componentInstance.feedback()).toBe('up');
+    expect(up.getAttribute('aria-pressed')).toBe('true');
+    down.click();
+    fixture.detectChanges();
+    expect(fixture.componentInstance.feedback()).toBe('down');
+    down.click();
+    fixture.detectChanges();
+    expect(fixture.componentInstance.feedback()).toBeNull();
+    el.querySelector<HTMLButtonElement>('[aria-label="Regenerar respuesta"]')!.click();
+    expect(regenerated).toBe(1);
   });
 
   it('el usuario se alinea a la derecha con sus iniciales y markdown=false muestra texto plano', () => {

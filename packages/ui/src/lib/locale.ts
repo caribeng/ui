@@ -58,6 +58,22 @@ export interface CbTranslation {
   phoneCountry: string;
   searchCountry: string;
   phoneInvalid: string;
+  chatThinking: string;
+  /** `{0}`: segundos. */
+  chatThoughtFor: string;
+  chatReasoning: string;
+  /** `{0}`: nombre de la herramienta. */
+  chatToolRunning: string;
+  /** `{0}`: nombre de la herramienta. */
+  chatToolDone: string;
+  /** `{0}`: nombre de la herramienta. */
+  chatToolError: string;
+  chatToolInput: string;
+  chatToolOutput: string;
+  chatHelpful: string;
+  chatNotHelpful: string;
+  chatRegenerate: string;
+  chatAttachments: string;
   add: string;
   onThisPage: string;
   trendUp: string;
@@ -521,6 +537,18 @@ export const CB_LOCALE_ES: CbTranslation = {
   phoneCountry: 'País',
   searchCountry: 'Buscar país',
   phoneInvalid: 'Número de teléfono incompleto o no válido',
+  chatThinking: 'Pensando…',
+  chatThoughtFor: 'Razonó durante {0} s',
+  chatReasoning: 'Razonamiento',
+  chatToolRunning: 'Usando {0}…',
+  chatToolDone: 'Usó {0}',
+  chatToolError: 'Falló {0}',
+  chatToolInput: 'Entrada',
+  chatToolOutput: 'Resultado',
+  chatHelpful: 'Respuesta útil',
+  chatNotHelpful: 'Respuesta no útil',
+  chatRegenerate: 'Regenerar respuesta',
+  chatAttachments: 'Adjuntos',
   add: 'Agregar',
   onThisPage: 'En esta página',
   trendUp: 'aumenta',
@@ -929,6 +957,18 @@ export const CB_LOCALE_EN: CbTranslation = {
   phoneCountry: 'Country',
   searchCountry: 'Search country',
   phoneInvalid: 'Incomplete or invalid phone number',
+  chatThinking: 'Thinking…',
+  chatThoughtFor: 'Thought for {0} s',
+  chatReasoning: 'Reasoning',
+  chatToolRunning: 'Using {0}…',
+  chatToolDone: 'Used {0}',
+  chatToolError: '{0} failed',
+  chatToolInput: 'Input',
+  chatToolOutput: 'Result',
+  chatHelpful: 'Helpful response',
+  chatNotHelpful: 'Not helpful response',
+  chatRegenerate: 'Regenerate response',
+  chatAttachments: 'Attachments',
   add: 'Add',
   onThisPage: 'On this page',
   trendUp: 'up',

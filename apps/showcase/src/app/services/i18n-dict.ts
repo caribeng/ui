@@ -2526,17 +2526,8 @@ export const ES_EN: Record<string, string> = {
   'En móvil, cierra el panel.': 'On mobile, closes the panel.',
   // --- Kit de chat (IA) ---
   'Chat (IA)': 'Chat (AI)',
-  'Kit para interfaces de chat y asistentes de IA: mensajes con markdown seguro y streaming, lista que sigue la conversación y campo de prompt con adjuntos, sugerencias y Detener.':
-    'Kit for chat interfaces and AI assistants: messages with safe markdown and streaming, a list that follows the conversation and a prompt field with attachments, suggestions and Stop.',
   'Asistente completo': 'Full assistant',
-  'cb-chat-messages + cb-chat-message + cb-chat-input. La respuesta llega palabra a palabra (streaming): pulsa Detener para cortarla. Escribe la palabra error para ver un mensaje fallido con Reintentar.':
-    'cb-chat-messages + cb-chat-message + cb-chat-input. The answer arrives word by word (streaming): press Stop to cut it. Type the word error to see a failed message with Retry.',
   'Markdown seguro': 'Safe markdown',
-  'text se interpreta como markdown: negrita, cursiva, código, enlaces, listas (también de tareas), citas, tablas y bloques de código con lenguaje. Todo el HTML de entrada se escapa y solo se enlazan URLs http(s), mailto o relativas. Con markdown="false" se muestra tal cual.':
-    'text is interpreted as markdown: bold, italics, code, links, lists (including task lists), quotes, tables and code blocks with a language. All incoming HTML is escaped and only http(s), mailto or relative URLs become links. With markdown="false" it is shown as is.',
-  'cb-chat-input y cb-chat-messages': 'cb-chat-input and cb-chat-messages',
-  'Entradas y eventos de las otras dos piezas del kit. El playground de abajo es el de cb-chat-message.':
-    'Inputs and events of the other two pieces of the kit. The playground below is for cb-chat-message.',
   'Quién escribe el mensaje.': 'Who writes the message.',
   'Contenido (markdown seguro).': 'Content (safe markdown).',
   'Interpreta text como markdown.': 'Interprets text as markdown.',
@@ -2621,4 +2612,27 @@ export const ES_EN: Record<string, string> = {
   'Mueve el país activo de la lista.': 'Moves the active country in the list.',
   'Elige el país y vuelve al número.': 'Chooses the country and returns to the number.',
   'Cierra la lista y devuelve el foco al botón del país.': 'Closes the list and returns focus to the country button.',
+  // --- Chat nivel 2 ---
+  'Kit para interfaces de chat y asistentes de IA: mensajes con markdown seguro y streaming, razonamiento y llamadas a herramientas, adjuntos, valoración y un campo de prompt con sugerencias y Detener.':
+    'Kit for chat interfaces and AI assistants: messages with safe markdown and streaming, reasoning and tool calls, attachments, feedback and a prompt field with suggestions and Stop.',
+  'Pregunta por tu saldo: el asistente razona (cb-chat-reasoning), consulta una herramienta (cb-chat-tool) y responde palabra a palabra con una tabla. Pulsa Detener para cortar, adjunta una imagen para verla en miniatura, valora con 👍/👎 o regenera. Escribe error para ver un mensaje fallido.':
+    'Ask for your balance: the assistant reasons (cb-chat-reasoning), calls a tool (cb-chat-tool) and answers word by word with a table. Press Stop to cut it, attach an image to see its thumbnail, rate with 👍/👎 or regenerate. Type error to see a failed message.',
+  'text se interpreta como markdown: negrita, cursiva, código, enlaces, listas (también de tareas), citas y tablas; los bloques de código se pintan con cb-code-block (resaltado y copiar). Todo el HTML de entrada se escapa y solo se enlazan URLs http(s), mailto o relativas.':
+    'text is interpreted as markdown: bold, italics, code, links, lists (including task lists), quotes and tables; code blocks are rendered with cb-code-block (highlighting and copy). All incoming HTML is escaped and only http(s), mailto or relative URLs become links.',
+  'Razonamiento y herramientas': 'Reasoning and tools',
+  'cb-chat-reasoning se abre mientras llega y se pliega al terminar con la duración. cb-chat-tool muestra el estado de una llamada (Usando…, Usó…, Falló…) y, al desplegar, su entrada y resultado como JSON.':
+    'cb-chat-reasoning opens while it arrives and collapses when done, showing the duration. cb-chat-tool shows the status of a call (Using…, Used…, Failed…) and, when expanded, its input and result as JSON.',
+  'Las otras piezas': 'The other pieces',
+  'Entradas y eventos de cb-chat-input, cb-chat-messages, cb-chat-reasoning y cb-chat-tool. El playground de abajo es el de cb-chat-message.':
+    'Inputs and events of cb-chat-input, cb-chat-messages, cb-chat-reasoning and cb-chat-tool. The playground below is for cb-chat-message.',
+  'Adjuntos (name, type, size, url); las imágenes, en miniatura.': 'Attachments (name, type, size, url); images as thumbnails.',
+  'Botones de valoración.': 'Feedback buttons.',
+  'Valoración elegida.': 'Chosen rating.',
+  'Botón Regenerar respuesta.': 'Regenerate response button.',
+  'Se pulsó Regenerar respuesta.': 'Regenerate response was pressed.',
+  'Cambió la valoración.': 'The rating changed.',
+  'El razonamiento y las herramientas son botones desplegables con `aria-expanded` y `aria-controls`; el cambio de estado de una herramienta ("Usó…", "Falló…") se anuncia en una región `role="status"`.':
+    'Reasoning and tools are disclosure buttons with `aria-expanded` and `aria-controls`; a tool status change ("Used…", "Failed…") is announced in a `role="status"` region.',
+  'Los botones de valoración llevan `aria-pressed` y nombre ("Respuesta útil", "Respuesta no útil"); las miniaturas de imagen usan el nombre del archivo como texto alternativo.':
+    'Feedback buttons have `aria-pressed` and a name ("Helpful response", "Not helpful response"); image thumbnails use the file name as alternative text.',
 };

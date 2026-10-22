@@ -586,6 +586,8 @@ export const DOC_A11Y: Record<string, DocA11y> = {
       'Mientras se genera una respuesta (`busy`, y `streaming` en el mensaje) se marca `aria-busy` para que no se lea cada fragmento; al terminar se anuncia "Respuesta lista" una sola vez.',
       'Cada mensaje es un `article` nombrado por su autor y hora. El markdown se pinta con etiquetas semánticas (listas, tablas, código) y los enlaces externos se abren en otra pestaña con `rel="noopener"`.',
       'El campo de prompt tiene nombre ("Mensaje"); Enviar, Detener, Adjuntar y Quitar archivo son botones con nombre accesible. Los estados de envío y error se muestran como texto, no solo con color.',
+      'El razonamiento y las herramientas son botones desplegables con `aria-expanded` y `aria-controls`; el cambio de estado de una herramienta ("Usó…", "Falló…") se anuncia en una región `role="status"`.',
+      'Los botones de valoración llevan `aria-pressed` y nombre ("Respuesta útil", "Respuesta no útil"); las miniaturas de imagen usan el nombre del archivo como texto alternativo.',
     ],
     keyboard: [
       { keys: 'Enter', action: 'Envía el mensaje (Shift + Enter, salto de línea; no envía durante la composición IME).' },

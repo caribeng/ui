@@ -11,6 +11,10 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
         "type": "added",
         "items": [
           {
+            "component": "Chat (IA), nivel 2",
+            "text": "`cb-chat-reasoning` (razonamiento plegable: \"Pensando…\" con brillo mientras llega y \"Razonó durante N s\" al terminar), `cb-chat-tool` (llamada a herramienta con estado Usando/Usó/Falló, anunciado, y entrada y resultado como JSON resaltado), adjuntos en `cb-chat-message` (miniaturas de imagen y tarjetas de archivo) y en `cb-chat-input` (miniaturas antes de enviar, con las URL temporales liberadas), valoración 👍/👎 (`showFeedback`, `[(feedback)]`, `aria-pressed`) y \"Regenerar respuesta\". Los bloques de código del mensaje se pintan con `cb-code-block` (`cbMarkdownToBlocks()`)."
+          },
+          {
             "component": "Componentes nuevos",
             "text": "`PhoneInput` (teléfono internacional con selector de país —bandera, nombre localizado con `Intl`, prefijo y buscador con teclado—, formato al escribir sin mover el cursor, detección del país al pegar `+`/`00`, 0 nacional, valor E.164 con `ControlValueAccessor` y validador `{ phone: true }`; ~50 países en `CB_PHONE_COUNTRIES`, ampliables) y `CodeBlock` (resaltado propio sin dependencias para TS/JS, HTML/Angular, CSS/SCSS, JSON, Bash, Python y SQL, pintado como texto, con copiar, números de línea, líneas destacadas, `wrap` y tema claro/oscuro; `cbHighlight()` exportado). 160 entry points. Locale: `intlLocale`, `phoneCountry`, `searchCountry` y `phoneInvalid`."
           },

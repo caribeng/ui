@@ -1720,10 +1720,16 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "showAuthor", kind: "boolean", type: "boolean", default: false, description: "Muestra el nombre del autor." },
       { name: "status", kind: "enum", type: "'sending' | 'sent' | 'error'", options: ["sent", "sending", "error"], default: undefined, description: "Estado de envío; error muestra Reintentar." },
       { name: "streaming", kind: "boolean", type: "boolean", default: false, description: "La respuesta sigue llegando (cursor y aria-busy)." },
-      { name: "copyable", kind: "boolean", type: "boolean", default: false, description: "Botón para copiar el texto." }
+      { name: "copyable", kind: "boolean", type: "boolean", default: false, description: "Botón para copiar el texto." },
+      { name: "attachments", kind: "string", type: "readonly CbChatAttachment[]", default: [], description: "Adjuntos (name, type, size, url); las imágenes, en miniatura.", control: false },
+      { name: "showFeedback", kind: "boolean", type: "boolean", default: false, example: true, description: "Botones de valoración." },
+      { name: "feedback", kind: "enum", type: "'up' | 'down' | null (model)", options: ["up", "down"], default: null, description: "Valoración elegida." },
+      { name: "regenerable", kind: "boolean", type: "boolean", default: false, description: "Botón Regenerar respuesta." }
     ],
     events: [
-      { name: "retry", type: "void", description: "Se pulsó Reintentar." }
+      { name: "retry", type: "void", description: "Se pulsó Reintentar." },
+      { name: "regenerate", type: "void", description: "Se pulsó Regenerar respuesta." },
+      { name: "feedbackChange", type: "CbChatFeedback", description: "Cambió la valoración." }
     ]
   },
   "cb-code-block": {

@@ -125,8 +125,21 @@ function renderList(lines: string[], start: number): { html: string; next: numbe
   return { html: ordered ? `<ol${startAttr}>${items.join('')}</ol>` : `<ul>${items.join('')}</ul>`, next: i };
 }
 
-function renderBlocks(lines: string[]): string {
+/** Trozo de un mensaje: HTML seguro o un bloque de código para pintar aparte. */
+export type CbMarkdownBlock =
+  | { readonly kind: 'html'; readonly html: string }
+  | { readonly kind: 'code'; readonly code: string; readonly language: string };
+
+/**
+ * Pinta los bloques. Con `sink`, los bloques de código del nivel superior no se
+ * pintan como HTML sino que se entregan aparte (para un componente de código).
+ */
+function renderBlocks(lines: string[], sink?: CbMarkdownBlock[]): string {
   const out: string[] = [];
+  const flush = () => {
+    if (sink && out.length) sink.push({ kind: 'html', html: out.join('') });
+    out.length = 0;
+  };
   let i = 0;
   while (i < lines.length) {
     const line = lines[i];
@@ -143,6 +156,11 @@ function renderBlocks(lines: string[]): string {
       i++;
       while (i < lines.length && !new RegExp(`^ {0,3}${marker[0]}{${marker.length},}\\s*$`).test(lines[i])) code.push(lines[i++]);
       i++; // cierre (o fin del texto si llega incompleto)
+      if (sink) {
+        flush();
+        sink.push({ kind: 'code', code: code.join('\n'), language: lang });
+        continue;
+      }
       const cls = lang ? ` class="language-${escapeHtml(lang)}"` : '';
       const label = lang ? `<span class="cb-md-lang">${escapeHtml(lang)}</span>` : '';
       out.push(`<pre>${label}<code${cls}>${escapeHtml(code.join('\n'))}</code></pre>`);
@@ -204,10 +222,26 @@ function renderBlocks(lines: string[]): string {
     while (i < lines.length && lines[i].trim() !== '' && (para.length === 0 || !isBlockStart(lines[i]))) para.push(lines[i++].trim());
     out.push(`<p>${inline(para.join('\n')).replace(/\n/g, '<br>')}</p>`);
   }
-  return out.join('');
+  const html = out.join('');
+  flush();
+  return html;
+}
+
+function toLines(markdown: string): string[] {
+  return (markdown ?? '').replace(/\r\n?/g, '\n').split('\n');
 }
 
 /** Convierte markdown en HTML seguro (todo el HTML de entrada se escapa). */
 export function cbMarkdownToHtml(markdown: string): string {
-  return renderBlocks((markdown ?? '').replace(/\r\n?/g, '\n').split('\n'));
+  return renderBlocks(toLines(markdown));
+}
+
+/**
+ * Como `cbMarkdownToHtml`, pero separa los bloques de código del nivel
+ * superior para pintarlos con un componente (resaltado, copiar).
+ */
+export function cbMarkdownToBlocks(markdown: string): CbMarkdownBlock[] {
+  const blocks: CbMarkdownBlock[] = [];
+  renderBlocks(toLines(markdown), blocks);
+  return blocks;
 }
