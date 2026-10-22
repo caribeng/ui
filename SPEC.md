@@ -214,9 +214,17 @@ Dark mode con `[data-theme="dark"]`. `CbThemeService` gestionado con signals
 
 ## 14. Utilidades CSS (prefijo `cb-`)
 
-Layout (`cb-flex`, `cb-grid`, `cb-hidden`…), alineación (`cb-items-center`,
-`cb-justify-between`…), espaciado (`cb-gap-*`, `cb-p-*`, `cb-m-*`), tamaño
-(`cb-w-full`…). Independientes de Tailwind.
+Layout (`cb-flex`, `cb-grid`, `cb-hidden`…), flex (`cb-grow`, `cb-shrink-0`,
+`cb-self-*`…), grid (`cb-grid-cols-1…12`, `cb-col-span-*`), alineación
+(`cb-items-center`, `cb-justify-between`…), espaciado (`cb-gap-*`,
+`cb-gap-x/y-*`, `cb-p-*`, `cb-px/py/pt/pr/pb/pl-*`, igual para `m`, escala
+0–8 y `cb-mx-auto`), tamaño (`cb-w-full`…), posición y desbordamiento
+(`cb-relative`, `cb-sticky`, `cb-overflow-*`…), tipografía (`cb-text-xs…2xl`,
+`cb-font-*`, `cb-truncate`…), color de texto (`cb-text-muted`,
+`cb-text-{severidad}`), fondos (`cb-bg-surface`, `cb-bg-{severidad}`,
+`cb-bg-{severidad}-subtle`), bordes, radio (`cb-rounded-*`) y sombras
+(`cb-shadow-*`). Todas leen los tokens `--cb-*` y siguen el tema.
+Independientes de Tailwind.
 
 ---
 

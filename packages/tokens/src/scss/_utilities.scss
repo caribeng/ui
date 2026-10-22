@@ -1,7 +1,22 @@
 // =============================================================================
 // CaribeNG · Utilidades CSS propias (sección 14 del SPEC)
 // Opcionales e independientes de Tailwind. Prefijo cb-.
+// Todas leen los tokens --cb-*, así que siguen el tema (claro/oscuro).
 // =============================================================================
+
+// Escala de espaciado expuesta en las utilidades (clave → token).
+$space: (
+  0: 0,
+  1: var(--cb-space-1),
+  2: var(--cb-space-2),
+  3: var(--cb-space-3),
+  4: var(--cb-space-4),
+  5: var(--cb-space-5),
+  6: var(--cb-space-6),
+  8: var(--cb-space-8),
+);
+
+$severities: primary, success, info, warning, danger, help;
 
 // Layout
 .cb-flex { display: flex; }
@@ -9,55 +24,166 @@
 .cb-grid { display: grid; }
 .cb-block { display: block; }
 .cb-inline-block { display: inline-block; }
+.cb-inline { display: inline; }
 .cb-hidden { display: none; }
 
 .cb-flex-col { flex-direction: column; }
 .cb-flex-row { flex-direction: row; }
 .cb-flex-wrap { flex-wrap: wrap; }
+.cb-flex-nowrap { flex-wrap: nowrap; }
 .cb-flex-1 { flex: 1 1 0%; }
+.cb-flex-auto { flex: 1 1 auto; }
+.cb-flex-none { flex: none; }
+.cb-grow { flex-grow: 1; }
+.cb-grow-0 { flex-grow: 0; }
+.cb-shrink-0 { flex-shrink: 0; }
+
+// Grid
+@for $i from 1 through 12 {
+  .cb-grid-cols-#{$i} { grid-template-columns: repeat(#{$i}, minmax(0, 1fr)); }
+}
+@for $i from 1 through 12 {
+  .cb-col-span-#{$i} { grid-column: span #{$i} / span #{$i}; }
+}
+.cb-col-span-full { grid-column: 1 / -1; }
 
 // Alineación
 .cb-items-center { align-items: center; }
 .cb-items-start { align-items: flex-start; }
 .cb-items-end { align-items: flex-end; }
 .cb-items-stretch { align-items: stretch; }
+.cb-items-baseline { align-items: baseline; }
 .cb-justify-center { justify-content: center; }
 .cb-justify-between { justify-content: space-between; }
 .cb-justify-start { justify-content: flex-start; }
 .cb-justify-end { justify-content: flex-end; }
+.cb-justify-around { justify-content: space-around; }
+.cb-justify-evenly { justify-content: space-evenly; }
+.cb-self-start { align-self: flex-start; }
+.cb-self-center { align-self: center; }
+.cb-self-end { align-self: flex-end; }
+.cb-self-stretch { align-self: stretch; }
 
-// Espaciado · gap
-.cb-gap-1 { gap: var(--cb-space-1); }
-.cb-gap-2 { gap: var(--cb-space-2); }
-.cb-gap-3 { gap: var(--cb-space-3); }
-.cb-gap-4 { gap: var(--cb-space-4); }
-.cb-gap-5 { gap: var(--cb-space-5); }
-.cb-gap-6 { gap: var(--cb-space-6); }
-.cb-gap-8 { gap: var(--cb-space-8); }
+// Espaciado · gap (cb-gap-0…8, cb-gap-x-*, cb-gap-y-*)
+@each $key, $value in $space {
+  .cb-gap-#{$key} { gap: $value; }
+}
+@each $key, $value in $space {
+  .cb-gap-x-#{$key} { column-gap: $value; }
+  .cb-gap-y-#{$key} { row-gap: $value; }
+}
 
-// Espaciado · padding
-.cb-p-1 { padding: var(--cb-space-1); }
-.cb-p-2 { padding: var(--cb-space-2); }
-.cb-p-3 { padding: var(--cb-space-3); }
-.cb-p-4 { padding: var(--cb-space-4); }
-.cb-p-5 { padding: var(--cb-space-5); }
-.cb-p-6 { padding: var(--cb-space-6); }
-.cb-p-8 { padding: var(--cb-space-8); }
-
-// Espaciado · margin
-.cb-m-1 { margin: var(--cb-space-1); }
-.cb-m-2 { margin: var(--cb-space-2); }
-.cb-m-3 { margin: var(--cb-space-3); }
-.cb-m-4 { margin: var(--cb-space-4); }
-.cb-m-5 { margin: var(--cb-space-5); }
-.cb-m-6 { margin: var(--cb-space-6); }
-.cb-m-8 { margin: var(--cb-space-8); }
+// Espaciado · padding y margin. El shorthand va primero para que los lados
+// (px/py/pt…) lo puedan matizar: `cb-p-4 cb-pt-0`.
+$sides: (
+  "": (""),
+  "x": ("-left", "-right"),
+  "y": ("-top", "-bottom"),
+  "t": ("-top"),
+  "r": ("-right"),
+  "b": ("-bottom"),
+  "l": ("-left"),
+);
+@each $prop, $abbr in (padding: p, margin: m) {
+  @each $side, $suffixes in $sides {
+    @each $key, $value in $space {
+      .cb-#{$abbr}#{$side}-#{$key} {
+        @each $suffix in $suffixes {
+          #{$prop}#{$suffix}: $value;
+        }
+      }
+    }
+  }
+}
+.cb-mx-auto { margin-left: auto; margin-right: auto; }
+.cb-ml-auto { margin-left: auto; }
+.cb-mr-auto { margin-right: auto; }
+.cb-mt-auto { margin-top: auto; }
 
 // Tamaño
 .cb-w-full { width: 100%; }
 .cb-h-full { height: 100%; }
 .cb-max-w-full { max-width: 100%; }
 .cb-min-w-0 { min-width: 0; }
+
+// Posición y desbordamiento
+.cb-relative { position: relative; }
+.cb-absolute { position: absolute; }
+.cb-fixed { position: fixed; }
+.cb-sticky { position: sticky; }
+.cb-inset-0 { inset: 0; }
+.cb-top-0 { top: 0; }
+.cb-overflow-hidden { overflow: hidden; }
+.cb-overflow-auto { overflow: auto; }
+.cb-overflow-x-auto { overflow-x: auto; }
+.cb-overflow-y-auto { overflow-y: auto; }
+
+// Tipografía
+@each $size in xs, sm, base, lg, xl, 2xl {
+  .cb-text-#{$size} { font-size: var(--cb-text-#{$size}); }
+}
+@each $weight in regular, medium, semibold, bold {
+  .cb-font-#{$weight} { font-weight: var(--cb-font-weight-#{$weight}); }
+}
+.cb-font-mono { font-family: var(--cb-font-mono); }
+.cb-text-left { text-align: left; }
+.cb-text-center { text-align: center; }
+.cb-text-right { text-align: right; }
+.cb-uppercase { text-transform: uppercase; }
+.cb-capitalize { text-transform: capitalize; }
+.cb-nowrap { white-space: nowrap; }
+.cb-break-words { overflow-wrap: anywhere; }
+.cb-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// Color de texto. Las severidades usan el tono 700 en claro y el 400 en oscuro
+// para mantener el contraste sobre la superficie.
+.cb-text-default { color: var(--cb-color-text); }
+.cb-text-muted { color: var(--cb-color-text-muted); }
+.cb-text-strong { color: var(--cb-color-text-strong); }
+@each $sev in $severities {
+  .cb-text-#{$sev} { color: var(--cb-color-#{$sev}-700); }
+  :root[data-theme="dark"] .cb-text-#{$sev} { color: var(--cb-color-#{$sev}-400); }
+}
+
+// Fondos. `-subtle` tiñe con transparencia, así sirve en claro y en oscuro.
+.cb-bg-surface { background-color: var(--cb-color-surface); }
+.cb-bg-subtle { background-color: var(--cb-color-surface-subtle); }
+.cb-bg-raised { background-color: var(--cb-color-surface-raised); }
+@each $sev in $severities {
+  .cb-bg-#{$sev} {
+    background-color: var(--cb-color-#{$sev});
+    color: var(--cb-color-#{$sev}-contrast);
+  }
+  .cb-bg-#{$sev}-subtle { background-color: color-mix(in srgb, var(--cb-color-#{$sev}) 12%, transparent); }
+}
+
+// Bordes
+.cb-border { border: 1px solid var(--cb-color-border); }
+.cb-border-0 { border: 0; }
+.cb-border-t { border-top: 1px solid var(--cb-color-border); }
+.cb-border-r { border-right: 1px solid var(--cb-color-border); }
+.cb-border-b { border-bottom: 1px solid var(--cb-color-border); }
+.cb-border-l { border-left: 1px solid var(--cb-color-border); }
+.cb-border-strong { border-color: var(--cb-color-border-strong); }
+@each $sev in $severities {
+  .cb-border-#{$sev} { border-color: var(--cb-color-#{$sev}); }
+}
+
+// Radio
+.cb-rounded-none { border-radius: 0; }
+@each $r in sm, md, lg, full {
+  .cb-rounded-#{$r} { border-radius: var(--cb-radius-#{$r}); }
+}
+
+// Sombras
+.cb-shadow-none { box-shadow: none; }
+@each $s in sm, md, lg {
+  .cb-shadow-#{$s} { box-shadow: var(--cb-shadow-#{$s}); }
+}
 
 // Accesibilidad
 .cb-sr-only {

@@ -23,7 +23,16 @@ type PreviewKind =
   | 'w-full'
   | 'h-full'
   | 'max-w-full'
-  | 'min-w-0';
+  | 'min-w-0'
+  | 'justify'
+  | 'self'
+  | 'gap-axis'
+  | 'grid-cols'
+  | 'col-span'
+  | 'text'
+  | 'truncate'
+  | 'surface'
+  | 'none';
 
 interface UtilRow {
   cls: string;
@@ -231,6 +240,55 @@ interface UtilGroup {
                               Texto largo truncado dentro de hijo flex (.cb-min-w-0)
                             </div>
                           </div>
+                        }
+                        @case ('justify') {
+                          <div [class]="'util-box cb-flex ' + row.cls">
+                            <span class="util-chip">1</span>
+                            <span class="util-chip">2</span>
+                            <span class="util-chip">3</span>
+                          </div>
+                        }
+                        @case ('self') {
+                          <div class="util-box util-box--tall cb-flex cb-gap-2">
+                            <span class="util-chip">1</span>
+                            <span [class]="'util-chip util-chip--accent ' + row.cls">{{ row.cls.replace('cb-', '') }}</span>
+                            <span class="util-chip">3</span>
+                          </div>
+                        }
+                        @case ('gap-axis') {
+                          <div [class]="'util-box cb-grid cb-grid-cols-3 ' + row.cls">
+                            @for (n of six; track n) {
+                              <span class="util-chip util-chip--block">{{ n }}</span>
+                            }
+                          </div>
+                        }
+                        @case ('grid-cols') {
+                          <div [class]="'util-box cb-grid cb-gap-1 ' + row.cls">
+                            @for (n of six; track n) {
+                              <span class="util-chip util-chip--block">{{ n }}</span>
+                            }
+                          </div>
+                        }
+                        @case ('col-span') {
+                          <div class="util-box cb-grid cb-grid-cols-3 cb-gap-1">
+                            <span [class]="'util-chip util-chip--block util-chip--accent ' + row.cls">{{ row.cls.replace('cb-', '') }}</span>
+                            <span class="util-chip util-chip--block">2</span>
+                            <span class="util-chip util-chip--block">3</span>
+                          </div>
+                        }
+                        @case ('text') {
+                          <span [class]="'util-text-sample ' + row.cls">{{ i18n.t('Saldo disponible', 'Available balance') }}</span>
+                        }
+                        @case ('truncate') {
+                          <div class="util-box util-box--narrow">
+                            <div [class]="row.cls">{{ i18n.t('Transferencia a cuenta de ahorros 4829', 'Transfer to savings account 4829') }}</div>
+                          </div>
+                        }
+                        @case ('surface') {
+                          <div [class]="'util-swatch ' + row.cls">{{ i18n.t('Muestra', 'Sample') }}</div>
+                        }
+                        @case ('none') {
+                          <span class="util-desc-cell">—</span>
                         }
                       }
                     </div>
@@ -515,6 +573,19 @@ interface UtilGroup {
         padding: 0.25rem 0.5rem;
         border-radius: 3px;
       }
+      .util-text-sample {
+        display: inline-block;
+      }
+      .util-swatch {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 2.25rem;
+        padding: 0 0.5rem;
+        font-family: var(--cb-font-mono);
+        font-size: 0.7rem;
+        font-weight: 600;
+      }
       .util-a11y-btn {
         display: inline-flex;
         align-items: center;
@@ -554,6 +625,8 @@ export class UtilitiesComponent {
   <span aria-hidden="true">🔔</span>
   <span class="cb-sr-only">3 notificaciones sin leer</span>
 </button>`;
+
+  protected readonly six = [1, 2, 3, 4, 5, 6];
 
   protected readonly groups: UtilGroup[] = [
     {
@@ -636,6 +709,169 @@ export class UtilitiesComponent {
         { cls: 'cb-h-full', cssRule: 'height: 100%', kind: 'h-full', es: 'Ocupa el 100% del alto del contenedor.', en: 'Spans 100% of container height.' },
         { cls: 'cb-max-w-full', cssRule: 'max-width: 100%', kind: 'max-w-full', es: 'Evita que el elemento desborde su contenedor.', en: 'Prevents element from overflowing its parent.' },
         { cls: 'cb-min-w-0', cssRule: 'min-width: 0', kind: 'min-w-0', es: 'Permite encoger y truncar texto dentro de flexbox.', en: 'Allows shrinking and text truncation inside flex.' },
+      ],
+    },
+    {
+      id: 'spacing-sides',
+      es: 'Espaciado por lado y por eje',
+      en: 'Per-side and per-axis spacing',
+      descEs: 'Padding y margin por eje (x, y) o por lado (t, r, b, l), y gap por eje. Misma escala 0–8. Combínalas con el shorthand: cb-p-4 cb-pt-0.',
+      descEn: 'Padding and margin per axis (x, y) or per side (t, r, b, l), and per-axis gap. Same 0–8 scale. Combine with the shorthand: cb-p-4 cb-pt-0.',
+      code: `<div class="cb-px-4 cb-py-2">Botón ancho</div>
+<div class="cb-p-4 cb-pt-0">Sin relleno arriba</div>
+<div class="cb-mx-auto" style="max-width: 40rem">Centrado</div>
+<div class="cb-grid cb-grid-cols-3 cb-gap-x-4 cb-gap-y-1">…</div>`,
+      rows: [
+        { cls: 'cb-px-4', cssRule: 'padding-left/right: var(--cb-space-4)', kind: 'padding', es: 'Relleno horizontal (cb-px-0…8).', en: 'Horizontal padding (cb-px-0…8).' },
+        { cls: 'cb-py-2', cssRule: 'padding-top/bottom: var(--cb-space-2)', kind: 'padding', es: 'Relleno vertical (cb-py-0…8).', en: 'Vertical padding (cb-py-0…8).' },
+        { cls: 'cb-pt-4', cssRule: 'padding-top: var(--cb-space-4)', kind: 'padding', es: 'Un solo lado: cb-pt, cb-pr, cb-pb, cb-pl.', en: 'Single side: cb-pt, cb-pr, cb-pb, cb-pl.' },
+        { cls: 'cb-ml-4', cssRule: 'margin-left: var(--cb-space-4)', kind: 'margin', es: 'Margen de un lado: cb-mt, cb-mr, cb-mb, cb-ml (también cb-mx, cb-my).', en: 'Single-side margin: cb-mt, cb-mr, cb-mb, cb-ml (also cb-mx, cb-my).' },
+        { cls: 'cb-mx-auto', cssRule: 'margin-left/right: auto', kind: 'none', es: 'Centra un bloque con ancho máximo. También cb-ml-auto, cb-mr-auto, cb-mt-auto.', en: 'Centers a block with a max width. Also cb-ml-auto, cb-mr-auto, cb-mt-auto.' },
+        { cls: 'cb-gap-x-4', cssRule: 'column-gap: var(--cb-space-4)', kind: 'gap-axis', es: 'Separación solo entre columnas.', en: 'Gap between columns only.' },
+        { cls: 'cb-gap-y-3', cssRule: 'row-gap: var(--cb-space-3)', kind: 'gap-axis', es: 'Separación solo entre filas.', en: 'Gap between rows only.' },
+      ],
+    },
+    {
+      id: 'grid',
+      es: 'Grid (columnas)',
+      en: 'Grid (columns)',
+      descEs: 'Rejillas de 1 a 12 columnas iguales y celdas que ocupan varias columnas.',
+      descEn: 'Grids of 1 to 12 equal columns and cells spanning several columns.',
+      code: `<div class="cb-grid cb-grid-cols-3 cb-gap-4">
+  <div class="cb-col-span-2">Principal</div>
+  <div>Lateral</div>
+</div>`,
+      rows: [
+        { cls: 'cb-grid-cols-2', cssRule: 'grid-template-columns: repeat(2, minmax(0, 1fr))', kind: 'grid-cols', es: 'Dos columnas iguales (cb-grid-cols-1…12).', en: 'Two equal columns (cb-grid-cols-1…12).' },
+        { cls: 'cb-grid-cols-3', cssRule: 'grid-template-columns: repeat(3, minmax(0, 1fr))', kind: 'grid-cols', es: 'Tres columnas iguales.', en: 'Three equal columns.' },
+        { cls: 'cb-grid-cols-6', cssRule: 'grid-template-columns: repeat(6, minmax(0, 1fr))', kind: 'grid-cols', es: 'Seis columnas iguales.', en: 'Six equal columns.' },
+        { cls: 'cb-col-span-2', cssRule: 'grid-column: span 2 / span 2', kind: 'col-span', es: 'La celda ocupa dos columnas (cb-col-span-1…12).', en: 'The cell spans two columns (cb-col-span-1…12).' },
+        { cls: 'cb-col-span-full', cssRule: 'grid-column: 1 / -1', kind: 'col-span', es: 'La celda ocupa toda la fila.', en: 'The cell spans the whole row.' },
+      ],
+    },
+    {
+      id: 'flex-extra',
+      es: 'Flex: crecer, encoger y alinear un hijo',
+      en: 'Flex: grow, shrink and align one child',
+      descEs: 'Control fino de los hijos flex y distribuciones adicionales.',
+      descEn: 'Fine control of flex children and extra distributions.',
+      code: `<div class="cb-flex cb-items-center cb-gap-2">
+  <cb-icon class="cb-shrink-0" name="user" />
+  <span class="cb-flex-1 cb-truncate">Nombre muy largo…</span>
+  <button class="cb-self-start">⋮</button>
+</div>`,
+      rows: [
+        { cls: 'cb-justify-around', cssRule: 'justify-content: space-around', kind: 'justify', es: 'Espacio alrededor de cada hijo.', en: 'Space around each child.' },
+        { cls: 'cb-justify-evenly', cssRule: 'justify-content: space-evenly', kind: 'justify', es: 'Mismo espacio entre hijos y bordes.', en: 'Equal space between children and edges.' },
+        { cls: 'cb-self-start', cssRule: 'align-self: flex-start', kind: 'self', es: 'Alinea un solo hijo arriba (también cb-self-center, -end, -stretch).', en: 'Aligns a single child to the top (also cb-self-center, -end, -stretch).' },
+        { cls: 'cb-self-end', cssRule: 'align-self: flex-end', kind: 'self', es: 'Alinea un solo hijo abajo.', en: 'Aligns a single child to the bottom.' },
+        { cls: 'cb-shrink-0', cssRule: 'flex-shrink: 0', kind: 'none', es: 'Impide que el hijo se encoja (iconos, avatares).', en: 'Prevents the child from shrinking (icons, avatars).' },
+        { cls: 'cb-grow', cssRule: 'flex-grow: 1', kind: 'none', es: 'Crece para ocupar el espacio libre. También cb-flex-auto, cb-flex-none, cb-flex-nowrap.', en: 'Grows to fill free space. Also cb-flex-auto, cb-flex-none, cb-flex-nowrap.' },
+      ],
+    },
+    {
+      id: 'typography',
+      es: 'Tipografía',
+      en: 'Typography',
+      descEs: 'Tamaños --cb-text-xs…2xl, pesos --cb-font-weight-*, alineación y recorte de texto.',
+      descEn: 'Sizes --cb-text-xs…2xl, --cb-font-weight-* weights, alignment and text clipping.',
+      code: `<h2 class="cb-text-xl cb-font-bold">Resumen</h2>
+<p class="cb-text-sm cb-text-muted">Actualizado hoy</p>
+<span class="cb-truncate">Texto que se corta con puntos suspensivos…</span>`,
+      rows: [
+        { cls: 'cb-text-xs', cssRule: 'font-size: var(--cb-text-xs)', kind: 'text', es: '12px (0.75rem).', en: '12px (0.75rem).' },
+        { cls: 'cb-text-sm', cssRule: 'font-size: var(--cb-text-sm)', kind: 'text', es: '14px (0.875rem).', en: '14px (0.875rem).' },
+        { cls: 'cb-text-base', cssRule: 'font-size: var(--cb-text-base)', kind: 'text', es: '16px (1rem).', en: '16px (1rem).' },
+        { cls: 'cb-text-lg', cssRule: 'font-size: var(--cb-text-lg)', kind: 'text', es: '18px (1.125rem).', en: '18px (1.125rem).' },
+        { cls: 'cb-text-xl', cssRule: 'font-size: var(--cb-text-xl)', kind: 'text', es: '20px (1.25rem).', en: '20px (1.25rem).' },
+        { cls: 'cb-text-2xl', cssRule: 'font-size: var(--cb-text-2xl)', kind: 'text', es: '24px (1.5rem).', en: '24px (1.5rem).' },
+        { cls: 'cb-font-medium', cssRule: 'font-weight: var(--cb-font-weight-medium)', kind: 'text', es: 'Peso medio (también cb-font-regular).', en: 'Medium weight (also cb-font-regular).' },
+        { cls: 'cb-font-semibold', cssRule: 'font-weight: var(--cb-font-weight-semibold)', kind: 'text', es: 'Seminegrita.', en: 'Semibold.' },
+        { cls: 'cb-font-bold', cssRule: 'font-weight: var(--cb-font-weight-bold)', kind: 'text', es: 'Negrita.', en: 'Bold.' },
+        { cls: 'cb-font-mono', cssRule: 'font-family: var(--cb-font-mono)', kind: 'text', es: 'Monoespaciada (códigos, cifras).', en: 'Monospace (codes, figures).' },
+        { cls: 'cb-uppercase', cssRule: 'text-transform: uppercase', kind: 'text', es: 'Mayúsculas (también cb-capitalize).', en: 'Uppercase (also cb-capitalize).' },
+        { cls: 'cb-truncate', cssRule: 'overflow: hidden; text-overflow: ellipsis; white-space: nowrap', kind: 'truncate', es: 'Una línea con puntos suspensivos.', en: 'Single line with ellipsis.' },
+        { cls: 'cb-text-center', cssRule: 'text-align: center', kind: 'none', es: 'Alineación (también cb-text-left, cb-text-right).', en: 'Alignment (also cb-text-left, cb-text-right).' },
+        { cls: 'cb-nowrap', cssRule: 'white-space: nowrap', kind: 'none', es: 'Sin saltos de línea. cb-break-words corta palabras largas.', en: 'No line breaks. cb-break-words breaks long words.' },
+      ],
+    },
+    {
+      id: 'text-color',
+      es: 'Color de texto',
+      en: 'Text color',
+      descEs: 'Colores semánticos que siguen el tema. Las severidades usan el tono 700 en claro y el 400 en oscuro para mantener el contraste.',
+      descEn: 'Semantic colors that follow the theme. Severities use the 700 shade in light mode and 400 in dark mode to keep contrast.',
+      code: `<span class="cb-text-success">+ $ 120.000</span>
+<span class="cb-text-danger">- $ 45.000</span>
+<small class="cb-text-muted">Hace 2 horas</small>`,
+      rows: [
+        { cls: 'cb-text-default', cssRule: 'color: var(--cb-color-text)', kind: 'text', es: 'Texto normal.', en: 'Default text.' },
+        { cls: 'cb-text-muted', cssRule: 'color: var(--cb-color-text-muted)', kind: 'text', es: 'Texto secundario.', en: 'Secondary text.' },
+        { cls: 'cb-text-strong', cssRule: 'color: var(--cb-color-text-strong)', kind: 'text', es: 'Texto destacado.', en: 'Emphasized text.' },
+        { cls: 'cb-text-primary', cssRule: 'color: var(--cb-color-primary-700)', kind: 'text', es: 'Color de marca.', en: 'Brand color.' },
+        { cls: 'cb-text-success', cssRule: 'color: var(--cb-color-success-700)', kind: 'text', es: 'Éxito, ingresos.', en: 'Success, income.' },
+        { cls: 'cb-text-warning', cssRule: 'color: var(--cb-color-warning-700)', kind: 'text', es: 'Advertencia.', en: 'Warning.' },
+        { cls: 'cb-text-danger', cssRule: 'color: var(--cb-color-danger-700)', kind: 'text', es: 'Error, egresos.', en: 'Error, expenses.' },
+        { cls: 'cb-text-info', cssRule: 'color: var(--cb-color-info-700)', kind: 'text', es: 'Información (también cb-text-help).', en: 'Information (also cb-text-help).' },
+      ],
+    },
+    {
+      id: 'backgrounds',
+      es: 'Fondos',
+      en: 'Backgrounds',
+      descEs: 'Superficies del tema y fondos por severidad. Los sólidos ponen también el color de contraste; los -subtle tiñen con transparencia y funcionan en claro y en oscuro.',
+      descEn: 'Theme surfaces and per-severity backgrounds. Solid ones also set the contrast color; -subtle ones tint with transparency and work in light and dark.',
+      code: `<div class="cb-bg-subtle cb-p-4 cb-rounded-lg">Panel</div>
+<span class="cb-bg-success-subtle cb-text-success cb-px-2 cb-rounded-full">Aprobado</span>
+<div class="cb-bg-primary cb-p-3">Destacado</div>`,
+      rows: [
+        { cls: 'cb-bg-surface', cssRule: 'background-color: var(--cb-color-surface)', kind: 'surface', es: 'Superficie base.', en: 'Base surface.' },
+        { cls: 'cb-bg-subtle', cssRule: 'background-color: var(--cb-color-surface-subtle)', kind: 'surface', es: 'Superficie suave para paneles.', en: 'Soft surface for panels.' },
+        { cls: 'cb-bg-raised', cssRule: 'background-color: var(--cb-color-surface-raised)', kind: 'surface', es: 'Superficie elevada (tarjetas, menús).', en: 'Raised surface (cards, menus).' },
+        { cls: 'cb-bg-primary', cssRule: 'background-color: var(--cb-color-primary); color: …-contrast', kind: 'surface', es: 'Fondo sólido con texto de contraste (todas las severidades).', en: 'Solid background with contrast text (all severities).' },
+        { cls: 'cb-bg-danger', cssRule: 'background-color: var(--cb-color-danger); color: …-contrast', kind: 'surface', es: 'Fondo sólido de peligro.', en: 'Solid danger background.' },
+        { cls: 'cb-bg-success-subtle', cssRule: 'background-color: color-mix(… success 12%, transparent)', kind: 'surface', es: 'Tinte suave de éxito (badges, alertas).', en: 'Soft success tint (badges, alerts).' },
+        { cls: 'cb-bg-warning-subtle', cssRule: 'background-color: color-mix(… warning 12%, transparent)', kind: 'surface', es: 'Tinte suave de advertencia.', en: 'Soft warning tint.' },
+      ],
+    },
+    {
+      id: 'borders',
+      es: 'Bordes, radio y sombras',
+      en: 'Borders, radius and shadows',
+      descEs: 'Bordes con --cb-color-border, radios --cb-radius-* y sombras --cb-shadow-* (más intensas en oscuro).',
+      descEn: 'Borders with --cb-color-border, --cb-radius-* radii and --cb-shadow-* shadows (stronger in dark mode).',
+      code: `<div class="cb-border cb-rounded-lg cb-shadow-sm cb-p-4">Tarjeta</div>
+<li class="cb-border-b cb-py-2">Fila de lista</li>
+<input class="cb-border cb-border-danger cb-rounded-md" />`,
+      rows: [
+        { cls: 'cb-border', cssRule: 'border: 1px solid var(--cb-color-border)', kind: 'surface', es: 'Borde en los cuatro lados (cb-border-0 lo quita).', en: 'Border on all four sides (cb-border-0 removes it).' },
+        { cls: 'cb-border-b', cssRule: 'border-bottom: 1px solid var(--cb-color-border)', kind: 'surface', es: 'Un solo lado: cb-border-t, -r, -b, -l.', en: 'Single side: cb-border-t, -r, -b, -l.' },
+        { cls: 'cb-border cb-border-primary', cssRule: 'border-color: var(--cb-color-primary)', kind: 'surface', es: 'Color del borde por severidad (o cb-border-strong).', en: 'Border color per severity (or cb-border-strong).' },
+        { cls: 'cb-border cb-rounded-sm', cssRule: 'border-radius: var(--cb-radius-sm)', kind: 'surface', es: 'Radio pequeño (también cb-rounded-none).', en: 'Small radius (also cb-rounded-none).' },
+        { cls: 'cb-border cb-rounded-lg', cssRule: 'border-radius: var(--cb-radius-lg)', kind: 'surface', es: 'Radio grande (también cb-rounded-md).', en: 'Large radius (also cb-rounded-md).' },
+        { cls: 'cb-border cb-rounded-full', cssRule: 'border-radius: var(--cb-radius-full)', kind: 'surface', es: 'Píldora o círculo.', en: 'Pill or circle.' },
+        { cls: 'cb-bg-raised cb-shadow-sm', cssRule: 'box-shadow: var(--cb-shadow-sm)', kind: 'surface', es: 'Sombra suave (cb-shadow-none la quita).', en: 'Soft shadow (cb-shadow-none removes it).' },
+        { cls: 'cb-bg-raised cb-shadow-md', cssRule: 'box-shadow: var(--cb-shadow-md)', kind: 'surface', es: 'Sombra media.', en: 'Medium shadow.' },
+        { cls: 'cb-bg-raised cb-shadow-lg', cssRule: 'box-shadow: var(--cb-shadow-lg)', kind: 'surface', es: 'Sombra grande (diálogos, menús).', en: 'Large shadow (dialogs, menus).' },
+      ],
+    },
+    {
+      id: 'position',
+      es: 'Posición y desbordamiento',
+      en: 'Position & overflow',
+      descEs: 'Posicionamiento y control del contenido que no cabe.',
+      descEn: 'Positioning and control of overflowing content.',
+      code: `<div class="cb-relative">
+  <img … />
+  <span class="cb-absolute cb-top-0">Nuevo</span>
+</div>
+<div class="cb-overflow-x-auto"><table>…</table></div>`,
+      rows: [
+        { cls: 'cb-relative', cssRule: 'position: relative', kind: 'none', es: 'Referencia para hijos absolutos (también cb-absolute, cb-fixed).', en: 'Reference for absolute children (also cb-absolute, cb-fixed).' },
+        { cls: 'cb-sticky', cssRule: 'position: sticky', kind: 'none', es: 'Se queda pegado al hacer scroll (con cb-top-0).', en: 'Sticks while scrolling (with cb-top-0).' },
+        { cls: 'cb-inset-0', cssRule: 'inset: 0', kind: 'none', es: 'Ocupa todo el contenedor posicionado.', en: 'Fills the whole positioned container.' },
+        { cls: 'cb-overflow-hidden', cssRule: 'overflow: hidden', kind: 'none', es: 'Recorta lo que sobresale.', en: 'Clips overflowing content.' },
+        { cls: 'cb-overflow-x-auto', cssRule: 'overflow-x: auto', kind: 'none', es: 'Scroll horizontal si hace falta (tablas). También cb-overflow-auto, cb-overflow-y-auto.', en: 'Horizontal scroll when needed (tables). Also cb-overflow-auto, cb-overflow-y-auto.' },
       ],
     },
   ];

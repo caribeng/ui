@@ -1024,13 +1024,17 @@ export const ES_EN: Record<string, string> = {
   'Pulsa Tab dentro del recuadro para comprobar cómo el foco cicla entre sus elementos.':
     'Press Tab inside the box to see how focus cycles through its elements.',
   'Contenedor con foco confinado': 'Container with trapped focus',
-  'Tarjeta de carpeta genérica: icono de carpeta, nombre y una fila con número de archivos y tamaño. Proyecta un menú de acciones por [cb-folder-actions].':
-    'Generic folder card: folder icon, name and a row with file count and size. Projects an actions menu through [cb-folder-actions].',
-  'Nombre, número de archivos y tamaño. Un botón de acciones proyectado en la esquina.':
-    'Name, file count and size. An actions button projected in the corner.',
-  'Varias folder-card forman la sección \'All Folders\' de un gestor de archivos.':
-    'Several folder-cards make up the \'All Folders\' section of a file manager.',
-  'Rejilla de carpetas': 'Folder grid',
+  'Tarjeta de carpeta genérica: icono de carpeta, nombre y una fila con número de archivos y tamaño. Con actions muestra un menú ⋮ de acciones; con clickable, toda la tarjeta abre la carpeta.':
+    'Generic folder card: folder icon, name and a row with file count and size. With actions it shows a ⋮ actions menu; with clickable, the whole card opens the folder.',
+  'Menú de acciones': 'Actions menu',
+  'actions recibe items de cb-menu (icono, disabled, separator…). El botón ⋮ abre el menú y actionSelect avisa de la acción elegida.':
+    'actions takes cb-menu items (icon, disabled, separator…). The ⋮ button opens the menu and actionSelect reports the chosen action.',
+  'Tarjeta pulsable': 'Clickable card',
+  'Con clickable, el nombre es un botón que cubre toda la tarjeta y emite open (clic, Enter o Espacio). El botón ⋮ queda por encima y no abre la carpeta.':
+    'With clickable, the name is a button that covers the whole card and emits open (click, Enter or Space). The ⋮ button sits on top and does not open the folder.',
+  'Contenido propio en la esquina': 'Custom corner content',
+  'Sin actions, [cb-folder-actions] proyecta cualquier contenido en la esquina (p. ej. un botón propio o un badge).':
+    'Without actions, [cb-folder-actions] projects any content into the corner (e.g. your own button or a badge).',
   'Recuperar contraseña con layout dividido estilo Atlantis: ingresa el correo para recibir el enlace de restablecimiento.':
     'Atlantis-style split-layout password recovery: enter your email to receive the reset link.',
   'App header con acciones': 'App header with actions',
