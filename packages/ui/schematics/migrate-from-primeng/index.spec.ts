@@ -212,6 +212,58 @@ describe('ng generate @caribeng/ui:migrate-from-primeng', () => {
     assert.equal(deps(tree)['primeng'], undefined);
   });
 
+  it('formulario completo: controles migrados y radios pendientes que siguen compilando', async () => {
+    const app = await createPrimengApp();
+    app.create(
+      `${APP}/formulario.ts`,
+      [
+        "import { Component } from '@angular/core';",
+        "import { ReactiveFormsModule } from '@angular/forms';",
+        "import { DatePickerModule } from 'primeng/datepicker';",
+        "import { InputNumberModule } from 'primeng/inputnumber';",
+        "import { MultiSelectModule } from 'primeng/multiselect';",
+        "import { RadioButtonModule } from 'primeng/radiobutton';",
+        "import { TextareaModule } from 'primeng/textarea';",
+        "import { ToggleSwitchModule } from 'primeng/toggleswitch';",
+        '',
+        '@Component({',
+        "  selector: 'app-formulario',",
+        '  imports: [ReactiveFormsModule, DatePickerModule, InputNumberModule, MultiSelectModule, RadioButtonModule, TextareaModule, ToggleSwitchModule],',
+        "  templateUrl: './formulario.html',",
+        '})',
+        'export class Formulario {}',
+        '',
+      ].join('\n'),
+    );
+    app.create(
+      `${APP}/formulario.html`,
+      [
+        '<textarea pTextarea formControlName="nota" rows="3"></textarea>',
+        '<p-inputnumber formControlName="cantidad" min="1" />',
+        '<p-multiselect formControlName="etiquetas" [options]="etiquetas" />',
+        '<p-toggleswitch formControlName="activo" />',
+        '<p-datepicker formControlName="entrega" dateFormat="dd/mm/yy" />',
+        '<p-radiobutton name="talla" value="M" formControlName="talla" />',
+        '',
+      ].join('\n'),
+    );
+
+    const tree = await migrate(app);
+    const html = tree.readText(`${APP}/formulario.html`);
+    assert.match(html, /<cb-textarea formControlName="nota" \[rows\]="3" \/>/);
+    assert.match(html, /<cb-input-number formControlName="cantidad" \[min\]="1" \/>/);
+    assert.match(html, /<cb-multiselect formControlName="etiquetas" \[options\]="etiquetas" \/>/);
+    assert.match(html, /<cb-toggle formControlName="activo" \/>/);
+    assert.match(html, /<cb-datepicker formControlName="entrega" dateFormat="dd\/mm\/yy" editable \/>/);
+    assert.match(html, /<!-- TODO\(caribeng\): agrupa los radios .*-->\n<p-radiobutton/);
+
+    const ts = tree.readText(`${APP}/formulario.ts`);
+    assert.match(ts, /imports: \[ReactiveFormsModule, CbDatepicker, CbInputNumber, CbMultiSelect, RadioButtonModule, CbTextarea, CbToggle\]/);
+    assert.match(ts, /import \{ RadioButtonModule \} from 'primeng\/radiobutton';/, 'el radio sigue compilando con PrimeNG');
+    assert.equal(deps(tree)['primeng'], '^21.1.0', 'PrimeNG se queda mientras haya radios sin migrar');
+    assert.match(tree.readText('/caribeng-migration-report.md'), /<p-radiobutton name="talla"/);
+  });
+
   it('con referencias pendientes mantiene PrimeNG instalado y las lista en el informe', async () => {
     const app = await createPrimengApp();
     app.overwrite(`${APP}/app.html`, `<p-table [value]="filas"></p-table>\n<p-button label="X" />\n`);

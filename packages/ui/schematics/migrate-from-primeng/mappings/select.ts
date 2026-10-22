@@ -1,23 +1,15 @@
-import { FOCUS_EVENTS, SIZE_VALUES, drop, event, rename, styleClass, unsupported, values } from './rules';
+import { FOCUS_EVENTS, SIZE_VALUES, adaptEvent, drop, event, numeric, rename, styleClass, unsupported, values } from './rules';
 import type { AttrRule, ChildElement, ChildRewrite, ComponentMapping } from './types';
 
 const NO_TEMPLATES = 'cb-select no admite plantillas personalizadas; este contenido no se mostrará.';
 
 /**
- * `(onChange)="cambiar($event.value)"` → `(valueChange)="cambiar($event)"`.
- * `null` si la expresión usa el `$event` de PrimeNG de otra forma.
- */
-function adaptChange(expression: string): string | null {
-  const adapted = expression.replace(/\$event\.value\b/g, '$event');
-  return /\$event\b(?!\.value)/.test(expression) ? null : adapted;
-}
-
-/**
  * `<p-select [options]="ciudades" optionLabel="nombre" [(ngModel)]="ciudad" size="small" />`
  * → `<cb-select [options]="ciudades" optionLabel="nombre" [(ngModel)]="ciudad" size="sm" />`
  */
-const rules: Record<string, AttrRule> = {
+export const selectRules: Record<string, AttrRule> = {
   size: values('size', SIZE_VALUES),
+  virtualScrollItemSize: numeric(),
   styleClass: styleClass(),
   emptyFilterMessage: (binding, el) => {
     if (el.find('emptyMessage')) el.todos.push(`${binding.source} — cb-select usa un solo mensaje (emptyMessage).`);
@@ -57,7 +49,7 @@ const rules: Record<string, AttrRule> = {
   variant: unsupported('cb-select no tiene variante "filled".'),
   fluid: unsupported('cb-select ya ocupa todo el ancho de su contenedor.'),
   ariaFilterLabel: unsupported('el filtro usa filterPlaceholder como nombre accesible.'),
-  '(onChange)': event('valueChange', adaptChange),
+  '(onChange)': event('valueChange', adaptEvent('value')),
   ...FOCUS_EVENTS,
   '(onShow)': unsupported('cb-select no emite la apertura del panel.'),
   '(onHide)': unsupported('cb-select no emite el cierre del panel.'),
@@ -67,7 +59,7 @@ const rules: Record<string, AttrRule> = {
   '(onLazyLoad)': unsupported('cb-select no tiene carga diferida.'),
 };
 
-const same = [
+export const selectSame = [
   'options',
   'optionLabel',
   'optionValue',
@@ -82,7 +74,6 @@ const same = [
   'showClear',
   'scrollHeight',
   'virtualScroll',
-  'virtualScrollItemSize',
   'invalid',
   'disabled',
   'inputId',
@@ -91,7 +82,7 @@ const same = [
 ];
 
 /** Las plantillas de PrimeNG (`#item`, `#selectedItem`…) no tienen equivalente. */
-const child = (element: ChildElement): ChildRewrite | null => (element.name === 'ng-template' ? { todo: NO_TEMPLATES } : null);
+export const selectChild = (element: ChildElement): ChildRewrite | null => (element.name === 'ng-template' ? { todo: NO_TEMPLATES } : null);
 
 export const select: ComponentMapping = {
   name: 'select',
@@ -102,5 +93,5 @@ export const select: ComponentMapping = {
     // Nombre anterior a PrimeNG 18.
     'primeng/dropdown': { DropdownModule: 'CbSelect', Dropdown: 'CbSelect' },
   },
-  elements: ['p-select', 'p-dropdown'].map((tag) => ({ tag, to: 'cb-select', rules, child, same })),
+  elements: ['p-select', 'p-dropdown'].map((tag) => ({ tag, to: 'cb-select', rules: selectRules, child: selectChild, same: selectSame })),
 };

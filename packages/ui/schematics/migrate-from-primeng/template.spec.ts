@@ -254,6 +254,109 @@ describe('plantillas: checkbox', () => {
   });
 });
 
+describe('plantillas: textarea', () => {
+  it('pTextarea → cb-textarea; números como binding', () => {
+    assert.equal(
+      text(`<textarea pTextarea id="nota" rows="5" maxlength="200" [autoResize]="true" [(ngModel)]="nota"></textarea>`),
+      `<cb-textarea inputId="nota" [rows]="5" [maxlength]="200" [autoResize]="true" [(ngModel)]="nota" />`,
+    );
+  });
+
+  it('pInputTextarea (PrimeNG < 18) también', () => {
+    assert.equal(text(`<textarea pInputTextarea formControlName="obs"></textarea>`), `<cb-textarea formControlName="obs" />`);
+  });
+});
+
+describe('plantillas: inputnumber', () => {
+  it('moneda, límites y botones', () => {
+    assert.equal(
+      text(`<p-inputnumber [(ngModel)]="precio" mode="currency" currency="EUR" locale="es-ES" min="0" [max]="limite" [showButtons]="true" buttonLayout="stacked" />`),
+      `<cb-input-number [(ngModel)]="precio" mode="currency" currency="EUR" locale="es-ES" [min]="0" [max]="limite" [showButtons]="true" />`,
+    );
+  });
+
+  it('decimales y eventos', () => {
+    assert.equal(
+      text(`<p-inputNumber formControlName="peso" [minFractionDigits]="2" maxFractionDigits="3" suffix=" kg" (onKeyDown)="tecla($event)" (onBlur)="salir()" />`),
+      `<cb-input-number formControlName="peso" [minFractionDigits]="2" [maxFractionDigits]="3" suffix=" kg" (keydown)="tecla($event)" (focusout)="salir()" />`,
+    );
+  });
+
+  it('valor no numérico en un input numérico: aviso', () => {
+    assert.match(text(`<p-inputnumber min="cero" />`), /TODO\(caribeng\): min="cero" — min es numérico en cb-input-number/);
+  });
+});
+
+describe('plantillas: multiselect', () => {
+  it('API común con Select, filterPlaceHolder y maxSelectedLabels', () => {
+    assert.equal(
+      text(`<p-multiselect [options]="ciudades" optionLabel="nombre" [(ngModel)]="elegidas" [filter]="true" filterPlaceHolder="Buscar" maxSelectedLabels="2" appendTo="body" (onChange)="cambio($event.value)" />`),
+      `<cb-multiselect [options]="ciudades" optionLabel="nombre" [(ngModel)]="elegidas" [filter]="true" filterPlaceholder="Buscar" [maxSelectedLabels]="2" (valueChange)="cambio($event)" />`,
+    );
+  });
+
+  it('display="chip" y selectionLimit: aviso', () => {
+    const out = text(`<p-multiSelect [options]="o" display="chip" [selectionLimit]="3" />`);
+    assert.match(out, /TODO\(caribeng\): display="chip"/);
+    assert.match(out, /TODO\(caribeng\): \[selectionLimit\]="3"/);
+  });
+});
+
+describe('plantillas: select (números)', () => {
+  it('virtualScrollItemSize estático pasa a binding', () => {
+    assert.equal(text(`<p-select [options]="o" [virtualScroll]="true" virtualScrollItemSize="40" />`), `<cb-select [options]="o" [virtualScroll]="true" [virtualScrollItemSize]="40" />`);
+  });
+});
+
+describe('plantillas: toggleswitch', () => {
+  it('p-toggleswitch y p-inputSwitch → cb-toggle', () => {
+    assert.equal(
+      text(`<p-toggleswitch [(ngModel)]="activo" inputId="activo" (onChange)="guardar($event.checked)" />`),
+      `<cb-toggle [(ngModel)]="activo" inputId="activo" (changed)="guardar($event)" />`,
+    );
+    assert.equal(text(`<p-inputSwitch formControlName="avisos"></p-inputSwitch>`), `<cb-toggle formControlName="avisos"></cb-toggle>`);
+  });
+});
+
+describe('plantillas: datepicker', () => {
+  it('formato, icono y edición como en PrimeNG', () => {
+    assert.equal(
+      text(`<p-datepicker [(ngModel)]="fecha" dateFormat="dd/mm/yy" [showIcon]="true" appendTo="body" firstDayOfWeek="1" />`),
+      `<cb-datepicker [(ngModel)]="fecha" dateFormat="dd/mm/yy" [firstDayOfWeek]="1" editable />`,
+    );
+  });
+
+  it('readonlyInput: no editable; con expresión, editable negado', () => {
+    assert.equal(text(`<p-datepicker [(ngModel)]="f" [readonlyInput]="true" />`), `<cb-datepicker [(ngModel)]="f" />`);
+    assert.equal(text(`<p-datepicker [(ngModel)]="f" [readonlyInput]="bloqueado" />`), `<cb-datepicker [(ngModel)]="f" [editable]="!(bloqueado)" />`);
+  });
+
+  it('rango, hora y p-calendar (PrimeNG < 18)', () => {
+    assert.equal(
+      text(`<p-calendar formControlName="viaje" selectionMode="range" [showTime]="true" hourFormat="12" (onSelect)="elegir($event)" />`),
+      `<cb-datepicker formControlName="viaje" selectionMode="range" [showTime]="true" hourFormat="12" (valueChange)="elegir($event)" editable />`,
+    );
+  });
+
+  it('modo multiple e inline: aviso', () => {
+    const out = text(`<p-datepicker [(ngModel)]="fechas" selectionMode="multiple" [inline]="true" />`);
+    assert.match(out, /TODO\(caribeng\): selectionMode="multiple"/);
+    assert.match(out, /TODO\(caribeng\): \[inline\]="true"/);
+  });
+});
+
+describe('plantillas: radiobutton', () => {
+  it('no se convierte: aviso con la forma de agruparlos, sin repetirse en una segunda ejecución', () => {
+    const html = `<div>\n  <p-radiobutton name="talla" value="M" [(ngModel)]="talla" inputId="m" />\n  <label for="m">M</label>\n</div>`;
+    const once = text(html);
+    assert.match(once, /<!-- TODO\(caribeng\): agrupa los radios en <cb-radio-group/);
+    assert.match(once, /<p-radiobutton name="talla"/);
+    const twice = migrate(once);
+    assert.equal(twice.changed, false);
+    assert.equal(twice.text, once);
+  });
+});
+
 describe('plantillas: iconos sueltos', () => {
   it('<i class="pi pi-…"> → <cb-icon>', () => {
     assert.equal(text(`<i class="pi pi-search"></i>`), `<cb-icon name="search" />`);

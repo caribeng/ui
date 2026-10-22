@@ -106,6 +106,39 @@ export const event =
     }
   };
 
+/**
+ * Input numérico de CaribeNG (`input<number>` sin transform). Con
+ * strictTemplates un atributo estático (`rows="5"`) es un string y no compila:
+ * se escribe como binding (`[rows]="5"`).
+ */
+export const numeric =
+  (to?: string): AttrRule =>
+  (binding, el) => {
+    const name = to ?? binding.name;
+    if (binding.kind !== 'static') {
+      el.attrs.push(renderAttr(binding.kind, name, binding.value));
+    } else if (/^-?\d+(\.\d+)?$/.test(binding.value.trim())) {
+      el.attrs.push(renderAttr('property', name, binding.value.trim()));
+    } else {
+      el.attrs.push(renderAttr('static', name, binding.value, binding.bare));
+      el.todos.push(`${binding.source} — ${name} es numérico en ${el.tag}; usa [${name}]="…".`);
+    }
+  };
+
+/**
+ * Adaptador para `event()`: PrimeNG envuelve el valor en `$event.<campo>`
+ * (`{ value, originalEvent }`, `{ checked, originalEvent }`) y CaribeNG emite
+ * el valor directamente. `$event.value` → `$event`; cualquier otro uso de
+ * `$event` devuelve `null` (se deja un aviso).
+ */
+export const adaptEvent =
+  (field: string) =>
+  (expression: string): string | null => {
+    const property = new RegExp(`\\$event\\.${field}\\b`, 'g');
+    const other = new RegExp(`\\$event\\b(?!\\.${field}\\b)`);
+    return other.test(expression) ? null : expression.replace(property, '$event');
+  };
+
 /** `styleClass` → `class` en el host (CaribeNG aplica las clases del host). */
 export const styleClass = (): AttrRule => rename('class');
 

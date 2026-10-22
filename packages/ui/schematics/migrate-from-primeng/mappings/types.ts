@@ -67,6 +67,12 @@ export interface ElementMapping {
   readonly otherTags?: string;
   /** Tag CaribeNG de destino (`cb-button`). */
   readonly to: string;
+  /**
+   * La traducción cambia la estructura y no se puede hacer elemento a elemento
+   * (p. ej. radios sueltos → `<cb-radio-group>`): el elemento no se toca y se
+   * deja este aviso. Sus módulos no se renombran, para que siga compilando.
+   */
+  readonly manual?: string;
   /** El destino no admite contenido: se escribe auto-cerrado (`<cb-input />`). */
   readonly selfClosing?: boolean;
   /**

@@ -1,16 +1,38 @@
 import { button } from './button';
 import { card } from './card';
 import { checkbox } from './checkbox';
+import { datepicker } from './datepicker';
 import { dialog } from './dialog';
+import { inputnumber } from './inputnumber';
 import { inputtext } from './inputtext';
+import { multiselect } from './multiselect';
+import { radiobutton } from './radiobutton';
 import { select } from './select';
 import { tag } from './tag';
+import { textarea } from './textarea';
 import { toast } from './toast';
+import { toggleswitch } from './toggleswitch';
 import { tooltip } from './tooltip';
 import type { ComponentMapping, DirectiveMapping, ElementMapping, SourceRewriter } from './types';
 
 /** Componentes que el migrador sabe traducir. Para añadir uno, crea su archivo y regístralo aquí. */
-export const MAPPINGS: readonly ComponentMapping[] = [button, inputtext, select, dialog, tag, toast, card, tooltip, checkbox];
+export const MAPPINGS: readonly ComponentMapping[] = [
+  button,
+  inputtext,
+  textarea,
+  inputnumber,
+  select,
+  multiselect,
+  checkbox,
+  radiobutton,
+  toggleswitch,
+  datepicker,
+  dialog,
+  tag,
+  toast,
+  card,
+  tooltip,
+];
 
 /** Símbolo CaribeNG y entry point del que se importa. */
 export interface CaribeSymbol {

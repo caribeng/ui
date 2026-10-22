@@ -34,8 +34,8 @@ function caribeApi(entry: string): Set<string> {
   return names;
 }
 
-/** Atributos del DOM que el migrador puede escribir en un host CaribeNG. */
-const NATIVE = new Set(['class', 'click', 'focusin', 'focusout']);
+/** Atributos y eventos del DOM (que burbujean hasta el host) que el migrador puede escribir en un host CaribeNG. */
+const NATIVE = new Set(['class', 'click', 'focusin', 'focusout', 'keydown']);
 
 /** Nombre de input/output de un atributo escrito (`[(visible)]="x"` → visible). */
 const attrName = (attr: string) => /^(?:\[\(|\[|\()?([A-Za-z][\w-]*)/.exec(attr)![1];

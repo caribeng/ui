@@ -119,7 +119,12 @@ Todos los avisos, las referencias a PrimeNG que aún quedan (por ejemplo compone
 |---|---|
 | `<p-button>`, `<button pButton>` | `<cb-button>` |
 | `<input pInputText>` | `<cb-input>` |
+| `<textarea pTextarea>`, `<textarea pInputTextarea>` | `<cb-textarea>` |
+| `<p-inputnumber>` | `<cb-input-number>` |
 | `<p-select>`, `<p-dropdown>` | `<cb-select>` |
+| `<p-multiselect>` | `<cb-multiselect>` |
+| `<p-toggleswitch>`, `<p-inputSwitch>` | `<cb-toggle>` |
+| `<p-datepicker>`, `<p-calendar>` | `<cb-datepicker>` |
 | `<p-dialog>` | `<cb-dialog>` |
 | `<p-tag>` | `<cb-tag>` |
 | `<p-toast>` + `MessageService` | `<cb-toast>` + `CbToastService` |
@@ -128,7 +133,7 @@ Todos los avisos, las referencias a PrimeNG que aún quedan (por ejemplo compone
 | `<p-checkbox>` | `<cb-checkbox>` |
 | `<i class="pi pi-*">` | `<cb-icon>` |
 
-El resto aparece en el informe para migrarlo a mano; se irán añadiendo en próximas versiones.
+Los radios (`<p-radiobutton>`) se marcan con un aviso pero no se convierten: en CaribeNG el modelo va en un `<cb-radio-group>` que envuelve las opciones, y agruparlos cambia el layout. El resto de componentes aparece en el informe para migrarlo a mano; se irán añadiendo en próximas versiones.
 
 | Opción | Uso |
 |---|---|

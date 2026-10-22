@@ -1,15 +1,5 @@
-import { FOCUS_EVENTS, SIZE_VALUES, drop, event, styleClass, unsupported, values } from './rules';
+import { FOCUS_EVENTS, SIZE_VALUES, adaptEvent, drop, event, styleClass, unsupported, values } from './rules';
 import type { AttrRule, ComponentMapping } from './types';
-
-/**
- * `(onChange)="marcar($event.checked)"` → `(changed)="marcar($event)"`: PrimeNG
- * emite `{ checked, originalEvent }` y cb-checkbox emite directamente el valor
- * nuevo (booleano o array), que es lo que PrimeNG pone en `checked`.
- */
-function adaptChange(expression: string): string | null {
-  const adapted = expression.replace(/\$event\.checked\b/g, '$event');
-  return /\$event\b(?!\.checked)/.test(expression) ? null : adapted;
-}
 
 /**
  * `<p-checkbox [(ngModel)]="acepto" [binary]="true" inputId="acepto" />`
@@ -32,7 +22,7 @@ const rules: Record<string, AttrRule> = {
   inputStyle: unsupported('personaliza el control con los tokens CSS de cb-checkbox.'),
   inputClass: unsupported('personaliza el control con los tokens CSS de cb-checkbox.'),
   variant: unsupported('cb-checkbox no tiene variante "filled".'),
-  '(onChange)': event('changed', adaptChange),
+  '(onChange)': event('changed', adaptEvent('checked')),
   ...FOCUS_EVENTS,
 };
 

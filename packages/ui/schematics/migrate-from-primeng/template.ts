@@ -63,6 +63,10 @@ export function rewriteTemplate(compiler: Compiler, text: string, url: string): 
       .map((attr) => DIRECTIVES_BY_ATTR.get(attr.name.replace(/^\[(.+)\]$/, '$1')))
       .filter((directive): directive is DirectiveMapping => directive !== undefined);
     const mapping = ELEMENTS_BY_TAG.get(element.name) ?? element.attrs.map((attr) => ELEMENTS_BY_ATTR.get(attr.name)).find(Boolean);
+    if (mapping?.manual) {
+      edits.push(todoEdit(text, element.sourceSpan.start.offset, mapping.manual));
+      return;
+    }
     if (mapping?.attr && mapping.on && !mapping.on.includes(element.name)) {
       const hint = mapping.otherTags ?? `usa un <${mapping.to}> o el componente CaribeNG equivalente.`;
       edits.push(todoEdit(text, element.sourceSpan.start.offset, `${mapping.attr} en <${element.name}> no se migra automáticamente: ${hint}`));
@@ -77,8 +81,8 @@ export function rewriteTemplate(compiler: Compiler, text: string, url: string): 
   };
 
   visit(parsed.rootNodes);
-  if (!edits.length) return { text, changed: false, icons };
-  return { text: applyEdits(text, edits), changed: true, icons };
+  const result = edits.length ? applyEdits(text, edits) : text;
+  return { text: result, changed: result !== text, icons };
 }
 
 /** Aplica ediciones (sin solapes) de atrás hacia delante. */
@@ -264,8 +268,12 @@ function todoPrefix(text: string, offset: number, message: string): string {
   return comment + (indent === null ? ' ' : newline + indent);
 }
 
+/** Aviso sobre un elemento que no se convierte. Si ya está (segunda ejecución), no se repite. */
 function todoEdit(text: string, offset: number, message: string): Edit {
-  return { start: offset, end: offset, text: todoPrefix(text, offset, message) };
+  const prefix = todoPrefix(text, offset, message);
+  const comment = prefix.slice(0, prefix.indexOf('-->') + 3);
+  const already = text.slice(0, offset).trimEnd().endsWith(comment);
+  return { start: offset, end: offset, text: already ? '' : prefix };
 }
 
 /** Sangría de la línea si el elemento es lo primero de ella; `null` si va detrás de otro contenido. */

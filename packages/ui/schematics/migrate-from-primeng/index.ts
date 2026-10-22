@@ -117,8 +117,10 @@ function resolvePath(from: string, relative: string): string {
 
 /** Tags (`cb-button`) y directivas (`cbTooltip`) CaribeNG que aparecen en `after` pero no en `before` → símbolos a importar. */
 function introducedSymbols(before: string, after: string): CaribeSymbol[] {
-  const tags = (text: string) => new Set([...text.matchAll(/<(cb-[a-z0-9-]+)/g)].map((m) => m[1]));
-  const attrs = (text: string) => new Set([...text.matchAll(/[\s[](cb[A-Z][A-Za-z]*)\]?(?=[\s=/>])/g)].map((m) => m[1]));
+  // Los avisos TODO(caribeng) citan tags de CaribeNG (`<cb-radio-group>`): los comentarios no cuentan.
+  const code = (text: string) => text.replace(/<!--[\s\S]*?-->/g, '');
+  const tags = (text: string) => new Set([...code(text).matchAll(/<(cb-[a-z0-9-]+)/g)].map((m) => m[1]));
+  const attrs = (text: string) => new Set([...code(text).matchAll(/[\s[](cb[A-Z][A-Za-z]*)\]?(?=[\s=/>])/g)].map((m) => m[1]));
   const symbols = new Map<string, CaribeSymbol>();
   for (const [found, index] of [
     [tags, TAG_SYMBOLS],
