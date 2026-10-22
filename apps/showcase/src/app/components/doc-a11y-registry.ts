@@ -629,6 +629,8 @@ export const DOC_A11Y: Record<string, DocA11y> = {
       'Los adjuntos se añaden con un botón (el arrastre de archivos es opcional) y cada uno tiene su botón "Quitar" con nombre.',
       'La lista (cb-kanban-list) es una tabla con cabeceras de columna; cada sección es un grupo de filas (`th scope="rowgroup"`) con un botón que la contrae (`aria-expanded`) y dice cuántas tareas tiene.',
       'En la lista, el círculo es un botón conmutador (`aria-pressed`) con nombre ("Marcar «Diseño» como finalizada") y el nombre de la tarea es el botón que abre el detalle. Una tarea sin responsable lo dice con texto.',
+      'En el calendario (cb-kanban-calendar) cada semana es un grupo con nombre ("Semana del 9 al 15 mar") y cada tarea un botón que dice su nombre, fechas, prioridad, responsables y columna. Arrastrar no es la única forma de cambiar las fechas: Alt + flechas lo hace con el teclado y el cambio se anuncia.',
+      'Cada día tiene un botón "Añadir tarea el miércoles, 20 de marzo de 2030" y el mes visible se anuncia al cambiarlo con ‹ ›.',
     ],
     keyboard: [
       { keys: 'Tab', action: 'Recorre las tarjetas y los botones Añadir tarjeta.' },
@@ -641,6 +643,7 @@ export const DOC_A11Y: Record<string, DocA11y> = {
       { keys: 'F2', action: 'Edita el título de la tarjeta (editable). Enter guarda, Escape cancela.' },
       { keys: 'Supr', action: 'Pide confirmar la eliminación de la tarjeta (editable).' },
       { keys: 'Alt + flecha arriba / abajo (lista)', action: 'Mueve la tarea en la lista; en el borde pasa a la sección vecina.' },
+      { keys: 'Alt + flechas (calendario)', action: 'Izquierda / derecha mueven la tarea un día; arriba / abajo, una semana. El calendario sigue a la tarea si cambia de mes.' },
     ],
   },
   'cb-mentions': {

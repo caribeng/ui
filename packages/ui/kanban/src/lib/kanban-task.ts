@@ -72,6 +72,26 @@ export function toIsoDay(date: Date | null | undefined): string | null {
   return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
 }
 
+/** Mismo día a medianoche (hora local). */
+export function startOfDay(date: Date): Date {
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+}
+
+/** `date` + `days` días (sin desfase por cambio de horario). */
+export function addDays(date: Date, days: number): Date {
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate() + days);
+}
+
+/** Primer día de la semana de `date` (`first`: 0 = domingo, 1 = lunes…). */
+export function startOfWeek(date: Date, first: number): Date {
+  return addDays(date, -((date.getDay() - first + 7) % 7));
+}
+
+/** Días entre dos fechas (`b` − `a`), contando días de calendario. */
+export function dayDiff(a: Date, b: Date): number {
+  return Math.round((Date.UTC(b.getFullYear(), b.getMonth(), b.getDate()) - Date.UTC(a.getFullYear(), a.getMonth(), a.getDate())) / 86_400_000);
+}
+
 /** Es el mismo día del calendario. */
 export function sameDay(a: Date, b: Date): boolean {
   return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();

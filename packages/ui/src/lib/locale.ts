@@ -156,6 +156,15 @@ export interface CbTranslation {
   /** `{0}`: sección, `{1}`: cantidad. */
   kanbanSectionCount: string;
   kanbanListInstructions: string;
+  /** `{0}`: cantidad. */
+  kanbanNoDate: string;
+  /** `{0}`: día. */
+  kanbanAddTaskOn: string;
+  /** `{0}`: primer día, `{1}`: último. */
+  kanbanWeekOf: string;
+  kanbanCalendarInstructions: string;
+  /** `{0}`: tarea, `{1}`: fechas. */
+  kanbanRescheduled: string;
   save: string;
   /** `{0}`: cantidad. */
   mentionsCount: string;
@@ -692,6 +701,11 @@ export const CB_LOCALE_ES: CbTranslation = {
   kanbanMarkIncomplete: 'Marcar «{0}» como pendiente',
   kanbanSectionCount: '{0}, {1} tareas',
   kanbanListInstructions: 'Con Alt + flecha arriba o abajo, la tarea se mueve en la lista.',
+  kanbanNoDate: 'Sin fecha ({0})',
+  kanbanAddTaskOn: 'Añadir tarea el {0}',
+  kanbanWeekOf: 'Semana del {0} al {1}',
+  kanbanCalendarInstructions: 'Arrastra la tarea a otro día, o usa Alt + flechas: izquierda y derecha cambian el día; arriba y abajo, la semana.',
+  kanbanRescheduled: '{0}: {1}.',
   save: 'Guardar',
   mentionsCount: '{0} sugerencias',
   add: 'Agregar',
@@ -1172,6 +1186,11 @@ export const CB_LOCALE_EN: CbTranslation = {
   kanbanMarkIncomplete: 'Mark “{0}” incomplete',
   kanbanSectionCount: '{0}, {1} tasks',
   kanbanListInstructions: 'Press Alt + Up or Down arrow to move the task in the list.',
+  kanbanNoDate: 'No date ({0})',
+  kanbanAddTaskOn: 'Add task on {0}',
+  kanbanWeekOf: 'Week of {0} to {1}',
+  kanbanCalendarInstructions: 'Drag the task to another day, or use Alt + arrows: left and right change the day; up and down, the week.',
+  kanbanRescheduled: '{0}: {1}.',
   save: 'Save',
   mentionsCount: '{0} suggestions',
   add: 'Add',

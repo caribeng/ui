@@ -2,6 +2,7 @@
  * Public API Surface de @caribeng/ui/kanban
  */
 export { CbKanban, CbKanbanCardDirective, type CbKanbanCardContext } from './lib/kanban.component';
+export { CbKanbanCalendar } from './lib/kanban-calendar.component';
 export { CbKanbanList } from './lib/kanban-list.component';
 export {
   CbKanbanView,

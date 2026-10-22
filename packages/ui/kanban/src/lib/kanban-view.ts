@@ -319,10 +319,14 @@ export abstract class CbKanbanView {
     // Por defecto, nada.
   }
 
-  /** Añade una tarjeta al final de la columna (`createCard` decide su forma). Devuelve la tarjeta. */
-  addCard(columnId: string, title: string): unknown {
+  /**
+   * Añade una tarjeta al final de la columna (`createCard` decide su forma) con los
+   * campos de `extra` (p. ej. las fechas del día en el calendario). Devuelve la tarjeta.
+   */
+  addCard(columnId: string, title: string, extra?: CbKanbanTaskPatch): unknown {
     const factory = this.createCard();
-    const item = factory ? factory(title, columnId) : { [this.itemKey()]: newId(), [this.itemLabel()]: title };
+    const created = factory ? factory(title, columnId) : { [this.itemKey()]: newId(), [this.itemLabel()]: title };
+    const item = extra && created && typeof created === 'object' ? { ...created, ...extra } : created;
     const next = this.cloneColumns();
     const column = next.findIndex((c) => c.id === columnId);
     if (column < 0) return undefined;

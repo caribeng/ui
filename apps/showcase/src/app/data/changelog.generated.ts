@@ -11,6 +11,10 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
         "type": "added",
         "items": [
           {
+            "component": "Kanban, vista de calendario",
+            "text": "`cb-kanban-calendar` pinta el mes (`[(viewDate)]`, `firstDayOfWeek`, lunes por defecto) con cada tarea como una barra de su fecha de inicio a la de fin, del color de su columna y repartida en carriles; las que cruzan semanas siguen en la siguiente. Con `editable`, la barra se arrastra a otro día (o Alt + flechas: ←→ un día, ↑↓ una semana) manteniendo la duración, y el calendario sigue a la tarea si cambia de mes; con `addable`, \"Añadir tarea\" en cada día la crea con esa fecha en `newTaskColumn`. \"Sin fecha (n)\" lista las tareas sin fechas. Comparte `[(columns)]` y el panel de detalle con las demás vistas. `addCard()` admite campos extra. Textos nuevos: `kanbanNoDate`, `kanbanAddTaskOn`, `kanbanWeekOf`, `kanbanCalendarInstructions` y `kanbanRescheduled`."
+          },
+          {
             "component": "Kanban, vista de lista",
             "text": "`cb-kanban-list` muestra las tareas como una tabla con una sección contraíble por columna (responsables, fechas —\"Hoy\" y vencidas— y prioridad), filas que se arrastran entre secciones o se mueven con Alt + ↑/↓, círculo para marcar la tarea como finalizada (`completed`, también visible en la tarjeta del tablero), \"Añadir tarea\" por sección y en la barra, y secciones que se renombran y se añaden. Comparte `[(columns)]`, eventos y panel de detalle con `cb-kanban` (base común `CbKanbanView`), así que varias vistas se pueden mostrar a la vez sobre los mismos datos. Textos nuevos en el idioma: `kanbanTaskName`, `kanbanAddTask`, `kanbanAddSection`, `kanbanCompleted`, `kanbanMarkComplete`, `kanbanMarkIncomplete`, `kanbanSectionCount` y `kanbanListInstructions`."
           },

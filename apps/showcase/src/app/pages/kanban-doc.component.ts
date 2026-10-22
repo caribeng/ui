@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import {
   CbKanban,
+  CbKanbanCalendar,
   CbKanbanCardDirective,
   CbKanbanList,
   type CbKanbanColumn,
@@ -35,12 +36,12 @@ function day(offset: number): string {
 @Component({
   selector: 'doc-kanban-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbKanban, CbKanbanCardDirective, CbKanbanList, CbTag, DocA11yComponent, DocPlaygroundComponent, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
+  imports: [CbKanban, CbKanbanCalendar, CbKanbanCardDirective, CbKanbanList, CbTag, DocA11yComponent, DocPlaygroundComponent, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
     <doc-page-header
       eyebrow="Data"
       title="Kanban"
-      lead="Tablero de columnas con tarjetas que se reordenan y se mueven entre columnas arrastrando (ratón o dedo) o con el teclado, y vista de lista sobre los mismos datos. Cada tarea se abre en un panel con responsables, prioridad, fechas de inicio y fin, descripción y adjuntos; también se crean, editan y eliminan tarjetas y columnas."
+      lead="Tablero de columnas con tarjetas que se reordenan y se mueven entre columnas arrastrando (ratón o dedo) o con el teclado, y vistas de lista y calendario sobre los mismos datos. Cada tarea se abre en un panel con responsables, prioridad, fechas de inicio y fin, descripción y adjuntos; también se crean, editan y eliminan tarjetas y columnas."
     />
 
     <doc-section id="import" title="Importación">
@@ -95,6 +96,25 @@ function day(offset: number): string {
         [createCard]="createTask"
         (cardMove)="onMove($event)"
         (cardEdit)="log('Editada', $event.item.title)"
+      />
+    </doc-section>
+
+    <doc-section
+      id="calendar"
+      title="Vista de calendario"
+      description="cb-kanban-calendar pinta el mes con cada tarea como una barra desde su fecha de inicio hasta la de fin, del color de su columna. Arrastra una barra a otro día (o Alt + flechas: ←→ un día, ↑↓ una semana) para cambiar sus fechas; Añadir tarea en un día la crea con esa fecha. Sin fecha lista las tareas que aún no tienen. Comparte [(columns)] con el tablero y la lista de arriba."
+      [code]="calendarCode"
+    >
+      <cb-kanban-calendar
+        [(columns)]="columns"
+        details
+        editable
+        addable
+        ariaLabel="Sprint 14 en calendario"
+        [people]="people"
+        [createCard]="createTask"
+        (cardEdit)="log('Editada', $event.item.title)"
+        (cardAdd)="log('Añadida', $event.item.title)"
       />
     </doc-section>
 
@@ -234,7 +254,7 @@ export class KanbanDocComponent {
   /** Las tarjetas nuevas nacen sin responsable y con prioridad baja. */
   protected readonly createTask = (title: string): CbKanbanTask => ({ id: this.nextId++, title, priority: 'low' });
 
-  protected readonly importCode = `import { CbKanban, CbKanbanCardDirective, CbKanbanList, type CbKanbanColumn, type CbKanbanPerson, type CbKanbanTask } from '@caribeng/ui/kanban';`;
+  protected readonly importCode = `import { CbKanban, CbKanbanCalendar, CbKanbanCardDirective, CbKanbanList, type CbKanbanColumn, type CbKanbanPerson, type CbKanbanTask } from '@caribeng/ui/kanban';`;
   protected readonly boardCode = `<div class="kb-demo">
   <cb-kanban
     [(columns)]="columns"
@@ -273,6 +293,17 @@ export class KanbanDocComponent {
 
 <!-- El tablero y la lista comparten la misma señal: se pueden mostrar a la vez. -->
 <cb-kanban [(columns)]="columns" details editable [people]="people" />`;
+  protected readonly calendarCode = `<cb-kanban-calendar
+  [(columns)]="columns"
+  details
+  editable
+  addable
+  ariaLabel="Sprint 14 en calendario"
+  [people]="people"
+  [createCard]="createTask"
+  (cardEdit)="log('Editada', $event.item.title)"
+  (cardAdd)="log('Añadida', $event.item.title)"
+/>`;
   protected readonly templateCode = `<cb-kanban [(columns)]="stories" ariaLabel="Historias">
   <ng-template cbKanbanCard let-story>
     <span class="kb-title">{{ story.title }}</span>
