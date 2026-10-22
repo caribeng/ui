@@ -9,9 +9,10 @@ import {
   input,
   output,
   signal,
+  computed,
 } from '@angular/core';
 import { CbIcon } from '@caribeng/ui/icon';
-import { injectCbTranslation } from '@caribeng/ui';
+import { cbRunCommand, cbVisibleItems, injectCbTranslation, type CbMenuCommandEvent } from '@caribeng/ui';
 
 export interface CbMenubarItem {
   label: string;
@@ -20,6 +21,10 @@ export interface CbMenubarItem {
   target?: string;
   disabled?: boolean;
   items?: readonly CbMenubarItem[];
+  /** Acción al elegir el item (además del evento de selección), como `command` en PrimeNG. */
+  command?: (event: CbMenuCommandEvent<CbMenubarItem>) => void;
+  /** `false` oculta el item. */
+  visible?: boolean;
 }
 
 /** Horizontal navigation bar with optional one-level dropdown menus. */
@@ -36,7 +41,7 @@ export interface CbMenubarItem {
   template: `
     <nav [attr.aria-label]="(ariaLabel() ?? t().mainNavigation)">
       <ul class="cb-menubar__list" role="menubar">
-        @for (item of items(); track $index; let i = $index) {
+        @for (item of visibleItems(); track $index; let i = $index) {
           <li class="cb-menubar__entry" role="none">
             @if (item.items?.length) {
               <button
@@ -95,6 +100,8 @@ export class CbMenubar {
   private readonly host = inject(ElementRef<HTMLElement>);
   private readonly injector = inject(Injector);
   readonly items = input<readonly CbMenubarItem[]>([]);
+  /** Items sin los de `visible: false`. */
+  protected readonly visibleItems = computed(() => cbVisibleItems(this.items()));
   readonly ariaLabel = input<string | undefined>(undefined);
   readonly itemSelect = output<CbMenubarItem>();
   protected readonly openIndex = signal<number | null>(null);
@@ -108,6 +115,7 @@ export class CbMenubar {
       event.preventDefault();
       return;
     }
+    cbRunCommand(item);
     this.itemSelect.emit(item);
     if (parentIndex !== undefined) this.openIndex.set(null);
   }
@@ -142,7 +150,7 @@ export class CbMenubar {
       return;
     }
 
-    if (event.key === 'ArrowDown' && root && this.items()[rootIndex]?.items?.length) {
+    if (event.key === 'ArrowDown' && root && this.visibleItems()[rootIndex]?.items?.length) {
       event.preventDefault();
       this.openIndex.set(rootIndex);
       // El submenú se pinta en el siguiente render (zoneless): se enfoca después.

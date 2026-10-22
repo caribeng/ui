@@ -72,7 +72,7 @@ function rewriteConfirmation(sf: ts.SourceFile, confirmation: ts.ObjectLiteralEx
  * mismas opciones salvo los botones (`acceptButtonProps.severity` →
  * `acceptSeverity`) y las de iconos/estilo, que se marcan.
  */
-const rewriteConfirmationService: SourceRewriter = (sf, locals, edits) => {
+const rewriteConfirmationService: SourceRewriter = (sf, { locals }, edits) => {
   const local = locals.get('ConfirmationService');
   if (!local) return;
   forEachServiceCall(sf, local, (method, access, call) => {

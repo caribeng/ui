@@ -2,7 +2,7 @@ import { parsePrimeIcon } from './icons';
 import { TODO_MARK } from './todo';
 import { DIRECTIVES_BY_ATTR, ELEMENTS_BY_ATTR, ELEMENTS_BY_TAG } from './mappings';
 import { renderAttr } from './mappings/rules';
-import type { Binding, ChildElement, DirectiveMapping, ElementMapping, ElementRewrite } from './mappings/types';
+import type { Binding, ChildElement, DirectiveMapping, ElementMapping, ElementRewrite, TemplateNode } from './mappings/types';
 
 /** `@angular/compiler` (ESM): se carga con `import()` desde los schematics (CommonJS). */
 export type Compiler = typeof import('@angular/compiler');
@@ -44,11 +44,16 @@ export function rewriteTemplate(compiler: Compiler, text: string, url: string): 
 
   const edits: Edit[] = [];
   const icons = new Set<string>();
+  // Nodos que una reestructuración eliminó: no se visitan.
+  const removed = new Set<HtmlNode>();
+  // Elementos ya traducidos por una reestructuración: no se vuelven a traducir (sus hijos sí se visitan).
+  const converted = new Set<HtmlNode>();
 
   const visit = (nodes: readonly HtmlNode[]): void => {
     for (const node of nodes) {
+      if (removed.has(node)) continue;
       if (node instanceof compiler.Element) {
-        visitElement(node);
+        if (!converted.has(node)) visitElement(node);
         visit(node.children);
       } else if (node instanceof compiler.Block) {
         visit(node.children);
@@ -59,12 +64,42 @@ export function rewriteTemplate(compiler: Compiler, text: string, url: string): 
   };
 
   const visitElement = (element: HtmlElement): void => {
-    const directives = element.attrs
-      .map((attr) => DIRECTIVES_BY_ATTR.get(attr.name.replace(/^\[(.+)\]$/, '$1')))
-      .filter((directive): directive is DirectiveMapping => directive !== undefined);
+    const directives = directivesOf(element);
     const mapping = ELEMENTS_BY_TAG.get(element.name) ?? element.attrs.map((attr) => ELEMENTS_BY_ATTR.get(attr.name)).find(Boolean);
     if (mapping?.manual) {
       edits.push(todoEdit(text, element.sourceSpan.start.offset, mapping.manual));
+      return;
+    }
+    if (mapping?.restructure) {
+      const nodes = new Map<TemplateNode, HtmlNode>();
+      const pending: Edit[] = [];
+      const pendingRemoved: HtmlNode[] = [];
+      const pendingConverted: HtmlNode[] = [];
+      const reason = mapping.restructure(templateNode(compiler, text, element, nodes), {
+        convert: (node, nodeMapping) => {
+          const html = nodes.get(node) as HtmlElement;
+          rewriteElement(text, html, nodeMapping, directivesOf(html), pending, icons);
+          rewriteChildren(compiler, text, html, nodeMapping, pending);
+          pendingConverted.push(html);
+        },
+        remove: (node) => {
+          const html = nodes.get(node)!;
+          pending.push({ ...lineRange(text, html.sourceSpan.start.offset, html.sourceSpan.end.offset), text: '' });
+          pendingRemoved.push(html);
+        },
+        unwrap: (node) => {
+          const html = nodes.get(node) as HtmlElement;
+          pending.push({ ...lineRange(text, html.startSourceSpan.start.offset, html.startSourceSpan.end.offset), text: '' });
+          if (html.endSourceSpan && !html.isSelfClosing) pending.push({ ...lineRange(text, html.endSourceSpan.start.offset, html.endSourceSpan.end.offset), text: '' });
+        },
+      });
+      if (reason === null) {
+        edits.push(...pending);
+        pendingRemoved.forEach((node) => removed.add(node));
+        pendingConverted.forEach((node) => converted.add(node));
+      } else {
+        edits.push(todoEdit(text, element.sourceSpan.start.offset, reason));
+      }
       return;
     }
     if (mapping?.attr && mapping.on && !mapping.on.includes(element.name)) {
@@ -83,6 +118,48 @@ export function rewriteTemplate(compiler: Compiler, text: string, url: string): 
   visit(parsed.rootNodes);
   const result = edits.length ? applyEdits(text, edits) : text;
   return { text: result, changed: result !== text, icons };
+}
+
+/** Directivas de atributo PrimeNG (`pTooltip`) presentes en el elemento. */
+function directivesOf(element: HtmlElement): DirectiveMapping[] {
+  return element.attrs
+    .map((attr) => DIRECTIVES_BY_ATTR.get(attr.name.replace(/^\[(.+)\]$/, '$1')))
+    .filter((directive): directive is DirectiveMapping => directive !== undefined);
+}
+
+/** Árbol simplificado de un elemento para `restructure`; `nodes` guarda el nodo del parser de cada uno. */
+function templateNode(compiler: Compiler, text: string, node: HtmlNode, nodes: Map<TemplateNode, HtmlNode>): TemplateNode {
+  let result: TemplateNode;
+  if (node instanceof compiler.Element) {
+    const inner =
+      node.endSourceSpan && !node.isSelfClosing ? text.slice(node.startSourceSpan.end.offset, node.endSourceSpan.start.offset) : '';
+    result = {
+      kind: 'element',
+      name: node.name,
+      bindings: node.attrs.map((attr) => classify(text, attr)).filter((b): b is Binding => b !== null),
+      children: node.children.map((child) => templateNode(compiler, text, child, nodes)),
+      inner,
+    };
+  } else {
+    const isText = node instanceof compiler.Text;
+    result = {
+      kind: isText ? 'text' : node instanceof compiler.Block ? 'block' : 'other',
+      name: '',
+      bindings: [],
+      children: [],
+      inner: text.slice(node.sourceSpan.start.offset, node.sourceSpan.end.offset),
+    };
+  }
+  nodes.set(result, node);
+  return result;
+}
+
+/** `[start, end)` ampliado a sus líneas completas si no comparte línea con nada más (para borrar sin dejar líneas vacías). */
+function lineRange(text: string, start: number, end: number): { start: number; end: number } {
+  const lineStart = text.lastIndexOf('\n', start - 1) + 1;
+  const after = /^[ \t]*(\r?\n|$)/.exec(text.slice(end));
+  if (/^[ \t]*$/.test(text.slice(lineStart, start)) && after) return { start: lineStart, end: end + after[0].length };
+  return { start, end };
 }
 
 /** Aplica ediciones (sin solapes) de atrás hacia delante. */

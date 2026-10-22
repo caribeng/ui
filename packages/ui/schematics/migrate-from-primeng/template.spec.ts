@@ -375,6 +375,135 @@ describe('plantillas: confirmdialog y confirmpopup', () => {
   });
 });
 
+describe('plantillas: menús', () => {
+  it('p-menu emergente: model → items, onHide → hidden', () => {
+    assert.equal(
+      text(`<p-menu #menu [model]="acciones" [popup]="true" appendTo="body" (onHide)="cerrado()" />`),
+      `<cb-menu #menu [items]="acciones" (hidden)="cerrado()" />`,
+    );
+  });
+
+  it('p-menu fijo (sin popup): aviso', () => {
+    assert.match(text(`<p-menu [model]="acciones" />`), /TODO\(caribeng\): p-menu sin \[popup\]="true" era un menú fijo/);
+  });
+
+  it('p-menubar con #start/#end: aviso en las plantillas', () => {
+    const out = text(`<p-menubar [model]="items">\n  <ng-template #start><img src="logo.svg" /></ng-template>\n</p-menubar>`);
+    assert.match(out, /^<cb-menubar \[items\]="items">\n  <!-- TODO\(caribeng\): cb-menubar no tiene zonas #start\/#end/);
+  });
+
+  it('p-breadcrumb: home y model se unen en items', () => {
+    assert.equal(
+      text(`<p-breadcrumb [home]="inicio" [model]="ruta" (onItemClick)="ir($event.item)" />`),
+      `<cb-breadcrumb [items]="[inicio, ...ruta]" (itemClick)="ir($event)" />`,
+    );
+    assert.equal(text(`<p-breadcrumb [model]="ruta" />`), `<cb-breadcrumb [items]="ruta" />`);
+  });
+
+  it('p-panelmenu y p-tieredmenu', () => {
+    assert.equal(text(`<p-panelmenu [model]="items" [multiple]="true" />`), `<cb-panelmenu [items]="items" [multiple]="true" />`);
+    assert.match(text(`<p-tieredmenu #t [model]="items" [popup]="true" />`), /TODO\(caribeng\): cb-tieredmenu muestra su propio botón de apertura.*-->\n<cb-tieredmenu #t \[items\]="items" \/>/);
+  });
+
+  it('p-splitbutton → cb-split-button', () => {
+    assert.equal(
+      text(`<p-splitbutton label="Guardar" icon="pi pi-check" [model]="mas" severity="success" [outlined]="true" (onClick)="guardar()" />`),
+      `<cb-split-button label="Guardar" icon="check" [items]="mas" severity="success" variant="outlined" (primaryClick)="guardar()" />`,
+    );
+  });
+
+  it('p-contextmenu: no se convierte, aviso para envolver el área', () => {
+    const out = text(`<p-contextmenu [target]="tabla" [model]="items" />`);
+    assert.match(out, /TODO\(caribeng\): envuelve el área con <cb-contextmenu/);
+    assert.match(out, /<p-contextmenu \[target\]="tabla"/);
+  });
+});
+
+describe('plantillas: tabs', () => {
+  const tabs = [
+    '<p-tabs value="0">',
+    '  <p-tablist>',
+    '    <p-tab value="0">Resumen</p-tab>',
+    '    <p-tab value="1" [disabled]="!admin">Pedidos ({{ total }})</p-tab>',
+    '  </p-tablist>',
+    '  <p-tabpanels>',
+    '    <p-tabpanel value="0">',
+    '      <p>Hola</p>',
+    '    </p-tabpanel>',
+    '    <p-tabpanel value="1">',
+    '      <p-button label="Ver" />',
+    '    </p-tabpanel>',
+    '  </p-tabpanels>',
+    '</p-tabs>',
+  ].join('\n');
+
+  it('p-tabs (PrimeNG 18+): empareja pestañas y paneles por value y migra su contenido', () => {
+    assert.equal(
+      text(tabs),
+      [
+        '<cb-tabs>',
+        '    <cb-tab label="Resumen">',
+        '      <p>Hola</p>',
+        '    </cb-tab>',
+        '    <cb-tab label="Pedidos ({{ total }})" [disabled]="!admin">',
+        '      <cb-button>Ver</cb-button>',
+        '    </cb-tab>',
+        '</cb-tabs>',
+      ].join('\n'),
+    );
+  });
+
+  it('pestaña activa distinta de la primera: aviso', () => {
+    assert.match(text(tabs.replace('<p-tabs value="0">', '<p-tabs [(value)]="activa">')), /TODO\(caribeng\): \[\(value\)\]="activa" — cb-tabs no expone la pestaña activa/);
+  });
+
+  it('pestañas con @for o cabeceras con iconos: no se toca, aviso con el motivo', () => {
+    const conFor = `<p-tabs value="0"><p-tablist>@for (t of tabs; track t.id) {<p-tab [value]="t.id">{{ t.titulo }}</p-tab>}</p-tablist><p-tabpanels></p-tabpanels></p-tabs>`;
+    assert.match(text(conFor), /^<!-- TODO\(caribeng\): las pestañas se generan con @for\/@if/);
+    assert.match(text(conFor), /<p-tabs value="0">/);
+    const conIcono = tabs.replace('>Resumen<', '><i class="pi pi-home"></i> Resumen<');
+    assert.match(text(conIcono), /TODO\(caribeng\): una cabecera tiene marcado/);
+  });
+
+  it('p-tabView / p-tabPanel (PrimeNG 17)', () => {
+    assert.equal(
+      text(`<p-tabView><p-tabPanel header="Uno">A</p-tabPanel><p-tabPanel header="Dos" [disabled]="true">B</p-tabPanel></p-tabView>`),
+      `<cb-tabs><cb-tab label="Uno">A</cb-tab><cb-tab label="Dos" [disabled]="true">B</cb-tab></cb-tabs>`,
+    );
+  });
+});
+
+describe('plantillas: accordion', () => {
+  it('p-accordion-panel (PrimeNG 18+): la cabecera pasa a header y el contenido se desenvuelve', () => {
+    assert.equal(
+      text(
+        [
+          '<p-accordion [multiple]="true">',
+          '  <p-accordion-panel value="0">',
+          '    <p-accordion-header>Envío</p-accordion-header>',
+          '    <p-accordion-content>',
+          '      <p>Llega en 24 h</p>',
+          '    </p-accordion-content>',
+          '  </p-accordion-panel>',
+          '</p-accordion>',
+        ].join('\n'),
+      ),
+      ['<cb-accordion [multiple]="true">', '  <cb-accordion-panel header="Envío">', '      <p>Llega en 24 h</p>', '  </cb-accordion-panel>', '</cb-accordion>'].join('\n'),
+    );
+  });
+
+  it('p-accordionTab (PrimeNG 17)', () => {
+    assert.equal(
+      text(`<p-accordion><p-accordionTab header="Uno">A</p-accordionTab></p-accordion>`),
+      `<cb-accordion><cb-accordion-panel header="Uno">A</cb-accordion-panel></cb-accordion>`,
+    );
+  });
+
+  it('panel abierto al inicio: aviso', () => {
+    assert.match(text(`<p-accordion value="0"></p-accordion>`), /TODO\(caribeng\): value="0" — cb-accordion empieza con los paneles cerrados/);
+  });
+});
+
 describe('plantillas: iconos sueltos', () => {
   it('<i class="pi pi-…"> → <cb-icon>', () => {
     assert.equal(text(`<i class="pi pi-search"></i>`), `<cb-icon name="search" />`);

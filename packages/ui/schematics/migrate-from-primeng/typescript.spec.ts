@@ -82,7 +82,7 @@ describe('typescript: MessageService → CbToastService', () => {
   const component = (body: string) =>
     [
       "import { Component, inject } from '@angular/core';",
-      "import { MessageService, MenuItem } from 'primeng/api';",
+      "import { MessageService, FilterService } from 'primeng/api';",
       "import { ToastModule } from 'primeng/toast';",
       '',
       '@Component({',
@@ -100,7 +100,7 @@ describe('typescript: MessageService → CbToastService', () => {
     const out = rewrite(component('  private readonly messages = inject(MessageService);'));
     assert.match(out, /^import \{ CbToastService, CbToast \} from '@caribeng\/ui\/toast';$/m, 'un solo import por entry point');
     assert.equal((out.match(/from '@caribeng\/ui\/toast'/g) ?? []).length, 1);
-    assert.match(out, /import \{ MenuItem \} from 'primeng\/api';/);
+    assert.match(out, /import \{ FilterService \} from 'primeng\/api';/);
     assert.match(out, /providers: \[\],/);
     assert.match(out, /inject\(CbToastService\)/);
   });
@@ -207,6 +207,76 @@ describe('typescript: ConfirmationService → CbConfirmationService', () => {
     const out = rewrite(component("  ok() { this.confirmation.confirm({ message: 'Hola', accept: () => {} }); }"));
     assert.match(out, /this\.confirmation\.confirm\(\{ message: 'Hola', accept: \(\) => \{\} \}\)/);
     assert.doesNotMatch(out, /TODO/);
+  });
+});
+
+describe('typescript: MenuItem', () => {
+  const file = (body: string) =>
+    [
+      "import { Component } from '@angular/core';",
+      "import { MenuItem } from 'primeng/api';",
+      "import { MenubarModule } from 'primeng/menubar';",
+      '',
+      "@Component({ selector: 'x', imports: [MenubarModule], template: '' })",
+      'export class X {',
+      body,
+      '}',
+    ].join('\n');
+
+  it('toma el tipo del menú que recibe el array en la plantilla', () => {
+    const result = rewriteImports('/x.ts', file('  items: MenuItem[] = [];\n  acciones: MenuItem[] = [];'), [
+      '<p-menubar [model]="items" /><p-menu #m [model]="acciones" [popup]="true" />',
+    ]);
+    assert.match(result.text, /items: CbMenubarItem\[\] = \[\];\n  acciones: CbMenuItem\[\] = \[\];/);
+    assert.match(result.text, /^import \{ CbMenubar, CbMenubarItem \} from '@caribeng\/ui\/menubar';$/m);
+    assert.match(result.text, /^import \{ CbMenuItem \} from '@caribeng\/ui\/menu';$/m);
+    assert.doesNotMatch(result.text, /primeng\/api/);
+  });
+
+  it('traduce los items: icono, routerLink, command y campos sin equivalente', () => {
+    const result = rewriteImports(
+      '/x.ts',
+      file(
+        [
+          '  items: MenuItem[] = [',
+          "    { label: 'Inicio', icon: 'pi pi-home', routerLink: '/' },",
+          "    { label: 'Pedidos', icon: 'pi pi-bookmark', routerLink: ['/pedidos'], badge: '3' },",
+          '    { separator: true },',
+          "    { label: 'Más', items: [{ label: 'Salir', icon: 'pi pi-sign-out', command: () => this.salir() }] },",
+          "    { label: 'Detalle', routerLink: ['/pedidos', this.id] },",
+          '  ];',
+        ].join('\n'),
+      ),
+      ['<p-menubar [model]="items" />'],
+    );
+    const out = result.text;
+    assert.match(out, /\{ label: 'Inicio', icon: 'house', url: '\/' \}/);
+    assert.match(out, /\/\* TODO\(caribeng\): badge: '3' — .*\*\/ \{ label: 'Pedidos', icon: 'bookmark', url: '\/pedidos' \}/);
+    assert.match(out, /\/\* TODO\(caribeng\): CbMenubarItem no admite separadores; quita este item\. \*\/ \{ separator: true \}/);
+    assert.match(out, /items: \[\{ label: 'Salir', icon: 'log-out', command: \(\) => this\.salir\(\) \}\]/);
+    assert.match(out, /\/\* TODO\(caribeng\): routerLink: \['\/pedidos', this\.id\] — .*\*\/ \{ label: 'Detalle' \}/);
+    assert.deepEqual([...result.icons].sort(), ['bookmark', 'house', 'log-out']);
+  });
+
+  it("separadores de p-menu: label '' (obligatorio en CaribeNG)", () => {
+    const out = rewriteImports('/x.ts', file("  acciones: MenuItem[] = [{ label: 'A' }, { separator: true }];"), ['<p-menu #m [model]="acciones" [popup]="true" />']).text;
+    assert.match(out, /acciones: CbMenuItem\[\] = \[\{ label: 'A' \}, \{ label: '', separator: true \}\];/);
+  });
+
+  it('asignaciones this.items = [...] en ngOnInit', () => {
+    const out = rewriteImports(
+      '/x.ts',
+      file(["  items!: MenuItem[];", '  ngOnInit() {', "    this.items = [{ label: 'A', icon: 'pi pi-check' }];", '  }'].join('\n')),
+      ['<p-menubar [model]="items"></p-menubar>'],
+    ).text;
+    assert.match(out, /items!: CbMenubarItem\[\];/);
+    assert.match(out, /this\.items = \[\{ label: 'A', icon: 'check' \}\];/);
+  });
+
+  it('sin plantilla que lo use: tipo genérico con aviso (una sola vez)', () => {
+    const out = rewriteImports('/x.ts', file('  a: MenuItem[] = [];\n  b: MenuItem[] = [];')).text;
+    assert.equal((out.match(/TODO\(caribeng\): no se encontró en la plantilla/g) ?? []).length, 1);
+    assert.match(out, /b: CbMenubarItem\[\] = \[\];/);
   });
 });
 

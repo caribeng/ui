@@ -78,15 +78,41 @@ function isMemberName(node: ts.Identifier): boolean {
  * y sustituye `providePrimeNG(…)` por `provideCaribeNG(…)`. Los símbolos sin
  * equivalente se quedan importados de PrimeNG (aparecen en el informe).
  */
-export function rewriteImports(fileName: string, text: string): SourceResult {
+export function rewriteImports(fileName: string, text: string, templates: readonly string[] = []): SourceResult & { readonly icons: ReadonlySet<string> } {
   const sf = parse(fileName, text);
   const edits: Edit[] = [];
   const renames = new Map<string, string>();
-  // Símbolo PrimeNG → nombre local, para las reescrituras de servicios.
-  const locals = new Map<string, string>();
   const existing = caribeImports(sf);
   const eol = newline(text);
   let providerLocal: string | undefined;
+
+  // Reescrituras que dependen del contexto (servicios, MenuItem): van primero porque
+  // pueden consumir símbolos de PrimeNG y pedir imports de CaribeNG.
+  const locals = new Map<string, string>();
+  for (const statement of sf.statements) {
+    if (!ts.isImportDeclaration(statement) || !ts.isStringLiteral(statement.moduleSpecifier) || !statement.moduleSpecifier.text.startsWith('primeng/')) continue;
+    const bindings = statement.importClause?.namedBindings;
+    if (bindings && ts.isNamedImports(bindings)) bindings.elements.forEach((e) => locals.set((e.propertyName ?? e.name).text, e.name.text));
+  }
+  const consumed = new Set<string>();
+  const requested = new Map<string, Set<string>>();
+  const icons = new Set<string>();
+  for (const rewriteSource of SOURCE_REWRITERS) {
+    rewriteSource(
+      sf,
+      {
+        locals,
+        templates,
+        icons,
+        consume: (symbol) => consumed.add(symbol),
+        addImport: (name, entry) => {
+          if (existing.get(entry)?.has(name)) return;
+          requested.set(entry, (requested.get(entry) ?? new Set<string>()).add(name));
+        },
+      },
+      edits,
+    );
+  }
 
   for (const statement of sf.statements) {
     if (!ts.isImportDeclaration(statement) || !ts.isStringLiteral(statement.moduleSpecifier)) continue;
@@ -100,9 +126,13 @@ export function rewriteImports(fileName: string, text: string): SourceResult {
     const typePrefix = clause.isTypeOnly ? 'type ' : '';
     const groups = new Map<string, string[]>();
     const kept: string[] = [];
+    let dropped = false;
     for (const element of bindings.elements) {
       const imported = (element.propertyName ?? element.name).text;
-      locals.set(imported, element.name.text);
+      if (consumed.has(imported)) {
+        dropped = true;
+        continue;
+      }
       const target = symbols.get(imported);
       if (!target) {
         kept.push(element.getText(sf));
@@ -125,7 +155,7 @@ export function rewriteImports(fileName: string, text: string): SourceResult {
       existing.set(target.entry, names);
       groups.set(target.entry, group);
     }
-    if (!groups.size) continue;
+    if (!groups.size && !dropped) continue;
 
     const lines = [...groups]
       .filter(([, names]) => names.length)
@@ -165,11 +195,18 @@ export function rewriteImports(fileName: string, text: string): SourceResult {
   };
   visit(sf);
 
-  for (const rewriteSource of SOURCE_REWRITERS) rewriteSource(sf, locals, edits);
+  // Imports pedidos por las reescrituras (p. ej. CbMenubarItem): tras el último import;
+  // mergeCaribeImports los une con los que ya hubiera del mismo entry point.
+  if (requested.size) {
+    const imports = sf.statements.filter(ts.isImportDeclaration);
+    const position = imports.length ? imports[imports.length - 1].getEnd() : 0;
+    const lines = [...requested].map(([entry, names]) => `import { ${[...names].join(', ')} } from '${entry}';`);
+    edits.push({ start: position, end: position, text: imports.length ? eol + lines.join(eol) : lines.join(eol) + eol });
+  }
 
-  if (!edits.length) return { text, changed: false };
+  if (!edits.length) return { text, changed: false, icons };
   const rewritten = mergeCaribeImports(fileName, cleanDecoratorArrays(fileName, applyEdits(text, edits)));
-  return { text: pruneUnusedImports(fileName, rewritten), changed: true };
+  return { text: pruneUnusedImports(fileName, rewritten), changed: true, icons };
 }
 
 /**

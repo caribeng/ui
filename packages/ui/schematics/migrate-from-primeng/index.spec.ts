@@ -264,6 +264,58 @@ describe('ng generate @caribeng/ui:migrate-from-primeng', () => {
     assert.match(tree.readText('/caribeng-migration-report.md'), /<p-radiobutton name="talla"/);
   });
 
+  it('menús con MenuItem y tabs: tipos, imports e iconos usados en el código', async () => {
+    const app = await createPrimengApp();
+    app.create(
+      `${APP}/navegacion.ts`,
+      [
+        "import { Component } from '@angular/core';",
+        "import { MenuItem } from 'primeng/api';",
+        "import { MenubarModule } from 'primeng/menubar';",
+        "import { TabsModule } from 'primeng/tabs';",
+        '',
+        '@Component({',
+        "  selector: 'app-navegacion',",
+        '  imports: [MenubarModule, TabsModule],',
+        "  templateUrl: './navegacion.html',",
+        '})',
+        'export class Navegacion {',
+        '  items: MenuItem[] = [',
+        "    { label: 'Guardados', icon: 'pi pi-bookmark', routerLink: '/guardados' },",
+        "    { label: 'Salir', icon: 'pi pi-sign-out', command: () => this.salir() },",
+        '  ];',
+        '  salir() {}',
+        '}',
+        '',
+      ].join('\n'),
+    );
+    app.create(
+      `${APP}/navegacion.html`,
+      [
+        '<p-menubar [model]="items" />',
+        '<p-tabs value="a">',
+        '  <p-tablist><p-tab value="a">Uno</p-tab></p-tablist>',
+        '  <p-tabpanels><p-tabpanel value="a">Contenido</p-tabpanel></p-tabpanels>',
+        '</p-tabs>',
+        '',
+      ].join('\n'),
+    );
+
+    const tree = await migrate(app);
+    const ts = tree.readText(`${APP}/navegacion.ts`);
+    assert.match(ts, /items: CbMenubarItem\[\] = \[/);
+    assert.match(ts, /\{ label: 'Guardados', icon: 'bookmark', url: '\/guardados' \}/);
+    assert.match(ts, /\{ label: 'Salir', icon: 'log-out', command: \(\) => this\.salir\(\) \}/);
+    assert.match(ts, /import \{ CbMenubar, CbMenubarItem \} from '@caribeng\/ui\/menubar';/);
+    assert.match(ts, /import \{ CbTabs, CbTab \} from '@caribeng\/ui\/tabs';/);
+    assert.match(ts, /imports: \[CbMenubar, CbTabs, CbTab\]/);
+    assert.doesNotMatch(ts, /primeng/);
+
+    assert.match(tree.readText(`${APP}/navegacion.html`), /<cb-menubar \[items\]="items" \/>\n<cb-tabs>\n  <cb-tab label="Uno">Contenido<\/cb-tab>\n<\/cb-tabs>/);
+    // `bookmark` solo aparece en el TypeScript y no es del set núcleo: se registra.
+    assert.match(tree.readText(`${APP}/app.config.ts`), /provideCbIcons\(\{ 'bookmark': bookmark \}\)/);
+  });
+
   it('con referencias pendientes mantiene PrimeNG instalado y las lista en el informe', async () => {
     const app = await createPrimengApp();
     app.overwrite(`${APP}/app.html`, `<p-table [value]="filas"></p-table>\n<p-button label="X" />\n`);

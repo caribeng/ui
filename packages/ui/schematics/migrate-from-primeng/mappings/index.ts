@@ -6,9 +6,11 @@ import { datepicker } from './datepicker';
 import { dialog } from './dialog';
 import { inputnumber } from './inputnumber';
 import { inputtext } from './inputtext';
+import { breadcrumb, contextmenu, menu, menubar, panelmenu, splitbutton, tabmenu, tieredmenu } from './menu';
 import { multiselect } from './multiselect';
 import { radiobutton } from './radiobutton';
 import { select } from './select';
+import { accordion, tabs } from './tabs';
 import { tag } from './tag';
 import { textarea } from './textarea';
 import { toast } from './toast';
@@ -31,6 +33,16 @@ export const MAPPINGS: readonly ComponentMapping[] = [
   dialog,
   confirmdialog,
   confirmpopup,
+  menu,
+  menubar,
+  tieredmenu,
+  panelmenu,
+  breadcrumb,
+  tabmenu,
+  splitbutton,
+  contextmenu,
+  tabs,
+  accordion,
   tag,
   toast,
   card,
@@ -59,7 +71,8 @@ export const SYMBOLS: ReadonlyMap<string, ReadonlyMap<string, CaribeSymbol>> = (
 /** Tag CaribeNG → símbolo que hay que importar en el componente que lo usa. */
 export const TAG_SYMBOLS: ReadonlyMap<string, CaribeSymbol> = new Map([
   ['cb-icon', { name: 'CbIcon', entry: '@caribeng/ui/icon' }],
-  ...MAPPINGS.flatMap((mapping) => mapping.elements.map((element) => [element.to, { name: mapping.symbol, entry: mapping.entry }] as const)),
+  ...MAPPINGS.flatMap((mapping) => mapping.elements.map((element) => [element.to, { name: element.symbol ?? mapping.symbol, entry: mapping.entry }] as const)),
+  ...MAPPINGS.flatMap((mapping) => Object.entries(mapping.tags ?? {}).map(([tag, name]) => [tag, { name, entry: mapping.entry }] as const)),
 ]);
 
 /** Atributo de directiva CaribeNG (`cbTooltip`) → símbolo que hay que importar. */

@@ -23,6 +23,14 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
             "text": "`CbConfirmationService` (en `@caribeng/ui`) pide confirmaciones desde código con `confirm({ message, header, acceptLabel, rejectLabel, acceptSeverity, accept, reject, target, key })`, como `ConfirmationService` de PrimeNG. Las muestra el `<cb-confirm-dialog service />` o `<cb-confirm-popup service />` de la vista (el popup, las que traen `target`); `key` permite tener varios. Los componentes sin `service` siguen funcionando solo con `[(visible)]`."
           },
           {
+            "component": "Menús",
+            "text": "los items de Menu, Menubar, TieredMenu, ContextMenu, PanelMenu, TabMenu, Breadcrumb y MegaMenu (y SplitButton, que usa los de Menu) aceptan `command` (se ejecuta al elegirlos, con `{ item, originalEvent }`, además del evento de selección) y `visible: false` para ocultarlos. `cbRunCommand`, `cbVisibleItems` y `CbMenuCommandEvent` exportados en `@caribeng/ui`."
+          },
+          {
+            "component": "Migración",
+            "text": "menús (`p-menu`, `p-menubar`, `p-tieredmenu`, `p-panelmenu`, `p-breadcrumb` con `home`, `p-tabmenu`, `p-splitbutton`) con sus arrays de `MenuItem` (tipo según el menú que los recibe, iconos, `routerLink` → `url`); `p-tabs` y `p-accordion` de PrimeNG 18+ se reestructuran (cabecera → `label`/`header`) y los de PrimeNG 17 (`p-tabView`, `p-accordionTab`) se traducen directamente. `p-contextmenu` y `p-megamenu` quedan con aviso."
+          },
+          {
             "component": "Migración",
             "text": "`p-confirmdialog`, `p-confirmpopup` y `ConfirmationService` se traducen a `cb-confirm-dialog service`, `cb-confirm-popup service` y `CbConfirmationService` (`acceptButtonProps.severity` → `acceptSeverity`, `acceptButtonProps.label` → `acceptLabel`)."
           }

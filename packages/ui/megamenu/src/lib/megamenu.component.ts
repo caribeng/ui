@@ -9,8 +9,9 @@ import {
   input,
   output,
   signal,
+  computed,
 } from '@angular/core';
-import { injectCbTranslation } from '@caribeng/ui';
+import { cbRunCommand, cbVisibleItems, injectCbTranslation, type CbMenuCommandEvent } from '@caribeng/ui';
 import { CbIcon } from '@caribeng/ui/icon';
 
 export interface CbMegaMenuLink {
@@ -18,17 +19,25 @@ export interface CbMegaMenuLink {
   url?: string;
   icon?: string;
   disabled?: boolean;
+  /** Acción al elegir el item (además del evento de selección), como `command` en PrimeNG. */
+  command?: (event: CbMenuCommandEvent<CbMegaMenuLink>) => void;
+  /** `false` oculta el item. */
+  visible?: boolean;
 }
 
 export interface CbMegaMenuGroup {
   label: string;
   items: readonly CbMegaMenuLink[];
+  /** `false` oculta el elemento. */
+  visible?: boolean;
 }
 
 export interface CbMegaMenuItem {
   label: string;
   icon?: string;
   groups: readonly CbMegaMenuGroup[];
+  /** `false` oculta el elemento. */
+  visible?: boolean;
 }
 
 let nextUid = 0;
@@ -57,7 +66,7 @@ let nextUid = 0;
   template: `
     <nav [attr.aria-label]="ariaLabel() ?? t().categories">
       <ul class="cb-megamenu__bar">
-        @for (item of items(); track $index; let i = $index) {
+        @for (item of visibleItems(); track $index; let i = $index) {
           <li>
             <button
               class="cb-megamenu__trigger"
@@ -87,10 +96,10 @@ let nextUid = 0;
           class="cb-megamenu__panel"
           [id]="panelId"
           role="region"
-          [attr.aria-label]="items()[openIndex()!].label"
+          [attr.aria-label]="visibleItems()[openIndex()!].label"
           (keydown)="onPanelKeydown($event)"
         >
-          @for (group of items()[openIndex()!].groups; track $index) {
+          @for (group of visibleItems()[openIndex()!].groups; track $index) {
             <div class="cb-megamenu__group">
               <h3>{{ group.label }}</h3>
               <ul>
@@ -130,6 +139,8 @@ export class CbMegaMenu {
 
   /** Categorías con sus grupos de enlaces. */
   readonly items = input<readonly CbMegaMenuItem[]>([]);
+  /** Items sin los de `visible: false`. */
+  protected readonly visibleItems = computed(() => cbVisibleItems(this.items()));
   /** Nombre accesible de la navegación. Por defecto, "Categorías" del idioma activo. */
   readonly ariaLabel = input<string | undefined>(undefined);
 
@@ -144,6 +155,7 @@ export class CbMegaMenu {
 
   select(link: CbMegaMenuLink): void {
     if (link.disabled) return;
+    cbRunCommand(link);
     this.itemSelect.emit(link);
     this.close();
   }
@@ -163,7 +175,7 @@ export class CbMegaMenu {
   }
 
   protected onTriggerKeydown(event: KeyboardEvent, index: number): void {
-    const count = this.items().length;
+    const count = this.visibleItems().length;
     switch (event.key) {
       case 'ArrowRight':
         this.focusTrigger((index + 1) % count);

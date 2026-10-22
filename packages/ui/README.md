@@ -128,6 +128,11 @@ Todos los avisos, las referencias a PrimeNG que aún quedan (por ejemplo compone
 | `<p-dialog>` | `<cb-dialog>` |
 | `<p-confirmdialog>` + `ConfirmationService` | `<cb-confirm-dialog service>` + `CbConfirmationService` |
 | `<p-confirmpopup>` | `<cb-confirm-popup service>` |
+| `<p-menu>`, `<p-menubar>`, `<p-tieredmenu>`, `<p-panelmenu>`, `<p-breadcrumb>`, `<p-tabmenu>` | `<cb-menu>`, `<cb-menubar>`, `<cb-tieredmenu>`, `<cb-panelmenu>`, `<cb-breadcrumb>`, `<cb-tabmenu>` |
+| `MenuItem[]` (`icon`, `command`, `routerLink`…) | el tipo de item del menú que lo recibe (`CbMenubarItem[]`…) |
+| `<p-splitbutton>` | `<cb-split-button>` |
+| `<p-tabs>` (y `<p-tabView>`) | `<cb-tabs>` + `<cb-tab label="…">` |
+| `<p-accordion>` (y `<p-accordionTab>`) | `<cb-accordion>` + `<cb-accordion-panel header="…">` |
 | `<p-tag>` | `<cb-tag>` |
 | `<p-toast>` + `MessageService` | `<cb-toast>` + `CbToastService` |
 | `<p-card>` | `<cb-card>` |
@@ -135,7 +140,9 @@ Todos los avisos, las referencias a PrimeNG que aún quedan (por ejemplo compone
 | `<p-checkbox>` | `<cb-checkbox>` |
 | `<i class="pi pi-*">` | `<cb-icon>` |
 
-Los radios (`<p-radiobutton>`) se marcan con un aviso pero no se convierten: en CaribeNG el modelo va en un `<cb-radio-group>` que envuelve las opciones, y agruparlos cambia el layout. El resto de componentes aparece en el informe para migrarlo a mano; se irán añadiendo en próximas versiones.
+En los menús, los arrays de `MenuItem` cambian de tipo según el menú que los recibe en la plantilla; `icon: 'pi pi-plus'` pasa a `'plus'`, `command` y `visible` se conservan, y `routerLink: '/x'` pasa a `url` (los `routerLink` con parámetros quedan con aviso). Las pestañas y los acordeones de PrimeNG 18+ se reestructuran (la cabecera pasa a `label`/`header`); si se generan con `@for` o la cabecera lleva iconos, quedan con aviso.
+
+Los radios (`<p-radiobutton>`) y los menús contextuales (`<p-contextmenu>`) se marcan con un aviso pero no se convierten, porque cambia la estructura de la página: en CaribeNG el modelo de los radios va en un `<cb-radio-group>` que envuelve las opciones, y `<cb-contextmenu>` envuelve el área sobre la que se abre en vez de apuntar a ella con `[target]`. El resto de componentes aparece en el informe para migrarlo a mano; se irán añadiendo en próximas versiones.
 
 | Opción | Uso |
 |---|---|

@@ -145,7 +145,15 @@ function addIcons(migration: Migration, path: string, icons: ReadonlySet<string>
 /** Un `.ts`: imports, plantilla (en línea o `templateUrl`) e `imports` del componente. */
 function migrateSource(tree: Tree, path: string, migration: Migration): void {
   const original = tree.readText(path);
-  let text = rewriteImports(path, original).text;
+  // Las plantillas (sin migrar) dicen qué menú recibe cada array de MenuItem.
+  const templates = findComponents(path, original).flatMap((component) => {
+    if (component.inlineTemplate !== undefined) return [component.inlineTemplate];
+    const templatePath = component.templateUrl && resolvePath(path, component.templateUrl);
+    return templatePath && tree.exists(templatePath) ? [tree.readText(templatePath)] : [];
+  });
+  const imported = rewriteImports(path, original, templates);
+  addIcons(migration, path, imported.icons);
+  let text = imported.text;
   const needed = new Map<number, CaribeSymbol[]>();
 
   for (const component of findComponents(path, text)) {

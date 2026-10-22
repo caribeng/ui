@@ -90,6 +90,36 @@ export interface ElementMapping {
   readonly finalize?: (el: ElementRewrite) => void;
   /** Reescritura de hijos directos; `null` los deja como están. */
   readonly child?: (child: ChildElement) => ChildRewrite | null;
+  /**
+   * Para componentes cuya estructura cambia (p. ej. `p-tabs` con `p-tablist` y
+   * `p-tabpanels` → `cb-tabs` con un `cb-tab` por panel). Recibe el árbol del
+   * elemento y lo edita con `r`. Devuelve `null` si lo hizo, o el motivo por el
+   * que no se puede (se deja el elemento como está con ese aviso).
+   */
+  readonly restructure?: (node: TemplateNode, r: Restructure) => string | null;
+  /** Símbolo a importar para `to`, si no es el del componente (`cb-accordion-panel` → `CbAccordionPanel`). */
+  readonly symbol?: string;
+}
+
+/** Nodo de una plantilla, para `restructure`. */
+export interface TemplateNode {
+  readonly kind: 'element' | 'text' | 'block' | 'other';
+  /** Tag (solo elementos). */
+  readonly name: string;
+  readonly bindings: readonly Binding[];
+  readonly children: readonly TemplateNode[];
+  /** Texto fuente del contenido (entre las etiquetas, o el texto del nodo). */
+  readonly inner: string;
+}
+
+/** Ediciones que puede hacer `restructure`. */
+export interface Restructure {
+  /** Traduce el elemento con un mapeo normal (tag, atributos y reglas), conservando su contenido. */
+  convert(node: TemplateNode, mapping: ElementMapping): void;
+  /** Elimina el nodo entero (sus líneas si está solo en ellas); su contenido no se migra. */
+  remove(node: TemplateNode): void;
+  /** Quita las etiquetas del elemento y deja su contenido. */
+  unwrap(node: TemplateNode): void;
 }
 
 /**
@@ -115,12 +145,25 @@ export interface SourceEdit {
   readonly text: string;
 }
 
+/** Lo que una reescritura de TypeScript sabe del archivo y puede pedir. */
+export interface SourceContext {
+  /** Símbolos PrimeNG importados en el archivo → nombre local. */
+  readonly locals: ReadonlyMap<string, string>;
+  /** Plantillas de los componentes del archivo (en línea y `templateUrl`), antes de migrar. */
+  readonly templates: readonly string[];
+  /** Iconos de CaribeNG que usa el código (se registran si no son del set núcleo). */
+  readonly icons: Set<string>;
+  /** Importa un símbolo CaribeNG en el archivo (si no estaba). */
+  addImport(name: string, entry: string): void;
+  /** Marca un símbolo PrimeNG como ya traducido: se quita de su import. */
+  consume(symbol: string): void;
+}
+
 /**
- * Reescribe usos de un servicio PrimeNG en un archivo (p. ej. las llamadas a
- * `MessageService.add`). `locals` son los nombres locales de los símbolos
- * PrimeNG importados en el archivo (símbolo → nombre local).
+ * Reescribe usos de PrimeNG en el código de un archivo que dependen del
+ * contexto (llamadas a `MessageService.add`, arrays de `MenuItem`…).
  */
-export type SourceRewriter = (sf: import('typescript').SourceFile, locals: ReadonlyMap<string, string>, edits: SourceEdit[]) => void;
+export type SourceRewriter = (sf: import('typescript').SourceFile, context: SourceContext, edits: SourceEdit[]) => void;
 
 /** Mapeo completo de un componente. */
 export interface ComponentMapping {
@@ -130,6 +173,8 @@ export interface ComponentMapping {
   readonly entry: string;
   /** Símbolo que importa un componente cuando su plantilla usa el tag o la directiva CaribeNG. */
   readonly symbol: string;
+  /** Otros tags CaribeNG que genera el mapeo (p. ej. desde `restructure`) → símbolo a importar. */
+  readonly tags?: Readonly<Record<string, string>>;
   /**
    * Módulo PrimeNG → (símbolo PrimeNG → símbolo CaribeNG). El símbolo se
    * importa de `entry`, salvo que indique el suyo (`{ name, entry }`), p. ej.

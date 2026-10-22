@@ -67,7 +67,7 @@ function rewriteMessage(sf: ts.SourceFile, message: ts.ObjectLiteralExpression, 
  * (`warn` → `warning`, `error` → `danger`), `sticky` → `life: 0`, y marca
  * `key`, `addAll()` y los observables, que no tienen equivalente.
  */
-const rewriteMessageService: SourceRewriter = (sf, locals, edits) => {
+const rewriteMessageService: SourceRewriter = (sf, { locals }, edits) => {
   const local = locals.get('MessageService');
   if (!local) return;
   forEachServiceCall(sf, local, (method, access, call) => {

@@ -1,12 +1,16 @@
-import { ChangeDetectionStrategy, Component, ViewEncapsulation, input, model, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation, input, model, output, computed } from '@angular/core';
 import { CbIcon } from '@caribeng/ui/icon';
-import { injectCbTranslation } from '@caribeng/ui';
+import { cbRunCommand, cbVisibleItems, injectCbTranslation, type CbMenuCommandEvent } from '@caribeng/ui';
 
 export interface CbTabMenuItem {
   label: string;
   url?: string;
   icon?: string;
   disabled?: boolean;
+  /** Acción al elegir el item (además del evento de selección), como `command` en PrimeNG. */
+  command?: (event: CbMenuCommandEvent<CbTabMenuItem>) => void;
+  /** `false` oculta el item. */
+  visible?: boolean;
 }
 
 /** Horizontal navigation menu with an active item. */
@@ -19,7 +23,7 @@ export interface CbTabMenuItem {
   template: `
     <nav [attr.aria-label]="(ariaLabel() ?? t().sectionNavigation)">
       <ul class="cb-tabmenu__list">
-        @for (item of items(); track $index; let i = $index) {
+        @for (item of visibleItems(); track $index; let i = $index) {
           <li class="cb-tabmenu__entry">
             @if (item.url && !item.disabled) {
               <a class="cb-tabmenu__link" [href]="item.url" [attr.aria-current]="activeIndex() === i ? 'page' : null" [attr.tabindex]="item.disabled ? -1 : 0" (click)="select(item, i)">
@@ -43,6 +47,8 @@ export class CbTabMenu {
   /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
   protected readonly t = injectCbTranslation();
   readonly items = input<readonly CbTabMenuItem[]>([]);
+  /** Items sin los de `visible: false`. */
+  protected readonly visibleItems = computed(() => cbVisibleItems(this.items()));
   readonly activeIndex = model(0);
   readonly ariaLabel = input<string | undefined>(undefined);
   readonly itemSelect = output<CbTabMenuItem>();
@@ -50,6 +56,7 @@ export class CbTabMenu {
   select(item: CbTabMenuItem, index: number): void {
     if (item.disabled) return;
     this.activeIndex.set(index);
+    cbRunCommand(item);
     this.itemSelect.emit(item);
   }
 }
