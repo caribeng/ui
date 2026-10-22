@@ -2636,22 +2636,15 @@ export const ES_EN: Record<string, string> = {
   'Los botones de valoración llevan `aria-pressed` y nombre ("Respuesta útil", "Respuesta no útil"); las miniaturas de imagen usan el nombre del archivo como texto alternativo.':
     'Feedback buttons have `aria-pressed` and a name ("Helpful response", "Not helpful response"); image thumbnails use the file name as alternative text.',
   // --- Componentes nuevos: Kanban y Mentions ---
-  'Tablero de columnas con tarjetas que se reordenan y se mueven entre columnas arrastrando (ratón o dedo) o con el teclado. Admite límite de tarjetas por columna y plantilla de tarjeta propia.':
-    'Board of columns with cards that can be reordered and moved between columns by dragging (mouse or touch) or with the keyboard. Supports a card limit per column and a custom card template.',
-  'Tablero con plantilla propia': 'Board with a custom template',
-  '[(columns)] se actualiza al mover y (cardMove) avisa con { item, from, to, fromIndex, toIndex } para guardar. Con el teclado: enfoca una tarjeta, Espacio para tomarla, flechas para moverla, Espacio para soltarla y Escape para cancelar. En curso tiene límite de 2 (enforceLimit).':
-    '[(columns)] updates on move and (cardMove) reports { item, from, to, fromIndex, toIndex } so you can save. With the keyboard: focus a card, Space to pick it up, arrows to move it, Space to drop it and Escape to cancel. In progress has a limit of 2 (enforceLimit).',
   'Columnas (id, title, items, limit, color).': 'Columns (id, title, items, limit, color).',
   'Propiedad que identifica cada tarjeta.': 'Property that identifies each card.',
   'Propiedad con el nombre de la tarjeta.': 'Property with the card name.',
   'No deja superar el límite de una columna.': 'Prevents exceeding a column limit.',
-  'Botón Añadir tarjeta en cada columna.': 'Add card button in each column.',
   'Deshabilita mover tarjetas.': 'Disables moving cards.',
   'Texto de una columna vacía.': 'Text for an empty column.',
   'Nombre del tablero.': 'Board name.',
   'Tarjeta movida ({ item, from, to, fromIndex, toIndex }).': 'Card moved ({ item, from, to, fromIndex, toIndex }).',
   'Se pulsó una tarjeta (o Enter).': 'A card was pressed (or Enter).',
-  'Se pulsó Añadir tarjeta (id de la columna).': 'Add card was pressed (column id).',
   'Cada columna es una región nombrada por su título, con una lista de tarjetas. Cada tarjeta es enfocable, se describe como "tarjeta" y lleva las instrucciones de teclado (`aria-describedby`).':
     'Each column is a region named by its title, with a list of cards. Each card is focusable, described as "card" and carries the keyboard instructions (`aria-describedby`).',
   'Arrastrar no es la única forma de mover: con el teclado se toma, se mueve y se suelta (WCAG 2.5.7), y cada paso se anuncia en una región `role="status"` (columna y posición).':
@@ -2690,4 +2683,28 @@ export const ES_EN: Record<string, string> = {
   'Abre las sugerencias junto al cursor.': 'Opens the suggestions next to the caret.',
   'Mueve la sugerencia activa.': 'Moves the active suggestion.',
   'Inserta la mención elegida.': 'Inserts the chosen mention.',
+  // --- Kanban completo ---
+  'Tablero de columnas con tarjetas que se reordenan y se mueven entre columnas arrastrando (ratón o dedo) o con el teclado. Se crean, editan y eliminan tarjetas y columnas; admite límite por columna y plantilla de tarjeta propia.':
+    'Board of columns with cards that are reordered and moved between columns by dragging (mouse or touch) or with the keyboard. Cards and columns can be created, edited and deleted; supports a limit per column and a custom card template.',
+  'Tablero completo': 'Full board',
+  'Arrastra una tarjeta a cualquier punto de otra columna (también sobre otras tarjetas o la cabecera); el tablero se desplaza solo hacia las columnas ocultas. El menú ⋮ de cada tarjeta edita, mueve o elimina (F2 y Supr con el teclado); "Añadir tarjeta" abre un campo al pie; las columnas se renombran (doble clic o menú), se contraen, se eliminan y se añaden. Cada cambio actualiza [(columns)] y emite su evento para guardarlo. En curso tiene límite de 2 (enforceLimit).':
+    'Drag a card to any point of another column (also over other cards or the header); the board scrolls by itself towards hidden columns. Each card’s ⋮ menu edits, moves or deletes it (F2 and Delete with the keyboard); "Add card" opens a field at the bottom; columns can be renamed (double-click or menu), collapsed, deleted and added. Every change updates [(columns)] and emits its event so you can save it. In progress has a limit of 2 (enforceLimit).',
+  'Menú en cada tarjeta (editar, mover a, eliminar) y atajos F2 / Supr.': 'Menu on each card (edit, move to, delete) and F2 / Delete shortcuts.',
+  'Campo Añadir tarjeta al pie de cada columna.': 'Add card field at the bottom of each column.',
+  'Renombrar, eliminar y añadir columnas.': 'Rename, delete and add columns.',
+  'Las columnas se pueden contraer.': 'Columns can be collapsed.',
+  'Pide confirmación antes de eliminar.': 'Asks for confirmation before deleting.',
+  'Crea la tarjeta nueva a partir del título.': 'Creates the new card from its title.',
+  'Tarjeta creada ({ item, column, index }).': 'Card created ({ item, column, index }).',
+  'Título editado ({ item, previous, column, index }).': 'Title edited ({ item, previous, column, index }).',
+  'Tarjeta eliminada ({ item, column, index }).': 'Card deleted ({ item, column, index }).',
+  'Columna añadida.': 'Column added.',
+  'Columna renombrada ({ column, previousTitle }).': 'Column renamed ({ column, previousTitle }).',
+  'Columna eliminada con sus tarjetas.': 'Column deleted with its cards.',
+  'El menú de cada tarjeta y el de cada columna son botones con nombre ("Acciones de Diseño") que abren un `menu`; el botón es hermano de la tarjeta, no está dentro de ella. "Mover a" permite mover sin arrastrar.':
+    'The menu of each card and each column are named buttons ("Actions for Design") that open a `menu`; the button is a sibling of the card, not inside it. "Move to" lets you move without dragging.',
+  'Editar, añadir, renombrar y confirmar eliminación usan campos y botones con etiqueta; el foco va al campo al abrirlos y vuelve a la tarjeta (o al botón de origen) al cerrar. Cada cambio se anuncia en la región `role="status"`.':
+    'Editing, adding, renaming and confirming deletion use labelled fields and buttons; focus goes to the field when they open and returns to the card (or the originating button) when they close. Each change is announced in the `role="status"` region.',
+  'Edita el título de la tarjeta (editable). Enter guarda, Escape cancela.': 'Edits the card title (editable). Enter saves, Escape cancels.',
+  'Pide confirmar la eliminación de la tarjeta (editable).': 'Asks to confirm deleting the card (editable).',
 };

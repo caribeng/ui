@@ -1782,7 +1782,12 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "itemKey", kind: "string", type: "string", default: "id", description: "Propiedad que identifica cada tarjeta." },
       { name: "itemLabel", kind: "string", type: "string", default: "title", description: "Propiedad con el nombre de la tarjeta." },
       { name: "enforceLimit", kind: "boolean", type: "boolean", default: false, description: "No deja superar el límite de una columna." },
-      { name: "addable", kind: "boolean", type: "boolean", default: false, description: "Botón Añadir tarjeta en cada columna." },
+      { name: "editable", kind: "boolean", type: "boolean", default: false, example: true, description: "Menú en cada tarjeta (editar, mover a, eliminar) y atajos F2 / Supr." },
+      { name: "addable", kind: "boolean", type: "boolean", default: false, example: true, description: "Campo Añadir tarjeta al pie de cada columna." },
+      { name: "columnsEditable", kind: "boolean", type: "boolean", default: false, description: "Renombrar, eliminar y añadir columnas." },
+      { name: "collapsible", kind: "boolean", type: "boolean", default: false, description: "Las columnas se pueden contraer." },
+      { name: "confirmDelete", kind: "boolean", type: "boolean", default: true, description: "Pide confirmación antes de eliminar." },
+      { name: "createCard", kind: "string", type: "(title: string, columnId: string) => T", default: null, description: "Crea la tarjeta nueva a partir del título.", control: false },
       { name: "disabled", kind: "boolean", type: "boolean", default: false, description: "Deshabilita mover tarjetas." },
       { name: "emptyMessage", kind: "string", type: "string", default: undefined, localeKey: "noData", description: "Texto de una columna vacía." },
       { name: "ariaLabel", kind: "string", type: "string", default: "", description: "Nombre del tablero." }
@@ -1790,7 +1795,12 @@ export const DOC_API: Record<string, DocApi> = {
     events: [
       { name: "cardMove", type: "CbKanbanMove", description: "Tarjeta movida ({ item, from, to, fromIndex, toIndex })." },
       { name: "cardOpen", type: "T", description: "Se pulsó una tarjeta (o Enter)." },
-      { name: "addCard", type: "string", description: "Se pulsó Añadir tarjeta (id de la columna)." }
+      { name: "cardAdd", type: "CbKanbanCardEvent", description: "Tarjeta creada ({ item, column, index })." },
+      { name: "cardEdit", type: "CbKanbanCardEvent", description: "Título editado ({ item, previous, column, index })." },
+      { name: "cardDelete", type: "CbKanbanCardEvent", description: "Tarjeta eliminada ({ item, column, index })." },
+      { name: "columnAdd", type: "CbKanbanColumnEvent", description: "Columna añadida." },
+      { name: "columnRename", type: "CbKanbanColumnEvent", description: "Columna renombrada ({ column, previousTitle })." },
+      { name: "columnDelete", type: "CbKanbanColumnEvent", description: "Columna eliminada con sus tarjetas." }
     ]
   },
   "cb-mentions": {

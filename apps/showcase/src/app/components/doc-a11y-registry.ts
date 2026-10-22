@@ -622,6 +622,8 @@ export const DOC_A11Y: Record<string, DocA11y> = {
       'Cada columna es una región nombrada por su título, con una lista de tarjetas. Cada tarjeta es enfocable, se describe como "tarjeta" y lleva las instrucciones de teclado (`aria-describedby`).',
       'Arrastrar no es la única forma de mover: con el teclado se toma, se mueve y se suelta (WCAG 2.5.7), y cada paso se anuncia en una región `role="status"` (columna y posición).',
       'Si la plantilla de tarjeta lleva botones o enlaces, usa `cardOpen` para abrir un detalle en lugar de anidar controles dentro de la tarjeta.',
+      'El menú de cada tarjeta y el de cada columna son botones con nombre ("Acciones de Diseño") que abren un `menu`; el botón es hermano de la tarjeta, no está dentro de ella. "Mover a" permite mover sin arrastrar.',
+      'Editar, añadir, renombrar y confirmar eliminación usan campos y botones con etiqueta; el foco va al campo al abrirlos y vuelve a la tarjeta (o al botón de origen) al cerrar. Cada cambio se anuncia en la región `role="status"`.',
     ],
     keyboard: [
       { keys: 'Tab', action: 'Recorre las tarjetas y los botones Añadir tarjeta.' },
@@ -630,6 +632,8 @@ export const DOC_A11Y: Record<string, DocA11y> = {
       { keys: 'Flechas izquierda / derecha', action: 'Lleva la tarjeta tomada a la columna anterior o siguiente.' },
       { keys: 'Escape', action: 'Cancela el movimiento y la devuelve a su sitio.' },
       { keys: 'Enter', action: 'Abre la tarjeta (cardOpen).' },
+      { keys: 'F2', action: 'Edita el título de la tarjeta (editable). Enter guarda, Escape cancela.' },
+      { keys: 'Supr', action: 'Pide confirmar la eliminación de la tarjeta (editable).' },
     ],
   },
   'cb-mentions': {

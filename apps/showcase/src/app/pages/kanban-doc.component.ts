@@ -25,7 +25,7 @@ interface Task {
     <doc-page-header
       eyebrow="Data"
       title="Kanban"
-      lead="Tablero de columnas con tarjetas que se reordenan y se mueven entre columnas arrastrando (ratón o dedo) o con el teclado. Admite límite de tarjetas por columna y plantilla de tarjeta propia."
+      lead="Tablero de columnas con tarjetas que se reordenan y se mueven entre columnas arrastrando (ratón o dedo) o con el teclado. Se crean, editan y eliminan tarjetas y columnas; admite límite por columna y plantilla de tarjeta propia."
     />
 
     <doc-section id="import" title="Importación">
@@ -34,12 +34,28 @@ interface Task {
 
     <doc-section
       id="board"
-      title="Tablero con plantilla propia"
-      description="[(columns)] se actualiza al mover y (cardMove) avisa con { item, from, to, fromIndex, toIndex } para guardar. Con el teclado: enfoca una tarjeta, Espacio para tomarla, flechas para moverla, Espacio para soltarla y Escape para cancelar. En curso tiene límite de 2 (enforceLimit)."
+      title="Tablero completo"
+      description="Arrastra una tarjeta a cualquier punto de otra columna (también sobre otras tarjetas o la cabecera); el tablero se desplaza solo hacia las columnas ocultas. El menú ⋮ de cada tarjeta edita, mueve o elimina (F2 y Supr con el teclado); &quot;Añadir tarjeta&quot; abre un campo al pie; las columnas se renombran (doble clic o menú), se contraen, se eliminan y se añaden. Cada cambio actualiza [(columns)] y emite su evento para guardarlo. En curso tiene límite de 2 (enforceLimit)."
       [code]="boardCode"
     >
       <div class="kb-demo">
-        <cb-kanban [(columns)]="columns" enforceLimit addable ariaLabel="Sprint 14" (cardMove)="onMove($event)" (addCard)="add($event)">
+        <cb-kanban
+          [(columns)]="columns"
+          enforceLimit
+          editable
+          addable
+          columnsEditable
+          collapsible
+          ariaLabel="Sprint 14"
+          [createCard]="createTask"
+          (cardMove)="onMove($event)"
+          (cardAdd)="log('Añadida', $event.item.title)"
+          (cardEdit)="log('Editada', $event.item.title)"
+          (cardDelete)="log('Eliminada', $event.item.title)"
+          (columnAdd)="log('Columna añadida', $event.column.title)"
+          (columnRename)="log('Columna renombrada', $event.column.title)"
+          (columnDelete)="log('Columna eliminada', $event.column.title)"
+        >
           <ng-template cbKanbanCard let-task>
             <span class="kb-title">{{ task.title }}</span>
             <span class="kb-meta">
@@ -49,7 +65,7 @@ interface Task {
             </span>
           </ng-template>
         </cb-kanban>
-        <p class="kb-log">Último movimiento: {{ last() }}</p>
+        <p class="kb-log">Último cambio: {{ last() }}</p>
       </div>
     </doc-section>
 
@@ -133,23 +149,41 @@ export class KanbanDocComponent {
     this.last.set(`«${move.item.title}» → ${to} (posición ${move.toIndex + 1})`);
   }
 
-  protected add(columnId: string): void {
-    const task: Task = { id: this.nextId++, title: `Tarea nueva ${this.nextId - 10}`, owner: 'Tú', priority: 'Baja' };
-    this.columns.update((cols) => cols.map((c) => (c.id === columnId ? { ...c, items: [...c.items, task] } : c)));
+  protected log(action: string, name: string): void {
+    this.last.set(`${action}: «${name}»`);
   }
 
+  /** Las tarjetas nuevas llevan los campos que pinta la plantilla. */
+  protected readonly createTask = (title: string): Task => ({ id: this.nextId++, title, owner: 'Tú', priority: 'Baja' });
+
   protected readonly importCode = `import { CbKanban, CbKanbanCardDirective, type CbKanbanColumn, type CbKanbanMove } from '@caribeng/ui/kanban';`;
-  protected readonly boardCode = `<cb-kanban [(columns)]="columns" enforceLimit addable ariaLabel="Sprint 14" (cardMove)="onMove($event)" (addCard)="add($event)">
+  protected readonly boardCode = `<cb-kanban
+  [(columns)]="columns"
+  enforceLimit
+  editable
+  addable
+  columnsEditable
+  collapsible
+  ariaLabel="Sprint 14"
+  [createCard]="createTask"
+  (cardMove)="onMove($event)"
+  (cardAdd)="log('Añadida', $event.item.title)"
+  (cardEdit)="log('Editada', $event.item.title)"
+  (cardDelete)="log('Eliminada', $event.item.title)"
+  (columnAdd)="log('Columna añadida', $event.column.title)"
+  (columnRename)="log('Columna renombrada', $event.column.title)"
+  (columnDelete)="log('Columna eliminada', $event.column.title)"
+>
   <ng-template cbKanbanCard let-task>
-    <span>{{ task.title }}</span>
-    <span>
+    <span class="kb-title">{{ task.title }}</span>
+    <span class="kb-meta">
       <cb-tag [value]="task.priority" [severity]="task.priority === 'Alta' ? 'danger' : task.priority === 'Media' ? 'warning' : 'secondary'" />
-      <span aria-hidden="true">{{ initials(task.owner) }}</span>
+      <span class="kb-owner" aria-hidden="true">{{ initials(task.owner) }}</span>
       <span class="cb-sr-only">Responsable: {{ task.owner }}</span>
     </span>
   </ng-template>
 </cb-kanban>
-<p>Último movimiento: {{ last() }}</p>`;
+<p class="kb-log">Último cambio: {{ last() }}</p>`;
 
   constructor() {
     inject(TocService).reset();

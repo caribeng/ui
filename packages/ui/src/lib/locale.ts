@@ -89,6 +89,34 @@ export interface CbTranslation {
   /** `{0}`: cantidad, `{1}`: límite. */
   kanbanCount: string;
   kanbanAdd: string;
+  kanbanEdit: string;
+  kanbanDelete: string;
+  /** `{0}`: columna. */
+  kanbanMoveTo: string;
+  /** `{0}`: tarjeta. */
+  kanbanCardActions: string;
+  kanbanCardTitle: string;
+  /** `{0}`: tarjeta. */
+  kanbanConfirmDelete: string;
+  /** `{0}`: tarjeta. */
+  kanbanDeleted: string;
+  /** `{0}`: tarjeta, `{1}`: columna. */
+  kanbanAdded: string;
+  /** `{0}`: título anterior, `{1}`: nuevo. */
+  kanbanRenamed: string;
+  kanbanAddColumn: string;
+  kanbanColumnName: string;
+  kanbanNewColumn: string;
+  /** `{0}`: columna. */
+  kanbanColumnActions: string;
+  kanbanRename: string;
+  /** `{0}`: columna. */
+  kanbanCollapse: string;
+  /** `{0}`: columna. */
+  kanbanExpand: string;
+  /** `{0}`: columna, `{1}`: cantidad de tarjetas. */
+  kanbanConfirmDeleteColumn: string;
+  save: string;
   /** `{0}`: cantidad. */
   mentionsCount: string;
   add: string;
@@ -575,6 +603,24 @@ export const CB_LOCALE_ES: CbTranslation = {
   kanbanFull: '{0} está llena.',
   kanbanCount: '{0} de {1}',
   kanbanAdd: 'Añadir tarjeta',
+  kanbanEdit: 'Editar',
+  kanbanDelete: 'Eliminar',
+  kanbanMoveTo: 'Mover a {0}',
+  kanbanCardActions: 'Acciones de {0}',
+  kanbanCardTitle: 'Título de la tarjeta',
+  kanbanConfirmDelete: '¿Eliminar «{0}»?',
+  kanbanDeleted: '{0} eliminada.',
+  kanbanAdded: '{0} añadida a {1}.',
+  kanbanRenamed: '«{0}» ahora es «{1}».',
+  kanbanAddColumn: 'Añadir columna',
+  kanbanColumnName: 'Nombre de la columna',
+  kanbanNewColumn: 'Nueva columna',
+  kanbanColumnActions: 'Acciones de la columna {0}',
+  kanbanRename: 'Renombrar',
+  kanbanCollapse: 'Contraer {0}',
+  kanbanExpand: 'Expandir {0}',
+  kanbanConfirmDeleteColumn: '¿Eliminar la columna «{0}» y sus {1} tarjetas?',
+  save: 'Guardar',
   mentionsCount: '{0} sugerencias',
   add: 'Agregar',
   onThisPage: 'En esta página',
@@ -1005,6 +1051,24 @@ export const CB_LOCALE_EN: CbTranslation = {
   kanbanFull: '{0} is full.',
   kanbanCount: '{0} of {1}',
   kanbanAdd: 'Add card',
+  kanbanEdit: 'Edit',
+  kanbanDelete: 'Delete',
+  kanbanMoveTo: 'Move to {0}',
+  kanbanCardActions: 'Actions for {0}',
+  kanbanCardTitle: 'Card title',
+  kanbanConfirmDelete: 'Delete “{0}”?',
+  kanbanDeleted: '{0} deleted.',
+  kanbanAdded: '{0} added to {1}.',
+  kanbanRenamed: '“{0}” is now “{1}”.',
+  kanbanAddColumn: 'Add column',
+  kanbanColumnName: 'Column name',
+  kanbanNewColumn: 'New column',
+  kanbanColumnActions: 'Actions for column {0}',
+  kanbanRename: 'Rename',
+  kanbanCollapse: 'Collapse {0}',
+  kanbanExpand: 'Expand {0}',
+  kanbanConfirmDeleteColumn: 'Delete column “{0}” and its {1} cards?',
+  save: 'Save',
   mentionsCount: '{0} suggestions',
   add: 'Add',
   onThisPage: 'On this page',

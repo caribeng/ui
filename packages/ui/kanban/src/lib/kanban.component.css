@@ -6,18 +6,19 @@
 }
 
 .cb-kanban__board {
-  display: grid;
-  grid-auto-columns: minmax(16rem, 1fr);
-  grid-auto-flow: column;
+  display: flex;
+  align-items: flex-start;
   gap: 1rem;
   overflow-x: auto;
-  padding-bottom: 0.25rem;
+  padding-bottom: 0.5rem;
 }
 
 .cb-kanban__column {
   display: flex;
+  flex: 1 0 16rem;
   flex-direction: column;
-  min-width: 0;
+  min-width: 16rem;
+  max-width: 22rem;
   min-height: 12rem;
   border: 1px solid var(--cb-color-border);
   border-top: 3px solid var(--cb-kanban-color, var(--cb-color-border-strong));
@@ -28,13 +29,17 @@
 .cb-kanban__header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem;
-  padding: 0.75rem 0.875rem 0.5rem;
+  gap: 0.375rem;
+  padding: 0.625rem 0.5rem 0.5rem 0.875rem;
 }
 
 .cb-kanban__title {
+  flex: 1;
+  min-width: 0;
   margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   font-size: var(--cb-text-sm, 0.875rem);
   font-weight: var(--cb-font-weight-semibold, 600);
 }
@@ -69,10 +74,230 @@
 }
 
 .cb-kanban__item {
+  position: relative;
   display: block;
 }
 
+/* Menú de la tarjeta: hermano de la tarjeta (no anidado en su botón). */
+.cb-kanban__card-menu {
+  position: absolute;
+  top: 0.375rem;
+  right: 0.375rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  padding: 0;
+  border: 0;
+  border-radius: var(--cb-radius-sm, 4px);
+  background: var(--cb-color-surface-raised);
+  color: var(--cb-color-text-muted);
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity var(--cb-duration-fast, 150ms) ease;
+}
+
+.cb-kanban__item:hover .cb-kanban__card-menu,
+.cb-kanban__card-menu:focus-visible,
+.cb-kanban__card:focus-visible + .cb-kanban__card-menu {
+  opacity: 1;
+}
+
+@media (hover: none) {
+  .cb-kanban__card-menu {
+    opacity: 1;
+  }
+}
+
+.cb-kanban__card-menu:hover {
+  background: var(--cb-color-surface-hover);
+  color: var(--cb-color-text);
+}
+
+.cb-kanban__card--editable {
+  padding-right: 2.25rem;
+}
+
+.cb-kanban__icon-btn {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  padding: 0;
+  border: 0;
+  border-radius: var(--cb-radius-sm, 4px);
+  background: transparent;
+  color: var(--cb-color-text-muted);
+  cursor: pointer;
+}
+
+.cb-kanban__icon-btn:hover {
+  background: var(--cb-color-surface-hover);
+  color: var(--cb-color-text);
+}
+
+.cb-kanban__title-input {
+  flex: 1;
+  min-width: 0;
+  padding: 0.25rem 0.375rem;
+  border: 1px solid var(--cb-color-primary);
+  border-radius: var(--cb-radius-sm, 4px);
+  background: var(--cb-color-bg, var(--cb-color-surface-raised));
+  color: inherit;
+  font: inherit;
+  font-size: var(--cb-text-sm, 0.875rem);
+  font-weight: var(--cb-font-weight-semibold, 600);
+}
+
+/* Editor, confirmación y campo de añadir. */
+.cb-kanban__editor,
+.cb-kanban__composer,
+.cb-kanban__confirm {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  border: 1px solid var(--cb-color-border);
+  border-radius: var(--cb-radius-md, 8px);
+  background: var(--cb-color-surface-raised);
+  box-shadow: var(--cb-shadow-sm);
+}
+
+.cb-kanban__composer {
+  margin: 0 0.625rem 0.625rem;
+}
+
+.cb-kanban__confirm:not(.cb-kanban__confirm--card) {
+  margin: 0 0.625rem 0.5rem;
+}
+
+.cb-kanban__confirm {
+  border-color: color-mix(in srgb, var(--cb-color-danger) 40%, var(--cb-color-border));
+}
+
+.cb-kanban__confirm-text {
+  margin: 0;
+  font-size: var(--cb-text-sm, 0.875rem);
+}
+
+.cb-kanban__textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.5rem;
+  border: 1px solid var(--cb-color-border-strong);
+  border-radius: var(--cb-radius-sm, 4px);
+  background: var(--cb-color-bg, var(--cb-color-surface-raised));
+  color: inherit;
+  font: inherit;
+  font-size: var(--cb-text-sm, 0.875rem);
+  resize: vertical;
+}
+
+.cb-kanban__textarea:focus-visible,
+.cb-kanban__title-input:focus-visible {
+  outline: 2px solid var(--cb-color-focus-ring);
+  outline-offset: 1px;
+}
+
+.cb-kanban__confirm-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.375rem;
+}
+
+.cb-kanban__btn {
+  padding: 0.3125rem 0.75rem;
+  border: 1px solid var(--cb-color-border-strong);
+  border-radius: var(--cb-radius-sm, 4px);
+  background: transparent;
+  color: var(--cb-color-text);
+  font: inherit;
+  font-size: var(--cb-text-xs, 0.75rem);
+  font-weight: var(--cb-font-weight-medium, 500);
+  cursor: pointer;
+}
+
+.cb-kanban__btn:hover {
+  background: var(--cb-color-surface-hover);
+}
+
+.cb-kanban__btn--primary {
+  border-color: var(--cb-color-primary);
+  background: var(--cb-color-primary);
+  color: var(--cb-color-primary-contrast);
+}
+
+.cb-kanban__btn--primary:hover {
+  background: color-mix(in srgb, var(--cb-color-primary) 88%, black);
+}
+
+.cb-kanban__btn--danger {
+  border-color: var(--cb-color-danger);
+  background: var(--cb-color-danger);
+  color: var(--cb-color-danger-contrast);
+}
+
+.cb-kanban__btn--danger:hover {
+  background: color-mix(in srgb, var(--cb-color-danger) 88%, black);
+}
+
+.cb-kanban__btn:focus-visible,
+.cb-kanban__icon-btn:focus-visible,
+.cb-kanban__card-menu:focus-visible,
+.cb-kanban__add-column:focus-visible {
+  outline: 2px solid var(--cb-color-focus-ring);
+  outline-offset: 2px;
+}
+
+/* Columna contraída: una franja estrecha con el título en vertical. */
+.cb-kanban__column--collapsed {
+  flex: 0 0 3rem;
+  min-width: 3rem;
+  min-height: 14rem;
+}
+
+.cb-kanban__column--collapsed .cb-kanban__header {
+  flex-direction: column;
+  padding: 0.5rem 0.25rem;
+}
+
+.cb-kanban__column--collapsed .cb-kanban__title {
+  flex: none;
+  writing-mode: vertical-rl;
+  white-space: nowrap;
+}
+
+.cb-kanban__column--collapsed .cb-kanban__list,
+.cb-kanban__column--collapsed .cb-kanban__header > [data-column-menu] {
+  display: none;
+}
+
+.cb-kanban__add-column {
+  display: flex;
+  flex: 0 0 14rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+  min-height: 3rem;
+  border: 2px dashed var(--cb-color-border-strong);
+  border-radius: var(--cb-radius-lg, 12px);
+  background: transparent;
+  color: var(--cb-color-text-muted);
+  font: inherit;
+  font-size: var(--cb-text-sm, 0.875rem);
+  cursor: pointer;
+}
+
+.cb-kanban__add-column:hover:not(:disabled) {
+  background: var(--cb-color-surface-hover);
+  color: var(--cb-color-text);
+}
+
 .cb-kanban__card {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
@@ -126,8 +351,8 @@
   text-align: center;
 }
 
-/* Mientras se arrastra, la lista que no recibe no muestra "vacía". */
-.cb-kanban__list.cdk-drop-list-dragging .cb-kanban__empty {
+/* Mientras se arrastra sobre la columna, no muestra "vacía". */
+.cb-kanban__column.cdk-drop-list-dragging .cb-kanban__empty {
   display: none;
 }
 
@@ -171,14 +396,43 @@
   white-space: nowrap;
 }
 
-/* Estilos de la CDK mientras se arrastra (la vista previa vive fuera del componente). */
-:host ::ng-deep .cdk-drag-animating,
-.cb-kanban__list.cdk-drop-list-dragging .cb-kanban__item:not(.cdk-drag-placeholder) {
+/* Arrastre (CDK). La vista previa se clona en <body> pero conserva los estilos del componente. */
+.cb-kanban-preview {
+  box-sizing: border-box;
+  cursor: grabbing;
+  transform: rotate(2deg);
+}
+
+.cb-kanban-preview .cb-kanban__card {
+  border-color: var(--cb-color-primary);
+  box-shadow: var(--cb-shadow-lg);
+}
+
+.cb-kanban-preview .cb-kanban__card-menu {
+  display: none;
+}
+
+.cdk-drag-animating {
   transition: transform 200ms cubic-bezier(0, 0, 0.2, 1);
 }
 
+.cb-kanban__column.cdk-drop-list-dragging .cb-kanban__item:not(.cdk-drag-placeholder) {
+  transition: transform 200ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+/* La columna que recibe la tarjeta se marca mientras se arrastra encima. */
+.cb-kanban__column.cdk-drop-list-dragging {
+  background: color-mix(in srgb, var(--cb-color-primary) 6%, var(--cb-color-surface-subtle));
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .cb-kanban__card--grabbed {
+  .cb-kanban__card--grabbed,
+  .cb-kanban-preview {
     transform: none;
+  }
+
+  .cdk-drag-animating,
+  .cb-kanban__column.cdk-drop-list-dragging .cb-kanban__item:not(.cdk-drag-placeholder) {
+    transition: none;
   }
 }
