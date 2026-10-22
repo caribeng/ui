@@ -4,6 +4,7 @@ import { CbCard } from '@caribeng/ui/card';
 import { CbButton } from '@caribeng/ui/button';
 import { CbFileCard } from '@caribeng/ui/file-card';
 import { CbFolderCard } from '@caribeng/ui/folder-card';
+import type { CbMenuItem } from '@caribeng/ui/menu';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { TocService } from '../services/toc.service';
@@ -91,9 +92,7 @@ interface RecentFile {
             <div class="fm__panel-head"><h3 class="fm__panel-title">Carpetas</h3></div>
             <div class="fm__folders">
               @for (f of folders; track f.name) {
-                <cb-folder-card [name]="f.name" [files]="f.files" [size]="f.size">
-                  <span cb-folder-actions>⋮</span>
-                </cb-folder-card>
+                <cb-folder-card [name]="f.name" [files]="f.files" [size]="f.size" [actions]="folderActions" />
               }
             </div>
           </cb-card>
@@ -284,6 +283,16 @@ export class FileManagerTemplateComponent {
     { name: 'Descargas', files: 345, size: '26.4 GB' },
   ];
 
+  protected readonly folderActions: CbMenuItem[] = [
+    { label: 'Abrir', icon: 'folder' },
+    { label: 'Renombrar', icon: 'pencil' },
+    { label: 'Compartir', icon: 'users' },
+    { label: 'Descargar', icon: 'download' },
+    { label: 'Mover a…', icon: 'folder-input' },
+    { label: '', separator: true },
+    { label: 'Eliminar', icon: 'trash' },
+  ];
+
   protected readonly segments: Segment[] = [
     { label: 'Descargas', pct: 30, color: '#8b5cf6' },
     { label: 'Apps', pct: 35, color: '#f97316' },
@@ -319,9 +328,8 @@ export class FileManagerTemplateComponent {
 <!-- Carpetas: rejilla de cb-folder-card -->
 <div class="folders">
   @for (f of folders; track f.name) {
-    <cb-folder-card [name]="f.name" [files]="f.files" [size]="f.size">
-      <span cb-folder-actions>⋮</span>
-    </cb-folder-card>
+    <cb-folder-card [name]="f.name" [files]="f.files" [size]="f.size"
+      [actions]="folderActions" (actionSelect)="onFolderAction($event, f)" />
   }
 </div>
 

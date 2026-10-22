@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import type { CbMenuItem } from '@caribeng/ui/menu';
 import { CbFolderCard } from '@caribeng/ui/folder-card';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
 import { DocSectionComponent } from '../shared/doc-section.component';
@@ -19,7 +20,7 @@ interface Folder {
     <doc-page-header
       eyebrow="Archivos"
       title="FolderCard"
-      lead="Tarjeta de carpeta genérica: icono de carpeta, nombre y una fila con número de archivos y tamaño. Proyecta un menú de acciones por [cb-folder-actions]."
+      lead="Tarjeta de carpeta genérica: icono de carpeta, nombre y una fila con número de archivos y tamaño. Con actions muestra un menú ⋮ de acciones; con clickable, toda la tarjeta abre la carpeta."
     />
 
     <doc-section id="import" title="Importación">
@@ -28,28 +29,50 @@ interface Folder {
 
     <doc-section
       id="basic"
-      title="Básico"
-      description="Nombre, número de archivos y tamaño. Un botón de acciones proyectado en la esquina."
+      title="Menú de acciones"
+      description="actions recibe items de cb-menu (icono, disabled, separator…). El botón ⋮ abre el menú y actionSelect avisa de la acción elegida."
       [code]="basicCode"
+      [codeTs]="basicTs"
     >
-      <cb-folder-card name="Imágenes" [files]="345" size="26.4 GB" style="max-width: 260px">
-        <button cb-folder-actions type="button" class="fcd-menu" aria-label="Opciones">⋮</button>
-      </cb-folder-card>
+      <div style="display: grid; gap: 0.75rem; max-width: 260px">
+        <cb-folder-card name="Imágenes" [files]="345" size="26.4 GB" [actions]="acciones" (actionSelect)="ultima.set($event.label + ' · Imágenes')" />
+        <p class="fcd-log">Última acción: {{ ultima() }}</p>
+      </div>
     </doc-section>
 
     <doc-section
-      id="grid"
-      title="Rejilla de carpetas"
-      description="Varias folder-card forman la sección 'All Folders' de un gestor de archivos."
+      id="clickable"
+      title="Tarjeta pulsable"
+      description="Con clickable, el nombre es un botón que cubre toda la tarjeta y emite open (clic, Enter o Espacio). El botón ⋮ queda por encima y no abre la carpeta."
       [code]="gridCode"
     >
-      <div class="fcd-grid">
-        @for (f of folders; track f.name) {
-          <cb-folder-card [name]="f.name" [files]="f.files" [size]="f.size">
-            <button cb-folder-actions type="button" class="fcd-menu" aria-label="Opciones">⋮</button>
-          </cb-folder-card>
-        }
+      <div style="display: grid; gap: 0.75rem">
+        <div class="fcd-grid">
+          @for (f of folders; track f.name) {
+            <cb-folder-card
+              [name]="f.name"
+              [files]="f.files"
+              [size]="f.size"
+              [actions]="acciones"
+              clickable
+              (open)="ultima.set('Abrir · ' + f.name)"
+              (actionSelect)="ultima.set($event.label + ' · ' + f.name)"
+            />
+          }
+        </div>
+        <p class="fcd-log">Última acción: {{ ultima() }}</p>
       </div>
+    </doc-section>
+
+    <doc-section
+      id="custom"
+      title="Contenido propio en la esquina"
+      description="Sin actions, [cb-folder-actions] proyecta cualquier contenido en la esquina (p. ej. un botón propio o un badge)."
+      [code]="customCode"
+    >
+      <cb-folder-card name="Proyectos" [files]="12" size="1.2 GB" style="max-width: 260px">
+        <span cb-folder-actions class="fcd-badge">Compartida</span>
+      </cb-folder-card>
     </doc-section>
   `,
   styles: [
@@ -59,13 +82,16 @@ interface Folder {
         grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
         gap: 0.75rem;
       }
-      .fcd-menu {
-        border: 0;
-        background: transparent;
-        color: inherit;
-        font-size: 1.1rem;
-        line-height: 1;
-        cursor: pointer;
+      .fcd-log {
+        margin: 0;
+        font-size: 0.875rem;
+        color: var(--cb-color-text-muted);
+      }
+      .fcd-badge {
+        padding: 0.125rem 0.5rem;
+        border-radius: 999px;
+        background: var(--cb-color-surface-hover);
+        font-size: 0.75rem;
       }
     `,
   ],
@@ -74,6 +100,18 @@ export class FolderCardDocComponent {
   constructor() {
     inject(TocService).reset();
   }
+
+  protected readonly ultima = signal('—');
+
+  protected readonly acciones: CbMenuItem[] = [
+    { label: 'Abrir', icon: 'folder' },
+    { label: 'Renombrar', icon: 'pencil' },
+    { label: 'Compartir', icon: 'users' },
+    { label: 'Descargar', icon: 'download' },
+    { label: 'Mover a…', icon: 'folder-input' },
+    { label: '', separator: true },
+    { label: 'Eliminar', icon: 'trash' },
+  ];
 
   protected readonly folders: Folder[] = [
     { name: 'Imágenes', files: 345, size: '26.4 GB' },
@@ -84,15 +122,32 @@ export class FolderCardDocComponent {
 
   protected readonly importCode = `import { CbFolderCard } from '@caribeng/ui/folder-card';`;
 
-  protected readonly basicCode = `<cb-folder-card name="Imágenes" [files]="345" size="26.4 GB">
-  <button cb-folder-actions aria-label="Opciones">⋮</button>
-</cb-folder-card>`;
+  protected readonly basicCode = `<cb-folder-card name="Imágenes" [files]="345" size="26.4 GB"
+  [actions]="acciones" (actionSelect)="onAccion($event)" />`;
+
+  protected readonly basicTs = `acciones: CbMenuItem[] = [
+  { label: 'Abrir', icon: 'folder' },
+  { label: 'Renombrar', icon: 'pencil' },
+  { label: 'Compartir', icon: 'users' },
+  { label: 'Descargar', icon: 'download' },
+  { label: 'Mover a…', icon: 'folder-input' },
+  { label: '', separator: true },
+  { label: 'Eliminar', icon: 'trash' },
+];
+
+onAccion(item: CbMenuItem) {
+  console.log(item.label);
+}`;
 
   protected readonly gridCode = `<div class="grid">
   @for (f of folders; track f.name) {
-    <cb-folder-card [name]="f.name" [files]="f.files" [size]="f.size">
-      <button cb-folder-actions aria-label="Opciones">⋮</button>
-    </cb-folder-card>
+    <cb-folder-card [name]="f.name" [files]="f.files" [size]="f.size"
+      [actions]="acciones" clickable
+      (open)="abrir(f)" (actionSelect)="onAccion($event, f)" />
   }
 </div>`;
+
+  protected readonly customCode = `<cb-folder-card name="Proyectos" [files]="12" size="1.2 GB">
+  <span cb-folder-actions class="badge">Compartida</span>
+</cb-folder-card>`;
 }
