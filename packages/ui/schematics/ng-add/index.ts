@@ -58,13 +58,13 @@ async function resolveProject(tree: Tree, name: string | undefined): Promise<str
   return apps[0][0];
 }
 
-async function projectSourceRoot(tree: Tree, name: string): Promise<string> {
+export async function projectSourceRoot(tree: Tree, name: string): Promise<string> {
   const project = (await readWorkspace(tree)).projects.get(name)!;
   return project.sourceRoot ?? `${project.root ? project.root + '/' : ''}src`;
 }
 
 /** Añade la hoja de estilos al principio de `styles` (los estilos propios de la app la pueden sobrescribir). */
-function addStyles(projectName: string): Rule {
+export function addStyles(projectName: string): Rule {
   return updateWorkspace((workspace) => {
     const project = workspace.projects.get(projectName);
     if (!project) return;
@@ -89,7 +89,7 @@ function styleInput(entry: unknown): string {
 }
 
 /** Busca un texto en los `.ts` del proyecto (para no registrar el proveedor dos veces). */
-function containsText(tree: Tree, root: string, text: string): boolean {
+export function containsText(tree: Tree, root: string, text: string): boolean {
   let found = false;
   tree.getDir(root).visit((path) => {
     if (found || !path.endsWith('.ts') || path.endsWith('.spec.ts')) return;
@@ -99,7 +99,7 @@ function containsText(tree: Tree, root: string, text: string): boolean {
 }
 
 function logNextSteps(options: Schema): Rule {
-  return (_tree: Tree, context: SchematicContext) => {
+  return (tree: Tree, context: SchematicContext) => {
     const es = options.locale !== 'en';
     const lines = es
       ? [
@@ -123,5 +123,19 @@ function logNextSteps(options: Schema): Rule {
           '',
         ];
     lines.forEach((line) => context.logger.info(line));
+    if (usesPrimeng(tree)) {
+      context.logger.warn(
+        es
+          ? '⚠ Este proyecto usa PrimeNG. Para migrar sus componentes a CaribeNG ejecuta:\n    ng generate @caribeng/ui:migrate-from-primeng'
+          : '⚠ This project uses PrimeNG. To migrate its components to CaribeNG run:\n    ng generate @caribeng/ui:migrate-from-primeng',
+      );
+    }
   };
+}
+
+/** `primeng` aparece en las dependencias del package.json raíz. */
+function usesPrimeng(tree: Tree): boolean {
+  if (!tree.exists('/package.json')) return false;
+  const pkg = JSON.parse(tree.readText('/package.json')) as Record<string, Record<string, string> | undefined>;
+  return Boolean(pkg['dependencies']?.['primeng'] ?? pkg['devDependencies']?.['primeng']);
 }

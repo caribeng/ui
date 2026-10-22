@@ -4,6 +4,25 @@ import type { CbChangelogRelease } from './changelog.model';
 
 export const CHANGELOG: readonly CbChangelogRelease[] = [
   {
+    "version": null,
+    "date": null,
+    "sections": [
+      {
+        "type": "added",
+        "items": [
+          {
+            "component": "Migración",
+            "text": "`ng generate @caribeng/ui:migrate-from-primeng` migra un proyecto PrimeNG 18+ a CaribeNG: imports y `imports` de los componentes, plantillas de Button, InputText, Select/Dropdown y Dialog (inputs, eventos, pie del diálogo), iconos `pi pi-*` a `<cb-icon>` (registra con `provideCbIcons` los que no son del set núcleo), `providePrimeNG()` → `provideCaribeNG()`, estilos de `angular.json` y PrimeIcons. Lo que no traduce lo marca con `TODO(caribeng)` y lo resume en `caribeng-migration-report.md`; quita PrimeNG de `package.json` solo cuando no quedan referencias. Opciones `--path`, `--remove-primeng`, `--report`, `--skip-install` y `--force`."
+          },
+          {
+            "component": "Instalación",
+            "text": "`ng add @caribeng/ui` avisa del migrador si el proyecto usa PrimeNG."
+          }
+        ]
+      }
+    ]
+  },
+  {
     "version": "22.2.0",
     "date": "2026-10-21",
     "sections": [

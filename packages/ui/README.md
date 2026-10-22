@@ -71,6 +71,33 @@ yarn add @caribeng/ui
 pnpm add @caribeng/ui
 ```
 
+### Migrar desde PrimeNG
+
+En un proyecto con PrimeNG 18 o superior, instala CaribeNG y ejecuta el migrador:
+
+```bash
+npm install @caribeng/ui@22
+ng generate @caribeng/ui:migrate-from-primeng
+```
+
+Qué hace:
+
+- cambia los imports de PrimeNG por los de CaribeNG (`ButtonModule` → `CbButton`, `providePrimeNG()` → `provideCaribeNG()`) y añade a cada componente los que usa su plantilla,
+- traduce las plantillas (`<p-button>`, `pButton`, `pInputText`, `<p-select>`/`<p-dropdown>`, `<p-dialog>`) con sus inputs y eventos (`[outlined]` → `variant`, `size="small"` → `size="sm"`, `(onClick)` → `(click)`…),
+- convierte los iconos `pi pi-*` en `<cb-icon>` y registra con `provideCbIcons` los que no están en el set núcleo,
+- quita PrimeIcons de `angular.json` y de las hojas de estilo, y añade `@caribeng/ui/styles.css`,
+- quita `primeng`, `primeicons` y `@primeuix/*` de `package.json` **solo cuando ya no queda ninguna referencia**; mientras tanto las dos librerías conviven.
+
+Lo que no puede traducir con seguridad lo marca con un comentario `TODO(caribeng)` junto al código original, y lo resume en `caribeng-migration-report.md`. Revisa el resultado con `git diff`.
+
+| Opción | Uso |
+|---|---|
+| `--path=src/app/ventas` | Migrar solo una carpeta (migración por partes). |
+| `--remove-primeng=false` | No tocar las dependencias de `package.json`. |
+| `--report=false` | No escribir el informe. |
+| `--skip-install` | No instalar dependencias al terminar. |
+| `--force` | Migrar aunque falte `@caribeng/ui` o la versión de PrimeNG sea anterior a la 18. |
+
 ## 🔨 Uso
 
 > Con `ng add @caribeng/ui` los pasos 1 y 2 ya están hechos.
