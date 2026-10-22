@@ -1686,6 +1686,11 @@ export class CbEditor implements ControlValueAccessor {
     if (!range || range.collapsed) {
       this.exec('insertHTML', `<a href="${escapeAttr(url)}"${target}>${escapeHtml(url)}</a>`);
     } else {
+      // El doble clic en Windows selecciona también el espacio siguiente: se deja fuera del enlace
+      // (insertHTML lo descartaría y las palabras quedarían pegadas).
+      trimRangeWhitespace(range);
+      sel!.removeAllRanges();
+      sel!.addRange(range);
       this.exec('insertHTML', `<a href="${escapeAttr(url)}"${target}>${escapeHtml(range.toString())}</a>`);
     }
   }
@@ -2886,6 +2891,21 @@ function setLinkAttrs(anchor: HTMLAnchorElement, url: string, newTab: boolean): 
   } else {
     anchor.removeAttribute('target');
     anchor.removeAttribute('rel');
+  }
+}
+
+/** Saca de la selección los espacios de los extremos (si caen en un nodo de texto). */
+function trimRangeWhitespace(range: Range): void {
+  const { startContainer: start, endContainer: end } = range;
+  if (end.nodeType === Node.TEXT_NODE) {
+    const before = (end.textContent ?? '').slice(0, range.endOffset);
+    const trailing = before.length - before.trimEnd().length;
+    if (trailing && range.toString().trim()) range.setEnd(end, range.endOffset - trailing);
+  }
+  if (start.nodeType === Node.TEXT_NODE) {
+    const after = (start.textContent ?? '').slice(range.startOffset);
+    const leading = after.length - after.trimStart().length;
+    if (leading && range.toString().trim()) range.setStart(start, range.startOffset + leading);
   }
 }
 

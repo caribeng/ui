@@ -22,6 +22,7 @@ import { CdkDrag, CdkDragPlaceholder, CdkDropList, CdkDropListGroup, type CdkDra
 import { CdkScrollable } from '@angular/cdk/scrolling';
 import { cbFormat, injectCbTranslation } from '@caribeng/ui';
 import { CbDrawer } from '@caribeng/ui/drawer';
+import { cbHtmlToText } from '@caribeng/ui/editor';
 import { CbIcon } from '@caribeng/ui/icon';
 import { CbMenu, type CbMenuItem } from '@caribeng/ui/menu';
 import { CbKanbanTaskPanel } from './kanban-task-panel.component';
@@ -346,7 +347,7 @@ let nextUid = 0;
     <ng-template #defaultCard let-item>
       <span class="cb-kanban__card-title">{{ label(item) }}</span>
       @if (item?.description) {
-        <span class="cb-kanban__card-description">{{ item.description }}</span>
+        <span class="cb-kanban__card-description">{{ plain(item.description) }}</span>
       }
       @if (hasMeta(item)) {
         <span class="cb-kanban__meta">
@@ -503,6 +504,10 @@ export class CbKanban {
     );
   });
   protected readonly initialsOf = initials;
+  /** La descripción puede ser HTML (del editor): en la tarjeta va como texto. */
+  protected plain(html: unknown): string {
+    return typeof html === 'string' && html.includes('<') ? cbHtmlToText(html).trim() : String(html ?? '');
+  }
 
   // --- Datos ---------------------------------------------------------------
   protected key(item: unknown): unknown {

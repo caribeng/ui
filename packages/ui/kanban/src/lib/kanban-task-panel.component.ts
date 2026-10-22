@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   ElementRef,
   Injector,
   ViewEncapsulation,
@@ -14,6 +15,7 @@ import {
 } from '@angular/core';
 import { cbFormat, injectCbTranslation } from '@caribeng/ui';
 import { CbDatepicker } from '@caribeng/ui/datepicker';
+import { CbEditor, type CbEditorTool } from '@caribeng/ui/editor';
 import { CbIcon } from '@caribeng/ui/icon';
 import { CbMultiSelect } from '@caribeng/ui/multiselect';
 import { CbSelect } from '@caribeng/ui/select';
@@ -41,7 +43,7 @@ let nextUid = 0;
   selector: 'cb-kanban-task-panel',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
-  imports: [CbDatepicker, CbIcon, CbMultiSelect, CbSelect],
+  imports: [CbDatepicker, CbEditor, CbIcon, CbMultiSelect, CbSelect],
   host: { class: 'cb-kanban-task-panel' },
   template: `
     <textarea
@@ -142,16 +144,19 @@ let nextUid = 0;
     </div>
 
     <section class="cb-ktp__section">
-      <label class="cb-ktp__heading" [for]="uid + '-description'">{{ t().kanbanDescription }}</label>
-      <textarea
-        class="cb-ktp__textarea"
-        rows="5"
-        [id]="uid + '-description'"
+      <h3 class="cb-ktp__heading">{{ t().kanbanDescription }}</h3>
+      <cb-editor
+        height="10rem"
+        maxHeight="24rem"
+        [wordCount]="false"
+        [toolbar]="editorToolbar"
         [value]="description()"
-        [disabled]="!editable()"
+        [readonly]="!editable()"
+        [ariaLabel]="t().kanbanDescription"
         [placeholder]="t().kanbanDescriptionPlaceholder"
-        (blur)="commitDescription($any($event.target).value)"
-      ></textarea>
+        (valueChange)="scheduleDescription($event)"
+        (focusout)="flushDescription()"
+      />
     </section>
 
     <section class="cb-ktp__section" [attr.aria-labelledby]="uid + '-attachments'">
@@ -198,7 +203,7 @@ let nextUid = 0;
             {{ t().kanbanAttach }}
           </button>
           <span class="cb-ktp__hint">{{ t().kanbanDropFiles }}</span>
-          <input #fileInput type="file" multiple hidden [attr.accept]="accept() || null" (change)="addFiles(fileInput.files); fileInput.value = ''" />
+          <input #fileInput class="cb-ktp__file-input" type="file" multiple hidden [attr.accept]="accept() || null" (change)="addFiles(fileInput.files); fileInput.value = ''" />
         </div>
       }
     </section>
@@ -284,9 +289,33 @@ export class CbKanbanTaskPanel {
     if (title !== this.title()) this.patch.emit({ [this.itemLabel()]: title });
   }
 
-  protected commitDescription(value: string): void {
-    if (value !== this.description()) this.patch.emit({ description: value });
+  /** Barra compacta del editor de la descripción. */
+  protected readonly editorToolbar: readonly CbEditorTool[] = [
+    'undo', 'redo', '|', 'heading', '|', 'bold', 'italic', 'underline', 'strike', '|',
+    'bulletList', 'orderedList', 'taskList', '|', 'link', 'quote', 'code', 'codeBlock', '|', 'clear',
+  ];
+  private pendingDescription: string | null = null;
+  private descriptionTimer: ReturnType<typeof setTimeout> | undefined;
+
+  /** El editor cambia en cada tecla: se guarda tras una pausa (o al salir del editor). */
+  protected scheduleDescription(html: string): void {
+    this.pendingDescription = html;
+    clearTimeout(this.descriptionTimer);
+    this.descriptionTimer = setTimeout(() => this.flushDescription(), 600);
   }
+
+  protected flushDescription(): void {
+    clearTimeout(this.descriptionTimer);
+    const html = this.pendingDescription;
+    this.pendingDescription = null;
+    if (html !== null && html !== this.description()) this.patch.emit({ description: html });
+  }
+
+  constructor() {
+    // Al cerrar el panel no se pierde lo último escrito.
+    inject(DestroyRef).onDestroy(() => this.flushDescription());
+  }
+
 
   protected onColumn(id: unknown): void {
     if (typeof id === 'string' && id && id !== this.columnId()) this.move.emit(id);

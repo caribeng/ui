@@ -128,6 +128,26 @@ describe('CbEditor · HTML seguro, enlaces, pegar, límites y vistas', () => {
       expect(exec).not.toHaveBeenCalledWith('insertHTML', false, expect.stringContaining('javascript'));
     });
 
+    it('el espacio que trae el doble clic queda fuera del enlace', async () => {
+      const { el, surface, tool, settle } = setup((h) => h.html.set('<p>Flujo de pagos</p>'));
+      await settle();
+      const range = document.createRange();
+      const text = surface().querySelector('p')!.firstChild!;
+      range.setStart(text, 0);
+      range.setEnd(text, 6); // "Flujo "
+      document.getSelection()!.removeAllRanges();
+      document.getSelection()!.addRange(range);
+      tool('Insertar enlace').click();
+      await settle();
+      const input = el.querySelector<HTMLInputElement>('.cb-editor__link-input')!;
+      input.value = 'https://a.co';
+      input.dispatchEvent(new Event('input'));
+      el.querySelector<HTMLFormElement>('.cb-editor__link')!.dispatchEvent(new Event('submit', { cancelable: true }));
+      await settle();
+      expect(exec).toHaveBeenCalledWith('insertHTML', false, '<a href="https://a.co">Flujo</a>');
+      expect(document.getSelection()!.toString()).toBe('Flujo');
+    });
+
     it('editar un enlace existente: cambia la URL (www → https://), abre en pestaña nueva y se puede quitar', async () => {
       const { el, surface, tool, settle, host } = setup((h) => h.html.set('<p>Ver <a href="https://a.co">sitio</a></p>'));
       await settle();

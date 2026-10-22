@@ -112,7 +112,9 @@ describe('CbKanban con detalle de tarea', () => {
       'Fecha de inicio',
       'Fecha de fin',
     ]);
-    expect(p.querySelector<HTMLTextAreaElement>('#' + p.querySelector('.cb-ktp__textarea')!.id)!.value).toBe('Pantalla de pagos');
+    const surface = p.querySelector<HTMLElement>('cb-editor .cb-editor__surface')!;
+    expect(surface.textContent).toBe('Pantalla de pagos');
+    expect(surface.getAttribute('aria-label')).toBe('Descripción');
     expect(Array.from(p.querySelectorAll('.cb-ktp__person-name')).map((n) => n.textContent)).toEqual(['Laura Gómez', 'Mateo Ruiz']);
     expect(p.querySelector('.cb-ktp__file-name')!.textContent).toBe('boceto.pdf');
     expect(p.querySelector('.cb-ktp__file-size')!.textContent).toBe('2 KB');
@@ -132,11 +134,15 @@ describe('CbKanban con detalle de tarea', () => {
     expect(kind).toBe('edit');
     expect((event.previous as CbKanbanTask).title).toBe('Diseño');
 
-    const description = p.querySelector<HTMLTextAreaElement>('.cb-ktp__textarea')!;
-    description.value = 'Con OTP';
-    description.dispatchEvent(new Event('blur'));
+    // La descripción usa el editor: se guarda como HTML al salir de él.
+    const description = p.querySelector<HTMLElement>('cb-editor .cb-editor__surface')!;
+    description.innerHTML = '<p>Con <strong>OTP</strong></p>';
+    description.dispatchEvent(new Event('input'));
+    description.dispatchEvent(new FocusEvent('focusout', { bubbles: true }));
     await settle();
-    expect(task('a').description).toBe('Con OTP');
+    expect(task('a').description).toBe('<p>Con <strong>OTP</strong></p>');
+    // En la tarjeta se muestra como texto plano.
+    expect(card('Diseño final').querySelector('.cb-kanban__card-description')!.textContent).toBe('Con OTP');
     // Un título vacío no se guarda.
     title.value = '  ';
     title.dispatchEvent(new Event('blur'));
@@ -152,7 +158,7 @@ describe('CbKanban con detalle de tarea', () => {
     await settle();
     expect(task('a').assignees).toEqual(['mateo']);
 
-    const input = p.querySelector<HTMLInputElement>('input[type="file"]')!;
+    const input = p.querySelector<HTMLInputElement>('.cb-ktp__file-input')!;
     const file = new File(['hola'], 'notas.txt', { type: 'text/plain' });
     Object.defineProperty(input, 'files', { value: [file], configurable: true });
     input.dispatchEvent(new Event('change'));

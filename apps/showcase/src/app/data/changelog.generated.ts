@@ -12,7 +12,7 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
         "items": [
           {
             "component": "Componentes nuevos",
-            "text": "`Kanban` (tablero con columnas y tarjetas que se reordenan y se mueven arrastrando con `@angular/cdk/drag-drop` o con el teclado —Espacio toma y suelta, flechas mueven, Escape cancela— con cada paso anunciado; límite por columna con `enforceLimit`, plantilla `cbKanbanCard`, `[(columns)]`, `cardMove` y `cardOpen`; toda la columna es zona de soltar —también sobre otras tarjetas o la cabecera— y el tablero se desplaza solo hacia las columnas ocultas; con `editable`, menú en cada tarjeta para editar el título, moverla a otra columna o eliminarla (F2 y Supr con el teclado, confirmación con `confirmDelete`); con `addable`, campo para añadir tarjetas (`createCard`); con `columnsEditable`, renombrar, eliminar y añadir columnas; con `collapsible`, contraerlas; eventos `cardAdd`, `cardEdit`, `cardDelete`, `columnAdd`, `columnRename` y `columnDelete`) y `Mentions` (textarea con `@`/`#` y sugerencias junto al cursor, filtro sin tildes, teclado con `aria-activedescendant`, modo servidor con `search` + `loading`, `ControlValueAccessor` y `mentionsChange` con las menciones presentes; `cbCaretCoordinates()` exportado). 162 entry points."
+            "text": "`Kanban` (tablero con columnas y tarjetas que se reordenan y se mueven arrastrando con `@angular/cdk/drag-drop` o con el teclado —Espacio toma y suelta, flechas mueven, Escape cancela— con cada paso anunciado; límite por columna con `enforceLimit`, plantilla `cbKanbanCard`, `[(columns)]`, `cardMove` y `cardOpen`; toda la columna es zona de soltar —también sobre otras tarjetas o la cabecera— y el tablero se desplaza solo hacia las columnas ocultas; con `editable`, menú en cada tarjeta para editar el título, moverla a otra columna o eliminarla (F2 y Supr con el teclado, confirmación con `confirmDelete`); con `addable`, campo para añadir tarjetas (`createCard`); con `columnsEditable`, renombrar, eliminar y añadir columnas; con `collapsible`, contraerlas; eventos `cardAdd`, `cardEdit`, `cardDelete`, `columnAdd`, `columnRename` y `columnDelete`; con `details`, panel lateral de la tarea (`CbKanbanTask`) para cambiar la columna, asignar responsables (`people`), elegir la prioridad (`priorities`), poner fechas de inicio y fin, escribir la descripción con el editor enriquecido (`cb-editor`, se guarda como HTML y la tarjeta la muestra como texto) y adjuntar archivos, con cada cambio aplicado al momento; la tarjeta por defecto muestra prioridad, fechas —en rojo si está vencida—, adjuntos y avatares) y `Mentions` (textarea con `@`/`#` y sugerencias junto al cursor, filtro sin tildes, teclado con `aria-activedescendant`, modo servidor con `search` + `loading`, `ControlValueAccessor` y `mentionsChange` con las menciones presentes; `cbCaretCoordinates()` exportado). 162 entry points. `Drawer` admite `size` (ancho o alto del panel)."
           },
           {
             "component": "Chat (IA), nivel 2",
@@ -73,6 +73,15 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
           {
             "component": "Migración",
             "text": "`p-confirmdialog`, `p-confirmpopup` y `ConfirmationService` se traducen a `cb-confirm-dialog service`, `cb-confirm-popup service` y `CbConfirmationService` (`acceptButtonProps.severity` → `acceptSeverity`, `acceptButtonProps.label` → `acceptLabel`)."
+          }
+        ]
+      },
+      {
+        "type": "fixed",
+        "items": [
+          {
+            "component": "Editor",
+            "text": "al enlazar una palabra seleccionada con doble clic (que en Windows incluye el espacio siguiente) el espacio se perdía y la palabra quedaba pegada a la siguiente; ahora queda fuera del enlace."
           }
         ]
       }
