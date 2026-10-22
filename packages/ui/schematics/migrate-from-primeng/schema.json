@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "caribeng-migrate-from-primeng",
+  "title": "Migrar de PrimeNG a CaribeNG",
+  "type": "object",
+  "properties": {
+    "path": {
+      "type": "string",
+      "description": "Carpeta a migrar (p. ej. src/app/ventas). Por defecto, todo el workspace. Permite migrar por partes.",
+      "default": "/"
+    },
+    "removePrimeng": {
+      "type": "boolean",
+      "description": "Quitar primeng, primeicons y @primeuix/* de package.json cuando ya no quede ninguna referencia.",
+      "default": true
+    },
+    "report": {
+      "type": "boolean",
+      "description": "Escribir caribeng-migration-report.md con los avisos y las referencias pendientes.",
+      "default": true
+    },
+    "skipInstall": {
+      "type": "boolean",
+      "description": "No ejecutar la instalación de dependencias al terminar.",
+      "default": false
+    },
+    "force": {
+      "type": "boolean",
+      "description": "Migrar aunque falte @caribeng/ui o la versión de PrimeNG no esté soportada.",
+      "default": false
+    }
+  },
+  "required": []
+}

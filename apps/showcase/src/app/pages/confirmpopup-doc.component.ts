@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { CbButton } from '@caribeng/ui/button';
 import { CbConfirmPopup } from '@caribeng/ui/confirmpopup';
+import { CbConfirmationService } from '@caribeng/ui';
 import { DocPlaygroundComponent } from '../components/doc-playground.component';
 import { DOC_API } from '../components/doc-api-registry';
 import { DocA11yComponent } from '../components/doc-a11y.component';
@@ -64,6 +65,19 @@ import { TocService } from '../services/toc.service';
       </div>
     </doc-section>
 
+    <doc-section
+      id="service"
+      title="Desde código"
+      description="Con CbConfirmationService la confirmación se pide desde el componente; target (normalmente event.currentTarget) indica a qué botón se ancla. Basta un &lt;cb-confirm-popup service /&gt; en la vista."
+      [code]="serviceCode"
+    >
+      <div style="display: grid; gap: 0.75rem">
+        <cb-button severity="danger" (click)="archivar($event)">Archivar</cb-button>
+        <cb-confirm-popup service />
+        <p style="margin: 0; font-size: 0.875rem">Resultado: {{ serviceResult() }}</p>
+      </div>
+    </doc-section>
+
     <doc-a11y [data]="a11y" />
 
     <doc-playground [api]="docApi" />
@@ -75,8 +89,25 @@ export class ConfirmpopupDocComponent {
 
   protected readonly inline = signal(false);
   protected readonly result = signal('—');
+  protected readonly serviceResult = signal('—');
+  private readonly confirmation = inject(CbConfirmationService);
 
-  protected readonly importCode = `import { CbConfirmPopup } from '@caribeng/ui/confirmpopup';`;
+  protected readonly importCode = `import { CbConfirmPopup } from '@caribeng/ui/confirmpopup';
+// Para pedir confirmaciones desde código:
+import { CbConfirmationService } from '@caribeng/ui';`;
+
+  protected readonly serviceCode = `<cb-button severity="danger" (click)="archivar($event)">Archivar</cb-button>
+<cb-confirm-popup service />`;
+
+  protected archivar(event: Event): void {
+    this.confirmation.confirm({
+      target: event.currentTarget,
+      message: '¿Archivar este proyecto?',
+      acceptSeverity: 'danger',
+      accept: () => this.serviceResult.set('Proyecto archivado'),
+      reject: () => this.serviceResult.set('Cancelado'),
+    });
+  }
 
   protected readonly basicCode = `<cb-button severity="danger" (click)="borrar.confirm($event)">Eliminar archivo</cb-button>
 <cb-confirm-popup

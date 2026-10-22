@@ -7,7 +7,7 @@
 
 <p align="center">
   <img alt="Angular 22" src="https://img.shields.io/badge/Angular-22-dd0031.svg?style=flat-square" />
-  <img alt="Entry points" src="https://img.shields.io/badge/entry%20points-142-10b981.svg?style=flat-square" />
+  <img alt="Entry points" src="https://img.shields.io/badge/entry%20points-152-10b981.svg?style=flat-square" />
   <img alt="Licencia MIT" src="https://img.shields.io/badge/licencia-MIT-blue.svg?style=flat-square" />
 </p>
 
@@ -21,7 +21,8 @@
 - **Accesibles:** roles y atributos ARIA, soporte de teclado y gestión de foco (WCAG 2.2 AA).
 - **Tematizables:** tokens CSS `--cb-*`, modo claro/oscuro y presets de color que se cambian en caliente.
 - **Caribe Design:** 45 componentes adicionales del sistema Caribe (`@caribeng/ui/caribe/*`).
-- **Iconos incluidos:** 361 iconos núcleo listos para usar y un catálogo opcional de 1891 iconos.
+- **Iconos incluidos:** 363 iconos núcleo listos para usar y un catálogo opcional de 1891 iconos.
+- **Migración desde PrimeNG:** un schematic traduce imports, plantillas e iconos y deja un informe con lo pendiente ([ver más](#migrar-desde-primeng)).
 
 ## 🖥 Compatibilidad
 
@@ -70,6 +71,87 @@ yarn add @caribeng/ui
 # pnpm
 pnpm add @caribeng/ui
 ```
+
+### Migrar desde PrimeNG
+
+En un proyecto con PrimeNG 18 o superior, instala CaribeNG y ejecuta el migrador:
+
+```bash
+npm install @caribeng/ui@22
+ng generate @caribeng/ui:migrate-from-primeng
+```
+
+> Haz commit (o una copia) antes de ejecutarlo para poder revisar los cambios con `git diff`. Con `--dry-run` ves qué archivos cambiaría sin escribir nada. Si ejecutas `ng add @caribeng/ui` en un proyecto con PrimeNG, te recordará este comando.
+
+```html
+<!-- Antes -->
+<p-button label="Guardar" icon="pi pi-check" [outlined]="true" (onClick)="guardar()" />
+<input pInputText id="email" [(ngModel)]="email" />
+<p-dialog header="Editar" [(visible)]="abierto" [modal]="true" [style]="{ width: '25rem' }">…</p-dialog>
+
+<!-- Después -->
+<cb-button variant="outlined" (click)="guardar()"><cb-icon name="check" />Guardar</cb-button>
+<cb-input inputId="email" [(ngModel)]="email" />
+<cb-dialog header="Editar" [(visible)]="abierto" width="25rem">…</cb-dialog>
+```
+
+Qué hace:
+
+- cambia los imports de PrimeNG por los de CaribeNG (`ButtonModule` → `CbButton`, `providePrimeNG()` → `provideCaribeNG()`) y añade a cada componente los que usa su plantilla,
+- traduce las plantillas con sus inputs y eventos (`[outlined]` → `variant`, `size="small"` → `size="sm"`, `(onClick)` → `(click)`, `subheader` → `subtitle`…), incluido el pie de Dialog y Card (`#footer` → `<div cb-dialog-footer>` / `<div cb-card-footer>`),
+- cambia `MessageService` por `CbToastService`: traduce los mensajes (`severity: 'error'` → `'danger'`, `'warn'` → `'warning'`, `sticky: true` → `life: 0`) y lo quita de los `providers`, porque `CbToastService` es único para toda la app,
+- convierte los iconos `pi pi-*` en `<cb-icon>` y registra con `provideCbIcons` los que no están en el set núcleo,
+- quita PrimeIcons de `angular.json` y de las hojas de estilo, y añade `@caribeng/ui/styles.css`,
+- quita `primeng`, `primeicons` y `@primeuix/*` de `package.json` **solo cuando ya no queda ninguna referencia**; mientras tanto las dos librerías conviven.
+
+Lo que no puede traducir con seguridad (un input sin equivalente, una plantilla `#header` personalizada, un `pButton` sobre un enlace…) lo marca con un comentario junto al código, conservando el atributo original:
+
+```html
+<!-- TODO(caribeng): [rounded]="true" — cb-button no tiene variante redondeada; usa una clase propia o <cb-icon-button>. -->
+<cb-button severity="danger">Borrar</cb-button>
+```
+
+Todos los avisos, las referencias a PrimeNG que aún quedan (por ejemplo componentes que el migrador no traduce todavía) y los imports que haya que añadir a mano se resumen en `caribeng-migration-report.md`, con archivo y línea.
+
+**Componentes que traduce hoy:**
+
+| PrimeNG | CaribeNG |
+|---|---|
+| `<p-button>`, `<button pButton>` | `<cb-button>` |
+| `<input pInputText>` | `<cb-input>` |
+| `<textarea pTextarea>`, `<textarea pInputTextarea>` | `<cb-textarea>` |
+| `<p-inputnumber>` | `<cb-input-number>` |
+| `<p-select>`, `<p-dropdown>` | `<cb-select>` |
+| `<p-multiselect>` | `<cb-multiselect>` |
+| `<p-toggleswitch>`, `<p-inputSwitch>` | `<cb-toggle>` |
+| `<p-datepicker>`, `<p-calendar>` | `<cb-datepicker>` |
+| `<p-dialog>` | `<cb-dialog>` |
+| `<p-confirmdialog>` + `ConfirmationService` | `<cb-confirm-dialog service>` + `CbConfirmationService` |
+| `<p-confirmpopup>` | `<cb-confirm-popup service>` |
+| `<p-menu>`, `<p-menubar>`, `<p-tieredmenu>`, `<p-panelmenu>`, `<p-breadcrumb>`, `<p-tabmenu>` | `<cb-menu>`, `<cb-menubar>`, `<cb-tieredmenu>`, `<cb-panelmenu>`, `<cb-breadcrumb>`, `<cb-tabmenu>` |
+| `MenuItem[]` (`icon`, `command`, `routerLink`…) | el tipo de item del menú que lo recibe (`CbMenubarItem[]`…) |
+| `<p-splitbutton>` | `<cb-split-button>` |
+| `<p-table>` (columnas escritas en `#header`/`#body` o dinámicas con `@for`) | `<cb-table [columns]>` + un `cbTableCell` por celda personalizada |
+| `<p-tabs>` (y `<p-tabView>`) | `<cb-tabs>` + `<cb-tab label="…">` |
+| `<p-accordion>` (y `<p-accordionTab>`) | `<cb-accordion>` + `<cb-accordion-panel header="…">` |
+| `<p-tag>` | `<cb-tag>` |
+| `<p-toast>` + `MessageService` | `<cb-toast>` + `CbToastService` |
+| `<p-card>` | `<cb-card>` |
+| `pTooltip` (en cualquier elemento) | `cbTooltip` |
+| `<p-checkbox>` | `<cb-checkbox>` |
+| `<i class="pi pi-*">` | `<cb-icon>` |
+
+En los menús, los arrays de `MenuItem` cambian de tipo según el menú que los recibe en la plantilla; `icon: 'pi pi-plus'` pasa a `'plus'`, `command` y `visible` se conservan, y `routerLink: '/x'` pasa a `url` (los `routerLink` con parámetros quedan con aviso). En las tablas, cada `<th>`/`<td>` pasa a una columna de `[columns]` (`pSortableColumn` → `sortable`, `<p-columnFilter>` → `filter`, `pFrozenColumn` → `frozen`); las celdas que no son solo `{{ fila.campo }}` pasan a un `<ng-template cbTableCell>` con su contenido migrado, y las columnas de checkbox y de expandir desaparecen porque `cb-table` las pone sola. Con columnas dinámicas (`[columns]="cols"` + `@for`), `cols` pasa directamente a `[columns]`: el migrador le añade `sortable: true` / `filter: true` si la cabecera los aplicaba a todas, y las ramas `@if (col.field === '…')` o `@switch (col.field)` del cuerpo pasan a un `cbTableCell` por campo. Las tablas con celdas de lógica genérica, varias filas por registro o plantillas sin equivalente se dejan con aviso y conservan `TableModule`, para que sigan compilando. Las pestañas y los acordeones de PrimeNG 18+ se reestructuran (la cabecera pasa a `label`/`header`); si se generan con `@for` o la cabecera lleva iconos, quedan con aviso.
+
+Los radios (`<p-radiobutton>`) y los menús contextuales (`<p-contextmenu>`) se marcan con un aviso pero no se convierten, porque cambia la estructura de la página: en CaribeNG el modelo de los radios va en un `<cb-radio-group>` que envuelve las opciones, y `<cb-contextmenu>` envuelve el área sobre la que se abre en vez de apuntar a ella con `[target]`. El resto de componentes aparece en el informe para migrarlo a mano; se irán añadiendo en próximas versiones.
+
+| Opción | Uso |
+|---|---|
+| `--path=src/app/ventas` | Migrar solo una carpeta (migración por partes). |
+| `--remove-primeng=false` | No tocar las dependencias de `package.json`. |
+| `--report=false` | No escribir el informe. |
+| `--skip-install` | No instalar dependencias al terminar. |
+| `--force` | Migrar aunque falte `@caribeng/ui` o la versión de PrimeNG sea anterior a la 18. |
 
 ## 🔨 Uso
 
@@ -192,7 +274,7 @@ export class Header {
 
 ## 🔣 Iconos
 
-Los 361 iconos núcleo se registran solos:
+Los 363 iconos núcleo se registran solos:
 
 ```html
 <cb-icon name="house" [size]="20" />

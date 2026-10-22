@@ -4,9 +4,10 @@ import {
   ViewEncapsulation,
   input,
   output,
+  computed,
 } from '@angular/core';
 import { CbIcon } from '@caribeng/ui/icon';
-import { injectCbTranslation } from '@caribeng/ui';
+import { cbRunCommand, cbVisibleItems, injectCbTranslation, type CbMenuCommandEvent } from '@caribeng/ui';
 
 export interface CbBreadcrumbItem {
   label: string;
@@ -14,6 +15,10 @@ export interface CbBreadcrumbItem {
   url?: string;
   /** Icono (nombre del set de @caribeng/ui/icon) antes del texto. */
   icon?: string;
+  /** Acción al elegir el item (además del evento de selección), como `command` en PrimeNG. */
+  command?: (event: CbMenuCommandEvent<CbBreadcrumbItem>) => void;
+  /** `false` oculta el item. */
+  visible?: boolean;
 }
 
 /**
@@ -37,10 +42,10 @@ export interface CbBreadcrumbItem {
   template: `
     <nav [attr.aria-label]="t().breadcrumb">
       <ol class="cb-breadcrumb__list">
-        @for (item of items(); track $index; let last = $last) {
+        @for (item of visibleItems(); track $index; let last = $last) {
           <li class="cb-breadcrumb__item">
             @if (item.url && !last) {
-              <a class="cb-breadcrumb__link" [href]="item.url" (click)="itemClick.emit(item)">
+              <a class="cb-breadcrumb__link" [href]="item.url" (click)="select(item, $event)">
                 @if (item.icon) { <cb-icon [name]="item.icon" [size]="15" aria-hidden="true" /> }
                 <span>{{ item.label }}</span>
               </a>
@@ -64,9 +69,16 @@ export class CbBreadcrumb {
   /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
   protected readonly t = injectCbTranslation();
   readonly items = input<readonly CbBreadcrumbItem[]>([]);
+  /** Items sin los de `visible: false`. */
+  protected readonly visibleItems = computed(() => cbVisibleItems(this.items()));
   /** Icono separador entre elementos. */
   readonly separator = input<string>('chevron-right');
 
   /** Se emite al hacer clic en un elemento con enlace. */
   readonly itemClick = output<CbBreadcrumbItem>();
+
+  protected select(item: CbBreadcrumbItem, event: MouseEvent): void {
+    cbRunCommand(item, event);
+    this.itemClick.emit(item);
+  }
 }

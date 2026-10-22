@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, TemplateRef, ViewContainerRef, ViewEncapsulation, inject, input, output, signal, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, TemplateRef, ViewContainerRef, ViewEncapsulation, inject, input, output, signal, viewChild, computed } from '@angular/core';
 import { Overlay, type ConnectedPosition, type OverlayRef } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 import { CbIcon } from '@caribeng/ui/icon';
-import { injectCbTranslation } from '@caribeng/ui';
+import { cbRunCommand, cbVisibleItems, injectCbTranslation, type CbMenuCommandEvent } from '@caribeng/ui';
 
 export interface CbTieredMenuItem {
   label: string;
@@ -11,6 +11,10 @@ export interface CbTieredMenuItem {
   disabled?: boolean;
   separator?: boolean;
   items?: readonly CbTieredMenuItem[];
+  /** Acción al elegir el item (además del evento de selección), como `command` en PrimeNG. */
+  command?: (event: CbMenuCommandEvent<CbTieredMenuItem>) => void;
+  /** `false` oculta el item. */
+  visible?: boolean;
 }
 
 /** Popup menu with cascading submenus. */
@@ -23,7 +27,7 @@ export interface CbTieredMenuItem {
     <button class="cb-tieredmenu__trigger" type="button" [attr.aria-expanded]="isOpen()" aria-haspopup="menu" (click)="toggle($event)">{{ (triggerLabel() ?? t().menu) }}</button>
     <ng-template #content>
       <ul class="cb-tieredmenu__list" role="menu" [attr.aria-label]="(ariaLabel() ?? t().menu)">
-        @for (item of items(); track $index; let i = $index) {
+        @for (item of visibleItems(); track $index; let i = $index) {
           @if (item.separator) { <li class="cb-tieredmenu__separator" role="separator"></li> }
           @else {
             <li class="cb-tieredmenu__entry" [class.cb-tieredmenu__entry--open]="openIndex() === i">
@@ -73,6 +77,8 @@ export class CbTieredMenu {
   private readonly vcr = inject(ViewContainerRef);
   private readonly destroyRef = inject(DestroyRef);
   readonly items = input<readonly CbTieredMenuItem[]>([]);
+  /** Items sin los de `visible: false`. */
+  protected readonly visibleItems = computed(() => cbVisibleItems(this.items()));
   readonly ariaLabel = input<string | undefined>(undefined);
   readonly triggerLabel = input<string | undefined>(undefined);
   readonly itemSelect = output<CbTieredMenuItem>();
@@ -95,6 +101,6 @@ export class CbTieredMenu {
     ref.backdropClick().subscribe(() => this.hide());
     ref.keydownEvents().subscribe((event) => { if (event.key === 'Escape') { event.preventDefault(); this.hide(); } });
   }
-  select(item: CbTieredMenuItem): void { if (item.disabled) return; this.itemSelect.emit(item); this.hide(); }
+  select(item: CbTieredMenuItem): void { if (item.disabled) return; cbRunCommand(item); this.itemSelect.emit(item); this.hide(); }
   hide(): void { this.overlayRef?.dispose(); this.overlayRef = null; this.isOpen.set(false); this.openIndex.set(null); this.openChildIndex.set(null); }
 }

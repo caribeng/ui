@@ -11,7 +11,7 @@
  * Uso: nx run ui:build-schematics   ·   nx run ui:test-schematics
  */
 import { execFileSync } from 'node:child_process';
-import { cpSync, existsSync, mkdirSync, readdirSync, rmSync, statSync } from 'node:fs';
+import { cpSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import { dirname, join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -46,7 +46,13 @@ for (const file of jsonFiles) {
   mkdirSync(dirname(target), { recursive: true });
   cpSync(file, target);
 }
-console.log(`schematics: compilados en ${relative(ROOT, OUT)} (+${jsonFiles.length} JSON)`);
+// El migrador necesita saber qué iconos son del set núcleo (se registran solos).
+const coreIconsSource = readFileSync(join(ROOT, 'packages/ui/icon/src/lib/icons.ts'), 'utf8');
+const coreIcons = [...coreIconsSource.matchAll(/^\s+"([a-z0-9-]+)":/gm)].map((m) => m[1]);
+if (!coreIcons.length) throw new Error('No se encontraron iconos núcleo en icon/src/lib/icons.ts');
+writeFileSync(join(OUT, 'migrate-from-primeng/core-icons.json'), JSON.stringify(coreIcons) + '\n');
+
+console.log(`schematics: compilados en ${relative(ROOT, OUT)} (+${jsonFiles.length} JSON, ${coreIcons.length} iconos núcleo)`);
 
 if (test) {
   const specs = [];

@@ -5,6 +5,11 @@
       "description": "Configura CaribeNG en el proyecto: provideCaribeNG() y la hoja de estilos.",
       "factory": "./ng-add/index#ngAdd",
       "schema": "./ng-add/schema.json"
+    },
+    "migrate-from-primeng": {
+      "description": "Migra un proyecto PrimeNG (18+) a CaribeNG: imports, plantillas, iconos, estilos y proveedor. Deja avisos TODO(caribeng) y un informe con lo pendiente.",
+      "factory": "./migrate-from-primeng/index#migrateFromPrimeng",
+      "schema": "./migrate-from-primeng/schema.json"
     }
   }
 }

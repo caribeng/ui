@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component, ViewEncapsulation, input, output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation, input, output, signal, computed } from '@angular/core';
 import { CbIcon } from '@caribeng/ui/icon';
-import { injectCbTranslation } from '@caribeng/ui';
+import { cbRunCommand, cbVisibleItems, injectCbTranslation, type CbMenuCommandEvent } from '@caribeng/ui';
 
 export interface CbPanelMenuItem {
   label: string;
@@ -8,6 +8,10 @@ export interface CbPanelMenuItem {
   url?: string;
   disabled?: boolean;
   items?: readonly CbPanelMenuItem[];
+  /** Acción al elegir el item (además del evento de selección), como `command` en PrimeNG. */
+  command?: (event: CbMenuCommandEvent<CbPanelMenuItem>) => void;
+  /** `false` oculta el item. */
+  visible?: boolean;
 }
 
 let nextPanelMenuId = 0;
@@ -22,7 +26,7 @@ let nextPanelMenuId = 0;
   template: `
     <nav [attr.aria-label]="(ariaLabel() ?? t().panelMenu)">
       <ul class="cb-panelmenu__list">
-        @for (item of items(); track $index; let i = $index) {
+        @for (item of visibleItems(); track $index; let i = $index) {
           <li class="cb-panelmenu__entry">
             @if (item.items?.length) {
               <button class="cb-panelmenu__trigger" type="button" [disabled]="item.disabled" [attr.aria-expanded]="isOpen(i)" [attr.aria-controls]="panelId(i)" (click)="toggle(i)">
@@ -68,6 +72,8 @@ export class CbPanelMenu {
   protected readonly t = injectCbTranslation();
   private readonly uid = ++nextPanelMenuId;
   readonly items = input<readonly CbPanelMenuItem[]>([]);
+  /** Items sin los de `visible: false`. */
+  protected readonly visibleItems = computed(() => cbVisibleItems(this.items()));
   readonly ariaLabel = input<string | undefined>(undefined);
   readonly multiple = input(false);
   readonly itemSelect = output<CbPanelMenuItem>();
@@ -83,5 +89,5 @@ export class CbPanelMenu {
     this.openItems.set(next);
   }
 
-  select(item: CbPanelMenuItem): void { if (!item.disabled) this.itemSelect.emit(item); }
+  select(item: CbPanelMenuItem): void { if (item.disabled) return; cbRunCommand(item); this.itemSelect.emit(item); }
 }

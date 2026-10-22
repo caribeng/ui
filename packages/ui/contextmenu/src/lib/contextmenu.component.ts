@@ -1,14 +1,18 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, TemplateRef, ViewContainerRef, ViewEncapsulation, inject, input, output, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, TemplateRef, ViewContainerRef, ViewEncapsulation, inject, input, output, viewChild, computed } from '@angular/core';
 import { Overlay, type ConnectedPosition, type OverlayRef } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 import { CbIcon } from '@caribeng/ui/icon';
-import { injectCbTranslation } from '@caribeng/ui';
+import { cbRunCommand, cbVisibleItems, injectCbTranslation, type CbMenuCommandEvent } from '@caribeng/ui';
 
 export interface CbContextMenuItem {
   label: string;
   icon?: string;
   disabled?: boolean;
   separator?: boolean;
+  /** Acción al elegir el item (además del evento de selección), como `command` en PrimeNG. */
+  command?: (event: CbMenuCommandEvent<CbContextMenuItem>) => void;
+  /** `false` oculta el item. */
+  visible?: boolean;
 }
 
 /** Context menu that opens at the pointer position on right click. */
@@ -22,7 +26,7 @@ export interface CbContextMenuItem {
     <ng-content />
     <ng-template #content>
       <div class="cb-contextmenu__panel" role="menu" [attr.aria-label]="(ariaLabel() ?? t().contextMenu)">
-        @for (item of items(); track $index) {
+        @for (item of visibleItems(); track $index) {
           @if (item.separator) { <div class="cb-contextmenu__separator" role="separator"></div> }
           @else {
             <button class="cb-contextmenu__item" type="button" role="menuitem" [disabled]="item.disabled" (click)="select(item)">
@@ -43,6 +47,8 @@ export class CbContextMenu {
   private readonly vcr = inject(ViewContainerRef);
   private readonly destroyRef = inject(DestroyRef);
   readonly items = input<readonly CbContextMenuItem[]>([]);
+  /** Items sin los de `visible: false`. */
+  protected readonly visibleItems = computed(() => cbVisibleItems(this.items()));
   readonly ariaLabel = input<string | undefined>(undefined);
   readonly itemSelect = output<CbContextMenuItem>();
   private readonly content = viewChild.required<TemplateRef<unknown>>('content');
@@ -82,6 +88,7 @@ export class CbContextMenu {
 
   select(item: CbContextMenuItem): void {
     if (item.disabled || item.separator) return;
+    cbRunCommand(item);
     this.itemSelect.emit(item);
     this.close();
   }

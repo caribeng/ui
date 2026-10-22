@@ -9,11 +9,12 @@ import {
   input,
   output,
   viewChild,
+  computed,
 } from '@angular/core';
 import { Overlay, type ConnectedPosition, type OverlayRef } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 import { CbIcon } from '@caribeng/ui/icon';
-import { injectCbTranslation } from '@caribeng/ui';
+import { cbRunCommand, cbVisibleItems, injectCbTranslation, type CbMenuCommandEvent } from '@caribeng/ui';
 
 export interface CbMenuItem {
   label: string;
@@ -22,6 +23,10 @@ export interface CbMenuItem {
   target?: string;
   disabled?: boolean;
   separator?: boolean;
+  /** Acción al elegir el item (además del evento de selección), como `command` en PrimeNG. */
+  command?: (event: CbMenuCommandEvent<CbMenuItem>) => void;
+  /** `false` oculta el item. */
+  visible?: boolean;
 }
 
 /** Popup menu anchored to any trigger element. */
@@ -33,7 +38,7 @@ export interface CbMenuItem {
   template: `
     <ng-template #content>
       <div class="cb-menu__panel" role="menu" [attr.aria-label]="(ariaLabel() ?? t().menu) || null" (click)="onPanelClick($event)">
-        @for (item of items(); track $index) {
+        @for (item of visibleItems(); track $index) {
           @if (item.separator) {
             <div class="cb-menu__separator" role="separator"></div>
           } @else {
@@ -77,6 +82,8 @@ export class CbMenu {
   private readonly destroyRef = inject(DestroyRef);
 
   readonly items = input<readonly CbMenuItem[]>([]);
+  /** Items sin los de `visible: false`. */
+  protected readonly visibleItems = computed(() => cbVisibleItems(this.items()));
   readonly ariaLabel = input<string | undefined>(undefined);
   readonly itemSelect = output<CbMenuItem>();
   /** Se emite al cerrarse el menú (clic fuera, Escape o al elegir una opción). */
@@ -137,6 +144,7 @@ export class CbMenu {
       event.preventDefault();
       return;
     }
+    cbRunCommand(item, event);
     this.itemSelect.emit(item);
     this.hide();
   }
