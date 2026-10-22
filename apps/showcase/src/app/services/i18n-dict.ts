@@ -1066,8 +1066,13 @@ export const ES_EN: Record<string, string> = {
     'Generic, data-driven pricing table: optional Monthly/Yearly switch, plans with features, highlighted plan and an event when choosing.',
   'Pasa los planes y enlaza billing con two-way binding para el selector Mensual/Anual.':
     'Pass the plans and bind billing with two-way binding for the Monthly/Yearly switch.',
-  'layout="horizontal" dispone cada plan como una fila: cabecera y precio a la izquierda, características en el centro y CTA a la derecha.':
-    'layout="horizontal" lays out each plan as a row: header and price on the left, features in the middle and CTA on the right.',
+  'layout="list" dispone cada plan como una fila: cabecera y precio a la izquierda, características en el centro y CTA a la derecha.':
+    'layout="list" lays out each plan as a row: header and price on the left, features in the middle and CTA on the right.',
+  'layout="horizontal" pone todas las tarjetas en una fila (con scroll si no caben) y el selector de facturación junto al título. En anual muestra el precio por mes con el total facturado y el ahorro (annualDisplay lo cambia). Cada característica puede llevar su icono.':
+    'layout="horizontal" puts every card in one row (scrolling when they do not fit) and the billing selector next to the title. When annual it shows the price per month with the billed total and the savings (annualDisplay changes it). Each feature can have its own icon.',
+  'Elige según los ingresos mensuales de tu negocio.': 'Choose based on your business monthly income.',
+  'Contabilidad': 'Accounting',
+  'Lista': 'List',
   'Con showToggle=false se ocultan Mensual/Anual y se muestran los precios mensuales.':
     'With showToggle=false the Monthly/Yearly switch is hidden and monthly prices are shown.',
   'Sin selector': 'Without switch',

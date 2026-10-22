@@ -442,6 +442,14 @@ export interface CbTranslation {
   chooseItem: string;
   perMonth: string;
   perYear: string;
+  billingCycle: string;
+  payAnnually: string;
+  payMonthly: string;
+  /** `{0}`: importe anual. */
+  billedAnnually: string;
+  /** `{0}`: importe ahorrado. */
+  youSave: string;
+  recommended: string;
 
   // --- Editor ---
   textFormatting: string;
@@ -933,6 +941,12 @@ export const CB_LOCALE_ES: CbTranslation = {
   chooseItem: 'Elegir {0}',
   perMonth: '/mes',
   perYear: '/año',
+  billingCycle: 'Ciclo de facturación',
+  payAnnually: 'Paga anualmente',
+  payMonthly: 'Paga mensualmente',
+  billedAnnually: 'Facturado {0} anualmente',
+  youSave: 'Ahorras {0}',
+  recommended: 'Recomendado',
 
   textFormatting: 'Formato de texto',
   paragraphStyle: 'Estilo de párrafo',
@@ -1418,6 +1432,12 @@ export const CB_LOCALE_EN: CbTranslation = {
   chooseItem: 'Choose {0}',
   perMonth: '/mo',
   perYear: '/yr',
+  billingCycle: 'Billing cycle',
+  payAnnually: 'Pay annually',
+  payMonthly: 'Pay monthly',
+  billedAnnually: 'Billed {0} annually',
+  youSave: 'You save {0}',
+  recommended: 'Recommended',
 
   textFormatting: 'Text formatting',
   paragraphStyle: 'Paragraph style',

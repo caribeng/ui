@@ -41,10 +41,28 @@ import { TocService } from '../services/toc.service';
     <doc-section
       id="horizontal"
       title="Horizontal"
-      description="layout=&quot;horizontal&quot; dispone cada plan como una fila: cabecera y precio a la izquierda, características en el centro y CTA a la derecha."
+      description="layout=&quot;horizontal&quot; pone todas las tarjetas en una fila (con scroll si no caben) y el selector de facturación junto al título. En anual muestra el precio por mes con el total facturado y el ahorro (annualDisplay lo cambia). Cada característica puede llevar su icono."
       [code]="horizontalCode"
+      [codeTs]="horizontalTs"
     >
-      <cb-pricing [plans]="plans" [(billing)]="billing" layout="horizontal" />
+      <cb-pricing
+        [plans]="accountingPlans"
+        [(billing)]="accountingBilling"
+        layout="horizontal"
+        title="Contabilidad"
+        subtitle="Elige según los ingresos mensuales de tu negocio."
+        annualBadge="25% OFF"
+        (planSelect)="onSelect($event)"
+      />
+    </doc-section>
+
+    <doc-section
+      id="list"
+      title="Lista"
+      description="layout=&quot;list&quot; dispone cada plan como una fila: cabecera y precio a la izquierda, características en el centro y CTA a la derecha."
+      [code]="listCode"
+    >
+      <cb-pricing [plans]="plans" [(billing)]="billing" layout="list" />
     </doc-section>
 
     <doc-section
@@ -64,6 +82,7 @@ export class PricingDocComponent {
 
   protected readonly billing = signal<CbPricingBilling>('monthly');
   protected readonly chosen = signal<string>('');
+  protected readonly accountingBilling = signal<CbPricingBilling>('annual');
 
   protected onSelect(plan: CbPricingPlan): void {
     this.chosen.set(plan.name);
@@ -100,6 +119,13 @@ export class PricingDocComponent {
     },
   ];
 
+  protected readonly accountingPlans: CbPricingPlan[] = [
+    accountingPlan('Emprendedor', 74900, 674100, ['10.000.000', 1, 1, '1 bodega de inventario'], ['Soporte 24/7 gratis', 'Asistente IA']),
+    accountingPlan('Pyme', 163900, 1475100, ['40.000.000', 2, 1, '2 bodegas de inventario'], ['Soporte 24/7 gratis', 'Asistente IA']),
+    { ...accountingPlan('Pro', 250900, 2258100, ['180.000.000', 3, 1, '10 bodegas de inventario'], ['Soporte 24/7 gratis', 'Asistente IA']), featured: true },
+    accountingPlan('Plus', 319900, 2879100, ['500.000.000', 8, 1, '100 bodegas de inventario'], ['Soporte 24/7 gratis', 'Asistente IA']),
+  ];
+
   protected readonly importCode = `import { CbPricing, CbPricingPlan } from '@caribeng/ui/pricing';`;
 
   protected readonly basicCode = `<cb-pricing
@@ -122,7 +148,58 @@ readonly plans: CbPricingPlan[] = [
 
 onSelect(plan: CbPricingPlan) { /* … */ }`;
 
-  protected readonly horizontalCode = `<cb-pricing [plans]="plans" [(billing)]="billing" layout="horizontal" />`;
+  protected readonly horizontalCode = `<cb-pricing
+  [plans]="plans"
+  [(billing)]="billing"
+  layout="horizontal"
+  title="Contabilidad"
+  subtitle="Elige según los ingresos mensuales de tu negocio."
+  annualBadge="25% OFF"
+/>`;
+
+  protected readonly horizontalTs = `readonly billing = signal<CbPricingBilling>('annual');
+
+readonly plans: CbPricingPlan[] = [
+  {
+    name: 'Pyme',
+    priceMonthly: 163900,
+    priceAnnual: 1475100, // se muestra como 122.925 / mes y "Ahorras 491.700"
+    ctaLabel: 'Probar gratis',
+    features: [
+      { label: 'Facturas de venta ilimitadas', icon: 'check' },
+      { label: '2 Usuarios con acceso', icon: 'users' },
+      { label: '2 bodegas de inventario', icon: 'warehouse' },
+      { label: 'Asistente IA', icon: 'sparkles' },
+    ],
+  },
+  { name: 'Pro', priceMonthly: 250900, priceAnnual: 2258100, featured: true /* "Recomendado" */ },
+  // …
+];`;
+
+  protected readonly listCode = `<cb-pricing [plans]="plans" [(billing)]="billing" layout="list" />`;
 
   protected readonly noToggleCode = `<cb-pricing [plans]="plans" [showToggle]="false" />`;
+}
+
+function accountingPlan(
+  name: string,
+  priceMonthly: number,
+  priceAnnual: number,
+  [income, users, accountants, warehouses]: [string, number, number, string],
+  extras: string[],
+): CbPricingPlan {
+  return {
+    name,
+    priceMonthly,
+    priceAnnual,
+    ctaLabel: 'Probar gratis',
+    features: [
+      { label: 'Facturas de venta ilimitadas', icon: 'check' },
+      { label: `Ingresos hasta $ ${income} mensuales`, icon: 'file' },
+      { label: `${users} ${users === 1 ? 'Usuario' : 'Usuarios'} con acceso`, icon: 'users' },
+      { label: `${accountants} Usuario gratis para tu contador`, icon: 'users' },
+      { label: warehouses, icon: 'warehouse' },
+      ...extras.map((label, i) => ({ label, icon: i === 0 ? 'clock' : 'sparkles' })),
+    ],
+  };
 }

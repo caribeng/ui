@@ -11,6 +11,10 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
         "type": "added",
         "items": [
           {
+            "component": "Pricing",
+            "text": "`layout=\"list\"` (cada plan en una fila, la vista que antes era `horizontal`). En `horizontal`: `subtitle` con icono de ayuda, selector de facturación como grupo de opciones (Paga anualmente / Paga mensualmente, flechas, Inicio y Fin) con `annualBadge` (\"25% OFF\"), y `annualDisplay` (`monthly` por defecto en `horizontal`: precio anual expresado por mes con \"Facturado $X anualmente\" y \"Ahorras $Y\"). Los planes admiten `badge` (el destacado muestra \"Recomendado\") y cada característica su `icon`. Los importes se formatean con el idioma activo (`122.925`)."
+          },
+          {
             "component": "Kanban, vista de calendario",
             "text": "`cb-kanban-calendar` pinta el mes (`[(viewDate)]`, `firstDayOfWeek`, lunes por defecto) con cada tarea como una barra de su fecha de inicio a la de fin, del color de su columna y repartida en carriles; las que cruzan semanas siguen en la siguiente. Con `editable`, la barra se arrastra a otro día (o Alt + flechas: ←→ un día, ↑↓ una semana) manteniendo la duración, y el calendario sigue a la tarea si cambia de mes; con `addable`, \"Añadir tarea\" en cada día la crea con esa fecha en `newTaskColumn`. \"Sin fecha (n)\" lista las tareas sin fechas. Comparte `[(columns)]` y el panel de detalle con las demás vistas. `addCard()` admite campos extra. Textos nuevos: `kanbanNoDate`, `kanbanAddTaskOn`, `kanbanWeekOf`, `kanbanCalendarInstructions` y `kanbanRescheduled`."
           },
@@ -81,6 +85,15 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
           {
             "component": "Migración",
             "text": "`p-confirmdialog`, `p-confirmpopup` y `ConfirmationService` se traducen a `cb-confirm-dialog service`, `cb-confirm-popup service` y `CbConfirmationService` (`acceptButtonProps.severity` → `acceptSeverity`, `acceptButtonProps.label` → `acceptLabel`)."
+          }
+        ]
+      },
+      {
+        "type": "changed",
+        "items": [
+          {
+            "component": "Pricing",
+            "text": "`layout=\"horizontal\"` pone ahora todas las tarjetas en una sola fila (con scroll si no caben), el título a la izquierda y el selector de facturación a la derecha; el plan destacado lleva un degradado del color primario. Para seguir mostrando cada plan como una fila usa `layout=\"list\"`."
           }
         ]
       },
