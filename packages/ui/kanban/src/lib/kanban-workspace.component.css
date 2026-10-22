@@ -1,0 +1,148 @@
+:host {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  color: var(--cb-color-text);
+  font-family: var(--cb-font-sans);
+  font-size: var(--cb-text-sm, 0.875rem);
+}
+
+/* Botones de las vistas */
+.cb-kanban-workspace__bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--cb-color-border);
+}
+
+.cb-kanban-workspace__tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+.cb-kanban-workspace__tab,
+.cb-kanban-workspace__layout {
+  position: relative;
+  padding: 0.5rem 0.75rem;
+  border: 0;
+  border-radius: var(--cb-radius-md, 6px) var(--cb-radius-md, 6px) 0 0;
+  background: transparent;
+  color: var(--cb-color-text-muted);
+  font: inherit;
+  font-weight: var(--cb-font-weight-medium, 500);
+  cursor: pointer;
+}
+
+.cb-kanban-workspace__tab:hover,
+.cb-kanban-workspace__layout:hover {
+  background: var(--cb-color-surface-hover);
+  color: var(--cb-color-text);
+}
+
+.cb-kanban-workspace__tab--on {
+  color: var(--cb-color-primary);
+}
+
+/* Subrayado de las vistas encendidas: varias pueden estarlo a la vez. */
+.cb-kanban-workspace__tab--on::after {
+  content: '';
+  position: absolute;
+  right: 0.5rem;
+  bottom: -1px;
+  left: 0.5rem;
+  height: 2px;
+  border-radius: 2px;
+  background: currentColor;
+}
+
+.cb-kanban-workspace__layout {
+  border-radius: var(--cb-radius-md, 6px);
+  margin-bottom: 0.25rem;
+  padding: 0.375rem 0.75rem;
+  border: 1px solid var(--cb-color-border-strong);
+}
+
+.cb-kanban-workspace__layout.cb-kanban-workspace__tab--on {
+  border-color: var(--cb-color-primary);
+  background: color-mix(in srgb, var(--cb-color-primary) 10%, transparent);
+}
+
+.cb-kanban-workspace__layout.cb-kanban-workspace__tab--on::after {
+  content: none;
+}
+
+/* Vistas */
+.cb-kanban-workspace__panes {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.cb-kanban-workspace__panes--side {
+  grid-template-columns: repeat(var(--cb-kanban-workspace-panes, 2), minmax(0, 1fr));
+  align-items: start;
+}
+
+.cb-kanban-workspace__pane {
+  min-width: 0;
+}
+
+.cb-kanban-workspace__pane-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.cb-kanban-workspace__pane-title {
+  font-size: var(--cb-text-base, 1rem);
+  font-weight: var(--cb-font-weight-semibold, 600);
+}
+
+.cb-kanban-workspace__hide {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: 0;
+  border-radius: var(--cb-radius-md, 6px);
+  background: transparent;
+  color: var(--cb-color-text-muted);
+  cursor: pointer;
+}
+
+.cb-kanban-workspace__hide:hover {
+  background: var(--cb-color-surface-hover);
+  color: var(--cb-color-text);
+}
+
+.cb-kanban-workspace__tab:focus-visible,
+.cb-kanban-workspace__layout:focus-visible,
+.cb-kanban-workspace__hide:focus-visible {
+  outline: 2px solid var(--cb-color-focus-ring);
+  outline-offset: -2px;
+}
+
+/* En pantallas estrechas, lado a lado vuelve a apilar. */
+@media (max-width: 960px) {
+  .cb-kanban-workspace__panes--side {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.cb-kanban-workspace__sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}

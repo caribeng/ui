@@ -188,6 +188,16 @@ export interface CbTranslation {
   kanbanPendingPlural: string;
   kanbanOverduePlural: string;
   kanbanIncompletePlural: string;
+  kanbanViews: string;
+  kanbanViewBoard: string;
+  kanbanViewList: string;
+  kanbanViewTimeline: string;
+  kanbanViewDashboard: string;
+  kanbanViewCalendar: string;
+  /** `{0}`: vista. */
+  kanbanHideView: string;
+  kanbanSideBySide: string;
+  kanbanViewsHint: string;
   save: string;
   /** `{0}`: cantidad. */
   mentionsCount: string;
@@ -758,6 +768,15 @@ export const CB_LOCALE_ES: CbTranslation = {
   kanbanPendingPlural: 'A tiempo',
   kanbanOverduePlural: 'Con retraso',
   kanbanIncompletePlural: 'Sin finalizar',
+  kanbanViews: 'Vistas',
+  kanbanViewBoard: 'Tablero',
+  kanbanViewList: 'Lista',
+  kanbanViewTimeline: 'Cronograma',
+  kanbanViewDashboard: 'Panel',
+  kanbanViewCalendar: 'Calendario',
+  kanbanHideView: 'Ocultar {0}',
+  kanbanSideBySide: 'Lado a lado',
+  kanbanViewsHint: 'Activa varias vistas para verlas a la vez.',
   save: 'Guardar',
   mentionsCount: '{0} sugerencias',
   add: 'Agregar',
@@ -1270,6 +1289,15 @@ export const CB_LOCALE_EN: CbTranslation = {
   kanbanPendingPlural: 'On time',
   kanbanOverduePlural: 'Overdue',
   kanbanIncompletePlural: 'Incomplete',
+  kanbanViews: 'Views',
+  kanbanViewBoard: 'Board',
+  kanbanViewList: 'List',
+  kanbanViewTimeline: 'Timeline',
+  kanbanViewDashboard: 'Dashboard',
+  kanbanViewCalendar: 'Calendar',
+  kanbanHideView: 'Hide {0}',
+  kanbanSideBySide: 'Side by side',
+  kanbanViewsHint: 'Turn on several views to see them at once.',
   save: 'Save',
   mentionsCount: '{0} suggestions',
   add: 'Add',

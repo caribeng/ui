@@ -14,4 +14,5 @@ export {
   type CbKanbanMove,
 } from './lib/kanban-view';
 export { CbKanbanTaskPanel } from './lib/kanban-task-panel.component';
+export { CbKanbanWorkspace, type CbKanbanViewType } from './lib/kanban-workspace.component';
 export type { CbKanbanAttachment, CbKanbanPerson, CbKanbanPriority, CbKanbanTask, CbKanbanTaskPatch } from './lib/kanban-task';

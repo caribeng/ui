@@ -6,10 +6,12 @@ import {
   CbKanbanDashboard,
   CbKanbanList,
   CbKanbanTimeline,
+  CbKanbanWorkspace,
   type CbKanbanColumn,
   type CbKanbanMove,
   type CbKanbanPerson,
   type CbKanbanTask,
+  type CbKanbanViewType,
 } from '@caribeng/ui/kanban';
 import { CbTag } from '@caribeng/ui/tag';
 import { DocPlaygroundComponent } from '../components/doc-playground.component';
@@ -38,16 +40,40 @@ function day(offset: number): string {
 @Component({
   selector: 'doc-kanban-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbKanban, CbKanbanCalendar, CbKanbanCardDirective, CbKanbanDashboard, CbKanbanList, CbKanbanTimeline, CbTag, DocA11yComponent, DocPlaygroundComponent, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
+  imports: [CbKanban, CbKanbanCalendar, CbKanbanCardDirective, CbKanbanDashboard, CbKanbanList, CbKanbanTimeline, CbKanbanWorkspace, CbTag, DocA11yComponent, DocPlaygroundComponent, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
     <doc-page-header
       eyebrow="Data"
       title="Kanban"
-      lead="Tablero de columnas con tarjetas que se reordenan y se mueven entre columnas arrastrando (ratón o dedo) o con el teclado, y vistas de lista, cronograma, calendario y panel de resumen sobre los mismos datos. Cada tarea se abre en un panel con responsables, prioridad, fechas de inicio y fin, descripción y adjuntos; también se crean, editan y eliminan tarjetas y columnas."
+      lead="Tablero de columnas con tarjetas que se reordenan y se mueven entre columnas arrastrando (ratón o dedo) o con el teclado, y vistas de lista, cronograma, calendario y panel de resumen sobre los mismos datos, que se pueden ver a la vez en un espacio de trabajo. Cada tarea se abre en un panel con responsables, prioridad, fechas de inicio y fin, descripción y adjuntos; también se crean, editan y eliminan tarjetas y columnas."
     />
 
     <doc-section id="import" title="Importación">
       <doc-code-block [code]="importCode" lang="typescript" />
+    </doc-section>
+
+    <doc-section
+      id="workspace"
+      title="Espacio de trabajo"
+      description="cb-kanban-workspace reúne las cinco vistas sobre el mismo [(columns)]: Lista, Tablero, Cronograma, Panel y Calendario. Cada botón enciende o apaga su vista, así que puedes ver varias a la vez ([(views)] es una lista), una debajo de otra o Lado a lado ([(sideBySide)]); la × de cada vista la oculta. Con multiple = false los botones son pestañas. Recibe las mismas opciones que las vistas (details, editable, addable, people…) y reemite sus eventos."
+      [code]="workspaceCode"
+    >
+      <cb-kanban-workspace
+        [(columns)]="columns"
+        [(views)]="views"
+        details
+        editable
+        addable
+        columnsEditable
+        collapsible
+        enforceLimit
+        [people]="people"
+        [createCard]="createTask"
+        (cardMove)="onMove($event)"
+        (cardEdit)="log('Editada', $event.item.title)"
+        (cardAdd)="log('Añadida', $event.item.title)"
+      />
+      <p class="kb-log">Vistas: {{ views().join(', ') }} · Último cambio: {{ last() }}</p>
     </doc-section>
 
     <doc-section
@@ -264,6 +290,7 @@ export class KanbanDocComponent {
     },
   ]);
   protected readonly last = signal('—');
+  protected readonly views = signal<readonly CbKanbanViewType[]>(['list', 'board']);
 
   protected readonly stories = signal<readonly CbKanbanColumn<Story>[]>([
     {
@@ -297,7 +324,27 @@ export class KanbanDocComponent {
   /** Las tarjetas nuevas nacen sin responsable y con prioridad baja. */
   protected readonly createTask = (title: string): CbKanbanTask => ({ id: this.nextId++, title, priority: 'low' });
 
-  protected readonly importCode = `import { CbKanban, CbKanbanCalendar, CbKanbanCardDirective, CbKanbanDashboard, CbKanbanList, CbKanbanTimeline, type CbKanbanColumn, type CbKanbanPerson, type CbKanbanTask } from '@caribeng/ui/kanban';`;
+  protected readonly importCode = `import { CbKanban, CbKanbanCalendar, CbKanbanCardDirective, CbKanbanDashboard, CbKanbanList, CbKanbanTimeline, CbKanbanWorkspace, type CbKanbanColumn, type CbKanbanPerson, type CbKanbanTask, type CbKanbanViewType } from '@caribeng/ui/kanban';`;
+  protected readonly workspaceCode = `<cb-kanban-workspace
+  [(columns)]="columns"
+  [(views)]="views"
+  details
+  editable
+  addable
+  columnsEditable
+  collapsible
+  enforceLimit
+  [people]="people"
+  [createCard]="createTask"
+  (cardMove)="onMove($event)"
+  (cardEdit)="log('Editada', $event.item.title)"
+  (cardAdd)="log('Añadida', $event.item.title)"
+/>
+<p class="kb-log">Vistas: {{ views().join(', ') }} · Último cambio: {{ last() }}</p>
+
+<!-- views = signal<readonly CbKanbanViewType[]>(['list', 'board']) -->
+<!-- Como pestañas (una vista), solo con algunas vistas: -->
+<cb-kanban-workspace [(columns)]="columns" [available]="['board', 'timeline', 'dashboard']" [multiple]="false" />`;
   protected readonly boardCode = `<div class="kb-demo">
   <cb-kanban
     [(columns)]="columns"

@@ -15,6 +15,10 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
             "text": "`layout=\"list\"` (cada plan en una fila, la vista que antes era `horizontal`). En `horizontal`: `subtitle` con icono de ayuda, selector de facturación como grupo de opciones (Paga anualmente / Paga mensualmente, flechas, Inicio y Fin) con `annualBadge` (\"25% OFF\"), y `annualDisplay` (`monthly` por defecto en `horizontal`: precio anual expresado por mes con \"Facturado $X anualmente\" y \"Ahorras $Y\"). Los planes admiten `badge` (el destacado muestra \"Recomendado\") y cada característica su `icon`. Los importes se formatean con el idioma activo (`122.925`)."
           },
           {
+            "component": "Kanban, espacio de trabajo",
+            "text": "`cb-kanban-workspace` reúne Lista, Tablero, Cronograma, Panel y Calendario sobre un mismo `[(columns)]`. Los botones de arriba encienden y apagan cada vista, así que se ven varias a la vez (`[(views)]` es una lista), una debajo de otra o lado a lado (`[(sideBySide)]`, que se apila en pantallas estrechas); cada vista tiene su título y un botón para ocultarla. `available` elige y ordena las vistas, `multiple = false` las convierte en pestañas y `headingLevel` fija el nivel de los títulos. Pasa a cada vista las mismas opciones (`details`, `editable`, `addable`, `people`…) y reemite sus eventos."
+          },
+          {
             "component": "Kanban, panel de resumen",
             "text": "`cb-kanban-dashboard` calcula desde el mismo `[(columns)]` los indicadores de tareas finalizadas (`completed`), sin finalizar, con retraso (fin pasado sin finalizar, en rojo) y total, con su porcentaje, y los gráficos (`cb-chart`) de tareas sin finalizar por sección y por responsable, por estado (dona: finalizadas, a tiempo, con retraso) y de entregas por semana (apiladas). `widgets` elige los bloques y su orden; `headingLevel`, `chartHeight` y `animate`. Los datos de cada gráfico se exponen como señales (`bySection`, `byStatus`, `byAssignee`, `byWeek`)."
           },

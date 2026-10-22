@@ -635,6 +635,8 @@ export const DOC_A11Y: Record<string, DocA11y> = {
       'Arrastrar la barra o sus bordes no es la única forma de cambiar fechas o sección: Alt + flechas lo hace con el teclado y cada cambio se anuncia. Los botones del zoom tienen nombre ("Acercar", "Alejar") y se desactivan en los extremos.',
       'El panel (cb-kanban-dashboard) es una región con nombre ("Panel del proyecto"). Cada bloque es una sección nombrada por su título, que es un encabezado (`headingLevel`, 3 por defecto); los indicadores se leen como texto y el color de "con retraso" no es la única señal.',
       'Cada gráfico lleva su título como nombre y, como todos los `cb-chart`, una tabla oculta con los datos; sus barras y sectores se recorren con el teclado.',
+      'En el espacio de trabajo (cb-kanban-workspace) las vistas son botones conmutadores (`aria-pressed`) en un grupo con nombre ("Vistas"), porque varias pueden estar encendidas a la vez; un texto oculto lo explica. Con `multiple = false` también son conmutadores, con una sola encendida.',
+      'Con varias vistas, cada una es una sección con un encabezado ("Lista", `headingLevel`) y un botón "Ocultar Lista"; al ocultarla, el foco vuelve a su botón. "Lado a lado" es otro conmutador y en pantallas estrechas las vistas vuelven a apilarse.',
     ],
     keyboard: [
       { keys: 'Tab', action: 'Recorre las tarjetas y los botones Añadir tarjeta.' },
