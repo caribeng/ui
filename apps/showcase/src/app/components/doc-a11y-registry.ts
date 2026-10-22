@@ -627,6 +627,8 @@ export const DOC_A11Y: Record<string, DocA11y> = {
       'Con `details`, la tarjeta indica que abre un diálogo (`aria-haspopup="dialog"`). El panel es un `dialog` modal con el foco atrapado; cada campo tiene etiqueta y, al cerrarlo, el foco vuelve a la tarjeta aunque haya cambiado de columna.',
       'En la tarjeta, la prioridad, las fechas (y si está vencida), los adjuntos y los responsables se leen con texto: los avatares son decorativos y llevan los nombres en texto oculto.',
       'Los adjuntos se añaden con un botón (el arrastre de archivos es opcional) y cada uno tiene su botón "Quitar" con nombre.',
+      'La lista (cb-kanban-list) es una tabla con cabeceras de columna; cada sección es un grupo de filas (`th scope="rowgroup"`) con un botón que la contrae (`aria-expanded`) y dice cuántas tareas tiene.',
+      'En la lista, el círculo es un botón conmutador (`aria-pressed`) con nombre ("Marcar «Diseño» como finalizada") y el nombre de la tarea es el botón que abre el detalle. Una tarea sin responsable lo dice con texto.',
     ],
     keyboard: [
       { keys: 'Tab', action: 'Recorre las tarjetas y los botones Añadir tarjeta.' },
@@ -638,6 +640,7 @@ export const DOC_A11Y: Record<string, DocA11y> = {
       { keys: 'Escape (en el panel)', action: 'Cierra el panel de detalle y devuelve el foco a la tarjeta.' },
       { keys: 'F2', action: 'Edita el título de la tarjeta (editable). Enter guarda, Escape cancela.' },
       { keys: 'Supr', action: 'Pide confirmar la eliminación de la tarjeta (editable).' },
+      { keys: 'Alt + flecha arriba / abajo (lista)', action: 'Mueve la tarea en la lista; en el borde pasa a la sección vecina.' },
     ],
   },
   'cb-mentions': {

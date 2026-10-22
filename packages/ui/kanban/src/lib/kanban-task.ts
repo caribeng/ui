@@ -43,6 +43,8 @@ export interface CbKanbanTask {
   readonly startDate?: string | Date | null;
   readonly endDate?: string | Date | null;
   readonly attachments?: readonly CbKanbanAttachment[];
+  /** Tarea finalizada (la lista la marca con ✓ y el panel de resumen la cuenta). */
+  readonly completed?: boolean;
 }
 
 /** Cambios que el panel aplica a una tarea. */
@@ -70,14 +72,22 @@ export function toIsoDay(date: Date | null | undefined): string | null {
   return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
 }
 
-/** "23 – 27 oct", "27 oct" o "desde 23 oct" según las fechas que haya. */
-export function formatDateRange(start: Date | null, end: Date | null, locale: string): string {
+/** Es el mismo día del calendario. */
+export function sameDay(a: Date, b: Date): boolean {
+  return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
+}
+
+/** "23 – 27 oct", "27 oct" o "Hoy – 27 oct" (con `today`) según las fechas que haya. */
+export function formatDateRange(start: Date | null, end: Date | null, locale: string, today?: string, now = new Date()): string {
   const day = new Intl.DateTimeFormat(locale, { day: 'numeric', month: 'short' });
+  const name = (d: Date) => (today && sameDay(d, now) ? today : day.format(d));
   if (start && end) {
+    if (sameDay(start, end)) return name(end);
     const sameMonth = start.getMonth() === end.getMonth() && start.getFullYear() === end.getFullYear();
-    return sameMonth ? `${start.getDate()} – ${day.format(end)}` : `${day.format(start)} – ${day.format(end)}`;
+    const from = today && sameDay(start, now) ? today : sameMonth ? String(start.getDate()) : day.format(start);
+    return `${from} – ${name(end)}`;
   }
-  return day.format((end ?? start)!);
+  return name((end ?? start)!);
 }
 
 /** Tamaño legible: "820 B", "14 KB", "2,3 MB". */

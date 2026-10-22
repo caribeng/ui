@@ -145,6 +145,17 @@ export interface CbTranslation {
   kanbanAttachmentCount: string;
   /** `{0}`: tarjeta. */
   kanbanUpdated: string;
+  kanbanTaskName: string;
+  kanbanAddTask: string;
+  kanbanAddSection: string;
+  kanbanCompleted: string;
+  /** `{0}`: tarea. */
+  kanbanMarkComplete: string;
+  /** `{0}`: tarea. */
+  kanbanMarkIncomplete: string;
+  /** `{0}`: sección, `{1}`: cantidad. */
+  kanbanSectionCount: string;
+  kanbanListInstructions: string;
   save: string;
   /** `{0}`: cantidad. */
   mentionsCount: string;
@@ -673,6 +684,14 @@ export const CB_LOCALE_ES: CbTranslation = {
   kanbanRemoveAttachment: 'Quitar {0}',
   kanbanAttachmentCount: '{0} adjuntos',
   kanbanUpdated: '{0} actualizada.',
+  kanbanTaskName: 'Nombre',
+  kanbanAddTask: 'Añadir tarea',
+  kanbanAddSection: 'Añadir sección',
+  kanbanCompleted: 'Finalizada',
+  kanbanMarkComplete: 'Marcar «{0}» como finalizada',
+  kanbanMarkIncomplete: 'Marcar «{0}» como pendiente',
+  kanbanSectionCount: '{0}, {1} tareas',
+  kanbanListInstructions: 'Con Alt + flecha arriba o abajo, la tarea se mueve en la lista.',
   save: 'Guardar',
   mentionsCount: '{0} sugerencias',
   add: 'Agregar',
@@ -1145,6 +1164,14 @@ export const CB_LOCALE_EN: CbTranslation = {
   kanbanRemoveAttachment: 'Remove {0}',
   kanbanAttachmentCount: '{0} attachments',
   kanbanUpdated: '{0} updated.',
+  kanbanTaskName: 'Name',
+  kanbanAddTask: 'Add task',
+  kanbanAddSection: 'Add section',
+  kanbanCompleted: 'Completed',
+  kanbanMarkComplete: 'Mark “{0}” complete',
+  kanbanMarkIncomplete: 'Mark “{0}” incomplete',
+  kanbanSectionCount: '{0}, {1} tasks',
+  kanbanListInstructions: 'Press Alt + Up or Down arrow to move the task in the list.',
   save: 'Save',
   mentionsCount: '{0} suggestions',
   add: 'Add',

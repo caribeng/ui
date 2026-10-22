@@ -332,6 +332,17 @@
   font-weight: var(--cb-font-weight-medium, 500);
 }
 
+.cb-kanban__card-title--completed {
+  color: var(--cb-color-text-muted);
+  text-decoration: line-through;
+}
+
+.cb-kanban__card-title--completed cb-icon {
+  margin-right: 0.25rem;
+  color: var(--cb-color-success-600, var(--cb-color-success));
+  vertical-align: -0.125rem;
+}
+
 .cb-kanban__card-description {
   display: -webkit-box;
   overflow: hidden;

@@ -1,14 +1,14 @@
 /*
  * Public API Surface de @caribeng/ui/kanban
  */
+export { CbKanban, CbKanbanCardDirective, type CbKanbanCardContext } from './lib/kanban.component';
+export { CbKanbanList } from './lib/kanban-list.component';
 export {
-  CbKanban,
-  CbKanbanCardDirective,
-  type CbKanbanCardContext,
+  CbKanbanView,
   type CbKanbanCardEvent,
   type CbKanbanColumn,
   type CbKanbanColumnEvent,
   type CbKanbanMove,
-} from './lib/kanban.component';
+} from './lib/kanban-view';
 export { CbKanbanTaskPanel } from './lib/kanban-task-panel.component';
 export type { CbKanbanAttachment, CbKanbanPerson, CbKanbanPriority, CbKanbanTask, CbKanbanTaskPatch } from './lib/kanban-task';

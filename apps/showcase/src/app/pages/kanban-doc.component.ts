@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/cor
 import {
   CbKanban,
   CbKanbanCardDirective,
+  CbKanbanList,
   type CbKanbanColumn,
   type CbKanbanMove,
   type CbKanbanPerson,
@@ -34,12 +35,12 @@ function day(offset: number): string {
 @Component({
   selector: 'doc-kanban-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbKanban, CbKanbanCardDirective, CbTag, DocA11yComponent, DocPlaygroundComponent, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
+  imports: [CbKanban, CbKanbanCardDirective, CbKanbanList, CbTag, DocA11yComponent, DocPlaygroundComponent, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
     <doc-page-header
       eyebrow="Data"
       title="Kanban"
-      lead="Tablero de columnas con tarjetas que se reordenan y se mueven entre columnas arrastrando (ratón o dedo) o con el teclado. Cada tarea se abre en un panel con responsables, prioridad, fechas de inicio y fin, descripción y adjuntos; también se crean, editan y eliminan tarjetas y columnas."
+      lead="Tablero de columnas con tarjetas que se reordenan y se mueven entre columnas arrastrando (ratón o dedo) o con el teclado, y vista de lista sobre los mismos datos. Cada tarea se abre en un panel con responsables, prioridad, fechas de inicio y fin, descripción y adjuntos; también se crean, editan y eliminan tarjetas y columnas."
     />
 
     <doc-section id="import" title="Importación">
@@ -74,6 +75,27 @@ function day(offset: number): string {
         />
         <p class="kb-log">Último cambio: {{ last() }}</p>
       </div>
+    </doc-section>
+
+    <doc-section
+      id="list"
+      title="Vista de lista"
+      description="cb-kanban-list muestra las mismas tareas como una tabla con una sección (contraíble) por columna, con responsables, fechas y prioridad. Usa el mismo [(columns)] que el tablero de arriba, así que las dos vistas se pueden mostrar a la vez y lo que cambies en una se ve en la otra. El círculo marca la tarea como finalizada (completed); las filas se arrastran entre secciones o se mueven con Alt + ↑/↓; Añadir tarea y Añadir sección crean tareas y secciones."
+      [code]="listCode"
+    >
+      <cb-kanban-list
+        [(columns)]="columns"
+        details
+        editable
+        addable
+        columnsEditable
+        enforceLimit
+        ariaLabel="Sprint 14 en lista"
+        [people]="people"
+        [createCard]="createTask"
+        (cardMove)="onMove($event)"
+        (cardEdit)="log('Editada', $event.item.title)"
+      />
     </doc-section>
 
     <doc-section
@@ -212,7 +234,7 @@ export class KanbanDocComponent {
   /** Las tarjetas nuevas nacen sin responsable y con prioridad baja. */
   protected readonly createTask = (title: string): CbKanbanTask => ({ id: this.nextId++, title, priority: 'low' });
 
-  protected readonly importCode = `import { CbKanban, CbKanbanCardDirective, type CbKanbanColumn, type CbKanbanPerson, type CbKanbanTask } from '@caribeng/ui/kanban';`;
+  protected readonly importCode = `import { CbKanban, CbKanbanCardDirective, CbKanbanList, type CbKanbanColumn, type CbKanbanPerson, type CbKanbanTask } from '@caribeng/ui/kanban';`;
   protected readonly boardCode = `<div class="kb-demo">
   <cb-kanban
     [(columns)]="columns"
@@ -235,6 +257,22 @@ export class KanbanDocComponent {
   />
   <p class="kb-log">Último cambio: {{ last() }}</p>
 </div>`;
+  protected readonly listCode = `<cb-kanban-list
+  [(columns)]="columns"
+  details
+  editable
+  addable
+  columnsEditable
+  enforceLimit
+  ariaLabel="Sprint 14 en lista"
+  [people]="people"
+  [createCard]="createTask"
+  (cardMove)="onMove($event)"
+  (cardEdit)="log('Editada', $event.item.title)"
+/>
+
+<!-- El tablero y la lista comparten la misma señal: se pueden mostrar a la vez. -->
+<cb-kanban [(columns)]="columns" details editable [people]="people" />`;
   protected readonly templateCode = `<cb-kanban [(columns)]="stories" ariaLabel="Historias">
   <ng-template cbKanbanCard let-story>
     <span class="kb-title">{{ story.title }}</span>
