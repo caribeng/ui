@@ -316,7 +316,7 @@ describe('ng generate @caribeng/ui:migrate-from-primeng', () => {
     assert.match(tree.readText(`${APP}/app.config.ts`), /provideCbIcons\(\{ 'bookmark': bookmark \}\)/);
   });
 
-  it('p-table: convierte la tabla estática e importa sus directivas; la dinámica conserva TableModule', async () => {
+  it('p-table: convierte la tabla estática e importa sus directivas; la que no se puede convertir conserva TableModule', async () => {
     const app = await createPrimengApp();
     const component = (name: string) =>
       [
@@ -340,7 +340,7 @@ describe('ng generate @caribeng/ui:migrate-from-primeng', () => {
     app.create(`${APP}/dinamica.ts`, component('dinamica'));
     app.create(
       `${APP}/dinamica.html`,
-      '<p-table [value]="filas" [columns]="cols"><ng-template #header let-columns><tr>@for (c of columns; track c) {<th>{{ c.header }}</th>}</tr></ng-template><ng-template #body let-f let-columns="columns"><tr>@for (c of columns; track c) {<td>{{ f[c.field] }}</td>}</tr></ng-template></p-table>\n',
+      '<p-table [value]="filas" [columns]="cols"><ng-template #header let-columns><tr>@for (c of columns; track c) {<th>{{ c.header }}</th>}</tr></ng-template><ng-template #body let-f let-columns="columns"><tr>@for (c of columns; track c) {<td>{{ formatear(f, c) }}</td>}</tr></ng-template></p-table>\n',
     );
 
     const tree = await migrate(app);
@@ -353,8 +353,67 @@ describe('ng generate @caribeng/ui:migrate-from-primeng', () => {
     const dinamica = tree.readText(`${APP}/dinamica.ts`);
     assert.match(dinamica, /import \{ TableModule \} from 'primeng\/table';/, 'la tabla sin convertir sigue compilando');
     assert.match(dinamica, /imports: \[CurrencyPipe, CbTable, TableModule\]/);
-    assert.match(tree.readText(`${APP}/dinamica.html`), /^<!-- TODO\(caribeng\): las celdas se generan con @for/);
+    assert.match(tree.readText(`${APP}/dinamica.html`), /^<!-- TODO\(caribeng\): la celda dinámica muestra algo distinto/);
     assert.equal(deps(tree)['primeng'], '^21.1.0');
+  });
+
+  it('p-table con columnas dinámicas: [columns] del componente con sortable añadido y tipo CbTableColumn', async () => {
+    const app = await createPrimengApp();
+    app.create(
+      `${APP}/listado.ts`,
+      [
+        "import { Component } from '@angular/core';",
+        "import { TableModule } from 'primeng/table';",
+        '',
+        'interface Column {',
+        '  field: string;',
+        '  header: string;',
+        '}',
+        '',
+        '@Component({',
+        "  selector: 'app-listado',",
+        '  imports: [TableModule],',
+        "  templateUrl: './listado.html',",
+        '})',
+        'export class Listado {',
+        '  cols: Column[] = [',
+        "    { field: 'codigo', header: 'Código' },",
+        "    { field: 'precio', header: 'Precio' },",
+        '  ];',
+        '}',
+        '',
+      ].join('\n'),
+    );
+    app.create(
+      `${APP}/listado.html`,
+      [
+        '<p-table [value]="filas" [columns]="cols">',
+        '  <ng-template #header let-columns>',
+        '    <tr>',
+        '      @for (col of columns; track col.field) {',
+        '        <th [pSortableColumn]="col.field">{{ col.header }} <p-sortIcon [field]="col.field" /></th>',
+        '      }',
+        '    </tr>',
+        '  </ng-template>',
+        '  <ng-template #body let-fila let-columns="columns">',
+        '    <tr>',
+        '      @for (col of columns; track col.field) {',
+        '        <td>{{ fila[col.field] }}</td>',
+        '      }',
+        '    </tr>',
+        '  </ng-template>',
+        '</p-table>',
+        '',
+      ].join('\n'),
+    );
+
+    const tree = await migrate(app);
+    const ts = tree.readText(`${APP}/listado.ts`);
+    assert.match(ts, /cols: CbTableColumn\[\] = \[\n    \{ field: 'codigo', header: 'Código', sortable: true \},\n    \{ field: 'precio', header: 'Precio', sortable: true \},\n  \];/);
+    assert.match(ts, /import \{ CbTable, CbTableColumn \} from '@caribeng\/ui\/table';/);
+    assert.match(ts, /imports: \[CbTable\]/);
+    assert.doesNotMatch(ts, /primeng/);
+    assert.match(tree.readText(`${APP}/listado.html`), /<cb-table\n  \[value\]="filas"\n  \[columns\]="cols"\n><\/cb-table>/);
   });
 
   it('con referencias pendientes mantiene PrimeNG instalado y las lista en el informe', async () => {

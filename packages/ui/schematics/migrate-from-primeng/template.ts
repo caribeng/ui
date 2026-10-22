@@ -154,17 +154,29 @@ function templateNode(compiler: Compiler, text: string, node: HtmlNode, nodes: M
     result = {
       kind: 'element',
       name: node.name,
+      parameters: [],
       bindings: node.attrs.map((attr) => classify(text, attr)).filter((b): b is Binding => b !== null),
       attrs: node.attrs.map((attr) => ({ name: attr.name, value: attr.value, source: text.slice(attr.sourceSpan.start.offset, attr.sourceSpan.end.offset) })),
       children: node.children.map((child) => templateNode(compiler, text, child, nodes)),
       inner,
       indent: lineIndent(text, node.sourceSpan.start.offset) ?? '',
     };
-  } else {
-    const isText = node instanceof compiler.Text;
+  } else if (node instanceof compiler.Block) {
     result = {
-      kind: isText ? 'text' : node instanceof compiler.Block ? 'block' : 'other',
+      kind: 'block',
+      name: node.name,
+      parameters: node.parameters.map((parameter) => parameter.expression),
+      bindings: [],
+      attrs: [],
+      children: node.children.map((child) => templateNode(compiler, text, child, nodes)),
+      inner: node.endSourceSpan ? text.slice(node.startSourceSpan.end.offset, node.endSourceSpan.start.offset) : '',
+      indent: lineIndent(text, node.sourceSpan.start.offset) ?? '',
+    };
+  } else {
+    result = {
+      kind: node instanceof compiler.Text ? 'text' : 'other',
       name: '',
+      parameters: [],
       bindings: [],
       attrs: [],
       children: [],

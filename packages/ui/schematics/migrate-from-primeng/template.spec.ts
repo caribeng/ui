@@ -584,12 +584,36 @@ describe('plantillas: table', () => {
     assert.match(out, /<cb-input \(input\)="dt\.filterGlobal\(\$any\(\$event\.target\)\.value\)" \/>\n<cb-table\n  #dt/);
   });
 
-  it('columnas dinámicas, varias filas o plantillas sin equivalente: no se toca, aviso con el motivo', () => {
-    const dinamica = `<p-table [value]="filas" [columns]="cols"><ng-template #header let-columns><tr>@for (c of columns; track c.field) {<th>{{ c.header }}</th>}</tr></ng-template><ng-template #body let-f let-columns="columns"><tr>@for (c of columns; track c.field) {<td>{{ f[c.field] }}</td>}</tr></ng-template></p-table>`;
-    const out = text(dinamica);
-    assert.match(out, /^<!-- TODO\(caribeng\): las celdas se generan con @for\/@if \(columnas dinámicas\)\./);
-    assert.match(out, /<p-table \[value\]="filas"/);
-    assert.match(text(dinamica.replace('#header', '#groupheader')), /TODO\(caribeng\): p-table usa la plantilla "groupheader"/);
+  const dinamica = (celda: string) =>
+    `<p-table [value]="filas" [columns]="cols"><ng-template #header let-columns><tr>@for (c of columns; track c.field) {<th>{{ c.header }}</th>}</tr></ng-template><ng-template #body let-f let-columns="columns"><tr>@for (c of columns; track c.field) {<td>${celda}</td>}</tr></ng-template></p-table>`;
+
+  it('columnas dinámicas: [columns] pasa tal cual y fila[col.field] no necesita plantilla', () => {
+    assert.equal(text(dinamica('{{ f[c.field] }}')), `<cb-table\n  [value]="filas"\n  [columns]="cols"\n></cb-table>`);
+  });
+
+  it('columnas dinámicas ordenables y *ngFor (sintaxis anterior)', () => {
+    const out = text(
+      `<p-table [value]="filas" [columns]="cols"><ng-template #header let-columns><tr><th *ngFor="let col of columns" [pSortableColumn]="col.field">{{ col.header }} <p-sortIcon [field]="col.field" /></th></tr></ng-template><ng-template #body let-f let-columns="columns"><tr><td *ngFor="let col of columns">{{ f[col.field] }}</td></tr></ng-template></p-table>`,
+    );
+    assert.match(out, /^<!-- TODO\(caribeng\): en PrimeNG la cabecera hacía ordenables\/filtrables todas las columnas: el migrador añade sortable: true a cols/);
+    assert.match(out, /<cb-table\n  \[value\]="filas"\n  \[columns\]="cols"\n><\/cb-table>$/);
+  });
+
+  it('columnas dinámicas con @if / @switch por campo → un cbTableCell por campo', () => {
+    const conIf = text(dinamica(`@if (c.field === 'precio') {{{ f.precio | currency }}} @else if (c.field === 'estado') {<p-tag [value]="f.estado" />} @else {{{ f[c.field] }}}`));
+    assert.match(conIf, /\[columns\]="cols"/);
+    assert.match(conIf, /<ng-template cbTableCell="precio" let-f>\{\{ f\.precio \| currency \}\}<\/ng-template>/);
+    assert.match(conIf, /<ng-template cbTableCell="estado" let-f><cb-tag \[value\]="f\.estado" \/><\/ng-template>/);
+
+    const conSwitch = text(dinamica(`@switch (c.field) { @case ('total') {<b>{{ f[c.field] }}</b>} @default {{{ f[c.field] }}} }`));
+    assert.match(conSwitch, /<ng-template cbTableCell="total" let-f let-c="col"><b>\{\{ f\[c\.field\] \}\}<\/b><\/ng-template>/);
+  });
+
+  it('columnas dinámicas con lógica genérica, varias filas o plantillas sin equivalente: no se toca, aviso con el motivo', () => {
+    const generica = text(dinamica('{{ formatear(f, c) }}'));
+    assert.match(generica, /^<!-- TODO\(caribeng\): la celda dinámica muestra algo distinto de fila\[col\.field\]/);
+    assert.match(generica, /<p-table \[value\]="filas"/);
+    assert.match(text(dinamica('{{ f[c.field] }}').replace('#header', '#groupheader')), /TODO\(caribeng\): p-table usa la plantilla "groupheader"/);
     assert.match(text(productos.replace('let-producto>', 'let-producto let-i="rowIndex">').replace('{{ producto.codigo }}', '{{ i }}')), /TODO\(caribeng\): las celdas usan i, que cbTableCell no ofrece/);
   });
 

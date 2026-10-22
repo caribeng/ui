@@ -1,6 +1,8 @@
+import * as ts from 'typescript';
 import { TODO_MARK } from '../todo';
 import { SIZE_VALUES, adaptEvent, drop, event, numeric, rename, styleClass, unsupported, values } from './rules';
-import type { AttrRule, ComponentMapping, Restructure, TemplateNode } from './types';
+import { propertyName } from './service-calls';
+import type { AttrRule, ComponentMapping, Restructure, SourceRewriter, TemplateNode } from './types';
 
 /** Plantillas de p-table que se trasladan; con cualquier otra la tabla se deja para migrar a mano. */
 const KNOWN_TEMPLATES = new Set(['header', 'body', 'emptymessage', 'rowexpansion', 'caption', 'summary', 'loadingbody']);
@@ -152,8 +154,6 @@ interface Column {
   matchMode?: string;
   width?: string;
   frozen: boolean;
-  /** Contenido de la celda (ya migrado) si no es solo `{{ fila.campo }}`. */
-  template?: string;
 }
 
 function columnLiteral(col: Column): string {
@@ -190,9 +190,121 @@ function todoComment(message: string): string {
   return `<!-- ${TODO_MARK}: ${message.replace(/--+/g, '-').replace(/\s+/g, ' ')} -->`;
 }
 
+/** Plantilla de una celda personalizada: `<ng-template cbTableCell="campo" let-fila [let-col="col"]>`. */
+interface CellTemplate {
+  readonly field: string;
+  /** Contenido ya migrado. */
+  readonly content: string;
+  /** Variable de la columna si el contenido la usa (`let-col="col"`). */
+  readonly colVariable?: string;
+}
+
+/** Columnas de la tabla migrada: un literal generado (estáticas) o la propiedad del componente (dinámicas). */
+type Columns = { readonly literal: readonly Column[] } | { readonly source: string };
+
+/** Columna que cb-table pone sola: checkbox (selección múltiple), radio (simple) o botón de expandir. */
+function specialColumn(cell: TemplateNode): 'multiple' | 'single' | 'toggler' | null {
+  if (/<p-table(Header)?Checkbox\b/.test(cell.inner)) return 'multiple';
+  if (/<p-tableRadioButton\b/.test(cell.inner)) return 'single';
+  if (/\bpRowToggler\b/.test(cell.inner)) return 'toggler';
+  return null;
+}
+
+/** `@for (col of columns; …) { <th>…</th> }` o `<th *ngFor="let col of columns">`: variable, iterable y celda. */
+function columnLoop(node: TemplateNode, tag: 'th' | 'td'): { variable: string; iterable: string; cell: TemplateNode } | null {
+  if (node.kind === 'block' && node.name === 'for') {
+    const match = /^\s*([A-Za-z_$][\w$]*)\s+of\s+(.+?)\s*$/.exec(node.parameters[0] ?? '');
+    const cells = significant(node);
+    if (match && cells.length === 1 && cells[0].name === tag) return { variable: match[1], iterable: match[2], cell: cells[0] };
+    return null;
+  }
+  const ngFor = node.name === tag ? node.attrs.find((a) => a.name === '*ngFor') : undefined;
+  const match = ngFor && /^\s*let\s+([A-Za-z_$][\w$]*)\s+of\s+([^;]+?)\s*(;|$)/.exec(ngFor.value);
+  return match ? { variable: match[1], iterable: match[2], cell: node } : null;
+}
+
+/** Escapa un nombre para usarlo en una expresión regular. */
+function re(name: string): string {
+  return name.replace(/[$.]/g, (c) => `\\${c}`);
+}
+
 /**
- * `<p-table>` con columnas escritas en `#header` / `#body` → `<cb-table [columns]>` con
- * un `cbTableCell` por cada celda que no es solo `{{ fila.campo }}`.
+ * Columnas dinámicas: `[columns]="cols"` + `@for (col of columns)` en cabecera y cuerpo →
+ * `<cb-table [columns]="cols">`. Las ramas `@if (col.field === 'precio')` / `@switch (col.field)`
+ * del cuerpo pasan a un `cbTableCell` por campo; el resto muestra `fila[col.field]`.
+ */
+function dynamicColumns(
+  node: TemplateNode,
+  r: Restructure,
+  header: { variable: string; iterable: string; cell: TemplateNode },
+  body: { variable: string; iterable: string; cell: TemplateNode },
+  templates: { header: TemplateNode; body: TemplateNode },
+  row: string,
+  todos: string[],
+): { columns: Columns; cells: CellTemplate[] } | string {
+  // La lista de columnas: el [columns] de p-table (si los bucles recorren la variable let-columns) o la propiedad que recorren.
+  const columnsBinding = node.bindings.find((b) => b.name === 'columns' && b.kind === 'property')?.value.trim();
+  const templateVariables = new Set([...templates.header.attrs, ...templates.body.attrs].filter((a) => a.name.startsWith('let-')).map((a) => a.name.slice(4)));
+  const sourceOf = (iterable: string) => (templateVariables.has(iterable) ? columnsBinding : iterable);
+  const source = sourceOf(header.iterable);
+  if (!source || source !== sourceOf(body.iterable)) return 'la cabecera y el cuerpo no recorren la misma lista de columnas.';
+
+  // Cabecera: {{ col.header }}, con orden y filtro opcionales para todas las columnas.
+  const th = header.cell;
+  const col = header.variable;
+  let filter = false;
+  const headerText = th.inner.replace(SORT_ICON, '').replace(COLUMN_FILTER, () => ((filter = true), '')).trim();
+  if (!new RegExp(`^\\{\\{\\s*${re(col)}\\.header\\s*\\}\\}$`).test(headerText)) return 'la cabecera dinámica no es {{ col.header }}.';
+  const sortable = th.bindings.some((b) => b.name === 'pSortableColumn' && b.kind === 'property' && b.value.trim() === `${col}.field`);
+  if (sortable || filter) {
+    const flags = [sortable && 'sortable: true', filter && 'filter: true'].filter(Boolean).join(' y ');
+    todos.push(`en PrimeNG la cabecera hacía ordenables/filtrables todas las columnas: el migrador añade ${flags} a ${source} si es un array del componente; si las columnas vienen de otro sitio, añádelo tú.`);
+  }
+
+  // Cuerpo: fila[col.field], o ramas por campo.
+  const td = body.cell;
+  const c = body.variable;
+  const isDefault = (text: string) => text.trim() === '' || new RegExp(`^\\{\\{\\s*${re(row)}\\??\\.?\\[\\s*${re(c)}\\.field\\s*\\]\\s*\\}\\}$`).test(text.trim());
+  if (isDefault(td.inner)) return { columns: { source }, cells: [] };
+
+  const fieldOf = (condition: string): string | undefined =>
+    new RegExp(`^\\s*${re(c)}\\.field\\s*===?\\s*'([^']+)'\\s*$`).exec(condition)?.[1] ?? new RegExp(`^\\s*'([^']+)'\\s*===?\\s*${re(c)}\\.field\\s*$`).exec(condition)?.[1];
+  const branches: { field: string; inner: string }[] = [];
+  let fallback = '';
+  const blocks = significant(td);
+  if (blocks.length === 1 && blocks[0].kind === 'block' && blocks[0].name === 'switch' && blocks[0].parameters[0]?.trim() === `${c}.field`) {
+    for (const option of significant(blocks[0])) {
+      const field = option.name === 'case' ? /^\s*'([^']+)'\s*$/.exec(option.parameters[0] ?? '')?.[1] : undefined;
+      if (field) branches.push({ field, inner: option.inner });
+      else if (option.name === 'default') fallback = option.inner;
+      else return 'la celda dinámica tiene un @case que no es un campo fijo.';
+    }
+  } else if (blocks.length && blocks.every((b) => b.kind === 'block') && blocks[0].name === 'if') {
+    for (const [i, branch] of blocks.entries()) {
+      if (branch.name === 'else' && i === blocks.length - 1) {
+        fallback = branch.inner;
+        continue;
+      }
+      const field = (branch.name === 'if' ? i === 0 : branch.name === 'else if') ? fieldOf(branch.parameters[0] ?? '') : undefined;
+      if (!field) return 'la celda dinámica tiene condiciones que no comparan col.field con un campo fijo.';
+      branches.push({ field, inner: branch.inner });
+    }
+  } else {
+    return 'la celda dinámica muestra algo distinto de fila[col.field] y no se separa por campo con @if/@switch.';
+  }
+  if (!isDefault(fallback)) return 'la rama por defecto de la celda dinámica no es solo {{ fila[col.field] }}.';
+
+  const cells = branches.map(({ field, inner }) => {
+    const content = r.migrate(dedent(inner.trim()));
+    return { field, content, colVariable: new RegExp(`\\b${re(c)}\\b`).test(content) ? c : undefined };
+  });
+  return { columns: { source }, cells };
+}
+
+/**
+ * `<p-table>` → `<cb-table [columns]>`. Columnas escritas una a una en `#header` / `#body`
+ * (se genera el array) o dinámicas con `@for` (se usa el array del componente), y un
+ * `cbTableCell` por cada celda personalizada.
  */
 function restructureTable(node: TemplateNode, r: Restructure): string | null {
   const manual = (why: string) => `${why} Migra a <cb-table [columns]> con plantillas cbTableCell a mano.`;
@@ -210,82 +322,42 @@ function restructureTable(node: TemplateNode, r: Restructure): string | null {
 
   const headerRow = singleRow(header);
   const bodyRow = singleRow(body);
-  if (!headerRow || !bodyRow) return manual('la cabecera o el cuerpo no son una sola fila <tr> (varias filas, @for o @if).');
-  const ths = significant(headerRow);
-  const tds = significant(bodyRow);
-  if (ths.some((th) => th.name !== 'th') || tds.some((td) => td.name !== 'td')) return manual('las celdas se generan con @for/@if (columnas dinámicas).');
-  if (ths.length !== tds.length) return manual('la cabecera y el cuerpo no tienen el mismo número de celdas (colspan).');
+  if (!headerRow || !bodyRow) return manual('la cabecera o el cuerpo no son una sola fila <tr> (varias filas o @if).');
+  const thsAll = significant(headerRow);
+  const tdsAll = significant(bodyRow);
+  if (thsAll.length !== tdsAll.length) return manual('la cabecera y el cuerpo no tienen el mismo número de celdas (colspan).');
 
   const row = rowVariable(body);
   if (!row) return manual('la plantilla body no declara la fila (let-fila).');
-  const used = otherVariables(body).filter((name) => tds.some((td) => new RegExp(`\\b${name}\\b`).test(td.inner)));
+  const used = otherVariables(body).filter((name) => tdsAll.some((td) => new RegExp(`\\b${re(name)}\\b`).test(td.inner)));
   if (used.length) return manual(`las celdas usan ${used.join(', ')}, que cbTableCell no ofrece.`);
 
-  const todos: string[] = [];
-  const columns: Column[] = [];
-  const fields = new Set<string>();
+  // Columnas de checkbox, radio y expandir: cb-table las pone sola.
   let selection: 'multiple' | 'single' | null = null;
-  const rowPath = new RegExp(`(?<![\\w$.])${row.replace(/\$/g, '\\$')}((?:\\??\\.[A-Za-z_$][\\w$]*)+)(\\s*\\()?`);
+  const ths: TemplateNode[] = [];
+  const tds: TemplateNode[] = [];
+  thsAll.forEach((th, i) => {
+    const special = specialColumn(th) ?? specialColumn(tdsAll[i]);
+    if (special === 'multiple' || special === 'single') selection = special;
+    if (special) return;
+    ths.push(th);
+    tds.push(tdsAll[i]);
+  });
 
-  for (let i = 0; i < ths.length; i++) {
-    const th = ths[i];
-    const td = tds[i];
-    // Columnas que cb-table pone sola.
-    if (/<p-table(Header)?Checkbox\b/.test(th.inner + td.inner)) {
-      selection = 'multiple';
-      continue;
-    }
-    if (/<p-tableRadioButton\b/.test(td.inner)) {
-      selection = 'single';
-      continue;
-    }
-    if (/\bpRowToggler\b/.test(td.inner)) continue;
-
-    const sortBinding = th.bindings.find((b) => b.name === 'pSortableColumn');
-    const sortField = sortBinding?.kind === 'static' ? sortBinding.value : sortBinding && /^'([^']+)'$/.exec(sortBinding.value.trim())?.[1];
-    if (sortBinding && !sortField) todos.push(`${sortBinding.source} — el campo de orden es una expresión; revisa sortable en la columna.`);
-
-    let filter = false;
-    let matchMode: string | undefined;
-    const headerText = th.inner
-      .replace(SORT_ICON, '')
-      .replace(COLUMN_FILTER, (_match, attrs: string) => {
-        filter = true;
-        const mode = /matchMode="(contains|startsWith|equals)"/.exec(attrs)?.[1];
-        if (mode && mode !== 'contains') matchMode = mode;
-        return '';
-      })
-      .trim()
-      .replace(/\s+/g, ' ');
-    if (/[<@]/.test(headerText)) return manual(`la cabecera "${headerText.slice(0, 40)}" tiene marcado (iconos, badges…) y cb-table solo admite texto en header.`);
-
-    const width = /(?:^|;)\s*width\s*:\s*([^;]+?)\s*(?:;|$)/.exec(th.attrs.find((a) => a.name === 'style')?.value ?? '')?.[1];
-    const content = td.inner.trim();
-    const simple = new RegExp(`^\\{\\{\\s*${row.replace(/\$/g, '\\$')}\\.([A-Za-z_$][\\w$]*(?:\\.[A-Za-z_$][\\w$]*)*)\\s*\\}\\}$`).exec(content)?.[1];
-    const fromContent = (() => {
-      const match = rowPath.exec(content);
-      if (!match) return undefined;
-      const segments = match[1].replace(/\?/g, '').split('.').filter(Boolean);
-      if (match[2]) segments.pop();
-      return segments.join('.') || undefined;
-    })();
-    let field = sortField ?? simple ?? fromContent ?? `col${i + 1}`;
-    if (fields.has(field)) field = `${field}_${i + 1}`;
-    fields.add(field);
-
-    const ignoredAttrs = td.attrs.filter((a) => !/^\[?pFrozenColumn\]?$/.test(a.name) && !/^\[?alignFrozen\]?$/.test(a.name));
-    if (ignoredAttrs.length) todos.push(`la celda de "${headerText}" tenía ${ignoredAttrs.map((a) => a.source).join(' ')}; aplica esos estilos dentro de su cbTableCell.`);
-
-    columns.push({
-      field,
-      header: textExpression(headerText),
-      sortable: !!sortField,
-      filter,
-      matchMode,
-      width,
-      frozen: isFrozen(th) || isFrozen(td),
-      template: simple && simple === field ? undefined : r.migrate(dedent(content)),
-    });
+  const todos: string[] = [];
+  let columns: Columns;
+  let cells: CellTemplate[];
+  const headerLoop = ths.length === 1 ? columnLoop(ths[0], 'th') : null;
+  const bodyLoop = tds.length === 1 ? columnLoop(tds[0], 'td') : null;
+  if (headerLoop && bodyLoop) {
+    const dynamic = dynamicColumns(node, r, headerLoop, bodyLoop, { header, body }, row, todos);
+    if (typeof dynamic === 'string') return manual(dynamic);
+    ({ columns, cells } = dynamic);
+  } else {
+    if (ths.some((th) => th.name !== 'th') || tds.some((td) => td.name !== 'td')) return manual('las celdas se generan con @for/@if que no son de columnas.');
+    const statics = staticColumns(r, ths, tds, row, todos);
+    if (typeof statics === 'string') return manual(statics);
+    ({ columns, cells } = statics);
   }
 
   const rowAttrs = bodyRow.attrs.filter((a) => !/^\[?(pSelectableRow|pSelectableRowIndex|pRowToggler|pSelectableRowDisabled)\]?$/.test(a.name));
@@ -321,37 +393,181 @@ function restructureTable(node: TemplateNode, r: Restructure): string | null {
     todos.push(`el contenido de #${name} de p-table está ${where} de cb-table (no tiene esa zona).`);
     return fixFilterGlobal(r.migrate(template.inner.trim()));
   };
-
   const caption = moved('caption', 'antes');
   const summary = moved('summary', 'después');
+
   // Sin coma final: el parser de expresiones de Angular no la admite en todos los casos.
-  const columnLines = columns.map((col) => `${inner}  ${columnLiteral(col)}`).join(`,${eol}`);
+  const columnsAttr =
+    'source' in columns
+      ? `[columns]="${columns.source}"`
+      : `[columns]="[${eol}${columns.literal.map((col) => `${inner}  ${columnLiteral(col)}`).join(`,${eol}`)}${eol}${inner}]"`;
   /** Contenido de una plantilla: en la misma línea si es corto, o como bloque sangrado. */
   const templateBody = (content: string): string => {
     if (!/\r?\n/.test(content)) return content;
     return eol + content.split(/\r?\n/).map((line) => (line.trim() ? `${inner}  ${line}` : '')).join(eol) + eol + inner;
   };
-  const cellTemplates = columns
-    .filter((col) => col.template !== undefined)
-    .map((col) => `${inner}<ng-template cbTableCell=${JSON.stringify(col.field)} let-${row}>${templateBody(col.template!)}</ng-template>`);
-  if (expansion) cellTemplates.push(`${inner}<ng-template cbTableRowExpansion let-${expansion.variable}>${templateBody(expansion.content)}</ng-template>`);
+  const templateLines = cells.map(
+    (cell) =>
+      `${inner}<ng-template cbTableCell=${JSON.stringify(cell.field)} let-${row}${cell.colVariable ? ` let-${cell.colVariable}="col"` : ''}>${templateBody(cell.content)}</ng-template>`,
+  );
+  if (expansion) templateLines.push(`${inner}<ng-template cbTableRowExpansion let-${expansion.variable}>${templateBody(expansion.content)}</ng-template>`);
 
-  const lines = [...ruleTodos, ...todos].map((todo) => todoComment(todo) + eol + indent);
-  let result = lines.join('');
+  let result = [...ruleTodos, ...todos].map((todo) => todoComment(todo) + eol + indent).join('');
   if (caption) result += caption + eol + indent;
-  result += `<cb-table${finalAttrs.map((a) => eol + inner + a).join('')}${eol}${inner}[columns]="[${eol}${columnLines}${eol}${inner}]"${eol}${indent}>`;
-  if (cellTemplates.length) result += eol + cellTemplates.join(eol) + eol + indent;
+  result += `<cb-table${finalAttrs.map((a) => eol + inner + a).join('')}${eol}${inner}${columnsAttr}${eol}${indent}>`;
+  if (templateLines.length) result += eol + templateLines.join(eol) + eol + indent;
   result += '</cb-table>';
   if (summary) result += eol + indent + summary;
   r.replace(node, result);
   return null;
 }
 
+/** Columnas escritas una a una: un `<th>` y un `<td>` por columna. */
+function staticColumns(
+  r: Restructure,
+  ths: readonly TemplateNode[],
+  tds: readonly TemplateNode[],
+  row: string,
+  todos: string[],
+): { columns: Columns; cells: CellTemplate[] } | string {
+  const literal: Column[] = [];
+  const cells: CellTemplate[] = [];
+  const fields = new Set<string>();
+  const rowPath = new RegExp(`(?<![\\w$.])${re(row)}((?:\\??\\.[A-Za-z_$][\\w$]*)+)(\\s*\\()?`);
+
+  for (let i = 0; i < ths.length; i++) {
+    const th = ths[i];
+    const td = tds[i];
+    const sortBinding = th.bindings.find((b) => b.name === 'pSortableColumn');
+    const sortField = sortBinding?.kind === 'static' ? sortBinding.value : sortBinding && /^'([^']+)'$/.exec(sortBinding.value.trim())?.[1];
+    if (sortBinding && !sortField) todos.push(`${sortBinding.source} — el campo de orden es una expresión; revisa sortable en la columna.`);
+
+    let filter = false;
+    let matchMode: string | undefined;
+    const headerText = th.inner
+      .replace(SORT_ICON, '')
+      .replace(COLUMN_FILTER, (_match, attrs: string) => {
+        filter = true;
+        const mode = /matchMode="(contains|startsWith|equals)"/.exec(attrs)?.[1];
+        if (mode && mode !== 'contains') matchMode = mode;
+        return '';
+      })
+      .trim()
+      .replace(/\s+/g, ' ');
+    if (/[<@]/.test(headerText)) return `la cabecera "${headerText.slice(0, 40)}" tiene marcado (iconos, badges…) y cb-table solo admite texto en header.`;
+
+    const width = /(?:^|;)\s*width\s*:\s*([^;]+?)\s*(?:;|$)/.exec(th.attrs.find((a) => a.name === 'style')?.value ?? '')?.[1];
+    const content = td.inner.trim();
+    const simple = new RegExp(`^\\{\\{\\s*${re(row)}\\.([A-Za-z_$][\\w$]*(?:\\.[A-Za-z_$][\\w$]*)*)\\s*\\}\\}$`).exec(content)?.[1];
+    const fromContent = (() => {
+      const match = rowPath.exec(content);
+      if (!match) return undefined;
+      const segments = match[1].replace(/\?/g, '').split('.').filter(Boolean);
+      if (match[2]) segments.pop();
+      return segments.join('.') || undefined;
+    })();
+    let field = sortField ?? simple ?? fromContent ?? `col${i + 1}`;
+    if (fields.has(field)) field = `${field}_${i + 1}`;
+    fields.add(field);
+
+    const ignoredAttrs = td.attrs.filter((a) => !/^\[?pFrozenColumn\]?$/.test(a.name) && !/^\[?alignFrozen\]?$/.test(a.name));
+    if (ignoredAttrs.length) todos.push(`la celda de "${headerText}" tenía ${ignoredAttrs.map((a) => a.source).join(' ')}; aplica esos estilos dentro de su cbTableCell.`);
+
+    literal.push({ field, header: textExpression(headerText), sortable: !!sortField, filter, matchMode, width, frozen: isFrozen(th) || isFrozen(td) });
+    if (!(simple && simple === field)) cells.push({ field, content: r.migrate(dedent(content)) });
+  }
+  return { columns: { literal }, cells };
+}
+
+/**
+ * Propiedades usadas como `[columns]` de una p-table cuya cabecera dinámica hace todas las
+ * columnas ordenables (`[pSortableColumn]="col.field"`) o filtrables (`<p-columnFilter [field]="col.field">`).
+ */
+function dynamicColumnFlags(templates: readonly string[]): Map<string, { sortable: boolean; filter: boolean }> {
+  const flags = new Map<string, { sortable: boolean; filter: boolean }>();
+  for (const template of templates) {
+    for (const [table] of template.matchAll(/<p-table\b[\s\S]*?<\/p-table>/g)) {
+      const name = /\[columns\]\s*=\s*"\s*(?:this\.)?([A-Za-z_$][\w$]*)(?:\(\))?\s*"/.exec(table)?.[1];
+      if (!name) continue;
+      const sortable = /\[pSortableColumn\]\s*=\s*"\s*[A-Za-z_$][\w$]*\.field\s*"/.test(table);
+      const filter = /<p-column-?[Ff]ilter\b[^>]*\[field\]\s*=\s*"\s*[A-Za-z_$][\w$]*\.field\s*"/.test(table);
+      if (sortable || filter) flags.set(name, { sortable, filter });
+    }
+  }
+  return flags;
+}
+
+/**
+ * Columnas dinámicas: añade `sortable: true` / `filter: true` a los objetos del array del
+ * componente (en PrimeNG lo decidía la plantilla) y lo tipa como `CbTableColumn[]`.
+ */
+const rewriteTableColumns: SourceRewriter = (sf, context, edits) => {
+  if (!context.locals.has('TableModule') && !context.locals.has('Table')) return;
+  const flags = dynamicColumnFlags(context.templates);
+  if (!flags.size) return;
+
+  const addFlags = (array: ts.ArrayLiteralExpression, wanted: { sortable: boolean; filter: boolean }) => {
+    for (const element of array.elements) {
+      if (!ts.isObjectLiteralExpression(element)) continue;
+      const names = new Set(element.properties.map((p) => propertyName(p)));
+      const missing = [wanted.sortable && !names.has('sortable') && 'sortable: true', wanted.filter && !names.has('filter') && 'filter: true'].filter(Boolean);
+      if (!missing.length) continue;
+      const last = element.properties[element.properties.length - 1];
+      if (last) edits.push({ start: last.getEnd(), end: last.getEnd(), text: `, ${missing.join(', ')}` });
+      else edits.push({ start: element.getStart(sf) + 1, end: element.getEnd() - 1, text: ` ${missing.join(', ')} ` });
+    }
+  };
+  /** `[...]` o `signal([...])`. */
+  const arrayOf = (expression: ts.Expression | undefined): ts.ArrayLiteralExpression | undefined => {
+    if (!expression) return undefined;
+    if (ts.isArrayLiteralExpression(expression)) return expression;
+    if (ts.isCallExpression(expression) && expression.arguments[0] && ts.isArrayLiteralExpression(expression.arguments[0])) return expression.arguments[0];
+    return undefined;
+  };
+  /** `Column[]`, `Array<Column>` o `signal<Column[]>` → `CbTableColumn`. */
+  const retype = (node: ts.Node) => {
+    const visit = (current: ts.Node): void => {
+      const element = ts.isArrayTypeNode(current) ? current.elementType : undefined;
+      if (element && ts.isTypeReferenceNode(element) && ts.isIdentifier(element.typeName) && element.typeName.text !== 'CbTableColumn') {
+        edits.push({ start: element.getStart(sf), end: element.getEnd(), text: 'CbTableColumn' });
+        context.addImport('CbTableColumn', '@caribeng/ui/table');
+        return;
+      }
+      ts.forEachChild(current, visit);
+    };
+    visit(node);
+  };
+
+  const visit = (node: ts.Node): void => {
+    if (ts.isPropertyDeclaration(node) && ts.isIdentifier(node.name) && flags.has(node.name.text)) {
+      const array = arrayOf(node.initializer);
+      if (array) addFlags(array, flags.get(node.name.text)!);
+      if (node.type) retype(node.type);
+      if (node.initializer && ts.isCallExpression(node.initializer)) node.initializer.typeArguments?.forEach(retype);
+      return;
+    }
+    if (
+      ts.isBinaryExpression(node) &&
+      node.operatorToken.kind === ts.SyntaxKind.EqualsToken &&
+      ts.isPropertyAccessExpression(node.left) &&
+      node.left.expression.kind === ts.SyntaxKind.ThisKeyword &&
+      flags.has(node.left.name.text)
+    ) {
+      const array = arrayOf(node.right);
+      if (array) addFlags(array, flags.get(node.left.name.text)!);
+      return;
+    }
+    ts.forEachChild(node, visit);
+  };
+  visit(sf);
+};
+
 export const table: ComponentMapping = {
   name: 'table',
   entry: '@caribeng/ui/table',
   symbol: 'CbTable',
   attrs: { cbTableCell: 'CbTableCellDirective', cbTableRowExpansion: 'CbTableRowExpansion' },
+  rewriteSource: rewriteTableColumns,
   modules: {
     'primeng/table': { TableModule: 'CbTable', Table: 'CbTable', TableLazyLoadEvent: 'CbTableLazyLoadEvent' },
   },

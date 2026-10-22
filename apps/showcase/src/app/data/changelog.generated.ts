@@ -32,7 +32,7 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
           },
           {
             "component": "Migración",
-            "text": "`p-table` con columnas escritas en `#header`/`#body` se convierte a `cb-table` con `[columns]` (`pSortableColumn`, `p-columnFilter`, `pFrozenColumn` y el ancho de la cabecera) y un `cbTableCell` por cada celda personalizada, con su contenido migrado; selección con checkbox o radio, `#rowexpansion`, `#emptymessage`, `#caption` y `#summary` incluidos. Las tablas con columnas dinámicas o plantillas sin equivalente quedan con aviso y conservan `TableModule`."
+            "text": "`p-table` con columnas escritas en `#header`/`#body` se convierte a `cb-table` con `[columns]` (`pSortableColumn`, `p-columnFilter`, `pFrozenColumn` y el ancho de la cabecera) y un `cbTableCell` por cada celda personalizada, con su contenido migrado; selección con checkbox o radio, `#rowexpansion`, `#emptymessage`, `#caption` y `#summary` incluidos. Las columnas dinámicas (`[columns]=\"cols\"` + `@for`/`*ngFor`) pasan a `[columns]=\"cols\"`: se añade `sortable`/`filter` a los objetos de `cols` (tipado como `CbTableColumn[]`) y las ramas `@if`/`@switch` por campo pasan a `cbTableCell`. Las tablas con celdas de lógica genérica o plantillas sin equivalente quedan con aviso y conservan `TableModule`."
           },
           {
             "component": "Migración",

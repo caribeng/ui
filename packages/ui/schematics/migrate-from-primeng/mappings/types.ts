@@ -104,13 +104,15 @@ export interface ElementMapping {
 /** Nodo de una plantilla, para `restructure`. */
 export interface TemplateNode {
   readonly kind: 'element' | 'text' | 'block' | 'other';
-  /** Tag (solo elementos). */
+  /** Tag de los elementos, o nombre del bloque (`for`, `if`, `else if`, `switch`, `case`…). */
   readonly name: string;
+  /** Parámetros de un bloque (`col of columns`, `track col.field`); vacío en el resto. */
+  readonly parameters: readonly string[];
   readonly bindings: readonly Binding[];
   /** Todos los atributos tal cual, también `#ref` y `let-x` (que no son bindings). */
   readonly attrs: readonly { readonly name: string; readonly value: string; readonly source: string }[];
   readonly children: readonly TemplateNode[];
-  /** Texto fuente del contenido (entre las etiquetas, o el texto del nodo). */
+  /** Texto fuente del contenido (entre las etiquetas o las llaves del bloque, o el texto del nodo). */
   readonly inner: string;
   /** Sangría de la línea donde empieza el nodo (vacía si no empieza la línea). */
   readonly indent: string;
