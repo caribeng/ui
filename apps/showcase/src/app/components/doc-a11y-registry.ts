@@ -533,6 +533,66 @@ export const DOC_A11Y: Record<string, DocA11y> = {
       'El icono o la ilustración son decorativos; el título y la descripción son texto normal y las acciones, botones o enlaces proyectados.',
     ],
   },
+  'cb-kbd': {
+    screenReader: [
+      'Usa el elemento nativo `kbd`; una combinación es un `kbd` que contiene un `kbd` por tecla, como recomienda HTML.',
+      'Los símbolos de Mac (⌘ ⌥ ⇧ ↵) se ocultan al lector y se lee su nombre (Command, Option, Shift, Enter).',
+    ],
+  },
+  'cb-copy-button': {
+    screenReader: [
+      'Sin `showLabel` es un botón de solo icono con nombre accesible ("Copiar" del idioma activo, o `label`).',
+      'El resultado ("Copiado" o "No se pudo copiar") se anuncia en una región `role="status"` sin mover el foco.',
+    ],
+    keyboard: [
+      { keys: 'Tab', action: 'Lleva el foco al botón.' },
+      { keys: 'Enter / Espacio', action: 'Copia el valor.' },
+    ],
+  },
+  'cb-qrcode': {
+    screenReader: [
+      'Es una imagen (`role="img"`) con nombre "Código QR" o `ariaLabel`. El lector no puede leer el contenido: si importa, muéstralo también como texto o enlace junto al QR.',
+    ],
+  },
+  'cb-command-palette': {
+    screenReader: [
+      'Es un diálogo modal (`role="dialog"`, `aria-modal`) con un campo `role="combobox"` que controla la lista (`role="listbox"`); la opción activa se indica con `aria-activedescendant`, así el foco no sale del campo.',
+      'Los grupos son `role="group"` con su título; los items deshabilitados llevan `aria-disabled`. El número de resultados se anuncia en una región `role="status"`.',
+      'Al cerrar, el foco vuelve al elemento que lo tenía antes de abrir.',
+    ],
+    keyboard: [
+      { keys: 'Ctrl + K / ⌘ K', action: 'Abre o cierra la paleta (configurable con shortcut).' },
+      { keys: 'Flecha abajo / arriba', action: 'Mueve la opción activa (salta las deshabilitadas y da la vuelta).' },
+      { keys: 'Ctrl + Inicio / Fin', action: 'Primera o última opción.' },
+      { keys: 'Enter', action: 'Elige la opción activa.' },
+      { keys: 'Escape', action: 'Cierra la paleta.' },
+    ],
+  },
+  'cb-sidebar': {
+    screenReader: [
+      'Es un `nav` con nombre ("Navegación principal"); cada sección es una lista nombrada por su título. El item activo lleva `aria-current="page"`.',
+      'Los grupos con hijos son botones con `aria-expanded` y `aria-controls`. Contraído, el texto se oculta a la vista pero sigue siendo el nombre accesible, y aparece como tooltip.',
+      'En `cb-app-shell` móvil el panel está `inert` mientras está cerrado; abierto, atrapa el foco, se cierra con Escape o con el fondo y devuelve el foco al botón `cbSidebarToggle` (que gestiona `aria-expanded` y `aria-controls`).',
+    ],
+    keyboard: [
+      { keys: 'Tab', action: 'Recorre los enlaces y botones del menú.' },
+      { keys: 'Enter / Espacio', action: 'Abre el enlace o despliega el grupo.' },
+      { keys: 'Escape', action: 'En móvil, cierra el panel.' },
+    ],
+  },
+  'cb-chat': {
+    screenReader: [
+      'La conversación es un `role="log"` con nombre ("Conversación"): los lectores anuncian los mensajes nuevos sin mover el foco.',
+      'Mientras se genera una respuesta (`busy`, y `streaming` en el mensaje) se marca `aria-busy` para que no se lea cada fragmento; al terminar se anuncia "Respuesta lista" una sola vez.',
+      'Cada mensaje es un `article` nombrado por su autor y hora. El markdown se pinta con etiquetas semánticas (listas, tablas, código) y los enlaces externos se abren en otra pestaña con `rel="noopener"`.',
+      'El campo de prompt tiene nombre ("Mensaje"); Enviar, Detener, Adjuntar y Quitar archivo son botones con nombre accesible. Los estados de envío y error se muestran como texto, no solo con color.',
+    ],
+    keyboard: [
+      { keys: 'Enter', action: 'Envía el mensaje (Shift + Enter, salto de línea; no envía durante la composición IME).' },
+      { keys: 'Tab', action: 'Recorre sugerencias, adjuntar, el campo y Enviar o Detener.' },
+      { keys: 'Tab (en la lista)', action: 'La conversación es enfocable y se desplaza con las flechas.' },
+    ],
+  },
   'cb-descriptions': {
     screenReader: [
       'Usa una lista de descripción nativa (`dl`, `dt`, `dd`), así cada valor se lee junto a su etiqueta. El título es un encabezado (`headingLevel`) que nombra la lista.',

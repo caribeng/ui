@@ -80,6 +80,7 @@ export const NAV_MENU: NavItem[] = [
         label: 'Button',
         children: [
           { label: 'Button', route: '/components/button' },
+          { label: 'CopyButton', route: '/components/copy-button', badge: 'NEW' },
           { label: 'SpeedDial', route: '/components/speeddial' },
           { label: 'SplitButton', route: '/components/splitbutton', badge: 'NEW' },
         ],
@@ -121,6 +122,7 @@ export const NAV_MENU: NavItem[] = [
       {
         label: 'Overlay',
         children: [
+          { label: 'CommandPalette', route: '/components/command-palette', badge: 'NEW' },
           { label: 'ConfirmDialog', route: '/components/confirmdialog' },
           { label: 'ConfirmPopup', route: '/components/confirmpopup' },
           { label: 'Dialog', route: '/components/dialog' },
@@ -149,6 +151,7 @@ export const NAV_MENU: NavItem[] = [
           { label: 'Menu', route: '/components/menu' },
           { label: 'Menubar', route: '/components/menubar' },
           { label: 'PanelMenu', route: '/components/panelmenu' },
+          { label: 'Sidebar / AppShell', route: '/components/sidebar', badge: 'NEW' },
           { label: 'Steps', route: '/components/steps' },
           { label: 'TabMenu', route: '/components/tabmenu' },
           { label: 'TieredMenu', route: '/components/tieredmenu' },
@@ -163,6 +166,7 @@ export const NAV_MENU: NavItem[] = [
       {
         label: 'Messages',
         children: [
+          { label: 'Chat (IA)', route: '/components/chat', badge: 'NEW' },
           { label: 'Empty', route: '/components/empty', badge: 'NEW' },
           { label: 'InlineMessage', route: '/components/inlinemessage' },
           { label: 'Message', route: '/components/message' },
@@ -179,6 +183,7 @@ export const NAV_MENU: NavItem[] = [
           { label: 'Galleria', route: '/components/galleria' },
           { label: 'Image', route: '/components/image' },
           { label: 'PDF Viewer', route: '/components/pdfviewer', badge: 'NEW' },
+          { label: 'QRCode', route: '/components/qrcode', badge: 'NEW' },
         ],
       },
       {
@@ -191,6 +196,7 @@ export const NAV_MENU: NavItem[] = [
           { label: 'Chip', route: '/components/chip' },
           { label: 'FocusTrap', route: '/components/focustrap' },
           { label: 'Inplace', route: '/components/inplace' },
+          { label: 'Kbd', route: '/components/kbd', badge: 'NEW' },
           { label: 'MeterGroup', route: '/components/metergroup' },
           { label: 'ProgressBar', route: '/components/progressbar' },
           { label: 'Ripple', route: '/components/ripple' },

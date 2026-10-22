@@ -25,6 +25,34 @@ export interface CbTranslation {
   selectAll: string;
   options: string;
   moreActions: string;
+  copy: string;
+  copied: string;
+  copyFailed: string;
+  qrCode: string;
+  commandPalette: string;
+  commandPlaceholder: string;
+  /** `{0}`: cantidad. */
+  commandResults: string;
+  commandNavigate: string;
+  commandSelect: string;
+  expandSidebar: string;
+  collapseSidebar: string;
+  openMenu: string;
+  chatConversation: string;
+  chatYou: string;
+  chatAssistant: string;
+  chatPlaceholder: string;
+  chatMessage: string;
+  chatSend: string;
+  chatStop: string;
+  chatAttach: string;
+  chatSending: string;
+  chatError: string;
+  chatRetry: string;
+  chatTyping: string;
+  chatGenerating: string;
+  chatResponseReady: string;
+  chatJumpToLatest: string;
   add: string;
   onThisPage: string;
   trendUp: string;
@@ -457,6 +485,33 @@ export const CB_LOCALE_ES: CbTranslation = {
   selectAll: 'Todos',
   options: 'Opciones',
   moreActions: 'Más acciones',
+  copy: 'Copiar',
+  copied: 'Copiado',
+  copyFailed: 'No se pudo copiar',
+  qrCode: 'Código QR',
+  commandPalette: 'Paleta de comandos',
+  commandPlaceholder: 'Busca una página o acción…',
+  commandResults: '{0} resultados',
+  commandNavigate: 'navegar',
+  commandSelect: 'elegir',
+  expandSidebar: 'Expandir menú lateral',
+  collapseSidebar: 'Contraer menú lateral',
+  openMenu: 'Abrir menú',
+  chatConversation: 'Conversación',
+  chatYou: 'Tú',
+  chatAssistant: 'Asistente',
+  chatPlaceholder: 'Escribe un mensaje…',
+  chatMessage: 'Mensaje',
+  chatSend: 'Enviar',
+  chatStop: 'Detener',
+  chatAttach: 'Adjuntar archivos',
+  chatSending: 'Enviando…',
+  chatError: 'No se pudo enviar',
+  chatRetry: 'Reintentar',
+  chatTyping: 'Escribiendo…',
+  chatGenerating: 'Generando respuesta…',
+  chatResponseReady: 'Respuesta lista',
+  chatJumpToLatest: 'Ir al último mensaje',
   add: 'Agregar',
   onThisPage: 'En esta página',
   trendUp: 'aumenta',
@@ -834,6 +889,33 @@ export const CB_LOCALE_EN: CbTranslation = {
   selectAll: 'All',
   options: 'Options',
   moreActions: 'More actions',
+  copy: 'Copy',
+  copied: 'Copied',
+  copyFailed: 'Could not copy',
+  qrCode: 'QR code',
+  commandPalette: 'Command palette',
+  commandPlaceholder: 'Search for a page or action…',
+  commandResults: '{0} results',
+  commandNavigate: 'navigate',
+  commandSelect: 'select',
+  expandSidebar: 'Expand sidebar',
+  collapseSidebar: 'Collapse sidebar',
+  openMenu: 'Open menu',
+  chatConversation: 'Conversation',
+  chatYou: 'You',
+  chatAssistant: 'Assistant',
+  chatPlaceholder: 'Write a message…',
+  chatMessage: 'Message',
+  chatSend: 'Send',
+  chatStop: 'Stop',
+  chatAttach: 'Attach files',
+  chatSending: 'Sending…',
+  chatError: 'Could not send',
+  chatRetry: 'Retry',
+  chatTyping: 'Typing…',
+  chatGenerating: 'Generating response…',
+  chatResponseReady: 'Response ready',
+  chatJumpToLatest: 'Jump to latest message',
   add: 'Add',
   onThisPage: 'On this page',
   trendUp: 'up',

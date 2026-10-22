@@ -124,6 +124,12 @@ import { CbSplitButton } from '@caribeng/ui/splitbutton';
 import { CbThemeToggle } from '@caribeng/ui/themetoggle';
 import { CbStatistic } from '@caribeng/ui/statistic';
 import { CbEmpty } from '@caribeng/ui/empty';
+import { CbCopyButton } from '@caribeng/ui/copy-button';
+import { CbChatMessage } from '@caribeng/ui/chat';
+import { CbCommandPalette } from '@caribeng/ui/command-palette';
+import { CbSidebar } from '@caribeng/ui/sidebar';
+import { CbKbd } from '@caribeng/ui/kbd';
+import { CbQrcode } from '@caribeng/ui/qrcode';
 import { CbDescriptions } from '@caribeng/ui/descriptions';
 import { CbResult } from '@caribeng/ui/result';
 import { CbAnchor } from '@caribeng/ui/anchor';
@@ -1620,6 +1626,102 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "icon", kind: "string", type: "string", default: "folder", description: "Icono (se ignora si hay image)." },
       { name: "image", kind: "string", type: "string", default: "", description: "Ilustración decorativa opcional." },
       { name: "size", kind: "enum", type: "'sm' | 'md'", options: ["sm", "md"], default: "md", description: "sm para tablas y paneles." }
+    ]
+  },
+  "cb-kbd": {
+    component: CbKbd,
+    selector: "cb-kbd",
+    props: [
+      { name: "keys", kind: "string", type: "readonly string[]", default: [], example: ["mod", "K"], description: "Teclas de la combinación: nombres (mod, shift, alt, enter, up…) o texto libre.", control: false },
+      { name: "platform", kind: "enum", type: "'auto' | 'mac' | 'other'", options: ["auto", "mac", "other"], default: "auto", description: "Plataforma a mostrar; auto la detecta (⌘ en Mac)." },
+      { name: "size", kind: "enum", type: "'sm' | 'md'", options: ["sm", "md"], default: "md", description: "Tamaño." }
+    ]
+  },
+  "cb-copy-button": {
+    component: CbCopyButton,
+    selector: "cb-copy-button",
+    props: [
+      { name: "value", kind: "string", type: "string | number", default: "", example: "0012 3456 7890", description: "Texto que se copia." },
+      { name: "showLabel", kind: "boolean", type: "boolean", default: false, description: "Muestra el texto junto al icono." },
+      { name: "label", kind: "string", type: "string", default: undefined, localeKey: "copy", description: "Texto del botón y nombre accesible." },
+      { name: "copiedLabel", kind: "string", type: "string", default: undefined, localeKey: "copied", description: "Texto tras copiar." },
+      { name: "timeout", kind: "number", type: "number", default: 2000, description: "Milisegundos que dura la confirmación." },
+      { name: "variant", kind: "enum", type: "CbButtonVariant", options: ["text", "outlined", "solid"], default: "text", description: "Variante del botón." },
+      { name: "severity", kind: "enum", type: "CbSeverity", options: ["secondary", "primary", "contrast"], default: "secondary", description: "Color del botón." },
+      { name: "size", kind: "enum", type: "CbSize", options: ["sm", "md", "lg"], default: "sm", description: "Tamaño." },
+      { name: "disabled", kind: "boolean", type: "boolean", default: false, description: "Deshabilita el botón." }
+    ],
+    events: [
+      { name: "copied", type: "string", description: "Texto copiado." },
+      { name: "copyError", type: "string", description: "El navegador no permitió copiar." }
+    ]
+  },
+  "cb-qrcode": {
+    component: CbQrcode,
+    selector: "cb-qrcode",
+    props: [
+      { name: "value", kind: "string", type: "string", default: "", example: "https://caribeng.dev", description: "Texto o URL a codificar." },
+      { name: "size", kind: "number", type: "number", default: 160, description: "Lado en píxeles." },
+      { name: "errorCorrection", kind: "enum", type: "'L' | 'M' | 'Q' | 'H'", options: ["L", "M", "Q", "H"], default: "M", description: "Corrección de errores (usa H con logo)." },
+      { name: "color", kind: "string", type: "string", default: "#000000", description: "Color de los módulos." },
+      { name: "background", kind: "string", type: "string", default: "#ffffff", description: "Color de fondo." },
+      { name: "margin", kind: "number", type: "number", default: 4, description: "Margen claro en módulos (el estándar pide 4)." },
+      { name: "image", kind: "string", type: "string", default: "", description: "Logo centrado (URL)." },
+      { name: "ariaLabel", kind: "string", type: "string", default: undefined, localeKey: "qrCode", description: "Nombre accesible." }
+    ]
+  },
+  "cb-command-palette": {
+    component: CbCommandPalette,
+    selector: "cb-command-palette",
+    props: [
+      { name: "items", kind: "string", type: "readonly CbCommandItem[]", default: [], example: [{ label: 'Home', icon: 'house', group: 'Pages' }, { label: 'Settings', icon: 'settings', group: 'Pages', keywords: ['preferences'] }, { label: 'New transfer', icon: 'arrow-right-left', group: 'Actions', shortcut: ['mod', 'T'] }, { label: 'Download statement', icon: 'download', group: 'Actions' }], description: "Páginas y acciones (label, group, icon, description, keywords, shortcut, disabled, command).", control: false },
+      { name: "visible", kind: "boolean", type: "boolean (model)", default: false, description: "Abierta o cerrada (two-way)." },
+      { name: "query", kind: "string", type: "string (model)", default: "", description: "Texto buscado (two-way)." },
+      { name: "shortcut", kind: "string", type: "string", default: "mod+k", example: "", description: "Atajo global que la abre; '' lo desactiva." },
+      { name: "placeholder", kind: "string", type: "string", default: undefined, localeKey: "commandPlaceholder", description: "Texto del campo de búsqueda." },
+      { name: "emptyMessage", kind: "string", type: "string", default: undefined, localeKey: "noResults", description: "Mensaje sin resultados." },
+      { name: "filter", kind: "boolean", type: "boolean", default: true, description: "Filtra items con la búsqueda (desactívalo con resultados del servidor)." },
+      { name: "loading", kind: "boolean", type: "boolean", default: false, description: "Muestra Cargando mientras no hay resultados." },
+      { name: "closeOnSelect", kind: "boolean", type: "boolean", default: true, description: "Cierra al elegir un item." },
+      { name: "ariaLabel", kind: "string", type: "string", default: undefined, localeKey: "commandPalette", description: "Nombre del diálogo." }
+    ],
+    events: [
+      { name: "itemSelect", type: "CbCommandSelectEvent", description: "Item elegido ({ item, query, originalEvent })." }
+    ]
+  },
+  "cb-sidebar": {
+    component: CbSidebar,
+    selector: "cb-sidebar",
+    props: [
+      { name: "groups", kind: "string", type: "readonly CbSidebarGroup[]", default: [], example: [{ label: 'General', items: [{ id: 'home', label: 'Home', icon: 'house' }, { id: 'clients', label: 'Clients', icon: 'user', badge: 3 }, { id: 'settings', label: 'Settings', icon: 'settings', children: [{ id: 'profile', label: 'Profile' }, { id: 'security', label: 'Security' }] }] }], description: "Secciones con items (label, icon, url, badge, children, disabled, command).", control: false },
+      { name: "active", kind: "string", type: "string | null (model)", default: null, example: "home", description: "Clave del item activo (id, url o label)." },
+      { name: "collapsed", kind: "boolean", type: "boolean (model)", default: false, description: "Contraído a iconos (en cb-app-shell lo controla el shell)." },
+      { name: "collapsible", kind: "boolean", type: "boolean", default: true, description: "Botón de contraer en el pie." },
+      { name: "ariaLabel", kind: "string", type: "string", default: undefined, localeKey: "mainNavigation", description: "Nombre de la navegación." },
+      { name: "navigate", kind: "string", type: "((url: string) => unknown) | null", default: null, description: "Navegación SPA para los enlaces internos.", control: false }
+    ],
+    events: [
+      { name: "itemSelect", type: "CbSidebarSelectEvent", description: "Item elegido ({ item, originalEvent })." }
+    ]
+  },
+  "cb-chat-message": {
+    component: CbChatMessage,
+    selector: "cb-chat-message",
+    props: [
+      { name: "role", kind: "enum", type: "'user' | 'assistant' | 'system'", options: ["assistant", "user", "system"], default: "assistant", description: "Quién escribe el mensaje." },
+      { name: "text", kind: "string", type: "string", default: "", example: "Your balance is **$ 4,250**. See [statement](/statements).", description: "Contenido (markdown seguro)." },
+      { name: "markdown", kind: "boolean", type: "boolean", default: true, description: "Interpreta text como markdown." },
+      { name: "author", kind: "string", type: "string", default: undefined, localeKey: "chatAssistant", description: "Nombre del autor." },
+      { name: "time", kind: "string", type: "string", default: "", example: "10:30", description: "Hora ya formateada." },
+      { name: "avatar", kind: "string", type: "string", default: "", description: "Imagen del avatar." },
+      { name: "showAvatar", kind: "boolean", type: "boolean", default: true, description: "Muestra el avatar." },
+      { name: "showAuthor", kind: "boolean", type: "boolean", default: false, description: "Muestra el nombre del autor." },
+      { name: "status", kind: "enum", type: "'sending' | 'sent' | 'error'", options: ["sent", "sending", "error"], default: undefined, description: "Estado de envío; error muestra Reintentar." },
+      { name: "streaming", kind: "boolean", type: "boolean", default: false, description: "La respuesta sigue llegando (cursor y aria-busy)." },
+      { name: "copyable", kind: "boolean", type: "boolean", default: false, description: "Botón para copiar el texto." }
+    ],
+    events: [
+      { name: "retry", type: "void", description: "Se pulsó Reintentar." }
     ]
   },
   "cb-descriptions": {

@@ -2413,4 +2413,153 @@ export const ES_EN: Record<string, string> = {
     'Accessible name of the trigger when there is no visible label.',
   'Id del elemento que etiqueta al disparador (p. ej. un label visible).':
     'Id of the element that labels the trigger (e.g. a visible label).',
+  // --- Componentes nuevos: Kbd, CopyButton, QRCode ---
+  'Teclas y atajos de teclado. Con keys adapta la combinación a la plataforma: ⌘ K en Mac y Ctrl + K en Windows y Linux.':
+    'Keys and keyboard shortcuts. With keys it adapts the combination to the platform: ⌘ K on Mac and Ctrl + K on Windows and Linux.',
+  'Una tecla suelta como contenido.': 'A single key as content.',
+  Combinaciones: 'Combinations',
+  'keys acepta nombres (mod, shift, alt, ctrl, enter, backspace, esc, space, up, down, left, right) y texto libre. mod es ⌘ en Mac y Ctrl en el resto; con platform puedes forzar una.':
+    'keys accepts names (mod, shift, alt, ctrl, enter, backspace, esc, space, up, down, left, right) and free text. mod is ⌘ on Mac and Ctrl elsewhere; platform forces one.',
+  'Teclas de la combinación: nombres (mod, shift, alt, enter, up…) o texto libre.':
+    'Keys of the combination: names (mod, shift, alt, enter, up…) or free text.',
+  'Plataforma a mostrar; auto la detecta (⌘ en Mac).': 'Platform to display; auto detects it (⌘ on Mac).',
+  'Usa el elemento nativo `kbd`; una combinación es un `kbd` que contiene un `kbd` por tecla, como recomienda HTML.':
+    'Uses the native `kbd` element; a combination is a `kbd` containing one `kbd` per key, as HTML recommends.',
+  'Los símbolos de Mac (⌘ ⌥ ⇧ ↵) se ocultan al lector y se lee su nombre (Command, Option, Shift, Enter).':
+    'Mac symbols (⌘ ⌥ ⇧ ↵) are hidden from screen readers, which read their name instead (Command, Option, Shift, Enter).',
+  'Copia un texto al portapapeles y confirma con un ✓. Incluye la directiva cbCopy para cualquier elemento y el servicio CbClipboard para copiar desde código.':
+    'Copies text to the clipboard and confirms with a ✓. Includes the cbCopy directive for any element and the CbClipboard service to copy from code.',
+  'Botón de solo icono junto al dato. Al copiar muestra ✓ durante timeout milisegundos y lo anuncia a los lectores de pantalla.':
+    'Icon-only button next to the value. After copying it shows ✓ for timeout milliseconds and announces it to screen readers.',
+  'Con texto': 'With text',
+  'showLabel muestra "Copiar" / "Copiado"; label y copiedLabel cambian los textos.':
+    'showLabel shows "Copy" / "Copied"; label and copiedLabel change the texts.',
+  'Directiva cbCopy': 'cbCopy directive',
+  'Copia al pulsar cualquier elemento propio; reacciona a copied o copyError.':
+    'Copies when any custom element is clicked; react to copied or copyError.',
+  'Texto que se copia.': 'Text to copy.',
+  'Muestra el texto junto al icono.': 'Shows the text next to the icon.',
+  'Texto del botón y nombre accesible.': 'Button text and accessible name.',
+  'Texto tras copiar.': 'Text after copying.',
+  'Milisegundos que dura la confirmación.': 'How long the confirmation lasts, in milliseconds.',
+  'Variante del botón.': 'Button variant.',
+  'Color del botón.': 'Button color.',
+  'Texto copiado.': 'Copied text.',
+  'El navegador no permitió copiar.': 'The browser did not allow copying.',
+  'Sin `showLabel` es un botón de solo icono con nombre accesible ("Copiar" del idioma activo, o `label`).':
+    'Without `showLabel` it is an icon-only button with an accessible name ("Copy" in the active language, or `label`).',
+  'El resultado ("Copiado" o "No se pudo copiar") se anuncia en una región `role="status"` sin mover el foco.':
+    'The result ("Copied" or "Could not copy") is announced in a `role="status"` region without moving focus.',
+  'Lleva el foco al botón.': 'Moves focus to the button.',
+  'Copia el valor.': 'Copies the value.',
+  'Código QR en SVG con un codificador propio, sin dependencias: elige solo la versión y la máscara, y admite color, margen y logo.':
+    'SVG QR code with a built-in encoder and no dependencies: it picks the version and mask by itself, and supports color, margin and a logo.',
+  'value es el texto o la URL. Escribe para ver cómo cambia.': 'value is the text or URL. Type to see it change.',
+  'Corrección de errores': 'Error correction',
+  'L, M (por defecto), Q y H recuperan ~7, 15, 25 y 30 % del código si se daña o se tapa. Más corrección = más módulos. Usa M o más en impresos y pantallas.':
+    'L, M (default), Q and H recover ~7, 15, 25 and 30% of the code if it is damaged or covered. More correction = more modules. Use M or higher for print and screens.',
+  'Color y logo': 'Color and logo',
+  'color y background aceptan cualquier color CSS (mantén buen contraste). image centra un logo; combínalo con errorCorrection="H".':
+    'color and background accept any CSS color (keep good contrast). image centers a logo; combine it with errorCorrection="H".',
+  'Texto o URL a codificar.': 'Text or URL to encode.',
+  'Lado en píxeles.': 'Side length in pixels.',
+  'Corrección de errores (usa H con logo).': 'Error correction (use H with a logo).',
+  'Color de los módulos.': 'Module color.',
+  'Color de fondo.': 'Background color.',
+  'Margen claro en módulos (el estándar pide 4).': 'Light margin in modules (the standard asks for 4).',
+  'Logo centrado (URL).': 'Centered logo (URL).',
+  'Es una imagen (`role="img"`) con nombre "Código QR" o `ariaLabel`. El lector no puede leer el contenido: si importa, muéstralo también como texto o enlace junto al QR.':
+    'It is an image (`role="img"`) named "QR code" or `ariaLabel`. Screen readers cannot read its content: if it matters, also show it as text or a link next to the QR.',
+  // --- Componentes nuevos: CommandPalette, Sidebar y AppShell ---
+  'Buscador global de páginas y acciones con teclado (Ctrl/⌘ + K). Filtra sin tildes ni mayúsculas, agrupa, resalta la coincidencia y muestra atajos.':
+    'Global keyboard search for pages and actions (Ctrl/⌘ + K). Filters ignoring accents and case, groups, highlights the match and shows shortcuts.',
+  'Pulsa Ctrl + K (⌘ K en Mac) en cualquier parte de esta página, o usa el botón. Cada item puede tener group, icon, description, keywords (sinónimos), shortcut y command.':
+    'Press Ctrl + K (⌘ K on Mac) anywhere on this page, or use the button. Each item can have group, icon, description, keywords (synonyms), shortcut and command.',
+  'Resultados del servidor': 'Server results',
+  'Con [filter]="false" la paleta no filtra: escucha (queryChange) o [(query)], pide los resultados y actívalo con loading mientras llegan. shortcut cambia o desactiva ("") el atajo.':
+    'With [filter]="false" the palette does not filter: listen to (queryChange) or [(query)], fetch the results and set loading while they arrive. shortcut changes or disables ("") the shortcut.',
+  'Páginas y acciones (label, group, icon, description, keywords, shortcut, disabled, command).':
+    'Pages and actions (label, group, icon, description, keywords, shortcut, disabled, command).',
+  'Abierta o cerrada (two-way).': 'Open or closed (two-way).',
+  'Texto buscado (two-way).': 'Search text (two-way).',
+  "Atajo global que la abre; '' lo desactiva.": "Global shortcut that opens it; '' disables it.",
+  'Texto del campo de búsqueda.': 'Search field text.',
+  'Mensaje sin resultados.': 'Message when there are no results.',
+  'Filtra items con la búsqueda (desactívalo con resultados del servidor).': 'Filters items with the search (disable it for server results).',
+  'Muestra Cargando mientras no hay resultados.': 'Shows Loading while there are no results.',
+  'Cierra al elegir un item.': 'Closes when an item is chosen.',
+  'Nombre del diálogo.': 'Dialog name.',
+  'Item elegido ({ item, query, originalEvent }).': 'Chosen item ({ item, query, originalEvent }).',
+  'Es un diálogo modal (`role="dialog"`, `aria-modal`) con un campo `role="combobox"` que controla la lista (`role="listbox"`); la opción activa se indica con `aria-activedescendant`, así el foco no sale del campo.':
+    'It is a modal dialog (`role="dialog"`, `aria-modal`) with a `role="combobox"` field that controls the list (`role="listbox"`); the active option is set with `aria-activedescendant`, so focus never leaves the field.',
+  'Los grupos son `role="group"` con su título; los items deshabilitados llevan `aria-disabled`. El número de resultados se anuncia en una región `role="status"`.':
+    'Groups are `role="group"` with their title; disabled items have `aria-disabled`. The number of results is announced in a `role="status"` region.',
+  'Al cerrar, el foco vuelve al elemento que lo tenía antes de abrir.': 'On close, focus returns to the element that had it before opening.',
+  'Abre o cierra la paleta (configurable con shortcut).': 'Opens or closes the palette (configurable with shortcut).',
+  'Mueve la opción activa (salta las deshabilitadas y da la vuelta).': 'Moves the active option (skips disabled ones and wraps around).',
+  'Primera o última opción.': 'First or last option.',
+  'Elige la opción activa.': 'Chooses the active option.',
+  'Cierra la paleta.': 'Closes the palette.',
+  'Sidebar y AppShell': 'Sidebar and AppShell',
+  'Menú lateral con secciones, badges y grupos desplegables, que se contrae a iconos. Con cb-app-shell forma el esqueleto de una aplicación y en móvil pasa a ser un panel deslizante.':
+    'Side menu with sections, badges and collapsible groups that collapses to icons. With cb-app-shell it forms the skeleton of an application and becomes a sliding panel on mobile.',
+  'App shell': 'App shell',
+  'cb-app-shell coloca el sidebar, la cabecera [cb-app-shell-header] y el contenido. cbSidebarToggle convierte cualquier botón en el control del menú. Por debajo de breakpoint (medido en el propio shell) el menú se desliza sobre el contenido.':
+    'cb-app-shell lays out the sidebar, the [cb-app-shell-header] header and the content. cbSidebarToggle turns any button into the menu control. Below breakpoint (measured on the shell itself) the menu slides over the content.',
+  'Solo el sidebar': 'Sidebar only',
+  'Fuera del shell, [(collapsed)] controla el modo contraído. Los enlaces usan href; pasa [navigate] para navegar con el router sin recargar.':
+    'Outside the shell, [(collapsed)] controls the collapsed mode. Links use href; pass [navigate] to navigate with the router without reloading.',
+  'Secciones con items (label, icon, url, badge, children, disabled, command).': 'Sections with items (label, icon, url, badge, children, disabled, command).',
+  'Clave del item activo (id, url o label).': 'Key of the active item (id, url or label).',
+  'Contraído a iconos (en cb-app-shell lo controla el shell).': 'Collapsed to icons (inside cb-app-shell the shell controls it).',
+  'Botón de contraer en el pie.': 'Collapse button in the footer.',
+  'Navegación SPA para los enlaces internos.': 'SPA navigation for internal links.',
+  'Item elegido ({ item, originalEvent }).': 'Chosen item ({ item, originalEvent }).',
+  'Es un `nav` con nombre ("Navegación principal"); cada sección es una lista nombrada por su título. El item activo lleva `aria-current="page"`.':
+    'It is a named `nav` ("Main navigation"); each section is a list named by its title. The active item has `aria-current="page"`.',
+  'Los grupos con hijos son botones con `aria-expanded` y `aria-controls`. Contraído, el texto se oculta a la vista pero sigue siendo el nombre accesible, y aparece como tooltip.':
+    'Groups with children are buttons with `aria-expanded` and `aria-controls`. When collapsed, the text is visually hidden but remains the accessible name, and appears as a tooltip.',
+  'En `cb-app-shell` móvil el panel está `inert` mientras está cerrado; abierto, atrapa el foco, se cierra con Escape o con el fondo y devuelve el foco al botón `cbSidebarToggle` (que gestiona `aria-expanded` y `aria-controls`).':
+    'In a mobile `cb-app-shell` the panel is `inert` while closed; when open it traps focus, closes with Escape or the backdrop and returns focus to the `cbSidebarToggle` button (which manages `aria-expanded` and `aria-controls`).',
+  'Recorre los enlaces y botones del menú.': 'Moves through the menu links and buttons.',
+  'Abre el enlace o despliega el grupo.': 'Opens the link or expands the group.',
+  'En móvil, cierra el panel.': 'On mobile, closes the panel.',
+  // --- Kit de chat (IA) ---
+  'Chat (IA)': 'Chat (AI)',
+  'Kit para interfaces de chat y asistentes de IA: mensajes con markdown seguro y streaming, lista que sigue la conversación y campo de prompt con adjuntos, sugerencias y Detener.':
+    'Kit for chat interfaces and AI assistants: messages with safe markdown and streaming, a list that follows the conversation and a prompt field with attachments, suggestions and Stop.',
+  'Asistente completo': 'Full assistant',
+  'cb-chat-messages + cb-chat-message + cb-chat-input. La respuesta llega palabra a palabra (streaming): pulsa Detener para cortarla. Escribe la palabra error para ver un mensaje fallido con Reintentar.':
+    'cb-chat-messages + cb-chat-message + cb-chat-input. The answer arrives word by word (streaming): press Stop to cut it. Type the word error to see a failed message with Retry.',
+  'Markdown seguro': 'Safe markdown',
+  'text se interpreta como markdown: negrita, cursiva, código, enlaces, listas (también de tareas), citas, tablas y bloques de código con lenguaje. Todo el HTML de entrada se escapa y solo se enlazan URLs http(s), mailto o relativas. Con markdown="false" se muestra tal cual.':
+    'text is interpreted as markdown: bold, italics, code, links, lists (including task lists), quotes, tables and code blocks with a language. All incoming HTML is escaped and only http(s), mailto or relative URLs become links. With markdown="false" it is shown as is.',
+  'cb-chat-input y cb-chat-messages': 'cb-chat-input and cb-chat-messages',
+  'Entradas y eventos de las otras dos piezas del kit. El playground de abajo es el de cb-chat-message.':
+    'Inputs and events of the other two pieces of the kit. The playground below is for cb-chat-message.',
+  'Quién escribe el mensaje.': 'Who writes the message.',
+  'Contenido (markdown seguro).': 'Content (safe markdown).',
+  'Interpreta text como markdown.': 'Interprets text as markdown.',
+  'Nombre del autor.': 'Author name.',
+  'Hora ya formateada.': 'Already formatted time.',
+  'Imagen del avatar.': 'Avatar image.',
+  'Muestra el avatar.': 'Shows the avatar.',
+  'Muestra el nombre del autor.': 'Shows the author name.',
+  'Estado de envío; error muestra Reintentar.': 'Sending status; error shows Retry.',
+  'La respuesta sigue llegando (cursor y aria-busy).': 'The answer is still arriving (caret and aria-busy).',
+  'Botón para copiar el texto.': 'Button to copy the text.',
+  'Se pulsó Reintentar.': 'Retry was pressed.',
+  'La conversación es un `role="log"` con nombre ("Conversación"): los lectores anuncian los mensajes nuevos sin mover el foco.':
+    'The conversation is a named `role="log"` ("Conversation"): screen readers announce new messages without moving focus.',
+  'Mientras se genera una respuesta (`busy`, y `streaming` en el mensaje) se marca `aria-busy` para que no se lea cada fragmento; al terminar se anuncia "Respuesta lista" una sola vez.':
+    'While an answer is generated (`busy`, and `streaming` on the message) it is marked `aria-busy` so each chunk is not read; when done "Response ready" is announced once.',
+  'Cada mensaje es un `article` nombrado por su autor y hora. El markdown se pinta con etiquetas semánticas (listas, tablas, código) y los enlaces externos se abren en otra pestaña con `rel="noopener"`.':
+    'Each message is an `article` named by its author and time. Markdown is rendered with semantic tags (lists, tables, code) and external links open in a new tab with `rel="noopener"`.',
+  'El campo de prompt tiene nombre ("Mensaje"); Enviar, Detener, Adjuntar y Quitar archivo son botones con nombre accesible. Los estados de envío y error se muestran como texto, no solo con color.':
+    'The prompt field is named ("Message"); Send, Stop, Attach and Remove file are buttons with accessible names. Sending and error states are shown as text, not only with color.',
+  'Envía el mensaje (Shift + Enter, salto de línea; no envía durante la composición IME).':
+    'Sends the message (Shift + Enter, line break; does not send during IME composition).',
+  'Recorre sugerencias, adjuntar, el campo y Enviar o Detener.': 'Moves through suggestions, attach, the field and Send or Stop.',
+  'Tab (en la lista)': 'Tab (in the list)',
+  'La conversación es enfocable y se desplaza con las flechas.': 'The conversation is focusable and scrolls with the arrow keys.',
 };
