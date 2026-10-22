@@ -126,6 +126,8 @@ import { CbStatistic } from '@caribeng/ui/statistic';
 import { CbEmpty } from '@caribeng/ui/empty';
 import { CbCopyButton } from '@caribeng/ui/copy-button';
 import { CbChatMessage } from '@caribeng/ui/chat';
+import { CbCodeBlock } from '@caribeng/ui/code-block';
+import { CbPhoneInput } from '@caribeng/ui/phone-input';
 import { CbCommandPalette } from '@caribeng/ui/command-palette';
 import { CbSidebar } from '@caribeng/ui/sidebar';
 import { CbKbd } from '@caribeng/ui/kbd';
@@ -1718,10 +1720,56 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "showAuthor", kind: "boolean", type: "boolean", default: false, description: "Muestra el nombre del autor." },
       { name: "status", kind: "enum", type: "'sending' | 'sent' | 'error'", options: ["sent", "sending", "error"], default: undefined, description: "Estado de envío; error muestra Reintentar." },
       { name: "streaming", kind: "boolean", type: "boolean", default: false, description: "La respuesta sigue llegando (cursor y aria-busy)." },
-      { name: "copyable", kind: "boolean", type: "boolean", default: false, description: "Botón para copiar el texto." }
+      { name: "copyable", kind: "boolean", type: "boolean", default: false, description: "Botón para copiar el texto." },
+      { name: "attachments", kind: "string", type: "readonly CbChatAttachment[]", default: [], description: "Adjuntos (name, type, size, url); las imágenes, en miniatura.", control: false },
+      { name: "showFeedback", kind: "boolean", type: "boolean", default: false, example: true, description: "Botones de valoración." },
+      { name: "feedback", kind: "enum", type: "'up' | 'down' | null (model)", options: ["up", "down"], default: null, description: "Valoración elegida." },
+      { name: "regenerable", kind: "boolean", type: "boolean", default: false, description: "Botón Regenerar respuesta." }
     ],
     events: [
-      { name: "retry", type: "void", description: "Se pulsó Reintentar." }
+      { name: "retry", type: "void", description: "Se pulsó Reintentar." },
+      { name: "regenerate", type: "void", description: "Se pulsó Regenerar respuesta." },
+      { name: "feedbackChange", type: "CbChatFeedback", description: "Cambió la valoración." }
+    ]
+  },
+  "cb-code-block": {
+    component: CbCodeBlock,
+    selector: "cb-code-block",
+    props: [
+      { name: "code", kind: "string", type: "string", default: "", example: "const saldo = 4250000; // COP\nconsole.log(saldo);", description: "Código a mostrar." },
+      { name: "language", kind: "enum", type: "string", options: ["ts", "js", "html", "css", "scss", "json", "bash", "python", "sql", ""], default: "", example: "ts", description: "Lenguaje del resaltado." },
+      { name: "filename", kind: "string", type: "string", default: "", description: "Nombre de archivo en la cabecera." },
+      { name: "lineNumbers", kind: "boolean", type: "boolean", default: false, description: "Números de línea." },
+      { name: "startLine", kind: "number", type: "number", default: 1, description: "Número de la primera línea." },
+      { name: "highlightLines", kind: "string", type: "string | number[]", default: "", description: "Líneas destacadas (\"2,5-7\")." },
+      { name: "wrap", kind: "boolean", type: "boolean", default: false, description: "Parte las líneas largas." },
+      { name: "copyable", kind: "boolean", type: "boolean", default: true, description: "Botón de copiar." },
+      { name: "header", kind: "boolean", type: "boolean", default: true, description: "Cabecera con lenguaje o archivo." },
+      { name: "maxHeight", kind: "string", type: "string", default: "", description: "Alto máximo con scroll." },
+      { name: "ariaLabel", kind: "string", type: "string", default: undefined, description: "Nombre del bloque." }
+    ]
+  },
+  "cb-phone-input": {
+    component: CbPhoneInput,
+    selector: "cb-phone-input",
+    props: [
+      { name: "value", kind: "string", type: "string (model)", default: "", description: "Número en E.164 (+573001234567)." },
+      { name: "country", kind: "string", type: "string (model)", default: "CO", description: "País seleccionado (ISO)." },
+      { name: "label", kind: "string", type: "string", default: "", example: "Mobile", description: "Etiqueta." },
+      { name: "hint", kind: "string", type: "string", default: "", description: "Texto de ayuda." },
+      { name: "error", kind: "string", type: "string", default: undefined, localeKey: "phoneInvalid", description: "Mensaje de error." },
+      { name: "placeholder", kind: "string", type: "string", default: undefined, description: "Placeholder (por defecto, un ejemplo del país)." },
+      { name: "countries", kind: "string", type: "readonly (CbPhoneCountry | string)[]", default: undefined, description: "Países disponibles (ISO o datos propios). Por defecto, CB_PHONE_COUNTRIES.", control: false },
+      { name: "preferredCountries", kind: "string", type: "readonly string[]", default: [], description: "Países que aparecen primero.", control: false },
+      { name: "countryLocked", kind: "boolean", type: "boolean", default: false, description: "Bloquea el país." },
+      { name: "showFlag", kind: "boolean", type: "boolean", default: true, description: "Muestra la bandera." },
+      { name: "size", kind: "enum", type: "CbSize", options: ["sm", "md", "lg"], default: "md", description: "Tamaño." },
+      { name: "required", kind: "boolean", type: "boolean", default: false, description: "Obligatorio." },
+      { name: "invalid", kind: "boolean", type: "boolean", default: false, description: "Marca el error manualmente." },
+      { name: "disabled", kind: "boolean", type: "boolean", default: false, description: "Deshabilitado." }
+    ],
+    events: [
+      { name: "phoneChange", type: "CbPhoneChange", description: "Cambio con { e164, national, country, valid }." }
     ]
   },
   "cb-descriptions": {

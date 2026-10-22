@@ -586,11 +586,35 @@ export const DOC_A11Y: Record<string, DocA11y> = {
       'Mientras se genera una respuesta (`busy`, y `streaming` en el mensaje) se marca `aria-busy` para que no se lea cada fragmento; al terminar se anuncia "Respuesta lista" una sola vez.',
       'Cada mensaje es un `article` nombrado por su autor y hora. El markdown se pinta con etiquetas semánticas (listas, tablas, código) y los enlaces externos se abren en otra pestaña con `rel="noopener"`.',
       'El campo de prompt tiene nombre ("Mensaje"); Enviar, Detener, Adjuntar y Quitar archivo son botones con nombre accesible. Los estados de envío y error se muestran como texto, no solo con color.',
+      'El razonamiento y las herramientas son botones desplegables con `aria-expanded` y `aria-controls`; el cambio de estado de una herramienta ("Usó…", "Falló…") se anuncia en una región `role="status"`.',
+      'Los botones de valoración llevan `aria-pressed` y nombre ("Respuesta útil", "Respuesta no útil"); las miniaturas de imagen usan el nombre del archivo como texto alternativo.',
     ],
     keyboard: [
       { keys: 'Enter', action: 'Envía el mensaje (Shift + Enter, salto de línea; no envía durante la composición IME).' },
       { keys: 'Tab', action: 'Recorre sugerencias, adjuntar, el campo y Enviar o Detener.' },
       { keys: 'Tab (en la lista)', action: 'La conversación es enfocable y se desplaza con las flechas.' },
+    ],
+  },
+  'cb-code-block': {
+    screenReader: [
+      'El código se pinta como texto dentro de `pre` y `code`; los colores son decorativos. Los números de línea se ocultan al lector (`aria-hidden`) y no se copian al seleccionar.',
+      'El área con scroll es enfocable (`tabindex="0"`) y se nombra con el archivo o el lenguaje, para recorrerla con el teclado.',
+    ],
+    keyboard: [
+      { keys: 'Tab', action: 'Enfoca el código (para desplazarlo con las flechas) y el botón de copiar.' },
+    ],
+  },
+  'cb-phone-input': {
+    screenReader: [
+      'El botón del país se nombra con el país y su prefijo ("País: Colombia (+57)") y anuncia `aria-haspopup="listbox"` y `aria-expanded`. La bandera es decorativa.',
+      'El número es un `input type="tel"` con su etiqueta, `inputmode="tel"` (teclado numérico) y `autocomplete="tel-national"`. Con error, `aria-invalid` y el mensaje con `role="alert"`.',
+      'En la lista, el buscador es un combobox que controla la lista de países con `aria-activedescendant`; el país elegido lleva `aria-selected`.',
+    ],
+    keyboard: [
+      { keys: 'Enter / Espacio / Flecha abajo', action: 'Sobre el país, abre la lista con el buscador enfocado.' },
+      { keys: 'Flecha arriba / abajo', action: 'Mueve el país activo de la lista.' },
+      { keys: 'Enter', action: 'Elige el país y vuelve al número.' },
+      { keys: 'Escape', action: 'Cierra la lista y devuelve el foco al botón del país.' },
     ],
   },
   'cb-descriptions': {

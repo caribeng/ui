@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   ElementRef,
   Injector,
   ViewEncapsulation,
@@ -74,7 +75,11 @@ function formatSize(bytes: number): string {
         <ul class="cb-chat-input__files" role="list">
           @for (file of files(); track $index) {
             <li class="cb-chat-input__file">
-              <cb-icon [name]="file.type.startsWith('image/') ? 'image' : 'file'" [size]="16" aria-hidden="true" />
+              @if (preview(file); as src) {
+                <img class="cb-chat-input__file-thumb" [src]="src" alt="" />
+              } @else {
+                <cb-icon [name]="file.type.startsWith('image/') ? 'image' : 'file'" [size]="16" aria-hidden="true" />
+              }
               <span class="cb-chat-input__file-name">{{ file.name }}</span>
               <span class="cb-chat-input__file-size">{{ size(file) }}</span>
               <button type="button" class="cb-chat-input__file-remove" [attr.aria-label]="fmt(t().removeItem, file.name)" (click)="removeFile($index)">
@@ -167,12 +172,42 @@ export class CbChatInput {
     () => !this.disabled() && !this.streaming() && (this.value().trim().length > 0 || this.files().length > 0),
   );
 
+  /** URLs temporales de las miniaturas, por archivo. */
+  private readonly previews = new Map<File, string>();
+
   constructor() {
     // Ajusta la altura cuando el valor cambia desde fuera (p. ej. al vaciarse tras enviar).
     effect(() => {
       this.value();
       untracked(() => afterNextRender(() => this.resize(), { injector: this.injector }));
     });
+    // Libera las miniaturas de los archivos que ya no están.
+    effect(() => {
+      const current = new Set(this.files());
+      untracked(() => {
+        for (const [file, url] of this.previews) {
+          if (!current.has(file)) {
+            URL.revokeObjectURL?.(url);
+            this.previews.delete(file);
+          }
+        }
+      });
+    });
+    inject(DestroyRef).onDestroy(() => {
+      for (const url of this.previews.values()) URL.revokeObjectURL?.(url);
+      this.previews.clear();
+    });
+  }
+
+  /** Miniatura de una imagen adjunta (`null` si no es imagen o el navegador no la admite). */
+  protected preview(file: File): string | null {
+    if (!file.type.startsWith('image/') || typeof URL.createObjectURL !== 'function') return null;
+    let url = this.previews.get(file);
+    if (!url) {
+      url = URL.createObjectURL(file);
+      this.previews.set(file, url);
+    }
+    return url;
   }
 
   /** Enfoca el campo. */

@@ -64,6 +64,8 @@ import { ThemetoggleDocComponent } from './pages/themetoggle-doc.component';
 import { SplitbuttonDocComponent } from './pages/splitbutton-doc.component';
 import { CopyButtonDocComponent } from './pages/copy-button-doc.component';
 import { ChatDocComponent } from './pages/chat-doc.component';
+import { CodeBlockDocComponent } from './pages/code-block-doc.component';
+import { PhoneInputDocComponent } from './pages/phone-input-doc.component';
 import { CommandPaletteDocComponent } from './pages/command-palette-doc.component';
 import { SidebarDocComponent } from './pages/sidebar-doc.component';
 import { KbdDocComponent } from './pages/kbd-doc.component';
@@ -173,6 +175,8 @@ export const routes: Routes = [
   { path: 'components/splitbutton', component: SplitbuttonDocComponent, title: 'SplitButton · CaribeNG' },
   { path: 'components/copy-button', component: CopyButtonDocComponent, title: 'CopyButton · CaribeNG' },
   { path: 'components/chat', component: ChatDocComponent, title: 'Chat · CaribeNG' },
+  { path: 'components/code-block', component: CodeBlockDocComponent, title: 'CodeBlock · CaribeNG' },
+  { path: 'components/phone-input', component: PhoneInputDocComponent, title: 'PhoneInput · CaribeNG' },
   { path: 'components/command-palette', component: CommandPaletteDocComponent, title: 'CommandPalette · CaribeNG' },
   { path: 'components/sidebar', component: SidebarDocComponent, title: 'Sidebar · CaribeNG' },
   { path: 'components/kbd', component: KbdDocComponent, title: 'Kbd · CaribeNG' },
