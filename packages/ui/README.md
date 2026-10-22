@@ -7,7 +7,7 @@
 
 <p align="center">
   <img alt="Angular 22" src="https://img.shields.io/badge/Angular-22-dd0031.svg?style=flat-square" />
-  <img alt="Entry points" src="https://img.shields.io/badge/entry%20points-142-10b981.svg?style=flat-square" />
+  <img alt="Entry points" src="https://img.shields.io/badge/entry%20points-152-10b981.svg?style=flat-square" />
   <img alt="Licencia MIT" src="https://img.shields.io/badge/licencia-MIT-blue.svg?style=flat-square" />
 </p>
 
@@ -21,7 +21,8 @@
 - **Accesibles:** roles y atributos ARIA, soporte de teclado y gestión de foco (WCAG 2.2 AA).
 - **Tematizables:** tokens CSS `--cb-*`, modo claro/oscuro y presets de color que se cambian en caliente.
 - **Caribe Design:** 45 componentes adicionales del sistema Caribe (`@caribeng/ui/caribe/*`).
-- **Iconos incluidos:** 361 iconos núcleo listos para usar y un catálogo opcional de 1891 iconos.
+- **Iconos incluidos:** 363 iconos núcleo listos para usar y un catálogo opcional de 1891 iconos.
+- **Migración desde PrimeNG:** un schematic traduce imports, plantillas e iconos y deja un informe con lo pendiente ([ver más](#migrar-desde-primeng)).
 
 ## 🖥 Compatibilidad
 
@@ -80,6 +81,20 @@ npm install @caribeng/ui@22
 ng generate @caribeng/ui:migrate-from-primeng
 ```
 
+> Haz commit (o una copia) antes de ejecutarlo para poder revisar los cambios con `git diff`. Con `--dry-run` ves qué archivos cambiaría sin escribir nada. Si ejecutas `ng add @caribeng/ui` en un proyecto con PrimeNG, te recordará este comando.
+
+```html
+<!-- Antes -->
+<p-button label="Guardar" icon="pi pi-check" [outlined]="true" (onClick)="guardar()" />
+<input pInputText id="email" [(ngModel)]="email" />
+<p-dialog header="Editar" [(visible)]="abierto" [modal]="true" [style]="{ width: '25rem' }">…</p-dialog>
+
+<!-- Después -->
+<cb-button variant="outlined" (click)="guardar()"><cb-icon name="check" />Guardar</cb-button>
+<cb-input inputId="email" [(ngModel)]="email" />
+<cb-dialog header="Editar" [(visible)]="abierto" width="25rem">…</cb-dialog>
+```
+
 Qué hace:
 
 - cambia los imports de PrimeNG por los de CaribeNG (`ButtonModule` → `CbButton`, `providePrimeNG()` → `provideCaribeNG()`) y añade a cada componente los que usa su plantilla,
@@ -88,7 +103,16 @@ Qué hace:
 - quita PrimeIcons de `angular.json` y de las hojas de estilo, y añade `@caribeng/ui/styles.css`,
 - quita `primeng`, `primeicons` y `@primeuix/*` de `package.json` **solo cuando ya no queda ninguna referencia**; mientras tanto las dos librerías conviven.
 
-Lo que no puede traducir con seguridad lo marca con un comentario `TODO(caribeng)` junto al código original, y lo resume en `caribeng-migration-report.md`. Revisa el resultado con `git diff`.
+Lo que no puede traducir con seguridad (un input sin equivalente, una plantilla `#header` personalizada, un `pButton` sobre un enlace…) lo marca con un comentario junto al código, conservando el atributo original:
+
+```html
+<!-- TODO(caribeng): [rounded]="true" — cb-button no tiene variante redondeada; usa una clase propia o <cb-icon-button>. -->
+<cb-button severity="danger">Borrar</cb-button>
+```
+
+Todos los avisos, las referencias a PrimeNG que aún quedan (por ejemplo componentes que el migrador no traduce todavía) y los imports que haya que añadir a mano se resumen en `caribeng-migration-report.md`, con archivo y línea.
+
+**Componentes que traduce hoy:** Button (`p-button` y `pButton`), InputText (`pInputText`), Select (`p-select` y `p-dropdown`) y Dialog (`p-dialog`), además de los iconos `pi pi-*`. El resto aparece en el informe para migrarlo a mano; se irán añadiendo en próximas versiones.
 
 | Opción | Uso |
 |---|---|
@@ -219,7 +243,7 @@ export class Header {
 
 ## 🔣 Iconos
 
-Los 361 iconos núcleo se registran solos:
+Los 363 iconos núcleo se registran solos:
 
 ```html
 <cb-icon name="house" [size]="20" />
