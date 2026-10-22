@@ -518,11 +518,48 @@ function generate(page, ex, registry, pageName) {
   return parts.join('\n\n') + '\n';
 }
 
+// ───────────────────────── Avisos ─────────────────────────
+
+const TEMPLATE_KEYWORDS = new Set([
+  'true', 'false', 'null', 'undefined', 'this', 'typeof', 'in', 'of', 'as', 'track', 'let', 'else',
+  '$event', '$index', '$first', '$last', '$even', '$odd', '$count',
+]);
+
+/**
+ * Nombres del HTML de un ejemplo que no existen en su página. El TS generado
+ * no los puede incluir, así que quedaría incompleto: el ejemplo debe usar los
+ * nombres reales de la página.
+ */
+function unresolved(page, ex) {
+  const locals = templateLocals(ex.html);
+  const missing = new Set();
+  // Los handlers de eventos que no existen (`(click)="guardar()"`) reciben un método
+  // vacío en el TS generado: no cuentan. Una llamada en un binding (`[value]="pagina()"`)
+  // sí, porque es un dato (signal) que falta.
+  const handlerExprs = new Set();
+  for (const t of tags(ex.html)) {
+    for (const a of t.attrs) if (a.value != null && /^(\(|on-)/.test(a.name) && !a.name.startsWith('[(')) handlerExprs.add(decode(a.value));
+  }
+  for (const expr of templateExpressions(ex.html)) {
+    // Las claves de objetos literales (`{ cuenta: '4829' }`) y los pipes (`| number`) no son referencias.
+    let clean = stripStrings(expr)
+      .replace(/([{,]\s*)[A-Za-z_$][\w$]*\s*:/g, '$1')
+      .replace(/\|\s*[A-Za-z_$][\w$]*/g, '');
+    if (handlerExprs.has(expr)) clean = clean.replace(/(?<![\w$.])[A-Za-z_$][\w$]*\s*\(/g, '(');
+    for (const id of identifiers(clean)) {
+      if (page.members.has(id) || locals.has(id) || GLOBALS.has(id) || TEMPLATE_KEYWORDS.has(id)) continue;
+      missing.add(id);
+    }
+  }
+  return [...missing];
+}
+
 // ───────────────────────── Main ─────────────────────────
 
 function main() {
   const registry = buildRegistry();
   const result = {};
+  const warnings = [];
   let total = 0;
   let manual = 0;
   let conflicts = 0;
@@ -532,8 +569,13 @@ function main() {
     const pageName = file.replace(/\.component\.ts$/, '').replace(/\.ts$/, '');
     for (const ex of examples(page)) {
       // Un `codeTs` manual que ya es un componente completo tiene prioridad.
-      const code = ex.manualTs && /@Component\s*\(/.test(ex.manualTs) ? ex.manualTs : generate(page, ex, registry, pageName);
+      const isManual = ex.manualTs && /@Component\s*\(/.test(ex.manualTs);
+      const code = isManual ? ex.manualTs : generate(page, ex, registry, pageName);
       if (code === ex.manualTs) manual++;
+      if (!isManual) {
+        const missing = unresolved(page, ex);
+        if (missing.length) warnings.push(`  ${file} #${ex.id}: ${missing.join(', ')}`);
+      }
       const key = docCodeKey(ex.html);
       if (key in result && result[key] !== code) conflicts++;
       else result[key] = code;
@@ -544,6 +586,11 @@ function main() {
   console.log(
     `doc-code: ${total} ejemplos (${manual} manuales, ${conflicts} HTML repetidos) → ${relative(ROOT, OUT_FILE)}`,
   );
+  if (warnings.length) {
+    console.warn(
+      `doc-code: ${warnings.length} ejemplos usan nombres que no existen en su página (su TS saldrá incompleto):\n${warnings.join('\n')}`,
+    );
+  }
 }
 
 main();

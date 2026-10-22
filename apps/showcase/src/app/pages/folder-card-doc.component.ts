@@ -32,7 +32,6 @@ interface Folder {
       title="Menú de acciones"
       description="actions recibe items de cb-menu (icono, disabled, separator…). El botón ⋮ abre el menú y actionSelect avisa de la acción elegida."
       [code]="basicCode"
-      [codeTs]="basicTs"
     >
       <div style="display: grid; gap: 0.75rem; max-width: 260px">
         <cb-folder-card name="Imágenes" [files]="345" size="26.4 GB" [actions]="acciones" (actionSelect)="ultima.set($event.label + ' · Imágenes')" />
@@ -122,30 +121,22 @@ export class FolderCardDocComponent {
 
   protected readonly importCode = `import { CbFolderCard } from '@caribeng/ui/folder-card';`;
 
-  protected readonly basicCode = `<cb-folder-card name="Imágenes" [files]="345" size="26.4 GB"
-  [actions]="acciones" (actionSelect)="onAccion($event)" />`;
+  protected readonly basicCode = `<cb-folder-card name="Imágenes" [files]="345" size="26.4 GB" [actions]="acciones" (actionSelect)="ultima.set($event.label + ' · Imágenes')" />
+<p>Última acción: {{ ultima() }}</p>`;
 
-  protected readonly basicTs = `acciones: CbMenuItem[] = [
-  { label: 'Abrir', icon: 'folder' },
-  { label: 'Renombrar', icon: 'pencil' },
-  { label: 'Compartir', icon: 'users' },
-  { label: 'Descargar', icon: 'download' },
-  { label: 'Mover a…', icon: 'folder-input' },
-  { label: '', separator: true },
-  { label: 'Eliminar', icon: 'trash' },
-];
 
-onAccion(item: CbMenuItem) {
-  console.log(item.label);
-}`;
-
-  protected readonly gridCode = `<div class="grid">
-  @for (f of folders; track f.name) {
-    <cb-folder-card [name]="f.name" [files]="f.files" [size]="f.size"
-      [actions]="acciones" clickable
-      (open)="abrir(f)" (actionSelect)="onAccion($event, f)" />
-  }
-</div>`;
+  protected readonly gridCode = `@for (f of folders; track f.name) {
+  <cb-folder-card
+    [name]="f.name"
+    [files]="f.files"
+    [size]="f.size"
+    [actions]="acciones"
+    clickable
+    (open)="ultima.set('Abrir · ' + f.name)"
+    (actionSelect)="ultima.set($event.label + ' · ' + f.name)"
+  />
+}
+<p>Última acción: {{ ultima() }}</p>`;
 
   protected readonly customCode = `<cb-folder-card name="Proyectos" [files]="12" size="1.2 GB">
   <span cb-folder-actions class="badge">Compartida</span>

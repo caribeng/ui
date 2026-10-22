@@ -727,8 +727,9 @@ pronostico = [
     <cb-chart-candlestick x="ts" name="PRIM/USD" />
     <cb-chart-line x="ts" y="media" name="Media móvil" curve="smooth" [points]="false" />
     <cb-chart-axis position="right" />
-    <cb-chart-reference-line axis="right" [value]="178" label="Cierre anterior" />
-    <cb-chart-annotation axis="right" [x]="maximo.ts" [y]="maximo.high" label="Máximo" />
+    <cb-chart-reference-line axis="right" [value]="cierreAnterior" label="Cierre anterior" />
+    <cb-chart-annotation axis="right" [x]="extremos().max.ts" [y]="extremos().max.high" label="Máximo" />
+    <cb-chart-annotation axis="right" [x]="extremos().min.ts" [y]="extremos().min.low" label="Mínimo" />
   </cb-chart>
   <cb-chart [data]="mercado()" [height]="110" zoom [xWindow]="30 * 60000" ariaLabel="Volumen">
     <cb-chart-bar x="ts" y="volumen" name="Volumen" />
@@ -784,7 +785,13 @@ metas: CbChartData = {
   labels: ['Viaje', 'Carro', 'Emergencias'],
   datasets: [{ label: 'Avance', data: [82, 45, 64] }], // % sobre max = 100
 };`;
-  protected readonly sparklineCode = `<cb-chart type="area" sparkline [height]="56" [data]="saldoSemana" ariaLabel="Tendencia del saldo" />`;
+  protected readonly sparklineCode = `@for (card of tarjetas; track card.title) {
+  <div>
+    <span>{{ card.title }}</span>
+    <strong>{{ card.value }}</strong>
+    <cb-chart type="area" sparkline [height]="56" [data]="card.data" [ariaLabel]="'Tendencia de ' + card.title" />
+  </div>
+}`;
   protected readonly eventsCode = `<cb-chart type="bar" [data]="ventas" (itemSelect)="onSelect($event)" ariaLabel="Ventas por región" />
 <p>{{ seleccion() }}</p>`;
 

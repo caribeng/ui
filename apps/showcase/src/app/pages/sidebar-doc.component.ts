@@ -30,7 +30,6 @@ import { TocService } from '../services/toc.service';
       title="App shell"
       description="cb-app-shell coloca el sidebar, la cabecera [cb-app-shell-header] y el contenido. cbSidebarToggle convierte cualquier botón en el control del menú. Por debajo de breakpoint (medido en el propio shell) el menú se desliza sobre el contenido."
       [code]="shellCode"
-      [codeTs]="shellTs"
     >
       <label class="sb-switch"><input type="checkbox" [checked]="mobile()" (change)="mobile.set(!mobile())" /> Ver como móvil</label>
       <div class="sb-frame" [class.sb-frame--mobile]="mobile()">
@@ -214,33 +213,18 @@ export class SidebarDocComponent {
   }
 
   protected readonly importCode = `import { CbAppShell, CbSidebar, CbSidebarToggle, type CbSidebarGroup } from '@caribeng/ui/sidebar';`;
-  protected readonly shellCode = `<cb-app-shell style="height: 100vh">
-  <cb-sidebar [groups]="menu" [(active)]="seccion" [navigate]="navigate">
-    <img cb-sidebar-header src="logo.svg" alt="Caribe Bank" />
-    <app-user cb-sidebar-footer />
+  protected readonly shellCode = `<cb-app-shell [forceMobile]="mobile()" style="height: 26rem">
+  <cb-sidebar [groups]="groups" [(active)]="active">
+    <div cb-sidebar-header>Caribe Bank</div>
+    <div cb-sidebar-footer>Laura Gómez</div>
   </cb-sidebar>
   <header cb-app-shell-header>
-    <button type="button" cbSidebarToggle><cb-icon name="menu" aria-hidden="true" /></button>
+    <button type="button" cbSidebarToggle><cb-icon name="menu" [size]="20" aria-hidden="true" /></button>
+    <strong>{{ title() }}</strong>
   </header>
-  <router-outlet />
+  <p>Sección activa: {{ active() }}</p>
 </cb-app-shell>`;
-  protected readonly shellTs = `menu: CbSidebarGroup[] = [
-  {
-    label: 'General',
-    items: [
-      { label: 'Inicio', icon: 'house', url: '/' },
-      { label: 'Movimientos', icon: 'clock', url: '/movimientos', badge: 4 },
-      { label: 'Pagos', icon: 'landmark', children: [
-        { label: 'Servicios', url: '/pagos/servicios' },
-        { label: 'Impuestos', url: '/pagos/impuestos' },
-      ] },
-    ],
-  },
-];
-
-// Navegación con el router, sin recargar la página:
-navigate = (url: string) => this.router.navigateByUrl(url);`;
-  protected readonly standaloneCode = `<cb-sidebar [groups]="menu" [(collapsed)]="contraido" [(active)]="seccion" />`;
+  protected readonly standaloneCode = `<cb-sidebar [groups]="groups" [(collapsed)]="collapsed" [(active)]="active" />`;
 
   constructor() {
     inject(TocService).reset();

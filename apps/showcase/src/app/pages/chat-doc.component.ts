@@ -74,7 +74,6 @@ function pickReply(text: string): string {
       title="Asistente completo"
       description="Pregunta por tu saldo: el asistente razona (cb-chat-reasoning), consulta una herramienta (cb-chat-tool) y responde palabra a palabra con una tabla. Pulsa Detener para cortar, adjunta una imagen para verla en miniatura, valora con 👍/👎 o regenera. Escribe error para ver un mensaje fallido."
       [code]="assistantCode"
-      [codeTs]="assistantTs"
     >
       <div class="chat-demo">
         <cb-chat-messages class="chat-demo__messages" [busy]="generating()" [typing]="thinking()">
@@ -415,44 +414,45 @@ export class ChatDocComponent {
   CbChatMessages, CbChatMessage, CbChatInput, CbChatReasoning, CbChatTool,
   type CbChatSendEvent,
 } from '@caribeng/ui/chat';`;
-  protected readonly assistantCode = `<cb-chat-messages [busy]="generando()" style="height: 30rem">
-  @for (m of mensajes(); track m.id) {
-    <cb-chat-message [role]="m.role" [text]="m.text" [streaming]="m.streaming"
-      [attachments]="m.adjuntos" copyable showFeedback [(feedback)]="m.voto"
-      regenerable (regenerate)="regenerar(m)" (retry)="reintentar(m)">
-      @if (m.razonamiento; as r) {
-        <cb-chat-reasoning [text]="r.texto" [streaming]="r.llegando" [duration]="r.segundos" />
+  protected readonly assistantCode = `<cb-chat-messages [busy]="generating()" [typing]="thinking()" style="height: 30rem">
+  @for (m of messages(); track m.id) {
+    <cb-chat-message
+      [role]="m.role"
+      [text]="m.text"
+      [time]="m.time"
+      [status]="m.status"
+      [streaming]="!!m.streaming"
+      [attachments]="m.attachments ?? []"
+      [copyable]="m.role === 'assistant'"
+      [showFeedback]="m.role === 'assistant' && m.id > 1"
+      [regenerable]="m.role === 'assistant' && !!m.question"
+      [feedback]="m.feedback ?? null"
+      (feedbackChange)="setFeedback(m, $event)"
+      (retry)="retry(m)"
+      (regenerate)="regenerate(m)"
+    >
+      @if (m.reasoning; as r) {
+        <cb-chat-reasoning [text]="r.text" [streaming]="r.streaming" [duration]="r.seconds" />
       }
-      @if (m.herramienta; as h) {
-        <cb-chat-tool [name]="h.nombre" [status]="h.estado" [input]="h.args" [output]="h.resultado" />
+      @if (m.tool; as t) {
+        <cb-chat-tool [name]="t.name" [status]="t.status" [input]="t.input" [output]="t.output" />
       }
     </cb-chat-message>
   }
 </cb-chat-messages>
-
-<cb-chat-input [streaming]="generando()" attachments accept="image/*,.pdf"
-  (send)="enviar($event)" (stop)="detener()" />`;
-  protected readonly assistantTs = `enviar({ text, files }: CbChatSendEvent) {
-  const adjuntos = files.map((f) => ({ name: f.name, type: f.type, size: f.size, url: URL.createObjectURL(f) }));
-  this.mensajes.update((l) => [...l, { id: crypto.randomUUID(), role: 'user', text, adjuntos }]);
-
-  const id = crypto.randomUUID();
-  this.mensajes.update((l) => [...l, { id, role: 'assistant', text: '', streaming: true }]);
-  this.generando.set(true);
-
-  // Cada fragmento que llega (SSE, fetch con stream, WebSocket…) se añade al texto:
-  this.ia.stream(text, files).subscribe({
-    next: (trozo) => this.mensajes.update((l) => l.map((m) => (m.id === id ? { ...m, text: m.text + trozo } : m))),
-    complete: () => {
-      this.mensajes.update((l) => l.map((m) => (m.id === id ? { ...m, streaming: false } : m)));
-      this.generando.set(false);
-    },
-  });
-}`;
-  protected readonly markdownCode = `<cb-chat-message role="assistant" [text]="respuestaMarkdown" copyable />
-<cb-chat-message role="user" author="Laura Gómez" showAuthor time="10:42" [text]="pregunta" status="sent" />
+<cb-chat-input
+  [streaming]="generating() || thinking()"
+  [suggestions]="suggestions"
+  attachments
+  accept="image/*,.pdf"
+  (send)="send($event)"
+  (stop)="stop()"
+/>`;
+  protected readonly markdownCode = `<cb-chat-message role="assistant" [text]="markdownSample" copyable />
+<cb-chat-message role="user" author="Laura Gómez" showAuthor time="10:42" text="Gracias, ¿y esto? <script>alert('hola')</script>" status="sent" />
 <cb-chat-message role="system" text="La conversación se archivará en 30 días." />`;
-  protected readonly agentCode = `<cb-chat-reasoning [text]="razonamiento" [streaming]="pensando()" [duration]="segundos" />
-<cb-chat-tool name="consultar_saldo" status="done" [input]="{ cuenta: '4829' }" [output]="saldo" />
-<cb-chat-tool name="enviar_transferencia" status="running" [input]="args" />`;
+  protected readonly agentCode = `<cb-chat-reasoning text="El usuario pide su saldo. Consulto la cuenta **4829** y los movimientos de la semana." [duration]="3" />
+<cb-chat-tool name="consultar_saldo" status="done" [input]="{ cuenta: '4829' }" [output]="{ disponible: 4250000, moneda: 'COP' }" />
+<cb-chat-tool name="enviar_transferencia" status="running" [input]="{ destino: 'Ana', valor: 120000 }" />
+<cb-chat-tool name="bloquear_tarjeta" title="Bloquear tarjeta" status="error" output="Tarjeta no encontrada" />`;
 }

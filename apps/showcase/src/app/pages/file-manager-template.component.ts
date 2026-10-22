@@ -80,7 +80,7 @@ const DATE_FORMAT = new Intl.DateTimeFormat('es', { day: 'numeric', month: 'shor
       lead="Gestor de archivos tipo Drive compuesto con cb-file-card y cb-folder-card, más un donut de almacenamiento y una tabla de archivos recientes."
     />
 
-    <doc-section id="preview" title="Vista previa" [code]="htmlCode" [codeTs]="tsCode">
+    <doc-section id="preview" title="Vista previa" [code]="htmlCode">
       <div class="fm">
         <div class="fm__breadcrumb">
           <cb-icon name="house" [size]="15" aria-hidden="true" />
@@ -551,57 +551,141 @@ export class FileManagerTemplateComponent {
     this.deleteTarget.set(null);
   }
 
-  protected readonly htmlCode = `<!-- All Media: cada categoría filtra la tabla de recientes -->
-<div class="cats">
-  @for (c of categories; track c.title) {
-    <cb-file-card [icon]="c.icon" [color]="c.color" [title]="c.title"
-      [subtitle]="c.used" [value]="c.files" [valueSub]="c.size"
-      clickable (open)="categoryFilter.set(c)" />
-  }
+  protected readonly htmlCode = `<div class="fm">
+  <div class="fm__breadcrumb">
+    <cb-icon name="house" [size]="15" aria-hidden="true" />
+    <span>Home</span>
+    <cb-icon name="chevron-right" [size]="14" aria-hidden="true" />
+    @if (currentFolder(); as folder) {
+      <button type="button" class="fm__crumb-link" (click)="currentFolder.set(null)">File Manager</button>
+      <cb-icon name="chevron-right" [size]="14" aria-hidden="true" />
+      <span class="fm__crumb-active" aria-current="page">{{ folder.name }}</span>
+    } @else {
+      <span class="fm__crumb-active" aria-current="page">File Manager</span>
+    }
+  </div>
+
+  <cb-card class="fm__panel">
+    <div class="fm__panel-head">
+      <h3 class="fm__panel-title">All Media</h3>
+      <cb-button size="sm"><cb-icon name="plus" [size]="15" aria-hidden="true" /> Subir archivo</cb-button>
+    </div>
+    <div class="fm__cats">
+      @for (c of categories; track c.title) {
+        <cb-file-card
+          [icon]="c.icon"
+          [color]="c.color"
+          [title]="c.title"
+          [subtitle]="c.used"
+          [value]="c.files"
+          [valueSub]="c.size"
+          clickable
+          (open)="filterBy(c)"
+        />
+      }
+    </div>
+  </cb-card>
+
+  <div class="fm__grid">
+    <cb-card class="fm__panel">
+      <div class="fm__panel-head"><h3 class="fm__panel-title">Carpetas</h3></div>
+      @if (folders().length) {
+        <div class="fm__folders">
+          @for (f of folders(); track f.id) {
+            <cb-folder-card
+              [name]="f.name"
+              [files]="f.files"
+              [size]="f.size"
+              [actions]="folderActions"
+              clickable
+              (open)="openFolder(f)"
+              (actionSelect)="onFolderAction($event, f)"
+            />
+          }
+        </div>
+      } @else {
+        <p class="fm__empty">No quedan carpetas.</p>
+      }
+    </cb-card>
+
+    <cb-card class="fm__panel">
+      <div class="fm__panel-head"><h3 class="fm__panel-title">Almacenamiento</h3></div>
+      <p class="fm__storage-free">585 GB libres</p>
+      <div class="fm__donut" [style.background]="donutGradient">
+        <div class="fm__donut-hole"><strong>135 GB</strong><span>de 720 GB</span></div>
+      </div>
+      <ul class="fm__legend">
+        @for (s of segments; track s.label) {
+          <li><span class="fm__legend-dot" [style.background]="s.color"></span>{{ s.label }}</li>
+        }
+      </ul>
+    </cb-card>
+  </div>
+
+  <cb-card class="fm__panel">
+    <div class="fm__panel-head">
+      <h3 class="fm__panel-title">Archivos recientes</h3>
+      @if (categoryFilter(); as cat) {
+        <cb-chip [label]="cat.title" [icon]="cat.icon" [removable]="true" (removed)="categoryFilter.set(null)" />
+      }
+    </div>
+    <cb-table
+      style="width: 100%"
+      [value]="visibleRecent()"
+      [columns]="recentColumns"
+      size="sm"
+      ariaLabel="Archivos recientes"
+      emptyMessage="No hay archivos en esta categoría."
+    >
+      <ng-template cbTableCell="name" let-row>
+        <span class="fm__file"><cb-icon [name]="row.icon" [size]="16" aria-hidden="true" /> {{ row.name }}</span>
+      </ng-template>
+      <ng-template cbTableCell="sizeMb" let-value="value">{{ value }} MB</ng-template>
+      <ng-template cbTableCell="date" let-value="value">{{ formatDate(value) }}</ng-template>
+      <ng-template cbTableCell="actions" let-row>
+        <button
+          type="button"
+          class="fm__row-menu"
+          [attr.aria-label]="'Más acciones: ' + row.name"
+          aria-haspopup="menu"
+          [attr.aria-expanded]="menuRow()?.id === row.id"
+          (click)="openRowMenu($event, row)"
+        >
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true">
+            <circle cx="12" cy="5" r="2" /><circle cx="12" cy="12" r="2" /><circle cx="12" cy="19" r="2" />
+          </svg>
+        </button>
+      </ng-template>
+    </cb-table>
+    <cb-menu #rowMenu [items]="fileActions" (itemSelect)="onFileAction($event)" (hidden)="menuRow.set(null)" />
+  </cb-card>
+
+  <p class="fm__status" role="status">{{ status() }}</p>
 </div>
 
-<!-- Carpetas: menú ⋮ y apertura con clic -->
-<div class="folders">
-  @for (f of folders(); track f.id) {
-    <cb-folder-card [name]="f.name" [files]="f.files" [size]="f.size"
-      [actions]="folderActions" clickable
-      (open)="openFolder(f)" (actionSelect)="onFolderAction($event, f)" />
-  }
-</div>
+<cb-dialog [visible]="renameTarget() !== null" (visibleChange)="!$event && renameTarget.set(null)" header="Renombrar" width="24rem">
+  <form (submit)="$event.preventDefault(); confirmRename()">
+    <cb-input
+      label="Nuevo nombre"
+      [(value)]="renameValue"
+      [error]="renameValue().trim() ? '' : 'Escribe un nombre.'"
+      required
+    />
+  </form>
+  <div cb-dialog-footer class="fm__dialog-actions">
+    <cb-button variant="text" severity="secondary" (click)="renameTarget.set(null)">Cancelar</cb-button>
+    <cb-button [disabled]="!renameValue().trim()" (click)="confirmRename()">Guardar</cb-button>
+  </div>
+</cb-dialog>
 
-<!-- Recientes: cb-table ordenable con un menú ⋮ compartido por fila -->
-<cb-table [value]="visibleRecent()" [columns]="recentColumns" size="sm">
-  <ng-template cbTableCell="actions" let-row>
-    <button type="button" aria-haspopup="menu" [attr.aria-label]="'Más acciones: ' + row.name"
-      (click)="openRowMenu($event, row)">⋮</button>
-  </ng-template>
-</cb-table>
-<cb-menu #rowMenu [items]="fileActions" (itemSelect)="onFileAction($event)" />
+<cb-dialog [visible]="deleteTarget() !== null" (visibleChange)="!$event && deleteTarget.set(null)" header="Eliminar" width="24rem">
+  <p class="fm__dialog-text">
+    ¿Eliminar {{ deleteTarget()?.kind === 'folder' ? 'la carpeta' : 'el archivo' }} <strong>{{ deleteTarget()?.item?.name }}</strong>? Esta acción no se puede deshacer.
+  </p>
+  <div cb-dialog-footer class="fm__dialog-actions">
+    <cb-button variant="text" severity="secondary" (click)="deleteTarget.set(null)">Cancelar</cb-button>
+    <cb-button severity="danger" (click)="confirmDelete()">Eliminar</cb-button>
+  </div>
+</cb-dialog>`;
 
-<!-- Renombrar / eliminar con cb-dialog -->
-<cb-dialog [visible]="renameTarget() !== null" header="Renombrar">…</cb-dialog>
-<cb-dialog [visible]="deleteTarget() !== null" header="Eliminar">…</cb-dialog>`;
-
-  protected readonly tsCode = `folderActions: CbMenuItem[] = [
-  { label: 'Abrir', icon: 'folder' },
-  { label: 'Renombrar', icon: 'pencil' },
-  { label: 'Compartir', icon: 'users' },
-  { label: 'Descargar', icon: 'download' },
-  { label: 'Mover a…', icon: 'folder-input' },
-  { label: '', separator: true },
-  { label: 'Eliminar', icon: 'trash' },
-];
-
-onFolderAction(action: CbMenuItem, folder: Folder) {
-  switch (action.label) {
-    case 'Abrir': this.openFolder(folder); break;
-    case 'Renombrar': this.startRename({ kind: 'folder', item: folder }); break;
-    case 'Eliminar': this.deleteTarget.set({ kind: 'folder', item: folder }); break;
-  }
-}
-
-openRowMenu(event: MouseEvent, row: RecentFile) {
-  this.rowMenu().show(event.currentTarget as HTMLElement);
-  this.menuRow.set(row);
-}`;
 }

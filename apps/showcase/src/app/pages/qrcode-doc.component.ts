@@ -106,13 +106,17 @@ export class QrcodeDocComponent {
   protected readonly logo = DEMO_LOGO;
 
   protected readonly importCode = `import { CbQrcode, cbQrEncode } from '@caribeng/ui/qrcode';`;
-  protected readonly basicCode = `<cb-qrcode value="https://caribeng.dev" [size]="180" />`;
-  protected readonly levelsCode = `<cb-qrcode [value]="url" errorCorrection="Q" />`;
-  protected readonly styleCode = `<cb-qrcode [value]="pago" color="#065f46" background="#ecfdf5" />
-<cb-qrcode #qr value="https://caribeng.dev" errorCorrection="H" image="assets/logo.svg" />
-
-// Descargar como SVG:
-const blob = new Blob([qr.toSvg()], { type: 'image/svg+xml' });`;
+  protected readonly basicCode = `<cb-qrcode [value]="text()" [size]="180" />
+<cb-input label="Contenido" [(value)]="text" />`;
+  protected readonly levelsCode = `@for (level of levels; track level) {
+  <figure>
+    <cb-qrcode value="https://caribeng.dev/components/qrcode" [errorCorrection]="level" [size]="120" />
+    <figcaption>{{ level }}</figcaption>
+  </figure>
+}`;
+  protected readonly styleCode = `<cb-qrcode value="Pago · ref 48213 · $ 120.000" color="#065f46" background="#ecfdf5" [size]="150" />
+<cb-qrcode #logoQr value="https://caribeng.dev" errorCorrection="H" [image]="logo" [size]="150" ariaLabel="QR de caribeng.dev" />
+<cb-button variant="outlined" size="sm" (click)="download()">Descargar SVG</cb-button>`;
 
   constructor() {
     inject(TocService).reset();

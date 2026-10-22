@@ -94,11 +94,12 @@ WHERE cuenta = '4829'
 ORDER BY fecha DESC;`;
 
   protected readonly importCode = `import { CbCodeBlock, cbHighlight } from '@caribeng/ui/code-block';`;
-  protected readonly basicCode = `<cb-code-block language="ts" [code]="codigo" />`;
-  protected readonly linesCode = `<cb-code-block language="html" filename="transfer.component.html"
-  [code]="plantilla" lineNumbers highlightLines="3-4" />`;
-  protected readonly langsCode = `<cb-code-block language="bash" [code]="instalar" />
-<cb-code-block language="json" [code]="respuesta" wrap maxHeight="20rem" />`;
+  protected readonly basicCode = `<cb-code-block language="ts" [code]="tsSample" />`;
+  protected readonly linesCode = `<cb-code-block language="html" filename="transfer.component.html" [code]="htmlSample" lineNumbers highlightLines="3-4" />`;
+  protected readonly langsCode = `<cb-code-block language="bash" [code]="bashSample" />
+<cb-code-block language="json" [code]="jsonSample" />
+<cb-code-block language="css" [code]="cssSample" />
+<cb-code-block language="sql" [code]="sqlSample" wrap maxHeight="20rem" />`;
 
   constructor() {
     inject(TocService).reset();

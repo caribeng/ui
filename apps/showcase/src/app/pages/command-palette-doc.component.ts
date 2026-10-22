@@ -31,7 +31,6 @@ import { TocService } from '../services/toc.service';
       title="Básico"
       description="Pulsa Ctrl + K (⌘ K en Mac) en cualquier parte de esta página, o usa el botón. Cada item puede tener group, icon, description, keywords (sinónimos), shortcut y command."
       [code]="basicCode"
-      [codeTs]="basicTs"
     >
       <div class="cmd-row">
         <cb-button variant="outlined" (click)="visible.set(true)">Buscar… <cb-kbd [keys]="['mod', 'K']" size="sm" /></cb-button>
@@ -121,20 +120,21 @@ export class CommandPaletteDocComponent {
   }
 
   protected readonly importCode = `import { CbCommandPalette, type CbCommandItem } from '@caribeng/ui/command-palette';`;
-  protected readonly basicCode = `<cb-command-palette [items]="comandos" (itemSelect)="onComando($event.item)" />`;
-  protected readonly basicTs = `comandos: CbCommandItem[] = [
-  { label: 'Inicio', icon: 'house', group: 'Páginas', command: () => this.router.navigateByUrl('/') },
-  { label: 'Configuración', icon: 'settings', group: 'Páginas', keywords: ['ajustes'] },
-  { label: 'Transferir dinero', icon: 'arrow-right-left', group: 'Acciones', shortcut: ['mod', 'T'] },
-  { label: 'Bloquear tarjeta', icon: 'lock', group: 'Acciones', disabled: true },
-];`;
-  protected readonly serverCode = `<cb-command-palette
-  [items]="resultados()"
+  protected readonly basicCode = `<cb-button variant="outlined" (click)="visible.set(true)">Buscar… <cb-kbd [keys]="['mod', 'K']" size="sm" /></cb-button>
+<span>Última acción: {{ last() }}</span>
+<cb-command-palette [items]="items" [(visible)]="visible" (itemSelect)="last.set($event.item.label)" />`;
+  protected readonly serverCode = `<cb-button variant="outlined" (click)="serverVisible.set(true)">Buscar clientes</cb-button>
+<cb-command-palette
+  [items]="serverItems()"
+  [(visible)]="serverVisible"
+  [(query)]="serverQuery"
   [filter]="false"
-  [loading]="cargando()"
-  [(visible)]="abierta"
-  (queryChange)="buscar($event)"
-  shortcut="" />`;
+  [loading]="loading()"
+  shortcut=""
+  placeholder="Nombre o documento del cliente…"
+  (queryChange)="search($event)"
+  (itemSelect)="last.set($event.item.label)"
+/>`;
 
   constructor() {
     inject(TocService).reset();

@@ -37,7 +37,6 @@ interface Task {
       title="Tablero con plantilla propia"
       description="[(columns)] se actualiza al mover y (cardMove) avisa con { item, from, to, fromIndex, toIndex } para guardar. Con el teclado: enfoca una tarjeta, Espacio para tomarla, flechas para moverla, Espacio para soltarla y Escape para cancelar. En curso tiene límite de 2 (enforceLimit)."
       [code]="boardCode"
-      [codeTs]="boardTs"
     >
       <div class="kb-demo">
         <cb-kanban [(columns)]="columns" enforceLimit addable ariaLabel="Sprint 14" (cardMove)="onMove($event)" (addCard)="add($event)">
@@ -140,22 +139,17 @@ export class KanbanDocComponent {
   }
 
   protected readonly importCode = `import { CbKanban, CbKanbanCardDirective, type CbKanbanColumn, type CbKanbanMove } from '@caribeng/ui/kanban';`;
-  protected readonly boardCode = `<cb-kanban [(columns)]="columnas" enforceLimit addable ariaLabel="Sprint 14"
-  (cardMove)="guardar($event)" (addCard)="nueva($event)">
-  <ng-template cbKanbanCard let-tarea>
-    <span>{{ tarea.title }}</span>
-    <cb-tag [value]="tarea.priority" />
+  protected readonly boardCode = `<cb-kanban [(columns)]="columns" enforceLimit addable ariaLabel="Sprint 14" (cardMove)="onMove($event)" (addCard)="add($event)">
+  <ng-template cbKanbanCard let-task>
+    <span>{{ task.title }}</span>
+    <span>
+      <cb-tag [value]="task.priority" [severity]="task.priority === 'Alta' ? 'danger' : task.priority === 'Media' ? 'warning' : 'secondary'" />
+      <span aria-hidden="true">{{ initials(task.owner) }}</span>
+      <span class="cb-sr-only">Responsable: {{ task.owner }}</span>
+    </span>
   </ng-template>
-</cb-kanban>`;
-  protected readonly boardTs = `columnas = signal<CbKanbanColumn<Tarea>[]>([
-  { id: 'todo', title: 'Por hacer', items: [...] },
-  { id: 'doing', title: 'En curso', limit: 2, color: '#3b82f6', items: [...] },
-  { id: 'done', title: 'Hecho', items: [] },
-]);
-
-guardar({ item, from, to, toIndex }: CbKanbanMove<Tarea>) {
-  this.api.mover(item.id, to, toIndex).subscribe();
-}`;
+</cb-kanban>
+<p>Último movimiento: {{ last() }}</p>`;
 
   constructor() {
     inject(TocService).reset();

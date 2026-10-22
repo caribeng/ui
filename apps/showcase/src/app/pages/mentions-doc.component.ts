@@ -30,7 +30,6 @@ import { TocService } from '../services/toc.service';
       title="Personas y etiquetas"
       description="Escribe @ para mencionar a alguien o # para una etiqueta. Flechas para moverte, Enter o Tab para elegir y Escape para cerrar. El valor es el texto; (mentionsChange) entrega las menciones presentes con su id."
       [code]="basicCode"
-      [codeTs]="basicTs"
     >
       <div class="mn-demo">
         <cb-mentions
@@ -139,17 +138,24 @@ export class MentionsDocComponent {
   protected readonly importCode = `import { CbMentions, type CbMention, type CbMentionItem } from '@caribeng/ui/mentions';`;
   protected readonly basicCode = `<cb-mentions
   label="Comentario"
-  [suggestions]="equipo"
+  hint="Menciona a una persona con @ o añade una etiqueta con #."
+  placeholder="Escribe un comentario…"
+  [suggestions]="items"
   [triggers]="['@', '#']"
-  formControlName="comentario"
-  (mentionsChange)="menciones = $event" />`;
-  protected readonly basicTs = `equipo: CbMentionItem[] = [
-  { id: 'u1', label: 'Laura Gómez', description: 'Gerente de producto' },
-  { id: 'u2', label: 'Andrés Pérez', description: 'Desarrollo' },
-  { id: 't1', label: 'urgente', trigger: '#' },
-];`;
-  protected readonly serverCode = `<cb-mentions [suggestions]="resultados()" [filter]="false" [loading]="cargando()"
-  (search)="buscar($event.query)" />`;
+  [formControl]="comment"
+  (mentionsChange)="mentions.set($event)"
+/>
+@for (m of mentions(); track m.trigger + m.id) {
+  <code>{{ m.trigger }}{{ m.label }} ({{ m.id }})</code>
+}`;
+  protected readonly serverCode = `<cb-mentions
+  label="Asignar a"
+  [rows]="2"
+  [suggestions]="remote()"
+  [filter]="false"
+  [loading]="loading()"
+  (search)="find($event.query)"
+/>`;
 
   constructor() {
     inject(TocService).reset();

@@ -91,14 +91,11 @@ export class CopyButtonDocComponent {
   protected readonly importCode = `import { CbCopyButton, CbCopy, CbClipboard } from '@caribeng/ui/copy-button';`;
   protected readonly basicCode = `<code>0012 3456 7890</code>
 <cb-copy-button value="001234567890" />`;
-  protected readonly labelCode = `<cb-copy-button [value]="apiKey" showLabel variant="outlined" />
-<cb-copy-button [value]="enlace" showLabel label="Copiar enlace" copiedLabel="¡Enlace copiado!" />`;
-  protected readonly directiveCode = `<button type="button" [cbCopy]="'CARIBE-2026'" (copied)="avisar($event)">
-  Código: CARIBE-2026
-</button>
-
-// Desde código:
-const ok = await inject(CbClipboard).copy(texto);`;
+  protected readonly labelCode = `<code>sk_test_51H8x…f2Q</code>
+<cb-copy-button value="sk_test_51H8xexamplef2Q" showLabel variant="outlined" />
+<cb-copy-button value="https://caribeng.dev/invite/48213" showLabel label="Copiar enlace" copiedLabel="¡Enlace copiado!" />`;
+  protected readonly directiveCode = `<button type="button" [cbCopy]="'CARIBE-2026'" (copied)="last.set($event)">Código: CARIBE-2026</button>
+<span>Último copiado: {{ last() }}</span>`;
 
   constructor() {
     inject(TocService).reset();

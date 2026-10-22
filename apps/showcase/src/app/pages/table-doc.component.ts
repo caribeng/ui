@@ -491,10 +491,10 @@ export class TableDocComponent {
   }
 
   protected readonly lazyCode = `<cb-table
-  [value]="pagina()"
-  [columns]="columnas"
+  [value]="paginaServidor()"
+  [columns]="movCols"
   lazy
-  [totalRecords]="total()"
+  [totalRecords]="totalServidor()"
   [loading]="cargando()"
   [paginator]="true"
   [rows]="5"

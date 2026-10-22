@@ -309,20 +309,22 @@ export class EditorDocComponent {
 
 <!-- content() es HTML saneado, p. ej.:
 <h2>Condiciones del crédito</h2><p>Bienvenido a <strong>CaribeNG</strong>.</p> -->`;
-  protected readonly securityCode = `<cb-editor [value]="htmlDeLaBaseDeDatos" readonly />
+  protected readonly securityCode = `<cb-editor [value]="htmlPeligroso" readonly />
 
 <!-- Para mostrarlo en otro sitio, sanéalo igual:
      cbSanitizeHtml(html) · cbHtmlToText(html) para un resumen en texto -->`;
-  protected readonly pasteCode = `<cb-editor [(value)]="texto" />
-<cb-editor [(value)]="texto" pastePlainText />`;
-  protected readonly imagesCode = `<cb-editor [imageUpload]="subirImagen" [(value)]="texto" />`;
+  protected readonly pasteCode = `<cb-editor placeholder="Pega aquí un texto copiado de Word o de una web…" />
+
+<!-- Para pegar siempre como texto plano: -->
+<cb-editor placeholder="Pega aquí…" pastePlainText />`;
+  protected readonly imagesCode = `<cb-editor [imageUpload]="subirImagen" placeholder="Inserta, pega o suelta una imagen…" />`;
   protected readonly imagesTs = `subirImagen: CbEditorImageUpload = async (file) => {
   const form = new FormData();
   form.append('file', file);
   const { url } = await firstValueFrom(this.http.post<{ url: string }>('/api/imagenes', form));
   return url; // el HTML guarda <img src="https://...">
 };`;
-  protected readonly tablesCode = `<cb-editor [(value)]="tarifas" />
+  protected readonly tablesCode = `<cb-editor [(value)]="tabla" />
 
 <!-- El HTML guardado (los bordes van en cada celda):
 <table style="border-collapse: collapse; width: 100%">
@@ -337,10 +339,10 @@ export class EditorDocComponent {
 <pre data-language="typescript" style="color: #cccccc; background-color: #1f1f1f"><code>
 <span style="color: #569cd6">const</span> saldo = ...
 </code></pre>`;
-  protected readonly fontsCode = `<cb-editor [(value)]="texto" />
+  protected readonly fontsCode = `<cb-editor [(value)]="fuentes" />
 
-<!-- Lista propia, con las fuentes servidas por tu aplicación (sin Google Fonts): -->
-<cb-editor [(value)]="texto" [fonts]="fuentesMarca" fontsHref="" />`;
+<!-- Lista propia, con las fuentes servidas por tu aplicación (sin Google Fonts):
+     pasa tus grupos CbEditorFontGroup en fonts y deja fontsHref vacío. -->`;
   protected readonly fontsTs = `import type { CbEditorFontGroup } from '@caribeng/ui/editor';
 
 // value es la pila CSS que se guarda en el HTML; '' = la predeterminada.
@@ -351,13 +353,13 @@ fuentesMarca: CbEditorFontGroup[] = [
 
 // Para mostrar el HTML fuera del editor, sanéalo con la misma lista:
 cbSanitizeHtml(html, { fonts: ["'Mi Marca', Arial, sans-serif"] });`;
-  protected readonly writingCode = `<cb-editor [(value)]="texto" />
+  protected readonly writingCode = `<cb-editor placeholder="Escribe / para insertar un bloque, o una URL seguida de un espacio…" />
 
 <!-- Cada ayuda se puede desactivar: -->
-<cb-editor [(value)]="texto" [slashCommands]="false" [bubbleMenu]="false" [autolink]="false" [typography]="false" />`;
+<cb-editor [slashCommands]="false" [bubbleMenu]="false" [autolink]="false" [typography]="false" />`;
   protected readonly findCode = `<!-- Incluidos en la barra por defecto; en una barra propia: -->
 <cb-editor [toolbar]="['bold', 'italic', '|', 'specialChars', 'findReplace']" />`;
-  protected readonly formattingCode = `<cb-editor [(value)]="acta" maxHeight="560px" />
+  protected readonly formattingCode = `<cb-editor [(value)]="formato" maxHeight="560px" />
 
 <!-- Alto mínimo (height, 320px por defecto), alto máximo con scroll (maxHeight),
      contador de palabras (wordCount) y barra a medida (toolbar). -->`;
@@ -371,5 +373,5 @@ cbSanitizeHtml(html, { fonts: ["'Mi Marca', Arial, sans-serif"] });`;
 // highlight, subscript, superscript, code, clear, bulletList, orderedList, taskList, outdent,
 // indent, alignment (o alignLeft / alignCenter / alignRight / alignJustify sueltos), link, image,
 // table, codeBlock, quote, horizontalRule, specialChars, findReplace, source, fullscreen`;
-  protected readonly readonlyCode = `<cb-editor [value]="contenidoGuardado" readonly />`;
+  protected readonly readonlyCode = `<cb-editor [value]="content()" readonly />`;
 }

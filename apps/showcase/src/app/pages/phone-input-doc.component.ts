@@ -30,7 +30,6 @@ import { TocService } from '../services/toc.service';
       title="Con Angular Forms"
       description="Funciona con formControlName, [formControl] y ngModel. Añade el error { phone: true } si el número está incompleto o no es válido para el país. Prueba a pegar +52 55 1234 5678: cambia de país solo."
       [code]="formsCode"
-      [codeTs]="formsTs"
     >
       <div class="ph-demo">
         <cb-phone-input
@@ -115,22 +114,15 @@ export class PhoneInputDocComponent {
   protected readonly formsCode = `<cb-phone-input
   label="Celular"
   hint="Te enviaremos un código por SMS."
-  formControlName="celular"
-  country="CO"
+  [formControl]="phone"
+  [(country)]="country"
   [preferredCountries]="['CO', 'MX', 'US', 'ES']"
-  (phoneChange)="onTelefono($event)" />`;
-  protected readonly formsTs = `form = new FormGroup({
-  // El valor es E.164: '+573001234567'
-  celular: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
-});
-
-// form.controls.celular.errors → { phone: true } si está incompleto`;
-  protected readonly optionsCode = `<cb-phone-input country="CR" [countries]="['CR', 'GT', 'HN', 'NI', 'PA', 'SV']" size="sm" />
-<cb-phone-input country="ES" countryLocked />
-<cb-phone-input country="US" [showFlag]="false" size="lg" />
-
-<!-- Países propios -->
-<cb-phone-input [countries]="[...CB_PHONE_COUNTRIES, { iso: 'XK', dial: '383', lengths: [8] }]" />`;
+  (phoneChange)="last.set($event)"
+/>
+<p>Valor (E.164): {{ phone.value || '—' }} · País: {{ country() }} · Válido: {{ phone.valid ? 'Sí' : 'No' }}</p>`;
+  protected readonly optionsCode = `<cb-phone-input label="Solo Centroamérica" size="sm" country="CR" [countries]="['CR', 'GT', 'HN', 'NI', 'PA', 'SV']" />
+<cb-phone-input label="Solo España" country="ES" countryLocked />
+<cb-phone-input label="Sin bandera" size="lg" country="US" [showFlag]="false" />`;
 
   constructor() {
     inject(TocService).reset();
