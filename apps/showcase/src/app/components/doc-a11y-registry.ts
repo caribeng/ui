@@ -633,6 +633,8 @@ export const DOC_A11Y: Record<string, DocA11y> = {
       'Cada día tiene un botón "Añadir tarea el miércoles, 20 de marzo de 2030" y el mes visible se anuncia al cambiarlo con ‹ ›.',
       'En el cronograma (cb-kanban-timeline) cada sección es un grupo con nombre ("En curso, 2 tareas") y un botón que la contrae; cada tarea es un botón con su nombre, fechas, prioridad, responsables y sección. La cabecera de días es decorativa: el rango visible se dice con texto y se anuncia al cambiarlo.',
       'Arrastrar la barra o sus bordes no es la única forma de cambiar fechas o sección: Alt + flechas lo hace con el teclado y cada cambio se anuncia. Los botones del zoom tienen nombre ("Acercar", "Alejar") y se desactivan en los extremos.',
+      'El panel (cb-kanban-dashboard) es una región con nombre ("Panel del proyecto"). Cada bloque es una sección nombrada por su título, que es un encabezado (`headingLevel`, 3 por defecto); los indicadores se leen como texto y el color de "con retraso" no es la única señal.',
+      'Cada gráfico lleva su título como nombre y, como todos los `cb-chart`, una tabla oculta con los datos; sus barras y sectores se recorren con el teclado.',
     ],
     keyboard: [
       { keys: 'Tab', action: 'Recorre las tarjetas y los botones Añadir tarjeta.' },

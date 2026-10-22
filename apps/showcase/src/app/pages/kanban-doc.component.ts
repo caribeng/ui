@@ -3,6 +3,7 @@ import {
   CbKanban,
   CbKanbanCalendar,
   CbKanbanCardDirective,
+  CbKanbanDashboard,
   CbKanbanList,
   CbKanbanTimeline,
   type CbKanbanColumn,
@@ -37,12 +38,12 @@ function day(offset: number): string {
 @Component({
   selector: 'doc-kanban-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbKanban, CbKanbanCalendar, CbKanbanCardDirective, CbKanbanList, CbKanbanTimeline, CbTag, DocA11yComponent, DocPlaygroundComponent, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
+  imports: [CbKanban, CbKanbanCalendar, CbKanbanCardDirective, CbKanbanDashboard, CbKanbanList, CbKanbanTimeline, CbTag, DocA11yComponent, DocPlaygroundComponent, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
     <doc-page-header
       eyebrow="Data"
       title="Kanban"
-      lead="Tablero de columnas con tarjetas que se reordenan y se mueven entre columnas arrastrando (ratón o dedo) o con el teclado, y vistas de lista, cronograma y calendario sobre los mismos datos. Cada tarea se abre en un panel con responsables, prioridad, fechas de inicio y fin, descripción y adjuntos; también se crean, editan y eliminan tarjetas y columnas."
+      lead="Tablero de columnas con tarjetas que se reordenan y se mueven entre columnas arrastrando (ratón o dedo) o con el teclado, y vistas de lista, cronograma, calendario y panel de resumen sobre los mismos datos. Cada tarea se abre en un panel con responsables, prioridad, fechas de inicio y fin, descripción y adjuntos; también se crean, editan y eliminan tarjetas y columnas."
     />
 
     <doc-section id="import" title="Importación">
@@ -139,6 +140,15 @@ function day(offset: number): string {
         (cardEdit)="log('Editada', $event.item.title)"
         (cardAdd)="log('Añadida', $event.item.title)"
       />
+    </doc-section>
+
+    <doc-section
+      id="dashboard"
+      title="Panel de resumen"
+      description="cb-kanban-dashboard resume las mismas tareas: finalizadas (completed), sin finalizar, con retraso (fecha de fin pasada sin finalizar) y total, y gráficos de las tareas sin finalizar por sección y por responsable, por estado y de entregas por semana. Se recalcula al momento: marca una tarea como finalizada en la lista o muévela en el cronograma y el panel cambia. widgets elige qué bloques se ven y en qué orden."
+      [code]="dashboardCode"
+    >
+      <cb-kanban-dashboard [columns]="columns()" [people]="people" />
     </doc-section>
 
     <doc-section
@@ -240,8 +250,18 @@ export class KanbanDocComponent {
         { id: 5, title: 'Extracto en PDF', assignees: ['laura'], priority: 'medium', startDate: day(-2), endDate: day(3) },
       ],
     },
-    { id: 'review', title: 'En revisión', color: '#f59e0b', items: [] },
-    { id: 'done', title: 'Hecho', color: '#10b981', items: [] },
+    {
+      id: 'review',
+      title: 'En revisión',
+      color: '#f59e0b',
+      items: [{ id: 6, title: 'Revisión de accesibilidad', assignees: ['andres'], priority: 'high', startDate: day(-6), endDate: day(-3) }],
+    },
+    {
+      id: 'done',
+      title: 'Hecho',
+      color: '#10b981',
+      items: [{ id: 7, title: 'Diseño del onboarding', assignees: ['camila'], priority: 'medium', startDate: day(-12), endDate: day(-7), completed: true }],
+    },
   ]);
   protected readonly last = signal('—');
 
@@ -277,7 +297,7 @@ export class KanbanDocComponent {
   /** Las tarjetas nuevas nacen sin responsable y con prioridad baja. */
   protected readonly createTask = (title: string): CbKanbanTask => ({ id: this.nextId++, title, priority: 'low' });
 
-  protected readonly importCode = `import { CbKanban, CbKanbanCalendar, CbKanbanCardDirective, CbKanbanList, CbKanbanTimeline, type CbKanbanColumn, type CbKanbanPerson, type CbKanbanTask } from '@caribeng/ui/kanban';`;
+  protected readonly importCode = `import { CbKanban, CbKanbanCalendar, CbKanbanCardDirective, CbKanbanDashboard, CbKanbanList, CbKanbanTimeline, type CbKanbanColumn, type CbKanbanPerson, type CbKanbanTask } from '@caribeng/ui/kanban';`;
   protected readonly boardCode = `<div class="kb-demo">
   <cb-kanban
     [(columns)]="columns"
@@ -344,6 +364,10 @@ export class KanbanDocComponent {
   (cardEdit)="log('Editada', $event.item.title)"
   (cardAdd)="log('Añadida', $event.item.title)"
 />`;
+  protected readonly dashboardCode = `<cb-kanban-dashboard [columns]="columns()" [people]="people" />
+
+<!-- Solo algunos bloques, en este orden. -->
+<cb-kanban-dashboard [columns]="columns()" [widgets]="['overdue', 'total', 'byAssignee']" />`;
   protected readonly templateCode = `<cb-kanban [(columns)]="stories" ariaLabel="Historias">
   <ng-template cbKanbanCard let-story>
     <span class="kb-title">{{ story.title }}</span>

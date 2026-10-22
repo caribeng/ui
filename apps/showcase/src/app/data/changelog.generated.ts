@@ -15,6 +15,10 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
             "text": "`layout=\"list\"` (cada plan en una fila, la vista que antes era `horizontal`). En `horizontal`: `subtitle` con icono de ayuda, selector de facturación como grupo de opciones (Paga anualmente / Paga mensualmente, flechas, Inicio y Fin) con `annualBadge` (\"25% OFF\"), y `annualDisplay` (`monthly` por defecto en `horizontal`: precio anual expresado por mes con \"Facturado $X anualmente\" y \"Ahorras $Y\"). Los planes admiten `badge` (el destacado muestra \"Recomendado\") y cada característica su `icon`. Los importes se formatean con el idioma activo (`122.925`)."
           },
           {
+            "component": "Kanban, panel de resumen",
+            "text": "`cb-kanban-dashboard` calcula desde el mismo `[(columns)]` los indicadores de tareas finalizadas (`completed`), sin finalizar, con retraso (fin pasado sin finalizar, en rojo) y total, con su porcentaje, y los gráficos (`cb-chart`) de tareas sin finalizar por sección y por responsable, por estado (dona: finalizadas, a tiempo, con retraso) y de entregas por semana (apiladas). `widgets` elige los bloques y su orden; `headingLevel`, `chartHeight` y `animate`. Los datos de cada gráfico se exponen como señales (`bySection`, `byStatus`, `byAssignee`, `byWeek`)."
+          },
+          {
             "component": "Kanban, cronograma",
             "text": "`cb-kanban-timeline` es un diagrama de Gantt sobre el mismo `[(columns)]`: una fila por sección (contraíble, con contador) y cada tarea como una barra de `startDate` a `endDate` en carriles, con la línea de hoy, meses y fines de semana. Con `editable`, la barra se arrastra para cambiar las fechas o pasarla a otra sección, y sus bordes cambian el inicio o el fin; con el teclado, Alt + ←→ (un día), Alt + Mayús + ←→ (fecha de fin) y Alt + ↑↓ (sección), y el rango sigue a la tarea. `[(viewDate)]` (primer día), `span` (días visibles), ‹ › por semanas, \"Hoy\", `[(zoom)]` con − +, \"Sin fecha (n)\", \"Añadir tarea\" por sección (empieza hoy) y \"Añadir sección\" con `columnsEditable`."
           },

@@ -173,6 +173,21 @@ export interface CbTranslation {
   /** `{0}`: sección. */
   kanbanAddTaskIn: string;
   kanbanTimelineInstructions: string;
+  kanbanDashboard: string;
+  kanbanTotalCompleted: string;
+  kanbanTotalIncomplete: string;
+  kanbanTotalOverdue: string;
+  kanbanTotalTasks: string;
+  /** `{0}`: porcentaje. */
+  kanbanOfTotal: string;
+  kanbanIncompleteBySection: string;
+  kanbanByCompletion: string;
+  kanbanIncompleteByAssignee: string;
+  kanbanByWeek: string;
+  kanbanCompletedPlural: string;
+  kanbanPendingPlural: string;
+  kanbanOverduePlural: string;
+  kanbanIncompletePlural: string;
   save: string;
   /** `{0}`: cantidad. */
   mentionsCount: string;
@@ -729,6 +744,20 @@ export const CB_LOCALE_ES: CbTranslation = {
   kanbanZoomOut: 'Alejar',
   kanbanAddTaskIn: 'Añadir tarea en {0}',
   kanbanTimelineInstructions: 'Arrastra la tarea para cambiar sus fechas, o sus bordes para cambiar la duración. Con el teclado: Alt + izquierda o derecha la mueve un día, Alt + Mayús + izquierda o derecha cambia la fecha de fin, y Alt + arriba o abajo la pasa a otra sección.',
+  kanbanDashboard: 'Panel del proyecto',
+  kanbanTotalCompleted: 'Tareas finalizadas',
+  kanbanTotalIncomplete: 'Tareas sin finalizar',
+  kanbanTotalOverdue: 'Tareas con retraso',
+  kanbanTotalTasks: 'Tareas en total',
+  kanbanOfTotal: '{0} del total',
+  kanbanIncompleteBySection: 'Tareas sin finalizar por sección',
+  kanbanByCompletion: 'Tareas por estado de finalización',
+  kanbanIncompleteByAssignee: 'Tareas sin finalizar por responsable',
+  kanbanByWeek: 'Entregas por semana',
+  kanbanCompletedPlural: 'Finalizadas',
+  kanbanPendingPlural: 'A tiempo',
+  kanbanOverduePlural: 'Con retraso',
+  kanbanIncompletePlural: 'Sin finalizar',
   save: 'Guardar',
   mentionsCount: '{0} sugerencias',
   add: 'Agregar',
@@ -1227,6 +1256,20 @@ export const CB_LOCALE_EN: CbTranslation = {
   kanbanZoomOut: 'Zoom out',
   kanbanAddTaskIn: 'Add task to {0}',
   kanbanTimelineInstructions: 'Drag the task to change its dates, or its edges to change how long it lasts. With the keyboard: Alt + left or right moves it one day, Alt + Shift + left or right changes the end date, and Alt + up or down moves it to another section.',
+  kanbanDashboard: 'Project dashboard',
+  kanbanTotalCompleted: 'Completed tasks',
+  kanbanTotalIncomplete: 'Incomplete tasks',
+  kanbanTotalOverdue: 'Overdue tasks',
+  kanbanTotalTasks: 'Total tasks',
+  kanbanOfTotal: '{0} of total',
+  kanbanIncompleteBySection: 'Incomplete tasks by section',
+  kanbanByCompletion: 'Tasks by completion status',
+  kanbanIncompleteByAssignee: 'Incomplete tasks by assignee',
+  kanbanByWeek: 'Due dates by week',
+  kanbanCompletedPlural: 'Completed',
+  kanbanPendingPlural: 'On time',
+  kanbanOverduePlural: 'Overdue',
+  kanbanIncompletePlural: 'Incomplete',
   save: 'Save',
   mentionsCount: '{0} suggestions',
   add: 'Add',

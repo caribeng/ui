@@ -3,6 +3,7 @@
  */
 export { CbKanban, CbKanbanCardDirective, type CbKanbanCardContext } from './lib/kanban.component';
 export { CbKanbanCalendar } from './lib/kanban-calendar.component';
+export { CbKanbanDashboard, type CbKanbanDashboardWidget } from './lib/kanban-dashboard.component';
 export { CbKanbanList } from './lib/kanban-list.component';
 export { CbKanbanTimeline } from './lib/kanban-timeline.component';
 export {

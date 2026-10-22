@@ -1,0 +1,93 @@
+:host {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  color: var(--cb-color-text);
+  font-family: var(--cb-font-sans);
+  font-size: var(--cb-text-sm, 0.875rem);
+}
+
+/* Cuatro columnas: los indicadores ocupan una y los gráficos dos. */
+.cb-kanban-dashboard__grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.cb-kanban-dashboard__card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--cb-color-border);
+  border-radius: var(--cb-radius-lg, 10px);
+  background: var(--cb-color-surface);
+}
+
+.cb-kanban-dashboard__chart {
+  grid-column: span 2;
+}
+
+/* La tarjeta ya enmarca el gráfico: sin el marco propio de cb-chart. */
+.cb-kanban-dashboard__chart cb-chart {
+  flex: 1;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.cb-kanban-dashboard__title {
+  margin: 0 0 0.75rem;
+  font-size: var(--cb-text-base, 1rem);
+  font-weight: var(--cb-font-weight-semibold, 600);
+  line-height: 1.3;
+}
+
+.cb-kanban-dashboard__kpi {
+  align-items: center;
+  text-align: center;
+}
+
+.cb-kanban-dashboard__kpi .cb-kanban-dashboard__title {
+  align-self: stretch;
+  text-align: left;
+}
+
+.cb-kanban-dashboard__value {
+  margin: 0.25rem 0;
+  font-size: 2.5rem;
+  font-weight: var(--cb-font-weight-medium, 500);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+}
+
+.cb-kanban-dashboard__value--success {
+  color: var(--cb-color-success-600, var(--cb-color-success));
+}
+
+.cb-kanban-dashboard__value--danger {
+  color: var(--cb-color-danger-600, var(--cb-color-danger));
+}
+
+.cb-kanban-dashboard__hint {
+  margin: 0;
+  color: var(--cb-color-text-muted);
+  font-size: var(--cb-text-xs, 0.75rem);
+}
+
+@media (max-width: 960px) {
+  .cb-kanban-dashboard__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .cb-kanban-dashboard__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .cb-kanban-dashboard__chart {
+    grid-column: auto;
+  }
+}
