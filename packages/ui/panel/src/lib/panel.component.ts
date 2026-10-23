@@ -33,8 +33,8 @@ let nextPanelUid = 0;
     '[class.cb-is-collapsed]': 'collapsed()',
   },
   template: `
-    <div class="cb-panel__header" [id]="headerId">
-      <span class="cb-panel__title">{{ header() }}</span>
+    <div class="cb-panel__header">
+      <span class="cb-panel__title" [id]="headerId">{{ header() }}</span>
       <div class="cb-panel__actions">
         <ng-content select="[cb-panel-icons]" />
         @if (toggleable()) {
@@ -42,7 +42,7 @@ let nextPanelUid = 0;
             type="button"
             class="cb-panel__toggler"
             [attr.aria-expanded]="!collapsed()"
-            [attr.aria-controls]="contentId"
+            [attr.aria-controls]="collapsed() ? null : contentId"
             [attr.aria-label]="header() || t().togglePanel"
             (click)="toggle()"
           >

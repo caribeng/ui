@@ -67,4 +67,16 @@ describe('CbAccordion', () => {
     expect(el.querySelector('.c1')).toBeTruthy();
     expect(el.querySelector('.c2')).toBeTruthy();
   });
+  it('aria-controls solo apunta a la región cuando el panel está abierto', () => {
+    const fixture = TestBed.createComponent(HostComponent);
+    fixture.detectChanges();
+    const el = fixture.nativeElement as HTMLElement;
+    const header = el.querySelector<HTMLButtonElement>('.cb-accordion__header')!;
+    expect(header.hasAttribute('aria-controls')).toBe(false);
+    header.click();
+    fixture.detectChanges();
+    const region = el.querySelector('[role="region"]')!;
+    expect(header.getAttribute('aria-controls')).toBe(region.id);
+    expect(region.getAttribute('aria-labelledby')).toBe(header.id);
+  });
 });

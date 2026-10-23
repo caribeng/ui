@@ -12,7 +12,7 @@ import {
   linkedSignal,
   model,
 } from '@angular/core';
-import { injectCbTranslation } from '@caribeng/ui';
+import { cbFormat, injectCbTranslation } from '@caribeng/ui';
 import { CbPaginator } from '@caribeng/ui/paginator';
 
 /** Elemento con la forma de la presentación por defecto (título, categoría y descripción). */
@@ -116,6 +116,7 @@ export class CbDataViewHeader {}
                 type="button"
                 class="cb-dataview__select"
                 [attr.aria-pressed]="isSelected(item)"
+                [attr.aria-label]="fmt(t().selectItem, asItem(item).title)"
                 (click)="selection.set(asItem(item))"
               >
                 {{ t().select }}
@@ -136,6 +137,7 @@ export class CbDataViewHeader {}
 })
 export class CbDataView {
   protected readonly t = injectCbTranslation();
+  protected readonly fmt = cbFormat;
 
   /** Colección a mostrar. */
   readonly value = input<readonly unknown[]>([]);

@@ -56,4 +56,17 @@ describe('CbPanel', () => {
     const el: HTMLElement = fixture.nativeElement;
     expect(el.querySelector('.cb-panel__toggler')).toBeNull();
   });
+  it('la región se nombra solo con el título y aria-controls sigue al estado', () => {
+    const fixture = TestBed.createComponent(HostComponent);
+    fixture.detectChanges();
+    const el = fixture.nativeElement as HTMLElement;
+    const region = el.querySelector('[role="region"]')!;
+    expect(el.querySelector('#' + region.getAttribute('aria-labelledby'))!.textContent!.trim()).toBe('Resumen');
+    const toggler = el.querySelector<HTMLButtonElement>('.cb-panel__toggler')!;
+    expect(toggler.getAttribute('aria-controls')).toBe(region.id);
+    fixture.componentInstance.collapsed.set(true);
+    fixture.detectChanges();
+    expect(el.querySelector('[role="region"]')).toBeNull();
+    expect(toggler.hasAttribute('aria-controls')).toBe(false);
+  });
 });

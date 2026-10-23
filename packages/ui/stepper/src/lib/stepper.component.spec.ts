@@ -55,4 +55,21 @@ describe('CbStepper', () => {
     fixture.detectChanges();
     expect(el.querySelector('.s3')).toBeTruthy();
   });
+  it('cada paso se nombra con su posición, su etiqueta y si está completado', () => {
+    const fixture = TestBed.createComponent(HostComponent);
+    fixture.detectChanges();
+    const el = fixture.nativeElement as HTMLElement;
+    const buttons = () => Array.from(el.querySelectorAll<HTMLButtonElement>('.cb-stepper__indicator'));
+    expect(buttons().map((b) => b.getAttribute('aria-label'))).toEqual([
+      'Paso 1 de 3: Cuenta',
+      'Paso 2 de 3: Perfil',
+      'Paso 3 de 3: Confirmar',
+    ]);
+    // La etiqueta visible no se lee dos veces.
+    expect(el.querySelector('.cb-stepper__label')!.getAttribute('aria-hidden')).toBe('true');
+    buttons()[1].click();
+    fixture.detectChanges();
+    expect(buttons()[0].getAttribute('aria-label')).toBe('Paso 1 de 3: Cuenta, completado');
+    expect(buttons()[1].getAttribute('aria-current')).toBe('step');
+  });
 });

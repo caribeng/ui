@@ -34,4 +34,19 @@ describe('CbOrganizationChart', () => {
     fixture.detectChanges();
     expect(fixture.nativeElement.textContent).not.toContain('Hijo');
   });
+  it('es un grupo de listas anidadas con botones (sin role tree) y el elegido expone aria-pressed', () => {
+    TestBed.configureTestingModule({ imports: [CbOrganizationChart] });
+    const fixture = TestBed.createComponent(CbOrganizationChart);
+    fixture.componentRef.setInput('value', [{ key: 'ceo', label: 'Dirección' }]);
+    fixture.detectChanges();
+    const el = fixture.nativeElement as HTMLElement;
+    expect(el.querySelector('[role="tree"], [role="treeitem"]')).toBeNull();
+    expect(el.querySelector('[role="group"]')!.getAttribute('aria-label')).toBeTruthy();
+    expect(el.querySelector('ul > li')).toBeTruthy();
+    const select = el.querySelector<HTMLButtonElement>('[aria-label="Seleccionar Dirección"]')!;
+    expect(select.getAttribute('aria-pressed')).toBe('false');
+    select.click();
+    fixture.detectChanges();
+    expect(select.getAttribute('aria-pressed')).toBe('true');
+  });
 });

@@ -67,7 +67,7 @@ export class CbAccordion {
         class="cb-accordion__header"
         [id]="headerId"
         [attr.aria-expanded]="open()"
-        [attr.aria-controls]="regionId"
+        [attr.aria-controls]="open() ? regionId : null"
         [disabled]="disabled()"
         (click)="toggle()"
       >

@@ -38,7 +38,7 @@ let nextFieldsetUid = 0;
             type="button"
             class="cb-fieldset__toggler"
             [attr.aria-expanded]="!collapsed()"
-            [attr.aria-controls]="contentId"
+            [attr.aria-controls]="collapsed() ? null : contentId"
             (click)="toggle()"
           >
             <cb-icon

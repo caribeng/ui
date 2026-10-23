@@ -24,7 +24,7 @@ export interface CbOrganizationChartNode {
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgTemplateOutlet, CbIcon],
   template: `
-    <div class="cb-organization-chart" role="tree" [attr.aria-label]="(ariaLabel() ?? t().orgChart)">
+    <div class="cb-organization-chart" role="group" [attr.aria-label]="(ariaLabel() ?? t().orgChart)">
       <ng-container
         [ngTemplateOutlet]="nodesTemplate"
         [ngTemplateOutletContext]="{ $implicit: value() }"
@@ -34,18 +34,16 @@ export interface CbOrganizationChartNode {
     <ng-template #nodesTemplate let-nodes>
       <ul class="cb-organization-chart__nodes">
         @for (node of nodes; track node.key) {
-          <li class="cb-organization-chart__branch" role="none">
+          <li class="cb-organization-chart__branch">
             <div
               class="cb-organization-chart__card"
-              role="treeitem"
               [class.cb-organization-chart__card--selected]="selection()?.key === node.key"
-              [attr.aria-selected]="selection()?.key === node.key"
-              [attr.aria-expanded]="node.children?.length ? expanded().has(node.key) : null"
             >
               <button
                 class="cb-organization-chart__select"
                 type="button"
                 (click)="selection.set(node)"
+                [attr.aria-pressed]="selection()?.key === node.key"
                 [attr.aria-label]="fmt(t().selectItem, node.label)"
               >
                 @if (node.icon) {

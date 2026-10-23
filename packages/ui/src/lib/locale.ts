@@ -224,6 +224,8 @@ export interface CbTranslation {
   continue: string;
   /** `{0}`: paso actual, `{1}`: total. */
   stepOf: string;
+  /** Se añade al nombre de un paso terminado ("…, completado"). */
+  stepCompleted: string;
   expand: string;
   collapse: string;
   /** `{0}`: elemento. */
@@ -804,6 +806,7 @@ export const CB_LOCALE_ES: CbTranslation = {
   start: 'Comenzar',
   continue: 'Continuar',
   stepOf: 'Paso {0} de {1}',
+  stepCompleted: 'completado',
   expand: 'Expandir',
   collapse: 'Contraer',
   expandItem: 'Expandir {0}',
@@ -1328,6 +1331,7 @@ export const CB_LOCALE_EN: CbTranslation = {
   start: 'Get started',
   continue: 'Continue',
   stepOf: 'Step {0} of {1}',
+  stepCompleted: 'completed',
   expand: 'Expand',
   collapse: 'Collapse',
   expandItem: 'Expand {0}',

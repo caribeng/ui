@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { CbScrollTop } from './scrolltop.component';
 
 @Component({
@@ -36,6 +36,18 @@ async function setup() {
   };
   return { fixture, box, button, scroll };
 }
+
+
+@Component({
+  imports: [CbScrollTop],
+  template: `
+    <div class="scroll-box" style="height: 120px; overflow: auto">
+      <div style="height: 600px">Contenido largo</div>
+      <cb-scroll-top target="parent" [threshold]="50" />
+    </div>
+  `,
+})
+class SmoothHostComponent {}
 
 describe('CbScrollTop', () => {
   it('permanece oculto bajo el umbral y aparece al hacer scroll sobre el padre', async () => {
@@ -84,5 +96,26 @@ describe('CbScrollTop', () => {
     window.dispatchEvent(new Event('scroll'));
     fixture.detectChanges();
     expect(el.querySelector('.cb-scroll-top__button')).toBeNull();
+  });
+  describe('con "reducir movimiento"', () => {
+    const original = window.matchMedia;
+    afterEach(() => {
+      window.matchMedia = original;
+    });
+
+    it('el desplazamiento es instantáneo aunque behavior sea smooth', async () => {
+      window.matchMedia = vi.fn((query: string) => ({ matches: query.includes('reduce') }) as MediaQueryList);
+      const fixture = TestBed.createComponent(SmoothHostComponent);
+      fixture.detectChanges();
+      await fixture.whenStable();
+      const box = fixture.nativeElement.querySelector('.scroll-box') as HTMLElement;
+      const scrollTo = vi.fn();
+      box.scrollTo = scrollTo as unknown as typeof box.scrollTo;
+      box.scrollTop = 100;
+      box.dispatchEvent(new Event('scroll'));
+      fixture.detectChanges();
+      box.querySelector<HTMLButtonElement>('.cb-scroll-top__button')!.click();
+      expect(scrollTo).toHaveBeenCalledWith({ top: 0, behavior: 'auto' });
+    });
   });
 });

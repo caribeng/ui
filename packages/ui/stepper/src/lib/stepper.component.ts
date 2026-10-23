@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { CbIcon } from '@caribeng/ui/icon';
 import { CbButton } from '@caribeng/ui/button';
-import { injectCbTranslation } from '@caribeng/ui';
+import { cbFormat, injectCbTranslation } from '@caribeng/ui';
 
 let nextUid = 0;
 
@@ -45,6 +45,7 @@ let nextUid = 0;
             type="button"
             class="cb-stepper__indicator"
             [attr.aria-current]="isActive(step) ? 'step' : null"
+            [attr.aria-label]="stepName(step, i)"
             [disabled]="step.disabled()"
             (click)="goTo(i)"
           >
@@ -54,7 +55,7 @@ let nextUid = 0;
               {{ i + 1 }}
             }
           </button>
-          <span class="cb-stepper__label">{{ step.label() }}</span>
+          <span class="cb-stepper__label" aria-hidden="true">{{ step.label() }}</span>
           @if (!last) {
             <span class="cb-stepper__connector" aria-hidden="true"></span>
           }
@@ -93,6 +94,11 @@ export class CbStepper {
   }
   isComplete(step: CbStep): boolean {
     return this.steps().indexOf(step) < this.activeIndex();
+  }
+  /** Nombre del botón del paso: "Paso 2 de 3: Envío" (y ", completado" si ya pasó). */
+  protected stepName(step: CbStep, index: number): string {
+    const name = cbFormat(this.t().stepOf, index + 1, this.steps().length) + (step.label() ? `: ${step.label()}` : '');
+    return this.isComplete(step) ? `${name}, ${this.t().stepCompleted}` : name;
   }
 
   goTo(index: number): void {

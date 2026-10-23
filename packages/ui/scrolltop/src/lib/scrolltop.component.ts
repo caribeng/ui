@@ -129,7 +129,9 @@ export class CbScrollTop {
   }
 
   scrollToTop(): void {
-    const behavior = this.behavior();
+    // Con "reducir movimiento" en el sistema, el desplazamiento es instantáneo.
+    const reduce = this.doc.defaultView?.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    const behavior: ScrollBehavior = reduce ? 'auto' : this.behavior();
     if (this.target() === 'parent') {
       const parentEl = this.getParentTarget();
       if (!parentEl) return;

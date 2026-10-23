@@ -101,4 +101,11 @@ describe('CbDataView', () => {
     fixture.detectChanges();
     expect(el.querySelector('.cb-dataview__empty')!.textContent!.trim()).toBe('Sin resultados');
   });
+
+  it('cada botón de seleccionar se nombra con su elemento', () => {
+    const { el } = setup();
+    const select = el.querySelector<HTMLButtonElement>('.cb-dataview__select')!;
+    expect(select.getAttribute('aria-label')).toBe('Seleccionar Producto 1');
+    expect(select.getAttribute('aria-pressed')).toBe('false');
+  });
 });

@@ -34,6 +34,13 @@ function setup() {
   return { fixture, input, type };
 }
 
+
+@Component({
+  imports: [CbInputMask],
+  template: `<label for="tel">Teléfono</label><cb-input-mask inputId="tel" mask="999" />`,
+})
+class LabelHostComponent {}
+
 describe('CbInputMask', () => {
   it('aplica la máscara numérica e ignora letras', () => {
     const { fixture, input, type } = setup();
@@ -115,5 +122,14 @@ describe('CbInputMask', () => {
     const input = fixture.nativeElement.querySelector('input') as HTMLInputElement;
     expect(input.getAttribute('aria-invalid')).toBe('true');
     expect(input.getAttribute('aria-required')).toBe('true');
+  });
+  it('inputId asocia el campo a su label; sin él, el id es único', () => {
+    const fixture = TestBed.createComponent(LabelHostComponent);
+    fixture.detectChanges();
+    const el = fixture.nativeElement as HTMLElement;
+    expect(el.querySelector('input')!.id).toBe('tel');
+    const other = TestBed.createComponent(HostComponent);
+    other.detectChanges();
+    expect((other.nativeElement as HTMLElement).querySelector('input')!.id).toMatch(/^cb-input-mask-\d+$/);
   });
 });

@@ -12,6 +12,8 @@ import {
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { cbFieldState } from '@caribeng/ui';
 
+let nextUid = 0;
+
 /**
  * InputMask de CaribeNG: campo de texto con máscara de formato (`9` = dígito,
  * `a` = letra, `*` = alfanumérico) e integración con Angular Forms (CVA).
@@ -35,6 +37,7 @@ import { cbFieldState } from '@caribeng/ui';
     <input
       type="text"
       class="cb-input-mask__field"
+      [id]="inputId()"
       [class.cb-is-invalid]="fieldState.invalid()"
       [attr.aria-invalid]="fieldState.invalid() ? 'true' : null"
       [attr.aria-required]="fieldState.required() || null"
@@ -60,6 +63,8 @@ export class CbInputMask implements ControlValueAccessor {
   /** Estado de validación: inputs manuales + estado de Angular Forms. */
   protected readonly fieldState = cbFieldState({ invalid: () => this.invalid() });
   readonly ariaLabel = input<string>('');
+  /** `id` del campo, para asociarlo a un `<label for>`. */
+  readonly inputId = input<string>(`cb-input-mask-${++nextUid}`);
 
   readonly value = model<string>('');
 
