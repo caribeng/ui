@@ -66,6 +66,7 @@ import { CopyButtonDocComponent } from './pages/copy-button-doc.component';
 import { ChatDocComponent } from './pages/chat-doc.component';
 import { KanbanDocComponent } from './pages/kanban-doc.component';
 import { GanttDocComponent } from './pages/gantt-doc.component';
+import { SchedulerDocComponent } from './pages/scheduler-doc.component';
 import { MentionsDocComponent } from './pages/mentions-doc.component';
 import { CodeBlockDocComponent } from './pages/code-block-doc.component';
 import { PhoneInputDocComponent } from './pages/phone-input-doc.component';
@@ -180,6 +181,7 @@ export const routes: Routes = [
   { path: 'components/chat', component: ChatDocComponent, title: 'Chat · CaribeNG' },
   { path: 'components/kanban', component: KanbanDocComponent, title: 'Kanban · CaribeNG' },
   { path: 'components/gantt', component: GanttDocComponent, title: 'Gantt · CaribeNG' },
+  { path: 'components/scheduler', component: SchedulerDocComponent, title: 'Scheduler · CaribeNG' },
   { path: 'components/mentions', component: MentionsDocComponent, title: 'Mentions · CaribeNG' },
   { path: 'components/code-block', component: CodeBlockDocComponent, title: 'CodeBlock · CaribeNG' },
   { path: 'components/phone-input', component: PhoneInputDocComponent, title: 'PhoneInput · CaribeNG' },

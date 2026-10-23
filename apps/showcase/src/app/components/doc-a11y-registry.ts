@@ -644,6 +644,21 @@ export const DOC_A11Y: Record<string, DocA11y> = {
       { keys: 'Enter', action: 'Abre la tarea (taskOpen).' },
     ],
   },
+  'cb-scheduler': {
+    screenReader: [
+      'El título del periodo ("20 – 26 oct 2026") se anuncia al cambiar con `aria-live="polite"`. Anterior y Siguiente son botones con nombre y las vistas, botones con `aria-pressed`.',
+      'Cada evento es un botón con su nombre completo: título, día, hora y lugar ("Comité de crédito, jueves 23 de octubre, 09:00 – 10:30, Sala 3"); los de día completo lo dicen.',
+      'El mes es un `role="grid"` con cabeceras de día; cada número de día es un botón que abre ese día y "+2 más" dice cuántos eventos y de qué día son.',
+      'Crear y mover no dependen del ratón (WCAG 2.5.7): cada día tiene un botón "Nuevo evento el…" y los eventos se mueven y cambian de duración con el teclado; cada cambio se anuncia en una región `role="status"`.',
+    ],
+    keyboard: [
+      { keys: 'Tab', action: 'Recorre la barra, los días y los eventos.' },
+      { keys: 'Enter', action: 'En un evento, lo abre (eventOpen); en un día, abre su vista.' },
+      { keys: 'Flecha izquierda / derecha', action: 'Mueve el evento un día.' },
+      { keys: 'Flecha arriba / abajo', action: 'Mueve el evento una franja (en el mes y en la franja de día completo, una semana).' },
+      { keys: 'Mayús + flecha arriba / abajo', action: 'Acorta o alarga el evento una franja.' },
+    ],
+  },
   'cb-kanban': {
     screenReader: [
       'Cada columna es una región nombrada por su título, con una lista de tarjetas. Cada tarjeta es enfocable, se describe como "tarjeta" y lleva las instrucciones de teclado (`aria-describedby`).',

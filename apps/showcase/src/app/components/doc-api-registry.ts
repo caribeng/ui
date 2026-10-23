@@ -130,6 +130,7 @@ import { CbCodeBlock } from '@caribeng/ui/code-block';
 import { CbPhoneInput } from '@caribeng/ui/phone-input';
 import { CbKanban } from '@caribeng/ui/kanban';
 import { CbGantt } from '@caribeng/ui/gantt';
+import { CbScheduler } from '@caribeng/ui/scheduler';
 import { CbMentions } from '@caribeng/ui/mentions';
 import { CbCommandPalette } from '@caribeng/ui/command-palette';
 import { CbSidebar } from '@caribeng/ui/sidebar';
@@ -1805,6 +1806,27 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "taskOpen", type: "CbGanttTask", description: "Doble clic o Enter sobre una tarea." },
       { name: "linkAdd", type: "CbGanttLink", description: "Dependencia creada ({ from, to }: to depende de from)." },
       { name: "linkRemove", type: "CbGanttLink", description: "Dependencia quitada." }
+    ]
+  },
+  "cb-scheduler": {
+    component: CbScheduler,
+    selector: "cb-scheduler",
+    props: [
+      { name: "events", kind: "string", type: "readonly CbSchedulerEvent[] (model)", default: [], example: [{ id: '1', title: 'Reunión', start: '2026-10-26T10:00', end: '2026-10-26T11:00' }, { id: '2', title: 'Taller', start: '2026-10-27T15:00', end: '2026-10-27T17:00', color: '#8b5cf6' }, { id: '3', title: 'Cierre', start: '2026-10-29', allDay: true }], description: "Eventos (id, title, start, end, allDay, color, location, description).", control: false },
+      { name: "view", kind: "enum", type: "CbSchedulerView (model)", options: ["month", "week", "day", "agenda"], default: "week", description: "Vista: mes, semana, día o agenda." },
+      { name: "date", kind: "string", type: "Date (model)", default: undefined, description: "Día de referencia de la vista (hoy por defecto).", control: false },
+      { name: "views", kind: "string", type: "CbSchedulerView[]", default: undefined, description: "Vistas de la barra y su orden.", control: false },
+      { name: "firstDayOfWeek", kind: "number", type: "number", default: 1, description: "Primer día de la semana (0 = domingo, 1 = lunes)." },
+      { name: "slotMinutes", kind: "number", type: "number", default: 30, description: "Minutos de cada franja: paso al arrastrar y con el teclado." },
+      { name: "scrollHour", kind: "number", type: "number", default: 8, description: "Hora visible al abrir la semana o el día." },
+      { name: "agendaDays", kind: "number", type: "number", default: 14, description: "Días que muestra la agenda." },
+      { name: "editable", kind: "boolean", type: "boolean", default: true, description: "Mover, cambiar la duración y elegir huecos." },
+      { name: "height", kind: "string", type: "string", default: "36rem", description: "Alto del área del calendario." }
+    ],
+    events: [
+      { name: "eventChange", type: "CbSchedulerChange", description: "Un evento cambió de fecha u hora ({ event, previous })." },
+      { name: "eventOpen", type: "CbSchedulerEvent", description: "Clic o Enter sobre un evento." },
+      { name: "slotSelect", type: "CbSchedulerSlot", description: "Hueco elegido para crear un evento ({ start, end, allDay })." }
     ]
   },
   "cb-kanban": {

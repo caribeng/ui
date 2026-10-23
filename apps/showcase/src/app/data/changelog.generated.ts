@@ -11,6 +11,10 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
         "type": "added",
         "items": [
           {
+            "component": "Componente nuevo: `Scheduler`",
+            "text": "(`@caribeng/ui/scheduler`): calendario de eventos con vistas de mes, semana, día y agenda (`[(view)]`, `[(date)]`, navegación y Hoy). En semana y día, franjas horarias con los eventos solapados uno al lado del otro, franja de día completo y línea de la hora actual; se arrastra para mover (también entre días) y para cambiar la duración, y arrastrando o haciendo clic en una franja vacía se elige un hueco (`slotSelect`). En el mes, punto y hora por evento, barras para los de día completo, «+N más» y arrastre entre días. Teclado completo (flechas, Mayús + flechas, Enter, botón «Nuevo evento el…» en cada día) con cada cambio anunciado, `editable`, `firstDayOfWeek`, `slotMinutes`, `scrollHour`, `agendaDays` y eventos `eventChange`, `eventOpen` y `slotSelect`. 164 entry points."
+          },
+          {
             "component": "Componente nuevo: `Gantt`",
             "text": "(`@caribeng/ui/gantt`): tabla de tareas en árbol (`role=\"treegrid\"`, grupos plegables, columnas configurables) y barras en el tiempo con escalas de día, semana y mes (`[(scale)]`), línea de hoy y botón Hoy. Se arrastra para mover, cambiar inicio o fin y avance; el conector crea dependencias fin → inicio (sin ciclos) y un clic en la flecha la quita; con `autoSchedule` (por defecto) las tareas dependientes se desplazan solas. Grupos calculados con sus tareas, hitos en rombo, teclado completo (flechas, Mayús/Alt + flechas, + / −, Supr, Enter) con cada cambio anunciado, `readonly`, y eventos `taskChange`, `taskOpen`, `linkAdd` y `linkRemove`. 163 entry points."
           },

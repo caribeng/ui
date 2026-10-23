@@ -3199,4 +3199,79 @@ export const ES_EN: Record<string, string> = {
     'Raises or lowers the progress by 10%.',
   'Quita las dependencias de la tarea.':
     'Removes the task dependencies.',
+  // --- Scheduler ---
+  'Calendario de eventos con vistas de mes, semana, día y agenda. Los eventos con hora se colocan en su franja (los que se solapan, uno al lado del otro) y los de día completo arriba; se mueven y se les cambia la duración arrastrando o con el teclado, y al elegir un hueco se crea un evento.':
+    'Event calendar with month, week, day and agenda views. Timed events are placed in their slot (overlapping ones side by side) and all-day events on top; they are moved and their duration changed by dragging or with the keyboard, and choosing a slot creates an event.',
+  'Calendario completo':
+    'Full calendar',
+  'Arrastra un evento para moverlo (también a otro día) y su borde inferior para cambiar la duración; el paso es slotMinutes (30 min). Arrastra sobre una franja vacía, haz clic en ella o pulsa + junto a un día para elegir un hueco: slotSelect devuelve inicio y fin, y aquí crea un evento y abre su ficha. Clic (o Enter) en un evento emite eventOpen. Cambia de vista con la barra; los días del mes y las cabeceras de la semana abren ese día.':
+    'Drag an event to move it (also to another day) and its bottom edge to change its duration; the step is slotMinutes (30 min). Drag over an empty slot, click it or press + next to a day to choose a slot: slotSelect returns the start and end, and here it creates an event and opens its form. Clicking (or Enter on) an event emits eventOpen. Change the view with the toolbar; month days and week headers open that day.',
+  'Mes':
+    'Month',
+  'En el mes, los eventos con hora llevan un punto y su hora; los de día completo y los que duran varios días, una barra de color. Si no caben, «+N más» abre ese día. Arrastra un evento a otro día para moverlo.':
+    'In the month, timed events have a dot and their time; all-day and multi-day events, a colored bar. If they do not fit, «+N more» opens that day. Drag an event to another day to move it.',
+  'Agenda':
+    'Agenda',
+  'La agenda lista los eventos de los próximos agendaDays días (14 por defecto), agrupados por día: útil en móvil y para lectores de pantalla.':
+    'The agenda lists the events of the next agendaDays days (14 by default), grouped by day: useful on mobile and for screen readers.',
+  'Solo lectura y semana desde el domingo':
+    'Read-only and week starting on Sunday',
+  'Con [editable]="false" no se mueve ni se crea nada (los eventos se siguen abriendo). firstDayOfWeek="0" empieza la semana el domingo, scrollHour fija la hora visible al abrir y views elige las vistas de la barra.':
+    'With [editable]="false" nothing is moved or created (events still open). firstDayOfWeek="0" starts the week on Sunday, scrollHour sets the hour shown on opening and views chooses the toolbar views.',
+  'Evento':
+    'Event',
+  'Título':
+    'Title',
+  'Eliminar':
+    'Delete',
+  'Cancelar':
+    'Cancel',
+  'Guardar':
+    'Save',
+  'Eventos (id, title, start, end, allDay, color, location, description).':
+    'Events (id, title, start, end, allDay, color, location, description).',
+  'Vista: mes, semana, día o agenda.':
+    'View: month, week, day or agenda.',
+  'Día de referencia de la vista (hoy por defecto).':
+    'Reference day of the view (today by default).',
+  'Vistas de la barra y su orden.':
+    'Toolbar views and their order.',
+  'Primer día de la semana (0 = domingo, 1 = lunes).':
+    'First day of the week (0 = Sunday, 1 = Monday).',
+  'Minutos de cada franja: paso al arrastrar y con el teclado.':
+    'Minutes per slot: step when dragging and with the keyboard.',
+  'Hora visible al abrir la semana o el día.':
+    'Hour shown when the week or day opens.',
+  'Días que muestra la agenda.':
+    'Days shown by the agenda.',
+  'Mover, cambiar la duración y elegir huecos.':
+    'Move, change the duration and choose slots.',
+  'Alto del área del calendario.':
+    'Height of the calendar area.',
+  'Un evento cambió de fecha u hora ({ event, previous }).':
+    'An event changed its date or time ({ event, previous }).',
+  'Clic o Enter sobre un evento.':
+    'Click or Enter on an event.',
+  'Hueco elegido para crear un evento ({ start, end, allDay }).':
+    'Slot chosen to create an event ({ start, end, allDay }).',
+  'El título del periodo ("20 – 26 oct 2026") se anuncia al cambiar con `aria-live="polite"`. Anterior y Siguiente son botones con nombre y las vistas, botones con `aria-pressed`.':
+    'The period title ("20 – 26 Oct 2026") is announced when it changes with `aria-live="polite"`. Previous and Next are named buttons and the views, buttons with `aria-pressed`.',
+  'Cada evento es un botón con su nombre completo: título, día, hora y lugar ("Comité de crédito, jueves 23 de octubre, 09:00 – 10:30, Sala 3"); los de día completo lo dicen.':
+    'Each event is a button with its full name: title, day, time and place ("Credit committee, Thursday, 23 October, 09:00 – 10:30, Room 3"); all-day events say so.',
+  'El mes es un `role="grid"` con cabeceras de día; cada número de día es un botón que abre ese día y "+2 más" dice cuántos eventos y de qué día son.':
+    'The month is a `role="grid"` with day headers; each day number is a button that opens that day and "+2 more" says how many events and on which day.',
+  'Crear y mover no dependen del ratón (WCAG 2.5.7): cada día tiene un botón "Nuevo evento el…" y los eventos se mueven y cambian de duración con el teclado; cada cambio se anuncia en una región `role="status"`.':
+    'Creating and moving do not depend on the mouse (WCAG 2.5.7): each day has a "New event on…" button and events are moved and resized with the keyboard; each change is announced in a `role="status"` region.',
+  'Recorre la barra, los días y los eventos.':
+    'Moves through the toolbar, the days and the events.',
+  'En un evento, lo abre (eventOpen); en un día, abre su vista.':
+    'On an event, opens it (eventOpen); on a day, opens its view.',
+  'Mueve el evento un día.':
+    'Moves the event one day.',
+  'Mueve el evento una franja (en el mes y en la franja de día completo, una semana).':
+    'Moves the event one slot (one week in the month and the all-day row).',
+  'Mayús + flecha arriba / abajo':
+    'Shift + Up / Down arrow',
+  'Acorta o alarga el evento una franja.':
+    'Shortens or lengthens the event by one slot.',
 };

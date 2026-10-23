@@ -525,6 +525,26 @@ export interface CbTranslation {
   /** `{0}`: tarea, `{1}`: avance. */
   ganttProgressChanged: string;
   ganttInstructions: string;
+  schedulerPrevious: string;
+  schedulerNext: string;
+  schedulerViews: string;
+  schedulerMonth: string;
+  schedulerWeek: string;
+  schedulerDay: string;
+  schedulerAgenda: string;
+  schedulerAllDay: string;
+  /** `{0}`: eventos. */
+  schedulerMore: string;
+  /** `{0}`: eventos, `{1}`: día. */
+  schedulerMoreLabel: string;
+  /** `{0}`: día. */
+  schedulerOpenDay: string;
+  /** `{0}`: día. */
+  schedulerNewEvent: string;
+  schedulerNoEvents: string;
+  /** `{0}`: evento con su fecha. */
+  schedulerMoved: string;
+  schedulerInstructions: string;
 
   // --- Varios ---
   scrollableArea: string;
@@ -1111,6 +1131,21 @@ export const CB_LOCALE_ES: CbTranslation = {
   ganttMoved: '{0}: {1}.',
   ganttProgressChanged: '{0}: {1} % completado.',
   ganttInstructions: 'Flechas: mover un día. Mayús + flechas: cambiar el fin. Alt + flechas: cambiar el inicio. + y −: avance. Supr: quitar sus dependencias. Enter: abrir la tarea.',
+  schedulerPrevious: 'Anterior',
+  schedulerNext: 'Siguiente',
+  schedulerViews: 'Vista del calendario',
+  schedulerMonth: 'Mes',
+  schedulerWeek: 'Semana',
+  schedulerDay: 'Día',
+  schedulerAgenda: 'Agenda',
+  schedulerAllDay: 'Todo el día',
+  schedulerMore: '+{0} más',
+  schedulerMoreLabel: 'Ver {0} eventos más del {1}',
+  schedulerOpenDay: 'Ver el {0}',
+  schedulerNewEvent: 'Nuevo evento el {0}',
+  schedulerNoEvents: 'No hay eventos en estos días.',
+  schedulerMoved: 'Evento movido: {0}.',
+  schedulerInstructions: 'Flechas izquierda y derecha: mover un día. Flechas arriba y abajo: mover una franja (en el mes, una semana). Mayús + flechas arriba y abajo: cambiar la duración. Enter: abrir el evento.',
 
   scrollableArea: 'Área desplazable',
   scrollTop: 'Volver arriba',
@@ -1686,6 +1721,21 @@ export const CB_LOCALE_EN: CbTranslation = {
   ganttMoved: '{0}: {1}.',
   ganttProgressChanged: '{0}: {1}% complete.',
   ganttInstructions: 'Arrows: move one day. Shift + arrows: change the end. Alt + arrows: change the start. + and −: progress. Delete: remove its dependencies. Enter: open the task.',
+  schedulerPrevious: 'Previous',
+  schedulerNext: 'Next',
+  schedulerViews: 'Calendar view',
+  schedulerMonth: 'Month',
+  schedulerWeek: 'Week',
+  schedulerDay: 'Day',
+  schedulerAgenda: 'Agenda',
+  schedulerAllDay: 'All day',
+  schedulerMore: '+{0} more',
+  schedulerMoreLabel: 'See {0} more events on {1}',
+  schedulerOpenDay: 'Show {0}',
+  schedulerNewEvent: 'New event on {0}',
+  schedulerNoEvents: 'No events in these days.',
+  schedulerMoved: 'Event moved: {0}.',
+  schedulerInstructions: 'Left and right arrows: move one day. Up and down arrows: move one slot (one week in the month). Shift + up and down arrows: change the duration. Enter: open the event.',
 
   scrollableArea: 'Scrollable area',
   scrollTop: 'Back to top',
