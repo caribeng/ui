@@ -6,11 +6,13 @@ import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { TocService } from '../services/toc.service';
+import { DocA11yComponent } from '../components/doc-a11y.component';
+import { DOC_A11Y } from '../components/doc-a11y-registry';
 
 @Component({
   selector: 'doc-speeddial-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [DocPlaygroundComponent, CbSpeedDial, CodeBlockComponent, DocPageHeaderComponent, DocSectionComponent],
+  imports: [DocA11yComponent, DocPlaygroundComponent, CbSpeedDial, CodeBlockComponent, DocPageHeaderComponent, DocSectionComponent],
   template: `
     <doc-page-header eyebrow="Menús" title="SpeedDial" lead="Acciones rápidas que se despliegan desde un botón flotante." />
 
@@ -26,10 +28,13 @@ import { TocService } from '../services/toc.service';
       <p style="margin:.75rem 0 0;color:var(--cb-color-text-muted)">Acción: {{ selected() || 'ninguna' }}</p>
     </doc-section>
 
+    <doc-a11y [data]="a11y" />
+
     <doc-playground [api]="docApi" />
   `,
 })
 export class SpeedDialDocComponent {
+  protected readonly a11y = DOC_A11Y['cb-speed-dial'];
   protected readonly docApi = DOC_API['cb-speed-dial'];
 
   constructor() { inject(TocService).reset(); }

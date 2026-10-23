@@ -6,8 +6,10 @@ import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
 import { TocService } from '../services/toc.service';
+import { DocA11yComponent } from '../components/doc-a11y.component';
+import { DOC_A11Y } from '../components/doc-a11y-registry';
 
-@Component({ selector: 'doc-tabmenu-page', changeDetection: ChangeDetectionStrategy.OnPush, imports: [DocPlaygroundComponent, CbTabMenu, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent], template: `
+@Component({ selector: 'doc-tabmenu-page', changeDetection: ChangeDetectionStrategy.OnPush, imports: [DocA11yComponent, DocPlaygroundComponent, CbTabMenu, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent], template: `
   <doc-page-header eyebrow="Menús" title="TabMenu" lead="Navegación entre secciones con el elemento actual resaltado." />
 
     <doc-section id="import" title="Importación"><doc-code-block [code]="installCode" lang="bash" /><br /><doc-code-block [code]="importCode" lang="typescript" /></doc-section>
@@ -16,9 +18,12 @@ import { TocService } from '../services/toc.service';
     <p style="margin: .75rem 0 0; color: var(--cb-color-text-muted)">Actual: {{ selected() || 'Resumen' }} · índice {{ active() }}</p>
   </doc-section>
 
+  <doc-a11y [data]="a11y" />
+
   <doc-playground [api]="docApi" />
 ` })
 export class TabmenuDocComponent {
+  protected readonly a11y = DOC_A11Y['cb-tabmenu'];
   protected readonly docApi = DOC_API['cb-tabmenu'];
 
   constructor() { inject(TocService).reset(); }

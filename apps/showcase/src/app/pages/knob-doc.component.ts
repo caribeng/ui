@@ -6,11 +6,13 @@ import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
 import { TocService } from '../services/toc.service';
+import { DocA11yComponent } from '../components/doc-a11y.component';
+import { DOC_A11Y } from '../components/doc-a11y-registry';
 
 @Component({
   selector: 'doc-knob-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [DocPlaygroundComponent, CbKnob, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
+  imports: [DocA11yComponent, DocPlaygroundComponent, CbKnob, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
     <doc-page-header eyebrow="Formulario" title="Knob" lead="Dial circular para elegir un número. Arrastre con el puntero o teclado." />
 
@@ -39,10 +41,13 @@ import { TocService } from '../services/toc.service';
       <cb-knob [(value)]="temp" [min]="16" [max]="30" [step]="0.5" suffix="°" severity="info" ariaLabel="Temperatura" />
     </doc-section>
 
+    <doc-a11y [data]="a11y" />
+
     <doc-playground [api]="docApi" />
   `,
 })
 export class KnobDocComponent {
+  protected readonly a11y = DOC_A11Y['cb-knob'];
   protected readonly docApi = DOC_API['cb-knob'];
 
   constructor() {

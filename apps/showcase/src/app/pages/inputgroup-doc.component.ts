@@ -12,11 +12,13 @@ import { DocPageHeaderComponent } from '../shared/page-header.component';
 import { TocService } from '../services/toc.service';
 import { DocPlaygroundComponent } from '../components/doc-playground.component';
 import { DOC_API } from '../components/doc-api-registry';
+import { DocA11yComponent } from '../components/doc-a11y.component';
+import { DOC_A11Y } from '../components/doc-a11y-registry';
 
 @Component({
   selector: 'doc-inputgroup-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [DocPlaygroundComponent, CbInputGroup,
+  imports: [DocA11yComponent, DocPlaygroundComponent, CbInputGroup,
     CbInputGroupAddon,
     CbInput,
     CbButton,
@@ -70,10 +72,13 @@ import { DOC_API } from '../components/doc-api-registry';
       </div>
     </doc-section>
 
+    <doc-a11y [data]="a11y" />
+
     <doc-playground [api]="docApi" />
   `,
 })
 export class InputgroupDocComponent {
+  protected readonly a11y = DOC_A11Y['cb-input-group'];
   protected readonly docApi = DOC_API['cb-input-group'];
 
   constructor() {

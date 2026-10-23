@@ -6,11 +6,13 @@ import { DocPageHeaderComponent } from '../shared/page-header.component';
 import { DocPlaygroundComponent } from '../components/doc-playground.component';
 import type { DocApi } from '../components/doc-api.model';
 import { TocService } from '../services/toc.service';
+import { DocA11yComponent } from '../components/doc-a11y.component';
+import { DOC_A11Y } from '../components/doc-a11y-registry';
 
 @Component({
   selector: 'doc-button-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
+  imports: [DocA11yComponent, 
     CbButton,
     DocSectionComponent,
     CodeBlockComponent,
@@ -96,10 +98,13 @@ import { TocService } from '../services/toc.service';
       </cb-button>
     </doc-section>
 
+    <doc-a11y [data]="a11y" />
+
     <doc-playground [api]="playground" />
   `,
 })
 export class ButtonDocComponent {
+  protected readonly a11y = DOC_A11Y['cb-button'];
   constructor() {
     inject(TocService).reset();
   }

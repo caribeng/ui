@@ -11,6 +11,22 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
         "type": "added",
         "items": [
           {
+            "component": "ColorPicker",
+            "text": "accesible con teclado: al abrir, el foco entra en el panel; el área de saturación y brillo y la barra de tono son `role=\"slider\"` (flechas, Mayús + flechas de 10 en 10, Inicio / Fin en el tono) y anuncian su valor; Tab al salir del panel lo cierra y devuelve el foco al botón. Claves de idioma nuevas: `colorArea`, `colorAreaValue` y `hue`."
+          },
+          {
+            "component": "TieredMenu",
+            "text": "patrón WAI-ARIA *menu*: flecha abajo en el botón abre el menú y el foco entra en la primera opción; flechas, Inicio y Fin recorren cada nivel; flecha derecha, Enter o Espacio abren el submenú y flecha izquierda vuelve al nivel anterior; Escape, Tab o elegir una opción cierran y devuelven el foco al botón."
+          },
+          {
+            "component": "Dock",
+            "text": "patrón WAI-ARIA *toolbar*: un solo elemento en el orden de tabulación y flechas (según la orientación), Inicio y Fin para recorrer las acciones."
+          },
+          {
+            "component": "Showcase",
+            "text": "sección Accesibilidad en 19 páginas más: Button, Chips, ColorPicker, FileUpload, FloatLabel, IconField, InputGroup, InputMask, Knob, Password, ToggleButton, Breadcrumb, Dock, Menubar, PanelMenu, SpeedDial, Steps, TabMenu y TieredMenu."
+          },
+          {
             "component": "Kanban, espacio de trabajo",
             "text": "una `<ng-template cbKanbanCard>` dentro de `cb-kanban-workspace` se usa como plantilla de las tarjetas del tablero (antes no llegaba). `cb-kanban` acepta también la plantilla como input (`cardTemplate`); la proyectada tiene prioridad."
           }

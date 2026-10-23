@@ -2779,4 +2779,112 @@ export const ES_EN: Record<string, string> = {
   'Abre la tarjeta (cardOpen) y, con details, su panel de detalle.': 'Opens the card (cardOpen) and, with details, its details panel.',
   'Escape (en el panel)': 'Escape (in the panel)',
   'Cierra el panel de detalle y devuelve el foco a la tarjeta.': 'Closes the details panel and returns focus to the card.',
+  // --- Accesibilidad, tanda 1 (formularios y menús) ---
+  'Renderiza un `button` nativo, que se anuncia como botón con su texto. Un botón de solo icono necesita `ariaLabel`, porque el icono es decorativo (`aria-hidden`).':
+    'Renders a native `button`, announced as a button with its text. An icon-only button needs `ariaLabel`, because the icon is decorative (`aria-hidden`).',
+  'Con `loading` el botón se deshabilita y expone `aria-busy="true"`. Si abre algo (un menú, un diálogo), `ariaHaspopup`, `ariaExpanded` y `ariaControls` lo indican al lector de pantalla.':
+    'With `loading` the button is disabled and exposes `aria-busy="true"`. If it opens something (a menu, a dialog), `ariaHaspopup`, `ariaExpanded` and `ariaControls` tell the screen reader.',
+  'Activa el botón.': 'Activates the button.',
+  'Los valores se escriben en un campo de texto nativo; sin etiqueta visible, define `ariaLabel`. Con Angular Forms, `aria-invalid` y `aria-required` siguen al estado del control.':
+    'Values are typed into a native text field; without a visible label, set `ariaLabel`. With Angular Forms, `aria-invalid` and `aria-required` follow the control state.',
+  'Cada valor tiene un botón para quitarlo con nombre propio ("Quitar React"); el icono es decorativo.':
+    'Each value has its own named remove button ("Remove React"); the icon is decorative.',
+  'Enter / ,': 'Enter / ,',
+  'Añade lo escrito como un valor nuevo.': 'Adds the typed text as a new value.',
+  'Con el campo vacío, quita el último valor.': 'With an empty field, removes the last value.',
+  'El disparador es un botón con `aria-haspopup="dialog"` y `aria-expanded`; su nombre incluye el color actual ("Color: #10b981") y se cambia con `ariaLabel`.':
+    'The trigger is a button with `aria-haspopup="dialog"` and `aria-expanded`; its name includes the current color ("Color: #10b981") and is changed with `ariaLabel`.',
+  'El panel es un `role="dialog"` nombrado. El área de saturación y brillo y la barra de tono son `role="slider"`: el área anuncia su valor como texto ("Saturación 84 %, brillo 71 %") y el tono en grados. El campo hexadecimal y los colores predefinidos tienen nombre.':
+    'The panel is a named `role="dialog"`. The saturation and brightness area and the hue bar are `role="slider"`: the area announces its value as text ("Saturation 84%, brightness 71%") and the hue in degrees. The hex field and the preset colors are named.',
+  'Abre el panel; el foco pasa al área de color.': 'Opens the panel; focus moves to the color area.',
+  'En el área, cambia la saturación; en la barra de tono, el tono.': 'In the area, changes the saturation; in the hue bar, the hue.',
+  'En el área, cambia el brillo; en la barra de tono, el tono.': 'In the area, changes the brightness; in the hue bar, the hue.',
+  'Mayús + flechas': 'Shift + arrows',
+  'Cambia el valor de 10 en 10.': 'Changes the value in steps of 10.',
+  'En la barra de tono, va al primer o al último tono.': 'In the hue bar, goes to the first or last hue.',
+  'Recorre el panel; al salir de él se cierra y el foco vuelve al botón.':
+    'Moves through the panel; leaving it closes the panel and returns focus to the button.',
+  'Cierra el panel y devuelve el foco al botón.': 'Closes the panel and returns focus to the button.',
+  'Los botones Elegir archivo, Subir y Limpiar son botones nativos con texto. El selector de archivos es el nativo del sistema, que se abre desde el botón.':
+    'The Choose file, Upload and Clear buttons are native buttons with text. The file picker is the native one of the system, opened from the button.',
+  'Los archivos descartados por tamaño o tipo se anuncian en una lista `role="alert"`, y cada archivo de la lista tiene un botón con nombre para quitarlo ("Quitar informe.pdf"). Arrastrar archivos es opcional: todo se puede hacer con los botones.':
+    'Files rejected for size or type are announced in a `role="alert"` list, and each file in the list has a named button to remove it ("Remove report.pdf"). Dragging files is optional: everything can be done with the buttons.',
+  'Abre el selector de archivos, sube o limpia la lista.': 'Opens the file picker, uploads or clears the list.',
+  'La etiqueta flotante es un `label` normal: asócialo al campo con `for` e `id` (`inputId` en los componentes de CaribeNG) para que el lector de pantalla la anuncie. Subirla o bajarla es solo visual.':
+    'The floating label is a regular `label`: associate it with the field using `for` and `id` (`inputId` in CaribeNG components) so the screen reader announces it. Moving it up or down is only visual.',
+  'No uses el placeholder como única etiqueta: desaparece al escribir y no todos los lectores lo anuncian.':
+    'Do not use the placeholder as the only label: it disappears while typing and not every screen reader announces it.',
+  'El icono (`cb-input-icon`) es decorativo (`aria-hidden="true"`): el campo necesita su propia etiqueta o `aria-label`. Si el icono hace algo (buscar, limpiar), usa un botón con nombre en lugar de un icono.':
+    'The icon (`cb-input-icon`) is decorative (`aria-hidden="true"`): the field needs its own label or `aria-label`. If the icon does something (search, clear), use a named button instead of an icon.',
+  'Solo agrupa visualmente: cada control proyectado (campo, botón) conserva su propio rol y nombre. Los addons de texto ("€", "https://") no forman parte de la etiqueta; si el campo los necesita para entenderse, inclúyelos en su `aria-label` o en el texto de ayuda.':
+    'It only groups visually: each projected control (field, button) keeps its own role and name. Text addons ("€", "https://") are not part of the label; if the field needs them to make sense, include them in its `aria-label` or in the help text.',
+  'Es un campo de texto nativo; sin etiqueta visible, define `ariaLabel`. Con Angular Forms, `aria-invalid` y `aria-required` siguen al estado del control.':
+    'It is a native text field; without a visible label, set `ariaLabel`. With Angular Forms, `aria-invalid` and `aria-required` follow the control state.',
+  'La máscara se muestra como placeholder ("(999) 999-9999") y los literales se insertan al escribir. Explica el formato esperado en un texto de ayuda: el placeholder desaparece al escribir.':
+    'The mask is shown as the placeholder ("(999) 999-9999") and the literals are inserted while typing. Explain the expected format in a help text: the placeholder disappears while typing.',
+  'Borra el último carácter, también los literales de la máscara.': 'Deletes the last character, including the mask literals.',
+  'El control tiene `role="slider"` con `aria-valuemin`, `aria-valuemax` y `aria-valuenow`, y su nombre se define con `ariaLabel`. Deshabilitado, sale del orden de tabulación y expone `aria-disabled`.':
+    'The control has `role="slider"` with `aria-valuemin`, `aria-valuemax` and `aria-valuenow`, and its name is set with `ariaLabel`. When disabled, it leaves the tab order and exposes `aria-disabled`.',
+  'Aumenta el valor un paso (`step`).': 'Increases the value by one step (`step`).',
+  'Disminuye el valor un paso.': 'Decreases the value by one step.',
+  'Es un campo `type="password"` nativo; asócialo a su etiqueta con `inputId`. El botón de mostrar es un conmutador (`aria-pressed`) con nombre: "Mostrar contraseña" u "Ocultar contraseña".':
+    'It is a native `type="password"` field; associate it with its label using `inputId`. The show button is a named toggle (`aria-pressed`): "Show password" or "Hide password".',
+  'Con `feedback`, la fortaleza ("Fortaleza: Media") se anuncia en una región `role="status"` mientras se escribe; las barras de color son decorativas.':
+    'With `feedback`, the strength ("Strength: Medium") is announced in a `role="status"` region while typing; the colored bars are decorative.',
+  'En el botón, muestra u oculta la contraseña.': 'On the button, shows or hides the password.',
+  'Es un botón conmutador: `aria-pressed` indica si está activo. El texto del botón es su nombre; con solo icono, define `ariaLabel`.':
+    'It is a toggle button: `aria-pressed` tells whether it is on. The button text is its name; with only an icon, set `ariaLabel`.',
+  'Es un `nav` nombrado ("Ruta de navegación") con una lista ordenada. Cada nivel es un enlace, salvo el último, que es texto con `aria-current="page"`. Los separadores y los iconos son decorativos.':
+    'It is a named `nav` ("Breadcrumb") with an ordered list. Each level is a link, except the last one, which is text with `aria-current="page"`. Separators and icons are decorative.',
+  'Sigue el enlace.': 'Follows the link.',
+  'Es un `nav` nombrado ("Dock de la aplicación", o `ariaLabel`) que contiene una barra `role="toolbar"` con `aria-orientation` según la posición. Cada acción es un enlace o un botón con nombre (`label`), porque solo muestra el icono.':
+    'It is a named `nav` ("App dock", or `ariaLabel`) holding a `role="toolbar"` bar with `aria-orientation` set by the position. Each action is a link or a button named by `label`, because it only shows the icon.',
+  'Entra en la barra por la última acción enfocada; un solo Tab la atraviesa.':
+    'Enters the bar at the last focused action; a single Tab moves past it.',
+  'Pasa a la acción siguiente o anterior (de forma circular) en un dock horizontal.':
+    'Moves to the next or previous action (wrapping around) in a horizontal dock.',
+  'Igual, en un dock vertical (posición `left` o `right`).': 'The same, in a vertical dock (`left` or `right` position).',
+  'Activa la acción enfocada.': 'Activates the focused action.',
+  'Es un `nav` nombrado ("Navegación principal", o `ariaLabel`) con una barra `role="menubar"`. Cada entrada es un `role="menuitem"`; las que tienen submenú indican `aria-haspopup="menu"` y `aria-expanded`, y el submenú es un `role="menu"` nombrado por su entrada.':
+    'It is a named `nav` ("Main navigation", or `ariaLabel`) with a `role="menubar"` bar. Each entry is a `role="menuitem"`; those with a submenu expose `aria-haspopup="menu"` and `aria-expanded`, and the submenu is a `role="menu"` named by its entry.',
+  'En la barra, pasa a la entrada siguiente o anterior (de forma circular) y cierra el submenú abierto.':
+    'In the bar, moves to the next or previous entry (wrapping around) and closes the open submenu.',
+  'Va a la primera o a la última entrada de la barra.': 'Goes to the first or last entry of the bar.',
+  'En una entrada con submenú, lo abre y enfoca su primera opción.': 'On an entry with a submenu, opens it and focuses its first option.',
+  'Dentro del submenú, recorre las opciones (de forma circular).': 'Inside the submenu, moves through the options (wrapping around).',
+  'Abre el submenú o activa la opción.': 'Opens the submenu or activates the option.',
+  'Cierra el submenú y devuelve el foco a su entrada.': 'Closes the submenu and returns focus to its entry.',
+  'Es un `nav` nombrado ("Menú de paneles", o `ariaLabel`). Cada grupo se abre con un botón que indica `aria-expanded` y apunta a su lista con `aria-controls`; las opciones son enlaces o botones normales.':
+    'It is a named `nav` ("Panel menu", or `ariaLabel`). Each group opens with a button that exposes `aria-expanded` and points to its list with `aria-controls`; the options are regular links or buttons.',
+  'Abre o cierra el grupo, o activa la opción.': 'Opens or closes the group, or activates the option.',
+  'El botón principal tiene nombre ("Abrir acciones" / "Cerrar acciones", o `openLabel` y `closeLabel`) y `aria-expanded`. Las acciones solo existen mientras está abierto; cada una es un botón con nombre (`label`), porque solo muestra el icono.':
+    'The main button is named ("Open actions" / "Close actions", or `openLabel` and `closeLabel`) and has `aria-expanded`. The actions only exist while it is open; each one is a button named by `label`, because it only shows the icon.',
+  'Abre o cierra las acciones, o activa la acción enfocada.': 'Opens or closes the actions, or activates the focused action.',
+  'Es un `nav` nombrado ("Pasos", o `ariaLabel`) con una lista ordenada. Cada paso es un botón con su nombre; el paso actual expone `aria-current="step"` y los deshabilitados no se pueden activar. Los conectores son decorativos.':
+    'It is a named `nav` ("Steps", or `ariaLabel`) with an ordered list. Each step is a button with its name; the current step exposes `aria-current="step"` and disabled steps cannot be activated. The connectors are decorative.',
+  'Va al paso enfocado.': 'Goes to the focused step.',
+  'Es un `nav` nombrado ("Navegación de secciones", o `ariaLabel`): navega entre páginas, así que usa enlaces o botones y no el patrón de pestañas. La opción actual expone `aria-current="page"`; las deshabilitadas salen del orden de tabulación.':
+    'It is a named `nav` ("Section navigation", or `ariaLabel`): it navigates between pages, so it uses links or buttons rather than the tabs pattern. The current option exposes `aria-current="page"`; disabled ones leave the tab order.',
+  'Abre la sección.': 'Opens the section.',
+  'El botón que lo abre indica `aria-haspopup="menu"` y `aria-expanded`. El panel es un `role="menu"` nombrado (`ariaLabel`) con `role="menuitem"` en cada opción; las que abren otro nivel indican `aria-haspopup="menu"` y `aria-expanded`, y cada submenú se nombra por su opción.':
+    'The button that opens it exposes `aria-haspopup="menu"` and `aria-expanded`. The panel is a named `role="menu"` (`ariaLabel`) with `role="menuitem"` on each option; those opening another level expose `aria-haspopup="menu"` and `aria-expanded`, and each submenu is named by its option.',
+  'En el botón, abre el menú y enfoca la primera opción.': 'On the button, opens the menu and focuses the first option.',
+  'Recorre las opciones del nivel (de forma circular, sin pasar por las deshabilitadas).':
+    'Moves through the options of the level (wrapping around, skipping disabled ones).',
+  'Va a la primera o a la última opción del nivel.': 'Goes to the first or last option of the level.',
+  'Flecha derecha / Enter / Espacio': 'Right arrow / Enter / Space',
+  'En una opción con submenú, lo abre y enfoca su primera opción.': 'On an option with a submenu, opens it and focuses its first option.',
+  'Cierra el submenú y vuelve a la opción que lo abrió.': 'Closes the submenu and goes back to the option that opened it.',
+  'Activa la opción y cierra el menú.': 'Activates the option and closes the menu.',
+  'Cierra el menú y devuelve el foco al botón.': 'Closes the menu and returns focus to the button.',
+  'Mueve el foco al botón.': 'Moves focus to the button.',
+  'Mueve el foco al campo y a los botones de quitar.': 'Moves focus to the field and the remove buttons.',
+  'Mueve el foco a los botones y a los de quitar archivo.': 'Moves focus to the buttons and the remove-file buttons.',
+  'Mueve el foco a cada control del grupo, en orden.': 'Moves focus to each control of the group, in order.',
+  'Mueve el foco al campo y al botón de mostrar.': 'Moves focus to the field and the show button.',
+  'Mueve el foco a cada enlace.': 'Moves focus to each link.',
+  'Mueve el foco a cada grupo y a las opciones de los grupos abiertos.': 'Moves focus to each group and to the options of the open groups.',
+  'Mueve el foco al botón principal y, abierto, a cada acción.': 'Moves focus to the main button and, when open, to each action.',
+  'Mueve el foco a cada paso.': 'Moves focus to each step.',
+  'Mueve el foco a cada opción.': 'Moves focus to each option.',
 };

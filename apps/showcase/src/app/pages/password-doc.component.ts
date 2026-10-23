@@ -4,13 +4,15 @@ import { DOC_API } from '../components/doc-api-registry';
 import { CbPassword } from '@caribeng/ui/password';
 import { CbDocPageComponent } from '../components/doc-page.component';
 import { CbDocExampleComponent } from '../components/doc-example.component';
+import { DocA11yComponent } from '../components/doc-a11y.component';
+import { DOC_A11Y } from '../components/doc-a11y-registry';
 
 const BASIC_CODE = `<cb-password [(value)]="secret" placeholder="Introduce tu contraseña" />`;
 
 @Component({
   selector: 'cb-password-doc',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [DocPlaygroundComponent, CbDocPageComponent, CbDocExampleComponent, CbPassword],
+  imports: [DocA11yComponent, DocPlaygroundComponent, CbDocPageComponent, CbDocExampleComponent, CbPassword],
   template: `
     <cb-doc-page
       category="Formulario"
@@ -28,11 +30,15 @@ const BASIC_CODE = `<cb-password [(value)]="secret" placeholder="Introduce tu co
         </div>
       </cb-doc-example>
     
+      <doc-a11y [data]="a11y" />
+
+    
       <doc-playground [api]="docApi" />
     </cb-doc-page>
   `,
 })
 export class PasswordDocComponent {
+  protected readonly a11y = DOC_A11Y['cb-password'];
   protected readonly docApi = DOC_API['cb-password'];
 
   protected readonly basicCode = BASIC_CODE;

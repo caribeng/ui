@@ -732,4 +732,169 @@ export const DOC_A11Y: Record<string, DocA11y> = {
       { keys: 'Flecha abajo / Flecha arriba / Re Pág / Av Pág', action: 'Desplaza la lista.' },
     ],
   },
+  // --- Tanda 1 (22.4): formularios y menús ---
+  'cb-button': {
+    screenReader: [
+      'Renderiza un `button` nativo, que se anuncia como botón con su texto. Un botón de solo icono necesita `ariaLabel`, porque el icono es decorativo (`aria-hidden`).',
+      'Con `loading` el botón se deshabilita y expone `aria-busy="true"`. Si abre algo (un menú, un diálogo), `ariaHaspopup`, `ariaExpanded` y `ariaControls` lo indican al lector de pantalla.',
+    ],
+    keyboard: [TAB_FOCUS('al botón'), { keys: 'Enter / Espacio', action: 'Activa el botón.' }],
+  },
+  'cb-chips': {
+    screenReader: [
+      'Los valores se escriben en un campo de texto nativo; sin etiqueta visible, define `ariaLabel`. Con Angular Forms, `aria-invalid` y `aria-required` siguen al estado del control.',
+      'Cada valor tiene un botón para quitarlo con nombre propio ("Quitar React"); el icono es decorativo.',
+    ],
+    keyboard: [
+      TAB_FOCUS('al campo y a los botones de quitar'),
+      { keys: 'Enter / ,', action: 'Añade lo escrito como un valor nuevo.' },
+      { keys: 'Retroceso', action: 'Con el campo vacío, quita el último valor.' },
+    ],
+  },
+  'cb-colorpicker': {
+    screenReader: [
+      'El disparador es un botón con `aria-haspopup="dialog"` y `aria-expanded`; su nombre incluye el color actual ("Color: #10b981") y se cambia con `ariaLabel`.',
+      'El panel es un `role="dialog"` nombrado. El área de saturación y brillo y la barra de tono son `role="slider"`: el área anuncia su valor como texto ("Saturación 84 %, brillo 71 %") y el tono en grados. El campo hexadecimal y los colores predefinidos tienen nombre.',
+    ],
+    keyboard: [
+      { keys: 'Enter / Espacio', action: 'Abre el panel; el foco pasa al área de color.' },
+      { keys: 'Flecha izquierda / Flecha derecha', action: 'En el área, cambia la saturación; en la barra de tono, el tono.' },
+      { keys: 'Flecha arriba / Flecha abajo', action: 'En el área, cambia el brillo; en la barra de tono, el tono.' },
+      { keys: 'Mayús + flechas', action: 'Cambia el valor de 10 en 10.' },
+      { keys: 'Inicio / Fin', action: 'En la barra de tono, va al primer o al último tono.' },
+      { keys: 'Tab / Mayús + Tab', action: 'Recorre el panel; al salir de él se cierra y el foco vuelve al botón.' },
+      { keys: 'Escape', action: 'Cierra el panel y devuelve el foco al botón.' },
+    ],
+  },
+  'cb-file-upload': {
+    screenReader: [
+      'Los botones Elegir archivo, Subir y Limpiar son botones nativos con texto. El selector de archivos es el nativo del sistema, que se abre desde el botón.',
+      'Los archivos descartados por tamaño o tipo se anuncian en una lista `role="alert"`, y cada archivo de la lista tiene un botón con nombre para quitarlo ("Quitar informe.pdf"). Arrastrar archivos es opcional: todo se puede hacer con los botones.',
+    ],
+    keyboard: [TAB_FOCUS('a los botones y a los de quitar archivo'), { keys: 'Enter / Espacio', action: 'Abre el selector de archivos, sube o limpia la lista.' }],
+  },
+  'cb-float-label': {
+    screenReader: [
+      'La etiqueta flotante es un `label` normal: asócialo al campo con `for` e `id` (`inputId` en los componentes de CaribeNG) para que el lector de pantalla la anuncie. Subirla o bajarla es solo visual.',
+      'No uses el placeholder como única etiqueta: desaparece al escribir y no todos los lectores lo anuncian.',
+    ],
+  },
+  'cb-icon-field': {
+    screenReader: [
+      'El icono (`cb-input-icon`) es decorativo (`aria-hidden="true"`): el campo necesita su propia etiqueta o `aria-label`. Si el icono hace algo (buscar, limpiar), usa un botón con nombre en lugar de un icono.',
+    ],
+    keyboard: [TAB_FOCUS('al campo')],
+  },
+  'cb-input-group': {
+    screenReader: [
+      'Solo agrupa visualmente: cada control proyectado (campo, botón) conserva su propio rol y nombre. Los addons de texto ("€", "https://") no forman parte de la etiqueta; si el campo los necesita para entenderse, inclúyelos en su `aria-label` o en el texto de ayuda.',
+    ],
+    keyboard: [TAB_FOCUS('a cada control del grupo, en orden')],
+  },
+  'cb-input-mask': {
+    screenReader: [
+      'Es un campo de texto nativo; sin etiqueta visible, define `ariaLabel`. Con Angular Forms, `aria-invalid` y `aria-required` siguen al estado del control.',
+      'La máscara se muestra como placeholder ("(999) 999-9999") y los literales se insertan al escribir. Explica el formato esperado en un texto de ayuda: el placeholder desaparece al escribir.',
+    ],
+    keyboard: [TAB_FOCUS('al campo'), { keys: 'Retroceso', action: 'Borra el último carácter, también los literales de la máscara.' }],
+  },
+  'cb-knob': {
+    screenReader: [
+      'El control tiene `role="slider"` con `aria-valuemin`, `aria-valuemax` y `aria-valuenow`, y su nombre se define con `ariaLabel`. Deshabilitado, sale del orden de tabulación y expone `aria-disabled`.',
+    ],
+    keyboard: [
+      TAB_FOCUS('al control'),
+      { keys: 'Flecha derecha / Flecha arriba', action: 'Aumenta el valor un paso (`step`).' },
+      { keys: 'Flecha izquierda / Flecha abajo', action: 'Disminuye el valor un paso.' },
+      { keys: 'Inicio / Fin', action: 'Va al valor mínimo o al máximo.' },
+    ],
+  },
+  'cb-password': {
+    screenReader: [
+      'Es un campo `type="password"` nativo; asócialo a su etiqueta con `inputId`. El botón de mostrar es un conmutador (`aria-pressed`) con nombre: "Mostrar contraseña" u "Ocultar contraseña".',
+      'Con `feedback`, la fortaleza ("Fortaleza: Media") se anuncia en una región `role="status"` mientras se escribe; las barras de color son decorativas.',
+    ],
+    keyboard: [TAB_FOCUS('al campo y al botón de mostrar'), { keys: 'Enter / Espacio', action: 'En el botón, muestra u oculta la contraseña.' }],
+  },
+  'cb-togglebutton': {
+    screenReader: [
+      'Es un botón conmutador: `aria-pressed` indica si está activo. El texto del botón es su nombre; con solo icono, define `ariaLabel`.',
+    ],
+    keyboard: [TAB_FOCUS('al botón'), { keys: 'Enter / Espacio', action: 'Cambia el estado.' }],
+  },
+  'cb-breadcrumb': {
+    screenReader: [
+      'Es un `nav` nombrado ("Ruta de navegación") con una lista ordenada. Cada nivel es un enlace, salvo el último, que es texto con `aria-current="page"`. Los separadores y los iconos son decorativos.',
+    ],
+    keyboard: [TAB_FOCUS('a cada enlace'), { keys: 'Enter', action: 'Sigue el enlace.' }],
+  },
+  'cb-dock': {
+    screenReader: [
+      'Es un `nav` nombrado ("Dock de la aplicación", o `ariaLabel`) que contiene una barra `role="toolbar"` con `aria-orientation` según la posición. Cada acción es un enlace o un botón con nombre (`label`), porque solo muestra el icono.',
+    ],
+    keyboard: [
+      { keys: 'Tab', action: 'Entra en la barra por la última acción enfocada; un solo Tab la atraviesa.' },
+      { keys: 'Flecha derecha / Flecha izquierda', action: 'Pasa a la acción siguiente o anterior (de forma circular) en un dock horizontal.' },
+      { keys: 'Flecha abajo / Flecha arriba', action: 'Igual, en un dock vertical (posición `left` o `right`).' },
+      { keys: 'Inicio / Fin', action: 'Va a la primera o a la última acción.' },
+      { keys: 'Enter', action: 'Activa la acción enfocada.' },
+    ],
+  },
+  'cb-menubar': {
+    screenReader: [
+      'Es un `nav` nombrado ("Navegación principal", o `ariaLabel`) con una barra `role="menubar"`. Cada entrada es un `role="menuitem"`; las que tienen submenú indican `aria-haspopup="menu"` y `aria-expanded`, y el submenú es un `role="menu"` nombrado por su entrada.',
+    ],
+    keyboard: [
+      { keys: 'Flecha derecha / Flecha izquierda', action: 'En la barra, pasa a la entrada siguiente o anterior (de forma circular) y cierra el submenú abierto.' },
+      { keys: 'Inicio / Fin', action: 'Va a la primera o a la última entrada de la barra.' },
+      { keys: 'Flecha abajo', action: 'En una entrada con submenú, lo abre y enfoca su primera opción.' },
+      { keys: 'Flecha abajo / Flecha arriba', action: 'Dentro del submenú, recorre las opciones (de forma circular).' },
+      { keys: 'Enter / Espacio', action: 'Abre el submenú o activa la opción.' },
+      { keys: 'Escape', action: 'Cierra el submenú y devuelve el foco a su entrada.' },
+    ],
+  },
+  'cb-panelmenu': {
+    screenReader: [
+      'Es un `nav` nombrado ("Menú de paneles", o `ariaLabel`). Cada grupo se abre con un botón que indica `aria-expanded` y apunta a su lista con `aria-controls`; las opciones son enlaces o botones normales.',
+    ],
+    keyboard: [
+      TAB_FOCUS('a cada grupo y a las opciones de los grupos abiertos'),
+      { keys: 'Enter / Espacio', action: 'Abre o cierra el grupo, o activa la opción.' },
+    ],
+  },
+  'cb-speed-dial': {
+    screenReader: [
+      'El botón principal tiene nombre ("Abrir acciones" / "Cerrar acciones", o `openLabel` y `closeLabel`) y `aria-expanded`. Las acciones solo existen mientras está abierto; cada una es un botón con nombre (`label`), porque solo muestra el icono.',
+    ],
+    keyboard: [
+      TAB_FOCUS('al botón principal y, abierto, a cada acción'),
+      { keys: 'Enter / Espacio', action: 'Abre o cierra las acciones, o activa la acción enfocada.' },
+    ],
+  },
+  'cb-steps': {
+    screenReader: [
+      'Es un `nav` nombrado ("Pasos", o `ariaLabel`) con una lista ordenada. Cada paso es un botón con su nombre; el paso actual expone `aria-current="step"` y los deshabilitados no se pueden activar. Los conectores son decorativos.',
+    ],
+    keyboard: [TAB_FOCUS('a cada paso'), { keys: 'Enter / Espacio', action: 'Va al paso enfocado.' }],
+  },
+  'cb-tabmenu': {
+    screenReader: [
+      'Es un `nav` nombrado ("Navegación de secciones", o `ariaLabel`): navega entre páginas, así que usa enlaces o botones y no el patrón de pestañas. La opción actual expone `aria-current="page"`; las deshabilitadas salen del orden de tabulación.',
+    ],
+    keyboard: [TAB_FOCUS('a cada opción'), { keys: 'Enter', action: 'Abre la sección.' }],
+  },
+  'cb-tieredmenu': {
+    screenReader: [
+      'El botón que lo abre indica `aria-haspopup="menu"` y `aria-expanded`. El panel es un `role="menu"` nombrado (`ariaLabel`) con `role="menuitem"` en cada opción; las que abren otro nivel indican `aria-haspopup="menu"` y `aria-expanded`, y cada submenú se nombra por su opción.',
+    ],
+    keyboard: [
+      { keys: 'Enter / Espacio / Flecha abajo', action: 'En el botón, abre el menú y enfoca la primera opción.' },
+      { keys: 'Flecha abajo / Flecha arriba', action: 'Recorre las opciones del nivel (de forma circular, sin pasar por las deshabilitadas).' },
+      { keys: 'Inicio / Fin', action: 'Va a la primera o a la última opción del nivel.' },
+      { keys: 'Flecha derecha / Enter / Espacio', action: 'En una opción con submenú, lo abre y enfoca su primera opción.' },
+      { keys: 'Flecha izquierda', action: 'Cierra el submenú y vuelve a la opción que lo abrió.' },
+      { keys: 'Enter / Espacio', action: 'Activa la opción y cierra el menú.' },
+      { keys: 'Escape / Tab', action: 'Cierra el menú y devuelve el foco al botón.' },
+    ],
+  },
 };

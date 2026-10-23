@@ -6,8 +6,10 @@ import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
 import { TocService } from '../services/toc.service';
+import { DocA11yComponent } from '../components/doc-a11y.component';
+import { DOC_A11Y } from '../components/doc-a11y-registry';
 
-@Component({ selector: 'doc-tieredmenu-page', changeDetection: ChangeDetectionStrategy.OnPush, imports: [DocPlaygroundComponent, CbTieredMenu, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent], template: `
+@Component({ selector: 'doc-tieredmenu-page', changeDetection: ChangeDetectionStrategy.OnPush, imports: [DocA11yComponent, DocPlaygroundComponent, CbTieredMenu, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent], template: `
   <doc-page-header eyebrow="Menús" title="TieredMenu" lead="Menú emergente con submenús en cascada." />
 
     <doc-section id="import" title="Importación"><doc-code-block [code]="installCode" lang="bash" /><br /><doc-code-block [code]="importCode" lang="typescript" /></doc-section>
@@ -16,9 +18,12 @@ import { TocService } from '../services/toc.service';
     <span style="margin-left:.75rem;color:var(--cb-color-text-muted)">{{ selected() || 'sin acción' }}</span>
   </doc-section>
 
+  <doc-a11y [data]="a11y" />
+
   <doc-playground [api]="docApi" />
 ` })
 export class TieredmenuDocComponent {
+  protected readonly a11y = DOC_A11Y['cb-tieredmenu'];
   protected readonly docApi = DOC_API['cb-tieredmenu'];
 
   constructor() { inject(TocService).reset(); }
