@@ -3211,13 +3211,14 @@ export const ES_EN: Record<string, string> = {
     'Custom mention source (list or function, also async); replaces people for @.',
   'Qué se muestra. El filtro aparece cuando hay actividad.': 'What is shown. The filter appears when there is activity.',
   'Orden del hilo; con newest la caja para comentar va arriba.': 'Thread order; with newest the comment box goes on top.',
-  'Emojis para reaccionar (vacío para quitar las reacciones).': 'Emojis to react with (empty to remove reactions).',
+  'Emojis para reaccionar (vacío para quitar las reacciones). Por defecto, 👍 ❤️ 🎉 😄 👀 🙏.':
+    'Emojis to react with (empty to remove reactions). By default, 👍 ❤️ 🎉 😄 👀 🙏.',
   'Permite responder (un nivel).': 'Allows replying (one level).',
   'Permite editar y eliminar los comentarios propios.': 'Allows editing and deleting your own comments.',
   'Muestra la caja para comentar.': 'Shows the comment box.',
   'Solo lectura: sin caja ni acciones.': 'Read-only: no box or actions.',
-  'Herramientas del editor (negrita, cursiva, tachado, listas, enlace y código por defecto).':
-    'Editor tools (bold, italic, strikethrough, lists, link and code by default).',
+  'Herramientas del editor. Por defecto (CB_COMMENTS_TOOLBAR): negrita, cursiva, tachado, listas, enlace y código.':
+    'Editor tools. By default (CB_COMMENTS_TOOLBAR): bold, italic, strikethrough, lists, link and code.',
   'Alto del área de escritura (crece hasta 16rem).': 'Height of the writing area (grows up to 16rem).',
   'Texto de la caja vacía.': 'Text of the empty box.',
   'Texto sin comentarios.': 'Text without comments.',
@@ -3315,7 +3316,8 @@ export const ES_EN: Record<string, string> = {
   'Grosor mínimo del trazo (trazo rápido).': 'Minimum stroke width (fast stroke).',
   'Grosor máximo del trazo (trazo lento o con presión).': 'Maximum stroke width (slow or pressured stroke).',
   'Alto del área de firma.': 'Height of the signature area.',
-  'Tipografía del nombre escrito (manuscritas del sistema por defecto).': 'Font of the typed name (system handwriting fonts by default).',
+  'Tipografía del nombre escrito. Por defecto (CB_SIGNATURE_FONT), manuscritas del sistema.':
+    'Font of the typed name. By default (CB_SIGNATURE_FONT), system handwriting fonts.',
   'Texto del área vacía.': 'Text of the empty area.',
   'Desactiva el área (también con Angular Forms).': 'Disables the area (also with Angular Forms).',
   'Muestra la firma sin permitir cambiarla.': 'Shows the signature without allowing changes.',
@@ -3350,4 +3352,51 @@ export const ES_EN: Record<string, string> = {
   'Aceptar y firmar': 'Accept and sign',
   'Activar': 'Enable',
   'Desactivar': 'Disable',
+  // --- ImageCropper ---
+  'Imagen a recortar (URL o data URL); las de otro dominio necesitan CORS.':
+    'Image to crop (URL or data URL); images from another domain need CORS.',
+  'Recuadro en fracciones de la imagen (x, y, w, h entre 0 y 1). Se inicia al cargar la imagen.':
+    'Box in fractions of the image (x, y, w, h between 0 and 1). Initialized when the image loads.',
+  'Proporción ancho / alto (null = libre).': 'Width / height ratio (null = free).',
+  'Proporciones de la barra (vacío para ocultarla). Por defecto, Libre, 1:1, 4:3 y 16:9.':
+    'Ratios in the bar (empty to hide it). By default, Free, 1:1, 4:3 and 16:9.',
+  'Recorte rectangular o circular (PNG transparente, 1:1).': 'Rectangular or circular crop (transparent PNG, 1:1).',
+  'Formato (type), calidad (quality) y tamaño máximo (maxWidth, maxHeight) del recorte.':
+    'Format (type), quality (quality) and maximum size (maxWidth, maxHeight) of the crop.',
+  'Botones de girar 90°.': 'Rotate 90° buttons.',
+  'Vista previa del recorte.': 'Crop preview.',
+  'Botón para elegir otra imagen y soltar archivos en el área vacía.': 'Button to choose another image and drop files on the empty area.',
+  'Botón Recortar (sin él, recorta llamando a crop()).': 'Crop button (without it, crop by calling crop()).',
+  'Tipos de archivo del selector.': 'File types of the chooser.',
+  'Alto máximo de la imagen en pantalla.': 'Maximum height of the image on screen.',
+  'Texto del área sin imagen.': 'Text of the area without an image.',
+  'Recorte hecho con Recortar o Enter ({ blob, dataUrl, rect, width, height }).':
+    'Crop made with Crop or Enter ({ blob, dataUrl, rect, width, height }).',
+  'Imagen elegida o soltada por el usuario.': 'Image chosen or dropped by the user.',
+  'No se pudo cargar o recortar la imagen (p. ej. sin CORS).': 'The image could not be loaded or cropped (e.g. without CORS).',
+  'El recuadro es un `role="slider"` enfocable con nombre ("Área de recorte") y su tamaño en `aria-valuetext`, en porcentaje y en los píxeles que tendrá el resultado ("50 % × 100 % de la imagen (256 × 256 píxeles)"). Las instrucciones de teclado se asocian con `aria-describedby`.':
+    'The box is a focusable, named `role="slider"` ("Crop area") with its size in `aria-valuetext`, as a percentage and in the pixels of the result ("50 % × 100 % of the image (256 × 256 pixels)"). The keyboard instructions are associated with `aria-describedby`.',
+  'Las proporciones son un grupo de botones con `aria-pressed`; girar tiene nombre. Girar y recortar se anuncian en una región `aria-live` y los errores (archivo que no es imagen, imagen sin CORS) en un `role="alert"`.':
+    'The ratios are a group of buttons with `aria-pressed`; rotate is named. Rotating and cropping are announced in an `aria-live` region and errors (a file that is not an image, an image without CORS) in a `role="alert"`.',
+  'Arrastrar no es la única forma de recortar (WCAG 2.5.7): todo se puede hacer con el teclado. Tras elegir un archivo o girar, el foco va al recuadro.':
+    'Dragging is not the only way to crop (WCAG 2.5.7): everything can be done with the keyboard. After choosing a file or rotating, focus goes to the box.',
+  'Mueven el recuadro un 2 % (Ctrl + flechas, un 10 %).': 'Move the box by 2% (Ctrl + arrows, by 10%).',
+  'Cambian el tamaño desde la esquina inferior derecha, respetando la proporción.':
+    'Resize from the bottom right corner, keeping the ratio.',
+  'Recorta (cropped).': 'Crops (cropped).',
+  'Recorre el recuadro, las proporciones, girar, Cambiar imagen y Recortar.':
+    'Moves through the box, the ratios, rotate, Change image and Crop.',
+  'Recortador de imagen para fotos de perfil y documentos: el recuadro se mueve y se redimensiona con ratón, dedo o teclado, con proporciones fijas o libre, forma circular, giro de 90°, vista previa y selección de archivo con botón o arrastrándolo. Devuelve el recorte como Blob y data URL, con el tamaño y el formato que elijas.':
+    'Image cropper for profile photos and documents: the box is moved and resized with mouse, finger or keyboard, with fixed or free ratios, circular shape, 90° rotation, preview and file selection with a button or by dragging. Returns the crop as a Blob and data URL, with the size and format you choose.',
+  'Foto de perfil': 'Profile photo',
+  'shape="circle" fija la proporción 1:1 y devuelve un PNG redondo con fondo transparente; preview muestra cómo quedará. output limita el tamaño (aquí, 256 px). Pulsa Recortar (o Enter en el recuadro) y el resultado aparece en el avatar.':
+    'shape="circle" fixes the 1:1 ratio and returns a round PNG with a transparent background; preview shows how it will look. output limits the size (here, 256 px). Press Crop (or Enter on the box) and the result appears in the avatar.',
+  'Documento con proporciones': 'Document with ratios',
+  'La barra ofrece Libre, 1:1, 4:3 y 16:9 (ratios los cambia) y los botones giran la imagen 90°. [(rect)] da el recuadro en fracciones de la imagen (0–1), para guardarlo o recortar en el servidor. output elige el formato: aquí JPEG al 85 %.':
+    'The bar offers Free, 1:1, 4:3 and 16:9 (ratios changes them) and the buttons rotate the image 90°. [(rect)] gives the box in fractions of the image (0–1), to store it or crop on the server. output chooses the format: here JPEG at 85%.',
+  'Desde un archivo': 'From a file',
+  'Sin src, el área invita a elegir una imagen o a soltarla encima; fileSelect da el archivo original. Un archivo que no es imagen se rechaza con un aviso.':
+    'Without src, the area invites you to choose an image or drop it on it; fileSelect gives the original file. A file that is not an image is rejected with a message.',
+  'Sin recortar': 'Not cropped',
+  'sin recortar': 'not cropped',
 };

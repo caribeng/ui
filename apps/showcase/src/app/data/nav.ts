@@ -143,6 +143,7 @@ export const NAV_MENU: NavItem[] = [
           { label: 'FileUpload', route: '/components/fileupload' },
           { label: 'FileCard', route: '/components/file-card', badge: 'NEW' },
           { label: 'FolderCard', route: '/components/folder-card', badge: 'NEW' },
+          { label: 'ImageCropper', route: '/components/image-cropper', badge: 'NEW' },
         ],
       },
       {

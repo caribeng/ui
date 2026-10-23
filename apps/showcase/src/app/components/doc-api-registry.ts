@@ -130,6 +130,7 @@ import { CbCodeBlock } from '@caribeng/ui/code-block';
 import { CbPhoneInput } from '@caribeng/ui/phone-input';
 import { CbKanban } from '@caribeng/ui/kanban';
 import { CbGantt } from '@caribeng/ui/gantt';
+import { CbImageCropper } from '@caribeng/ui/image-cropper';
 import { CbSignaturePad } from '@caribeng/ui/signature-pad';
 import { CbComments } from '@caribeng/ui/comments';
 import { CbNotificationCenter } from '@caribeng/ui/notification-center';
@@ -1799,12 +1800,12 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "mentions", kind: "string", type: "CbEditorMentionSource | null", default: null, description: "Fuente propia de menciones (lista o función, también asíncrona); sustituye a people para @.", control: false },
       { name: "filter", kind: "enum", type: "'all' | 'comments' | 'activity' (model)", options: ["all","comments","activity"], default: "all", description: "Qué se muestra. El filtro aparece cuando hay actividad." },
       { name: "order", kind: "enum", type: "'oldest' | 'newest'", options: ["oldest","newest"], default: "oldest", description: "Orden del hilo; con newest la caja para comentar va arriba." },
-      { name: "reactions", kind: "string", type: "readonly string[]", default: "['👍', '❤️', '🎉', '😄', '👀', '🙏']", description: "Emojis para reaccionar (vacío para quitar las reacciones).", control: false },
+      { name: "reactions", kind: "string", type: "readonly string[]", default: undefined, description: "Emojis para reaccionar (vacío para quitar las reacciones). Por defecto, 👍 ❤️ 🎉 😄 👀 🙏.", control: false },
       { name: "replies", kind: "boolean", type: "boolean", default: true, description: "Permite responder (un nivel)." },
       { name: "editable", kind: "boolean", type: "boolean", default: true, description: "Permite editar y eliminar los comentarios propios." },
       { name: "composer", kind: "boolean", type: "boolean", default: true, description: "Muestra la caja para comentar." },
       { name: "readonly", kind: "boolean", type: "boolean", default: false, description: "Solo lectura: sin caja ni acciones." },
-      { name: "toolbar", kind: "string", type: "readonly CbEditorTool[]", default: "CB_COMMENTS_TOOLBAR", description: "Herramientas del editor (negrita, cursiva, tachado, listas, enlace y código por defecto).", control: false },
+      { name: "toolbar", kind: "string", type: "readonly CbEditorTool[]", default: undefined, description: "Herramientas del editor. Por defecto (CB_COMMENTS_TOOLBAR): negrita, cursiva, tachado, listas, enlace y código.", control: false },
       { name: "editorHeight", kind: "string", type: "string", default: "4.5rem", description: "Alto del área de escritura (crece hasta 16rem)." },
       { name: "placeholder", kind: "string", type: "string", default: undefined, localeKey: "commentsWrite", description: "Texto de la caja vacía." },
       { name: "emptyMessage", kind: "string", type: "string", default: undefined, localeKey: "commentsEmpty", description: "Texto sin comentarios." },
@@ -1859,7 +1860,7 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "minWidth", kind: "number", type: "number", default: 1, description: "Grosor mínimo del trazo (trazo rápido)." },
       { name: "maxWidth", kind: "number", type: "number", default: 3.2, description: "Grosor máximo del trazo (trazo lento o con presión)." },
       { name: "height", kind: "string", type: "string", default: "11rem", description: "Alto del área de firma." },
-      { name: "font", kind: "string", type: "string", default: "CB_SIGNATURE_FONT", description: "Tipografía del nombre escrito (manuscritas del sistema por defecto).", control: false },
+      { name: "font", kind: "string", type: "string", default: undefined, description: "Tipografía del nombre escrito. Por defecto (CB_SIGNATURE_FONT), manuscritas del sistema.", control: false },
       { name: "placeholder", kind: "string", type: "string", default: undefined, localeKey: "signaturePlaceholder", description: "Texto del área vacía." },
       { name: "disabled", kind: "boolean", type: "boolean", default: false, description: "Desactiva el área (también con Angular Forms)." },
       { name: "readonly", kind: "boolean", type: "boolean", default: false, description: "Muestra la firma sin permitir cambiarla." },
@@ -1870,6 +1871,30 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "signStart", type: "void", description: "Empieza un trazo." },
       { name: "signEnd", type: "CbSignatureData", description: "Termina un trazo o cambia el nombre escrito (con la firma completa: trazos o texto)." },
       { name: "cleared", type: "void", description: "Se borró la firma." }
+    ]
+  },
+  "cb-image-cropper": {
+    component: CbImageCropper,
+    selector: "cb-image-cropper",
+    props: [
+      { name: "src", kind: "string", type: "string", default: "", example: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=80", description: "Imagen a recortar (URL o data URL); las de otro dominio necesitan CORS." },
+      { name: "rect", kind: "string", type: "CbCropRect | null (model)", default: null, description: "Recuadro en fracciones de la imagen (x, y, w, h entre 0 y 1). Se inicia al cargar la imagen.", control: false },
+      { name: "ratio", kind: "string", type: "number | null (model)", default: null, description: "Proporción ancho / alto (null = libre).", control: false },
+      { name: "ratios", kind: "string", type: "readonly CbCropRatio[]", default: undefined, description: "Proporciones de la barra (vacío para ocultarla). Por defecto, Libre, 1:1, 4:3 y 16:9.", control: false },
+      { name: "shape", kind: "enum", type: "'rect' | 'circle'", options: ["rect","circle"], default: "rect", description: "Recorte rectangular o circular (PNG transparente, 1:1)." },
+      { name: "output", kind: "string", type: "CbCropOutput", default: {}, description: "Formato (type), calidad (quality) y tamaño máximo (maxWidth, maxHeight) del recorte.", control: false },
+      { name: "rotatable", kind: "boolean", type: "boolean", default: true, description: "Botones de girar 90°." },
+      { name: "preview", kind: "boolean", type: "boolean", default: false, description: "Vista previa del recorte." },
+      { name: "chooser", kind: "boolean", type: "boolean", default: true, description: "Botón para elegir otra imagen y soltar archivos en el área vacía." },
+      { name: "showApply", kind: "boolean", type: "boolean", default: true, description: "Botón Recortar (sin él, recorta llamando a crop())." },
+      { name: "accept", kind: "string", type: "string", default: "image/*", description: "Tipos de archivo del selector." },
+      { name: "maxHeight", kind: "string", type: "string", default: "24rem", description: "Alto máximo de la imagen en pantalla." },
+      { name: "emptyMessage", kind: "string", type: "string", default: undefined, localeKey: "cropperEmpty", description: "Texto del área sin imagen." }
+    ],
+    events: [
+      { name: "cropped", type: "CbCropResult", description: "Recorte hecho con Recortar o Enter ({ blob, dataUrl, rect, width, height })." },
+      { name: "fileSelect", type: "File", description: "Imagen elegida o soltada por el usuario." },
+      { name: "cropError", type: "unknown", description: "No se pudo cargar o recortar la imagen (p. ej. sin CORS)." }
     ]
   },
   "cb-gantt": {

@@ -667,6 +667,19 @@ export const DOC_A11Y: Record<string, DocA11y> = {
       { keys: 'Enter / Espacio', action: 'Cambia de modo o pulsa Deshacer / Borrar.' },
     ],
   },
+  'cb-image-cropper': {
+    screenReader: [
+      'El recuadro es un `role="slider"` enfocable con nombre ("Área de recorte") y su tamaño en `aria-valuetext`, en porcentaje y en los píxeles que tendrá el resultado ("50 % × 100 % de la imagen (256 × 256 píxeles)"). Las instrucciones de teclado se asocian con `aria-describedby`.',
+      'Las proporciones son un grupo de botones con `aria-pressed`; girar tiene nombre. Girar y recortar se anuncian en una región `aria-live` y los errores (archivo que no es imagen, imagen sin CORS) en un `role="alert"`.',
+      'Arrastrar no es la única forma de recortar (WCAG 2.5.7): todo se puede hacer con el teclado. Tras elegir un archivo o girar, el foco va al recuadro.',
+    ],
+    keyboard: [
+      { keys: 'Flechas', action: 'Mueven el recuadro un 2 % (Ctrl + flechas, un 10 %).' },
+      { keys: 'Mayús + flechas', action: 'Cambian el tamaño desde la esquina inferior derecha, respetando la proporción.' },
+      { keys: 'Enter', action: 'Recorta (cropped).' },
+      { keys: 'Tab', action: 'Recorre el recuadro, las proporciones, girar, Cambiar imagen y Recortar.' },
+    ],
+  },
   'cb-gantt': {
     screenReader: [
       'La tabla de tareas es un `role="treegrid"` con nombre: cada fila indica su nivel (`aria-level`) y los grupos si están desplegados (`aria-expanded`); el botón de flecha tiene nombre ("Contraer Diseño").',

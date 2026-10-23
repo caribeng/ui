@@ -772,6 +772,21 @@ export interface CbTranslation {
   signatureClear: string;
   signatureCleared: string;
   signatureUndone: string;
+  // --- Image cropper ---
+  /** `{0}`/`{1}`: ancho y alto en %; `{2}`/`{3}`: en píxeles. */
+  cropperValue: string;
+  cropperRatio: string;
+  cropperRotateLeft: string;
+  cropperRotateRight: string;
+  cropperRotatedLeft: string;
+  cropperRotatedRight: string;
+  cropperChoose: string;
+  cropperChange: string;
+  cropperEmpty: string;
+  cropperPreview: string;
+  cropperDone: string;
+  cropperInvalidFile: string;
+  cropperLoadError: string;
 }
 
 /** Español (idioma por defecto). */
@@ -1415,6 +1430,20 @@ export const CB_LOCALE_ES: CbTranslation = {
   signatureClear: 'Borrar firma',
   signatureCleared: 'Firma borrada',
   signatureUndone: 'Trazo deshecho',
+  // --- Image cropper ---
+  cropperValue: '{0} × {1} de la imagen ({2} × {3} píxeles)',
+  cropperRatio: 'Proporción',
+  cropperRotateLeft: 'Girar a la izquierda',
+  cropperRotateRight: 'Girar a la derecha',
+  cropperRotatedLeft: 'Imagen girada a la izquierda',
+  cropperRotatedRight: 'Imagen girada a la derecha',
+  cropperChoose: 'Elegir imagen',
+  cropperChange: 'Cambiar imagen',
+  cropperEmpty: 'Arrastra una imagen aquí o elígela desde tu equipo.',
+  cropperPreview: 'Vista previa del recorte',
+  cropperDone: 'Imagen recortada',
+  cropperInvalidFile: 'El archivo no es una imagen.',
+  cropperLoadError: 'No se pudo cargar la imagen.',
 };
 
 /** Inglés. */
@@ -2058,6 +2087,20 @@ export const CB_LOCALE_EN: CbTranslation = {
   signatureClear: 'Clear signature',
   signatureCleared: 'Signature cleared',
   signatureUndone: 'Stroke undone',
+  // --- Image cropper ---
+  cropperValue: '{0} × {1} of the image ({2} × {3} pixels)',
+  cropperRatio: 'Aspect ratio',
+  cropperRotateLeft: 'Rotate left',
+  cropperRotateRight: 'Rotate right',
+  cropperRotatedLeft: 'Image rotated left',
+  cropperRotatedRight: 'Image rotated right',
+  cropperChoose: 'Choose image',
+  cropperChange: 'Change image',
+  cropperEmpty: 'Drag an image here or choose it from your device.',
+  cropperPreview: 'Crop preview',
+  cropperDone: 'Image cropped',
+  cropperInvalidFile: 'The file is not an image.',
+  cropperLoadError: 'The image could not be loaded.',
 };
 
 /** Idiomas incluidos. */

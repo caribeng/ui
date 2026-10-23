@@ -19,6 +19,10 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
             "text": "(`@caribeng/ui/signature-pad`): firma con ratón, dedo o lápiz sobre SVG (trazo suavizado con curvas, más fino cuanto más rápido y más grueso con presión; un toque es un punto) o, como alternativa accesible, escribiendo el nombre en letra manuscrita (`mode`, `typing`). `[(value)]` es la firma como data URL en `format` (PNG por defecto, JPEG o SVG vectorial), también con Angular Forms (`required`, `disable()`). Deshacer trazo, borrar, `penColor`, `background` (`transparent`), `minWidth` / `maxWidth`, línea de firma con ×, `readonly`; una firma que llega en `value` se muestra de fondo. Métodos `data()` / `setData()` para guardar los trazos, `toSvg()` y `toDataUrl()`. Textos nuevos: `signature*`. 166 entry points."
           },
           {
+            "component": "Componente nuevo: `ImageCropper`",
+            "text": "(`@caribeng/ui/image-cropper`): recortador de imagen independiente (el cálculo del recorte del Editor pasa aquí y el Editor lo reutiliza). Recuadro que se mueve y redimensiona con ratón, dedo o teclado (`role=\"slider\"` con el tamaño en % y en píxeles; flechas, Ctrl + flechas, Mayús + flechas, Enter), proporciones (`[(ratio)]`, `ratios`), `shape=\"circle\"` para fotos de perfil (PNG transparente), giro de 90° (`rotatable`), vista previa (`preview`) y selección de archivo con botón o arrastrándolo (`chooser`, `fileSelect`). `output` fija formato, calidad y tamaño máximo; `cropped` da `{ blob, dataUrl, rect, width, height }` y `crop()` lo devuelve sin botón. `[(rect)]` en fracciones de la imagen. Funciones exportadas: `cropImage`, `rotateImage`, `outputSize`, `previewStyle`… Textos nuevos: `cropper*`. 167 entry points."
+          },
+          {
             "component": "Núcleo",
             "text": "`cbRelativeTime(date, now, locale, justNow)` da la fecha relativa (\"hace 5 minutos\", \"ayer\") en el idioma indicado y, a partir de una semana, la fecha corta. La usan Comments y NotificationCenter."
           },
