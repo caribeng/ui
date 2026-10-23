@@ -133,6 +133,9 @@ importers:
       '@angular/platform-browser':
         specifier: ^22.0.0
         version: 22.0.5(@angular/animations@22.0.5(@angular/core@22.0.5(@angular/compiler@22.0.5)(rxjs@7.8.2)(zone.js@0.16.2)))(@angular/common@22.0.5(@angular/core@22.0.5(@angular/compiler@22.0.5)(rxjs@7.8.2)(zone.js@0.16.2))(rxjs@7.8.2))(@angular/core@22.0.5(@angular/compiler@22.0.5)(rxjs@7.8.2)(zone.js@0.16.2))
+      pdfjs-dist:
+        specifier: ^6.4.0
+        version: 6.4.299
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
