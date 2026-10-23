@@ -6,7 +6,30 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
   {
     "version": null,
     "date": null,
-    "sections": []
+    "sections": [
+      {
+        "type": "added",
+        "items": [
+          {
+            "component": "Breadcrumb",
+            "text": "un elemento con `command` y sin `url` se pinta como botón y se puede pulsar (antes era texto); también emite `itemClick`."
+          },
+          {
+            "component": "Showcase, File Manager",
+            "text": "carpetas anidadas con ruta navegable (`cb-breadcrumb`), subida de archivos con botón o arrastrándolos, nueva carpeta, mover a otra carpeta, descarga de los archivos subidos, eliminación en cascada con confirmación, y almacenamiento y categorías calculados a partir de los archivos. Las acciones de los menús usan `command`."
+          }
+        ]
+      },
+      {
+        "type": "fixed",
+        "items": [
+          {
+            "component": "FileCard",
+            "text": "un título largo se recorta con puntos suspensivos en lugar de montarse sobre los valores de la derecha."
+          }
+        ]
+      }
+    ]
   },
   {
     "version": "22.4.0",
