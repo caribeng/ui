@@ -27,6 +27,15 @@ import { I18nService } from '../services/i18n.service';
     </doc-section>
 
     <doc-section
+      id="overview"
+      title="Todo en un editor"
+      description="Un mismo documento con todo lo que admite el editor: títulos, negrita, cursiva, subrayado, tachado, código en línea, subíndice y superíndice, color y resaltado, fuentes y tamaños, listas con viñetas, numeradas y de tareas, sangría, alineación, enlace, cita, línea horizontal, caracteres especiales, una tabla con encabezado, una imagen con el texto alrededor y un bloque de código con colores. Haz clic en la tabla o en la imagen para ver sus barras, escribe / para insertar bloques y selecciona texto para el menú flotante."
+      [code]="overviewCode"
+    >
+      <cb-editor [(value)]="completo" maxHeight="640px" style="width: 100%" />
+    </doc-section>
+
+    <doc-section
       id="basic"
       title="Guardar y volver a cargar"
       description="[(value)] (o un FormControl) es el HTML del contenido. Al cargarlo se sanea con una lista blanca de etiquetas y atributos, y al editar se emite normalizado (<strong> en vez de <b>, <p> en vez de <div>, '' si está vacío). Debajo se ve lo que se guardaría."
@@ -226,6 +235,45 @@ export class EditorDocComponent {
     inject(TocService).reset();
   }
 
+  /** Documento de ejemplo con todas las funciones del editor. */
+  protected readonly completo = signal(
+    '<h1>Informe trimestral · CaribeNG</h1>' +
+      '<p>Este documento reúne <strong>todo lo que admite el editor</strong>: <em>cursiva</em>, <u>subrayado</u>, <s>tachado</s>, ' +
+      '<code>código en línea</code>, fórmulas como E = mc<sup>2</sup> o H<sub>2</sub>O, ' +
+      '<span style="color: #2563eb">texto en color</span> y <span style="background-color: #fef08a">resaltado</span>.</p>' +
+      `<p><span style="font-family: 'Source Serif 4', serif; font-size: 20px">Una frase con Source Serif 4 a 20 px</span> y otra con ` +
+      `<span style="font-family: 'JetBrains Mono', monospace; font-size: 14px">JetBrains Mono a 14 px</span>.</p>` +
+      '<h2>1. Resumen</h2>' +
+      '<p><img src="https://picsum.photos/seed/caribeng-informe/480/320" alt="Puerto al atardecer" style="width: 35%; height: auto; float: right; margin: 0 0 0.5rem 1rem">' +
+      'La imagen está alineada a la derecha y el texto la rodea. Haz clic en ella para cambiar su alineación o su ancho, recortarla o escribir su texto alternativo. ' +
+      'Más información en la <a href="https://angular.dev" target="_blank" rel="noopener noreferrer">documentación de Angular</a>.</p>' +
+      '<ul><li>Clientes nuevos: 1.240</li><li>Satisfacción: 4,7 de 5<ul><li>Banca en línea: 4,8</li><li>Oficinas: 4,5</li></ul></li></ul>' +
+      '<ol><li>Revisar las tasas</li><li>Aprobar el presupuesto</li><li>Publicar el informe</li></ol>' +
+      '<ul data-type="taskList"><li data-checked="true">Cerrar el trimestre contable</li><li data-checked="false">Enviar el informe a los socios</li></ul>' +
+      '<h2>2. Tarifas</h2>' +
+      '<table style="border-collapse: collapse; width: 100%"><thead><tr>' +
+      ['Producto', 'Tasa E.A.', 'Plazo'].map((h) => `<th scope="col" style="border: 1px solid #d0d5dd; padding: 6px 10px">${h}</th>`).join('') +
+      '</tr></thead><tbody>' +
+      [['CDT', '11,2 %', '360 días'], ['Ahorro', '4,5 %', '—'], ['Crédito libre inversión', '18,9 %', '60 meses']]
+        .map((r) => `<tr><td style="border: 1px solid #d0d5dd; padding: 6px 10px">${r[0]}</td><td style="text-align: right; border: 1px solid #d0d5dd; padding: 6px 10px">${r[1]}</td><td style="border: 1px solid #d0d5dd; padding: 6px 10px">${r[2]}</td></tr>`)
+        .join('') +
+      '</tbody></table>' +
+      '<blockquote><p>«La confianza se construye con información clara.» — Comité directivo</p></blockquote>' +
+      '<p style="margin-left: 2rem">Párrafo con sangría para notas aclaratorias.</p>' +
+      '<p style="text-align: center">Texto centrado</p>' +
+      '<p style="text-align: right">Texto a la derecha</p>' +
+      '<p style="text-align: justify">Texto justificado: las líneas de este párrafo ocupan todo el ancho disponible para comprobar la alineación de un párrafo largo dentro del editor.</p>' +
+      '<hr>' +
+      '<h3>3. Cálculo del interés</h3>' +
+      '<pre data-language="typescript" style="color: #cccccc; background-color: #1f1f1f"><code>' +
+      '<span style="color: #569cd6">const</span> <span style="color: #4fc1ff">interes</span> = <span style="color: #9cdcfe">capital</span> * <span style="color: #9cdcfe">tasa</span> * <span style="color: #9cdcfe">anios</span>;\n' +
+      '<span style="color: #c586c0">if</span> (<span style="color: #4fc1ff">interes</span> &gt; <span style="color: #b5cea8">0</span>) {\n' +
+      '  <span style="color: #dcdcaa">publicar</span>(<span style="color: #ce9178">\'Informe listo\'</span>);\n' +
+      '}</code></pre>' +
+      '<h4>Caracteres especiales</h4>' +
+      '<p>Monedas € £ ¥ · matemáticas ± × ÷ ≤ ≥ ≈ · flechas → ← ↑ ↓ · tipografía © ® ™ … – — ½</p>',
+  );
+
   protected readonly content = signal(
     '<h2>Condiciones del crédito</h2><p>Bienvenido a <strong>CaribeNG</strong>. Revisa la <a href="https://caribeng.dev" target="_blank" rel="noopener noreferrer">documentación</a>.</p><ul><li>Tasa fija</li><li>Plazo de 36 meses</li></ul>',
   );
@@ -305,6 +353,7 @@ export class EditorDocComponent {
   };
 
   protected readonly importCode = `import { CbEditor, cbSanitizeHtml, cbHtmlToText } from '@caribeng/ui/editor';`;
+  protected readonly overviewCode = `<cb-editor [(value)]="completo" maxHeight="640px" style="width: 100%" />`;
   protected readonly basicCode = `<cb-editor [(value)]="content" />
 
 <!-- content() es HTML saneado, p. ej.:

@@ -253,57 +253,61 @@
   padding: 0;
 }
 
-/* Contenido enriquecido dentro del área editable */
-.cb-editor__surface h1 {
+/*
+ * Contenido enriquecido dentro del área editable. Entra como HTML (innerHTML), sin
+ * los atributos de la encapsulación emulada: por eso estas reglas usan ::ng-deep
+ * (limitado al propio editor con :host).
+ */
+:host ::ng-deep .cb-editor__surface h1 {
   font-size: 1.5rem;
   margin: 0.4em 0;
 }
-.cb-editor__surface h2 {
+:host ::ng-deep .cb-editor__surface h2 {
   font-size: 1.25rem;
   margin: 0.4em 0;
 }
-.cb-editor__surface h3 {
+:host ::ng-deep .cb-editor__surface h3 {
   font-size: 1.1rem;
   margin: 0.4em 0;
 }
-.cb-editor__surface p {
+:host ::ng-deep .cb-editor__surface p {
   margin: 0.4em 0;
 }
-.cb-editor__surface ul,
-.cb-editor__surface ol {
+:host ::ng-deep .cb-editor__surface ul,
+:host ::ng-deep .cb-editor__surface ol {
   margin: 0.4em 0;
   padding-left: 1.5rem;
 }
-.cb-editor__surface blockquote {
+:host ::ng-deep .cb-editor__surface blockquote {
   margin: 0.5em 0;
   padding: 0.25em 0.9em;
   border-left: 3px solid var(--cb-color-primary-400, var(--cb-color-border));
   color: var(--cb-color-text-muted);
 }
-.cb-editor__surface a {
+:host ::ng-deep .cb-editor__surface a {
   color: var(--cb-color-primary-600, #059669);
   text-decoration: underline;
 }
-.cb-editor__surface code {
+:host ::ng-deep .cb-editor__surface code {
   padding: 0.1em 0.35em;
   border-radius: var(--cb-radius-sm);
   background: var(--cb-color-surface-subtle, rgb(0 0 0 / 0.06));
   font-family: var(--cb-font-mono, monospace);
   font-size: 0.9em;
 }
-.cb-editor__surface pre {
+:host ::ng-deep .cb-editor__surface pre {
   padding: var(--cb-space-3);
   border-radius: var(--cb-radius-md);
   background: var(--cb-color-surface-subtle, rgb(0 0 0 / 0.06));
   font-family: var(--cb-font-mono, monospace);
   white-space: pre-wrap;
 }
-.cb-editor__surface hr {
+:host ::ng-deep .cb-editor__surface hr {
   margin: var(--cb-space-3) 0;
   border: none;
   border-top: 1px solid var(--cb-color-border-strong, var(--cb-color-border));
 }
-.cb-editor__surface img {
+:host ::ng-deep .cb-editor__surface img {
   max-width: 100%;
   height: auto;
   border-radius: var(--cb-radius-sm, 4px);
@@ -343,7 +347,7 @@
 .cb-editor__body {
   position: relative;
 }
-.cb-editor__surface img {
+:host ::ng-deep .cb-editor__surface img {
   cursor: pointer;
 }
 .cb-editor__img-frame {
@@ -368,14 +372,14 @@
 }
 
 /* Tablas dentro del contenido */
-.cb-editor__surface table {
+:host ::ng-deep .cb-editor__surface table {
   width: 100%;
   margin: var(--cb-space-2) 0;
   border-collapse: collapse;
   table-layout: fixed;
 }
-.cb-editor__surface th,
-.cb-editor__surface td {
+:host ::ng-deep .cb-editor__surface th,
+:host ::ng-deep .cb-editor__surface td {
   min-width: 2rem;
   padding: 0.35rem 0.5rem;
   vertical-align: top;
@@ -384,27 +388,27 @@
   outline: 1px dashed color-mix(in srgb, var(--cb-color-text-muted) 45%, transparent);
   outline-offset: -1px;
 }
-.cb-editor__surface th[style*='border'],
-.cb-editor__surface td[style*='border'] {
+:host ::ng-deep .cb-editor__surface th[style*='border'],
+:host ::ng-deep .cb-editor__surface td[style*='border'] {
   outline: none;
 }
-.cb-editor__surface th {
+:host ::ng-deep .cb-editor__surface th {
   font-weight: var(--cb-font-weight-semibold, 600);
   text-align: left;
 }
-:host(.cb-is-readonly) .cb-editor__surface th,
-:host(.cb-is-readonly) .cb-editor__surface td {
+:host(.cb-is-readonly) ::ng-deep .cb-editor__surface th,
+:host(.cb-is-readonly) ::ng-deep .cb-editor__surface td {
   outline: none;
 }
 
 /* Bloques de código: los colores en línea (p. ej. de VS Code) mandan */
-.cb-editor__surface pre code {
+:host ::ng-deep .cb-editor__surface pre code {
   padding: 0;
   background: transparent;
   color: inherit;
   font-size: inherit;
 }
-.cb-editor__surface pre[data-language]::before {
+:host ::ng-deep .cb-editor__surface pre[data-language]::before {
   content: attr(data-language);
   float: right;
   margin: -0.25rem -0.25rem 0 0.5rem;
@@ -669,19 +673,19 @@
 }
 
 /* Contenido: título 4, sangría y lista de tareas */
-.cb-editor__surface h4 {
+:host ::ng-deep .cb-editor__surface h4 {
   margin: 0.75rem 0 0.35rem;
   font-size: 1rem;
 }
-.cb-editor__surface ul[data-type='taskList'] {
+:host ::ng-deep .cb-editor__surface ul[data-type='taskList'] {
   padding-left: 0.25rem;
   list-style: none;
 }
-.cb-editor__surface ul[data-type='taskList'] > li {
+:host ::ng-deep .cb-editor__surface ul[data-type='taskList'] > li {
   position: relative;
   padding-left: 1.75rem;
 }
-.cb-editor__surface ul[data-type='taskList'] > li::before {
+:host ::ng-deep .cb-editor__surface ul[data-type='taskList'] > li::before {
   content: '';
   position: absolute;
   left: 0;
@@ -694,7 +698,7 @@
   background: var(--cb-color-surface);
   cursor: pointer;
 }
-.cb-editor__surface ul[data-type='taskList'] > li[data-checked='true']::before {
+:host ::ng-deep .cb-editor__surface ul[data-type='taskList'] > li[data-checked='true']::before {
   content: '✓';
   display: grid;
   place-items: center;
@@ -705,7 +709,7 @@
   font-weight: 700;
   line-height: 1;
 }
-.cb-editor__surface ul[data-type='taskList'] > li[data-checked='true'] {
+:host ::ng-deep .cb-editor__surface ul[data-type='taskList'] > li[data-checked='true'] {
   color: var(--cb-color-text-muted);
   text-decoration: line-through;
 }

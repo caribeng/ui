@@ -2157,8 +2157,6 @@ export const ES_EN: Record<string, string> = {
   'Nombre accesible del visor.': 'Accessible name of the viewer.',
   'Documento abierto.': 'Document opened.',
   'No se pudo abrir el documento.': 'The document could not be opened.',
-  'Visor de documentos PDF con miniaturas, búsqueda, zoom, giro, descarga, impresión y documentos con contraseña. El texto se puede seleccionar y lo leen los lectores de pantalla.':
-    'PDF document viewer with thumbnails, search, zoom, rotation, download, printing and password-protected documents. The text can be selected and is read by screen readers.',
   'El visor usa pdf.js de Mozilla (licencia Apache-2.0), una dependencia opcional: solo la instalan las aplicaciones que usan el visor, y se descarga al abrir el primer documento. Copia su worker y sus recursos en los assets para servirlos desde tu propio dominio (sin CDN), lo que también cumple políticas CSP estrictas.':
     "The viewer uses Mozilla's pdf.js (Apache-2.0 license), an optional dependency: only apps that use the viewer install it, and it is downloaded when the first document opens. Copy its worker and resources into your assets to serve them from your own domain (no CDN), which also works with strict CSP policies.",
   'src acepta una URL, un ArrayBuffer, un Uint8Array o un Blob / File. Las páginas se renderizan a medida que se ven. Prueba a buscar "direccion": la búsqueda ignora tildes y mayúsculas.':
@@ -3066,4 +3064,33 @@ export const ES_EN: Record<string, string> = {
   'Los campos de formulario son controles nativos (`input`, `textarea`, `select`, casillas) con el nombre que les da el PDF (`TU`); se recorren con Tab. Descargar cambia su nombre a "Descargar con los datos del formulario" cuando hay cambios.':
     'Form fields are native controls (`input`, `textarea`, `select`, checkboxes) with the name the PDF gives them (`TU`); Tab moves through them. Download is renamed "Download with the form data" when there are changes.',
   'En el índice: va a la sección; en el botón de flecha, la contrae o expande.': 'In the outline: goes to the section; on the arrow button, collapses or expands it.',
+  // --- Ejemplos completos de PDF Viewer y Editor ---
+  'Visor de documentos PDF con miniaturas, índice, enlaces, formularios rellenables, búsqueda, zoom, giro, descarga, impresión y documentos con contraseña. El texto se puede seleccionar y lo leen los lectores de pantalla.':
+    'PDF document viewer with thumbnails, outline, links, fillable forms, search, zoom, rotation, download, printing and password-protected documents. The text can be selected and is read by screen readers.',
+  'Búsqueda': 'Search',
+  'Escribe en el campo de búsqueda (o pulsa Ctrl + F dentro del visor): resalta todas las coincidencias, ignora tildes y mayúsculas, y Enter / Mayús + Enter recorren la siguiente y la anterior; Escape la vacía. También se busca por código con search(); este ejemplo busca "Supermercado" al abrir el documento.':
+    'Type in the search field (or press Ctrl + F inside the viewer): it highlights every match, ignores accents and case, and Enter / Shift + Enter go to the next and previous one; Escape clears it. You can also search from code with search(); this example searches "Supermercado" when the document opens.',
+  'Giro': 'Rotation',
+  '[(rotation)] gira todas las páginas 0, 90, 180 o 270 grados; el botón de la barra gira 90° a la derecha y rotate(-1) a la izquierda. Las miniaturas y la impresión respetan el giro.':
+    '[(rotation)] rotates every page 0, 90, 180 or 270 degrees; the toolbar button rotates 90° clockwise and rotate(-1) counter-clockwise. Thumbnails and printing follow the rotation.',
+  'Barra reducida': 'Reduced toolbar',
+  'Cada parte de la barra se puede quitar: showSearch, showRotate, showThumbnails, downloadable y printable. Aquí solo quedan la paginación y el zoom.':
+    'Each part of the toolbar can be removed: showSearch, showRotate, showThumbnails, downloadable and printable. Here only pagination and zoom remain.',
+  'Descargar e imprimir': 'Download and print',
+  'Descargar guarda el documento con el nombre de fileName (por defecto, el de la URL o del File). Imprimir abre el diálogo del navegador con las páginas del PDF, no con la página de la aplicación, y muestra el progreso mientras las prepara. Ambos se pueden llamar por código con download() y print().':
+    'Download saves the document with the fileName name (by default, the one from the URL or the File). Print opens the browser dialog with the PDF pages, not the application page, and shows the progress while it prepares them. Both can be called from code with download() and print().',
+  'Descargar «extracto-septiembre-2026.pdf»': 'Download “extracto-septiembre-2026.pdf”',
+  'Imprimir': 'Print',
+  'Eventos y errores': 'Events and errors',
+  'loaded avisa al abrir el documento (con su número de páginas) y loadError si no se pudo abrir: el visor muestra el error con role=alert. Cambia de documento para ver los dos casos.':
+    'loaded fires when the document opens (with its number of pages) and loadError if it could not be opened: the viewer shows the error with role=alert. Switch documents to see both cases.',
+  'Documento válido': 'Valid document',
+  'Archivo que no existe': 'File that does not exist',
+  'Formulario como imagen y enlaces desactivados': 'Form as an image and links disabled',
+  'Con [forms]="false" los campos se pintan como parte de la página y no se pueden editar; [externalLinks]="false" desactiva los enlaces a otras webs (los internos siguen funcionando) y [showOutline]="false" oculta la pestaña Índice.':
+    'With [forms]="false" the fields are drawn as part of the page and cannot be edited; [externalLinks]="false" disables links to other websites (internal ones still work) and [showOutline]="false" hides the Outline tab.',
+  'Obtener el PDF relleno (save)': 'Get the filled PDF (save)',
+  'Todo en un editor': 'Everything in one editor',
+  'Un mismo documento con todo lo que admite el editor: títulos, negrita, cursiva, subrayado, tachado, código en línea, subíndice y superíndice, color y resaltado, fuentes y tamaños, listas con viñetas, numeradas y de tareas, sangría, alineación, enlace, cita, línea horizontal, caracteres especiales, una tabla con encabezado, una imagen con el texto alrededor y un bloque de código con colores. Haz clic en la tabla o en la imagen para ver sus barras, escribe / para insertar bloques y selecciona texto para el menú flotante.':
+    'A single document with everything the editor supports: headings, bold, italic, underline, strikethrough, inline code, subscript and superscript, color and highlight, fonts and sizes, bulleted, numbered and task lists, indentation, alignment, a link, a quote, a horizontal rule, special characters, a table with a header, an image with text wrapping around it and a colored code block. Click the table or the image to see their toolbars, type / to insert blocks and select text for the floating menu.',
 };

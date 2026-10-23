@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { CbPdfViewer, type CbPdfSource, type CbPdfZoom } from '@caribeng/ui/pdfviewer';
+import { CbPdfViewer, type CbPdfRotation, type CbPdfSource, type CbPdfZoom } from '@caribeng/ui/pdfviewer';
 import { DocPlaygroundComponent } from '../components/doc-playground.component';
 import { DOC_API } from '../components/doc-api-registry';
 import { DocA11yComponent } from '../components/doc-a11y.component';
@@ -17,7 +17,7 @@ import { TocService } from '../services/toc.service';
     <doc-page-header
       eyebrow="Multimedia"
       title="PDF Viewer"
-      lead="Visor de documentos PDF con miniaturas, búsqueda, zoom, giro, descarga, impresión y documentos con contraseña. El texto se puede seleccionar y lo leen los lectores de pantalla."
+      lead="Visor de documentos PDF con miniaturas, índice, enlaces, formularios rellenables, búsqueda, zoom, giro, descarga, impresión y documentos con contraseña. El texto se puede seleccionar y lo leen los lectores de pantalla."
     />
 
     <doc-section id="import" title="Importación">
@@ -92,12 +92,109 @@ import { TocService } from '../services/toc.service';
         />
         <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap">
           <button type="button" class="doc-btn" (click)="verDatos(solicitud)">Ver datos del formulario</button>
+          <button type="button" class="doc-btn" (click)="obtenerPdf(solicitud)">Obtener el PDF relleno (save)</button>
+          @if (pdfRelleno()) {
+            <span style="font-size: 0.875rem">{{ pdfRelleno() }}</span>
+          }
           <span style="font-size: 0.875rem; color: var(--cb-color-text-muted)">Cambios: {{ cambios() }}</span>
         </div>
         @if (datos(); as d) {
           <pre class="doc-pre" aria-label="Datos del formulario">{{ d }}</pre>
         }
       </div>
+    </doc-section>
+
+    <doc-section
+      id="search"
+      title="Búsqueda"
+      description="Escribe en el campo de búsqueda (o pulsa Ctrl + F dentro del visor): resalta todas las coincidencias, ignora tildes y mayúsculas, y Enter / Mayús + Enter recorren la siguiente y la anterior; Escape la vacía. También se busca por código con search(); este ejemplo busca &quot;Supermercado&quot; al abrir el documento."
+      [code]="searchCode"
+    >
+      <cb-pdf-viewer #buscador style="--cb-pdf-viewer-height: 26rem" src="pdf/extracto-demo.pdf" (loaded)="buscador.search('Supermercado')" />
+    </doc-section>
+
+    <doc-section
+      id="rotation"
+      title="Giro"
+      description="[(rotation)] gira todas las páginas 0, 90, 180 o 270 grados; el botón de la barra gira 90° a la derecha y rotate(-1) a la izquierda. Las miniaturas y la impresión respetan el giro."
+      [code]="rotationCode"
+    >
+      <div style="display: grid; gap: 0.75rem; width: 100%">
+        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center">
+          @for (grados of giros; track grados) {
+            <button type="button" class="doc-btn" [attr.aria-pressed]="giro() === grados" (click)="giro.set(grados)">{{ grados }}°</button>
+          }
+        </div>
+        <cb-pdf-viewer style="--cb-pdf-viewer-height: 26rem" src="pdf/extracto-demo.pdf" zoom="page-fit" [(rotation)]="giro" />
+      </div>
+    </doc-section>
+
+    <doc-section
+      id="toolbar"
+      title="Barra reducida"
+      description="Cada parte de la barra se puede quitar: showSearch, showRotate, showThumbnails, downloadable y printable. Aquí solo quedan la paginación y el zoom."
+      [code]="toolbarCode"
+    >
+      <cb-pdf-viewer
+        style="--cb-pdf-viewer-height: 24rem"
+        src="pdf/extracto-demo.pdf"
+        [showSearch]="false"
+        [showRotate]="false"
+        [showThumbnails]="false"
+        [downloadable]="false"
+        [printable]="false"
+      />
+    </doc-section>
+
+    <doc-section
+      id="download"
+      title="Descargar e imprimir"
+      description="Descargar guarda el documento con el nombre de fileName (por defecto, el de la URL o del File). Imprimir abre el diálogo del navegador con las páginas del PDF, no con la página de la aplicación, y muestra el progreso mientras las prepara. Ambos se pueden llamar por código con download() y print()."
+      [code]="downloadCode"
+    >
+      <div style="display: grid; gap: 0.75rem; width: 100%">
+        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap">
+          <button type="button" class="doc-btn" (click)="extracto.download()">Descargar «extracto-septiembre-2026.pdf»</button>
+          <button type="button" class="doc-btn" (click)="extracto.print()">Imprimir</button>
+        </div>
+        <cb-pdf-viewer #extracto style="--cb-pdf-viewer-height: 24rem" src="pdf/extracto-demo.pdf" fileName="extracto-septiembre-2026.pdf" />
+      </div>
+    </doc-section>
+
+    <doc-section
+      id="events"
+      title="Eventos y errores"
+      description="loaded avisa al abrir el documento (con su número de páginas) y loadError si no se pudo abrir: el visor muestra el error con role=alert. Cambia de documento para ver los dos casos."
+      [code]="eventsCode"
+    >
+      <div style="display: grid; gap: 0.75rem; width: 100%">
+        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center">
+          <button type="button" class="doc-btn" (click)="origen.set('pdf/extracto-demo.pdf')">Documento válido</button>
+          <button type="button" class="doc-btn" (click)="origen.set('pdf/no-existe.pdf')">Archivo que no existe</button>
+          <span style="font-size: 0.875rem; color: var(--cb-color-text-muted)">{{ registro() }}</span>
+        </div>
+        <cb-pdf-viewer
+          style="--cb-pdf-viewer-height: 22rem"
+          [src]="origen()"
+          (loaded)="registro.set('loaded: ' + $event.numPages + ' páginas')"
+          (loadError)="registro.set('loadError: no se pudo abrir el documento')"
+        />
+      </div>
+    </doc-section>
+
+    <doc-section
+      id="forms-off"
+      title="Formulario como imagen y enlaces desactivados"
+      description="Con [forms]=&quot;false&quot; los campos se pintan como parte de la página y no se pueden editar; [externalLinks]=&quot;false&quot; desactiva los enlaces a otras webs (los internos siguen funcionando) y [showOutline]=&quot;false&quot; oculta la pestaña Índice."
+      [code]="formsOffCode"
+    >
+      <cb-pdf-viewer
+        style="--cb-pdf-viewer-height: 26rem"
+        src="pdf/solicitud-formulario.pdf"
+        [forms]="false"
+        [externalLinks]="false"
+        [showOutline]="false"
+      />
     </doc-section>
 
     <doc-section
@@ -178,6 +275,16 @@ export class PdfviewerDocComponent {
   protected readonly archivo = signal<CbPdfSource | null>(null);
 
   protected readonly cambios = signal(0);
+  protected readonly pdfRelleno = signal('');
+  protected readonly giros: CbPdfRotation[] = [0, 90, 180, 270];
+  protected readonly giro = signal<CbPdfRotation>(0);
+  protected readonly origen = signal('pdf/extracto-demo.pdf');
+  protected readonly registro = signal('');
+
+  protected async obtenerPdf(visor: CbPdfViewer): Promise<void> {
+    const pdf = await visor.save();
+    this.pdfRelleno.set(pdf ? `PDF de ${Math.round(pdf.size / 1024)} KB listo para enviar al servidor.` : '');
+  }
   protected readonly datos = signal('');
 
   protected async verDatos(visor: CbPdfViewer): Promise<void> {
@@ -188,21 +295,72 @@ export class PdfviewerDocComponent {
     this.archivo.set((event.target as HTMLInputElement).files?.[0] ?? null);
   }
 
-  protected readonly formsCode = `<cb-pdf-viewer
-  #solicitud
-  style="--cb-pdf-viewer-height: 34rem"
+  protected readonly formsCode = `<div style="display: grid; gap: 0.75rem; width: 100%">
+  <cb-pdf-viewer
+    #solicitud
+    style="--cb-pdf-viewer-height: 34rem"
+    src="pdf/solicitud-formulario.pdf"
+    [sidebar]="true"
+    sidebarView="outline"
+    (formChange)="cambios.set(cambios() + 1)"
+  />
+  <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap">
+    <button type="button" class="doc-btn" (click)="verDatos(solicitud)">Ver datos del formulario</button>
+    <button type="button" class="doc-btn" (click)="obtenerPdf(solicitud)">Obtener el PDF relleno (save)</button>
+    @if (pdfRelleno()) {
+      <span style="font-size: 0.875rem">{{ pdfRelleno() }}</span>
+    }
+    <span style="font-size: 0.875rem; color: var(--cb-color-text-muted)">Cambios: {{ cambios() }}</span>
+  </div>
+  @if (datos(); as d) {
+    <pre class="doc-pre" aria-label="Datos del formulario">{{ d }}</pre>
+  }
+</div>`;
+  protected readonly searchCode = `<cb-pdf-viewer #buscador style="--cb-pdf-viewer-height: 26rem" src="pdf/extracto-demo.pdf" (loaded)="buscador.search('Supermercado')" />`;
+  protected readonly rotationCode = `<div style="display: grid; gap: 0.75rem; width: 100%">
+  <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center">
+    @for (grados of giros; track grados) {
+      <button type="button" class="doc-btn" [attr.aria-pressed]="giro() === grados" (click)="giro.set(grados)">{{ grados }}°</button>
+    }
+  </div>
+  <cb-pdf-viewer style="--cb-pdf-viewer-height: 26rem" src="pdf/extracto-demo.pdf" zoom="page-fit" [(rotation)]="giro" />
+</div>`;
+  protected readonly toolbarCode = `<cb-pdf-viewer
+  style="--cb-pdf-viewer-height: 24rem"
+  src="pdf/extracto-demo.pdf"
+  [showSearch]="false"
+  [showRotate]="false"
+  [showThumbnails]="false"
+  [downloadable]="false"
+  [printable]="false"
+/>`;
+  protected readonly downloadCode = `<div style="display: grid; gap: 0.75rem; width: 100%">
+  <div style="display: flex; gap: 0.5rem; flex-wrap: wrap">
+    <button type="button" class="doc-btn" (click)="extracto.download()">Descargar «extracto-septiembre-2026.pdf»</button>
+    <button type="button" class="doc-btn" (click)="extracto.print()">Imprimir</button>
+  </div>
+  <cb-pdf-viewer #extracto style="--cb-pdf-viewer-height: 24rem" src="pdf/extracto-demo.pdf" fileName="extracto-septiembre-2026.pdf" />
+</div>`;
+  protected readonly eventsCode = `<div style="display: grid; gap: 0.75rem; width: 100%">
+  <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center">
+    <button type="button" class="doc-btn" (click)="origen.set('pdf/extracto-demo.pdf')">Documento válido</button>
+    <button type="button" class="doc-btn" (click)="origen.set('pdf/no-existe.pdf')">Archivo que no existe</button>
+    <span style="font-size: 0.875rem; color: var(--cb-color-text-muted)">{{ registro() }}</span>
+  </div>
+  <cb-pdf-viewer
+    style="--cb-pdf-viewer-height: 22rem"
+    [src]="origen()"
+    (loaded)="registro.set('loaded: ' + $event.numPages + ' páginas')"
+    (loadError)="registro.set('loadError: no se pudo abrir el documento')"
+  />
+</div>`;
+  protected readonly formsOffCode = `<cb-pdf-viewer
+  style="--cb-pdf-viewer-height: 26rem"
   src="pdf/solicitud-formulario.pdf"
-  [sidebar]="true"
-  sidebarView="outline"
-  (formChange)="cambios.set(cambios() + 1)"
-/>
-<div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap">
-  <button type="button" class="doc-btn" (click)="verDatos(solicitud)">Ver datos del formulario</button>
-  <span style="font-size: 0.875rem; color: var(--cb-color-text-muted)">Cambios: {{ cambios() }}</span>
-</div>
-@if (datos(); as d) {
-  <pre class="doc-pre" aria-label="Datos del formulario">{{ d }}</pre>
-}`;
+  [forms]="false"
+  [externalLinks]="false"
+  [showOutline]="false"
+/>`;
   protected readonly importCode = `import { CbPdfViewer } from '@caribeng/ui/pdfviewer';`;
   protected readonly installCode = `pnpm add pdfjs-dist`;
   protected readonly assetsCode = `// angular.json → projects.<app>.architect.build.options.assets

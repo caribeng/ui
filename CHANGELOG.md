@@ -15,7 +15,10 @@ Desde la 22.0.0 el major de la librería coincide con el de Angular (22.x = Angu
 - **Breadcrumb:** un elemento con `command` y sin `url` se pinta como botón y se puede pulsar (antes era texto); también emite `itemClick`.
 - **Showcase, File Manager:** carpetas anidadas con ruta navegable (`cb-breadcrumb`), subida de archivos con botón o arrastrándolos, nueva carpeta, mover a otra carpeta, descarga de los archivos subidos, eliminación en cascada con confirmación, y almacenamiento y categorías calculados a partir de los archivos. Las acciones de los menús usan `command`.
 
+- **Showcase:** el Editor abre con «Todo en un editor», un documento con todas sus funciones (tabla, imagen, código, tareas, cita, fuentes, alineación…), y el PDF Viewer tiene un ejemplo por funcionalidad (búsqueda, giro, barra reducida, descargar e imprimir, eventos y errores, formulario como imagen, `save()`).
+
 ### Fixed
+- **Editor:** los estilos del contenido (títulos, listas, tareas con casilla, citas, código en línea y en bloque, tablas, imágenes y líneas) no se aplicaban: el HTML entra sin los atributos de la encapsulación emulada. Ahora esas reglas se limitan al editor con `:host ::ng-deep`.
 - **FileCard:** un título largo se recorta con puntos suspensivos en lugar de montarse sobre los valores de la derecha.
 
 ## [22.4.0] - 2026-10-23
