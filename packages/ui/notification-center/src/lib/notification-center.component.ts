@@ -101,7 +101,7 @@ let nextUid = 0;
       >
         <div class="cb-nc__header">
           <span class="cb-nc__title" role="heading" [attr.aria-level]="headingLevel()" [id]="panelId + '-title'" tabindex="-1">
-            {{ title() ?? t().notificationsTitle }}
+            {{ heading() ?? t().notificationsTitle }}
           </span>
           <button type="button" class="cb-nc__link" [disabled]="!unread()" (click)="markAllRead()">
             <cb-icon name="check-check" [size]="16" aria-hidden="true" />
@@ -231,8 +231,8 @@ export class CbNotificationCenter {
   readonly showViewAll = input(false, { transform: booleanAttribute });
   /** A partir de este número, la campana muestra "99+". */
   readonly max = input(99, { transform: numberAttribute });
-  /** Título del panel (por defecto, "Notificaciones"). */
-  readonly title = input<string | undefined>(undefined);
+  /** Título del panel (por defecto, "Notificaciones"). No es `title` para no dar un tooltip al componente. */
+  readonly heading = input<string | undefined>(undefined);
   /** Nivel del título (los grupos usan el siguiente). */
   readonly headingLevel = input(2, { transform: numberAttribute });
   readonly emptyMessage = input<string | undefined>(undefined);

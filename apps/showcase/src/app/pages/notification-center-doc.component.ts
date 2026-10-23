@@ -74,7 +74,7 @@ const NUEVOS: Omit<CbNotification, 'id' | 'date'>[] = [
       [code]="actionsCode"
     >
       <div style="display: grid; gap: 0.5rem; width: 100%; max-width: 30rem">
-        <cb-notification-center [(notifications)]="solicitudes" inline [groupByDate]="false" [removable]="false" title="Aprobaciones pendientes" (actionClick)="onAction($event)" />
+        <cb-notification-center [(notifications)]="solicitudes" inline [groupByDate]="false" [removable]="false" heading="Aprobaciones pendientes" (actionClick)="onAction($event)" />
         <p class="nc-log">{{ accion() }}</p>
       </div>
     </doc-section>
@@ -176,7 +176,7 @@ export class NotificationCenterDocComponent {
 </div>
 <p class="nc-log">{{ ultimo() }}</p>`;
   protected readonly inlineCode = `<cb-notification-center [(notifications)]="avisos" inline maxHeight="none" [announceNew]="false" />`;
-  protected readonly actionsCode = `<cb-notification-center [(notifications)]="solicitudes" inline [groupByDate]="false" [removable]="false" title="Aprobaciones pendientes" (actionClick)="onAction($event)" />
+  protected readonly actionsCode = `<cb-notification-center [(notifications)]="solicitudes" inline [groupByDate]="false" [removable]="false" heading="Aprobaciones pendientes" (actionClick)="onAction($event)" />
 <p class="nc-log">{{ accion() }}</p>`;
 
   constructor() {
