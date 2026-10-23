@@ -299,8 +299,10 @@ export class CbChart {
   readonly sparkline = input(false, { transform: booleanAttribute });
   /** Formato de los valores (ejes, tooltip y tabla). */
   readonly valueFormat = input<CbChartValueFormat | undefined>(undefined);
-  /** Locale BCP 47 para el formato (por defecto, el del navegador). */
+  /** Locale BCP 47 para el formato (por defecto, el del idioma activo de CaribeNG: `intlLocale`). */
   readonly locale = input<string | undefined>(undefined);
+  /** Locale efectivo: el input o, si no se indica, el del idioma activo. */
+  protected readonly intlLocale = computed(() => this.locale() ?? this.t().intlLocale);
   /** Valor mínimo del medidor (`gauge`). */
   readonly min = input<number>(0);
   /** Valor que representa el 100 % en `radialBar` y el máximo del medidor (`gauge`). */
@@ -380,11 +382,11 @@ export class CbChart {
 
   private readonly numberFormat = computed(() => this.formatter(this.valueFormat()));
   private readonly percentFormat = computed(
-    () => new Intl.NumberFormat(this.locale(), { style: 'percent', maximumFractionDigits: 1 }).format,
+    () => new Intl.NumberFormat(this.intlLocale(), { style: 'percent', maximumFractionDigits: 1 }).format,
   );
 
   private formatter(vf: CbChartValueFormat | undefined): (value: number) => string {
-    return typeof vf === 'function' ? vf : new Intl.NumberFormat(this.locale(), vf ?? { maximumFractionDigits: 2 }).format;
+    return typeof vf === 'function' ? vf : new Intl.NumberFormat(this.intlLocale(), vf ?? { maximumFractionDigits: 2 }).format;
   }
 
   /** Lo declarado en los hijos, como datos planos para el renderer. */
@@ -454,7 +456,7 @@ export class CbChart {
       bands: this.bands(),
       format: this.numberFormat(),
       percent: this.percentFormat(),
-      locale: this.locale(),
+      locale: this.intlLocale(),
       text: { total: t.chartTotal, change: t.chartChange, open: t.chartOpen, high: t.chartHigh, low: t.chartLow, close: t.chartClose },
       composed: this.composedSpec(),
     };

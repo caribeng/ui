@@ -1941,8 +1941,8 @@ export const ES_EN: Record<string, string> = {
   'Muestra la leyenda (botones que ocultan y muestran series).':
     'Shows the legend (buttons that hide and show series).',
   'Formato de los valores en ejes, tooltip y tabla.': 'Value format for axes, tooltip and table.',
-  'Locale BCP 47 del formato (por defecto, el del navegador).':
-    'BCP 47 locale for formatting (defaults to the browser one).',
+  'Locale BCP 47 del formato (por defecto, el del idioma activo de CaribeNG).':
+    'BCP 47 locale for formatting (defaults to the active CaribeNG language).',
   'Valor que representa el 100 % en radialBar.': 'Value that represents 100 % in radialBar.',
   'Animación de entrada (respeta prefers-reduced-motion).':
     'Entry animation (respects prefers-reduced-motion).',

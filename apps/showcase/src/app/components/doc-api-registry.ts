@@ -416,7 +416,7 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "height", kind: "number", type: "number", default: 220, description: "Alto en píxeles; el ancho se adapta al contenedor." },
       { name: "showLegend", kind: "boolean", type: "boolean", default: true, description: "Muestra la leyenda (botones que ocultan y muestran series)." },
       { name: "valueFormat", kind: "string", type: "Intl.NumberFormatOptions | ((v: number) => string)", default: undefined, description: "Formato de los valores en ejes, tooltip y tabla.", control: false },
-      { name: "locale", kind: "enum", type: "string", options: ["es-CO", "es-ES", "en-US", "pt-BR"], default: undefined, description: "Locale BCP 47 del formato (por defecto, el del navegador)." },
+      { name: "locale", kind: "enum", type: "string", options: ["es-CO", "es-ES", "en-US", "pt-BR"], default: undefined, description: "Locale BCP 47 del formato (por defecto, el del idioma activo de CaribeNG)." },
       { name: "min", kind: "number", type: "number", default: 0, description: "Valor mínimo del medidor (gauge)." },
       { name: "max", kind: "number", type: "number", default: 100, description: "Valor que representa el 100 % en radialBar y el máximo del medidor (gauge)." },
       { name: "bands", kind: "string", type: "CbChartBand[]", default: [], description: "Franjas de color del medidor: { from, to, color }.", control: false },
