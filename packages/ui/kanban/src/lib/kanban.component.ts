@@ -5,8 +5,10 @@ import {
   Directive,
   TemplateRef,
   ViewEncapsulation,
+  computed,
   contentChild,
   inject,
+  input,
   signal,
   viewChild,
 } from '@angular/core';
@@ -195,7 +197,7 @@ let nextUid = 0;
                     (keydown)="onCardKeydown($event, c, i)"
                     (click)="openCard(item)"
                   >
-                    <ng-container *ngTemplateOutlet="cardTpl()?.template ?? defaultCard; context: { $implicit: item, column: col, index: i }" />
+                    <ng-container *ngTemplateOutlet="cardTpl() ?? defaultCard; context: { $implicit: item, column: col, index: i }" />
                   </div>
                   @if (editable()) {
                     <button
@@ -331,7 +333,14 @@ let nextUid = 0;
 export class CbKanban extends CbKanbanView {
   private readonly menu = viewChild.required<CbMenu>('menu');
   protected readonly uid = `cb-kanban-${++nextUid}`;
-  protected readonly cardTpl = contentChild(CbKanbanCardDirective);
+  private readonly cardDirective = contentChild(CbKanbanCardDirective);
+  /**
+   * Plantilla de las tarjetas pasada como input, para cuando el tablero lo pinta
+   * otro componente (p. ej. `cb-kanban-workspace`). La `ng-template cbKanbanCard`
+   * proyectada tiene prioridad.
+   */
+  readonly cardTemplate = input<TemplateRef<CbKanbanCardContext>>();
+  protected readonly cardTpl = computed(() => this.cardDirective()?.template ?? this.cardTemplate());
 
   private readonly grab = signal<Grab | null>(null);
   protected readonly editingKey = signal<unknown>(undefined);

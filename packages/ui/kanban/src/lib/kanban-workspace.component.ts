@@ -1,10 +1,10 @@
-import { ChangeDetectionStrategy, Component, ViewEncapsulation, booleanAttribute, computed, input, model } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation, booleanAttribute, computed, contentChild, input, model } from '@angular/core';
 import { CbIcon } from '@caribeng/ui/icon';
 import { CbKanbanCalendar } from './kanban-calendar.component';
 import { CbKanbanDashboard } from './kanban-dashboard.component';
 import { CbKanbanList } from './kanban-list.component';
 import { CbKanbanTimeline } from './kanban-timeline.component';
-import { CbKanban } from './kanban.component';
+import { CbKanban, CbKanbanCardDirective } from './kanban.component';
 import { CbKanbanView } from './kanban-view';
 
 /** Vistas del espacio de trabajo. */
@@ -22,11 +22,15 @@ let nextUid = 0;
  * `multiple = false` se comportan como pestañas (una sola vista).
  *
  * Recibe las mismas opciones que cada vista (`details`, `editable`, `addable`,
- * `people`…) y reemite sus eventos (`cardMove`, `cardEdit`…).
+ * `people`…) y reemite sus eventos (`cardMove`, `cardEdit`…). Una
+ * `ng-template cbKanbanCard` dentro del espacio de trabajo se usa como
+ * plantilla de las tarjetas del tablero.
  *
  * @example
  * ```html
- * <cb-kanban-workspace [(columns)]="columnas" [(views)]="vistas" [people]="personas" details editable addable />
+ * <cb-kanban-workspace [(columns)]="columnas" [(views)]="vistas" [people]="personas" details editable addable>
+ *   <ng-template cbKanbanCard let-tarea>{{ tarea.title }}</ng-template>
+ * </cb-kanban-workspace>
  * ```
  */
 @Component({
@@ -101,6 +105,7 @@ let nextUid = 0;
             @case ('board') {
               <cb-kanban
                 [(columns)]="columns"
+                [cardTemplate]="cardTpl()?.template"
                 [itemKey]="itemKey()"
                 [itemLabel]="itemLabel()"
                 [enforceLimit]="enforceLimit()"
@@ -220,6 +225,8 @@ let nextUid = 0;
 })
 export class CbKanbanWorkspace extends CbKanbanView {
   protected readonly uid = `cb-kanban-workspace-${++nextUid}`;
+  /** Plantilla de las tarjetas del tablero (`<ng-template cbKanbanCard>`). */
+  protected readonly cardTpl = contentChild(CbKanbanCardDirective);
 
   /** Vistas visibles (bidireccional). Varias a la vez si `multiple`. */
   readonly views = model<readonly CbKanbanViewType[]>(['board']);

@@ -6,7 +6,17 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
   {
     "version": null,
     "date": null,
-    "sections": []
+    "sections": [
+      {
+        "type": "added",
+        "items": [
+          {
+            "component": "Kanban, espacio de trabajo",
+            "text": "una `<ng-template cbKanbanCard>` dentro de `cb-kanban-workspace` se usa como plantilla de las tarjetas del tablero (antes no llegaba). `cb-kanban` acepta también la plantilla como input (`cardTemplate`); la proyectada tiene prioridad."
+          }
+        ]
+      }
+    ]
   },
   {
     "version": "22.3.0",

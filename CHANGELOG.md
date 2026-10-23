@@ -10,6 +10,9 @@ Desde la 22.0.0 el major de la librería coincide con el de Angular (22.x = Angu
 
 ## [Unreleased]
 
+### Added
+- **Kanban, espacio de trabajo:** una `<ng-template cbKanbanCard>` dentro de `cb-kanban-workspace` se usa como plantilla de las tarjetas del tablero (antes no llegaba). `cb-kanban` acepta también la plantilla como input (`cardTemplate`); la proyectada tiene prioridad.
+
 ## [22.3.0] - 2026-10-22
 
 ### Breaking

@@ -2,6 +2,7 @@ import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { describe, expect, it } from 'vitest';
 import { CbKanbanWorkspace, type CbKanbanViewType } from './kanban-workspace.component';
+import { CbKanbanCardDirective } from './kanban.component';
 import type { CbKanbanCardEvent, CbKanbanColumn } from './kanban-view';
 import type { CbKanbanTask } from './kanban-task';
 
@@ -29,6 +30,20 @@ class Host {
   side = signal(false);
   multiple = signal(true);
   log: CbKanbanCardEvent[] = [];
+}
+
+@Component({
+  imports: [CbKanbanWorkspace, CbKanbanCardDirective],
+  template: `
+    <cb-kanban-workspace [(columns)]="columns" [views]="['list', 'board']">
+      <ng-template cbKanbanCard let-item let-column="column">
+        <span class="custom-card">{{ column.title }}: {{ item.title }}</span>
+      </ng-template>
+    </cb-kanban-workspace>
+  `,
+})
+class CardHost {
+  columns = signal<readonly CbKanbanColumn<CbKanbanTask>[]>(start());
 }
 
 async function setup(init?: (h: Host) => void) {
@@ -137,6 +152,17 @@ describe('CbKanbanWorkspace', () => {
     expect(dash.querySelector('[data-widget="total"] .cb-kanban-dashboard__value')!.textContent!.trim()).toBe('2');
     expect(dash.querySelector('[role="heading"]')!.getAttribute('aria-level')).toBe('3');
     cleanup();
+  });
+
+  it('la plantilla cbKanbanCard proyectada se usa en las tarjetas del tablero', async () => {
+    const fixture = TestBed.createComponent(CardHost);
+    fixture.detectChanges();
+    const el = fixture.nativeElement as HTMLElement;
+    const cards = Array.from(el.querySelectorAll('cb-kanban .custom-card')).map((c) => c.textContent!.trim());
+    expect(cards).toEqual(['Por hacer: Revisar plan', 'Hecho: Publicar']);
+    // Solo el tablero usa la plantilla; la lista sigue con sus filas.
+    expect(el.querySelector('cb-kanban-list .custom-card')).toBeNull();
+    expect(el.querySelector('cb-kanban-list tbody tr[data-key="a"]')).toBeTruthy();
   });
 
   it('con multiple = false los botones son pestañas', async () => {

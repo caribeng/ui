@@ -457,7 +457,6 @@ Todos los lotes planificados en `SPEC.md` (75 componentes/directivas), los +18 a
 ### Pendiente / ideas
 
 - **Publicación automática:** un workflow que ejecute `npm publish --provenance` al subir un tag `v*` (hoy se publica a mano).
-- **Kanban:** una plantilla propia de tarjeta (`cbKanbanCard`) no se reenvía a través de `cb-kanban-workspace`.
 
 ---
 
