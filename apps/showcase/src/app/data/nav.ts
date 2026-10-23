@@ -90,6 +90,7 @@ export const NAV_MENU: NavItem[] = [
       {
         label: 'Data',
         children: [
+          { label: 'Data Grid', route: '/components/datagrid', badge: 'NEW' },
           { label: 'DataView', route: '/components/dataview' },
           { label: 'Gantt', route: '/components/gantt', badge: 'NEW' },
           { label: 'Kanban', route: '/components/kanban', badge: 'NEW' },

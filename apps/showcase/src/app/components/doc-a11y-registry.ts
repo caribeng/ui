@@ -644,6 +644,30 @@ export const DOC_A11Y: Record<string, DocA11y> = {
       { keys: 'Enter', action: 'Abre la tarea (taskOpen).' },
     ],
   },
+  'cb-data-grid': {
+    screenReader: [
+      'Es una tabla con `role="grid"`, cabeceras de columna (`th scope="col"`) y de fila (el número de fila); `aria-rowcount` y `aria-colcount` dicen su tamaño y cada celda su posición.',
+      'Hay un único punto de tabulación: la celda activa (`tabindex="0"`); las flechas mueven el foco entre celdas. Las celdas seleccionadas llevan `aria-selected` y las de solo lectura, `aria-readonly`.',
+      'Las celdas con error llevan `aria-invalid` y el mensaje en texto oculto ("Obligatorio."); el editor muestra el error con `role="alert"`. La barra dice cuántos errores hay y su botón lleva al primero.',
+      'Las casillas se leen como "Sí" o "No". Cada edición, pegado, borrado, alta o baja y cada deshacer se anuncia en una región `role="status"`.',
+      'Las instrucciones de teclado están en el grid con `aria-describedby`. Las cabeceras ordenables son botones con `aria-sort`.',
+    ],
+    keyboard: [
+      { keys: 'Flechas', action: 'Mueve la celda activa (Ctrl + flecha, al extremo).' },
+      { keys: 'Mayús + flechas', action: 'Amplía la selección.' },
+      { keys: 'Inicio / Fin', action: 'Primera o última columna (con Ctrl, primera o última celda).' },
+      { keys: 'Enter / F2', action: 'Edita la celda (en una casilla, la marca o desmarca).' },
+      { keys: 'Escribir', action: 'Empieza a editar reemplazando el valor.' },
+      { keys: 'Enter / Tab', action: 'Al editar, confirma y pasa a la celda de abajo o de la derecha.' },
+      { keys: 'Escape', action: 'Cancela la edición.' },
+      { keys: 'Supr', action: 'Borra la selección.' },
+      { keys: 'Ctrl + C / X / V', action: 'Copia, corta y pega (en formato de Excel y Google Sheets).' },
+      { keys: 'Ctrl + Z / Y', action: 'Deshace y rehace.' },
+      { keys: 'Ctrl + D', action: 'Rellena hacia abajo con la primera fila de la selección.' },
+      { keys: 'Mayús + Espacio', action: 'Selecciona la fila.' },
+      { keys: 'Ctrl + A', action: 'Selecciona todo.' },
+    ],
+  },
   'cb-scheduler': {
     screenReader: [
       'El título del periodo ("20 – 26 oct 2026") se anuncia al cambiar con `aria-live="polite"`. Anterior y Siguiente son botones con nombre y las vistas, botones con `aria-pressed`.',

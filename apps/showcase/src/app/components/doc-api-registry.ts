@@ -131,6 +131,7 @@ import { CbPhoneInput } from '@caribeng/ui/phone-input';
 import { CbKanban } from '@caribeng/ui/kanban';
 import { CbGantt } from '@caribeng/ui/gantt';
 import { CbScheduler } from '@caribeng/ui/scheduler';
+import { CbDataGrid } from '@caribeng/ui/datagrid';
 import { CbMentions } from '@caribeng/ui/mentions';
 import { CbCommandPalette } from '@caribeng/ui/command-palette';
 import { CbSidebar } from '@caribeng/ui/sidebar';
@@ -1806,6 +1807,27 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "taskOpen", type: "CbGanttTask", description: "Doble clic o Enter sobre una tarea." },
       { name: "linkAdd", type: "CbGanttLink", description: "Dependencia creada ({ from, to }: to depende de from)." },
       { name: "linkRemove", type: "CbGanttLink", description: "Dependencia quitada." }
+    ]
+  },
+  "cb-data-grid": {
+    component: CbDataGrid,
+    selector: "cb-data-grid",
+    props: [
+      { name: "rows", kind: "string", type: "readonly T[] (model)", default: [], example: [{ id: 1, nombre: 'Silla', precio: 120, activo: true }, { id: 2, nombre: 'Lámpara', precio: 35.5, activo: false }, { id: 3, nombre: 'Mesa', precio: 300, activo: true }], description: "Filas (se actualizan con cada edición, pegado, alta o baja).", control: false },
+      { name: "columns", kind: "string", type: "readonly CbDataGridColumn<T>[]", default: [], example: [{ field: 'nombre', header: 'Nombre', required: true }, { field: 'precio', header: 'Precio', type: 'number', min: 0, decimals: 2 }, { field: 'activo', header: 'Activo', type: 'checkbox' }], description: "Columnas (field, header, type, width, editable, required, options, min, max, decimals, sortable, align, validate, format).", control: false },
+      { name: "dataKey", kind: "string", type: "string", default: "id", description: "Campo que identifica cada fila." },
+      { name: "editable", kind: "boolean", type: "boolean", default: true, description: "Editar, pegar, borrar, añadir y eliminar filas." },
+      { name: "rowNumbers", kind: "boolean", type: "boolean", default: true, description: "Columna con el número de fila (selecciona filas enteras)." },
+      { name: "toolbar", kind: "boolean", type: "boolean", default: true, description: "Barra con Añadir fila, Eliminar, Deshacer, Rehacer y los errores." },
+      { name: "scrollHeight", kind: "string", type: "string | null", default: "28rem", description: "Alto máximo del área con scroll." },
+      { name: "newRow", kind: "string", type: "(() => T) | null", default: null, description: "Crea la fila nueva al añadir o al pegar más filas de las que hay.", control: false },
+      { name: "emptyMessage", kind: "string", type: "string", default: undefined, localeKey: "noData", description: "Texto cuando no hay filas." },
+      { name: "ariaLabel", kind: "string", type: "string", default: "", description: "Nombre del grid." }
+    ],
+    events: [
+      { name: "cellChange", type: "CbDataGridCellChange<T>", description: "Una celda cambió de valor ({ row, field, value, previous })." },
+      { name: "rowAdd", type: "T", description: "Se añadió una fila." },
+      { name: "rowsDelete", type: "T[]", description: "Se eliminaron filas." }
     ]
   },
   "cb-scheduler": {

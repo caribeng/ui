@@ -1,0 +1,379 @@
+:host {
+  --cb-dg-row: 2.25rem;
+  --cb-dg-accent: var(--cb-color-primary-500);
+  --cb-dg-selected: color-mix(in srgb, var(--cb-color-primary-500) 12%, transparent);
+  --cb-dg-invalid: var(--cb-color-danger-500, #ef4444);
+  display: flex;
+  flex-direction: column;
+  gap: var(--cb-space-2, 0.5rem);
+  width: 100%;
+  min-width: 0;
+  color: var(--cb-color-text);
+  font-family: var(--cb-font-sans);
+  font-size: var(--cb-text-sm, 0.875rem);
+}
+
+/* --- Barra ------------------------------------------------------------------------------ */
+.cb-dg__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.cb-dg__btn,
+.cb-dg__icon-btn,
+.cb-dg__errors {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  height: 2rem;
+  padding: 0 0.75rem;
+  border: 1px solid var(--cb-color-border-strong);
+  border-radius: var(--cb-radius-md);
+  background: transparent;
+  color: var(--cb-color-text);
+  font: inherit;
+  cursor: pointer;
+}
+
+.cb-dg__icon-btn {
+  width: 2rem;
+  padding: 0;
+  border-color: transparent;
+}
+
+.cb-dg__btn:hover:not(:disabled),
+.cb-dg__icon-btn:hover:not(:disabled) {
+  background: var(--cb-color-surface-hover);
+}
+
+.cb-dg__btn:disabled,
+.cb-dg__icon-btn:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.cb-dg__sep {
+  width: 1px;
+  height: 1.25rem;
+  margin: 0 0.25rem;
+  background: var(--cb-color-border);
+}
+
+.cb-dg__spacer {
+  flex: 1;
+}
+
+.cb-dg__errors {
+  border-color: color-mix(in srgb, var(--cb-dg-invalid) 45%, transparent);
+  background: color-mix(in srgb, var(--cb-dg-invalid) 8%, transparent);
+  color: var(--cb-color-danger-600, #dc2626);
+}
+
+.cb-dg__dirty {
+  color: var(--cb-color-text-muted);
+}
+
+:is(.cb-dg__btn, .cb-dg__icon-btn, .cb-dg__errors, .cb-dg__sort):focus-visible {
+  outline: 2px solid var(--cb-color-focus-ring);
+  outline-offset: 2px;
+}
+
+/* --- Tabla ------------------------------------------------------------------------------ */
+.cb-dg__scroll {
+  position: relative;
+  overflow: auto;
+  border: 1px solid var(--cb-color-border);
+  border-radius: var(--cb-radius-md);
+  background: var(--cb-color-bg);
+  scroll-padding-top: var(--cb-dg-row);
+  scroll-padding-left: 3rem;
+}
+
+.cb-dg__table {
+  min-width: 100%;
+  table-layout: fixed;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.cb-dg__table th,
+.cb-dg__table td {
+  height: var(--cb-dg-row);
+  padding: 0 0.6rem;
+  border-right: 1px solid var(--cb-color-border);
+  border-bottom: 1px solid var(--cb-color-border);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cb-dg__table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: var(--cb-color-surface-subtle);
+  font-weight: var(--cb-font-weight-semibold, 600);
+  text-align: start;
+}
+
+.cb-dg__head--active {
+  box-shadow: inset 0 -2px 0 var(--cb-dg-accent);
+}
+
+.cb-dg__sort {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: inherit;
+  cursor: pointer;
+}
+
+.cb-dg__align--end .cb-dg__sort {
+  flex-direction: row-reverse;
+}
+
+.cb-dg__align--center .cb-dg__sort {
+  justify-content: center;
+}
+
+.cb-dg__head-text {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cb-dg__req {
+  color: var(--cb-dg-invalid);
+}
+
+.cb-dg__sort-icon {
+  flex: none;
+  opacity: 0;
+  color: var(--cb-color-text-muted);
+}
+
+.cb-dg__sort:hover .cb-dg__sort-icon {
+  opacity: 0.6;
+}
+
+.cb-dg__sort-icon--on,
+.cb-dg__sort:hover .cb-dg__sort-icon--on {
+  opacity: 1;
+  color: var(--cb-dg-accent);
+}
+
+.cb-dg__corner,
+.cb-dg__num {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  padding: 0 !important;
+  background: var(--cb-color-surface-subtle);
+  color: var(--cb-color-text-muted);
+  font-size: var(--cb-text-xs, 0.75rem);
+  font-weight: 400;
+  text-align: center !important;
+}
+
+.cb-dg__corner {
+  z-index: 3 !important;
+}
+
+.cb-dg__corner-btn {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.cb-dg__num {
+  cursor: pointer;
+  user-select: none;
+}
+
+.cb-dg__num--active {
+  background: color-mix(in srgb, var(--cb-dg-accent) 14%, var(--cb-color-surface-subtle));
+  color: var(--cb-color-text);
+}
+
+.cb-dg__num--new {
+  box-shadow: inset 3px 0 0 var(--cb-color-success-500, #10b981);
+}
+
+.cb-dg__cell {
+  position: relative;
+  outline: none;
+  background: var(--cb-color-bg);
+  cursor: cell;
+  user-select: none;
+}
+
+.cb-dg__align--end {
+  text-align: end !important;
+}
+
+.cb-dg__align--center {
+  text-align: center !important;
+}
+
+.cb-dg__cell--readonly {
+  color: var(--cb-color-text-muted);
+}
+
+.cb-dg__cell--selected {
+  background: var(--cb-dg-selected);
+}
+
+.cb-dg__cell--active {
+  box-shadow: inset 0 0 0 2px var(--cb-dg-accent);
+}
+
+/* Sin foco en el grid, la celda activa y la selección quedan en segundo plano. */
+.cb-dg__table:not(:focus-within) .cb-dg__cell--active:not(.cb-dg__cell--editing) {
+  box-shadow: inset 0 0 0 1px var(--cb-color-border-strong);
+}
+
+.cb-dg__table:not(:focus-within) .cb-dg__cell--selected:not(.cb-dg__cell--invalid) {
+  background: color-mix(in srgb, var(--cb-color-primary-500) 6%, transparent);
+}
+
+/* Marca de celda cambiada: triángulo en la esquina superior izquierda. */
+.cb-dg__cell--dirty::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-top: 7px solid var(--cb-dg-accent);
+  border-right: 7px solid transparent;
+  content: '';
+}
+
+/* Celda con error: triángulo rojo en la esquina superior derecha y subrayado. */
+.cb-dg__cell--invalid {
+  background: color-mix(in srgb, var(--cb-dg-invalid) 7%, var(--cb-color-bg));
+}
+
+.cb-dg__cell--invalid::after {
+  position: absolute;
+  top: 0;
+  right: 0;
+  border-top: 8px solid var(--cb-dg-invalid);
+  border-left: 8px solid transparent;
+  content: '';
+}
+
+.cb-dg__cell--selected.cb-dg__cell--invalid {
+  background: color-mix(in srgb, var(--cb-dg-invalid) 7%, var(--cb-dg-selected));
+}
+
+.cb-dg__cell--editing {
+  padding: 0 !important;
+  overflow: visible !important;
+  box-shadow: inset 0 0 0 2px var(--cb-dg-accent);
+}
+
+.cb-dg__caret {
+  position: absolute;
+  top: 50%;
+  right: 0.35rem;
+  opacity: 0;
+  color: var(--cb-color-text-muted);
+  transform: translateY(-50%);
+}
+
+.cb-dg__cell:hover .cb-dg__caret,
+.cb-dg__cell--active .cb-dg__caret {
+  opacity: 1;
+}
+
+.cb-dg__check {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1rem;
+  height: 1rem;
+  border: 1.5px solid var(--cb-color-border-strong);
+  border-radius: 4px;
+  background: var(--cb-color-bg);
+  color: var(--cb-color-primary-contrast, #fff);
+  vertical-align: middle;
+}
+
+.cb-dg__check--on {
+  border-color: var(--cb-dg-accent);
+  background: var(--cb-dg-accent);
+}
+
+.cb-dg__editor {
+  box-sizing: border-box;
+  width: 100%;
+  height: var(--cb-dg-row);
+  padding: 0 0.6rem;
+  border: 0;
+  outline: none;
+  background: var(--cb-color-bg);
+  color: var(--cb-color-text);
+  font: inherit;
+  text-align: inherit;
+}
+
+.cb-dg__editor[aria-invalid='true'] {
+  box-shadow: inset 0 0 0 2px var(--cb-dg-invalid);
+}
+
+.cb-dg__editor-error {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 4;
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--cb-radius-sm, 4px);
+  background: var(--cb-dg-invalid);
+  color: #fff;
+  font-size: var(--cb-text-xs, 0.75rem);
+  white-space: nowrap;
+}
+
+.cb-dg__empty {
+  height: 6rem !important;
+  color: var(--cb-color-text-muted);
+  text-align: center;
+}
+
+.cb-dg__sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+
+@media (forced-colors: active) {
+  .cb-dg__cell--active,
+  .cb-dg__cell--editing {
+    outline: 2px solid Highlight;
+    outline-offset: -2px;
+  }
+
+  .cb-dg__cell--selected {
+    background: Highlight;
+    color: HighlightText;
+  }
+
+  .cb-dg__cell--invalid {
+    text-decoration: wavy underline;
+  }
+}

@@ -3274,4 +3274,89 @@ export const ES_EN: Record<string, string> = {
     'Shift + Up / Down arrow',
   'Acorta o alarga el evento una franja.':
     'Shortens or lengthens the event by one slot.',
+  // --- Data Grid ---
+  'Tabla editable como una hoja de cálculo: celdas con tipo (texto, número, lista, fecha y casilla), validación por columna, selección de rangos, copiar y pegar con Excel o Google Sheets, deshacer y rehacer, y alta y baja de filas. Todo funciona con el teclado.':
+    'Table edited like a spreadsheet: typed cells (text, number, list, date and checkbox), per-column validation, range selection, copy and paste with Excel or Google Sheets, undo and redo, and adding and deleting rows. Everything works with the keyboard.',
+  'Inventario editable':
+    'Editable inventory',
+  'Haz clic en una celda y escribe para reemplazarla, o pulsa Enter, F2 o doble clic para editarla; Enter confirma y baja, Tab confirma y pasa a la derecha y Escape cancela. Mayús + flechas (o arrastrar) selecciona un rango: Supr lo borra, Ctrl + D rellena hacia abajo y Ctrl + C / Ctrl + V lo copia y pega, también desde Excel. Las celdas cambiadas llevan una marca azul y getChanges() devuelve las filas añadidas, modificadas y eliminadas.':
+    'Click a cell and type to replace it, or press Enter, F2 or double-click to edit it; Enter confirms and moves down, Tab confirms and moves right and Escape cancels. Shift + arrows (or dragging) selects a range: Delete clears it, Ctrl + D fills down and Ctrl + C / Ctrl + V copies and pastes it, also from Excel. Changed cells have a blue mark and getChanges() returns the added, updated and removed rows.',
+  'Validación':
+    'Validation',
+  'required, min y max validan cada celda, y validate añade reglas propias (aquí, el formato del correo). Las celdas con error tienen una marca roja, su mensaje en el título y aria-invalid; la barra cuenta los errores y su botón lleva al primero. Un número o una fecha que no se entienden no se confirman al editar; al pegar, se pegan y quedan marcados.':
+    'required, min and max validate each cell, and validate adds your own rules (here, the email format). Cells with errors have a red mark, their message in the title and aria-invalid; the toolbar counts the errors and its button goes to the first one. A number or date that cannot be understood is not confirmed when editing; when pasting, it is pasted and marked.',
+  'Formato propio y columnas de solo lectura':
+    'Custom format and read-only columns',
+  'format cambia el texto de la celda sin cambiar su valor; con editable: false y sortable: false, la columna Total se calcula a partir de la fila. Sin barra ([toolbar]="false") ni números de fila ([rowNumbers]="false"), el grid queda compacto; Deshacer y Rehacer siguen con Ctrl + Z / Ctrl + Y.':
+    'format changes the cell text without changing its value; with editable: false and sortable: false, the Total column is computed from the row. Without the toolbar ([toolbar]="false") or row numbers ([rowNumbers]="false"), the grid is compact; Undo and Redo still work with Ctrl + Z / Ctrl + Y.',
+  'Con [editable]="false" se sigue navegando, seleccionando rangos, ordenando y copiando, pero nada cambia: útil para revisar datos antes de aprobarlos.':
+    'With [editable]="false" you can still navigate, select ranges, sort and copy, but nothing changes: useful to review data before approving it.',
+  'Guardar cambios':
+    'Save changes',
+  'Filas (se actualizan con cada edición, pegado, alta o baja).':
+    'Rows (updated with every edit, paste, addition or deletion).',
+  'Columnas (field, header, type, width, editable, required, options, min, max, decimals, sortable, align, validate, format).':
+    'Columns (field, header, type, width, editable, required, options, min, max, decimals, sortable, align, validate, format).',
+  'Campo que identifica cada fila.':
+    'Field that identifies each row.',
+  'Editar, pegar, borrar, añadir y eliminar filas.':
+    'Edit, paste, clear, add and delete rows.',
+  'Columna con el número de fila (selecciona filas enteras).':
+    'Column with the row number (selects whole rows).',
+  'Barra con Añadir fila, Eliminar, Deshacer, Rehacer y los errores.':
+    'Toolbar with Add row, Delete, Undo, Redo and the errors.',
+  'Alto máximo del área con scroll.':
+    'Maximum height of the scrolling area.',
+  'Crea la fila nueva al añadir o al pegar más filas de las que hay.':
+    'Creates the new row when adding or when pasting more rows than there are.',
+  'Texto cuando no hay filas.':
+    'Text when there are no rows.',
+  'Nombre del grid.':
+    'Name of the grid.',
+  'Una celda cambió de valor ({ row, field, value, previous }).':
+    'A cell changed its value ({ row, field, value, previous }).',
+  'Se añadió una fila.':
+    'A row was added.',
+  'Se eliminaron filas.':
+    'Rows were deleted.',
+  'Es una tabla con `role="grid"`, cabeceras de columna (`th scope="col"`) y de fila (el número de fila); `aria-rowcount` y `aria-colcount` dicen su tamaño y cada celda su posición.':
+    'It is a table with `role="grid"`, column headers (`th scope="col"`) and row headers (the row number); `aria-rowcount` and `aria-colcount` give its size and each cell its position.',
+  'Hay un único punto de tabulación: la celda activa (`tabindex="0"`); las flechas mueven el foco entre celdas. Las celdas seleccionadas llevan `aria-selected` y las de solo lectura, `aria-readonly`.':
+    'There is a single tab stop: the active cell (`tabindex="0"`); the arrows move focus between cells. Selected cells have `aria-selected` and read-only ones, `aria-readonly`.',
+  'Las celdas con error llevan `aria-invalid` y el mensaje en texto oculto ("Obligatorio."); el editor muestra el error con `role="alert"`. La barra dice cuántos errores hay y su botón lleva al primero.':
+    'Cells with errors have `aria-invalid` and the message in hidden text ("Required."); the editor shows the error with `role="alert"`. The toolbar says how many errors there are and its button goes to the first one.',
+  'Las casillas se leen como "Sí" o "No". Cada edición, pegado, borrado, alta o baja y cada deshacer se anuncia en una región `role="status"`.':
+    'Checkboxes are read as "Yes" or "No". Every edit, paste, clear, addition or deletion and every undo is announced in a `role="status"` region.',
+  'Las instrucciones de teclado están en el grid con `aria-describedby`. Las cabeceras ordenables son botones con `aria-sort`.':
+    'Keyboard instructions are attached to the grid with `aria-describedby`. Sortable headers are buttons with `aria-sort`.',
+  'Mueve la celda activa (Ctrl + flecha, al extremo).':
+    'Moves the active cell (Ctrl + arrow, to the edge).',
+  'Amplía la selección.':
+    'Extends the selection.',
+  'Primera o última columna (con Ctrl, primera o última celda).':
+    'First or last column (with Ctrl, first or last cell).',
+  'Edita la celda (en una casilla, la marca o desmarca).':
+    'Edits the cell (on a checkbox, checks or unchecks it).',
+  'Escribir':
+    'Type',
+  'Empieza a editar reemplazando el valor.':
+    'Starts editing, replacing the value.',
+  'Al editar, confirma y pasa a la celda de abajo o de la derecha.':
+    'While editing, confirms and moves to the cell below or to the right.',
+  'Cancela la edición.':
+    'Cancels editing.',
+  'Borra la selección.':
+    'Clears the selection.',
+  'Copia, corta y pega (en formato de Excel y Google Sheets).':
+    'Copies, cuts and pastes (in Excel and Google Sheets format).',
+  'Deshace y rehace.':
+    'Undoes and redoes.',
+  'Rellena hacia abajo con la primera fila de la selección.':
+    'Fills down with the first row of the selection.',
+  'Mayús + Espacio':
+    'Shift + Space',
+  'Selecciona la fila.':
+    'Selects the row.',
+  'Selecciona todo.':
+    'Selects everything.',
 };

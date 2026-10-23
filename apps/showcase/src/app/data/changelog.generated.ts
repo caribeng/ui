@@ -11,6 +11,10 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
         "type": "added",
         "items": [
           {
+            "component": "Componente nuevo: `Data Grid`",
+            "text": "(`@caribeng/ui/datagrid`): tabla editable como una hoja de cálculo. Celdas con tipo (`text`, `number`, `select`, `date`, `checkbox`) que se editan con Enter, F2, doble clic o escribiendo encima; números con coma o punto decimal, validación por columna (`required`, `min`, `max`, `validate`) con las celdas con error marcadas y contadas en la barra, y `format` para columnas calculadas. Selección de rangos con Mayús + flechas o arrastrando, copiar, cortar y pegar en TSV (Excel y Google Sheets; un valor rellena todo el rango y pegar de más añade filas), Supr para borrar, Ctrl + D para rellenar hacia abajo, deshacer y rehacer, ordenar por columna, añadir y eliminar filas, marca de celdas cambiadas, `getChanges()`, `markClean()`, `isValid()` y eventos `cellChange`, `rowAdd` y `rowsDelete`. Grid accesible con una sola parada de tabulación y cada cambio anunciado. 165 entry points."
+          },
+          {
             "component": "Componente nuevo: `Scheduler`",
             "text": "(`@caribeng/ui/scheduler`): calendario de eventos con vistas de mes, semana, día y agenda (`[(view)]`, `[(date)]`, navegación y Hoy). En semana y día, franjas horarias con los eventos solapados uno al lado del otro, franja de día completo y línea de la hora actual; se arrastra para mover (también entre días) y para cambiar la duración, y arrastrando o haciendo clic en una franja vacía se elige un hueco (`slotSelect`). En el mes, punto y hora por evento, barras para los de día completo, «+N más» y arrastre entre días. Teclado completo (flechas, Mayús + flechas, Enter, botón «Nuevo evento el…» en cada día) con cada cambio anunciado, `editable`, `firstDayOfWeek`, `slotMinutes`, `scrollHour`, `agendaDays` y eventos `eventChange`, `eventOpen` y `slotSelect`. 164 entry points."
           },

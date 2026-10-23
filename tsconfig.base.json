@@ -273,6 +273,9 @@
       "@caribeng/ui/scheduler": [
         "./packages/ui/scheduler/src/public-api.ts"
       ],
+      "@caribeng/ui/datagrid": [
+        "./packages/ui/datagrid/src/public-api.ts"
+      ],
       "@caribeng/ui/kbd": [
         "./packages/ui/kbd/src/public-api.ts"
       ],
