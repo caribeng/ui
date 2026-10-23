@@ -84,4 +84,40 @@ describe('CbColorPicker', () => {
     expect(fixture.componentInstance.control.value).toBe(before);
     expect(hexInput().value).toMatch(/^#[0-9a-f]{6}$/i);
   });
+
+  it('con teclado: el foco entra al abrir, el área y el tono son sliders y Tab al final cierra', async () => {
+    const { fixture, el, trigger, openPanel } = setup();
+    document.body.appendChild(el);
+    openPanel();
+    await fixture.whenStable();
+    const sv = document.querySelector<HTMLElement>('.cb-colorpicker__sv')!;
+    const hue = document.querySelector<HTMLElement>('.cb-colorpicker__hue')!;
+    expect(document.activeElement).toBe(sv);
+    expect(sv.getAttribute('role')).toBe('slider');
+    expect(sv.getAttribute('aria-label')).toBe('Saturación y brillo');
+    const press = (target: HTMLElement, key: string, shiftKey = false) => {
+      target.dispatchEvent(new KeyboardEvent('keydown', { key, shiftKey, bubbles: true, cancelable: true }));
+      fixture.detectChanges();
+    };
+    const before = fixture.componentInstance.control.value;
+    const s = Number(sv.getAttribute('aria-valuenow'));
+    press(sv, 'ArrowLeft', true);
+    expect(Number(sv.getAttribute('aria-valuenow'))).toBe(s - 10);
+    expect(sv.getAttribute('aria-valuetext')).toMatch(/^Saturación \d+ %, brillo \d+ %$/);
+    expect(fixture.componentInstance.control.value).not.toBe(before);
+    press(hue, 'Home');
+    expect(hue.getAttribute('aria-valuenow')).toBe('0');
+    expect(hue.getAttribute('aria-label')).toBe('Tono');
+    press(hue, 'ArrowRight');
+    expect(hue.getAttribute('aria-valuenow')).toBe('1');
+    // Tab en el último elemento del panel lo cierra y el foco vuelve al botón.
+    const last = Array.from(document.querySelectorAll<HTMLElement>('.cb-colorpicker__preset')).at(-1)!;
+    last.focus();
+    last.dispatchEvent(new KeyboardEvent('keydown', { key: 'Tab', bubbles: true, cancelable: true }));
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(trigger().getAttribute('aria-expanded')).toBe('false');
+    expect(document.activeElement).toBe(trigger());
+    el.remove();
+  });
 });

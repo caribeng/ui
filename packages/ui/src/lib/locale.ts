@@ -295,6 +295,11 @@ export interface CbTranslation {
   color: string;
   colorPicker: string;
   hexColor: string;
+  /** Área de saturación y brillo del selector de color. */
+  colorArea: string;
+  /** Valor del área: {0} saturación, {1} brillo (en %). */
+  colorAreaValue: string;
+  hue: string;
   switch: string;
   /** `{0}`: valor, `{1}`: máximo. */
   ratingOf: string;
@@ -861,6 +866,9 @@ export const CB_LOCALE_ES: CbTranslation = {
   color: 'Color',
   colorPicker: 'Selector de color',
   hexColor: 'Color hexadecimal',
+  colorArea: 'Saturación y brillo',
+  colorAreaValue: 'Saturación {0} %, brillo {1} %',
+  hue: 'Tono',
   switch: 'Interruptor',
   ratingOf: '{0} de {1}',
 
@@ -1382,6 +1390,9 @@ export const CB_LOCALE_EN: CbTranslation = {
   color: 'Color',
   colorPicker: 'Color picker',
   hexColor: 'Hex color',
+  colorArea: 'Saturation and brightness',
+  colorAreaValue: 'Saturation {0}%, brightness {1}%',
+  hue: 'Hue',
   switch: 'Switch',
   ratingOf: '{0} of {1}',
 

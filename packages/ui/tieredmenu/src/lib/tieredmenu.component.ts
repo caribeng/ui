@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, TemplateRef, ViewContainerRef, ViewEncapsulation, inject, input, output, signal, viewChild, computed } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, ElementRef, Injector, TemplateRef, ViewContainerRef, ViewEncapsulation, afterNextRender, inject, input, output, signal, viewChild, computed } from '@angular/core';
 import { Overlay, type ConnectedPosition, type OverlayRef } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 import { CbIcon } from '@caribeng/ui/icon';
@@ -24,15 +24,15 @@ export interface CbTieredMenuItem {
   encapsulation: ViewEncapsulation.Emulated,
   imports: [CbIcon],
   template: `
-    <button class="cb-tieredmenu__trigger" type="button" [attr.aria-expanded]="isOpen()" aria-haspopup="menu" (click)="toggle($event)">{{ (triggerLabel() ?? t().menu) }}</button>
+    <button #trigger class="cb-tieredmenu__trigger" type="button" [attr.aria-expanded]="isOpen()" aria-haspopup="menu" (click)="toggle($event)" (keydown)="onTriggerKeydown($event)">{{ (triggerLabel() ?? t().menu) }}</button>
     <ng-template #content>
-      <ul class="cb-tieredmenu__list" role="menu" [attr.aria-label]="(ariaLabel() ?? t().menu)">
+      <ul class="cb-tieredmenu__list" role="menu" [attr.aria-label]="(ariaLabel() ?? t().menu)" (keydown)="onMenuKeydown($event)">
         @for (item of visibleItems(); track $index; let i = $index) {
           @if (item.separator) { <li class="cb-tieredmenu__separator" role="separator"></li> }
           @else {
-            <li class="cb-tieredmenu__entry" [class.cb-tieredmenu__entry--open]="openIndex() === i">
+            <li class="cb-tieredmenu__entry" role="none" [class.cb-tieredmenu__entry--open]="openIndex() === i">
               @if (item.items?.length) {
-                <button class="cb-tieredmenu__item" type="button" role="menuitem" aria-haspopup="menu" [attr.aria-expanded]="openIndex() === i" [disabled]="item.disabled" (mouseenter)="openIndex.set(i)" (click)="openIndex.set(openIndex() === i ? null : i)">
+                <button class="cb-tieredmenu__item" type="button" role="menuitem" aria-haspopup="menu" [attr.aria-expanded]="openIndex() === i" data-level="1" [attr.data-index]="i" [disabled]="item.disabled" (mouseenter)="openIndex.set(i)" (click)="openIndex.set(openIndex() === i ? null : i)">
                   @if (item.icon) { <cb-icon [name]="item.icon" [size]="16" aria-hidden="true" /> }<span>{{ item.label }}</span><cb-icon name="chevron-right" [size]="15" aria-hidden="true" />
                 </button>
                 @if (openIndex() === i) {
@@ -40,7 +40,7 @@ export interface CbTieredMenuItem {
                     @for (child of item.items; track $index; let j = $index) {
                       <li role="none">
                         @if (child.items?.length) {
-                          <button class="cb-tieredmenu__item" type="button" role="menuitem" aria-haspopup="menu" [attr.aria-expanded]="openChildIndex() === j" [disabled]="child.disabled" (mouseenter)="openChildIndex.set(j)" (click)="openChildIndex.set(openChildIndex() === j ? null : j)">
+                          <button class="cb-tieredmenu__item" type="button" role="menuitem" aria-haspopup="menu" [attr.aria-expanded]="openChildIndex() === j" data-level="2" [attr.data-index]="j" [disabled]="child.disabled" (mouseenter)="openChildIndex.set(j)" (click)="openChildIndex.set(openChildIndex() === j ? null : j)">
                             @if (child.icon) { <cb-icon [name]="child.icon" [size]="16" aria-hidden="true" /> }<span>{{ child.label }}</span><cb-icon name="chevron-right" [size]="15" aria-hidden="true" />
                           </button>
                           @if (openChildIndex() === j) {
@@ -92,15 +92,77 @@ export class CbTieredMenu {
     { originX: 'start', originY: 'top', overlayX: 'start', overlayY: 'bottom', offsetY: -4 },
     { originX: 'end', originY: 'bottom', overlayX: 'end', overlayY: 'top', offsetY: 4 },
   ];
+  private readonly injector = inject(Injector);
+  private readonly trigger = viewChild.required<ElementRef<HTMLButtonElement>>('trigger');
   constructor() { this.destroyRef.onDestroy(() => this.overlayRef?.dispose()); }
   toggle(event: MouseEvent): void { if (this.overlayRef) this.hide(); else this.show(event.currentTarget as HTMLElement); }
   show(target: HTMLElement): void {
     if (this.overlayRef) return;
     const ref = this.overlay.create({ positionStrategy: this.overlay.position().flexibleConnectedTo(target).withPositions(this.positions).withPush(true), scrollStrategy: this.overlay.scrollStrategies.reposition(), hasBackdrop: true, backdropClass: 'cdk-overlay-transparent-backdrop' });
     this.overlayRef = ref; this.isOpen.set(true); ref.attach(new TemplatePortal(this.content(), this.vcr));
-    ref.backdropClick().subscribe(() => this.hide());
+    ref.backdropClick().subscribe(() => this.hide(false));
     ref.keydownEvents().subscribe((event) => { if (event.key === 'Escape') { event.preventDefault(); this.hide(); } });
+    // Patrón WAI-ARIA menu: al abrir, el foco pasa al primer item.
+    afterNextRender(() => this.focusFirst(ref.overlayElement.querySelector('.cb-tieredmenu__list')), { injector: this.injector });
   }
   select(item: CbTieredMenuItem): void { if (item.disabled) return; cbRunCommand(item); this.itemSelect.emit(item); this.hide(); }
-  hide(): void { this.overlayRef?.dispose(); this.overlayRef = null; this.isOpen.set(false); this.openIndex.set(null); this.openChildIndex.set(null); }
+  /** Cierra el menú; con `restoreFocus` (por defecto) el foco vuelve al botón que lo abre. */
+  hide(restoreFocus = true): void {
+    const wasOpen = !!this.overlayRef;
+    this.overlayRef?.dispose(); this.overlayRef = null; this.isOpen.set(false); this.openIndex.set(null); this.openChildIndex.set(null);
+    if (wasOpen && restoreFocus) this.trigger().nativeElement.focus();
+  }
+
+  protected onTriggerKeydown(event: KeyboardEvent): void {
+    if (event.key !== 'ArrowDown' || this.overlayRef) return;
+    event.preventDefault();
+    this.show(event.currentTarget as HTMLElement);
+  }
+
+  /** Flechas, Inicio y Fin dentro de cada nivel; derecha abre el submenú e izquierda vuelve al nivel anterior. */
+  protected onMenuKeydown(event: KeyboardEvent): void {
+    const item = (event.target as HTMLElement).closest<HTMLElement>('[role="menuitem"]');
+    const menu = item?.closest<HTMLElement>('[role="menu"]');
+    if (!item || !menu) return;
+    const items = this.menuItems(menu);
+    const at = items.indexOf(item);
+    const opensSubmenu = item.getAttribute('aria-haspopup') === 'menu';
+    switch (event.key) {
+      case 'ArrowDown': items[(at + 1) % items.length]?.focus(); break;
+      case 'ArrowUp': items[(at - 1 + items.length) % items.length]?.focus(); break;
+      case 'Home': items[0]?.focus(); break;
+      case 'End': items[items.length - 1]?.focus(); break;
+      case 'ArrowRight':
+      case 'Enter':
+      case ' ':
+        if (!opensSubmenu) return;
+        this.openSubmenu(item);
+        break;
+      case 'ArrowLeft': {
+        if (menu.classList.contains('cb-tieredmenu__list')) break;
+        const parent = menu.parentElement?.querySelector<HTMLElement>(':scope > [role="menuitem"]');
+        if (parent?.dataset['level'] === '1') { this.openIndex.set(null); this.openChildIndex.set(null); } else this.openChildIndex.set(null);
+        parent?.focus();
+        break;
+      }
+      case 'Tab': this.hide(); break;
+      default: return;
+    }
+    event.preventDefault();
+  }
+
+  private openSubmenu(item: HTMLElement): void {
+    const index = Number(item.dataset['index']);
+    if (item.dataset['level'] === '1') { this.openIndex.set(index); this.openChildIndex.set(null); } else this.openChildIndex.set(index);
+    // El submenú se pinta en el siguiente render (zoneless): se enfoca después.
+    afterNextRender(() => this.focusFirst(item.parentElement?.querySelector(':scope > [role="menu"]') ?? null), { injector: this.injector });
+  }
+
+  private menuItems(menu: Element): HTMLElement[] {
+    return Array.from(menu.querySelectorAll<HTMLElement>(':scope > li > [role="menuitem"]')).filter((el) => !el.hasAttribute('disabled'));
+  }
+
+  private focusFirst(menu: Element | null): void {
+    if (menu) this.menuItems(menu)[0]?.focus();
+  }
 }

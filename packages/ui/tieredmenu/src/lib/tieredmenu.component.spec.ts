@@ -9,6 +9,15 @@ class HostComponent {
   selected = '';
 }
 
+@Component({ imports: [CbTieredMenu], template: `<cb-tieredmenu [items]="items" />` })
+class KeyboardHost {
+  items: CbTieredMenuItem[] = [
+    { label: 'Archivo', items: [{ label: 'Nuevo', items: [{ label: 'Proyecto' }] }, { label: 'Abrir' }] },
+    { label: 'Editar', disabled: true },
+    { label: 'Salir' },
+  ];
+}
+
 describe('CbTieredMenu', () => {
   beforeEach(() => TestBed.configureTestingModule({ imports: [HostComponent] }));
   it('opens the popup and cascades into nested levels', () => {
@@ -27,5 +36,44 @@ describe('CbTieredMenu', () => {
     document.body.querySelector<HTMLButtonElement>('.cb-tieredmenu__submenu--third button')!.click(); fixture.detectChanges();
     expect(fixture.componentInstance.selected).toBe('Proyecto');
     expect(document.body.querySelector('[role="menu"]')).toBeNull();
+  });
+  it('patrón menu con teclado: el foco entra, las flechas recorren y abren niveles, Escape lo devuelve', async () => {
+    const fixture = TestBed.createComponent(KeyboardHost);
+    fixture.detectChanges();
+    document.body.appendChild(fixture.nativeElement);
+    const settle = async () => { fixture.detectChanges(); await fixture.whenStable(); fixture.detectChanges(); };
+    const active = () => (document.activeElement as HTMLElement).textContent!.trim();
+    const press = async (key: string) => {
+      document.activeElement!.dispatchEvent(new KeyboardEvent('keydown', { key, bubbles: true, cancelable: true }));
+      await settle();
+    };
+    const trigger = (fixture.nativeElement as HTMLElement).querySelector<HTMLButtonElement>('.cb-tieredmenu__trigger')!;
+    trigger.focus();
+    await press('ArrowDown');
+    expect(active()).toBe('Archivo');
+    expect(document.body.querySelectorAll('.cb-tieredmenu__list > li[role="none"]').length).toBe(3);
+    // Salta el item deshabilitado y es circular.
+    await press('ArrowDown');
+    expect(active()).toBe('Salir');
+    await press('ArrowDown');
+    expect(active()).toBe('Archivo');
+    await press('End');
+    expect(active()).toBe('Salir');
+    await press('Home');
+    await press('ArrowRight');
+    expect(active()).toBe('Nuevo');
+    await press('ArrowRight');
+    expect(active()).toBe('Proyecto');
+    await press('ArrowLeft');
+    expect(active()).toBe('Nuevo');
+    expect(document.body.querySelector('.cb-tieredmenu__submenu--third')).toBeNull();
+    await press('ArrowLeft');
+    expect(active()).toBe('Archivo');
+    expect(document.body.querySelector('.cb-tieredmenu__submenu')).toBeNull();
+    await press('Escape');
+    await settle();
+    expect(document.body.querySelector('[role="menu"]')).toBeNull();
+    expect(document.activeElement).toBe(trigger);
+    fixture.nativeElement.remove();
   });
 });

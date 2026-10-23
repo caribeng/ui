@@ -172,6 +172,12 @@
     inset 0 0 0 1px rgba(0, 0, 0, 0.15),
     0 0 0 2px var(--cb-color-primary-500);
 }
+.cb-colorpicker__sv:focus-visible,
+.cb-colorpicker__hue:focus-visible {
+  outline: 2px solid var(--cb-color-primary-500);
+  outline-offset: 2px;
+}
+
 .cb-colorpicker__preset:focus-visible {
   outline: 2px solid var(--cb-color-primary-500);
   outline-offset: 2px;

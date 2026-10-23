@@ -2,9 +2,12 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  Injector,
   ViewEncapsulation,
+  afterNextRender,
   computed,
   forwardRef,
+  inject,
   input,
   model,
   signal,
@@ -12,7 +15,7 @@ import {
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
 import { OverlayModule, type ConnectedPosition } from '@angular/cdk/overlay';
-import { cbFieldState, type CbSize, injectCbTranslation } from '@caribeng/ui';
+import { cbFieldState, cbFormat, type CbSize, injectCbTranslation } from '@caribeng/ui';
 
 let nextUid = 0;
 
@@ -80,8 +83,16 @@ const DEFAULT_PRESETS = [
         <div
           #sv
           class="cb-colorpicker__sv"
+          role="slider"
+          tabindex="0"
+          [attr.aria-label]="t().colorArea"
+          aria-valuemin="0"
+          aria-valuemax="100"
+          [attr.aria-valuenow]="s()"
+          [attr.aria-valuetext]="fmt(t().colorAreaValue, s(), v())"
           [style.background-color]="hueColor()"
           (pointerdown)="onSvPointerDown($event)"
+          (keydown)="onSvKeydown($event)"
         >
           <div class="cb-colorpicker__sv-white"></div>
           <div class="cb-colorpicker__sv-black"></div>
@@ -97,7 +108,14 @@ const DEFAULT_PRESETS = [
           <div
             #hue
             class="cb-colorpicker__hue"
+            role="slider"
+            tabindex="0"
+            [attr.aria-label]="t().hue"
+            aria-valuemin="0"
+            aria-valuemax="360"
+            [attr.aria-valuenow]="h()"
             (pointerdown)="onHuePointerDown($event)"
+            (keydown)="onHueKeydown($event)"
           >
             <div class="cb-colorpicker__hue-pointer" [style.left.%]="(h() / 360) * 100"></div>
           </div>
@@ -138,6 +156,8 @@ const DEFAULT_PRESETS = [
 export class CbColorPicker implements ControlValueAccessor {
   /** Textos de interfaz en el idioma activo (`provideCaribeNG({ locale })`). */
   protected readonly t = injectCbTranslation();
+  protected readonly fmt = cbFormat;
+  private readonly injector = inject(Injector);
   /** Color seleccionado (hex `#rrggbb`). Two-way opcional fuera de Forms. */
   readonly value = model<string>('#10b981');
 
@@ -195,7 +215,13 @@ export class CbColorPicker implements ControlValueAccessor {
   // --- Apertura --------------------------------------------------------------
   protected toggle(): void {
     if (this.isDisabled()) return;
-    this.open() ? this.close() : this.open.set(true);
+    if (this.open()) {
+      this.close();
+      return;
+    }
+    this.open.set(true);
+    // El panel se pinta al final del documento: el foco entra en él al abrir.
+    afterNextRender(() => this.svRef()?.nativeElement.focus(), { injector: this.injector });
   }
   protected close(): void {
     if (!this.open()) return;
@@ -207,7 +233,48 @@ export class CbColorPicker implements ControlValueAccessor {
     if (event.key === 'Escape') {
       event.preventDefault();
       this.close();
+      return;
     }
+    // Tab fuera del panel (antes del primero o después del último) lo cierra y vuelve al botón.
+    if (event.key !== 'Tab' || !(event.target instanceof Element)) return;
+    const panel = event.target.closest('.cb-colorpicker__panel');
+    const focusables = panel ? Array.from(panel.querySelectorAll<HTMLElement>('[tabindex="0"], input, button')) : [];
+    const edge = event.shiftKey ? focusables[0] : focusables[focusables.length - 1];
+    if (event.target === edge) {
+      event.preventDefault();
+      this.close();
+    }
+  }
+
+  // --- Teclado en el área y el matiz (Mayús: pasos de 10) --------------------
+  protected onSvKeydown(event: KeyboardEvent): void {
+    const step = event.shiftKey ? 10 : 1;
+    const clamp = (n: number) => Math.min(100, Math.max(0, n));
+    switch (event.key) {
+      case 'ArrowRight': this.s.set(clamp(this.s() + step)); break;
+      case 'ArrowLeft': this.s.set(clamp(this.s() - step)); break;
+      case 'ArrowUp': this.v.set(clamp(this.v() + step)); break;
+      case 'ArrowDown': this.v.set(clamp(this.v() - step)); break;
+      default: return;
+    }
+    event.preventDefault();
+    this.commitFromHsv();
+  }
+
+  protected onHueKeydown(event: KeyboardEvent): void {
+    const step = event.shiftKey ? 10 : 1;
+    const clamp = (n: number) => Math.min(360, Math.max(0, n));
+    switch (event.key) {
+      case 'ArrowRight':
+      case 'ArrowUp': this.h.set(clamp(this.h() + step)); break;
+      case 'ArrowLeft':
+      case 'ArrowDown': this.h.set(clamp(this.h() - step)); break;
+      case 'Home': this.h.set(0); break;
+      case 'End': this.h.set(360); break;
+      default: return;
+    }
+    event.preventDefault();
+    this.commitFromHsv();
   }
 
   // --- Área saturación/valor -------------------------------------------------
