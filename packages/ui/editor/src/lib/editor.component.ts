@@ -27,6 +27,7 @@ import {
   alignCenterHorizontal,
   alignEndVertical,
   alignStartVertical,
+  atSign,
   betweenHorizontalEnd,
   betweenHorizontalStart,
   betweenVerticalEnd,
@@ -40,6 +41,7 @@ import {
   code,
   codeXml,
   columns3,
+  copy,
   crop,
   heading1,
   heading2,
@@ -50,6 +52,7 @@ import {
   link,
   list,
   listChecks,
+  listCollapse,
   listIndentDecrease,
   listIndentIncrease,
   listOrdered,
@@ -68,6 +71,9 @@ import {
   subscript,
   superscript,
   table,
+  tableCellsMerge,
+  tableCellsSplit,
+  tableOfContents,
   textAlignCenter,
   textAlignEnd,
   textAlignJustify,
@@ -111,6 +117,21 @@ import {
 import { clampRect, cropImage, fitRatio, initialRect, resizeRect, type CbCropRect } from './image-crop';
 import { CB_EDITOR_FONTS, CB_EDITOR_FONTS_HREF, fontStacks, matchFont, type CbEditorFontGroup } from './editor-fonts';
 import { SPECIAL_CHARS, findMatches, fold, isUrlText, replaceRangeText, typographyFix, urlBeforeSpace } from './editor-text';
+import {
+  CODE_LANGUAGES,
+  addCaption,
+  buildToc,
+  codeLanguageLabel,
+  ensureHeadingIds,
+  figureOf,
+  headingsSignature,
+  highlightCodeBlock,
+  isMerged,
+  mergeCells,
+  mergeTarget,
+  removeCaption,
+  splitCell,
+} from './editor-blocks';
 
 /** Herramientas de la barra; `'|'` es un separador y `'-'` empieza una fila nueva. */
 export type CbEditorTool =
@@ -149,6 +170,8 @@ export type CbEditorTool =
   | 'fullscreen'
   | 'specialChars'
   | 'findReplace'
+  | 'details'
+  | 'toc'
   | '|'
   | '-';
 
@@ -164,13 +187,28 @@ export const CB_EDITOR_DEFAULT_TOOLBAR: readonly CbEditorTool[] = [
   'subscript', 'superscript', 'code', 'clear',
   '-',
   'bulletList', 'orderedList', 'taskList', 'outdent', 'indent', 'alignment', '|',
-  'link', 'image', 'table', 'codeBlock', 'quote', 'horizontalRule', 'specialChars', '|',
+  'link', 'image', 'table', 'codeBlock', 'quote', 'details', 'toc', 'horizontalRule', 'specialChars', '|',
   'findReplace', '|',
   'source', 'fullscreen',
 ];
 
 /** Sube una imagen y devuelve su URL pública (p. ej. a tu servidor o a un bucket). */
 export type CbEditorImageUpload = (file: File) => Promise<string>;
+
+/** Persona (o elemento) que se puede mencionar con `@`. */
+export interface CbEditorMention {
+  /** Identificador que se guarda en el HTML (`data-mention`). */
+  readonly id: string;
+  /** Texto que se muestra tras la `@`. */
+  readonly label: string;
+  /** Texto secundario en la lista (cargo, correo…). */
+  readonly description?: string;
+}
+
+/** Lista fija de menciones o función que las busca (puede ser asíncrona, p. ej. contra tu API). */
+export type CbEditorMentionSource =
+  | readonly CbEditorMention[]
+  | ((query: string) => readonly CbEditorMention[] | Promise<readonly CbEditorMention[]>);
 
 /** Motivo por el que no se insertó una imagen. */
 export interface CbEditorImageError {
@@ -215,6 +253,8 @@ const SLASH_ITEMS: readonly SlashItem[] = [
   { id: 'table', icon: 'table', label: (t) => t.insertTable, keywords: 'tabla table' },
   { id: 'image', icon: 'image', label: (t) => t.insertImage, keywords: 'imagen image foto picture' },
   { id: 'horizontalRule', icon: 'minus', label: (t) => t.horizontalLine, keywords: 'hr linea line separador divider' },
+  { id: 'details', icon: 'list-collapse', label: (t) => t.editorCollapsible, keywords: 'desplegable details acordeon collapsible toggle' },
+  { id: 'toc', icon: 'table-of-contents', label: (t) => t.editorToc, keywords: 'indice toc contenido contents' },
 ];
 
 interface EditorState {
@@ -296,6 +336,8 @@ const TOOLS: Record<Exclude<CbEditorTool, 'heading' | 'fontFamily' | 'fontSize' 
   fullscreen: { icon: 'maximize', label: (t) => t.fullscreen },
   specialChars: { icon: 'omega', label: (t) => t.specialCharacters },
   findReplace: { icon: 'text-search', label: (t) => t.findReplace, keys: 'Ctrl+F' },
+  details: { icon: 'list-collapse', label: (t) => t.editorCollapsible },
+  toc: { icon: 'table-of-contents', label: (t) => t.editorToc },
 };
 
 /** Opciones del menú de alineación. */
@@ -360,6 +402,12 @@ const EDITOR_ICONS: Record<string, string> = {
   'heading-1': heading1,
   'heading-2': heading2,
   'heading-3': heading3,
+  'list-collapse': listCollapse,
+  'table-of-contents': tableOfContents,
+  'table-cells-merge': tableCellsMerge,
+  'table-cells-split': tableCellsSplit,
+  'at-sign': atSign,
+  copy,
 };
 
 /** Nombres de los resaltados de búsqueda (CSS Custom Highlight API). */
@@ -632,6 +680,28 @@ let nextId = 0;
       </div>
     }
 
+    @if (draft(); as d) {
+      <div class="cb-editor__draft" role="status">
+        <span>{{ fmt(t().editorDraftFound, draftDate(d.savedAt)) }}</span>
+        <button type="button" class="cb-editor__btn cb-editor__btn--primary" (click)="restoreDraft()">{{ t().editorRestoreDraft }}</button>
+        <button type="button" class="cb-editor__btn" (click)="discardDraft()">{{ t().editorDiscardDraft }}</button>
+      </div>
+    }
+
+    @if (codeBlock() && !readonly() && !sourceMode()) {
+      <div class="cb-editor__context" role="toolbar" [attr.aria-label]="t().editorCodeTools" (keydown)="onContextKeydown($event)">
+        <span class="cb-editor__group-label" aria-hidden="true">{{ t().codeBlock }}</span>
+        <select class="cb-editor__select" tabindex="0" [attr.aria-label]="t().editorCodeLanguage" (change)="setCodeLanguage($any($event.target).value)">
+          @for (lang of codeLanguages; track lang) {
+            <option [value]="lang" [selected]="codeLanguage() === lang">{{ lang ? languageLabel(lang) : t().editorPlainText }}</option>
+          }
+        </select>
+        <button type="button" class="cb-editor__tool cb-editor__tool--labeled" tabindex="-1" (mousedown)="hold($event)" (click)="copyCode()">
+          <cb-icon name="copy" [size]="15" aria-hidden="true" />{{ codeCopied() ? t().editorCodeCopied : t().editorCopyCode }}
+        </button>
+      </div>
+    }
+
     @if (tableCell() && !readonly() && !sourceMode()) {
       <div class="cb-editor__context cb-editor__context--table" role="toolbar" [attr.aria-label]="t().tableTools" (keydown)="onContextKeydown($event)">
         <div class="cb-editor__group" role="group" [attr.aria-label]="t().tableRow">
@@ -657,6 +727,19 @@ let nextId = 0;
           </button>
           <button type="button" class="cb-editor__tool cb-editor__tool--labeled cb-editor__tool--danger" tabindex="-1" [attr.aria-label]="t().deleteColumn" (mousedown)="hold($event)" (click)="tableAction('deleteCol')">
             <cb-icon name="trash" [size]="15" aria-hidden="true" />{{ t().tableDelete }}
+          </button>
+        </div>
+        <span class="cb-editor__sep" aria-hidden="true"></span>
+        <div class="cb-editor__group" role="group" [attr.aria-label]="t().editorTableCells">
+          <span class="cb-editor__group-label" aria-hidden="true">{{ t().editorTableCells }}</span>
+          <button type="button" class="cb-editor__tool cb-editor__tool--labeled" tabindex="-1" [disabled]="!cellActions().right" [attr.aria-label]="t().editorMergeRight" [attr.title]="t().editorMergeRight" (mousedown)="hold($event)" (click)="tableAction('mergeRight')">
+            <cb-icon name="table-cells-merge" [size]="15" aria-hidden="true" />→
+          </button>
+          <button type="button" class="cb-editor__tool cb-editor__tool--labeled" tabindex="-1" [disabled]="!cellActions().down" [attr.aria-label]="t().editorMergeDown" [attr.title]="t().editorMergeDown" (mousedown)="hold($event)" (click)="tableAction('mergeDown')">
+            <cb-icon name="table-cells-merge" [size]="15" aria-hidden="true" />↓
+          </button>
+          <button type="button" class="cb-editor__tool cb-editor__tool--labeled" tabindex="-1" [disabled]="!cellActions().split" [attr.aria-label]="t().editorSplitCell" [attr.title]="t().editorSplitCell" (mousedown)="hold($event)" (click)="tableAction('split')">
+            <cb-icon name="table-cells-split" [size]="15" aria-hidden="true" />{{ t().editorSplitCell }}
           </button>
         </div>
         <span class="cb-editor__sep" aria-hidden="true"></span>
@@ -742,6 +825,18 @@ let nextId = 0;
         <span class="cb-editor__sep" aria-hidden="true"></span>
         <button type="button" class="cb-editor__tool cb-editor__tool--labeled" [attr.aria-label]="t().cropImage" [tabindex]="-1" (click)="openCrop()">
           <cb-icon name="crop" [size]="15" aria-hidden="true" />{{ t().cropImage }}
+        </button>
+        <button
+          type="button"
+          class="cb-editor__tool cb-editor__tool--labeled"
+          [class.cb-is-active]="imageHasCaption()"
+          [attr.aria-pressed]="imageHasCaption()"
+          [attr.aria-label]="t().editorImageCaption"
+          [tabindex]="-1"
+          (mousedown)="hold($event)"
+          (click)="toggleCaption()"
+        >
+          <cb-icon name="captions" [size]="15" aria-hidden="true" />{{ t().editorImageCaption }}
         </button>
         <button type="button" class="cb-editor__tool" [attr.aria-label]="t().altText" [attr.title]="t().altText" [tabindex]="-1" (click)="openAlt()">
           <cb-icon name="captions" [size]="16" aria-hidden="true" />
@@ -902,7 +997,7 @@ let nextId = 0;
       [attr.aria-required]="fieldState.required() || null"
       [attr.aria-describedby]="describedBy()"
       aria-multiline="true"
-      [attr.aria-activedescendant]="slash() && slashItems().length ? slashOptionId(slash()!.active) : null"
+      [attr.aria-activedescendant]="slash() && slashItems().length ? slashOptionId(slash()!.active) : mention() && mentionResults().length ? mentionOptionId(mention()!.active) : null"
       [attr.contenteditable]="!isDisabled() && !readonly()"
       [attr.data-placeholder]="readonly() ? '' : (placeholder() ?? t().editorPlaceholder)"
       [style.minHeight]="readonly() ? null : height()"
@@ -956,6 +1051,29 @@ let nextId = 0;
         }
       </div>
     }
+    @if (mention(); as m) {
+      @if (mentionResults().length) {
+        <div class="cb-editor__slash cb-editor__mentions" role="listbox" [id]="mentionListId" [attr.aria-label]="t().editorMentions" [style.left.px]="m.left" [style.top.px]="m.top">
+          @for (item of mentionResults(); track item.id; let i = $index) {
+            <div
+              class="cb-editor__slash-item"
+              role="option"
+              [id]="mentionOptionId(i)"
+              [class.cb-is-active]="i === m.active"
+              [attr.aria-selected]="i === m.active"
+              (mousedown)="hold($event)"
+              (click)="applyMention(item)"
+            >
+              <cb-icon name="at-sign" [size]="15" aria-hidden="true" />
+              <span class="cb-editor__mention-label">{{ item.label }}</span>
+              @if (item.description) {
+                <span class="cb-editor__mention-desc">{{ item.description }}</span>
+              }
+            </div>
+          }
+        </div>
+      }
+    }
     @if (slash(); as sl) {
       @if (slashItems().length) {
         <div class="cb-editor__slash" role="listbox" [id]="slashListId" [attr.aria-label]="t().insertBlock" [style.left.px]="sl.left" [style.top.px]="sl.top">
@@ -990,10 +1108,13 @@ let nextId = 0;
       ></textarea>
     }
 
-    @if (message() || maxLength() || (wordCount() && !readonly())) {
+    @if (message() || maxLength() || (wordCount() && !readonly()) || savedAt()) {
       <div class="cb-editor__footer">
         @if (message()) {
           <p class="cb-editor__error" role="alert">{{ message() }}</p>
+        }
+        @if (savedAt(); as at) {
+          <span class="cb-editor__saved">{{ fmt(t().editorDraftSaved, draftTime(at)) }}</span>
         }
         @if (maxLength() || (wordCount() && !readonly())) {
           <span class="cb-editor__count" [id]="countId" [class.cb-is-over]="!!maxLength() && length() > maxLength()!">{{ countLine() }}</span>
@@ -1059,8 +1180,23 @@ export class CbEditor implements ControlValueAccessor {
   /** Corrección tipográfica al escribir: `(c)` → ©, `...` → …, `->` → →, ` -- ` → –, `1/2` → ½. */
   readonly typography = input(true, { transform: booleanAttribute });
 
+  /**
+   * Menciones con `@`: una lista fija o una función que busca (síncrona o con
+   * promesa). Se guardan como `<span data-mention="id">@Nombre</span>`.
+   */
+  readonly mentions = input<CbEditorMentionSource | null>(null);
+  /**
+   * Guarda un borrador en este navegador (`localStorage`) mientras se escribe;
+   * al volver, ofrece restaurarlo. Usa una clave por documento (p. ej. `'acta-42'`).
+   */
+  readonly autosaveKey = input<string>('');
+  /** Espera (ms) tras la última tecla antes de guardar el borrador. */
+  readonly autosaveDelay = input(1000, { transform: numberAttribute });
+
   /** HTML del contenido (saneado y normalizado; `''` si está vacío). */
   readonly value = model<string>('');
+  /** Se insertó una mención. */
+  readonly mentionAdd = output<CbEditorMention>();
   /** Una imagen no se pudo insertar (tipo, tamaño o error de subida). */
   readonly imageError = output<CbEditorImageError>();
 
@@ -1208,7 +1344,9 @@ export class CbEditor implements ControlValueAccessor {
   private readonly imageTick = signal(0);
   protected readonly imageState = computed(() => {
     this.imageTick();
-    return readImageStyle(this.selectedImage()?.getAttribute('style') ?? '');
+    const img = this.selectedImage();
+    const holder = img ? (figureOf(img) ?? img) : null;
+    return readImageStyle(holder?.getAttribute('style') ?? '');
   });
   protected readonly imageFrame = signal<{ left: number; top: number; width: number; height: number } | null>(null);
   protected readonly altPanel = signal(false);
@@ -1221,6 +1359,46 @@ export class CbEditor implements ControlValueAccessor {
     { align: 'center', icon: 'align-center-horizontal', label: (t) => t.imageAlignCenter },
     { align: 'right', icon: 'align-end-vertical', label: (t) => t.imageAlignRight },
   ];
+  /** Bloque de código donde está el cursor (muestra su barra). */
+  protected readonly codeBlock = signal<HTMLElement | null>(null);
+  private readonly codeTick = signal(0);
+  protected readonly codeLanguage = computed(() => {
+    this.codeTick();
+    return this.codeBlock()?.getAttribute('data-language') ?? '';
+  });
+  protected readonly codeLanguages = CODE_LANGUAGES;
+  protected readonly codeCopied = signal(false);
+  protected readonly languageLabel = codeLanguageLabel;
+  protected readonly fmt = cbFormat;
+
+  /** Qué se puede hacer con la celda actual: combinar a la derecha / abajo, separar. */
+  protected readonly cellActions = computed(() => {
+    this.tableTick();
+    const cell = this.tableCell();
+    return { right: !!cell && !!mergeTarget(cell, 'right'), down: !!cell && !!mergeTarget(cell, 'down'), split: !!cell && isMerged(cell) };
+  });
+  protected readonly imageHasCaption = computed(() => {
+    this.imageTick();
+    const img = this.selectedImage();
+    return !!img && !!figureOf(img);
+  });
+
+  /** Menú de menciones: texto tras la `@`, opción activa y posición. */
+  protected readonly mention = signal<{ query: string; active: number; left: number; top: number } | null>(null);
+  protected readonly mentionResults = signal<readonly CbEditorMention[]>([]);
+  private mentionAnchor: { node: Text; offset: number } | null = null;
+  private mentionToken = 0;
+  protected readonly mentionListId = `${this.surfaceId}-mentions`;
+
+  /** Índice: firma de los títulos con la que se generó (no se reescribe si no cambian). */
+  private tocSignature = '';
+
+  /** Borrador guardado en este navegador que difiere del valor actual. */
+  protected readonly draft = signal<{ html: string; savedAt: number } | null>(null);
+  /** Hora del último borrador guardado (se muestra al pie). */
+  protected readonly savedAt = signal<number | null>(null);
+  private draftTimer: ReturnType<typeof setTimeout> | undefined;
+
   /** Último HTML emitido o cargado: evita reescribir el DOM (y mover el cursor) con su propio valor. */
   private lastHtml: string | null = null;
 
@@ -1246,6 +1424,11 @@ export class CbEditor implements ControlValueAccessor {
       if (!el || val === this.lastHtml) return;
       const clean = untracked(() => this.sanitize(val));
       el.innerHTML = clean;
+      decorate(el);
+      untracked(() => {
+        this.tocSignature = '';
+        this.refreshToc(el);
+      });
       this.lastHtml = val;
       untracked(() => this.length.set(this.textLength(el)));
     });
@@ -1262,7 +1445,13 @@ export class CbEditor implements ControlValueAccessor {
     };
     this.document.addEventListener('mousedown', onPointer);
     this.document.addEventListener('mouseup', onPointerUp);
+    // Borrador guardado de una sesión anterior.
+    afterNextRender(() => this.loadDraft());
     inject(DestroyRef).onDestroy(() => {
+      if (this.draftTimer) {
+        clearTimeout(this.draftTimer);
+        this.saveDraft();
+      }
       this.document.removeEventListener('mousedown', onPointer);
       this.document.removeEventListener('mouseup', onPointerUp);
       this.clearFindHighlight();
@@ -1487,6 +1676,8 @@ export class CbEditor implements ControlValueAccessor {
       case 'redo': return this.exec('redo');
       case 'source': return this.toggleSource();
       case 'findReplace': return this.openFind();
+      case 'details': return this.insertDetails();
+      case 'toc': return this.insertToc();
     }
   }
 
@@ -1839,8 +2030,10 @@ export class CbEditor implements ControlValueAccessor {
       const done = event.data === ' ' && (this.autoformat() || this.autolinkAtCaret());
       if (!done && event.data) this.fixTypography();
       if (event.data === '/') this.openSlash();
+      if (event.data === '@') this.openMention();
     }
     if (this.slash()) this.updateSlash();
+    if (this.mention()) this.updateMention();
     this.emit();
     if (this.findOpen()) this.refreshFind(this.findIndex());
   }
@@ -1961,6 +2154,10 @@ export class CbEditor implements ControlValueAccessor {
         return this.openTablePanel();
       case 'image':
         return this.pickImage();
+      case 'details':
+        return this.insertDetails();
+      case 'toc':
+        return this.insertToc();
     }
   }
 
@@ -2163,6 +2360,11 @@ export class CbEditor implements ControlValueAccessor {
   /** Atajos de teclado: Ctrl + K enlace; Ctrl + Mayús + 7 / 8 listas; Ctrl + Alt + 0–3 bloques. */
   protected onSurfaceKeydown(event: KeyboardEvent): void {
     if (this.slash() && this.onSlashKeydown(event)) return;
+    if (this.mention() && this.onMentionKeydown(event)) return;
+    if (event.key === 'Enter' && !event.shiftKey && !event.ctrlKey && !event.metaKey && this.exitInlineBlock()) {
+      event.preventDefault();
+      return;
+    }
     // Alt + F10: a la barra de herramientas (como en los editores de escritorio).
     if (event.altKey && event.key === 'F10') {
       event.preventDefault();
@@ -2411,6 +2613,13 @@ export class CbEditor implements ControlValueAccessor {
         break;
       case 'deleteTable':
         return this.deleteTable(table);
+      case 'mergeRight':
+      case 'mergeDown':
+        if (!mergeCells(cell, id === 'mergeRight' ? 'right' : 'down')) return;
+        break;
+      case 'split':
+        if (!splitCell(cell)) return;
+        break;
     }
     this.tableTick.update((n) => n + 1);
     this.emit();
@@ -2456,6 +2665,27 @@ export class CbEditor implements ControlValueAccessor {
   // --- Imagen seleccionada ----------------------------------------------------------------
   protected onSurfaceClick(event: MouseEvent): void {
     const target = event.target as HTMLElement;
+    // Enlaces del índice: llevan al título dentro del editor.
+    const tocLink = target.closest?.('nav[data-type="toc"] a') as HTMLAnchorElement | null;
+    if (tocLink) {
+      event.preventDefault();
+      const id = decodeURIComponent(tocLink.getAttribute('href')?.slice(1) ?? '');
+      const heading = id ? this.surfaceRef()?.nativeElement.querySelector<HTMLElement>(`[id="${id.replace(/"/g, '')}"]`) : null;
+      heading?.scrollIntoView?.({ block: 'start', behavior: 'smooth' });
+      if (heading) this.placeCaret(heading);
+      return;
+    }
+    // El título del desplegable se edita: solo la flecha (a la izquierda) lo abre o cierra.
+    const summary = target.closest?.('summary') as HTMLElement | null;
+    if (summary && !this.readonly() && !this.isDisabled()) {
+      event.preventDefault();
+      if (event.clientX - summary.getBoundingClientRect().left < 22) {
+        const details = summary.parentElement as HTMLDetailsElement;
+        details.open = !details.open;
+        this.emit();
+      }
+      return;
+    }
     // Clic en la casilla de una tarea (la zona a la izquierda del texto).
     if (target.tagName === 'LI' && target.parentElement?.getAttribute('data-type') === 'taskList' && !this.readonly() && !this.isDisabled()) {
       const box = target.getBoundingClientRect();
@@ -2501,9 +2731,16 @@ export class CbEditor implements ControlValueAccessor {
   private applyImageStyle(width: string | null, align: CbImageAlign | null): void {
     const img = this.selectedImage();
     if (!img) return;
+    const figure = figureOf(img);
     const css = imageStyle(width, align);
-    if (css) img.setAttribute('style', css);
-    else img.removeAttribute('style');
+    // Con pie, el ancho y la alineación son de la figura; la imagen la llena.
+    const target = figure ?? img;
+    if (css) target.setAttribute('style', css);
+    else target.removeAttribute('style');
+    if (figure) {
+      if (width) img.setAttribute('style', imageStyle('100%', null));
+      else img.removeAttribute('style');
+    }
     if (width) {
       img.removeAttribute('width');
       img.removeAttribute('height');
@@ -2526,8 +2763,9 @@ export class CbEditor implements ControlValueAccessor {
   protected deleteImage(): void {
     const img = this.selectedImage();
     if (!img) return;
-    const after = img.parentElement;
-    img.remove();
+    const figure = figureOf(img);
+    const after = figure ? (figure.nextElementSibling as HTMLElement | null) ?? figure.parentElement : img.parentElement;
+    (figure ?? img).remove();
     this.deselectImage();
     this.emit();
     if (after) this.placeCaret(after);
@@ -2648,13 +2886,16 @@ export class CbEditor implements ControlValueAccessor {
     const surface = this.surfaceRef()?.nativeElement;
     if (!img || !surface) return;
     event.preventDefault();
-    this.resizing = { x: event.clientX, width: img.getBoundingClientRect().width, max: surface.clientWidth || 1, align: this.imageState().align };
+    // Con pie se redimensiona la figura (la imagen la llena).
+    const target = figureOf(img) ?? img;
+    this.resizing = { x: event.clientX, width: target.getBoundingClientRect().width, max: surface.clientWidth || 1, align: this.imageState().align };
+    if (target !== img) img.setAttribute('style', imageStyle('100%', null));
     const move = (e: PointerEvent) => {
       const r = this.resizing;
       if (!r) return;
       const px = Math.min(r.max, Math.max(40, r.width + (e.clientX - r.x)));
       const css = imageStyle(`${Math.round((px / r.max) * 100)}%`, r.align);
-      img.setAttribute('style', css);
+      target.setAttribute('style', css);
       this.refreshFrame();
     };
     const up = () => {
@@ -2691,6 +2932,346 @@ export class CbEditor implements ControlValueAccessor {
     buttons[next].focus();
   }
 
+  // --- Bloque de código: lenguaje y copiar --------------------------------------------------
+  /** Lenguaje del bloque de código actual; si el lenguaje se conoce, lo colorea. */
+  setCodeLanguage(language: string): void {
+    const pre = this.codeBlock();
+    if (!pre) return;
+    highlightCodeBlock(pre, language, this.document);
+    this.codeTick.update((n) => n + 1);
+    this.emit();
+  }
+
+  protected async copyCode(): Promise<void> {
+    const text = this.codeBlock()?.textContent ?? '';
+    try {
+      await globalThis.navigator?.clipboard?.writeText(text);
+      this.codeCopied.set(true);
+    } catch {
+      this.codeCopied.set(false);
+    }
+  }
+
+  // --- Pie de imagen ---------------------------------------------------------------------------
+  /** Añade o quita el pie de la imagen seleccionada. */
+  toggleCaption(): void {
+    const img = this.selectedImage();
+    if (!img) return;
+    if (figureOf(img)) {
+      removeCaption(img, this.document);
+      this.emit();
+    } else {
+      const caption = addCaption(img, this.document);
+      caption.setAttribute('data-placeholder', this.t().editorImageCaption);
+      this.emit();
+      this.deselectImage();
+      this.placeCaret(caption);
+    }
+    this.imageTick.update((n) => n + 1);
+    afterNextRender(() => this.refreshFrame(), { injector: this.injector });
+  }
+
+  /** Enter en un pie de imagen o en el título de un desplegable: sigue en el bloque siguiente. */
+  private exitInlineBlock(): boolean {
+    const sel = this.document.getSelection();
+    const node = sel?.anchorNode ?? null;
+    const caption = this.closest(node, 'FIGCAPTION');
+    const summary = this.closest(node, 'SUMMARY');
+    if (!caption && !summary) return false;
+    if (summary) {
+      const details = summary.parentElement as HTMLDetailsElement;
+      details.open = true;
+      let first = summary.nextElementSibling as HTMLElement | null;
+      if (!first) {
+        first = this.document.createElement('p');
+        first.innerHTML = '<br>';
+        details.append(first);
+      }
+      this.placeCaret(first);
+    } else {
+      const figure = caption!.parentElement!;
+      let next = figure.nextElementSibling as HTMLElement | null;
+      if (!next || next.tagName !== 'P') {
+        next = this.document.createElement('p');
+        next.innerHTML = '<br>';
+        figure.after(next);
+      }
+      this.placeCaret(next);
+    }
+    this.emit();
+    this.updateState();
+    return true;
+  }
+
+  // --- Desplegables e índice ---------------------------------------------------------------------
+  /** Inserta un desplegable (`<details>`) con su título seleccionado para escribirlo. */
+  insertDetails(): void {
+    const details = this.document.createElement('details');
+    details.open = true;
+    const summary = this.document.createElement('summary');
+    summary.textContent = this.t().editorCollapsibleTitle;
+    const body = this.document.createElement('p');
+    body.innerHTML = '<br>';
+    details.append(summary, body);
+    if (!this.insertBlock(details)) return;
+    const range = this.document.createRange();
+    range.selectNodeContents(summary);
+    const sel = this.document.getSelection();
+    sel?.removeAllRanges();
+    sel?.addRange(range);
+    this.emit();
+    this.updateState();
+  }
+
+  /** Inserta el índice del documento: enlaces a los títulos, que se actualizan solos. */
+  insertToc(): void {
+    const nav = this.document.createElement('nav');
+    nav.setAttribute('data-type', 'toc');
+    nav.setAttribute('contenteditable', 'false');
+    if (!this.insertBlock(nav)) return;
+    this.tocSignature = '';
+    const next = nav.nextElementSibling as HTMLElement | null;
+    if (next) this.placeCaret(next);
+    this.emit();
+  }
+
+  /**
+   * Inserta un bloque tras el bloque del cursor (o en su lugar, si es un párrafo
+   * vacío), con un párrafo detrás para seguir escribiendo. `insertHTML` del
+   * navegador parte los párrafos y descoloca estos bloques.
+   */
+  private insertBlock(block: HTMLElement): boolean {
+    const surface = this.surfaceRef()?.nativeElement;
+    if (!surface || this.isDisabled() || this.readonly()) return false;
+    const sel = this.document.getSelection();
+    let top: Node | null = sel?.rangeCount && surface.contains(sel.anchorNode) ? sel.anchorNode : null;
+    while (top && top.parentNode !== surface) top = top.parentNode;
+    const current = top as HTMLElement | null;
+    const empty = current?.tagName === 'P' && !current.textContent?.trim() && !current.querySelector('img');
+    if (!current) surface.append(block);
+    else if (empty) current.replaceWith(block);
+    else current.after(block);
+    const next = block.nextElementSibling;
+    if (!next || next.tagName !== 'P') {
+      const p = this.document.createElement('p');
+      p.innerHTML = '<br>';
+      block.after(p);
+    }
+    surface.focus();
+    return true;
+  }
+
+  /** Mantiene al día los índices: ids en los títulos y enlaces a ellos. */
+  private refreshToc(el: HTMLElement): void {
+    const navs = Array.from(el.querySelectorAll<HTMLElement>('nav[data-type="toc"]'));
+    if (!navs.length) return;
+    const headings = ensureHeadingIds(el);
+    const signature = `${navs.length}|${headingsSignature(headings)}`;
+    if (signature === this.tocSignature && navs.every((n) => n.childElementCount)) return;
+    this.tocSignature = signature;
+    for (const nav of navs) {
+      nav.setAttribute('contenteditable', 'false');
+      buildToc(nav, headings, this.t().editorTocTitle, this.document);
+    }
+  }
+
+  // --- Menciones ---------------------------------------------------------------------------------
+  /** Tras escribir `@` al inicio de una palabra, abre la lista de menciones. */
+  private openMention(): void {
+    const caret = this.mentions() ? this.caretText() : null;
+    if (!caret || caret.offset < 1) return;
+    const before = caret.node.data[caret.offset - 2];
+    if (before !== undefined && !/[\s(]/.test(before)) return;
+    this.mentionAnchor = { node: caret.node, offset: caret.offset - 1 };
+    const pos = this.caretPosition();
+    this.mention.set({ query: '', active: 0, left: pos.left, top: pos.bottom });
+    void this.searchMentions('');
+  }
+
+  private updateMention(): void {
+    const anchor = this.mentionAnchor;
+    const sel = this.document.getSelection();
+    if (!anchor || !sel?.isCollapsed || sel.anchorNode !== anchor.node || sel.anchorOffset <= anchor.offset || anchor.node.data[anchor.offset] !== '@') {
+      this.closeMention();
+      return;
+    }
+    const query = anchor.node.data.slice(anchor.offset + 1, sel.anchorOffset);
+    if (/\s{2}|\n/.test(query) || query.length > 30) {
+      this.closeMention();
+      return;
+    }
+    if (query === this.mention()?.query) return;
+    this.mention.update((m) => (m ? { ...m, query, active: 0 } : m));
+    void this.searchMentions(query);
+  }
+
+  private async searchMentions(query: string): Promise<void> {
+    const source = this.mentions();
+    if (!source) return;
+    const token = ++this.mentionToken;
+    let found: readonly CbEditorMention[];
+    if (typeof source === 'function') {
+      try {
+        found = await source(query);
+      } catch {
+        found = [];
+      }
+    } else {
+      const q = fold(query.trim());
+      found = source.filter((m) => !q || fold(m.label).includes(q) || fold(m.description ?? '').includes(q));
+    }
+    if (token !== this.mentionToken || !this.mention()) return;
+    this.mentionResults.set(found.slice(0, 8));
+  }
+
+  protected closeMention(): void {
+    this.mention.set(null);
+    this.mentionAnchor = null;
+    this.mentionResults.set([]);
+    this.mentionToken++;
+  }
+
+  protected mentionOptionId(index: number): string {
+    return `${this.mentionListId}-${index}`;
+  }
+
+  /** Cambia `@texto` por la mención (un bloque no editable) seguida de un espacio. */
+  protected applyMention(item: CbEditorMention): void {
+    const anchor = this.mentionAnchor;
+    const sel = this.document.getSelection();
+    this.closeMention();
+    if (!anchor || sel?.anchorNode !== anchor.node) return;
+    const range = this.document.createRange();
+    range.setStart(anchor.node, anchor.offset);
+    range.setEnd(anchor.node, Math.max(anchor.offset + 1, sel.anchorOffset));
+    range.deleteContents();
+    const span = this.document.createElement('span');
+    span.setAttribute('data-mention', item.id);
+    span.setAttribute('contenteditable', 'false');
+    span.textContent = `@${item.label}`;
+    const space = this.document.createTextNode('\u00a0');
+    range.insertNode(space);
+    range.insertNode(span);
+    this.setCaret(space, 1);
+    this.emit();
+    this.mentionAdd.emit(item);
+  }
+
+  private onMentionKeydown(event: KeyboardEvent): boolean {
+    const m = this.mention();
+    const items = this.mentionResults();
+    if (!m) return false;
+    if (event.key === 'Escape') {
+      this.closeMention();
+      event.preventDefault();
+      return true;
+    }
+    if (!items.length) return false;
+    switch (event.key) {
+      case 'ArrowDown':
+      case 'ArrowUp': {
+        const step = event.key === 'ArrowDown' ? 1 : -1;
+        this.mention.set({ ...m, active: (m.active + step + items.length) % items.length });
+        break;
+      }
+      case 'Enter':
+      case 'Tab':
+        this.applyMention(items[m.active]);
+        break;
+      default:
+        return false;
+    }
+    event.preventDefault();
+    return true;
+  }
+
+  /** Ids de las personas mencionadas en el contenido (sin repetir). */
+  getMentions(): string[] {
+    const el = this.surfaceRef()?.nativeElement;
+    if (!el) return [];
+    return [...new Set(Array.from(el.querySelectorAll('[data-mention]')).map((m) => m.getAttribute('data-mention')!))];
+  }
+
+  // --- Autoguardado ------------------------------------------------------------------------------
+  private draftStorageKey(): string | null {
+    const key = this.autosaveKey();
+    return key ? `cb-editor-draft:${key}` : null;
+  }
+
+  private loadDraft(): void {
+    const key = this.draftStorageKey();
+    if (!key) return;
+    try {
+      const raw = globalThis.localStorage?.getItem(key);
+      const draft = raw ? (JSON.parse(raw) as { html?: unknown; savedAt?: unknown }) : null;
+      if (draft && typeof draft.html === 'string' && typeof draft.savedAt === 'number') {
+        const html = this.sanitize(draft.html);
+        if (html && html !== this.value()) this.draft.set({ html, savedAt: draft.savedAt });
+      }
+    } catch {
+      // Sin acceso al almacenamiento (modo privado, cuota): no hay borrador.
+    }
+  }
+
+  private scheduleDraft(): void {
+    if (!this.draftStorageKey()) return;
+    clearTimeout(this.draftTimer);
+    this.draftTimer = setTimeout(() => this.saveDraft(), this.autosaveDelay());
+  }
+
+  private saveDraft(): void {
+    this.draftTimer = undefined;
+    const key = this.draftStorageKey();
+    if (!key) return;
+    try {
+      const savedAt = Date.now();
+      globalThis.localStorage?.setItem(key, JSON.stringify({ html: this.value(), savedAt }));
+      this.savedAt.set(savedAt);
+      // Lo escrito ahora sustituye al borrador anterior.
+      this.draft.set(null);
+    } catch {
+      // Almacenamiento lleno o bloqueado: se sigue sin borrador.
+    }
+  }
+
+  /** Recupera el borrador guardado en este navegador. */
+  restoreDraft(): void {
+    const draft = this.draft();
+    if (!draft) return;
+    this.draft.set(null);
+    this.value.set(draft.html);
+    this.onChange(draft.html);
+    afterNextRender(() => this.surfaceRef()?.nativeElement.focus(), { injector: this.injector });
+  }
+
+  /** Descarta el borrador guardado. */
+  discardDraft(): void {
+    this.draft.set(null);
+    this.clearDraft();
+  }
+
+  /** Borra el borrador de este navegador (llámalo tras guardar en tu servidor). */
+  clearDraft(): void {
+    clearTimeout(this.draftTimer);
+    this.draftTimer = undefined;
+    this.savedAt.set(null);
+    const key = this.draftStorageKey();
+    if (!key) return;
+    try {
+      globalThis.localStorage?.removeItem(key);
+    } catch {
+      // Nada que borrar.
+    }
+  }
+
+  protected draftDate(at: number): string {
+    return new Intl.DateTimeFormat(this.t().intlLocale, { dateStyle: 'medium', timeStyle: 'short' }).format(at);
+  }
+
+  protected draftTime(at: number): string {
+    return new Intl.DateTimeFormat(this.t().intlLocale, { timeStyle: 'short' }).format(at);
+  }
+
   // --- Vista de HTML -----------------------------------------------------------------
   private toggleSource(): void {
     const el = this.surfaceRef()?.nativeElement;
@@ -2701,7 +3282,10 @@ export class CbEditor implements ControlValueAccessor {
     }
     // Al volver, el HTML escrito a mano se sanea.
     const clean = this.sanitize(this.sourceText());
-    if (el) el.innerHTML = clean;
+    if (el) {
+      el.innerHTML = clean;
+      decorate(el);
+    }
     this.sourceMode.set(false);
     this.emit();
   }
@@ -2716,12 +3300,14 @@ export class CbEditor implements ControlValueAccessor {
   private emit(): void {
     const el = this.surfaceRef()?.nativeElement;
     if (!el) return;
+    this.refreshToc(el);
     const html = this.sanitize(el.innerHTML);
     this.length.set(this.textLength(el));
     if (html === this.value()) return;
     this.lastHtml = html;
     this.value.set(html);
     this.onChange(html);
+    this.scheduleDraft();
   }
 
   protected onBlur(): void {
@@ -2827,9 +3413,27 @@ export class CbEditor implements ControlValueAccessor {
     });
     const cell = (this.closest(sel.anchorNode, 'TD') ?? this.closest(sel.anchorNode, 'TH')) as HTMLTableCellElement | null;
     this.tableCell.set(cell);
+    const pre = this.closest(sel.anchorNode, 'PRE');
+    const previous = this.codeBlock();
+    if (previous !== pre) {
+      // Al salir de un bloque coloreado por el editor, se vuelve a colorear con lo escrito.
+      const lang = previous?.getAttribute('data-language');
+      if (previous?.isConnected && lang && previous.getAttribute('data-highlight') === 'auto') {
+        highlightCodeBlock(previous, lang, this.document);
+        this.emit();
+      }
+      this.codeBlock.set(pre);
+      this.codeCopied.set(false);
+    }
+    if (this.mention() && (sel.anchorNode !== this.mentionAnchor?.node || sel.anchorOffset <= this.mentionAnchor.offset)) this.closeMention();
     if (this.slash() && (sel.anchorNode !== this.slashAnchor?.node || sel.anchorOffset <= this.slashAnchor.offset)) this.closeSlash();
     this.updateBubble();
   }
+}
+
+/** Índices y menciones no se editan letra a letra (el atributo no se guarda en el HTML). */
+function decorate(root: HTMLElement): void {
+  for (const el of Array.from(root.querySelectorAll('nav[data-type="toc"], span[data-mention]'))) el.setAttribute('contenteditable', 'false');
 }
 
 /** Añade una hoja de estilos al documento una sola vez. */

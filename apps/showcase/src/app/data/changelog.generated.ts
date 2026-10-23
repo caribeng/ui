@@ -11,6 +11,10 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
         "type": "added",
         "items": [
           {
+            "component": "Editor, fase 3",
+            "text": "**lenguaje del bloque de código** en su propia barra (TypeScript, JavaScript, HTML, CSS, SCSS, JSON, Bash, Python, SQL) con coloreado que se guarda en el HTML y se rehace al salir del bloque, y botón Copiar código; **pie de imagen** (`<figure>` + `<figcaption>`, que se lleva el ancho y la alineación); **combinar y separar celdas** (a la derecha, abajo; el saneador ya respeta `rowspan`); **desplegables** (`<details>` / `<summary>`, herramienta `details`); **índice** automático de los títulos (`<nav data-type=\"toc\">`, herramienta `toc`, ids en los títulos); **menciones** con `@` (`mentions`: lista o búsqueda asíncrona; `mentionAdd`, `getMentions()`; tipos `CbEditorMention` y `CbEditorMentionSource`); y **autoguardado** del borrador en el navegador (`autosaveKey`, `autosaveDelay`, aviso para restaurar o descartar, `clearDraft()`)."
+          },
+          {
             "component": "PDF Viewer, nivel 2",
             "text": "pestaña **Índice** en el panel lateral con los marcadores del documento (subniveles plegables, negrita y cursiva) y `sidebarView` (`'thumbnails' | 'outline'`); **enlaces** internos (llevan a la página y a la posición del destino) y externos (otra pestaña, solo http(s), mailto y tel; `externalLinks` los desactiva); **formularios** rellenables (texto, área de texto, desplegables, casillas y opciones; `forms` en `false` los pinta como imagen). Descargar e Imprimir incluyen lo escrito; nuevos `getFormData()` (valores por nombre de campo), `save()` (el PDF relleno como `Blob`), `goToDestination()`, `formModified` y el evento `formChange`. Tipos `CbPdfOutlineItem` y `CbPdfFormValue`. El showcase añade un PDF de solicitud con índice, enlaces y formulario."
           },

@@ -4,7 +4,7 @@ import { DocPlaygroundComponent } from '../components/doc-playground.component';
 import { DOC_API } from '../components/doc-api-registry';
 import { DocA11yComponent } from '../components/doc-a11y.component';
 import { DOC_A11Y } from '../components/doc-a11y-registry';
-import { CbEditor, type CbEditorImageUpload, type CbEditorTool } from '@caribeng/ui/editor';
+import { CbEditor, type CbEditorImageUpload, type CbEditorMention, type CbEditorTool } from '@caribeng/ui/editor';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
@@ -29,10 +29,10 @@ import { I18nService } from '../services/i18n.service';
     <doc-section
       id="overview"
       title="Todo en un editor"
-      description="Un mismo documento con todo lo que admite el editor: títulos, negrita, cursiva, subrayado, tachado, código en línea, subíndice y superíndice, color y resaltado, fuentes y tamaños, listas con viñetas, numeradas y de tareas, sangría, alineación, enlace, cita, línea horizontal, caracteres especiales, una tabla con encabezado, una imagen con el texto alrededor y un bloque de código con colores. Haz clic en la tabla o en la imagen para ver sus barras, escribe / para insertar bloques y selecciona texto para el menú flotante."
+      description="Un mismo documento con todo lo que admite el editor: índice automático, títulos, negrita, cursiva, subrayado, tachado, código en línea, subíndice y superíndice, color y resaltado, fuentes y tamaños, una mención, listas con viñetas, numeradas y de tareas, sangría, alineación, enlace, cita, línea horizontal, caracteres especiales, una tabla con encabezado y celdas combinadas, una imagen con pie y el texto alrededor, un desplegable y un bloque de código con su lenguaje. Haz clic en la tabla, la imagen o el código para ver sus barras, escribe / para insertar bloques, @ para mencionar y selecciona texto para el menú flotante."
       [code]="overviewCode"
     >
-      <cb-editor [(value)]="completo" maxHeight="640px" style="width: 100%" />
+      <cb-editor [(value)]="completo" [mentions]="personas" maxHeight="640px" style="width: 100%" />
     </doc-section>
 
     <doc-section
@@ -129,7 +129,7 @@ import { I18nService } from '../services/i18n.service';
     <doc-section
       id="tables"
       title="Tablas"
-      description="1) Pulsa el botón de tabla y elige el tamaño en la cuadrícula (ratón o flechas). 2) Haz clic dentro de una celda: aparece la barra Tabla con Fila (arriba, abajo, eliminar), Columna (izquierda, derecha, eliminar), Fila de encabezado, Bordes (todos, solo horizontales o ninguno) y su color, y Eliminar tabla. Los bordes se guardan en el HTML, así la tabla se ve igual fuera del editor; en el editor, las celdas sin borde se marcan con una guía punteada que no se guarda. Tab y Mayús + Tab pasan de celda en celda; Tab en la última añade una fila."
+      description="1) Pulsa el botón de tabla y elige el tamaño en la cuadrícula (ratón o flechas). 2) Haz clic dentro de una celda: aparece la barra Tabla con Fila (arriba, abajo, eliminar), Columna (izquierda, derecha, eliminar), Celdas (combinar con la de la derecha o con la de abajo, y separar una celda combinada), Fila de encabezado, Bordes (todos, solo horizontales o ninguno) y su color, y Eliminar tabla. Los bordes se guardan en el HTML, así la tabla se ve igual fuera del editor; en el editor, las celdas sin borde se marcan con una guía punteada que no se guarda. Tab y Mayús + Tab pasan de celda en celda; Tab en la última añade una fila."
       [code]="tablesCode"
     >
       <cb-editor [(value)]="tabla" style="width: 100%" />
@@ -138,7 +138,7 @@ import { I18nService } from '../services/i18n.service';
     <doc-section
       id="image-layout"
       title="Tamaño, alineación y recorte de imágenes"
-      description="Haz clic en una imagen: su barra permite ponerla en línea con el texto, a la izquierda o a la derecha (el texto la rodea) o centrada, elegir un ancho (25 %, 50 %, 75 %, 100 % o el original), recortarla, escribir el texto alternativo o eliminarla. El tirador de la esquina cambia el ancho arrastrando. Recortar abre un recuadro libre o con proporción fija (1:1, 4:3, 16:9) que se mueve con el ratón o las flechas; al aplicarlo se recortan los píxeles y la imagen nueva se sube con imageUpload (o se guarda como data URL). Las imágenes de otro dominio necesitan que su servidor permita CORS para poder recortarlas."
+      description="Haz clic en una imagen: su barra permite ponerla en línea con el texto, a la izquierda o a la derecha (el texto la rodea) o centrada, elegir un ancho (25 %, 50 %, 75 %, 100 % o el original), añadirle un pie de imagen (se guarda como <figure> y <figcaption>; Enter en el pie sigue en el párrafo siguiente), recortarla, escribir el texto alternativo o eliminarla. El tirador de la esquina cambia el ancho arrastrando. Recortar abre un recuadro libre o con proporción fija (1:1, 4:3, 16:9) que se mueve con el ratón o las flechas; al aplicarlo se recortan los píxeles y la imagen nueva se sube con imageUpload (o se guarda como data URL). Las imágenes de otro dominio necesitan que su servidor permita CORS para poder recortarlas."
       [code]="imageLayoutCode"
     >
       <cb-editor [(value)]="conImagen" style="width: 100%" />
@@ -147,10 +147,46 @@ import { I18nService } from '../services/i18n.service';
     <doc-section
       id="code"
       title="Código"
-      description="El bloque de código conserva espacios y saltos; Tab inserta dos espacios. Al pegar desde VS Code se mantienen los colores del resaltado y el fondo, y se anota el lenguaje. Dentro de un bloque, lo pegado entra como texto."
+      description="El bloque de código conserva espacios y saltos; Tab inserta dos espacios. Al poner el cursor en un bloque aparece su barra: elige el lenguaje (TypeScript, JavaScript, HTML, CSS, SCSS, JSON, Bash, Python o SQL) y el bloque se colorea con colores que se guardan en el HTML (se ve igual fuera del editor); al seguir escribiendo, se vuelve a colorear al salir del bloque. Copiar código lleva el texto al portapapeles. Al pegar desde VS Code se mantienen sus colores y se anota el lenguaje."
       [code]="codeCode"
     >
       <cb-editor [(value)]="codigo" style="width: 100%" />
+    </doc-section>
+
+    <doc-section
+      id="blocks"
+      title="Desplegables e índice"
+      description="El botón Desplegable (o / desplegable) inserta un bloque con título que se pliega: el título se edita como texto y la flecha de la izquierda lo abre o cierra; Enter en el título pasa al contenido. El botón Índice (o / índice) inserta la lista de títulos del documento con enlaces: se actualiza sola al añadir, cambiar o borrar títulos, y cada título recibe un id para enlazarlo."
+      [code]="blocksCode"
+    >
+      <cb-editor [(value)]="bloques" style="width: 100%" />
+    </doc-section>
+
+    <doc-section
+      id="mentions"
+      title="Menciones"
+      description="Con [mentions] (una lista o una función que busca, también asíncrona), escribir @ abre la lista de personas; se filtra al seguir escribiendo y se elige con las flechas y Enter. La mención se guarda como un span con data-mention (el id) y el texto @Nombre, se borra de una vez, emite mentionAdd y getMentions() devuelve los ids mencionados."
+      [code]="mentionsCode"
+    >
+      <div style="display: grid; gap: 0.5rem; width: 100%">
+        <cb-editor #conMenciones [mentions]="buscarPersonas" [(value)]="mencionesHtml" (mentionAdd)="mencionados.set(conMenciones.getMentions())" height="140px" />
+        <p style="margin: 0; font-size: 0.875rem; color: var(--cb-color-text-muted)">Mencionados: {{ mencionados().join(', ') || '—' }}</p>
+      </div>
+    </doc-section>
+
+    <doc-section
+      id="autosave"
+      title="Autoguardado"
+      description="Con autosaveKey el editor guarda un borrador en este navegador (localStorage) mientras escribes, tras autosaveDelay ms sin teclear, y muestra la hora al pie. Si recargas la página con cambios sin guardar, ofrece restaurarlo o descartarlo. Tras guardar en tu servidor, llama a clearDraft(). Pruébalo: escribe algo y recarga."
+      [code]="autosaveCode"
+    >
+      <div style="display: grid; gap: 0.5rem; width: 100%">
+        <cb-editor #borrador autosaveKey="showcase-editor-demo" [(value)]="autoguardado" height="140px" />
+        <div style="display: flex; gap: 0.5rem">
+          <button type="button" class="ed-btn" (click)="borrador.clearDraft(); guardado.set('Enviado al servidor; borrador eliminado.')">Guardar en el servidor</button>
+          <span style="font-size: 0.875rem; color: var(--cb-color-text-muted)">{{ guardado() }}</span>
+        </div>
+      </div>
     </doc-section>
 
     <doc-section
@@ -211,6 +247,19 @@ import { I18nService } from '../services/i18n.service';
       font-size: 0.8rem;
       white-space: nowrap;
     }
+    .ed-btn {
+      padding: 0.375rem 0.75rem;
+      border: 1px solid var(--cb-color-border-strong);
+      border-radius: var(--cb-radius-md);
+      background: var(--cb-color-surface);
+      color: var(--cb-color-text);
+      font: inherit;
+      font-size: 0.875rem;
+      cursor: pointer;
+    }
+    .ed-btn:hover {
+      background: var(--cb-color-surface-hover);
+    }
     .ed-output {
       margin: 0;
       padding: 0.75rem 1rem;
@@ -243,9 +292,11 @@ export class EditorDocComponent {
       '<span style="color: #2563eb">texto en color</span> y <span style="background-color: #fef08a">resaltado</span>.</p>' +
       `<p><span style="font-family: 'Source Serif 4', serif; font-size: 20px">Una frase con Source Serif 4 a 20 px</span> y otra con ` +
       `<span style="font-family: 'JetBrains Mono', monospace; font-size: 14px">JetBrains Mono a 14 px</span>.</p>` +
+      '<nav data-type="toc"></nav>' +
+      '<p>Responsable del informe: <span data-mention="laura">@Laura Gómez</span>.</p>' +
       '<h2>1. Resumen</h2>' +
-      '<p><img src="https://picsum.photos/seed/caribeng-informe/480/320" alt="Puerto al atardecer" style="width: 35%; height: auto; float: right; margin: 0 0 0.5rem 1rem">' +
-      'La imagen está alineada a la derecha y el texto la rodea. Haz clic en ella para cambiar su alineación o su ancho, recortarla o escribir su texto alternativo. ' +
+      '<figure style="width: 35%; height: auto; float: right; margin: 0 0 0.5rem 1rem"><img src="https://picsum.photos/seed/caribeng-informe/480/320" alt="Puerto al atardecer" style="width: 100%; height: auto"><figcaption>El puerto al atardecer (pie de imagen)</figcaption></figure>' +
+      '<p>La imagen tiene pie, está alineada a la derecha y el texto la rodea. Haz clic en ella para cambiar su alineación o su ancho, quitarle el pie, recortarla o escribir su texto alternativo. ' +
       'Más información en la <a href="https://angular.dev" target="_blank" rel="noopener noreferrer">documentación de Angular</a>.</p>' +
       '<ul><li>Clientes nuevos: 1.240</li><li>Satisfacción: 4,7 de 5<ul><li>Banca en línea: 4,8</li><li>Oficinas: 4,5</li></ul></li></ul>' +
       '<ol><li>Revisar las tasas</li><li>Aprobar el presupuesto</li><li>Publicar el informe</li></ol>' +
@@ -257,7 +308,9 @@ export class EditorDocComponent {
       [['CDT', '11,2 %', '360 días'], ['Ahorro', '4,5 %', '—'], ['Crédito libre inversión', '18,9 %', '60 meses']]
         .map((r) => `<tr><td style="border: 1px solid #d0d5dd; padding: 6px 10px">${r[0]}</td><td style="text-align: right; border: 1px solid #d0d5dd; padding: 6px 10px">${r[1]}</td><td style="border: 1px solid #d0d5dd; padding: 6px 10px">${r[2]}</td></tr>`)
         .join('') +
+      '<tr><td colspan="3" style="border: 1px solid #d0d5dd; padding: 6px 10px; text-align: center"><em>Fila con las tres celdas combinadas: tasas vigentes a 30 de septiembre</em></td></tr>' +
       '</tbody></table>' +
+      '<details open><summary>Condiciones del CDT (desplegable)</summary><p>El CDT se renueva automáticamente si no se cancela antes del vencimiento. Pulsa la flecha del título para plegarlo.</p></details>' +
       '<blockquote><p>«La confianza se construye con información clara.» — Comité directivo</p></blockquote>' +
       '<p style="margin-left: 2rem">Párrafo con sangría para notas aclaratorias.</p>' +
       '<p style="text-align: center">Texto centrado</p>' +
@@ -272,6 +325,31 @@ export class EditorDocComponent {
       '}</code></pre>' +
       '<h4>Caracteres especiales</h4>' +
       '<p>Monedas € £ ¥ · matemáticas ± × ÷ ≤ ≥ ≈ · flechas → ← ↑ ↓ · tipografía © ® ™ … – — ½</p>',
+  );
+
+  protected readonly personas: CbEditorMention[] = [
+    { id: 'laura', label: 'Laura Gómez', description: 'Gerente comercial' },
+    { id: 'mateo', label: 'Mateo Ruiz', description: 'Analista de riesgo' },
+    { id: 'camila', label: 'Camila Díaz', description: 'Diseño' },
+    { id: 'andres', label: 'Andrés Pérez', description: 'Tecnología' },
+  ];
+  /** Búsqueda asíncrona (como contra tu API): devuelve las personas que coinciden. */
+  protected readonly buscarPersonas = async (texto: string): Promise<CbEditorMention[]> => {
+    await new Promise((resolve) => setTimeout(resolve, 150));
+    const q = texto.toLowerCase();
+    return this.personas.filter((p) => p.label.toLowerCase().includes(q));
+  };
+  protected readonly mencionesHtml = signal('<p>Escribe @ para mencionar a alguien del equipo.</p>');
+  protected readonly mencionados = signal<string[]>([]);
+  protected readonly autoguardado = signal('<p>Escribe aquí y recarga la página: el editor te ofrecerá restaurar el borrador.</p>');
+  protected readonly guardado = signal('');
+  protected readonly bloques = signal(
+    '<nav data-type="toc"></nav>' +
+      '<h2>Introducción</h2><p>El índice de arriba se genera con los títulos del documento.</p>' +
+      '<h3>Alcance</h3><p>Cambia este título o añade uno nuevo: el índice se actualiza solo.</p>' +
+      '<h2>Preguntas frecuentes</h2>' +
+      '<details open><summary>¿Cuánto tarda la apertura de la cuenta?</summary><p>Menos de un día hábil si los documentos están completos.</p></details>' +
+      '<details><summary>¿Puedo cancelar el CDT antes del vencimiento?</summary><p>Sí, con una penalización sobre los intereses.</p></details>',
   );
 
   protected readonly content = signal(
@@ -294,7 +372,9 @@ export class EditorDocComponent {
       'El HTML guarda el ancho en porcentaje, de modo que la imagen se adapta al ancho de la pantalla donde se muestre.</p>',
   );
   protected readonly codigo = signal(
-    '<p>Ejemplo pegado desde VS Code (tema oscuro):</p>' +
+    '<p>Haz clic en este bloque y cambia el lenguaje en su barra:</p>' +
+      '<pre data-language="python"><code>def interes(capital, tasa, anios):\n    # Interés simple\n    return capital * tasa * anios\n\nprint(interes(1000, 0.05, 3))</code></pre>' +
+      '<p>Ejemplo pegado desde VS Code (tema oscuro):</p>' +
       '<pre data-language="typescript" style="color: #cccccc; background-color: #1f1f1f"><code>' +
       '<span style="color: #569cd6">const</span> <span style="color: #4fc1ff">saldo</span> = <span style="color: #dcdcaa">calcular</span>(<span style="color: #9cdcfe">cuenta</span>);\n' +
       '<span style="color: #c586c0">if</span> (<span style="color: #9cdcfe">saldo</span> &lt; <span style="color: #b5cea8">0</span>) {\n' +
@@ -353,7 +433,19 @@ export class EditorDocComponent {
   };
 
   protected readonly importCode = `import { CbEditor, cbSanitizeHtml, cbHtmlToText } from '@caribeng/ui/editor';`;
-  protected readonly overviewCode = `<cb-editor [(value)]="completo" maxHeight="640px" style="width: 100%" />`;
+  protected readonly overviewCode = `<cb-editor [(value)]="completo" [mentions]="personas" maxHeight="640px" style="width: 100%" />`;
+  protected readonly blocksCode = `<cb-editor [(value)]="bloques" style="width: 100%" />`;
+  protected readonly mentionsCode = `<div style="display: grid; gap: 0.5rem; width: 100%">
+  <cb-editor #conMenciones [mentions]="buscarPersonas" [(value)]="mencionesHtml" (mentionAdd)="mencionados.set(conMenciones.getMentions())" height="140px" />
+  <p style="margin: 0; font-size: 0.875rem; color: var(--cb-color-text-muted)">Mencionados: {{ mencionados().join(', ') || '—' }}</p>
+</div>`;
+  protected readonly autosaveCode = `<div style="display: grid; gap: 0.5rem; width: 100%">
+  <cb-editor #borrador autosaveKey="showcase-editor-demo" [(value)]="autoguardado" height="140px" />
+  <div style="display: flex; gap: 0.5rem">
+    <button type="button" class="ed-btn" (click)="borrador.clearDraft(); guardado.set('Enviado al servidor; borrador eliminado.')">Guardar en el servidor</button>
+    <span style="font-size: 0.875rem; color: var(--cb-color-text-muted)">{{ guardado() }}</span>
+  </div>
+</div>`;
   protected readonly basicCode = `<cb-editor [(value)]="content" />
 
 <!-- content() es HTML saneado, p. ej.:

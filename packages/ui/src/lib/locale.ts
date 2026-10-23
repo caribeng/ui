@@ -467,6 +467,27 @@ export interface CbTranslation {
   /** `{0}`: título de la entrada del índice. */
   pdfCollapseItem: string;
   pdfDownloadFilled: string;
+  editorCodeTools: string;
+  editorCodeLanguage: string;
+  editorPlainText: string;
+  editorCopyCode: string;
+  editorCodeCopied: string;
+  editorImageCaption: string;
+  editorTableCells: string;
+  editorMergeRight: string;
+  editorMergeDown: string;
+  editorSplitCell: string;
+  editorCollapsible: string;
+  editorCollapsibleTitle: string;
+  editorToc: string;
+  editorTocTitle: string;
+  editorMentions: string;
+  /** `{0}`: fecha y hora. */
+  editorDraftFound: string;
+  editorRestoreDraft: string;
+  editorDiscardDraft: string;
+  /** `{0}`: hora. */
+  editorDraftSaved: string;
 
   // --- Varios ---
   scrollableArea: string;
@@ -1009,6 +1030,25 @@ export const CB_LOCALE_ES: CbTranslation = {
   pdfExpandItem: 'Expandir {0}',
   pdfCollapseItem: 'Contraer {0}',
   pdfDownloadFilled: 'Descargar con los datos del formulario',
+  editorCodeTools: 'Herramientas del bloque de código',
+  editorCodeLanguage: 'Lenguaje del código',
+  editorPlainText: 'Texto sin colores',
+  editorCopyCode: 'Copiar código',
+  editorCodeCopied: 'Copiado',
+  editorImageCaption: 'Pie de imagen',
+  editorTableCells: 'Celdas',
+  editorMergeRight: 'Combinar con la celda de la derecha',
+  editorMergeDown: 'Combinar con la celda de abajo',
+  editorSplitCell: 'Separar',
+  editorCollapsible: 'Desplegable',
+  editorCollapsibleTitle: 'Título del desplegable',
+  editorToc: 'Índice',
+  editorTocTitle: 'Contenido',
+  editorMentions: 'Personas que puedes mencionar',
+  editorDraftFound: 'Hay un borrador sin guardar del {0}.',
+  editorRestoreDraft: 'Restaurar',
+  editorDiscardDraft: 'Descartar',
+  editorDraftSaved: 'Borrador guardado a las {0}',
 
   scrollableArea: 'Área desplazable',
   scrollTop: 'Volver arriba',
@@ -1540,6 +1580,25 @@ export const CB_LOCALE_EN: CbTranslation = {
   pdfExpandItem: 'Expand {0}',
   pdfCollapseItem: 'Collapse {0}',
   pdfDownloadFilled: 'Download with the form data',
+  editorCodeTools: 'Code block tools',
+  editorCodeLanguage: 'Code language',
+  editorPlainText: 'Plain text',
+  editorCopyCode: 'Copy code',
+  editorCodeCopied: 'Copied',
+  editorImageCaption: 'Caption',
+  editorTableCells: 'Cells',
+  editorMergeRight: 'Merge with the cell on the right',
+  editorMergeDown: 'Merge with the cell below',
+  editorSplitCell: 'Split',
+  editorCollapsible: 'Collapsible section',
+  editorCollapsibleTitle: 'Collapsible title',
+  editorToc: 'Table of contents',
+  editorTocTitle: 'Contents',
+  editorMentions: 'People you can mention',
+  editorDraftFound: 'There is an unsaved draft from {0}.',
+  editorRestoreDraft: 'Restore',
+  editorDiscardDraft: 'Discard',
+  editorDraftSaved: 'Draft saved at {0}',
 
   scrollableArea: 'Scrollable area',
   scrollTop: 'Back to top',

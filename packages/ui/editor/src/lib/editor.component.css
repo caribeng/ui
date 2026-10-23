@@ -834,3 +834,95 @@
     outline: 2px solid Highlight;
   }
 }
+
+/* --- Fase 3: pie de imagen, desplegables, índice, menciones y borrador --------------------- */
+:host ::ng-deep .cb-editor__surface figure {
+  margin: 0.5em 0;
+}
+:host ::ng-deep .cb-editor__surface figure img {
+  display: block;
+  max-width: 100%;
+}
+:host ::ng-deep .cb-editor__surface figcaption {
+  padding-top: 0.35rem;
+  color: var(--cb-color-text-muted);
+  font-size: 0.875em;
+  text-align: center;
+}
+:host ::ng-deep .cb-editor__surface figcaption:empty::before,
+:host ::ng-deep .cb-editor__surface figcaption:has(> br:only-child)::before {
+  content: attr(data-placeholder);
+}
+:host ::ng-deep .cb-editor__surface details {
+  margin: 0.5em 0;
+  padding: 0.35rem 0.75rem;
+  border: 1px solid var(--cb-color-border);
+  border-radius: var(--cb-radius-md);
+}
+:host ::ng-deep .cb-editor__surface summary {
+  font-weight: var(--cb-font-weight-semibold);
+  cursor: pointer;
+}
+:host ::ng-deep .cb-editor__surface details[open] > summary {
+  margin-bottom: 0.35rem;
+}
+:host ::ng-deep .cb-editor__surface nav[data-type='toc'] {
+  margin: 0.5em 0;
+  padding: 0.5rem 0.9rem;
+  border-left: 3px solid var(--cb-color-primary-400, var(--cb-color-border));
+  border-radius: 0 var(--cb-radius-md) var(--cb-radius-md) 0;
+  background: color-mix(in srgb, var(--cb-color-primary-500) 5%, transparent);
+  user-select: none;
+}
+:host ::ng-deep .cb-editor__surface nav[data-type='toc'] p {
+  margin: 0 0 0.25rem;
+}
+:host ::ng-deep .cb-editor__surface nav[data-type='toc'] ol {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+:host ::ng-deep .cb-editor__surface nav[data-type='toc'] a {
+  cursor: pointer;
+}
+:host ::ng-deep .cb-editor__surface [data-mention] {
+  padding: 0 0.2rem;
+  border-radius: var(--cb-radius-sm);
+  background: color-mix(in srgb, var(--cb-color-primary-500) 14%, transparent);
+  color: var(--cb-color-primary-700);
+  font-weight: var(--cb-font-weight-medium);
+  white-space: nowrap;
+}
+:host-context([data-theme='dark']) ::ng-deep .cb-editor__surface [data-mention] {
+  color: var(--cb-color-primary-300);
+}
+.cb-editor__mentions {
+  width: 17rem;
+}
+.cb-editor__mention-label {
+  font-weight: var(--cb-font-weight-medium);
+}
+.cb-editor__mention-desc {
+  margin-left: auto;
+  overflow: hidden;
+  color: var(--cb-color-text-muted);
+  font-size: var(--cb-text-xs);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.cb-editor__draft {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  padding: var(--cb-space-2) var(--cb-space-3);
+  border-bottom: var(--cb-border-width) solid var(--cb-color-border);
+  background: color-mix(in srgb, var(--cb-color-warning-500, #f59e0b) 12%, var(--cb-color-surface));
+  font-size: var(--cb-text-sm);
+}
+.cb-editor__draft > span {
+  flex: 1 1 14rem;
+}
+.cb-editor__saved {
+  color: var(--cb-color-text-muted);
+  font-size: var(--cb-text-xs);
+}

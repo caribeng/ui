@@ -22,12 +22,17 @@ let allowedFonts: readonly string[] = DEFAULT_FONTS;
 /** Etiquetas permitidas y sus atributos. */
 const ALLOWED: Record<string, readonly string[]> = {
   p: ['style'],
-  h1: ['style'],
-  h2: ['style'],
-  h3: ['style'],
-  h4: ['style'],
+  h1: ['style', 'id'],
+  h2: ['style', 'id'],
+  h3: ['style', 'id'],
+  h4: ['style', 'id'],
   blockquote: ['style'],
-  pre: ['style', 'data-language'],
+  pre: ['style', 'data-language', 'data-highlight'],
+  figure: ['style'],
+  figcaption: [],
+  details: ['open'],
+  summary: [],
+  nav: ['data-type'],
   ul: ['data-type'],
   ol: ['start'],
   li: ['style', 'data-checked'],
@@ -71,7 +76,7 @@ const DROP = new Set([
   'colgroup', 'col',
 ]);
 
-const BLOCKS = new Set(['p', 'h1', 'h2', 'h3', 'h4', 'blockquote', 'pre', 'ul', 'ol', 'hr', 'table']);
+const BLOCKS = new Set(['p', 'h1', 'h2', 'h3', 'h4', 'blockquote', 'pre', 'ul', 'ol', 'hr', 'table', 'figure', 'details', 'nav']);
 const ALIGN = new Set(['left', 'center', 'right', 'justify']);
 const TABLE_PARTS = new Set(['thead', 'tbody', 'tfoot', 'tr', 'th', 'td', 'caption']);
 const INLINE = new Set(['strong', 'em', 'u', 's', 'code', 'sub', 'sup']);
@@ -337,12 +342,23 @@ function appendClean(parent: HTMLElement, node: Node, images: boolean): void {
     if (preStyle) pre.setAttribute('style', preStyle);
     const language = source.getAttribute('data-language');
     if (language && /^[\w+#.-]{1,30}$/.test(language)) pre.setAttribute('data-language', language);
+    // Bloque coloreado por el propio editor (se vuelve a colorear al editarlo).
+    if (source.getAttribute('data-highlight') === 'auto') pre.setAttribute('data-highlight', 'auto');
     const code = document.createElement('code');
     pre.append(code);
     appendCode(code, source, true);
     trimTrailingNewline(code);
     if (parent.tagName === 'P') parent.after(pre);
     else parent.append(pre);
+    return;
+  }
+
+  // Mención (@persona): un <span data-mention> con solo su texto.
+  if (tag === 'span' && /^[\w.@:-]{1,64}$/.test(source.getAttribute('data-mention') ?? '') && !inCode) {
+    const mention = document.createElement('span');
+    mention.setAttribute('data-mention', source.getAttribute('data-mention')!);
+    mention.textContent = (source.textContent ?? '').replace(/\s+/g, ' ').trim();
+    if (mention.textContent) parent.append(mention);
     return;
   }
 
@@ -392,8 +408,18 @@ function appendClean(parent: HTMLElement, node: Node, images: boolean): void {
     return;
   }
   // Un bloque dentro de un párrafo (p. ej. <div> dentro de <p>) se aplana.
-  if (tag === 'p' && (parent.tagName === 'P' || parent.tagName === 'TD' || parent.tagName === 'TH' || parent.tagName === 'LI')) {
+  if (tag === 'p' && /^(P|TD|TH|LI|FIGCAPTION|SUMMARY)$/.test(parent.tagName)) {
     if (parent.childNodes.length) parent.append(document.createElement('br'));
+    for (const child of Array.from(source.childNodes)) appendClean(parent, child, images);
+    return;
+  }
+  if ((tag === 'figcaption' && parent.tagName !== 'FIGURE') || (tag === 'summary' && parent.tagName !== 'DETAILS')) {
+    const p = document.createElement('p');
+    for (const child of Array.from(source.childNodes)) appendClean(p, child, images);
+    parent.append(p);
+    return;
+  }
+  if (tag === 'nav' && source.getAttribute('data-type') !== 'toc') {
     for (const child of Array.from(source.childNodes)) appendClean(parent, child, images);
     return;
   }
@@ -402,7 +428,7 @@ function appendClean(parent: HTMLElement, node: Node, images: boolean): void {
     const value = source.getAttribute(name);
     if (value === null) continue;
     if (name === 'style') {
-      if (tag === 'img') {
+      if (tag === 'img' || tag === 'figure') {
         const { width, align } = readImageStyle(value);
         const css = imageStyle(width, align);
         if (css) el.setAttribute('style', css);
@@ -425,7 +451,13 @@ function appendClean(parent: HTMLElement, node: Node, images: boolean): void {
     } else if (name === 'width' || name === 'height' || name === 'start' || name === 'colspan' || name === 'rowspan') {
       if (/^\d{1,4}$/.test(value) && Number(value) > 0) el.setAttribute(name, value);
     } else if (name === 'data-type') {
-      if (value === 'taskList') el.setAttribute('data-type', 'taskList');
+      if ((tag === 'ul' && value === 'taskList') || (tag === 'nav' && value === 'toc')) el.setAttribute('data-type', value);
+    } else if (name === 'data-highlight') {
+      if (value === 'auto') el.setAttribute('data-highlight', 'auto');
+    } else if (name === 'id') {
+      if (/^[a-z][a-z0-9-]{0,79}$/.test(value)) el.setAttribute('id', value);
+    } else if (name === 'open') {
+      el.setAttribute('open', '');
     } else if (name === 'data-checked') {
       if (value === 'true' || value === 'false') el.setAttribute('data-checked', value);
     } else if (name === 'scope') {
@@ -465,6 +497,17 @@ function appendClean(parent: HTMLElement, node: Node, images: boolean): void {
   parent.append(el);
   for (const child of Array.from(source.childNodes)) appendClean(el, child, images);
   if (tag === 'table') normalizeTable(el);
+  // Una figura sin imagen no es una figura: se queda su contenido.
+  if (tag === 'figure' && !el.querySelector('img')) {
+    for (const child of Array.from(el.childNodes)) {
+      if ((child as Element).tagName === 'FIGCAPTION') {
+        const p = document.createElement('p');
+        p.append(...Array.from(child.childNodes));
+        el.before(p);
+      } else el.before(child);
+    }
+    el.remove();
+  }
   if (tag === 'li' && parent.getAttribute('data-type') === 'taskList' && !el.hasAttribute('data-checked')) el.setAttribute('data-checked', 'false');
   if (tag === 'li' && parent.getAttribute('data-type') !== 'taskList') el.removeAttribute('data-checked');
 }
@@ -534,14 +577,24 @@ function normalizeTable(table: HTMLElement): void {
     table.remove();
     return;
   }
-  const width = Math.max(...rows.map((r) => Array.from(r.children).reduce((n, c) => n + (Number(c.getAttribute('colspan')) || 1), 0)));
+  // Texto suelto en la fila: se descarta (no es una celda).
   for (const row of rows) {
-    // Texto suelto en la fila: se descarta (no es una celda).
     for (const child of Array.from(row.childNodes)) if (child.nodeType === Node.TEXT_NODE || !/^(TD|TH)$/.test((child as Element).tagName)) child.remove();
-    const cells = Array.from(row.children).reduce((n, c) => n + (Number(c.getAttribute('colspan')) || 1), 0);
-    const inHead = row.parentElement?.tagName === 'THEAD';
-    for (let i = cells; i < width; i++) row.append(document.createElement(inHead ? 'th' : 'td'));
   }
+  // Columnas ocupadas en cada fila, contando las celdas que bajan desde arriba (rowspan).
+  const used: number[] = rows.map(() => 0);
+  rows.forEach((row, r) => {
+    for (const cell of Array.from(row.children)) {
+      const cs = Number(cell.getAttribute('colspan')) || 1;
+      const rs = Math.min(Number(cell.getAttribute('rowspan')) || 1, rows.length - r);
+      for (let i = 0; i < rs; i++) used[r + i] += cs;
+    }
+  });
+  const width = Math.max(...used);
+  rows.forEach((row, r) => {
+    const inHead = row.parentElement?.tagName === 'THEAD';
+    for (let i = used[r]; i < width; i++) row.append(document.createElement(inHead ? 'th' : 'td'));
+  });
   // Las celdas de cabecera de <thead> se marcan como de columna.
   for (const th of Array.from(table.querySelectorAll('thead th'))) if (!th.hasAttribute('scope')) th.setAttribute('scope', 'col');
 }
@@ -569,7 +622,7 @@ function wrapInlineRuns(root: HTMLElement): void {
 
 /** Bloques sin texto ni imagen (p. ej. `<p><br></p>` al final) se quitan, salvo `<hr>` y celdas. */
 function removeEmptyBlocks(root: HTMLElement): void {
-  for (const block of Array.from(root.querySelectorAll('p, h1, h2, h3, h4, blockquote, li, pre, strong, em, u, s, code, caption, span'))) {
+  for (const block of Array.from(root.querySelectorAll('p, h1, h2, h3, h4, blockquote, li, pre, strong, em, u, s, code, caption, span, figcaption'))) {
     if (block.closest('pre') && block.tagName !== 'PRE') continue;
     if (!block.textContent?.replace(/ /g, ' ').trim() && !block.querySelector('img, hr, table')) {
       // Un párrafo vacío entre otros es un salto de línea intencionado: se conserva con <br>.

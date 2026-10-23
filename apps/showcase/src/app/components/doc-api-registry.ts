@@ -723,10 +723,14 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "slashCommands", kind: "boolean", type: "boolean", default: true, description: "Escribir / abre un menú para insertar bloques." },
       { name: "autolink", kind: "boolean", type: "boolean", default: true, description: "Convierte las URL en enlaces al escribirlas o pegarlas." },
       { name: "typography", kind: "boolean", type: "boolean", default: true, description: "Corrección tipográfica al escribir: (c) → ©, ... → …, -> → →." },
+      { name: "mentions", kind: "string", type: "CbEditorMention[] | (query) => CbEditorMention[] | Promise<CbEditorMention[]>", default: null, description: "Menciones con @ (lista fija o búsqueda, también asíncrona).", control: false },
+      { name: "autosaveKey", kind: "string", type: "string", default: "", description: "Guarda un borrador en este navegador con esta clave y ofrece restaurarlo." },
+      { name: "autosaveDelay", kind: "number", type: "number", default: 1000, description: "Espera (ms) tras la última tecla antes de guardar el borrador." },
       { name: "value", kind: "string", type: "string (model)", default: "", example: "<p>Hola <strong>CaribeNG</strong></p>", description: "HTML saneado y normalizado; '' si está vacío.", control: false }
     ],
     events: [
-      { name: "imageError", type: "CbEditorImageError", description: "Una imagen no se insertó: { file, reason: 'type' | 'size' | 'upload' }." }
+      { name: "imageError", type: "CbEditorImageError", description: "Una imagen no se insertó: { file, reason: 'type' | 'size' | 'upload' }." },
+      { name: "mentionAdd", type: "CbEditorMention", description: "Se insertó una mención (los ids, con getMentions())." }
     ]
   },
   "cb-expansion-panel": {

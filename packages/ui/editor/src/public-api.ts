@@ -3,6 +3,8 @@ export {
   CbEditor,
   type CbEditorImageError,
   type CbEditorImageUpload,
+  type CbEditorMention,
+  type CbEditorMentionSource,
   type CbEditorTool,
 } from './lib/editor.component';
 export { cbHtmlToText, cbSanitizeHtml, type CbSanitizeOptions } from './lib/html-sanitizer';
