@@ -171,6 +171,7 @@ export const NAV_MENU: NavItem[] = [
         label: 'Messages',
         children: [
           { label: 'Chat (IA)', route: '/components/chat', badge: 'NEW' },
+          { label: 'Comments', route: '/components/comments', badge: 'NEW' },
           { label: 'Empty', route: '/components/empty', badge: 'NEW' },
           { label: 'InlineMessage', route: '/components/inlinemessage' },
           { label: 'Message', route: '/components/message' },

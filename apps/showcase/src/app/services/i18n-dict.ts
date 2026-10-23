@@ -3199,4 +3199,60 @@ export const ES_EN: Record<string, string> = {
     'Raises or lowers the progress by 10%.',
   'Quita las dependencias de la tarea.':
     'Removes the task dependencies.',
+  // --- Comments ---
+  'Comentarios en una lista plana (id, author, html, date, edited, parentId, reactions, deleted). Se actualiza al publicar, editar, borrar o reaccionar.':
+    'Comments in a flat list (id, author, html, date, edited, parentId, reactions, deleted). Updated when posting, editing, deleting or reacting.',
+  'Historial de cambios (id, text, author, date, icon), intercalado por fecha.':
+    'Change history (id, text, author, date, icon), interleaved by date.',
+  'Quién escribe. Sin él, el hilo es de solo lectura.': 'Who is writing. Without it, the thread is read-only.',
+  'Personas que se pueden mencionar con @ y cuyos nombres salen en las reacciones.':
+    'People who can be @mentioned and whose names appear in reactions.',
+  'Fuente propia de menciones (lista o función, también asíncrona); sustituye a people para @.':
+    'Custom mention source (list or function, also async); replaces people for @.',
+  'Qué se muestra. El filtro aparece cuando hay actividad.': 'What is shown. The filter appears when there is activity.',
+  'Orden del hilo; con newest la caja para comentar va arriba.': 'Thread order; with newest the comment box goes on top.',
+  'Emojis para reaccionar (vacío para quitar las reacciones).': 'Emojis to react with (empty to remove reactions).',
+  'Permite responder (un nivel).': 'Allows replying (one level).',
+  'Permite editar y eliminar los comentarios propios.': 'Allows editing and deleting your own comments.',
+  'Muestra la caja para comentar.': 'Shows the comment box.',
+  'Solo lectura: sin caja ni acciones.': 'Read-only: no box or actions.',
+  'Herramientas del editor (negrita, cursiva, tachado, listas, enlace y código por defecto).':
+    'Editor tools (bold, italic, strikethrough, lists, link and code by default).',
+  'Alto del área de escritura (crece hasta 16rem).': 'Height of the writing area (grows up to 16rem).',
+  'Texto de la caja vacía.': 'Text of the empty box.',
+  'Texto sin comentarios.': 'Text without comments.',
+  'Nombre del hilo (por defecto, "Comentarios y actividad").': 'Name of the thread (by default, "Comments and activity").',
+  'Comentario publicado o respuesta ({ comment, mentions }: ids mencionados).':
+    'Comment or reply posted ({ comment, mentions }: mentioned ids).',
+  'Comentario editado ({ comment, mentions }).': 'Comment edited ({ comment, mentions }).',
+  'Comentario eliminado (el original).': 'Comment deleted (the original).',
+  'Reacción puesta o quitada ({ comment, emoji, added }).': 'Reaction added or removed ({ comment, emoji, added }).',
+  'El hilo es una región con nombre ("Comentarios y actividad", o `ariaLabel`) y una lista ordenada. Cada comentario es un `article` nombrado por su autor y su fecha; la fecha relativa ("hace 2 horas") va en un `time` con la fecha completa en `datetime` y en el `title`.':
+    'The thread is a named region ("Comments and activity", or `ariaLabel`) and an ordered list. Each comment is an `article` named by its author and date; the relative date ("2 hours ago") is in a `time` with the full date in `datetime` and in the `title`.',
+  'Las respuestas forman una lista anidada con nombre ("Respuestas a Luis Pérez"). El filtro Todo / Comentarios / Actividad es un grupo de botones con `aria-pressed`.':
+    'Replies form a named nested list ("Replies to Luis Pérez"). The All / Comments / Activity filter is a group of buttons with `aria-pressed`.',
+  'Cada reacción es un conmutador (`aria-pressed`) que dice el emoji, cuántas personas y quiénes ("👍, 2: Luis Pérez y tú"). "Añadir reacción" indica `aria-expanded` y abre un grupo de emojis.':
+    'Each reaction is a toggle (`aria-pressed`) that says the emoji, how many people and who ("👍, 2: Luis Pérez and you"). "Add reaction" exposes `aria-expanded` and opens a group of emojis.',
+  'Publicar, guardar y eliminar se anuncian en una región `aria-live`. Tras responder o editar, el foco va al comentario; tras eliminar, al siguiente. Eliminar pide confirmación en línea, sin diálogo.':
+    'Posting, saving and deleting are announced in an `aria-live` region. After replying or editing, focus goes to the comment; after deleting, to the next one. Deleting asks for inline confirmation, without a dialog.',
+  'La caja para escribir es un `cb-editor` con nombre ("Nuevo comentario", "Responder a …", "Editar comentario"); las @menciones usan su lista con `aria-activedescendant`. El HTML de los comentarios se sanea con la lista blanca del editor antes de pintarlo.':
+    'The writing box is a named `cb-editor` ("New comment", "Reply to …", "Edit comment"); @mentions use its list with `aria-activedescendant`. Comment HTML is sanitized with the editor whitelist before rendering.',
+  'Recorre el filtro, las reacciones y las acciones de cada comentario, y la caja para escribir.':
+    'Moves through the filter, the reactions and actions of each comment, and the writing box.',
+  'En el editor, abre la lista de personas para mencionar (flechas y Enter para elegir).':
+    'In the editor, opens the list of people to mention (arrows and Enter to choose).',
+  'Publica el comentario, la respuesta o la edición.': 'Posts the comment, the reply or the edit.',
+  'Cancela la respuesta o la edición, cierra el selector de emojis o la confirmación de borrado.':
+    'Cancels the reply or edit, closes the emoji picker or the delete confirmation.',
+  'Desde el editor, va a su barra de herramientas.': 'From the editor, goes to its toolbar.',
+  'Hilo de comentarios y actividad: comentarios con formato y @menciones sobre el editor, respuestas, reacciones con emoji, edición y borrado de los propios y, mezclado por fecha, el historial de cambios. Pensado para el detalle de una tarea, un documento o una solicitud.':
+    'Comments and activity thread: formatted comments with @mentions on top of the editor, replies, emoji reactions, editing and deleting your own and, interleaved by date, the change history. Designed for the detail of a task, a document or a request.',
+  'Hilo de una tarea': 'Task thread',
+  'Escribe @ para mencionar a alguien (las menciones a ti se resaltan) y Ctrl + Enter para enviar. Responder abre la caja dentro del hilo; Editar y Eliminar solo aparecen en tus comentarios, y eliminar pide confirmación (si el comentario tiene respuestas, se queda como «Comentario eliminado»). Las reacciones dicen quién reaccionó. El filtro de arriba aparece cuando hay actividad.':
+    'Type @ to mention someone (mentions of you are highlighted) and Ctrl + Enter to send. Reply opens the box inside the thread; Edit and Delete only appear on your comments, and deleting asks for confirmation (if the comment has replies, it stays as "Comment deleted"). Reactions tell who reacted. The filter on top appears when there is activity.',
+  'Más recientes primero': 'Newest first',
+  'order="newest" pone la caja arriba y los comentarios más nuevos debajo. reactions elige los emojis; replies="false" quita las respuestas y toolbar, las herramientas del editor.':
+    'order="newest" puts the box on top and the newest comments below it. reactions chooses the emojis; replies="false" removes replies and toolbar sets the editor tools.',
+  'Sin currentUser (o con readonly) el hilo solo se lee: no hay caja para comentar ni acciones, y las reacciones se muestran sin poder cambiarlas.':
+    'Without currentUser (or with readonly) the thread is read-only: there is no comment box or actions, and reactions are shown without being able to change them.',
 };

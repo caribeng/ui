@@ -1,0 +1,417 @@
+.cb-comments {
+  display: block;
+  color: var(--cb-color-text);
+  font-family: var(--cb-font-sans);
+  font-size: var(--cb-text-sm, 0.875rem);
+}
+
+.cb-comments__box {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* --- Filtro (Todo / Comentarios / Actividad) --- */
+.cb-comments__filter {
+  display: inline-flex;
+  align-self: flex-start;
+  padding: 2px;
+  border: 1px solid var(--cb-color-border);
+  border-radius: var(--cb-radius-full, 999px);
+}
+
+.cb-comments__filter-btn {
+  padding: 0.25rem 0.75rem;
+  border: 0;
+  border-radius: var(--cb-radius-full, 999px);
+  background: transparent;
+  color: var(--cb-color-text-muted);
+  font: inherit;
+  font-size: var(--cb-text-xs, 0.75rem);
+  font-weight: var(--cb-font-weight-medium, 500);
+  cursor: pointer;
+}
+
+.cb-comments__filter-btn:hover {
+  color: var(--cb-color-text);
+}
+
+.cb-comments__filter-btn[aria-pressed='true'] {
+  background: var(--cb-color-surface-active, var(--cb-color-surface-hover));
+  color: var(--cb-color-text);
+}
+
+/* --- Hilo --- */
+.cb-comments__feed,
+.cb-comments__replies {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cb-comments__feed {
+  gap: 1rem;
+}
+
+.cb-comments__replies {
+  gap: 0.75rem;
+  margin: 0.75rem 0 0 2.75rem;
+  padding-left: 0.75rem;
+  border-left: 2px solid var(--cb-color-border);
+}
+
+.cb-comments__reply-composer {
+  margin: 0.75rem 0 0 2.75rem;
+}
+
+.cb-comments__empty {
+  margin: 0;
+  color: var(--cb-color-text-muted);
+}
+
+.cb-comments__time {
+  color: var(--cb-color-text-muted);
+  font-size: var(--cb-text-xs, 0.75rem);
+  white-space: nowrap;
+}
+
+/* --- Actividad --- */
+.cb-comments__activity {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem 0.5rem;
+  padding-left: 0.5rem;
+  color: var(--cb-color-text-muted);
+  font-size: var(--cb-text-xs, 0.75rem);
+}
+
+.cb-comments__activity-icon {
+  align-self: center;
+  flex: none;
+}
+
+.cb-comments__activity-text strong {
+  color: var(--cb-color-text);
+  font-weight: var(--cb-font-weight-medium, 500);
+}
+
+/* --- Comentario --- */
+.cb-comment {
+  display: flex;
+  gap: 0.75rem;
+  border-radius: var(--cb-radius-md, 6px);
+}
+
+.cb-comment:focus-visible {
+  outline: 2px solid var(--cb-color-focus-ring);
+  outline-offset: 4px;
+}
+
+.cb-comment__avatar {
+  flex: none;
+}
+
+.cb-comment__main {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.cb-comment__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem 0.5rem;
+}
+
+.cb-comment__author {
+  font-weight: var(--cb-font-weight-semibold, 600);
+}
+
+.cb-comment__edited {
+  color: var(--cb-color-text-muted);
+  font-size: var(--cb-text-xs, 0.75rem);
+}
+
+.cb-comment__deleted {
+  margin: 0;
+  color: var(--cb-color-text-muted);
+  font-style: italic;
+}
+
+.cb-comment__body {
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.cb-comment__body > :first-child {
+  margin-top: 0;
+}
+
+.cb-comment__body > :last-child {
+  margin-bottom: 0;
+}
+
+.cb-comment__body p,
+.cb-comment__body ul,
+.cb-comment__body ol {
+  margin: 0 0 0.5rem;
+}
+
+.cb-comment__body ul,
+.cb-comment__body ol {
+  padding-left: 1.25rem;
+}
+
+.cb-comment__body a {
+  color: var(--cb-color-primary);
+}
+
+.cb-comment__body code {
+  padding: 0.0625rem 0.25rem;
+  border-radius: var(--cb-radius-sm, 4px);
+  background: var(--cb-color-surface-hover);
+  font-size: 0.85em;
+}
+
+.cb-comment__body [data-mention] {
+  padding: 0 0.1875rem;
+  border-radius: var(--cb-radius-sm, 4px);
+  background: color-mix(in srgb, var(--cb-color-primary) 16%, transparent);
+  color: var(--cb-color-text-strong, var(--cb-color-text));
+  font-weight: var(--cb-font-weight-medium, 500);
+}
+
+/* Mención a quien lee. */
+.cb-comment__body [data-mention][data-self] {
+  background: var(--cb-color-primary);
+  color: var(--cb-color-primary-contrast, #fff);
+}
+
+/* --- Reacciones y acciones --- */
+.cb-comment__footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.375rem;
+  margin-top: 0.125rem;
+}
+
+.cb-comment__reaction {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  min-height: 1.75rem;
+  padding: 0 0.5rem;
+  border: 1px solid var(--cb-color-border);
+  border-radius: var(--cb-radius-full, 999px);
+  background: transparent;
+  color: var(--cb-color-text);
+  font: inherit;
+  font-size: var(--cb-text-xs, 0.75rem);
+  cursor: pointer;
+}
+
+.cb-comment__reaction:hover:not(:disabled) {
+  background: var(--cb-color-surface-hover);
+}
+
+.cb-comment__reaction[aria-pressed='true'] {
+  border-color: var(--cb-color-primary);
+  background: color-mix(in srgb, var(--cb-color-primary) 14%, transparent);
+}
+
+.cb-comment__reaction:disabled {
+  cursor: default;
+}
+
+.cb-comment__action {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  min-height: 1.75rem;
+  padding: 0 0.375rem;
+  border: 0;
+  border-radius: var(--cb-radius-sm, 4px);
+  background: transparent;
+  color: var(--cb-color-text-muted);
+  font: inherit;
+  font-size: var(--cb-text-xs, 0.75rem);
+  cursor: pointer;
+}
+
+.cb-comment__action:hover {
+  background: var(--cb-color-surface-hover);
+  color: var(--cb-color-text);
+}
+
+.cb-comment__action--icon {
+  justify-content: center;
+  width: 1.75rem;
+  padding: 0;
+}
+
+.cb-comment__picker-wrap {
+  position: relative;
+  display: inline-flex;
+}
+
+.cb-comment__picker {
+  position: absolute;
+  bottom: calc(100% + 4px);
+  left: 0;
+  z-index: 5;
+  display: flex;
+  gap: 2px;
+  padding: 0.25rem;
+  border: 1px solid var(--cb-color-border);
+  border-radius: var(--cb-radius-full, 999px);
+  background: var(--cb-color-surface, #fff);
+  box-shadow: var(--cb-shadow-md, 0 4px 12px rgba(0, 0, 0, 0.12));
+}
+
+.cb-comment__emoji {
+  width: 2rem;
+  height: 2rem;
+  border: 0;
+  border-radius: var(--cb-radius-full, 999px);
+  background: transparent;
+  font-size: 1.125rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.cb-comment__emoji:hover,
+.cb-comment__emoji[aria-pressed='true'] {
+  background: var(--cb-color-surface-hover);
+}
+
+.cb-comment__confirm {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--cb-color-danger);
+  border-radius: var(--cb-radius-md, 6px);
+}
+
+/* --- Caja para escribir --- */
+.cb-comments__composer {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.cb-comments__editor {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+/*
+ * El editor recorta su contenido (overflow: clip) para redondear las esquinas, y eso corta la
+ * lista de @menciones en una caja tan baja. Aquí se deja salir y se redondea la barra a mano.
+ */
+.cb-comments .cb-comments__editor .cb-editor {
+  overflow: visible;
+}
+
+.cb-comments .cb-comments__editor .cb-editor__toolbar {
+  border-top-left-radius: inherit;
+  border-top-right-radius: inherit;
+}
+
+.cb-comments__editor-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.cb-comments__hint {
+  margin-right: auto;
+  color: var(--cb-color-text-muted);
+  font-size: var(--cb-text-xs, 0.75rem);
+}
+
+.cb-comments__btn {
+  min-height: 2rem;
+  padding: 0 0.875rem;
+  border: 1px solid var(--cb-color-border-strong, var(--cb-color-border));
+  border-radius: var(--cb-radius-md, 6px);
+  background: transparent;
+  color: var(--cb-color-text);
+  font: inherit;
+  font-weight: var(--cb-font-weight-medium, 500);
+  cursor: pointer;
+}
+
+.cb-comments__btn:hover:not(:disabled) {
+  background: var(--cb-color-surface-hover);
+}
+
+.cb-comments__btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.cb-comments__btn--primary {
+  border-color: var(--cb-color-primary);
+  background: var(--cb-color-primary);
+  color: var(--cb-color-primary-contrast, #fff);
+}
+
+.cb-comments__btn--primary:hover:not(:disabled) {
+  background: var(--cb-color-primary-700, var(--cb-color-primary));
+}
+
+.cb-comments__btn--danger {
+  border-color: var(--cb-color-danger);
+  background: var(--cb-color-danger);
+  color: var(--cb-color-danger-contrast, #fff);
+}
+
+.cb-comments__btn--danger:hover:not(:disabled) {
+  background: var(--cb-color-danger-700, var(--cb-color-danger));
+}
+
+.cb-comments__filter-btn:focus-visible,
+.cb-comment__reaction:focus-visible,
+.cb-comment__action:focus-visible,
+.cb-comment__emoji:focus-visible,
+.cb-comments__btn:focus-visible {
+  outline: 2px solid var(--cb-color-focus-ring);
+  outline-offset: 1px;
+}
+
+/* Solo para lectores de pantalla. */
+.cb-comments__sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (max-width: 30rem) {
+  .cb-comments__replies,
+  .cb-comments__reply-composer {
+    margin-left: 1rem;
+  }
+
+  .cb-comments__hint {
+    display: none;
+  }
+}

@@ -627,6 +627,22 @@ export const DOC_A11Y: Record<string, DocA11y> = {
       { keys: 'Escape', action: 'Cierra la lista y devuelve el foco al botón del país.' },
     ],
   },
+  'cb-comments': {
+    screenReader: [
+      'El hilo es una región con nombre ("Comentarios y actividad", o `ariaLabel`) y una lista ordenada. Cada comentario es un `article` nombrado por su autor y su fecha; la fecha relativa ("hace 2 horas") va en un `time` con la fecha completa en `datetime` y en el `title`.',
+      'Las respuestas forman una lista anidada con nombre ("Respuestas a Luis Pérez"). El filtro Todo / Comentarios / Actividad es un grupo de botones con `aria-pressed`.',
+      'Cada reacción es un conmutador (`aria-pressed`) que dice el emoji, cuántas personas y quiénes ("👍, 2: Luis Pérez y tú"). "Añadir reacción" indica `aria-expanded` y abre un grupo de emojis.',
+      'Publicar, guardar y eliminar se anuncian en una región `aria-live`. Tras responder o editar, el foco va al comentario; tras eliminar, al siguiente. Eliminar pide confirmación en línea, sin diálogo.',
+      'La caja para escribir es un `cb-editor` con nombre ("Nuevo comentario", "Responder a …", "Editar comentario"); las @menciones usan su lista con `aria-activedescendant`. El HTML de los comentarios se sanea con la lista blanca del editor antes de pintarlo.',
+    ],
+    keyboard: [
+      { keys: 'Tab', action: 'Recorre el filtro, las reacciones y las acciones de cada comentario, y la caja para escribir.' },
+      { keys: '@', action: 'En el editor, abre la lista de personas para mencionar (flechas y Enter para elegir).' },
+      { keys: 'Ctrl + Enter', action: 'Publica el comentario, la respuesta o la edición.' },
+      { keys: 'Escape', action: 'Cancela la respuesta o la edición, cierra el selector de emojis o la confirmación de borrado.' },
+      { keys: 'Alt + F10', action: 'Desde el editor, va a su barra de herramientas.' },
+    ],
+  },
   'cb-gantt': {
     screenReader: [
       'La tabla de tareas es un `role="treegrid"` con nombre: cada fila indica su nivel (`aria-level`) y los grupos si están desplegados (`aria-expanded`); el botón de flecha tiene nombre ("Contraer Diseño").',

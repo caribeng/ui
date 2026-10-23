@@ -696,6 +696,37 @@ export interface CbTranslation {
   quickFormat: string;
   insertBlock: string;
   paragraph: string;
+  // --- Comments ---
+  commentsFeed: string;
+  commentsShow: string;
+  commentsAll: string;
+  commentsOnly: string;
+  commentsActivity: string;
+  commentsEmpty: string;
+  commentsWrite: string;
+  commentsWriteReply: string;
+  commentsNew: string;
+  commentsEditing: string;
+  /** `{0}`: autor del comentario. */
+  commentsReplyTo: string;
+  /** `{0}`: autor del comentario. */
+  commentsRepliesTo: string;
+  commentsSend: string;
+  commentsReply: string;
+  commentsEdit: string;
+  commentsDelete: string;
+  commentsDeleteConfirm: string;
+  commentsEdited: string;
+  commentsDeleted: string;
+  commentsAddReaction: string;
+  commentsReactions: string;
+  /** `{0}`: emoji; `{1}`: cantidad; `{2}`: quiénes. */
+  commentsReactionLabel: string;
+  commentsYou: string;
+  commentsJustNow: string;
+  commentsPosted: string;
+  commentsSaved: string;
+  commentsShortcut: string;
 }
 
 /** Español (idioma por defecto). */
@@ -1271,6 +1302,34 @@ export const CB_LOCALE_ES: CbTranslation = {
   quickFormat: 'Formato rápido',
   insertBlock: 'Insertar bloque',
   paragraph: 'Párrafo',
+  // --- Comments ---
+  commentsFeed: 'Comentarios y actividad',
+  commentsShow: 'Mostrar',
+  commentsAll: 'Todo',
+  commentsOnly: 'Comentarios',
+  commentsActivity: 'Actividad',
+  commentsEmpty: 'Todavía no hay comentarios.',
+  commentsWrite: 'Escribe un comentario… (@ para mencionar)',
+  commentsWriteReply: 'Escribe una respuesta…',
+  commentsNew: 'Nuevo comentario',
+  commentsEditing: 'Editar comentario',
+  commentsReplyTo: 'Responder a {0}',
+  commentsRepliesTo: 'Respuestas a {0}',
+  commentsSend: 'Comentar',
+  commentsReply: 'Responder',
+  commentsEdit: 'Editar',
+  commentsDelete: 'Eliminar',
+  commentsDeleteConfirm: '¿Eliminar este comentario?',
+  commentsEdited: 'editado',
+  commentsDeleted: 'Comentario eliminado',
+  commentsAddReaction: 'Añadir reacción',
+  commentsReactions: 'Reacciones',
+  commentsReactionLabel: '{0}, {1}: {2}',
+  commentsYou: 'tú',
+  commentsJustNow: 'ahora mismo',
+  commentsPosted: 'Comentario publicado',
+  commentsSaved: 'Comentario guardado',
+  commentsShortcut: 'Ctrl + Enter para enviar',
 };
 
 /** Inglés. */
@@ -1846,6 +1905,34 @@ export const CB_LOCALE_EN: CbTranslation = {
   quickFormat: 'Quick formatting',
   insertBlock: 'Insert block',
   paragraph: 'Paragraph',
+  // --- Comments ---
+  commentsFeed: 'Comments and activity',
+  commentsShow: 'Show',
+  commentsAll: 'All',
+  commentsOnly: 'Comments',
+  commentsActivity: 'Activity',
+  commentsEmpty: 'No comments yet.',
+  commentsWrite: 'Write a comment… (@ to mention)',
+  commentsWriteReply: 'Write a reply…',
+  commentsNew: 'New comment',
+  commentsEditing: 'Edit comment',
+  commentsReplyTo: 'Reply to {0}',
+  commentsRepliesTo: 'Replies to {0}',
+  commentsSend: 'Comment',
+  commentsReply: 'Reply',
+  commentsEdit: 'Edit',
+  commentsDelete: 'Delete',
+  commentsDeleteConfirm: 'Delete this comment?',
+  commentsEdited: 'edited',
+  commentsDeleted: 'Comment deleted',
+  commentsAddReaction: 'Add reaction',
+  commentsReactions: 'Reactions',
+  commentsReactionLabel: '{0}, {1}: {2}',
+  commentsYou: 'you',
+  commentsJustNow: 'just now',
+  commentsPosted: 'Comment posted',
+  commentsSaved: 'Comment saved',
+  commentsShortcut: 'Ctrl + Enter to send',
 };
 
 /** Idiomas incluidos. */

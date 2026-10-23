@@ -11,6 +11,10 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
         "type": "added",
         "items": [
           {
+            "component": "Componente nuevo: `Comments`",
+            "text": "(`@caribeng/ui/comments`): hilo de comentarios y actividad. Comentarios con formato y @menciones sobre `cb-editor` (barra mínima, `mentions` o `people`), respuestas de un nivel, reacciones con emoji (`reactions`, dicen quién reaccionó), edición y borrado de los propios con confirmación en línea (un comentario con respuestas queda como \"Comentario eliminado\"), Ctrl + Enter para enviar y, mezclado por fecha, el historial de cambios (`activity`) con filtro Todo / Comentarios / Actividad. `[(comments)]` es una lista plana con `parentId`; el HTML se sanea al guardarlo y al pintarlo. Eventos `commentAdd` / `commentEdit` (con los ids mencionados), `commentDelete` y `reactionToggle`. Textos nuevos: `comments*`. 164 entry points."
+          },
+          {
             "component": "Componente nuevo: `Gantt`",
             "text": "(`@caribeng/ui/gantt`): tabla de tareas en árbol (`role=\"treegrid\"`, grupos plegables, columnas configurables) y barras en el tiempo con escalas de día, semana y mes (`[(scale)]`), línea de hoy y botón Hoy. Se arrastra para mover, cambiar inicio o fin y avance; el conector crea dependencias fin → inicio (sin ciclos) y un clic en la flecha la quita; con `autoSchedule` (por defecto) las tareas dependientes se desplazan solas. Grupos calculados con sus tareas, hitos en rombo, teclado completo (flechas, Mayús/Alt + flechas, + / −, Supr, Enter) con cada cambio anunciado, `readonly`, y eventos `taskChange`, `taskOpen`, `linkAdd` y `linkRemove`. 163 entry points."
           },
@@ -39,6 +43,10 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
       {
         "type": "fixed",
         "items": [
+          {
+            "component": "Avatar",
+            "text": "en modo oscuro, `severity=\"secondary\"` (la de por defecto) pintaba las iniciales blancas sobre un fondo claro, ilegibles: la regla oscura (`:host-context(...):host(...)`) nunca se aplicaba. Ahora usa el token `--cb-color-border`, que cambia con el tema."
+          },
           {
             "component": "Editor",
             "text": "los estilos del contenido (títulos, listas, tareas con casilla, citas, código en línea y en bloque, tablas, imágenes y líneas) no se aplicaban: el HTML entra sin los atributos de la encapsulación emulada. Ahora esas reglas se limitan al editor con `:host ::ng-deep`."

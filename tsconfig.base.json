@@ -267,6 +267,9 @@
       "@caribeng/ui/copy-button": [
         "./packages/ui/copy-button/src/public-api.ts"
       ],
+      "@caribeng/ui/comments": [
+        "./packages/ui/comments/src/public-api.ts"
+      ],
       "@caribeng/ui/gantt": [
         "./packages/ui/gantt/src/public-api.ts"
       ],

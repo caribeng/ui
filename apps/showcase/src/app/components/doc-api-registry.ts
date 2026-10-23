@@ -130,6 +130,7 @@ import { CbCodeBlock } from '@caribeng/ui/code-block';
 import { CbPhoneInput } from '@caribeng/ui/phone-input';
 import { CbKanban } from '@caribeng/ui/kanban';
 import { CbGantt } from '@caribeng/ui/gantt';
+import { CbComments } from '@caribeng/ui/comments';
 import { CbMentions } from '@caribeng/ui/mentions';
 import { CbCommandPalette } from '@caribeng/ui/command-palette';
 import { CbSidebar } from '@caribeng/ui/sidebar';
@@ -1783,6 +1784,35 @@ export const DOC_API: Record<string, DocApi> = {
     ],
     events: [
       { name: "phoneChange", type: "CbPhoneChange", description: "Cambio con { e164, national, country, valid }." }
+    ]
+  },
+  "cb-comments": {
+    component: CbComments,
+    selector: "cb-comments",
+    props: [
+      { name: "comments", kind: "string", type: "readonly CbComment[] (model)", default: [], description: "Comentarios en una lista plana (id, author, html, date, edited, parentId, reactions, deleted). Se actualiza al publicar, editar, borrar o reaccionar.", control: false },
+      { name: "activity", kind: "string", type: "readonly CbActivity[]", default: [], description: "Historial de cambios (id, text, author, date, icon), intercalado por fecha.", control: false },
+      { name: "currentUser", kind: "string", type: "CbCommentPerson | null", default: null, description: "Quién escribe. Sin él, el hilo es de solo lectura.", control: false },
+      { name: "people", kind: "string", type: "readonly CbCommentPerson[]", default: [], description: "Personas que se pueden mencionar con @ y cuyos nombres salen en las reacciones.", control: false },
+      { name: "mentions", kind: "string", type: "CbEditorMentionSource | null", default: null, description: "Fuente propia de menciones (lista o función, también asíncrona); sustituye a people para @.", control: false },
+      { name: "filter", kind: "enum", type: "'all' | 'comments' | 'activity' (model)", options: ["all","comments","activity"], default: "all", description: "Qué se muestra. El filtro aparece cuando hay actividad." },
+      { name: "order", kind: "enum", type: "'oldest' | 'newest'", options: ["oldest","newest"], default: "oldest", description: "Orden del hilo; con newest la caja para comentar va arriba." },
+      { name: "reactions", kind: "string", type: "readonly string[]", default: "['👍', '❤️', '🎉', '😄', '👀', '🙏']", description: "Emojis para reaccionar (vacío para quitar las reacciones).", control: false },
+      { name: "replies", kind: "boolean", type: "boolean", default: true, description: "Permite responder (un nivel)." },
+      { name: "editable", kind: "boolean", type: "boolean", default: true, description: "Permite editar y eliminar los comentarios propios." },
+      { name: "composer", kind: "boolean", type: "boolean", default: true, description: "Muestra la caja para comentar." },
+      { name: "readonly", kind: "boolean", type: "boolean", default: false, description: "Solo lectura: sin caja ni acciones." },
+      { name: "toolbar", kind: "string", type: "readonly CbEditorTool[]", default: "CB_COMMENTS_TOOLBAR", description: "Herramientas del editor (negrita, cursiva, tachado, listas, enlace y código por defecto).", control: false },
+      { name: "editorHeight", kind: "string", type: "string", default: "4.5rem", description: "Alto del área de escritura (crece hasta 16rem)." },
+      { name: "placeholder", kind: "string", type: "string", default: undefined, localeKey: "commentsWrite", description: "Texto de la caja vacía." },
+      { name: "emptyMessage", kind: "string", type: "string", default: undefined, localeKey: "commentsEmpty", description: "Texto sin comentarios." },
+      { name: "ariaLabel", kind: "string", type: "string", default: "", description: "Nombre del hilo (por defecto, \"Comentarios y actividad\")." }
+    ],
+    events: [
+      { name: "commentAdd", type: "CbCommentEvent", description: "Comentario publicado o respuesta ({ comment, mentions }: ids mencionados)." },
+      { name: "commentEdit", type: "CbCommentEvent", description: "Comentario editado ({ comment, mentions })." },
+      { name: "commentDelete", type: "CbComment", description: "Comentario eliminado (el original)." },
+      { name: "reactionToggle", type: "CbCommentReactionEvent", description: "Reacción puesta o quitada ({ comment, emoji, added })." }
     ]
   },
   "cb-gantt": {
