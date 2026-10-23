@@ -1,6 +1,6 @@
 # CaribeNG — Estado del proyecto
 
-> Última actualización: 2026-10-22 (versión 22.3.0)
+> Última actualización: 2026-10-23 (versión 22.4.0)
 > Librería de componentes Angular (greenfield), independiente de PrimeNG y de
 > terceros (solo `@angular/cdk` y `@angular/platform-browser`).
 
@@ -10,9 +10,9 @@
 
 | Métrica | Valor |
 |---|---|
-| Versión | **22.3.0** (major alineado con Angular; línea v21 en `release/21.x`, solo correcciones) |
+| Versión | **22.4.0** (major alineado con Angular; línea v21 en `release/21.x`, solo correcciones) |
 | Entry points publicables | `@caribeng/ui` + **117** de la librería (incluye `icon` e `icons`) + **45** de Caribe Design (`@caribeng/ui/caribe/<name>`) = **162** |
-| Tests unitarios | **1010** en verde (**212** archivos de spec, 0 warnings en stderr) |
+| Tests unitarios | **1029** en verde (**212** archivos de spec, 0 warnings en stderr) |
 | Build | Limpio (ng-packagr / APF, sin source maps al publicar) |
 | Iconos | **361** núcleo + **1891** catálogo (Lucide, ISC) |
 | Idiomas | Español (por defecto) e inglés (`provideCaribeNG({ locale: 'en' })`) |
@@ -493,4 +493,5 @@ Todos los lotes planificados en `SPEC.md` (75 componentes/directivas), los +18 a
 - **v22.0.0** — requiere Angular 22; el major se alinea con Angular y la v21 queda en mantenimiento (`release/21.x`).
 - **v22.1.0** — estado de validación automático en formularios (`cbFieldState`), indicador de obligatoriedad configurable, Pricing, FileCard, FolderCard, sección Accesibilidad y Templates en el showcase.
 - **v22.2.0** — plan de mejora 22.x completo (i18n ES/EN, 11 componentes reescritos, base de tests, paridad con PrimeNG en Table, Select y DatePicker), `ng add`, Chart ampliado, PDF Viewer y componentes nuevos (SplitButton, Empty, Descriptions, Result, Statistic, ThemeToggle…).
-- **v22.3.0** — Kanban con cinco vistas y espacio de trabajo, Chat (IA), PhoneInput, CommandPalette, Kbd, CopyButton, Pricing horizontal/list, utilidades CSS (277 clases) y migrador `migrate-from-primeng`.
+- **v22.3.0** — Kanban con cinco vistas y espacio de trabajo, Chat (IA), PhoneInput, CommandPalette, Kbd, CopyButton, Pricing horizontal/list, utilidades CSS (277 clases) y migrador `migrate-from-primeng`. No llegó a npm (lockfile desactualizado); se publica dentro de la 22.4.0.
+- **v22.4.0** — accesibilidad: sección Accesibilidad en todas las páginas de la librería; teclado en ColorPicker, TieredMenu y Dock; nombres y roles corregidos en Stepper, OrganizationChart, Message, Pricing y otros; plantilla de tarjeta en el espacio de trabajo Kanban; publicación automática en npm (`release.yml`).

@@ -10,6 +10,8 @@ Desde la 22.0.0 el major de la librería coincide con el de Angular (22.x = Angu
 
 ## [Unreleased]
 
+## [22.4.0] - 2026-10-23
+
 ### Added
 - **ColorPicker:** accesible con teclado: al abrir, el foco entra en el panel; el área de saturación y brillo y la barra de tono son `role="slider"` (flechas, Mayús + flechas de 10 en 10, Inicio / Fin en el tono) y anuncian su valor; Tab al salir del panel lo cierra y devuelve el foco al botón. Claves de idioma nuevas: `colorArea`, `colorAreaValue` y `hue`.
 - **TieredMenu:** patrón WAI-ARIA *menu*: flecha abajo en el botón abre el menú y el foco entra en la primera opción; flechas, Inicio y Fin recorren cada nivel; flecha derecha, Enter o Espacio abren el submenú y flecha izquierda vuelve al nivel anterior; Escape, Tab o elegir una opción cierran y devuelven el foco al botón.
@@ -24,11 +26,15 @@ Desde la 22.0.0 el major de la librería coincide con el de Angular (22.x = Angu
 - **Showcase:** sección Accesibilidad en 51 páginas más: Button, Chips, ColorPicker, FileUpload, FloatLabel, IconField, InputGroup, InputMask, Knob, Password, ToggleButton, Breadcrumb, Dock, Menubar, PanelMenu, SpeedDial, Steps, TabMenu, TieredMenu, Accordion, Card, Divider, Fieldset, Panel, ScrollPanel, ScrollTop, Splitter, Stepper, Toolbar, DataView, OrganizationChart, Paginator, Timeline, AnimateOnScroll, AutoFocus, Avatar, AvatarGroup, Badge, Chip, FileCard, FocusTrap, FolderCard, InlineMessage, Message, Pricing, ProgressBar, Ripple, Skeleton, Spinner, StyleClass y Tag.
 - **Kanban, espacio de trabajo:** una `<ng-template cbKanbanCard>` dentro de `cb-kanban-workspace` se usa como plantilla de las tarjetas del tablero (antes no llegaba). `cb-kanban` acepta también la plantilla como input (`cardTemplate`); la proyectada tiene prioridad.
 
+### Changed
+- **Chart:** sin `locale`, los números y las fechas se formatean con el idioma activo de CaribeNG (`intlLocale`, español por defecto) en lugar del idioma del navegador o del sistema, igual que el resto de componentes. Para el comportamiento anterior, pasa `[locale]="navigator.language"`.
+
 ### Fixed
 - **Accordion / Fieldset / Panel:** `aria-controls` apuntaba al contenido también cerrado, cuando ese elemento no existe; ahora solo mientras está abierto. En Panel, la región se nombraba con toda la cabecera (el título se leía dos veces) y ahora solo con el título.
 - **OrganizationChart:** usaba `role="tree"` / `treeitem` sin la navegación con flechas del patrón y con botones dentro (ARIA inválido); ahora es un grupo nombrado de listas anidadas y el nodo elegido expone `aria-pressed`.
 - **Message / InlineMessage:** todas las severidades usaban `role="alert"`, que interrumpe al lector de pantalla; ahora solo `danger` y `warning` (`warn` en InlineMessage), y el resto usa `role="status"`.
 - **Avatar:** con imagen y `ariaLabel`, el nombre se leía dos veces (en el host y en el `alt` de la imagen); la imagen ahora tiene `alt=""`.
+- **Distribución:** la 22.3.0 no llegó a publicarse en npm porque `pnpm-lock.yaml` no recogía el peer opcional `pdfjs-dist`; sus cambios (abajo) se publican con esta versión.
 
 ## [22.3.0] - 2026-10-22
 

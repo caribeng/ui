@@ -6,6 +6,11 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
   {
     "version": null,
     "date": null,
+    "sections": []
+  },
+  {
+    "version": "22.4.0",
+    "date": "2026-10-23",
     "sections": [
       {
         "type": "added",
@@ -61,6 +66,15 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
         ]
       },
       {
+        "type": "changed",
+        "items": [
+          {
+            "component": "Chart",
+            "text": "sin `locale`, los números y las fechas se formatean con el idioma activo de CaribeNG (`intlLocale`, español por defecto) en lugar del idioma del navegador o del sistema, igual que el resto de componentes. Para el comportamiento anterior, pasa `[locale]=\"navigator.language\"`."
+          }
+        ]
+      },
+      {
         "type": "fixed",
         "items": [
           {
@@ -78,6 +92,10 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
           {
             "component": "Avatar",
             "text": "con imagen y `ariaLabel`, el nombre se leía dos veces (en el host y en el `alt` de la imagen); la imagen ahora tiene `alt=\"\"`."
+          },
+          {
+            "component": "Distribución",
+            "text": "la 22.3.0 no llegó a publicarse en npm porque `pnpm-lock.yaml` no recogía el peer opcional `pdfjs-dist`; sus cambios (abajo) se publican con esta versión."
           }
         ]
       }
