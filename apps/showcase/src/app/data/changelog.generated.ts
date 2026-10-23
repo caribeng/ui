@@ -11,6 +11,14 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
         "type": "added",
         "items": [
           {
+            "component": "Componente nuevo: `NotificationCenter`",
+            "text": "(`@caribeng/ui/notification-center`): campana con el número de avisos sin leer (en su nombre accesible y en un contador \"99+\") que abre un panel (`role=\"dialog\"`, CDK Overlay) con la lista agrupada por fecha (Hoy, Ayer, Anteriores; `groupByDate`), filtro Todas / No leídas (`[(filter)]`), marcar como leída o no leída una o todas, eliminar (`removable`) y acciones propias por aviso (`actions`, `actionClick`). Cada aviso muestra la foto o las iniciales de una persona (`person`) o un icono por `severity`, y fecha relativa. Los avisos nuevos se anuncian (`aria-live`); Escape, Tab fuera o un clic fuera cierran y el foco vuelve a la campana. `inline` lo pinta en la página. `[(notifications)]`, `[(open)]` y eventos `itemClick`, `readChange`, `markAll`, `itemRemove` y `viewAll`. Textos nuevos: `notifications*`. 165 entry points."
+          },
+          {
+            "component": "Núcleo",
+            "text": "`cbRelativeTime(date, now, locale, justNow)` da la fecha relativa (\"hace 5 minutos\", \"ayer\") en el idioma indicado y, a partir de una semana, la fecha corta. La usan Comments y NotificationCenter."
+          },
+          {
             "component": "Componente nuevo: `Comments`",
             "text": "(`@caribeng/ui/comments`): hilo de comentarios y actividad. Comentarios con formato y @menciones sobre `cb-editor` (barra mínima, `mentions` o `people`), respuestas de un nivel, reacciones con emoji (`reactions`, dicen quién reaccionó), edición y borrado de los propios con confirmación en línea (un comentario con respuestas queda como \"Comentario eliminado\"), Ctrl + Enter para enviar y, mezclado por fecha, el historial de cambios (`activity`) con filtro Todo / Comentarios / Actividad. `[(comments)]` es una lista plana con `parentId`; el HTML se sanea al guardarlo y al pintarlo. Eventos `commentAdd` / `commentEdit` (con los ids mencionados), `commentDelete` y `reactionToggle`. Textos nuevos: `comments*`. 164 entry points."
           },

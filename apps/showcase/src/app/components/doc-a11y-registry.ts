@@ -643,6 +643,19 @@ export const DOC_A11Y: Record<string, DocA11y> = {
       { keys: 'Alt + F10', action: 'Desde el editor, va a su barra de herramientas.' },
     ],
   },
+  'cb-notification-center': {
+    screenReader: [
+      'La campana es un botón con nombre que incluye cuántos avisos hay sin leer ("Notificaciones, 2 sin leer"), con `aria-haspopup="dialog"` y `aria-expanded`; el contador visual es decorativo.',
+      'El panel es un `role="dialog"` (o una región con `inline`) nombrado por su título, que recibe el foco al abrir. Los grupos Hoy, Ayer y Anteriores son encabezados y cada uno nombra su lista.',
+      'Cada aviso es un botón con su título y detalle; los no leídos empiezan con "No leída" (no solo el punto de color) y la fecha relativa se asocia con `aria-describedby`. Marcar como leída / no leída y eliminar llevan el título del aviso en su nombre.',
+      'Los avisos nuevos sin leer se anuncian en una región `aria-live` ("Nueva notificación: Pago recibido"), igual que marcar todas, marcar una o eliminar. Al eliminar, el foco pasa al aviso siguiente.',
+    ],
+    keyboard: [
+      { keys: 'Enter / Espacio', action: 'En la campana, abre o cierra el panel; en un aviso, lo abre (itemClick) y lo marca como leído.' },
+      { keys: 'Tab', action: 'Recorre el título, «Marcar todas», el filtro y cada aviso con sus acciones y herramientas; al salir del panel, lo cierra.' },
+      { keys: 'Escape', action: 'Cierra el panel y devuelve el foco a la campana.' },
+    ],
+  },
   'cb-gantt': {
     screenReader: [
       'La tabla de tareas es un `role="treegrid"` con nombre: cada fila indica su nivel (`aria-level`) y los grupos si están desplegados (`aria-expanded`); el botón de flecha tiene nombre ("Contraer Diseño").',

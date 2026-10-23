@@ -131,6 +131,7 @@ import { CbPhoneInput } from '@caribeng/ui/phone-input';
 import { CbKanban } from '@caribeng/ui/kanban';
 import { CbGantt } from '@caribeng/ui/gantt';
 import { CbComments } from '@caribeng/ui/comments';
+import { CbNotificationCenter } from '@caribeng/ui/notification-center';
 import { CbMentions } from '@caribeng/ui/mentions';
 import { CbCommandPalette } from '@caribeng/ui/command-palette';
 import { CbSidebar } from '@caribeng/ui/sidebar';
@@ -1813,6 +1814,35 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "commentEdit", type: "CbCommentEvent", description: "Comentario editado ({ comment, mentions })." },
       { name: "commentDelete", type: "CbComment", description: "Comentario eliminado (el original)." },
       { name: "reactionToggle", type: "CbCommentReactionEvent", description: "Reacción puesta o quitada ({ comment, emoji, added })." }
+    ]
+  },
+  "cb-notification-center": {
+    component: CbNotificationCenter,
+    selector: "cb-notification-center",
+    props: [
+      { name: "notifications", kind: "string", type: "readonly CbNotification[] (model)", default: [], example: [{"id":"1","title":"Transferencia recibida","text":"$ 250.000","date":"2026-10-23T09:00:00","severity":"success"},{"id":"2","title":"Extracto disponible","date":"2026-10-20T09:00:00","read":true}], description: "Avisos (id, title, text, date, read, person, icon, severity, actions). Se actualiza al leer o eliminar.", control: false },
+      { name: "filter", kind: "enum", type: "'all' | 'unread' (model)", options: ["all","unread"], default: "all", description: "Todas o solo las no leídas." },
+      { name: "open", kind: "boolean", type: "boolean (model)", default: false, description: "Panel abierto (sin inline)." },
+      { name: "inline", kind: "boolean", type: "boolean", default: false, description: "Pinta el panel en la página, sin campana." },
+      { name: "groupByDate", kind: "boolean", type: "boolean", default: true, description: "Agrupa en Hoy, Ayer y Anteriores." },
+      { name: "removable", kind: "boolean", type: "boolean", default: true, description: "Botón de eliminar en cada aviso." },
+      { name: "closeOnSelect", kind: "boolean", type: "boolean", default: true, description: "Cierra el panel al elegir un aviso." },
+      { name: "announceNew", kind: "boolean", type: "boolean", default: true, description: "Anuncia los avisos nuevos sin leer (desactívalo si la misma lista se muestra en dos centros)." },
+      { name: "showViewAll", kind: "boolean", type: "boolean", default: false, description: "Pie con «Ver todas» (viewAll)." },
+      { name: "max", kind: "number", type: "number", default: 99, description: "A partir de este número la campana muestra «99+»." },
+      { name: "title", kind: "string", type: "string", default: undefined, localeKey: "notificationsTitle", description: "Título del panel." },
+      { name: "headingLevel", kind: "number", type: "number", default: 2, description: "Nivel del título (los grupos usan el siguiente)." },
+      { name: "emptyMessage", kind: "string", type: "string", default: undefined, localeKey: "notificationsEmpty", description: "Texto sin avisos." },
+      { name: "panelWidth", kind: "string", type: "string", default: "24rem", description: "Ancho del panel flotante." },
+      { name: "maxHeight", kind: "string", type: "string", default: "26rem", description: "Alto máximo de la lista (con scroll)." }
+    ],
+    events: [
+      { name: "itemClick", type: "CbNotification", description: "Aviso elegido (ya marcado como leído)." },
+      { name: "actionClick", type: "CbNotificationActionEvent", description: "Acción propia pulsada ({ notification, action })." },
+      { name: "readChange", type: "CbNotification", description: "Un aviso pasó a leído o a no leído." },
+      { name: "markAll", type: "void", description: "Se marcaron todas como leídas." },
+      { name: "itemRemove", type: "CbNotification", description: "Aviso eliminado." },
+      { name: "viewAll", type: "void", description: "Se pulsó «Ver todas»." }
     ]
   },
   "cb-gantt": {

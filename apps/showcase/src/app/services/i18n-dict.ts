@@ -3255,4 +3255,51 @@ export const ES_EN: Record<string, string> = {
     'order="newest" puts the box on top and the newest comments below it. reactions chooses the emojis; replies="false" removes replies and toolbar sets the editor tools.',
   'Sin currentUser (o con readonly) el hilo solo se lee: no hay caja para comentar ni acciones, y las reacciones se muestran sin poder cambiarlas.':
     'Without currentUser (or with readonly) the thread is read-only: there is no comment box or actions, and reactions are shown without being able to change them.',
+  // --- NotificationCenter ---
+  'Anuncia los avisos nuevos sin leer (desactívalo si la misma lista se muestra en dos centros).':
+    'Announces new unread notifications (turn it off if the same list is shown in two centers).',
+  'Avisos (id, title, text, date, read, person, icon, severity, actions). Se actualiza al leer o eliminar.':
+    'Notifications (id, title, text, date, read, person, icon, severity, actions). Updated when reading or removing.',
+  'Todas o solo las no leídas.': 'All or only the unread ones.',
+  'Panel abierto (sin inline).': 'Panel open (without inline).',
+  'Pinta el panel en la página, sin campana.': 'Renders the panel in the page, without a bell.',
+  'Agrupa en Hoy, Ayer y Anteriores.': 'Groups into Today, Yesterday and Earlier.',
+  'Botón de eliminar en cada aviso.': 'Remove button on each notification.',
+  'Cierra el panel al elegir un aviso.': 'Closes the panel when a notification is chosen.',
+  'Pie con «Ver todas» (viewAll).': 'Footer with "View all" (viewAll).',
+  'A partir de este número la campana muestra «99+».': 'From this number on the bell shows "99+".',
+  'Nivel del título (los grupos usan el siguiente).': 'Title heading level (groups use the next one).',
+  'Texto sin avisos.': 'Text without notifications.',
+  'Ancho del panel flotante.': 'Width of the floating panel.',
+  'Alto máximo de la lista (con scroll).': 'Maximum height of the list (scrollable).',
+  'Aviso elegido (ya marcado como leído).': 'Notification chosen (already marked as read).',
+  'Acción propia pulsada ({ notification, action }).': 'Custom action pressed ({ notification, action }).',
+  'Un aviso pasó a leído o a no leído.': 'A notification became read or unread.',
+  'Se marcaron todas como leídas.': 'All were marked as read.',
+  'Aviso eliminado.': 'Notification removed.',
+  'Se pulsó «Ver todas».': '"View all" was pressed.',
+  'La campana es un botón con nombre que incluye cuántos avisos hay sin leer ("Notificaciones, 2 sin leer"), con `aria-haspopup="dialog"` y `aria-expanded`; el contador visual es decorativo.':
+    'The bell is a button whose name includes how many notifications are unread ("Notifications, 2 unread"), with `aria-haspopup="dialog"` and `aria-expanded`; the visual counter is decorative.',
+  'El panel es un `role="dialog"` (o una región con `inline`) nombrado por su título, que recibe el foco al abrir. Los grupos Hoy, Ayer y Anteriores son encabezados y cada uno nombra su lista.':
+    'The panel is a `role="dialog"` (or a region with `inline`) named by its title, which receives focus on open. The Today, Yesterday and Earlier groups are headings and each one names its list.',
+  'Cada aviso es un botón con su título y detalle; los no leídos empiezan con "No leída" (no solo el punto de color) y la fecha relativa se asocia con `aria-describedby`. Marcar como leída / no leída y eliminar llevan el título del aviso en su nombre.':
+    'Each notification is a button with its title and detail; unread ones start with "Unread" (not only the colored dot) and the relative date is associated with `aria-describedby`. Mark as read / unread and remove include the notification title in their name.',
+  'Los avisos nuevos sin leer se anuncian en una región `aria-live` ("Nueva notificación: Pago recibido"), igual que marcar todas, marcar una o eliminar. Al eliminar, el foco pasa al aviso siguiente.':
+    'New unread notifications are announced in an `aria-live` region ("New notification: Payment received"), as are marking all, marking one or removing. When removing, focus moves to the next notification.',
+  'En la campana, abre o cierra el panel; en un aviso, lo abre (itemClick) y lo marca como leído.':
+    'On the bell, opens or closes the panel; on a notification, opens it (itemClick) and marks it as read.',
+  'Recorre el título, «Marcar todas», el filtro y cada aviso con sus acciones y herramientas; al salir del panel, lo cierra.':
+    'Moves through the title, "Mark all", the filter and each notification with its actions and tools; leaving the panel closes it.',
+  'Cierra el panel y devuelve el foco a la campana.': 'Closes the panel and returns focus to the bell.',
+  'Centro de notificaciones: campana con el número de avisos sin leer que abre un panel con la lista agrupada por fecha (Hoy, Ayer, Anteriores), filtro Todas / No leídas, marcar como leída una o todas, eliminar y acciones propias en cada aviso. También se puede pintar en la página con inline.':
+    'Notification center: a bell with the number of unread notifications that opens a panel with the list grouped by date (Today, Yesterday, Earlier), All / Unread filter, mark one or all as read, remove and custom actions on each notification. It can also be rendered in the page with inline.',
+  'Campana en la barra': 'Bell in the bar',
+  'La campana dice cuántos avisos hay sin leer. Elegir un aviso lo marca como leído y cierra el panel; Escape, Tab fuera o un clic fuera también lo cierran y el foco vuelve a la campana. Pulsa «Simular aviso»: el contador sube y el lector de pantalla anuncia la notificación nueva.':
+    'The bell tells how many notifications are unread. Choosing one marks it as read and closes the panel; Escape, tabbing out or clicking outside also close it and focus returns to the bell. Press "Simulate notification": the counter goes up and the screen reader announces the new notification.',
+  'En la página': 'In the page',
+  'inline pinta el panel como una región de la página, sin campana: útil para una pantalla de «Notificaciones» o un panel lateral. Aquí comparte la lista con la campana de arriba, así que announceNew="false" evita que los avisos nuevos se anuncien dos veces. Pasa el ratón (o llega con Tab) a un aviso para ver sus herramientas: marcar como leído o no leído y eliminar.':
+    'inline renders the panel as a region of the page, without a bell: useful for a "Notifications" screen or a side panel. Here it shares the list with the bell above, so announceNew="false" keeps new notifications from being announced twice. Hover over (or Tab to) a notification to see its tools: mark as read or unread and remove.',
+  'Acciones propias': 'Custom actions',
+  'Cada aviso puede llevar acciones (actions); la de severity "primary" se destaca. Pulsar una emite actionClick y marca el aviso como leído. groupByDate="false" quita los grupos y removable="false", el botón de eliminar.':
+    'Each notification can have actions (actions); the one with severity "primary" stands out. Pressing one emits actionClick and marks the notification as read. groupByDate="false" removes the groups and removable="false" the remove button.',
 };

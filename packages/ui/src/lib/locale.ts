@@ -727,6 +727,36 @@ export interface CbTranslation {
   commentsPosted: string;
   commentsSaved: string;
   commentsShortcut: string;
+  // --- Notification center ---
+  notificationsTitle: string;
+  /** `{0}`: avisos sin leer. */
+  notificationsBellUnread: string;
+  notificationsMarkAllRead: string;
+  notificationsShow: string;
+  notificationsAll: string;
+  notificationsUnread: string;
+  notificationsUnreadItem: string;
+  /** `{0}`: título del aviso. */
+  notificationsMarkRead: string;
+  /** `{0}`: título del aviso. */
+  notificationsMarkUnread: string;
+  notificationsMarkReadShort: string;
+  notificationsMarkUnreadShort: string;
+  notificationsEmpty: string;
+  notificationsAllRead: string;
+  notificationsViewAll: string;
+  notificationsToday: string;
+  notificationsYesterday: string;
+  notificationsEarlier: string;
+  notificationsJustNow: string;
+  /** `{0}`: título del aviso. */
+  notificationsNew: string;
+  /** `{0}`: cantidad. */
+  notificationsNewMany: string;
+  notificationsMarkedRead: string;
+  notificationsMarkedUnread: string;
+  notificationsMarkedAllRead: string;
+  notificationsRemoved: string;
 }
 
 /** Español (idioma por defecto). */
@@ -1330,6 +1360,31 @@ export const CB_LOCALE_ES: CbTranslation = {
   commentsPosted: 'Comentario publicado',
   commentsSaved: 'Comentario guardado',
   commentsShortcut: 'Ctrl + Enter para enviar',
+  // --- Notification center ---
+  notificationsTitle: 'Notificaciones',
+  notificationsBellUnread: 'Notificaciones, {0} sin leer',
+  notificationsMarkAllRead: 'Marcar todas como leídas',
+  notificationsShow: 'Mostrar',
+  notificationsAll: 'Todas',
+  notificationsUnread: 'No leídas',
+  notificationsUnreadItem: 'No leída',
+  notificationsMarkRead: 'Marcar como leída: {0}',
+  notificationsMarkUnread: 'Marcar como no leída: {0}',
+  notificationsMarkReadShort: 'Marcar como leída',
+  notificationsMarkUnreadShort: 'Marcar como no leída',
+  notificationsEmpty: 'No tienes notificaciones.',
+  notificationsAllRead: 'Estás al día: no hay avisos sin leer.',
+  notificationsViewAll: 'Ver todas',
+  notificationsToday: 'Hoy',
+  notificationsYesterday: 'Ayer',
+  notificationsEarlier: 'Anteriores',
+  notificationsJustNow: 'ahora mismo',
+  notificationsNew: 'Nueva notificación: {0}',
+  notificationsNewMany: '{0} notificaciones nuevas',
+  notificationsMarkedRead: 'Marcada como leída',
+  notificationsMarkedUnread: 'Marcada como no leída',
+  notificationsMarkedAllRead: 'Todas marcadas como leídas',
+  notificationsRemoved: 'Notificación eliminada',
 };
 
 /** Inglés. */
@@ -1933,6 +1988,31 @@ export const CB_LOCALE_EN: CbTranslation = {
   commentsPosted: 'Comment posted',
   commentsSaved: 'Comment saved',
   commentsShortcut: 'Ctrl + Enter to send',
+  // --- Notification center ---
+  notificationsTitle: 'Notifications',
+  notificationsBellUnread: 'Notifications, {0} unread',
+  notificationsMarkAllRead: 'Mark all as read',
+  notificationsShow: 'Show',
+  notificationsAll: 'All',
+  notificationsUnread: 'Unread',
+  notificationsUnreadItem: 'Unread',
+  notificationsMarkRead: 'Mark as read: {0}',
+  notificationsMarkUnread: 'Mark as unread: {0}',
+  notificationsMarkReadShort: 'Mark as read',
+  notificationsMarkUnreadShort: 'Mark as unread',
+  notificationsEmpty: 'You have no notifications.',
+  notificationsAllRead: 'You are all caught up: no unread notifications.',
+  notificationsViewAll: 'View all',
+  notificationsToday: 'Today',
+  notificationsYesterday: 'Yesterday',
+  notificationsEarlier: 'Earlier',
+  notificationsJustNow: 'just now',
+  notificationsNew: 'New notification: {0}',
+  notificationsNewMany: '{0} new notifications',
+  notificationsMarkedRead: 'Marked as read',
+  notificationsMarkedUnread: 'Marked as unread',
+  notificationsMarkedAllRead: 'All marked as read',
+  notificationsRemoved: 'Notification removed',
 };
 
 /** Idiomas incluidos. */
