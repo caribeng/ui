@@ -10,6 +10,13 @@ Desde la 22.0.0 el major de la librería coincide con el de Angular (22.x = Angu
 
 ## [Unreleased]
 
+### Added
+- **Breadcrumb:** un elemento con `command` y sin `url` se pinta como botón y se puede pulsar (antes era texto); también emite `itemClick`.
+- **Showcase, File Manager:** carpetas anidadas con ruta navegable (`cb-breadcrumb`), subida de archivos con botón o arrastrándolos, nueva carpeta, mover a otra carpeta, descarga de los archivos subidos, eliminación en cascada con confirmación, y almacenamiento y categorías calculados a partir de los archivos. Las acciones de los menús usan `command`.
+
+### Fixed
+- **FileCard:** un título largo se recorta con puntos suspensivos en lugar de montarse sobre los valores de la derecha.
+
 ## [22.4.0] - 2026-10-23
 
 ### Added

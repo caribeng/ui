@@ -1,10 +1,12 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, computed, inject, signal, viewChild } from '@angular/core';
 import { CbIcon } from '@caribeng/ui/icon';
 import { CbCard } from '@caribeng/ui/card';
 import { CbButton } from '@caribeng/ui/button';
+import { CbBreadcrumb, type CbBreadcrumbItem } from '@caribeng/ui/breadcrumb';
 import { CbChip } from '@caribeng/ui/chip';
 import { CbDialog } from '@caribeng/ui/dialog';
 import { CbInput } from '@caribeng/ui/input';
+import { CbSelect } from '@caribeng/ui/select';
 import { CbFileCard } from '@caribeng/ui/file-card';
 import { CbFolderCard } from '@caribeng/ui/folder-card';
 import { CbMenu, type CbMenuItem } from '@caribeng/ui/menu';
@@ -13,47 +15,70 @@ import { DocPageHeaderComponent } from '../shared/page-header.component';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { TocService } from '../services/toc.service';
 
+type Category = 'Imagen' | 'Video' | 'Audio' | 'App' | 'Documento' | 'Descarga';
+
 interface Cat {
   icon: string;
   color: string;
   title: string;
-  /** Valor de `RecentFile.category` que muestra esta categoría. */
-  category: string;
-  used: string;
-  files: string;
-  size: string;
+  category: Category;
 }
 interface Folder {
-  id: number;
+  id: string;
   name: string;
-  files: number;
-  size: string;
+  /** Carpeta que la contiene (`null` = Mi unidad). */
+  parentId: string | null;
 }
-interface Segment {
-  label: string;
-  pct: number;
-  color: string;
-}
-interface RecentFile {
-  id: number;
+interface FileItem {
+  id: string;
   name: string;
-  icon: string;
-  category: string;
-  /** Tamaño en MB (numérico para ordenar). */
-  sizeMb: number;
+  category: Category;
+  bytes: number;
   /** Fecha ISO (ordenable). */
   date: string;
+  folderId: string | null;
+  /** URL local de los archivos subidos (permite descargarlos). */
+  url?: string;
 }
-/** Elemento sobre el que actúan los diálogos de renombrar/eliminar. */
-type Target = { kind: 'folder'; item: Folder } | { kind: 'file'; item: RecentFile };
+/** Elemento sobre el que actúan los diálogos. */
+type Target = { kind: 'folder'; item: Folder } | { kind: 'file'; item: FileItem };
 
+const MB = 1024 * 1024;
+/** Capacidad de la unidad de la demo. */
+const CAPACITY = 2 * 1024 * MB;
 const DATE_FORMAT = new Intl.DateTimeFormat('es', { day: 'numeric', month: 'short', year: 'numeric' });
+const SIZE_FORMAT = new Intl.NumberFormat('es', { maximumFractionDigits: 1 });
+
+/** "820 B", "14 KB", "2,3 MB", "1,1 GB". */
+function formatBytes(bytes: number): string {
+  const units = ['B', 'KB', 'MB', 'GB'];
+  let value = bytes;
+  let unit = 0;
+  while (value >= 1024 && unit < units.length - 1) {
+    value /= 1024;
+    unit++;
+  }
+  return `${SIZE_FORMAT.format(unit === 0 ? value : Math.round(value * 10) / 10)} ${units[unit]}`;
+}
+
+/** Categoría según el tipo MIME o la extensión. */
+function categoryOf(name: string, type: string): Category {
+  const ext = name.split('.').pop()?.toLowerCase() ?? '';
+  if (type.startsWith('image/')) return 'Imagen';
+  if (type.startsWith('video/')) return 'Video';
+  if (type.startsWith('audio/')) return 'Audio';
+  if (['dmg', 'exe', 'msi', 'apk', 'app', 'deb', 'pkg'].includes(ext)) return 'App';
+  if (['zip', 'rar', '7z', 'tar', 'gz'].includes(ext)) return 'Descarga';
+  return 'Documento';
+}
+
+let nextId = 100;
 
 /**
- * Template (receta copiable): gestor de archivos tipo Drive compuesto con los
- * componentes genéricos cb-file-card y cb-folder-card, más un donut de
- * almacenamiento y una tabla de recientes. Las categorías filtran la tabla y
- * los menús ⋮ de carpetas y archivos renombran y eliminan de verdad.
+ * Template (receta copiable): gestor de archivos tipo Drive compuesto con
+ * cb-file-card, cb-folder-card, cb-breadcrumb y cb-table. Las carpetas se
+ * anidan y se navegan con la ruta; se suben archivos (botón o arrastrándolos),
+ * se crean carpetas y los menús ⋮ renombran, mueven, descargan y eliminan.
  */
 @Component({
   selector: 'doc-file-manager-template-page',
@@ -62,9 +87,11 @@ const DATE_FORMAT = new Intl.DateTimeFormat('es', { day: 'numeric', month: 'shor
     CbIcon,
     CbCard,
     CbButton,
+    CbBreadcrumb,
     CbChip,
     CbDialog,
     CbInput,
+    CbSelect,
     CbFileCard,
     CbFolderCard,
     CbMenu,
@@ -77,100 +104,111 @@ const DATE_FORMAT = new Intl.DateTimeFormat('es', { day: 'numeric', month: 'shor
     <doc-page-header
       eyebrow="Plantillas"
       title="File Manager"
-      lead="Gestor de archivos tipo Drive compuesto con cb-file-card y cb-folder-card, más un donut de almacenamiento y una tabla de archivos recientes."
+      lead="Gestor de archivos tipo Drive con carpetas anidadas, ruta navegable, subida de archivos (botón o arrastrándolos), almacenamiento por categoría y acciones para renombrar, mover, descargar y eliminar."
     />
 
     <doc-section id="preview" title="Vista previa" [code]="htmlCode">
-      <div class="fm">
-        <div class="fm__breadcrumb">
-          <cb-icon name="house" [size]="15" aria-hidden="true" />
-          <span>Home</span>
-          <cb-icon name="chevron-right" [size]="14" aria-hidden="true" />
-          @if (currentFolder(); as folder) {
-            <button type="button" class="fm__crumb-link" (click)="currentFolder.set(null)">File Manager</button>
-            <cb-icon name="chevron-right" [size]="14" aria-hidden="true" />
-            <span class="fm__crumb-active" aria-current="page">{{ folder.name }}</span>
-          } @else {
-            <span class="fm__crumb-active" aria-current="page">File Manager</span>
+      <div
+        class="fm"
+        [class.fm--dragging]="dragging()"
+        (dragenter)="onDragEnter($event)"
+        (dragover)="onDragOver($event)"
+        (dragleave)="onDragLeave()"
+        (drop)="onDrop($event)"
+      >
+        <div class="fm__top">
+          <cb-breadcrumb [items]="crumbs()" />
+          <div class="fm__actions">
+            <cb-button size="sm" variant="outlined" severity="secondary" (click)="startCreateFolder()">
+              <cb-icon name="folder" [size]="15" aria-hidden="true" /> Nueva carpeta
+            </cb-button>
+            <cb-button size="sm" (click)="fileInput.click()">
+              <cb-icon name="upload" [size]="15" aria-hidden="true" /> Subir archivos
+            </cb-button>
+            <input #fileInput type="file" multiple hidden (change)="upload(fileInput.files); fileInput.value = ''" />
+          </div>
+        </div>
+
+        @if (!currentFolder()) {
+          <cb-card class="fm__panel">
+            <div class="fm__panel-head"><h3 class="fm__panel-title">Por categoría</h3></div>
+            <div class="fm__cats">
+              @for (c of categoryCards(); track c.title) {
+                <cb-file-card
+                  [icon]="c.icon"
+                  [color]="c.color"
+                  [title]="c.title"
+                  [subtitle]="c.used"
+                  [value]="c.files"
+                  [valueSub]="c.size"
+                  clickable
+                  (open)="filterBy(c)"
+                />
+              }
+            </div>
+          </cb-card>
+        }
+
+        <div class="fm__grid" [class.fm__grid--single]="currentFolder()">
+          <cb-card class="fm__panel">
+            <div class="fm__panel-head">
+              <h3 class="fm__panel-title">{{ currentFolder() ? 'Subcarpetas' : 'Carpetas' }}</h3>
+            </div>
+            @if (childFolders().length) {
+              <div class="fm__folders">
+                @for (f of childFolders(); track f.id) {
+                  <cb-folder-card
+                    [name]="f.name"
+                    [files]="folderStats(f).files"
+                    [filesLabel]="folderStats(f).files === 1 ? 'archivo' : 'archivos'"
+                    [size]="folderStats(f).size"
+                    [actions]="folderMenu(f)"
+                    clickable
+                    (open)="openFolder(f)"
+                  />
+                }
+              </div>
+            } @else {
+              <p class="fm__empty">No hay carpetas aquí. Crea una con «Nueva carpeta».</p>
+            }
+          </cb-card>
+
+          @if (!currentFolder()) {
+            <cb-card class="fm__panel">
+              <div class="fm__panel-head"><h3 class="fm__panel-title">Almacenamiento</h3></div>
+              <p class="fm__storage-free">{{ storage().free }} libres</p>
+              <div class="fm__donut" [style.background]="storage().gradient">
+                <div class="fm__donut-hole"><strong>{{ storage().used }}</strong><span>de {{ storage().capacity }}</span></div>
+              </div>
+              <ul class="fm__legend">
+                @for (s of storage().segments; track s.label) {
+                  <li><span class="fm__legend-dot" [style.background]="s.color"></span>{{ s.label }}</li>
+                }
+              </ul>
+            </cb-card>
           }
         </div>
 
         <cb-card class="fm__panel">
           <div class="fm__panel-head">
-            <h3 class="fm__panel-title">All Media</h3>
-            <cb-button size="sm"><cb-icon name="plus" [size]="15" aria-hidden="true" /> Subir archivo</cb-button>
-          </div>
-          <div class="fm__cats">
-            @for (c of categories; track c.title) {
-              <cb-file-card
-                [icon]="c.icon"
-                [color]="c.color"
-                [title]="c.title"
-                [subtitle]="c.used"
-                [value]="c.files"
-                [valueSub]="c.size"
-                clickable
-                (open)="filterBy(c)"
-              />
-            }
-          </div>
-        </cb-card>
-
-        <div class="fm__grid">
-          <cb-card class="fm__panel">
-            <div class="fm__panel-head"><h3 class="fm__panel-title">Carpetas</h3></div>
-            @if (folders().length) {
-              <div class="fm__folders">
-                @for (f of folders(); track f.id) {
-                  <cb-folder-card
-                    [name]="f.name"
-                    [files]="f.files"
-                    [size]="f.size"
-                    [actions]="folderActions"
-                    clickable
-                    (open)="openFolder(f)"
-                    (actionSelect)="onFolderAction($event, f)"
-                  />
-                }
-              </div>
-            } @else {
-              <p class="fm__empty">No quedan carpetas.</p>
-            }
-          </cb-card>
-
-          <cb-card class="fm__panel">
-            <div class="fm__panel-head"><h3 class="fm__panel-title">Almacenamiento</h3></div>
-            <p class="fm__storage-free">585 GB libres</p>
-            <div class="fm__donut" [style.background]="donutGradient">
-              <div class="fm__donut-hole"><strong>135 GB</strong><span>de 720 GB</span></div>
-            </div>
-            <ul class="fm__legend">
-              @for (s of segments; track s.label) {
-                <li><span class="fm__legend-dot" [style.background]="s.color"></span>{{ s.label }}</li>
-              }
-            </ul>
-          </cb-card>
-        </div>
-
-        <cb-card class="fm__panel">
-          <div class="fm__panel-head">
-            <h3 class="fm__panel-title">Archivos recientes</h3>
+            <h3 class="fm__panel-title">{{ currentFolder() ? 'Archivos' : 'Archivos recientes' }}</h3>
             @if (categoryFilter(); as cat) {
               <cb-chip [label]="cat.title" [icon]="cat.icon" [removable]="true" (removed)="categoryFilter.set(null)" />
             }
           </div>
           <cb-table
             style="width: 100%"
-            [value]="visibleRecent()"
-            [columns]="recentColumns"
+            [value]="visibleFiles()"
+            [columns]="fileColumns()"
             size="sm"
-            ariaLabel="Archivos recientes"
-            emptyMessage="No hay archivos en esta categoría."
+            [ariaLabel]="currentFolder() ? 'Archivos de ' + currentFolder()!.name : 'Archivos recientes'"
+            emptyMessage="No hay archivos. Súbelos con el botón o arrástralos aquí."
           >
             <ng-template cbTableCell="name" let-row>
-              <span class="fm__file"><cb-icon [name]="row.icon" [size]="16" aria-hidden="true" /> {{ row.name }}</span>
+              <span class="fm__file"><cb-icon [name]="iconOf(row.category)" [size]="16" aria-hidden="true" /> {{ row.name }}</span>
             </ng-template>
-            <ng-template cbTableCell="sizeMb" let-value="value">{{ value }} MB</ng-template>
+            <ng-template cbTableCell="folderId" let-value="value">{{ folderName(value) }}</ng-template>
+            <ng-template cbTableCell="bytes" let-value="value">{{ size(value) }}</ng-template>
             <ng-template cbTableCell="date" let-value="value">{{ formatDate(value) }}</ng-template>
             <ng-template cbTableCell="actions" let-row>
               <button
@@ -187,31 +225,40 @@ const DATE_FORMAT = new Intl.DateTimeFormat('es', { day: 'numeric', month: 'shor
               </button>
             </ng-template>
           </cb-table>
-          <cb-menu #rowMenu [items]="fileActions" (itemSelect)="onFileAction($event)" (hidden)="menuRow.set(null)" />
+          <cb-menu #rowMenu [items]="rowMenuItems()" (hidden)="menuRow.set(null)" />
         </cb-card>
 
         <p class="fm__status" role="status">{{ status() }}</p>
+
+        @if (dragging()) {
+          <div class="fm__dropzone" aria-hidden="true">
+            <cb-icon name="cloud-upload" [size]="36" />
+            <span>Suelta para subir a {{ currentFolder()?.name ?? 'Mi unidad' }}</span>
+          </div>
+        }
       </div>
 
-      <cb-dialog [visible]="renameTarget() !== null" (visibleChange)="!$event && renameTarget.set(null)" header="Renombrar" width="24rem">
-        <form (submit)="$event.preventDefault(); confirmRename()">
-          <cb-input
-            label="Nuevo nombre"
-            [(value)]="renameValue"
-            [error]="renameValue().trim() ? '' : 'Escribe un nombre.'"
-            required
-          />
+      <cb-dialog [visible]="nameDialog() !== null" (visibleChange)="!$event && nameDialog.set(null)" [header]="nameDialog()?.title ?? ''" width="24rem">
+        <form (submit)="$event.preventDefault(); confirmName()">
+          <cb-input label="Nombre" [(value)]="nameValue" [error]="nameValue().trim() ? '' : 'Escribe un nombre.'" required />
         </form>
         <div cb-dialog-footer class="fm__dialog-actions">
-          <cb-button variant="text" severity="secondary" (click)="renameTarget.set(null)">Cancelar</cb-button>
-          <cb-button [disabled]="!renameValue().trim()" (click)="confirmRename()">Guardar</cb-button>
+          <cb-button variant="text" severity="secondary" (click)="nameDialog.set(null)">Cancelar</cb-button>
+          <cb-button [disabled]="!nameValue().trim()" (click)="confirmName()">Guardar</cb-button>
+        </div>
+      </cb-dialog>
+
+      <cb-dialog [visible]="moveTarget() !== null" (visibleChange)="!$event && moveTarget.set(null)" header="Mover a…" width="26rem">
+        <span class="fm__label" id="fm-move-label">Carpeta de destino</span>
+        <cb-select [options]="moveOptions()" optionLabel="label" optionValue="id" [(value)]="moveDestination" ariaLabelledBy="fm-move-label" />
+        <div cb-dialog-footer class="fm__dialog-actions">
+          <cb-button variant="text" severity="secondary" (click)="moveTarget.set(null)">Cancelar</cb-button>
+          <cb-button (click)="confirmMove()">Mover</cb-button>
         </div>
       </cb-dialog>
 
       <cb-dialog [visible]="deleteTarget() !== null" (visibleChange)="!$event && deleteTarget.set(null)" header="Eliminar" width="24rem">
-        <p class="fm__dialog-text">
-          ¿Eliminar {{ deleteTarget()?.kind === 'folder' ? 'la carpeta' : 'el archivo' }} <strong>{{ deleteTarget()?.item?.name }}</strong>? Esta acción no se puede deshacer.
-        </p>
+        <p class="fm__dialog-text">{{ deleteMessage() }}</p>
         <div cb-dialog-footer class="fm__dialog-actions">
           <cb-button variant="text" severity="secondary" (click)="deleteTarget.set(null)">Cancelar</cb-button>
           <cb-button severity="danger" (click)="confirmDelete()">Eliminar</cb-button>
@@ -222,31 +269,24 @@ const DATE_FORMAT = new Intl.DateTimeFormat('es', { day: 'numeric', month: 'shor
   styles: [
     `
       .fm {
+        position: relative;
         display: flex;
         flex-direction: column;
         gap: var(--cb-space-4, 1rem);
         width: 100%;
         font-family: var(--cb-font-sans);
       }
-      .fm__breadcrumb {
+      .fm__top {
         display: flex;
+        flex-wrap: wrap;
         align-items: center;
-        gap: 0.4rem;
-        font-size: 0.85rem;
-        color: var(--cb-color-text-muted);
+        justify-content: space-between;
+        gap: 0.75rem;
       }
-      .fm__crumb-active {
-        color: var(--cb-color-text);
-        font-weight: 600;
-      }
-      .fm__crumb-link {
-        padding: 0;
-        border: 0;
-        background: transparent;
-        color: inherit;
-        font: inherit;
-        text-decoration: underline;
-        cursor: pointer;
+      .fm__actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
       }
       .fm__panel {
         display: block;
@@ -272,9 +312,12 @@ const DATE_FORMAT = new Intl.DateTimeFormat('es', { day: 'numeric', month: 'shor
         grid-template-columns: 2fr 1fr;
         gap: var(--cb-space-4, 1rem);
       }
+      .fm__grid--single {
+        grid-template-columns: 1fr;
+      }
       .fm__folders {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
         gap: var(--cb-space-3, 0.75rem);
       }
       .fm__empty,
@@ -361,6 +404,28 @@ const DATE_FORMAT = new Intl.DateTimeFormat('es', { day: 'numeric', month: 'shor
         font-size: 0.875rem;
         color: var(--cb-color-text-muted);
       }
+      .fm__dropzone {
+        position: absolute;
+        inset: 0;
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        border: 2px dashed var(--cb-color-primary);
+        border-radius: var(--cb-radius-lg, 12px);
+        background: color-mix(in srgb, var(--cb-color-primary) 10%, var(--cb-color-surface-raised, #fff));
+        color: var(--cb-color-primary);
+        font-weight: 600;
+        pointer-events: none;
+      }
+      .fm__label {
+        display: block;
+        margin-bottom: 0.375rem;
+        font-size: 0.875rem;
+        font-weight: 500;
+      }
       .fm__dialog-text {
         margin: 0;
       }
@@ -380,93 +445,177 @@ const DATE_FORMAT = new Intl.DateTimeFormat('es', { day: 'numeric', month: 'shor
 export class FileManagerTemplateComponent {
   constructor() {
     inject(TocService).reset();
+    // Las URL locales de los archivos subidos se liberan al salir de la página.
+    inject(DestroyRef).onDestroy(() => this.files().forEach((f) => f.url && URL.revokeObjectURL(f.url)));
   }
 
   private readonly rowMenu = viewChild.required<CbMenu>('rowMenu');
 
   protected readonly categories: Cat[] = [
-    { icon: 'image', color: '#10b981', title: 'Imágenes', category: 'Imagen', used: '17% usado', files: '245 archivos', size: '26.4 GB' },
-    { icon: 'play', color: '#ec4899', title: 'Videos', category: 'Video', used: '22% usado', files: '245 archivos', size: '26.4 GB' },
-    { icon: 'bell', color: '#3b82f6', title: 'Audios', category: 'Audio', used: '23% usado', files: '830 archivos', size: '18.9 GB' },
-    { icon: 'puzzle', color: '#f97316', title: 'Apps', category: 'App', used: '65% usado', files: '1200 archivos', size: '85.3 GB' },
-    { icon: 'file', color: '#f59e0b', title: 'Documentos', category: 'Documento', used: '10% usado', files: '78 archivos', size: '5.4 GB' },
-    { icon: 'download', color: '#8b5cf6', title: 'Descargas', category: 'Descarga', used: '16% usado', files: '245 archivos', size: '26.4 GB' },
+    { icon: 'image', color: '#10b981', title: 'Imágenes', category: 'Imagen' },
+    { icon: 'play', color: '#ec4899', title: 'Videos', category: 'Video' },
+    { icon: 'bell', color: '#3b82f6', title: 'Audios', category: 'Audio' },
+    { icon: 'puzzle', color: '#f97316', title: 'Apps', category: 'App' },
+    { icon: 'file', color: '#f59e0b', title: 'Documentos', category: 'Documento' },
+    { icon: 'download', color: '#8b5cf6', title: 'Descargas', category: 'Descarga' },
   ];
 
   protected readonly folders = signal<Folder[]>([
-    { id: 1, name: 'Imágenes', files: 345, size: '26.4 GB' },
-    { id: 2, name: 'Documentos', files: 130, size: '26.4 GB' },
-    { id: 3, name: 'Apps', files: 130, size: '26.4 GB' },
-    { id: 4, name: 'Descargas', files: 345, size: '26.4 GB' },
+    { id: 'img', name: 'Imágenes', parentId: null },
+    { id: 'docs', name: 'Documentos', parentId: null },
+    { id: 'apps', name: 'Apps', parentId: null },
+    { id: 'dl', name: 'Descargas', parentId: null },
+    { id: 'bills', name: 'Facturas', parentId: 'docs' },
+    { id: 'bills-2026', name: '2026', parentId: 'bills' },
+    { id: 'trips', name: 'Viajes', parentId: 'img' },
   ]);
 
-  protected readonly folderActions: CbMenuItem[] = [
-    { label: 'Abrir', icon: 'folder' },
-    { label: 'Renombrar', icon: 'pencil' },
-    { label: 'Compartir', icon: 'users' },
-    { label: 'Descargar', icon: 'download' },
-    { label: 'Mover a…', icon: 'folder-input' },
-    { label: '', separator: true },
-    { label: 'Eliminar', icon: 'trash' },
-  ];
-
-  protected readonly fileActions: CbMenuItem[] = [
-    { label: 'Descargar', icon: 'download' },
-    { label: 'Renombrar', icon: 'pencil' },
-    { label: '', separator: true },
-    { label: 'Eliminar', icon: 'trash' },
-  ];
-
-  protected readonly segments: Segment[] = [
-    { label: 'Descargas', pct: 30, color: '#8b5cf6' },
-    { label: 'Apps', pct: 35, color: '#f97316' },
-    { label: 'Documentos', pct: 20, color: '#f59e0b' },
-    { label: 'Media', pct: 15, color: '#10b981' },
-  ];
-
-  protected readonly donutGradient = (() => {
-    let acc = 0;
-    const stops = this.segments.map((s) => {
-      const from = acc;
-      acc += s.pct;
-      return `${s.color} ${from}% ${acc}%`;
-    });
-    return `conic-gradient(${stops.join(', ')})`;
-  })();
-
-  protected readonly recent = signal<RecentFile[]>([
-    { id: 1, name: 'Video_947954.mp4', icon: 'play', category: 'Video', sizeMb: 89, date: '2027-01-12' },
-    { id: 2, name: 'Travel.jpg', icon: 'image', category: 'Imagen', sizeMb: 5.4, date: '2027-02-10' },
-    { id: 3, name: 'Documento.pdf', icon: 'file', category: 'Documento', sizeMb: 1.2, date: '2027-03-08' },
-    { id: 4, name: 'Podcast_12.mp3', icon: 'bell', category: 'Audio', sizeMb: 48, date: '2027-04-21' },
-    { id: 5, name: 'Instalador.dmg', icon: 'puzzle', category: 'App', sizeMb: 312, date: '2027-05-02' },
-    { id: 6, name: 'CV.pdf', icon: 'file', category: 'Documento', sizeMb: 12, date: '2027-06-17' },
-    { id: 7, name: 'Factura_junio.zip', icon: 'download', category: 'Descarga', sizeMb: 3.1, date: '2027-06-30' },
+  protected readonly files = signal<FileItem[]>([
+    { id: 'f1', name: 'Video_947954.mp4', category: 'Video', bytes: 89 * MB, date: '2026-09-12', folderId: null },
+    { id: 'f2', name: 'Cartagena.jpg', category: 'Imagen', bytes: 5.4 * MB, date: '2026-10-10', folderId: 'trips' },
+    { id: 'f3', name: 'Contrato.pdf', category: 'Documento', bytes: 1.2 * MB, date: '2026-10-08', folderId: 'docs' },
+    { id: 'f4', name: 'Podcast_12.mp3', category: 'Audio', bytes: 48 * MB, date: '2026-08-21', folderId: null },
+    { id: 'f5', name: 'Instalador.dmg', category: 'App', bytes: 312 * MB, date: '2026-07-02', folderId: 'apps' },
+    { id: 'f6', name: 'CV.pdf', category: 'Documento', bytes: 0.4 * MB, date: '2026-10-17', folderId: 'docs' },
+    { id: 'f7', name: 'Factura_septiembre.pdf', category: 'Documento', bytes: 0.3 * MB, date: '2026-10-01', folderId: 'bills-2026' },
+    { id: 'f8', name: 'Fotos_backup.zip', category: 'Descarga', bytes: 640 * MB, date: '2026-09-30', folderId: 'dl' },
   ]);
 
-  protected readonly recentColumns: CbTableColumn[] = [
+  private readonly allColumns: CbTableColumn[] = [
     { field: 'name', header: 'Nombre', sortable: true },
-    { field: 'category', header: 'Categoría', sortable: true },
-    { field: 'sizeMb', header: 'Tamaño', sortable: true, align: 'right' },
+    { field: 'folderId', header: 'Ubicación' },
+    { field: 'bytes', header: 'Tamaño', sortable: true, align: 'right' },
     { field: 'date', header: 'Modificado', sortable: true },
     { field: 'actions', header: '', width: '3rem', align: 'right', exportable: false },
   ];
 
-  /** Categoría elegida en All Media; filtra la tabla de recientes. */
-  protected readonly categoryFilter = signal<Cat | null>(null);
-  protected readonly visibleRecent = computed(() => {
-    const cat = this.categoryFilter();
-    return cat ? this.recent().filter((r) => r.category === cat.category) : this.recent();
-  });
-
   protected readonly currentFolder = signal<Folder | null>(null);
+  /** Dentro de una carpeta, la columna Ubicación sobra. */
+  protected readonly fileColumns = computed(() =>
+    this.currentFolder() ? this.allColumns.filter((c) => c.field !== 'folderId') : this.allColumns,
+  );
+  /** Categoría elegida; filtra la tabla. */
+  protected readonly categoryFilter = signal<Cat | null>(null);
   /** Fila cuyo menú ⋮ está abierto. */
-  protected readonly menuRow = signal<RecentFile | null>(null);
-  protected readonly renameTarget = signal<Target | null>(null);
-  protected readonly renameValue = signal('');
+  protected readonly menuRow = signal<FileItem | null>(null);
+  protected readonly rowMenuItems = signal<CbMenuItem[]>([]);
+  protected readonly nameDialog = signal<{ title: string; target: Target | null } | null>(null);
+  protected readonly nameValue = signal('');
+  protected readonly moveTarget = signal<Target | null>(null);
+  protected readonly moveDestination = signal<string>('root');
   protected readonly deleteTarget = signal<Target | null>(null);
+  protected readonly dragging = signal(false);
+  private dragDepth = 0;
   /** Última acción, anunciada a lectores de pantalla (role="status"). */
   protected readonly status = signal('');
+
+  // --- Navegación -----------------------------------------------------------------
+  /** Carpeta y sus antecesoras, de la raíz hacia abajo. */
+  private pathOf(folder: Folder | null): Folder[] {
+    const byId = new Map(this.folders().map((f) => [f.id, f]));
+    const path: Folder[] = [];
+    for (let f = folder; f; f = f.parentId ? (byId.get(f.parentId) ?? null) : null) path.unshift(f);
+    return path;
+  }
+
+  protected readonly crumbs = computed<CbBreadcrumbItem[]>(() => [
+    { label: 'Mi unidad', icon: 'house', command: () => this.goTo(null) },
+    ...this.pathOf(this.currentFolder()).map((f) => ({ label: f.name, command: () => this.goTo(f) })),
+  ]);
+
+  protected readonly childFolders = computed(() => {
+    const id = this.currentFolder()?.id ?? null;
+    return this.folders().filter((f) => f.parentId === id);
+  });
+
+  protected openFolder(folder: Folder): void {
+    this.goTo(folder);
+  }
+
+  private goTo(folder: Folder | null): void {
+    this.currentFolder.set(folder);
+    this.categoryFilter.set(null);
+    this.status.set(folder ? `Abriste ${this.pathOf(folder).map((f) => f.name).join(' / ')}.` : 'Estás en Mi unidad.');
+  }
+
+  /** Ids de la carpeta y de todas sus subcarpetas. */
+  private subtree(id: string): Set<string> {
+    const ids = new Set([id]);
+    let grew = true;
+    while (grew) {
+      grew = false;
+      for (const f of this.folders()) {
+        if (f.parentId && ids.has(f.parentId) && !ids.has(f.id)) {
+          ids.add(f.id);
+          grew = true;
+        }
+      }
+    }
+    return ids;
+  }
+
+  protected folderStats(folder: Folder): { files: number; size: string } {
+    const ids = this.subtree(folder.id);
+    const inside = this.files().filter((f) => f.folderId && ids.has(f.folderId));
+    return { files: inside.length, size: formatBytes(inside.reduce((sum, f) => sum + f.bytes, 0)) };
+  }
+
+  protected folderName(id: string | null): string {
+    if (!id) return 'Mi unidad';
+    return this.pathOf(this.folders().find((f) => f.id === id) ?? null).map((f) => f.name).join(' / ');
+  }
+
+  // --- Tabla y categorías ---------------------------------------------------------
+  /** En Mi unidad, todos los archivos por fecha; dentro de una carpeta, los suyos. */
+  protected readonly visibleFiles = computed(() => {
+    const folder = this.currentFolder();
+    const cat = this.categoryFilter();
+    let list = folder ? this.files().filter((f) => f.folderId === folder.id) : [...this.files()].sort((a, b) => b.date.localeCompare(a.date));
+    if (cat) list = list.filter((f) => f.category === cat.category);
+    return list;
+  });
+
+  protected readonly categoryCards = computed(() =>
+    this.categories.map((c) => {
+      const inCat = this.files().filter((f) => f.category === c.category);
+      const bytes = inCat.reduce((sum, f) => sum + f.bytes, 0);
+      return {
+        ...c,
+        used: `${Math.round((bytes / CAPACITY) * 100)}% usado`,
+        files: `${inCat.length} ${inCat.length === 1 ? 'archivo' : 'archivos'}`,
+        size: formatBytes(bytes),
+      };
+    }),
+  );
+
+  protected readonly storage = computed(() => {
+    const used = this.files().reduce((sum, f) => sum + f.bytes, 0);
+    let acc = 0;
+    const segments = this.categories
+      .map((c) => ({ label: c.title, color: c.color, bytes: this.files().filter((f) => f.category === c.category).reduce((s, f) => s + f.bytes, 0) }))
+      .filter((s) => s.bytes > 0);
+    const stops = segments.map((s) => {
+      const from = acc;
+      acc += (s.bytes / CAPACITY) * 100;
+      return `${s.color} ${from}% ${acc}%`;
+    });
+    stops.push(`var(--cb-color-surface-hover) ${acc}% 100%`);
+    return {
+      used: formatBytes(used),
+      free: formatBytes(Math.max(0, CAPACITY - used)),
+      capacity: formatBytes(CAPACITY),
+      gradient: `conic-gradient(${stops.join(', ')})`,
+      segments,
+    };
+  });
+
+  protected iconOf(category: Category): string {
+    return this.categories.find((c) => c.category === category)?.icon ?? 'file';
+  }
+
+  protected size(bytes: number): string {
+    return formatBytes(bytes);
+  }
 
   protected formatDate(iso: string): string {
     return DATE_FORMAT.format(new Date(`${iso}T00:00:00`));
@@ -474,173 +623,300 @@ export class FileManagerTemplateComponent {
 
   protected filterBy(cat: Cat): void {
     this.categoryFilter.set(cat);
-    this.status.set(`Mostrando ${cat.title.toLowerCase()} en archivos recientes.`);
+    this.status.set(`Mostrando ${cat.title.toLowerCase()}.`);
   }
 
-  protected openFolder(folder: Folder): void {
-    this.currentFolder.set(folder);
-    this.status.set(`Abriste la carpeta ${folder.name}.`);
+  // --- Subir archivos ---------------------------------------------------------------
+  protected upload(list: FileList | null): void {
+    const chosen = list ? Array.from(list) : [];
+    if (!chosen.length) return;
+    const folderId = this.currentFolder()?.id ?? null;
+    const today = new Date().toISOString().slice(0, 10);
+    const added: FileItem[] = chosen.map((file) => ({
+      id: `f${++nextId}`,
+      name: file.name,
+      category: categoryOf(file.name, file.type),
+      bytes: file.size,
+      date: today,
+      folderId,
+      url: URL.createObjectURL(file),
+    }));
+    this.files.update((files) => [...added, ...files]);
+    this.categoryFilter.set(null);
+    const where = this.currentFolder()?.name ?? 'Mi unidad';
+    this.status.set(added.length === 1 ? `Subiste «${added[0].name}» a ${where}.` : `Subiste ${added.length} archivos a ${where}.`);
   }
 
-  protected onFolderAction(action: CbMenuItem, folder: Folder): void {
-    switch (action.label) {
-      case 'Abrir':
-        this.openFolder(folder);
-        break;
-      case 'Renombrar':
-        this.startRename({ kind: 'folder', item: folder });
-        break;
-      case 'Eliminar':
-        this.deleteTarget.set({ kind: 'folder', item: folder });
-        break;
-      default:
-        this.status.set(`${action.label}: ${folder.name}.`);
-    }
+  private hasFiles(event: DragEvent): boolean {
+    return !!event.dataTransfer?.types.includes('Files');
   }
 
-  protected openRowMenu(event: MouseEvent, row: RecentFile): void {
+  protected onDragEnter(event: DragEvent): void {
+    if (!this.hasFiles(event)) return;
+    this.dragDepth++;
+    this.dragging.set(true);
+  }
+
+  protected onDragOver(event: DragEvent): void {
+    if (!this.hasFiles(event)) return;
+    event.preventDefault();
+    event.dataTransfer!.dropEffect = 'copy';
+  }
+
+  protected onDragLeave(): void {
+    if (this.dragDepth > 0 && --this.dragDepth === 0) this.dragging.set(false);
+  }
+
+  protected onDrop(event: DragEvent): void {
+    if (!this.hasFiles(event)) return;
+    event.preventDefault();
+    this.dragDepth = 0;
+    this.dragging.set(false);
+    this.upload(event.dataTransfer!.files);
+  }
+
+  // --- Menús ⋮ (acciones con command) -------------------------------------------------
+  private readonly folderMenus = computed(
+    () =>
+      new Map(
+        this.folders().map((f) => [
+          f.id,
+          [
+            { label: 'Abrir', icon: 'folder', command: () => this.openFolder(f) },
+            { label: 'Renombrar', icon: 'pencil', command: () => this.startRename({ kind: 'folder', item: f }) },
+            { label: 'Mover a…', icon: 'folder-input', command: () => this.startMove({ kind: 'folder', item: f }) },
+            { label: '', separator: true },
+            { label: 'Eliminar', icon: 'trash', command: () => this.deleteTarget.set({ kind: 'folder', item: f }) },
+          ] satisfies CbMenuItem[],
+        ]),
+      ),
+  );
+
+  protected folderMenu(folder: Folder): CbMenuItem[] {
+    return this.folderMenus().get(folder.id) ?? [];
+  }
+
+  protected openRowMenu(event: MouseEvent, row: FileItem): void {
+    this.rowMenuItems.set([
+      { label: 'Descargar', icon: 'download', disabled: !row.url, command: () => this.download(row) },
+      { label: 'Renombrar', icon: 'pencil', command: () => this.startRename({ kind: 'file', item: row }) },
+      { label: 'Mover a…', icon: 'folder-input', command: () => this.startMove({ kind: 'file', item: row }) },
+      { label: '', separator: true },
+      { label: 'Eliminar', icon: 'trash', command: () => this.deleteTarget.set({ kind: 'file', item: row }) },
+    ]);
     // Con el menú abierto, su backdrop recibe el clic: aquí solo se abre.
     this.rowMenu().show(event.currentTarget as HTMLElement);
     this.menuRow.set(row);
   }
 
-  protected onFileAction(action: CbMenuItem): void {
-    const row = this.menuRow();
-    if (!row) return;
-    switch (action.label) {
-      case 'Renombrar':
-        this.startRename({ kind: 'file', item: row });
-        break;
-      case 'Eliminar':
-        this.deleteTarget.set({ kind: 'file', item: row });
-        break;
-      default:
-        this.status.set(`${action.label}: ${row.name}.`);
-    }
+  /** Descarga un archivo subido (los de ejemplo no tienen contenido). */
+  private download(file: FileItem): void {
+    if (!file.url) return;
+    const link = document.createElement('a');
+    link.href = file.url;
+    link.download = file.name;
+    link.click();
+    this.status.set(`Descargando «${file.name}».`);
+  }
+
+  // --- Crear y renombrar -------------------------------------------------------------
+  protected startCreateFolder(): void {
+    this.nameValue.set('Nueva carpeta');
+    this.nameDialog.set({ title: 'Nueva carpeta', target: null });
   }
 
   private startRename(target: Target): void {
-    this.renameValue.set(target.item.name);
-    this.renameTarget.set(target);
+    this.nameValue.set(target.item.name);
+    this.nameDialog.set({ title: 'Renombrar', target });
   }
 
-  protected confirmRename(): void {
-    const target = this.renameTarget();
-    const name = this.renameValue().trim();
-    if (!target || !name) return;
-    if (target.kind === 'folder') {
+  protected confirmName(): void {
+    const dialog = this.nameDialog();
+    const name = this.nameValue().trim();
+    if (!dialog || !name) return;
+    const target = dialog.target;
+    if (!target) {
+      const folder: Folder = { id: `d${++nextId}`, name, parentId: this.currentFolder()?.id ?? null };
+      this.folders.update((list) => [...list, folder]);
+      this.status.set(`Creaste la carpeta «${name}».`);
+    } else if (target.kind === 'folder') {
       this.folders.update((list) => list.map((f) => (f.id === target.item.id ? { ...f, name } : f)));
       if (this.currentFolder()?.id === target.item.id) this.currentFolder.update((f) => f && { ...f, name });
+      this.status.set(`«${target.item.name}» ahora se llama «${name}».`);
     } else {
-      this.recent.update((list) => list.map((r) => (r.id === target.item.id ? { ...r, name } : r)));
+      this.files.update((list) => list.map((f) => (f.id === target.item.id ? { ...f, name } : f)));
+      this.status.set(`«${target.item.name}» ahora se llama «${name}».`);
     }
-    this.status.set(`"${target.item.name}" ahora se llama "${name}".`);
-    this.renameTarget.set(null);
+    this.nameDialog.set(null);
   }
+
+  // --- Mover -----------------------------------------------------------------------------
+  /** Destinos posibles: Mi unidad y las carpetas (sin la propia ni sus subcarpetas). */
+  protected readonly moveOptions = computed(() => {
+    const target = this.moveTarget();
+    const excluded = target?.kind === 'folder' ? this.subtree(target.item.id) : new Set<string>();
+    return [
+      { id: 'root', label: 'Mi unidad' },
+      ...this.folders()
+        .filter((f) => !excluded.has(f.id))
+        .map((f) => ({ id: f.id, label: this.folderName(f.id) }))
+        .sort((a, b) => a.label.localeCompare(b.label)),
+    ];
+  });
+
+  private startMove(target: Target): void {
+    const current = target.kind === 'folder' ? target.item.parentId : target.item.folderId;
+    this.moveDestination.set(current ?? 'root');
+    this.moveTarget.set(target);
+  }
+
+  protected confirmMove(): void {
+    const target = this.moveTarget();
+    if (!target) return;
+    const dest = this.moveDestination() === 'root' ? null : this.moveDestination();
+    if (target.kind === 'folder') {
+      this.folders.update((list) => list.map((f) => (f.id === target.item.id ? { ...f, parentId: dest } : f)));
+    } else {
+      this.files.update((list) => list.map((f) => (f.id === target.item.id ? { ...f, folderId: dest } : f)));
+    }
+    this.status.set(`Moviste «${target.item.name}» a ${this.folderName(dest)}.`);
+    this.moveTarget.set(null);
+  }
+
+  // --- Eliminar ------------------------------------------------------------------------
+  protected readonly deleteMessage = computed(() => {
+    const target = this.deleteTarget();
+    if (!target) return '';
+    if (target.kind === 'file') return `¿Eliminar el archivo «${target.item.name}»? Esta acción no se puede deshacer.`;
+    const { files } = this.folderStats(target.item);
+    const subfolders = this.subtree(target.item.id).size - 1;
+    const count = (n: number, one: string, many: string) => `${n} ${n === 1 ? one : many}`;
+    const parts = [files && count(files, 'archivo', 'archivos'), subfolders && count(subfolders, 'subcarpeta', 'subcarpetas')].filter(Boolean);
+    const extra = parts.length ? ` con ${parts.join(' y ')}` : '';
+    return `¿Eliminar la carpeta «${target.item.name}»${extra}? Esta acción no se puede deshacer.`;
+  });
 
   protected confirmDelete(): void {
     const target = this.deleteTarget();
     if (!target) return;
-    if (target.kind === 'folder') {
-      this.folders.update((list) => list.filter((f) => f.id !== target.item.id));
-      if (this.currentFolder()?.id === target.item.id) this.currentFolder.set(null);
-    } else {
-      this.recent.update((list) => list.filter((r) => r.id !== target.item.id));
-    }
-    this.status.set(`Eliminaste "${target.item.name}".`);
+    const removed =
+      target.kind === 'folder'
+        ? ((ids) => {
+            this.folders.update((list) => list.filter((f) => !ids.has(f.id)));
+            const gone = this.files().filter((f) => f.folderId && ids.has(f.folderId));
+            const current = this.currentFolder();
+            if (current && ids.has(current.id)) this.goTo(this.folders().find((f) => f.id === target.item.parentId) ?? null);
+            return gone;
+          })(this.subtree(target.item.id))
+        : [target.item];
+    const goneIds = new Set(removed.map((f) => f.id));
+    removed.forEach((f) => f.url && URL.revokeObjectURL(f.url));
+    this.files.update((list) => list.filter((f) => !goneIds.has(f.id)));
+    this.status.set(`Eliminaste «${target.item.name}».`);
     this.deleteTarget.set(null);
   }
 
-  protected readonly htmlCode = `<div class="fm">
-  <div class="fm__breadcrumb">
-    <cb-icon name="house" [size]="15" aria-hidden="true" />
-    <span>Home</span>
-    <cb-icon name="chevron-right" [size]="14" aria-hidden="true" />
-    @if (currentFolder(); as folder) {
-      <button type="button" class="fm__crumb-link" (click)="currentFolder.set(null)">File Manager</button>
-      <cb-icon name="chevron-right" [size]="14" aria-hidden="true" />
-      <span class="fm__crumb-active" aria-current="page">{{ folder.name }}</span>
-    } @else {
-      <span class="fm__crumb-active" aria-current="page">File Manager</span>
-    }
+  protected readonly htmlCode = `<div
+  class="fm"
+  [class.fm--dragging]="dragging()"
+  (dragenter)="onDragEnter($event)"
+  (dragover)="onDragOver($event)"
+  (dragleave)="onDragLeave()"
+  (drop)="onDrop($event)"
+>
+  <div class="fm__top">
+    <cb-breadcrumb [items]="crumbs()" />
+    <div class="fm__actions">
+      <cb-button size="sm" variant="outlined" severity="secondary" (click)="startCreateFolder()">
+        <cb-icon name="folder" [size]="15" aria-hidden="true" /> Nueva carpeta
+      </cb-button>
+      <cb-button size="sm" (click)="fileInput.click()">
+        <cb-icon name="upload" [size]="15" aria-hidden="true" /> Subir archivos
+      </cb-button>
+      <input #fileInput type="file" multiple hidden (change)="upload(fileInput.files); fileInput.value = ''" />
+    </div>
   </div>
 
-  <cb-card class="fm__panel">
-    <div class="fm__panel-head">
-      <h3 class="fm__panel-title">All Media</h3>
-      <cb-button size="sm"><cb-icon name="plus" [size]="15" aria-hidden="true" /> Subir archivo</cb-button>
-    </div>
-    <div class="fm__cats">
-      @for (c of categories; track c.title) {
-        <cb-file-card
-          [icon]="c.icon"
-          [color]="c.color"
-          [title]="c.title"
-          [subtitle]="c.used"
-          [value]="c.files"
-          [valueSub]="c.size"
-          clickable
-          (open)="filterBy(c)"
-        />
-      }
-    </div>
-  </cb-card>
-
-  <div class="fm__grid">
+  @if (!currentFolder()) {
     <cb-card class="fm__panel">
-      <div class="fm__panel-head"><h3 class="fm__panel-title">Carpetas</h3></div>
-      @if (folders().length) {
+      <div class="fm__panel-head"><h3 class="fm__panel-title">Por categoría</h3></div>
+      <div class="fm__cats">
+        @for (c of categoryCards(); track c.title) {
+          <cb-file-card
+            [icon]="c.icon"
+            [color]="c.color"
+            [title]="c.title"
+            [subtitle]="c.used"
+            [value]="c.files"
+            [valueSub]="c.size"
+            clickable
+            (open)="filterBy(c)"
+          />
+        }
+      </div>
+    </cb-card>
+  }
+
+  <div class="fm__grid" [class.fm__grid--single]="currentFolder()">
+    <cb-card class="fm__panel">
+      <div class="fm__panel-head">
+        <h3 class="fm__panel-title">{{ currentFolder() ? 'Subcarpetas' : 'Carpetas' }}</h3>
+      </div>
+      @if (childFolders().length) {
         <div class="fm__folders">
-          @for (f of folders(); track f.id) {
+          @for (f of childFolders(); track f.id) {
             <cb-folder-card
               [name]="f.name"
-              [files]="f.files"
-              [size]="f.size"
-              [actions]="folderActions"
+              [files]="folderStats(f).files"
+              [filesLabel]="folderStats(f).files === 1 ? 'archivo' : 'archivos'"
+              [size]="folderStats(f).size"
+              [actions]="folderMenu(f)"
               clickable
               (open)="openFolder(f)"
-              (actionSelect)="onFolderAction($event, f)"
             />
           }
         </div>
       } @else {
-        <p class="fm__empty">No quedan carpetas.</p>
+        <p class="fm__empty">No hay carpetas aquí. Crea una con «Nueva carpeta».</p>
       }
     </cb-card>
 
-    <cb-card class="fm__panel">
-      <div class="fm__panel-head"><h3 class="fm__panel-title">Almacenamiento</h3></div>
-      <p class="fm__storage-free">585 GB libres</p>
-      <div class="fm__donut" [style.background]="donutGradient">
-        <div class="fm__donut-hole"><strong>135 GB</strong><span>de 720 GB</span></div>
-      </div>
-      <ul class="fm__legend">
-        @for (s of segments; track s.label) {
-          <li><span class="fm__legend-dot" [style.background]="s.color"></span>{{ s.label }}</li>
-        }
-      </ul>
-    </cb-card>
+    @if (!currentFolder()) {
+      <cb-card class="fm__panel">
+        <div class="fm__panel-head"><h3 class="fm__panel-title">Almacenamiento</h3></div>
+        <p class="fm__storage-free">{{ storage().free }} libres</p>
+        <div class="fm__donut" [style.background]="storage().gradient">
+          <div class="fm__donut-hole"><strong>{{ storage().used }}</strong><span>de {{ storage().capacity }}</span></div>
+        </div>
+        <ul class="fm__legend">
+          @for (s of storage().segments; track s.label) {
+            <li><span class="fm__legend-dot" [style.background]="s.color"></span>{{ s.label }}</li>
+          }
+        </ul>
+      </cb-card>
+    }
   </div>
 
   <cb-card class="fm__panel">
     <div class="fm__panel-head">
-      <h3 class="fm__panel-title">Archivos recientes</h3>
+      <h3 class="fm__panel-title">{{ currentFolder() ? 'Archivos' : 'Archivos recientes' }}</h3>
       @if (categoryFilter(); as cat) {
         <cb-chip [label]="cat.title" [icon]="cat.icon" [removable]="true" (removed)="categoryFilter.set(null)" />
       }
     </div>
     <cb-table
       style="width: 100%"
-      [value]="visibleRecent()"
-      [columns]="recentColumns"
+      [value]="visibleFiles()"
+      [columns]="fileColumns()"
       size="sm"
-      ariaLabel="Archivos recientes"
-      emptyMessage="No hay archivos en esta categoría."
+      [ariaLabel]="currentFolder() ? 'Archivos de ' + currentFolder()!.name : 'Archivos recientes'"
+      emptyMessage="No hay archivos. Súbelos con el botón o arrástralos aquí."
     >
       <ng-template cbTableCell="name" let-row>
-        <span class="fm__file"><cb-icon [name]="row.icon" [size]="16" aria-hidden="true" /> {{ row.name }}</span>
+        <span class="fm__file"><cb-icon [name]="iconOf(row.category)" [size]="16" aria-hidden="true" /> {{ row.name }}</span>
       </ng-template>
-      <ng-template cbTableCell="sizeMb" let-value="value">{{ value }} MB</ng-template>
+      <ng-template cbTableCell="folderId" let-value="value">{{ folderName(value) }}</ng-template>
+      <ng-template cbTableCell="bytes" let-value="value">{{ size(value) }}</ng-template>
       <ng-template cbTableCell="date" let-value="value">{{ formatDate(value) }}</ng-template>
       <ng-template cbTableCell="actions" let-row>
         <button
@@ -657,35 +933,43 @@ export class FileManagerTemplateComponent {
         </button>
       </ng-template>
     </cb-table>
-    <cb-menu #rowMenu [items]="fileActions" (itemSelect)="onFileAction($event)" (hidden)="menuRow.set(null)" />
+    <cb-menu #rowMenu [items]="rowMenuItems()" (hidden)="menuRow.set(null)" />
   </cb-card>
 
   <p class="fm__status" role="status">{{ status() }}</p>
+
+  @if (dragging()) {
+    <div class="fm__dropzone" aria-hidden="true">
+      <cb-icon name="cloud-upload" [size]="36" />
+      <span>Suelta para subir a {{ currentFolder()?.name ?? 'Mi unidad' }}</span>
+    </div>
+  }
 </div>
 
-<cb-dialog [visible]="renameTarget() !== null" (visibleChange)="!$event && renameTarget.set(null)" header="Renombrar" width="24rem">
-  <form (submit)="$event.preventDefault(); confirmRename()">
-    <cb-input
-      label="Nuevo nombre"
-      [(value)]="renameValue"
-      [error]="renameValue().trim() ? '' : 'Escribe un nombre.'"
-      required
-    />
+<cb-dialog [visible]="nameDialog() !== null" (visibleChange)="!$event && nameDialog.set(null)" [header]="nameDialog()?.title ?? ''" width="24rem">
+  <form (submit)="$event.preventDefault(); confirmName()">
+    <cb-input label="Nombre" [(value)]="nameValue" [error]="nameValue().trim() ? '' : 'Escribe un nombre.'" required />
   </form>
   <div cb-dialog-footer class="fm__dialog-actions">
-    <cb-button variant="text" severity="secondary" (click)="renameTarget.set(null)">Cancelar</cb-button>
-    <cb-button [disabled]="!renameValue().trim()" (click)="confirmRename()">Guardar</cb-button>
+    <cb-button variant="text" severity="secondary" (click)="nameDialog.set(null)">Cancelar</cb-button>
+    <cb-button [disabled]="!nameValue().trim()" (click)="confirmName()">Guardar</cb-button>
+  </div>
+</cb-dialog>
+
+<cb-dialog [visible]="moveTarget() !== null" (visibleChange)="!$event && moveTarget.set(null)" header="Mover a…" width="26rem">
+  <span class="fm__label" id="fm-move-label">Carpeta de destino</span>
+  <cb-select [options]="moveOptions()" optionLabel="label" optionValue="id" [(value)]="moveDestination" ariaLabelledBy="fm-move-label" />
+  <div cb-dialog-footer class="fm__dialog-actions">
+    <cb-button variant="text" severity="secondary" (click)="moveTarget.set(null)">Cancelar</cb-button>
+    <cb-button (click)="confirmMove()">Mover</cb-button>
   </div>
 </cb-dialog>
 
 <cb-dialog [visible]="deleteTarget() !== null" (visibleChange)="!$event && deleteTarget.set(null)" header="Eliminar" width="24rem">
-  <p class="fm__dialog-text">
-    ¿Eliminar {{ deleteTarget()?.kind === 'folder' ? 'la carpeta' : 'el archivo' }} <strong>{{ deleteTarget()?.item?.name }}</strong>? Esta acción no se puede deshacer.
-  </p>
+  <p class="fm__dialog-text">{{ deleteMessage() }}</p>
   <div cb-dialog-footer class="fm__dialog-actions">
     <cb-button variant="text" severity="secondary" (click)="deleteTarget.set(null)">Cancelar</cb-button>
     <cb-button severity="danger" (click)="confirmDelete()">Eliminar</cb-button>
   </div>
 </cb-dialog>`;
-
 }

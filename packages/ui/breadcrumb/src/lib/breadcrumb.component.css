@@ -29,6 +29,13 @@
   text-decoration: none;
   transition: color var(--cb-duration-fast) var(--cb-ease);
 }
+.cb-breadcrumb__button {
+  margin: 0;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  cursor: pointer;
+}
 .cb-breadcrumb__link:hover {
   color: var(--cb-color-primary-500);
 }

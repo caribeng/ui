@@ -15,7 +15,7 @@ export interface CbBreadcrumbItem {
   url?: string;
   /** Icono (nombre del set de @caribeng/ui/icon) antes del texto. */
   icon?: string;
-  /** Acción al elegir el item (además del evento de selección), como `command` en PrimeNG. */
+  /** Acción al elegir el item (además del evento de selección), como `command` en PrimeNG. Sin `url`, el elemento se pinta como botón. */
   command?: (event: CbMenuCommandEvent<CbBreadcrumbItem>) => void;
   /** `false` oculta el item. */
   visible?: boolean;
@@ -49,6 +49,11 @@ export interface CbBreadcrumbItem {
                 @if (item.icon) { <cb-icon [name]="item.icon" [size]="15" aria-hidden="true" /> }
                 <span>{{ item.label }}</span>
               </a>
+            } @else if (item.command && !last) {
+              <button type="button" class="cb-breadcrumb__link cb-breadcrumb__button" (click)="select(item, $event)">
+                @if (item.icon) { <cb-icon [name]="item.icon" [size]="15" aria-hidden="true" /> }
+                <span>{{ item.label }}</span>
+              </button>
             } @else {
               <span class="cb-breadcrumb__current" [attr.aria-current]="last ? 'page' : null">
                 @if (item.icon) { <cb-icon [name]="item.icon" [size]="15" aria-hidden="true" /> }
@@ -74,7 +79,7 @@ export class CbBreadcrumb {
   /** Icono separador entre elementos. */
   readonly separator = input<string>('chevron-right');
 
-  /** Se emite al hacer clic en un elemento con enlace. */
+  /** Se emite al hacer clic en un elemento con enlace o con `command` (que no sea el último). */
   readonly itemClick = output<CbBreadcrumbItem>();
 
   protected select(item: CbBreadcrumbItem, event: MouseEvent): void {

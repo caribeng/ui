@@ -1020,8 +1020,6 @@ export const ES_EN: Record<string, string> = {
   'Varias file-card forman la sección \'All Media\' de un gestor de archivos.':
     'Several file-cards make up the \'All Media\' section of a file manager.',
   'Rejilla de categorías': 'Category grid',
-  'Gestor de archivos tipo Drive compuesto con cb-file-card y cb-folder-card, más un donut de almacenamiento y una tabla de archivos recientes.':
-    'Drive-like file manager composed with cb-file-card and cb-folder-card, plus a storage donut and a recent files table.',
   'Navegación con vistas': 'Navigation with views',
   'Pulsa Tab dentro del recuadro para comprobar cómo el foco cicla entre sus elementos.':
     'Press Tab inside the box to see how focus cycles through its elements.',
@@ -3048,4 +3046,6 @@ export const ES_EN: Record<string, string> = {
     'Hiding with `display: none` also removes the content from the screen reader; hiding it only with opacity does not.',
   'Es texto en línea sin rol propio: se lee su valor y el icono es decorativo. El color de la severidad no se anuncia, así que el texto debe bastar por sí solo ("Pendiente", no un tag rojo sin texto).':
     'It is inline text without its own role: its value is read and the icon is decorative. The severity color is not announced, so the text must be enough on its own ("Pending", not a red tag without text).',
+  'Gestor de archivos tipo Drive con carpetas anidadas, ruta navegable, subida de archivos (botón o arrastrándolos), almacenamiento por categoría y acciones para renombrar, mover, descargar y eliminar.':
+    'Drive-style file manager with nested folders, a navigable path, file uploads (button or drag and drop), storage by category and actions to rename, move, download and delete.',
 };

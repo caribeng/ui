@@ -51,8 +51,12 @@
 }
 
 .cb-file-card__title {
+  max-width: 100%;
+  overflow: hidden;
   font-weight: 600;
   font-size: 0.9rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .cb-file-card__open {
