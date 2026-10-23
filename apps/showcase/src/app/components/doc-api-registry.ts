@@ -911,7 +911,8 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "page", kind: "number", type: "number (model)", default: 1, description: "Página actual (desde 1)." },
       { name: "zoom", kind: "enum", type: "'page-width' | 'page-fit' | number (model)", options: ["page-width", "page-fit"], default: "page-width", description: "Ajustar al ancho, página completa o un factor (1 = 100 %)." },
       { name: "rotation", kind: "number", type: "0 | 90 | 180 | 270 (model)", default: 0, description: "Giro del documento.", control: false },
-      { name: "sidebar", kind: "boolean", type: "boolean (model)", default: false, description: "Panel de miniaturas abierto." },
+      { name: "sidebar", kind: "boolean", type: "boolean (model)", default: false, description: "Panel lateral (miniaturas o índice) abierto." },
+      { name: "sidebarView", kind: "enum", type: "'thumbnails' | 'outline' (model)", default: "thumbnails", options: ["thumbnails", "outline"], description: "Vista del panel lateral (outline solo si el documento tiene índice)." },
       { name: "fileName", kind: "string", type: "string", default: undefined, description: "Nombre del archivo al descargar." },
       { name: "password", kind: "string", type: "string", default: undefined, description: "Contraseña para abrir el documento sin pedirla.", control: false },
       { name: "withCredentials", kind: "boolean", type: "boolean", default: false, description: "Envía cookies en peticiones a otro origen.", control: false },
@@ -922,11 +923,15 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "showRotate", kind: "boolean", type: "boolean", default: true, description: "Botón de girar." },
       { name: "downloadable", kind: "boolean", type: "boolean", default: true, description: "Botón de descargar." },
       { name: "printable", kind: "boolean", type: "boolean", default: true, description: "Botón de imprimir (y Ctrl+P)." },
-      { name: "ariaLabel", kind: "string", type: "string", default: undefined, localeKey: "pdfViewer", description: "Nombre accesible del visor." }
+      { name: "ariaLabel", kind: "string", type: "string", default: undefined, localeKey: "pdfViewer", description: "Nombre accesible del visor." },
+      { name: "showOutline", kind: "boolean", type: "boolean", default: true, description: "Pestaña Índice en el panel lateral (si el documento tiene marcadores)." },
+      { name: "forms", kind: "boolean", type: "boolean", default: true, description: "Campos de formulario rellenables (si no, se pintan como imagen)." },
+      { name: "externalLinks", kind: "boolean", type: "boolean", default: true, description: "Los enlaces externos del documento se abren en otra pestaña." }
     ],
     events: [
       { name: "loaded", type: "{ numPages: number }", description: "Documento abierto." },
-      { name: "loadError", type: "unknown", description: "No se pudo abrir el documento." }
+      { name: "loadError", type: "unknown", description: "No se pudo abrir el documento." },
+      { name: "formChange", type: "void", description: "Cambió un campo del formulario (valores con getFormData())." }
     ]
   },
   "cb-image": {

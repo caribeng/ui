@@ -251,7 +251,130 @@ function standardSecurity(userPassword, fileId) {
   };
 }
 
+// --- Solicitud con índice, enlaces y formulario ---------------------------------------------
+
+/**
+ * Solicitud de apertura de cuenta de 3 páginas: marcadores (índice) con un
+ * subnivel, enlaces internos en la página 1 y uno externo, y un formulario
+ * AcroForm (texto, área de texto, desplegable y casilla) en la página 2.
+ */
+function buildFormPdf() {
+  const objects = [];
+  const reserve = () => objects.push(null);
+  const set = (id, body) => (objects[id - 1] = body);
+  const add = (body) => objects.push(body);
+
+  const catalog = reserve();
+  const pagesId = reserve();
+  const outlines = reserve();
+  const acroForm = reserve();
+  const f1 = add(`<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>`);
+  const f2 = add(`<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>`);
+  const pageIds = [reserve(), reserve(), reserve()];
+  const dest = (page, top) => `[${pageIds[page]} 0 R /XYZ 0 ${top} null]`;
+
+  // Contenido de cada página (los rótulos de los campos se dibujan; los campos son widgets).
+  const draw = (n, body) =>
+    pageContent(n, 3, body).replace('Extracto de cuenta de ahorros  ·  Documento de demostración', 'Solicitud de apertura de cuenta  ·  Demostración');
+
+  const fieldBox = (t, x, y, w, h) => t.rect(x, y, w, h, [0.97, 0.98, 0.99]);
+  const contents = [
+    draw(1, (t) => {
+      t.text(48, H - 130, 'Contenido', { size: 16, bold: true });
+      t.text(48, H - 156, 'Pulse un apartado para ir directamente a él.', { size: 10, color: [0.45, 0.48, 0.55] });
+      const items = ['1. Datos del solicitante', '2. Condiciones de la cuenta', '2.1 Tasas y cuota de manejo'];
+      items.forEach((s, i) => t.text(i === 2 ? 72 : 56, H - 190 - i * 26, s, { size: 12, color: [0.05, 0.36, 0.55] }));
+      t.text(48, H - 290, 'Más información en la página web de la cooperativa:', { size: 10 });
+      t.text(48, H - 308, 'www.example.com/cuentas', { size: 10, color: [0.05, 0.36, 0.55] });
+    }),
+    draw(2, (t) => {
+      t.text(48, H - 130, '1. Datos del solicitante', { size: 16, bold: true });
+      const labels = ['Nombre completo', 'Documento de identidad', 'Correo electrónico', 'Tipo de cuenta'];
+      labels.forEach((s, i) => {
+        t.text(48, H - 170 - i * 50, s, { size: 10, bold: true });
+        fieldBox(t, 48, H - 198 - i * 50, 300, 22);
+      });
+      t.text(48, H - 380, 'Comentarios', { size: 10, bold: true });
+      fieldBox(t, 48, H - 470, W - 96, 82);
+      fieldBox(t, 48, H - 506, 14, 14);
+      t.text(70, H - 503, 'Acepto las condiciones de la cuenta (ver apartado 2).', { size: 10 });
+    }),
+    draw(3, (t) => {
+      t.text(48, H - 130, '2. Condiciones de la cuenta', { size: 16, bold: true });
+      t.text(48, H - 160, 'La cuenta de ahorros no tiene monto mínimo de apertura y permite retiros sin límite.', { size: 11 });
+      t.text(48, H - 230, '2.1 Tasas y cuota de manejo', { size: 14, bold: true });
+      t.text(48, H - 258, 'Tasa efectiva anual: 1,5 %. Cuota de manejo mensual: $ 14.900.', { size: 11 });
+      t.text(48, H - 300, 'Volver al contenido', { size: 10, color: [0.05, 0.36, 0.55] });
+    }),
+  ];
+
+  // Enlaces (página 1 y 3).
+  const link = (rect, action) => add(`<< /Type /Annot /Subtype /Link /Rect [${rect.join(' ')}] /Border [0 0 0] ${action} >>`);
+  const page1Annots = [
+    link([52, H - 196, 260, H - 178], `/Dest ${dest(1, H - 110)}`),
+    link([52, H - 222, 260, H - 204], `/Dest ${dest(2, H - 110)}`),
+    link([68, H - 248, 280, H - 230], `/Dest ${dest(2, H - 214)}`),
+    link([46, H - 314, 180, H - 296], `/A << /S /URI /URI (https://www.example.com/cuentas) >>`),
+  ];
+  const page3Annots = [link([46, H - 306, 160, H - 288], `/Dest ${dest(0, H)}`)];
+
+  // Formulario (página 2).
+  const da = '/DA (/Helv 11 Tf 0 g)';
+  const widget = (extra) => add(`<< /Type /Annot /Subtype /Widget /F 4 /P ${pageIds[1]} 0 R ${extra} >>`);
+  const fields = [
+    widget(`/FT /Tx /T (nombre) /TU (Nombre completo) /Rect [48 ${H - 198} 348 ${H - 176}] ${da} /V ()`),
+    widget(`/FT /Tx /T (documento) /TU (Documento de identidad) /Rect [48 ${H - 248} 348 ${H - 226}] ${da} /V ()`),
+    widget(`/FT /Tx /T (correo) /TU (Correo electrónico) /Rect [48 ${H - 298} 348 ${H - 276}] ${da} /V ()`),
+    widget(`/FT /Ch /Ff 131072 /T (tipo) /TU (Tipo de cuenta) /Rect [48 ${H - 348} 348 ${H - 326}] ${da} /Opt [(Ahorros) (Corriente) (Nómina)] /V (Ahorros)`),
+    widget(`/FT /Tx /Ff 4096 /T (comentarios) /TU (Comentarios) /Rect [48 ${H - 470} ${W - 48} ${H - 388}] ${da} /V ()`),
+  ];
+  const xobject = (ops) => add(`<< /Type /XObject /Subtype /Form /BBox [0 0 14 14] /Length ${ops.length} >>\nstream\n${ops}\nendstream`);
+  const on = xobject('0.05 0.36 0.55 rg 3 3 8 8 re f');
+  const off = xobject('');
+  fields.push(
+    widget(`/FT /Btn /T (acepto) /TU (Acepto las condiciones de la cuenta) /Rect [48 ${H - 506} 62 ${H - 492}] /V /Off /AS /Off /MK << /BC [0.4 0.4 0.4] >> /AP << /N << /Si ${on} 0 R /Off ${off} 0 R >> >>`),
+  );
+  const helv = add(`<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>`);
+  set(acroForm, `<< /Fields [${fields.map((f) => `${f} 0 R`).join(' ')}] /NeedAppearances true /DA (/Helv 0 Tf 0 g) /DR << /Font << /Helv ${helv} 0 R >> >> >>`);
+
+  // Índice (marcadores): 1, 2 y 2.1 dentro de 2.
+  const [o1, o2, o21] = [reserve(), reserve(), reserve()];
+  set(o1, `<< /Title (1. Datos del solicitante) /Parent ${outlines} 0 R /Next ${o2} 0 R /Dest ${dest(1, H - 110)} >>`);
+  set(o2, `<< /Title (2. Condiciones de la cuenta) /Parent ${outlines} 0 R /Prev ${o1} 0 R /First ${o21} 0 R /Last ${o21} 0 R /Count 1 /Dest ${dest(2, H - 110)} >>`);
+  set(o21, `<< /Title (2.1 Tasas y cuota de manejo) /Parent ${o2} 0 R /Dest ${dest(2, H - 214)} >>`);
+  set(outlines, `<< /Type /Outlines /First ${o1} 0 R /Last ${o2} 0 R /Count 3 >>`);
+
+  const annots = [page1Annots, fields, page3Annots];
+  pageIds.forEach((id, i) => {
+    const content = latin1(contents[i]);
+    const contentId = add([latin1(`<< /Length ${content.length} >>\nstream\n`), content, latin1('\nendstream')]);
+    set(
+      id,
+      `<< /Type /Page /Parent ${pagesId} 0 R /MediaBox [0 0 ${W} ${H}] /Resources << /Font << /F1 ${f1} 0 R /F2 ${f2} 0 R >> >> /Contents ${contentId} 0 R /Annots [${annots[i].map((a) => `${a} 0 R`).join(' ')}] >>`,
+    );
+  });
+  set(pagesId, `<< /Type /Pages /Kids [${pageIds.map((k) => `${k} 0 R`).join(' ')}] /Count 3 >>`);
+  set(catalog, `<< /Type /Catalog /Pages ${pagesId} 0 R /Outlines ${outlines} 0 R /PageMode /UseOutlines /AcroForm ${acroForm} 0 R >>`);
+
+  const chunks = [latin1('%PDF-1.7\n%\xe2\xe3\xcf\xd3\n')];
+  let offset = chunks[0].length;
+  const offsets = [];
+  objects.forEach((body, i) => {
+    const parts = [latin1(`${i + 1} 0 obj\n`), ...(Array.isArray(body) ? body : [latin1(body)]), latin1('\nendobj\n')];
+    offsets.push(offset);
+    for (const p of parts) {
+      chunks.push(p);
+      offset += p.length;
+    }
+  });
+  const xref = [`xref\n0 ${objects.length + 1}\n0000000000 65535 f \n`, ...offsets.map((o) => `${String(o).padStart(10, '0')} 00000 n \n`)].join('');
+  const id = createHash('md5').update('caribeng-solicitud').digest('hex');
+  chunks.push(latin1(`${xref}trailer\n<< /Size ${objects.length + 1} /Root ${catalog} 0 R /ID [<${id}> <${id}>] >>\nstartxref\n${offset}\n%%EOF\n`));
+  return Buffer.concat(chunks);
+}
+
 mkdirSync(OUT, { recursive: true });
 writeFileSync(join(OUT, 'extracto-demo.pdf'), buildPdf());
 writeFileSync(join(OUT, 'extracto-protegido.pdf'), buildPdf({ password: 'caribe' }));
+writeFileSync(join(OUT, 'solicitud-formulario.pdf'), buildFormPdf());
 console.log('PDF de ejemplo generados en', OUT);

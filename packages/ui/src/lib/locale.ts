@@ -460,6 +460,13 @@ export interface CbTranslation {
   incorrectPassword: string;
   password: string;
   open: string;
+  pdfOutline: string;
+  pdfSidebarView: string;
+  /** `{0}`: título de la entrada del índice. */
+  pdfExpandItem: string;
+  /** `{0}`: título de la entrada del índice. */
+  pdfCollapseItem: string;
+  pdfDownloadFilled: string;
 
   // --- Varios ---
   scrollableArea: string;
@@ -997,6 +1004,11 @@ export const CB_LOCALE_ES: CbTranslation = {
   incorrectPassword: 'Contraseña incorrecta. Inténtalo de nuevo.',
   password: 'Contraseña',
   open: 'Abrir',
+  pdfOutline: 'Índice',
+  pdfSidebarView: 'Vista del panel',
+  pdfExpandItem: 'Expandir {0}',
+  pdfCollapseItem: 'Contraer {0}',
+  pdfDownloadFilled: 'Descargar con los datos del formulario',
 
   scrollableArea: 'Área desplazable',
   scrollTop: 'Volver arriba',
@@ -1523,6 +1535,11 @@ export const CB_LOCALE_EN: CbTranslation = {
   incorrectPassword: 'Incorrect password. Try again.',
   password: 'Password',
   open: 'Open',
+  pdfOutline: 'Outline',
+  pdfSidebarView: 'Panel view',
+  pdfExpandItem: 'Expand {0}',
+  pdfCollapseItem: 'Collapse {0}',
+  pdfDownloadFilled: 'Download with the form data',
 
   scrollableArea: 'Scrollable area',
   scrollTop: 'Back to top',

@@ -11,6 +11,10 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
         "type": "added",
         "items": [
           {
+            "component": "PDF Viewer, nivel 2",
+            "text": "pestaña **Índice** en el panel lateral con los marcadores del documento (subniveles plegables, negrita y cursiva) y `sidebarView` (`'thumbnails' | 'outline'`); **enlaces** internos (llevan a la página y a la posición del destino) y externos (otra pestaña, solo http(s), mailto y tel; `externalLinks` los desactiva); **formularios** rellenables (texto, área de texto, desplegables, casillas y opciones; `forms` en `false` los pinta como imagen). Descargar e Imprimir incluyen lo escrito; nuevos `getFormData()` (valores por nombre de campo), `save()` (el PDF relleno como `Blob`), `goToDestination()`, `formModified` y el evento `formChange`. Tipos `CbPdfOutlineItem` y `CbPdfFormValue`. El showcase añade un PDF de solicitud con índice, enlaces y formulario."
+          },
+          {
             "component": "Breadcrumb",
             "text": "un elemento con `command` y sin `url` se pinta como botón y se puede pulsar (antes era texto); también emite `itemClick`."
           },

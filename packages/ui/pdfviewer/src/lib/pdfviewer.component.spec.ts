@@ -224,9 +224,11 @@ describe('CbPdfViewer', () => {
     toggle.click();
     await settle(fixture);
     expect(toggle.getAttribute('aria-expanded')).toBe('true');
-    const nav = q('nav.cb-pdf__sidebar');
+    const nav = q('.cb-pdf__sidebar nav.cb-pdf__thumbs');
     expect(nav.getAttribute('aria-label')).toBe('Miniaturas');
-    expect(toggle.getAttribute('aria-controls')).toBe(nav.id);
+    expect(toggle.getAttribute('aria-controls')).toBe(q('.cb-pdf__sidebar').id);
+    // Sin índice en el documento no hay pestañas.
+    expect(qa('.cb-pdf__view').length).toBe(0);
     const thumbs = qa<HTMLButtonElement>('.cb-pdf__thumb');
     expect(thumbs[0].getAttribute('aria-current')).toBe('page');
     expect(thumbs[0].querySelector('canvas')).not.toBeNull();

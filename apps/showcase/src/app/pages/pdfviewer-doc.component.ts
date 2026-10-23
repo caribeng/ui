@@ -76,6 +76,31 @@ import { TocService } from '../services/toc.service';
     </doc-section>
 
     <doc-section
+      id="forms"
+      title="Índice, enlaces y formularios"
+      description="Si el documento tiene marcadores, el panel lateral muestra la pestaña Índice. Los enlaces internos llevan a su página y posición, y los externos se abren en otra pestaña. Los campos de formulario se rellenan en el visor; Descargar e Imprimir incluyen lo escrito, getFormData() devuelve los valores por nombre de campo y save() el PDF relleno como Blob."
+      [code]="formsCode"
+    >
+      <div style="display: grid; gap: 0.75rem; width: 100%">
+        <cb-pdf-viewer
+          #solicitud
+          style="--cb-pdf-viewer-height: 34rem"
+          src="pdf/solicitud-formulario.pdf"
+          [sidebar]="true"
+          sidebarView="outline"
+          (formChange)="cambios.set(cambios() + 1)"
+        />
+        <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap">
+          <button type="button" class="doc-btn" (click)="verDatos(solicitud)">Ver datos del formulario</button>
+          <span style="font-size: 0.875rem; color: var(--cb-color-text-muted)">Cambios: {{ cambios() }}</span>
+        </div>
+        @if (datos(); as d) {
+          <pre class="doc-pre" aria-label="Datos del formulario">{{ d }}</pre>
+        }
+      </div>
+    </doc-section>
+
+    <doc-section
       id="file"
       title="Archivo local"
       description="Con un File de un input type=file el documento se abre sin subirlo a ningún servidor. fileName define el nombre al descargar."
@@ -129,6 +154,14 @@ import { TocService } from '../services/toc.service';
     .doc-btn:hover {
       background: var(--cb-color-surface-hover);
     }
+    .doc-pre {
+      margin: 0;
+      padding: 0.75rem;
+      border-radius: var(--cb-radius-md);
+      background: var(--cb-color-surface-subtle);
+      font-size: 0.8125rem;
+      white-space: pre-wrap;
+    }
     .doc-btn:focus-visible {
       outline: 2px solid var(--cb-color-focus-ring);
       outline-offset: 2px;
@@ -144,10 +177,32 @@ export class PdfviewerDocComponent {
   protected readonly miniaturas = signal(true);
   protected readonly archivo = signal<CbPdfSource | null>(null);
 
+  protected readonly cambios = signal(0);
+  protected readonly datos = signal('');
+
+  protected async verDatos(visor: CbPdfViewer): Promise<void> {
+    this.datos.set(JSON.stringify(await visor.getFormData(), null, 2));
+  }
+
   protected onFile(event: Event): void {
     this.archivo.set((event.target as HTMLInputElement).files?.[0] ?? null);
   }
 
+  protected readonly formsCode = `<cb-pdf-viewer
+  #solicitud
+  style="--cb-pdf-viewer-height: 34rem"
+  src="pdf/solicitud-formulario.pdf"
+  [sidebar]="true"
+  sidebarView="outline"
+  (formChange)="cambios.set(cambios() + 1)"
+/>
+<div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap">
+  <button type="button" class="doc-btn" (click)="verDatos(solicitud)">Ver datos del formulario</button>
+  <span style="font-size: 0.875rem; color: var(--cb-color-text-muted)">Cambios: {{ cambios() }}</span>
+</div>
+@if (datos(); as d) {
+  <pre class="doc-pre" aria-label="Datos del formulario">{{ d }}</pre>
+}`;
   protected readonly importCode = `import { CbPdfViewer } from '@caribeng/ui/pdfviewer';`;
   protected readonly installCode = `pnpm add pdfjs-dist`;
   protected readonly assetsCode = `// angular.json → projects.<app>.architect.build.options.assets

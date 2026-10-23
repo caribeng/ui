@@ -21,6 +21,7 @@ import {
   viewChild,
   viewChildren,
 } from '@angular/core';
+import { NgTemplateOutlet } from '@angular/common';
 import { cbFormat, injectCbTranslation } from '@caribeng/ui';
 import { CbIcon, CbIconRegistry } from '@caribeng/ui/icon';
 import { panelLeft, printer, zoomIn, zoomOut } from '@caribeng/ui/icons';
@@ -72,6 +73,24 @@ interface RenderedPage {
   textLayer?: TextLayerLike;
 }
 
+/** Entrada del índice (marcadores) del documento. */
+export interface CbPdfOutlineItem {
+  readonly title: string;
+  /** Destino interno (nombre o destino explícito de pdf.js). */
+  readonly dest: string | unknown[] | null;
+  /** Enlace externo. */
+  readonly url: string | null;
+  readonly bold: boolean;
+  readonly italic: boolean;
+  readonly items: readonly CbPdfOutlineItem[];
+}
+
+/** Valor de un campo de formulario: texto, casilla marcada u opciones elegidas. */
+export type CbPdfFormValue = string | boolean | string[] | null;
+
+/** Esquemas que se abren desde los enlaces del documento. */
+const SAFE_URL = /^(https?:|mailto:|tel:)/i;
+
 const PDF_ICONS: Record<string, string> = {
   'zoom-in': zoomIn,
   'zoom-out': zoomOut,
@@ -85,7 +104,9 @@ const PDF_ICONS: Record<string, string> = {
  *
  * Renderiza las páginas a medida que se ven, con texto seleccionable y
  * legible por lectores de pantalla, búsqueda (ignora tildes y mayúsculas),
- * miniaturas, zoom, giro, descarga, impresión y documentos con contraseña.
+ * miniaturas, índice (marcadores), enlaces internos y externos, formularios
+ * rellenables (se descargan e imprimen con lo escrito), zoom, giro, descarga,
+ * impresión y documentos con contraseña.
  *
  * @example
  * ```html
@@ -96,7 +117,7 @@ const PDF_ICONS: Record<string, string> = {
   selector: 'cb-pdf-viewer',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
-  imports: [CbIcon, CbSpinner],
+  imports: [CbIcon, CbSpinner, NgTemplateOutlet],
   host: {
     class: 'cb-pdf-viewer',
     role: 'region',
@@ -216,7 +237,14 @@ const PDF_ICONS: Record<string, string> = {
         @if (downloadable() || printable()) {
           <div class="cb-pdf__group">
             @if (downloadable()) {
-              <button type="button" class="cb-pdf__tool" [attr.aria-label]="t().download" [disabled]="state() !== 'ready'" (click)="download()">
+              <button
+                type="button"
+                class="cb-pdf__tool"
+                [attr.aria-label]="formModified() ? t().pdfDownloadFilled : t().download"
+                [attr.title]="formModified() ? t().pdfDownloadFilled : null"
+                [disabled]="state() !== 'ready'"
+                (click)="download()"
+              >
                 <cb-icon name="download" [size]="18" aria-hidden="true" />
               </button>
             }
@@ -238,7 +266,28 @@ const PDF_ICONS: Record<string, string> = {
 
     <div class="cb-pdf__body">
       @if (state() === 'ready' && sidebar() && showThumbnails()) {
-        <nav class="cb-pdf__sidebar" [id]="uid + '-thumbs'" [attr.aria-label]="t().thumbnails">
+        <div
+          class="cb-pdf__sidebar"
+          [class.cb-pdf__sidebar--tabs]="outline().length && showOutline()"
+          [class.cb-pdf__sidebar--outline]="sidebarView() === 'outline' && outline().length && showOutline()"
+          [id]="uid + '-thumbs'"
+        >
+          @if (outline().length && showOutline()) {
+            <div class="cb-pdf__views" role="group" [attr.aria-label]="t().pdfSidebarView">
+              <button type="button" class="cb-pdf__view" [attr.aria-pressed]="sidebarView() === 'thumbnails'" (click)="sidebarView.set('thumbnails')">
+                {{ t().thumbnails }}
+              </button>
+              <button type="button" class="cb-pdf__view" [attr.aria-pressed]="sidebarView() === 'outline'" (click)="sidebarView.set('outline')">
+                {{ t().pdfOutline }}
+              </button>
+            </div>
+          }
+          @if (sidebarView() === 'outline' && outline().length && showOutline()) {
+            <nav class="cb-pdf__outline" [attr.aria-label]="t().pdfOutline">
+              <ng-container *ngTemplateOutlet="outlineList; context: { $implicit: outline(), path: '' }" />
+            </nav>
+          } @else {
+          <nav class="cb-pdf__thumbs" [attr.aria-label]="t().thumbnails">
           @for (thumb of thumbBoxes(); track $index; let i = $index) {
             <button
               #thumbEl
@@ -255,7 +304,9 @@ const PDF_ICONS: Record<string, string> = {
               <span class="cb-pdf__thumb-label" aria-hidden="true">{{ i + 1 }}</span>
             </button>
           }
-        </nav>
+          </nav>
+          }
+        </div>
       }
 
       <div
@@ -316,6 +367,7 @@ const PDF_ICONS: Record<string, string> = {
                 >
                   <div class="cb-pdf__canvas"></div>
                   <div class="cb-pdf__text"></div>
+                  <div class="cb-pdf__annotations" (input)="onFormInput()" (change)="onFormInput()"></div>
                 </div>
               }
             </div>
@@ -323,6 +375,38 @@ const PDF_ICONS: Record<string, string> = {
         }
       </div>
     </div>
+
+    <ng-template #outlineList let-items let-path="path">
+      <ul class="cb-pdf__outline-list" [attr.role]="path ? 'group' : null">
+        @for (item of items; track $index; let i = $index) {
+          <li class="cb-pdf__outline-item">
+            @if (item.items.length) {
+              <button
+                type="button"
+                class="cb-pdf__outline-toggle"
+                [attr.aria-expanded]="!isCollapsed(path + i)"
+                [attr.aria-label]="format(isCollapsed(path + i) ? t().pdfExpandItem : t().pdfCollapseItem, item.title)"
+                (click)="toggleOutline(path + i)"
+              >
+                <cb-icon [name]="isCollapsed(path + i) ? 'chevron-right' : 'chevron-down'" [size]="14" aria-hidden="true" />
+              </button>
+            }
+            <button
+              type="button"
+              class="cb-pdf__outline-link"
+              [class.cb-pdf__outline-link--bold]="item.bold"
+              [class.cb-pdf__outline-link--italic]="item.italic"
+              (click)="openOutlineItem(item)"
+            >
+              {{ item.title }}
+            </button>
+            @if (item.items.length && !isCollapsed(path + i)) {
+              <ng-container *ngTemplateOutlet="outlineList; context: { $implicit: item.items, path: path + i + '.' }" />
+            }
+          </li>
+        }
+      </ul>
+    </ng-template>
 
     @if (printProgress(); as p) {
       <div class="cb-pdf__toast" role="status">{{ format(t().preparingPrint, p.done, p.total) }}</div>
@@ -359,6 +443,14 @@ export class CbPdfViewer {
   readonly showRotate = input(true, { transform: booleanAttribute });
   readonly downloadable = input(true, { transform: booleanAttribute });
   readonly printable = input(true, { transform: booleanAttribute });
+  /** Pestaña Índice en el panel lateral (si el documento tiene marcadores). */
+  readonly showOutline = input(true, { transform: booleanAttribute });
+  /** Campos de formulario rellenables (si no, se pintan como imagen). */
+  readonly forms = input(true, { transform: booleanAttribute });
+  /** Enlaces externos del documento: se abren en otra pestaña. `false` los desactiva. */
+  readonly externalLinks = input(true, { transform: booleanAttribute });
+  /** Vista del panel lateral. */
+  readonly sidebarView = model<'thumbnails' | 'outline'>('thumbnails');
   /** Nombre accesible del visor (por defecto, "Visor de PDF"). */
   readonly ariaLabel = input<string>('');
 
@@ -366,6 +458,8 @@ export class CbPdfViewer {
   readonly loaded = output<{ numPages: number }>();
   /** No se pudo abrir el documento. */
   readonly loadError = output<unknown>();
+  /** El usuario cambió un campo del formulario (los valores, con `getFormData()`). */
+  readonly formChange = output<void>();
 
   private readonly engine = inject(CbPdfEngine);
   private readonly document = inject(DOCUMENT);
@@ -387,6 +481,31 @@ export class CbPdfViewer {
   protected readonly searching = signal(false);
 
   protected readonly zoomLevels = ZOOM_LEVELS;
+  /** Índice del documento (vacío si no tiene). */
+  readonly outline = signal<readonly CbPdfOutlineItem[]>([]);
+  /** Algún campo del formulario cambió desde que se abrió. */
+  readonly formModified = signal(false);
+  private readonly collapsed = signal<ReadonlySet<string>>(new Set());
+  /** Enlaces del documento (lo que la capa de anotaciones de pdf.js necesita). */
+  private readonly linkService = {
+    externalLinkEnabled: true,
+    eventBus: null,
+    addLinkAttributes: (link: HTMLAnchorElement, url: string, newWindow?: boolean) => {
+      if (!this.externalLinks() || !SAFE_URL.test(url)) {
+        link.removeAttribute('href');
+        return;
+      }
+      link.href = url;
+      link.title = url;
+      link.rel = 'noopener noreferrer nofollow';
+      if (newWindow !== false) link.target = '_blank';
+    },
+    getDestinationHash: () => '#',
+    getAnchorUrl: (hash: string) => `#${hash}`,
+    goToDestination: (dest: string | unknown[]) => void this.goToDestination(dest),
+    executeNamedAction: (action: string) => this.namedAction(action),
+    executeSetOCGState: () => undefined,
+  };
 
   private readonly viewport = viewChild<ElementRef<HTMLElement>>('viewport');
   private readonly pageEls = viewChildren<ElementRef<HTMLElement>>('pageEl');
@@ -595,11 +714,65 @@ export class CbPdfViewer {
     if (total) this.selectMatch((this.matchIndex() - 1 + total) % total);
   }
 
-  /** Descarga el documento original. */
+  /** Lleva a un destino del documento (nombre o destino explícito), con su posición en la página. */
+  async goToDestination(dest: string | unknown[] | null): Promise<void> {
+    const pdf = this.pdf;
+    if (!pdf || !dest) return;
+    const explicit = typeof dest === 'string' ? await pdf.getDestination(dest).catch(() => null) : dest;
+    if (!Array.isArray(explicit) || pdf !== this.pdf) return;
+    const ref = explicit[0];
+    let page: number;
+    try {
+      page = typeof ref === 'object' && ref ? (await pdf.getPageIndex(ref as never)) + 1 : Number.isInteger(ref) ? (ref as number) + 1 : NaN;
+    } catch {
+      return;
+    }
+    if (!Number.isFinite(page) || page < 1 || page > this.numPages()) return;
+    // XYZ y FitH/FitBH dan la altura (en puntos, desde abajo) a la que se ve el destino.
+    const kind = (explicit[1] as { name?: string } | undefined)?.name;
+    const top = kind === 'XYZ' ? explicit[3] : kind === 'FitH' || kind === 'FitBH' ? explicit[2] : null;
+    this.goToPage(page);
+    if (typeof top === 'number') afterNextRender(() => this.scrollToPoint(page, top), { injector: this.injector });
+  }
+
+  /** Valores actuales del formulario, por nombre de campo. */
+  async getFormData(): Promise<Record<string, CbPdfFormValue>> {
+    const pdf = this.pdf;
+    if (!pdf) return {};
+    const fields = (await Promise.resolve(pdf.getFieldObjects?.()).catch(() => null)) as Map<string, { id: string; value?: unknown; type?: string; exportValues?: string }[]> | null;
+    const storage = pdf.annotationStorage;
+    const data: Record<string, CbPdfFormValue> = {};
+    if (!fields || !storage) return data;
+    for (const [name, widgets] of fields) {
+      for (const widget of widgets) {
+        if (!widget.id) continue;
+        const stored = (storage.getValue(widget.id, { value: widget.value }) as { value?: unknown }).value;
+        if (widget.type === 'checkbox' || widget.type === 'radiobutton') {
+          const checked = stored === true || (typeof stored === 'string' && stored !== 'Off' && stored !== '');
+          if (widget.type === 'checkbox') data[name] = checked;
+          else if (checked) data[name] = widget.exportValues ?? String(stored);
+          else data[name] ??= null;
+        } else {
+          data[name] = Array.isArray(stored) ? stored.map(String) : stored == null ? null : String(stored);
+        }
+      }
+    }
+    return data;
+  }
+
+  /** El PDF con lo escrito en el formulario (o el original si no cambió). */
+  async save(): Promise<Blob | null> {
+    if (!this.pdf) return null;
+    const bytes = this.formModified() ? await this.pdf.saveDocument() : await this.pdf.getData();
+    return new Blob([bytes as BlobPart], { type: 'application/pdf' });
+  }
+
+  /** Descarga el documento (con los datos del formulario, si se rellenó). */
   async download(): Promise<void> {
     if (!this.pdf) return;
     const src = this.src();
-    const blob = src instanceof Blob ? src : new Blob([(await this.pdf.getData()) as BlobPart], { type: 'application/pdf' });
+    const blob = src instanceof Blob && !this.formModified() ? src : await this.save();
+    if (!blob) return;
     const url = URL.createObjectURL(blob);
     const a = this.document.createElement('a');
     a.href = url;
@@ -663,6 +836,14 @@ export class CbPdfViewer {
         return;
       }
       this.pdf = pdf;
+      this.formModified.set(false);
+      // pdf.js tipa estos ganchos como `null`, pero los llama si se les asigna una función.
+      const storage = pdf.annotationStorage as unknown as { onSetModified: () => void; onResetModified: () => void } | undefined;
+      if (storage) {
+        storage.onSetModified = () => this.formModified.set(true);
+        storage.onResetModified = () => this.formModified.set(false);
+      }
+      void this.loadOutline(pdf, token);
       // Mide el área antes del primer render para que "ajustar al ancho" no renderice dos veces.
       this.observeResize();
       const first = sizeOf(await this.getPage(1));
@@ -688,6 +869,16 @@ export class CbPdfViewer {
       if (isDevMode()) console.error('[cb-pdf-viewer]', error);
       this.loadError.emit(error);
     }
+  }
+
+  private async loadOutline(pdf: CbPdfDocument, token: number): Promise<void> {
+    const raw = await Promise.resolve(pdf.getOutline?.()).catch(() => null);
+    if (token !== this.loadToken) return;
+    type Raw = { title: string; dest: string | unknown[] | null; url: string | null; bold: boolean; italic: boolean; items: Raw[] };
+    const map = (items: Raw[] | null | undefined): CbPdfOutlineItem[] =>
+      (items ?? []).map((i) => ({ title: i.title, dest: i.dest, url: i.url, bold: !!i.bold, italic: !!i.italic, items: map(i.items) }));
+    this.outline.set(map(raw as Raw[] | null));
+    this.collapsed.set(new Set());
   }
 
   protected submitPassword(event: Event, value: string): void {
@@ -736,6 +927,8 @@ export class CbPdfViewer {
     this.searching.set(false);
     this.numPages.set(0);
     this.sizes.set([]);
+    this.outline.set([]);
+    this.formModified.set(false);
   }
 
   private getPage(n: number): Promise<CbPdfPage> {
@@ -828,11 +1021,14 @@ export class CbPdfViewer {
       canvas.width = Math.floor(viewport.width * ratio);
       canvas.height = Math.floor(viewport.height * ratio);
       canvas.setAttribute('aria-hidden', 'true');
-      const task = page.render({ canvas, viewport, transform: ratio === 1 ? undefined : [ratio, 0, 0, ratio, 0, 0] });
+      // Con formularios HTML, el canvas no dibuja los campos (AnnotationMode.ENABLE_FORMS).
+      const annotationMode = this.forms() ? (this.pdfjs?.AnnotationMode?.ENABLE_FORMS ?? 2) : (this.pdfjs?.AnnotationMode?.ENABLE ?? 1);
+      const task = page.render({ canvas, viewport, annotationMode, transform: ratio === 1 ? undefined : [ratio, 0, 0, ratio, 0, 0] });
       renderTask = task;
       await task.promise;
       if (cancelled) return;
       el.querySelector('.cb-pdf__canvas')?.replaceChildren(canvas);
+      void this.renderAnnotations(page, viewport, el, () => cancelled);
 
       const textEl = el.querySelector<HTMLElement>('.cb-pdf__text');
       if (!textEl || !this.pdfjs?.TextLayer) return;
@@ -858,6 +1054,50 @@ export class CbPdfViewer {
     const el = this.pageEl(n);
     el?.querySelector('.cb-pdf__canvas')?.replaceChildren();
     el?.querySelector('.cb-pdf__text')?.replaceChildren();
+    el?.querySelector('.cb-pdf__annotations')?.replaceChildren();
+  }
+
+  /** Enlaces y campos de formulario de la página (capa de anotaciones de pdf.js). */
+  private async renderAnnotations(page: CbPdfPage, viewport: ReturnType<CbPdfPage['getViewport']>, el: HTMLElement, cancelled: () => boolean): Promise<void> {
+    const div = el.querySelector<HTMLDivElement>('.cb-pdf__annotations');
+    const Layer = this.pdfjs?.AnnotationLayer;
+    const pdf = this.pdf;
+    if (!div || !Layer || !pdf) return;
+    try {
+      const annotations = await page.getAnnotations({ intent: 'display' });
+      if (cancelled() || !annotations.length) return;
+      const fieldObjects = this.forms() ? await pdf.getFieldObjects().catch(() => null) : null;
+      if (cancelled()) return;
+      div.replaceChildren();
+      const layerViewport = viewport.clone({ dontFlip: true });
+      const layer = new Layer({
+        div,
+        page,
+        viewport: layerViewport,
+        linkService: this.linkService,
+        annotationStorage: pdf.annotationStorage,
+        accessibilityManager: null,
+        annotationCanvasMap: null,
+        annotationEditorUIManager: null,
+        structTreeLayer: null,
+        commentManager: null,
+      });
+      await layer.render({
+        viewport: layerViewport,
+        div,
+        annotations,
+        page,
+        linkService: this.linkService as never,
+        annotationStorage: pdf.annotationStorage,
+        renderForms: this.forms(),
+        enableScripting: false,
+        hasJSActions: false,
+        fieldObjects,
+      });
+      if (cancelled()) div.replaceChildren();
+    } catch {
+      // Anotaciones dañadas: la página se ve igual, sin enlaces ni campos.
+    }
   }
 
   private observeThumbs(): void {
@@ -1003,6 +1243,16 @@ export class CbPdfViewer {
     root.scrollTop = el.offsetTop - PAGE_GAP;
   }
 
+  /** Desplaza hasta la altura `top` (puntos PDF, desde abajo) de la página `n`. */
+  private scrollToPoint(n: number, top: number): void {
+    const root = this.viewport()?.nativeElement;
+    const el = this.pageEl(n);
+    const size = this.sizes()[n - 1];
+    if (!root || !el || !size || (size.rotate + this.rotation()) % 360 !== 0) return;
+    const factor = this.scale() * CSS_UNITS;
+    root.scrollTop = el.offsetTop + Math.max(0, (size.height - top) * factor) - PAGE_GAP;
+  }
+
   private readAnchor(): { page: number; ratio: number } | null {
     const root = this.viewport()?.nativeElement;
     const el = this.pageEl(this.visiblePage);
@@ -1031,6 +1281,36 @@ export class CbPdfViewer {
   }
 
   // --- Barra y teclado -------------------------------------------------------------
+
+  protected isCollapsed(path: string): boolean {
+    return this.collapsed().has(path);
+  }
+
+  protected toggleOutline(path: string): void {
+    this.collapsed.update((set) => {
+      const next = new Set(set);
+      if (next.has(path)) next.delete(path);
+      else next.add(path);
+      return next;
+    });
+  }
+
+  protected openOutlineItem(item: CbPdfOutlineItem): void {
+    if (item.dest) void this.goToDestination(item.dest);
+    else if (item.url && this.externalLinks() && SAFE_URL.test(item.url)) globalThis.open?.(item.url, '_blank', 'noopener,noreferrer');
+  }
+
+  /** Acciones con nombre de los enlaces (NextPage, PrevPage, FirstPage, LastPage). */
+  private namedAction(action: string): void {
+    if (action === 'NextPage') this.nextPage();
+    else if (action === 'PrevPage') this.previousPage();
+    else if (action === 'FirstPage') this.goToPage(1);
+    else if (action === 'LastPage') this.goToPage(this.numPages());
+  }
+
+  protected onFormInput(): void {
+    this.formChange.emit();
+  }
 
   protected onPageInput(event: Event): void {
     const input = event.target as HTMLInputElement;

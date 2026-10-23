@@ -11,6 +11,7 @@ Desde la 22.0.0 el major de la librería coincide con el de Angular (22.x = Angu
 ## [Unreleased]
 
 ### Added
+- **PDF Viewer, nivel 2:** pestaña **Índice** en el panel lateral con los marcadores del documento (subniveles plegables, negrita y cursiva) y `sidebarView` (`'thumbnails' | 'outline'`); **enlaces** internos (llevan a la página y a la posición del destino) y externos (otra pestaña, solo http(s), mailto y tel; `externalLinks` los desactiva); **formularios** rellenables (texto, área de texto, desplegables, casillas y opciones; `forms` en `false` los pinta como imagen). Descargar e Imprimir incluyen lo escrito; nuevos `getFormData()` (valores por nombre de campo), `save()` (el PDF relleno como `Blob`), `goToDestination()`, `formModified` y el evento `formChange`. Tipos `CbPdfOutlineItem` y `CbPdfFormValue`. El showcase añade un PDF de solicitud con índice, enlaces y formulario.
 - **Breadcrumb:** un elemento con `command` y sin `url` se pinta como botón y se puede pulsar (antes era texto); también emite `itemClick`.
 - **Showcase, File Manager:** carpetas anidadas con ruta navegable (`cb-breadcrumb`), subida de archivos con botón o arrastrándolos, nueva carpeta, mover a otra carpeta, descarga de los archivos subidos, eliminación en cascada con confirmación, y almacenamiento y categorías calculados a partir de los archivos. Las acciones de los menús usan `command`.
 

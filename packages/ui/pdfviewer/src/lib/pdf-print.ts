@@ -28,7 +28,8 @@ export async function printPdfDocument(
       const canvas = document.createElement('canvas');
       canvas.width = Math.floor(viewport.width);
       canvas.height = Math.floor(viewport.height);
-      await page.render({ canvas, viewport, intent: 'print' }).promise;
+      // AnnotationMode.ENABLE_STORAGE (3): los campos de formulario se imprimen con lo que escribió el usuario.
+      await page.render({ canvas, viewport, intent: 'print', annotationMode: 3, printAnnotationStorage: pdf.annotationStorage.print }).promise;
       const blob = await new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, 'image/png'));
       if (blob) urls.push(URL.createObjectURL(blob));
       canvas.width = canvas.height = 0;

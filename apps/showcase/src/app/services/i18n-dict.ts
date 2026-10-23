@@ -2144,7 +2144,6 @@ export const ES_EN: Record<string, string> = {
   'Página actual (desde 1).': 'Current page (from 1).',
   'Ajustar al ancho, página completa o un factor (1 = 100 %).': 'Fit to width, fit page or a factor (1 = 100%).',
   'Giro del documento.': 'Document rotation.',
-  'Panel de miniaturas abierto.': 'Thumbnails panel open.',
   'Nombre del archivo al descargar.': 'File name when downloading.',
   'Contraseña para abrir el documento sin pedirla.': 'Password to open the document without asking for it.',
   'Envía cookies en peticiones a otro origen.': 'Sends cookies on cross-origin requests.',
@@ -3048,4 +3047,23 @@ export const ES_EN: Record<string, string> = {
     'It is inline text without its own role: its value is read and the icon is decorative. The severity color is not announced, so the text must be enough on its own ("Pending", not a red tag without text).',
   'Gestor de archivos tipo Drive con carpetas anidadas, ruta navegable, subida de archivos (botón o arrastrándolos), almacenamiento por categoría y acciones para renombrar, mover, descargar y eliminar.':
     'Drive-style file manager with nested folders, a navigable path, file uploads (button or drag and drop), storage by category and actions to rename, move, download and delete.',
+  // --- PDF Viewer nivel 2 ---
+  'Índice, enlaces y formularios': 'Outline, links and forms',
+  'Si el documento tiene marcadores, el panel lateral muestra la pestaña Índice. Los enlaces internos llevan a su página y posición, y los externos se abren en otra pestaña. Los campos de formulario se rellenan en el visor; Descargar e Imprimir incluyen lo escrito, getFormData() devuelve los valores por nombre de campo y save() el PDF relleno como Blob.':
+    'If the document has bookmarks, the side panel shows the Outline tab. Internal links go to their page and position, and external ones open in another tab. Form fields are filled in the viewer; Download and Print include what was typed, getFormData() returns the values by field name and save() the filled PDF as a Blob.',
+  'Ver datos del formulario': 'Show form data',
+  'Cambios: ': 'Changes: ',
+  'Panel lateral (miniaturas o índice) abierto.': 'Side panel (thumbnails or outline) open.',
+  'Vista del panel lateral (outline solo si el documento tiene índice).': 'Side panel view (outline only if the document has one).',
+  'Pestaña Índice en el panel lateral (si el documento tiene marcadores).': 'Outline tab in the side panel (if the document has bookmarks).',
+  'Campos de formulario rellenables (si no, se pintan como imagen).': 'Fillable form fields (otherwise they are drawn as an image).',
+  'Los enlaces externos del documento se abren en otra pestaña.': 'External links in the document open in another tab.',
+  'Cambió un campo del formulario (valores con getFormData()).': 'A form field changed (values with getFormData()).',
+  'El índice es una lista anidada de botones dentro de un `nav` con nombre ("Índice"); las entradas con subniveles tienen un botón con `aria-expanded` ("Contraer 2. Condiciones"). Las pestañas Miniaturas / Índice indican la elegida con `aria-pressed`.':
+    'The outline is a nested list of buttons inside a named `nav` ("Outline"); entries with sublevels have a button with `aria-expanded` ("Collapse 2. Conditions"). The Thumbnails / Outline tabs mark the chosen one with `aria-pressed`.',
+  'Los enlaces del documento son enlaces de verdad sobre el texto; los externos se abren en otra pestaña con `rel="noopener"` y solo si son http(s), mailto o tel.':
+    'Document links are real links over the text; external ones open in another tab with `rel="noopener"` and only if they are http(s), mailto or tel.',
+  'Los campos de formulario son controles nativos (`input`, `textarea`, `select`, casillas) con el nombre que les da el PDF (`TU`); se recorren con Tab. Descargar cambia su nombre a "Descargar con los datos del formulario" cuando hay cambios.':
+    'Form fields are native controls (`input`, `textarea`, `select`, checkboxes) with the name the PDF gives them (`TU`); Tab moves through them. Download is renamed "Download with the form data" when there are changes.',
+  'En el índice: va a la sección; en el botón de flecha, la contrae o expande.': 'In the outline: goes to the section; on the arrow button, collapses or expands it.',
 };
