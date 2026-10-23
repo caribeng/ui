@@ -23,7 +23,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write # crear la release de GitHub
-      id-token: write # npm provenance
     env:
       NODE_OPTIONS: --dns-result-order=ipv4first
       TAG: ${{ github.event.inputs.tag || github.ref_name }}
@@ -94,7 +93,8 @@ jobs:
       - name: Publish to npm
         if: steps.meta.outputs.published != 'true'
         working-directory: dist/packages/ui
-        run: npm publish --provenance --access public --tag "${{ steps.meta.outputs.dist_tag }}"
+        # Sin --provenance: npm solo la admite desde repositorios públicos (este es privado).
+        run: npm publish --access public --tag "${{ steps.meta.outputs.dist_tag }}"
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
