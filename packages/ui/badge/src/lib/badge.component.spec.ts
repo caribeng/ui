@@ -31,4 +31,18 @@ describe('CbBadge', () => {
     expect(host().classList).toContain('cb-badge--dot');
     expect(host().textContent?.trim()).toBe('');
   });
+  it('ariaLabel da nombre al badge; un dot sin nombre es decorativo', () => {
+    const { fixture, host } = setup();
+    fixture.componentRef.setInput('value', 3);
+    fixture.componentRef.setInput('ariaLabel', '3 mensajes sin leer');
+    fixture.detectChanges();
+    expect(host().getAttribute('role')).toBe('img');
+    expect(host().getAttribute('aria-label')).toBe('3 mensajes sin leer');
+    expect(host().hasAttribute('aria-hidden')).toBe(false);
+    fixture.componentRef.setInput('ariaLabel', '');
+    fixture.componentRef.setInput('dot', true);
+    fixture.detectChanges();
+    expect(host().getAttribute('aria-hidden')).toBe('true');
+    expect(host().hasAttribute('role')).toBe(false);
+  });
 });

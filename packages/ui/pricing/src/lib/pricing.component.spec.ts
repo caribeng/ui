@@ -153,4 +153,25 @@ describe('CbPricing', () => {
       expect(ctas.length).toBe(2);
     });
   });
+  it('el conmutador mensual/anual es un grupo nombrado con aria-pressed', () => {
+    const { fixture, el } = setup();
+    const group = el().querySelector('.cb-pricing__toggle')!;
+    expect(group.getAttribute('role')).toBe('group');
+    expect(group.getAttribute('aria-label')).toBe('Ciclo de facturación');
+    const [monthly, annual] = Array.from(group.querySelectorAll<HTMLButtonElement>('.cb-pricing__toggle-btn'));
+    expect(monthly.getAttribute('aria-pressed')).toBe('true');
+    expect(annual.getAttribute('aria-pressed')).toBe('false');
+    annual.click();
+    fixture.detectChanges();
+    expect(annual.getAttribute('aria-pressed')).toBe('true');
+  });
+
+  it('las características no incluidas se anuncian como tales', () => {
+    const fixture = TestBed.createComponent(CbPricing);
+    fixture.componentRef.setInput('plans', [{ name: 'Base', priceMonthly: 1, priceAnnual: 10, features: ['A', { label: 'Soporte', included: false }] }]);
+    fixture.detectChanges();
+    const items = Array.from((fixture.nativeElement as HTMLElement).querySelectorAll('.cb-pricing__features li'));
+    expect(items[0].querySelector('.cb-pricing__sr')).toBeNull();
+    expect(items[1].textContent!.replace(/\s+/g, ' ').trim()).toBe('Soporte (no incluido)');
+  });
 });

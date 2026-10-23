@@ -23,6 +23,9 @@ import type { CbSeverity, CbSize } from '@caribeng/ui';
     class: 'cb-badge',
     '[class]': "'cb-badge cb-badge--' + severity() + ' cb-badge--' + size()",
     '[class.cb-badge--dot]': 'dot()',
+    '[attr.role]': 'ariaLabel() ? "img" : null',
+    '[attr.aria-label]': 'ariaLabel() || null',
+    '[attr.aria-hidden]': 'dot() && !ariaLabel() ? "true" : null',
   },
   template: `@if (!dot()) {{{ value() }}}`,
   styleUrl: './badge.component.css',
@@ -36,6 +39,8 @@ export class CbBadge {
   readonly size = input<CbSize>('md');
   /** Muestra solo un punto (sin texto). */
   readonly dot = input<boolean, unknown>(false, { transform: toBoolean });
+  /** Nombre accesible que sustituye al valor (p. ej. "3 mensajes sin leer"). Sin él, un `dot` es decorativo. */
+  readonly ariaLabel = input<string>('');
 }
 
 function toBoolean(value: unknown): boolean {

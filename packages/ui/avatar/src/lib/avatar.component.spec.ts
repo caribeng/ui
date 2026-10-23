@@ -48,4 +48,13 @@ describe('CbAvatar', () => {
     expect(host().style.width).toBe('64px');
     expect(host().style.height).toBe('64px');
   });
+  it('con ariaLabel e imagen, el nombre está solo en el host (la imagen tiene alt vacío)', () => {
+    const { fixture, host } = setup();
+    fixture.componentRef.setInput('image', '/u/ana.jpg');
+    fixture.componentRef.setInput('ariaLabel', 'Ana Pérez');
+    fixture.detectChanges();
+    expect(host().getAttribute('role')).toBe('img');
+    expect(host().getAttribute('aria-label')).toBe('Ana Pérez');
+    expect(host().querySelector('img')!.getAttribute('alt')).toBe('');
+  });
 });

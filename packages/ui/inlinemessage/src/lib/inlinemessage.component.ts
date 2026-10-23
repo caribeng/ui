@@ -19,7 +19,7 @@ export type CbInlineMessageSeverity = 'info' | 'success' | 'warn' | 'danger';
   imports: [CbIcon],
   host: {
     class: 'cb-inline-message',
-    role: 'alert',
+    '[attr.role]': 'severity() === "danger" || severity() === "warn" ? "alert" : "status"',
     '[class.cb-inline-message--info]': 'severity() === "info"',
     '[class.cb-inline-message--success]': 'severity() === "success"',
     '[class.cb-inline-message--warn]': 'severity() === "warn"',

@@ -38,4 +38,13 @@ describe('CbInlineMessage', () => {
     fixture.detectChanges();
     expect((fixture.nativeElement as HTMLElement).querySelector('.cb-inline-message__text')!.textContent).toBe('Revisa ');
   });
+  it('info y success usan role="status"; warn y danger, role="alert"', () => {
+    const fixture = TestBed.createComponent(CbInlineMessage);
+    const host = fixture.nativeElement as HTMLElement;
+    for (const [severity, role] of [['info', 'status'], ['success', 'status'], ['warn', 'alert'], ['danger', 'alert']]) {
+      fixture.componentRef.setInput('severity', severity);
+      fixture.detectChanges();
+      expect(host.getAttribute('role')).toBe(role);
+    }
+  });
 });

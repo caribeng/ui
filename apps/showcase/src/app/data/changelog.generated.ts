@@ -39,8 +39,20 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
             "text": "con \"reducir movimiento\" en el sistema, el desplazamiento es instantáneo aunque `behavior` sea `smooth`."
           },
           {
+            "component": "Ripple",
+            "text": "con \"reducir movimiento\" en el sistema, no dibuja la onda."
+          },
+          {
+            "component": "Badge",
+            "text": "`ariaLabel` para darle un nombre con contexto (\"3 mensajes sin leer\"); un `dot` sin nombre queda oculto a los lectores de pantalla."
+          },
+          {
+            "component": "Pricing",
+            "text": "las características no incluidas se anuncian con \"(no incluido)\", no solo con el color, y el conmutador mensual / anual de la vista de cuadrícula es un grupo nombrado con `aria-pressed`. Clave de idioma nueva: `notIncluded`."
+          },
+          {
             "component": "Showcase",
-            "text": "sección Accesibilidad en 33 páginas más: Button, Chips, ColorPicker, FileUpload, FloatLabel, IconField, InputGroup, InputMask, Knob, Password, ToggleButton, Breadcrumb, Dock, Menubar, PanelMenu, SpeedDial, Steps, TabMenu, TieredMenu, Accordion, Card, Divider, Fieldset, Panel, ScrollPanel, ScrollTop, Splitter, Stepper, Toolbar, DataView, OrganizationChart, Paginator y Timeline."
+            "text": "sección Accesibilidad en 51 páginas más: Button, Chips, ColorPicker, FileUpload, FloatLabel, IconField, InputGroup, InputMask, Knob, Password, ToggleButton, Breadcrumb, Dock, Menubar, PanelMenu, SpeedDial, Steps, TabMenu, TieredMenu, Accordion, Card, Divider, Fieldset, Panel, ScrollPanel, ScrollTop, Splitter, Stepper, Toolbar, DataView, OrganizationChart, Paginator, Timeline, AnimateOnScroll, AutoFocus, Avatar, AvatarGroup, Badge, Chip, FileCard, FocusTrap, FolderCard, InlineMessage, Message, Pricing, ProgressBar, Ripple, Skeleton, Spinner, StyleClass y Tag."
           },
           {
             "component": "Kanban, espacio de trabajo",
@@ -58,6 +70,14 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
           {
             "component": "OrganizationChart",
             "text": "usaba `role=\"tree\"` / `treeitem` sin la navegación con flechas del patrón y con botones dentro (ARIA inválido); ahora es un grupo nombrado de listas anidadas y el nodo elegido expone `aria-pressed`."
+          },
+          {
+            "component": "Message / InlineMessage",
+            "text": "todas las severidades usaban `role=\"alert\"`, que interrumpe al lector de pantalla; ahora solo `danger` y `warning` (`warn` en InlineMessage), y el resto usa `role=\"status\"`."
+          },
+          {
+            "component": "Avatar",
+            "text": "con imagen y `ariaLabel`, el nombre se leía dos veces (en el host y en el `alt` de la imagen); la imagen ahora tiene `alt=\"\"`."
           }
         ]
       }

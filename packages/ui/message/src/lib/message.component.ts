@@ -38,7 +38,7 @@ const SEVERITY_ICON: Record<string, string> = {
   host: { class: 'cb-message-host' },
   template: `
     @if (visible()) {
-      <div class="cb-message" [class]="'cb-message--' + severity()" role="alert">
+      <div class="cb-message" [class]="'cb-message--' + severity()" [attr.role]="urgent() ? 'alert' : 'status'">
         @if (iconName()) {
           <cb-icon class="cb-message__icon" [name]="iconName()" [size]="18" aria-hidden="true" />
         }
@@ -63,6 +63,8 @@ export class CbMessage {
   readonly icon = input<string | null>(null);
   /** Visibilidad (two-way). */
   readonly visible = model<boolean>(true);
+  /** danger y warning se anuncian al momento (`alert`); el resto, sin interrumpir (`status`). */
+  protected readonly urgent = computed(() => this.severity() === 'danger' || this.severity() === 'warning');
 
   /** Se emite al cerrar. */
   readonly closed = output<void>();

@@ -34,7 +34,7 @@ import type { CbSeverity } from '@caribeng/ui';
   },
   template: `
     @if (image()) {
-      <img class="cb-avatar__img" [src]="image()" [alt]="ariaLabel()" />
+      <img class="cb-avatar__img" [src]="image()" alt="" />
     } @else if (icon()) {
       <cb-icon [name]="icon()" [size]="px() * 0.5" aria-hidden="true" />
     } @else {

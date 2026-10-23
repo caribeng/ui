@@ -36,10 +36,10 @@ describe('CbMessage', () => {
     return { fixture, el, box };
   }
 
-  it('muestra el contenido, role=alert y la clase de severidad', () => {
+  it('muestra el contenido, role=status y la clase de severidad', () => {
     const { box } = setup();
     expect(box()).toBeTruthy();
-    expect(box()!.getAttribute('role')).toBe('alert');
+    expect(box()!.getAttribute('role')).toBe('status');
     expect(box()!.classList).toContain('cb-message--success');
     expect(box()!.textContent).toContain('Mensaje de prueba');
     expect(box()!.querySelector('cb-icon svg')).toBeTruthy();
@@ -59,5 +59,13 @@ describe('CbMessage', () => {
     expect(box()).toBeNull();
     expect(fixture.componentInstance.visible()).toBe(false);
     expect(fixture.componentInstance.closedCount).toBe(1);
+  });
+  it('danger y warning se anuncian como alert; el resto, como status', () => {
+    const fixture = TestBed.createComponent(CbMessage);
+    for (const [severity, role] of [['danger', 'alert'], ['warning', 'alert'], ['info', 'status'], ['success', 'status']]) {
+      fixture.componentRef.setInput('severity', severity);
+      fixture.detectChanges();
+      expect((fixture.nativeElement as HTMLElement).querySelector('.cb-message')!.getAttribute('role')).toBe(role);
+    }
   });
 });

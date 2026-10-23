@@ -121,12 +121,13 @@ export interface CbPricingPlan {
 
       @if (showToggle()) {
         <div class="cb-pricing__toggle-wrap">
-          <div class="cb-pricing__toggle" [class.cb-pricing__toggle--annual]="billing() === 'annual'">
+          <div class="cb-pricing__toggle" [class.cb-pricing__toggle--annual]="billing() === 'annual'" role="group" [attr.aria-label]="t().billingCycle">
             <span class="cb-pricing__toggle-thumb"></span>
             <button
               type="button"
               class="cb-pricing__toggle-btn"
               [class.cb-pricing__toggle-btn--on]="billing() === 'monthly'"
+              [attr.aria-pressed]="billing() === 'monthly'"
               (click)="billing.set('monthly')"
             >
               {{ (monthlyLabel() ?? t().monthly) }}
@@ -135,6 +136,7 @@ export interface CbPricingPlan {
               type="button"
               class="cb-pricing__toggle-btn"
               [class.cb-pricing__toggle-btn--on]="billing() === 'annual'"
+              [attr.aria-pressed]="billing() === 'annual'"
               (click)="billing.set('annual')"
             >
               {{ (annualLabel() ?? t().yearly) }}
@@ -183,6 +185,9 @@ export interface CbPricingPlan {
                 <li [class.cb-pricing__feature--off]="!includedOf(f)">
                   <cb-icon [name]="iconOf(f)" [size]="16" class="cb-pricing__check" aria-hidden="true" />
                   {{ labelOf(f) }}
+                  @if (!includedOf(f)) {
+                    <span class="cb-pricing__sr">({{ t().notIncluded }})</span>
+                  }
                 </li>
               }
             </ul>

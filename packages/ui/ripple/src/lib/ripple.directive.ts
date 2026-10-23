@@ -27,6 +27,7 @@ export class CbRippleDirective {
 
   protected onPointerDown(event: PointerEvent): void {
     if (this.cbRippleDisabled()) return;
+    if (this.hostRef.nativeElement.ownerDocument.defaultView?.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return;
     const host = this.hostRef.nativeElement;
     const rect = host.getBoundingClientRect();
     const size = Math.max(rect.width, rect.height, 48);

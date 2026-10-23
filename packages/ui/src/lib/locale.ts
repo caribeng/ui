@@ -483,6 +483,7 @@ export interface CbTranslation {
   perMonth: string;
   perYear: string;
   billingCycle: string;
+  notIncluded: string;
   payAnnually: string;
   payMonthly: string;
   /** `{0}`: importe anual. */
@@ -1016,6 +1017,7 @@ export const CB_LOCALE_ES: CbTranslation = {
   perMonth: '/mes',
   perYear: '/año',
   billingCycle: 'Ciclo de facturación',
+  notIncluded: 'no incluido',
   payAnnually: 'Paga anualmente',
   payMonthly: 'Paga mensualmente',
   billedAnnually: 'Facturado {0} anualmente',
@@ -1541,6 +1543,7 @@ export const CB_LOCALE_EN: CbTranslation = {
   perMonth: '/mo',
   perYear: '/yr',
   billingCycle: 'Billing cycle',
+  notIncluded: 'not included',
   payAnnually: 'Pay annually',
   payMonthly: 'Pay monthly',
   billedAnnually: 'Billed {0} annually',
