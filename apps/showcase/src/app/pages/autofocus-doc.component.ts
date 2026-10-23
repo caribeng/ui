@@ -2,13 +2,15 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CbAutoFocusDirective } from '@caribeng/ui/autofocus';
 import { CbDocApiRow, CbDocPageComponent } from '../components/doc-page.component';
 import { CbDocExampleComponent } from '../components/doc-example.component';
+import { DocA11yComponent } from '../components/doc-a11y.component';
+import { DOC_A11Y } from '../components/doc-a11y-registry';
 
 const BASIC_CODE = `<input cbAutoFocus placeholder="Recibe foco al montar" />`;
 
 @Component({
   selector: 'cb-autofocus-doc',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbDocPageComponent, CbDocExampleComponent, CbAutoFocusDirective],
+  imports: [DocA11yComponent, CbDocPageComponent, CbDocExampleComponent, CbAutoFocusDirective],
   template: `
     <cb-doc-page
       category="Varios"
@@ -28,10 +30,12 @@ const BASIC_CODE = `<input cbAutoFocus placeholder="Recibe foco al montar" />`;
           style="padding: 0.45rem 0.75rem; border-radius: 0.375rem; border: 1px solid var(--cb-border-color, #cbd5e1)"
         />
       </cb-doc-example>
+      <doc-a11y [data]="a11y" />
     </cb-doc-page>
   `,
 })
 export class AutofocusDocComponent {
+  protected readonly a11y = DOC_A11Y['[cbAutoFocus]'];
   protected readonly basicCode = BASIC_CODE;
 
   protected readonly api: CbDocApiRow[] = [

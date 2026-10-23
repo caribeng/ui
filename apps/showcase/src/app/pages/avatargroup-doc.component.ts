@@ -7,11 +7,13 @@ import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
 import { TocService } from '../services/toc.service';
+import { DocA11yComponent } from '../components/doc-a11y.component';
+import { DOC_A11Y } from '../components/doc-a11y-registry';
 
 @Component({
   selector: 'doc-avatargroup-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [DocPlaygroundComponent, 
+  imports: [DocA11yComponent, DocPlaygroundComponent, 
     CbAvatarGroup,
     CbAvatar,
     DocSectionComponent,
@@ -33,10 +35,13 @@ import { TocService } from '../services/toc.service';
       </cb-avatar-group>
     </doc-section>
 
+    <doc-a11y [data]="a11y" />
+
     <doc-playground [api]="docApi" />
   `,
 })
 export class AvatargroupDocComponent {
+  protected readonly a11y = DOC_A11Y['cb-avatar-group'];
   protected readonly docApi = DOC_API['cb-avatar-group'];
 
   constructor() {

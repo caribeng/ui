@@ -267,7 +267,8 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "value", kind: "string", type: "string | number", default: "", example: "4", description: "Contenido (conteo o texto breve)." },
       { name: "severity", kind: "enum", type: "CbSeverity", options: ["primary", "secondary", "success", "warning", "danger", "info", "help", "contrast"], default: "primary", description: "Severidad semántica (color)." },
       { name: "size", kind: "enum", type: "CbSize", options: ["sm", "md", "lg"], default: "md", description: "Tamaño." },
-      { name: "dot", kind: "boolean", type: "boolean", default: false, description: "Muestra solo un punto (sin texto)." }
+      { name: "dot", kind: "boolean", type: "boolean", default: false, description: "Muestra solo un punto (sin texto)." },
+      { name: "ariaLabel", kind: "string", type: "string", default: "", description: "Nombre accesible con contexto (p. ej. \"3 mensajes sin leer\"). Sin él, un dot es decorativo." }
     ]
   },
   "cb-block-ui": {

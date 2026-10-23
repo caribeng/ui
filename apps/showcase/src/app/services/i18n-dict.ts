@@ -796,6 +796,8 @@ export const ES_EN: Record<string, string> = {
   'Severidad semántica (color).': 'Semantic severity (color).',
   'Tamaño.': 'Size.',
   'Muestra solo un punto (sin texto).': 'Shows only a dot (no text).',
+  'Nombre accesible con contexto (p. ej. "3 mensajes sin leer"). Sin él, un dot es decorativo.':
+    'Accessible name with context (e.g. "3 unread messages"). Without it, a dot is decorative.',
   'Icono separador entre elementos.': 'Separator icon between items.',
   'Se emite al hacer clic en un elemento con enlace.':
     'Emitted when an item with a link is clicked.',
@@ -2961,4 +2963,89 @@ export const ES_EN: Record<string, string> = {
     'Moves focus to the view switch, to each item button and to the pagination.',
   'Mueve el foco a cada nodo y a su botón de expandir.': 'Moves focus to each node and its expand button.',
   'Mueve el foco a cada botón y al selector de filas.': 'Moves focus to each button and the rows selector.',
+  // --- Accesibilidad, tanda 3 (mensajes, varios y directivas) ---
+  'Mayús + Tab': 'Shift + Tab',
+  'Flechas / Inicio / Fin': 'Arrows / Home / End',
+  'Solo cambia clases CSS: no añade roles ni oculta nada a los lectores de pantalla, que leen el contenido aunque todavía no haya entrado en pantalla.':
+    'It only changes CSS classes: it adds no roles and hides nothing from screen readers, which read the content even before it has scrolled into view.',
+  'Envuelve la animación de tus clases en `@media (prefers-reduced-motion: no-preference)` para respetar a quien pide reducir movimiento.':
+    'Wrap the animation of your classes in `@media (prefers-reduced-motion: no-preference)` to respect people who ask for reduced motion.',
+  'Enfoca el elemento al montarse, y el lector de pantalla lo anuncia. Úsalo cuando el foco tenga un destino claro (el primer campo de un diálogo o de un formulario recién abierto), no al cargar la página: saltarse el contenido anterior desorienta.':
+    'It focuses the element when it is mounted, and the screen reader announces it. Use it when focus has a clear destination (the first field of a dialog or of a form that just opened), not on page load: skipping the content before it is disorienting.',
+  'El elemento tiene que poder recibir el foco: un control nativo o un elemento con `tabindex="-1"`.':
+    'The element must be able to receive focus: a native control or an element with `tabindex="-1"`.',
+  'Con `ariaLabel`, el avatar es un `role="img"` con ese nombre (la imagen interna lleva `alt=""` para no repetirlo). Sin él, las iniciales (`label`) se leen tal cual, y el icono o la imagen se ignoran.':
+    'With `ariaLabel`, the avatar is a `role="img"` with that name (the inner image has `alt=""` so it is not repeated). Without it, the initials (`label`) are read as they are, and the icon or image is ignored.',
+  'Si el nombre de la persona ya aparece al lado, no pongas `ariaLabel`: se leería dos veces.':
+    'If the person\'s name already appears next to it, do not set `ariaLabel`: it would be read twice.',
+  'Es un `role="group"`: nómbralo con `ariaLabel` ("Participantes"). Si incluyes un avatar de recuento ("+3"), dale un `ariaLabel` como "3 más".':
+    'It is a `role="group"`: name it with `ariaLabel` ("Participants"). If you include a count avatar ("+3"), give it an `ariaLabel` such as "3 more".',
+  'Sin `ariaLabel` se lee el valor tal cual ("8"), que fuera de contexto dice poco: dale un `ariaLabel` como "8 mensajes sin leer", o incluye el contexto en el nombre del control al que acompaña.':
+    'Without `ariaLabel` the value is read as it is ("8"), which says little out of context: give it an `ariaLabel` such as "8 unread messages", or include the context in the name of the control it goes with.',
+  'Con `dot` y sin `ariaLabel` es decorativo (`aria-hidden`). El color nunca debe ser la única forma de transmitir el estado.':
+    'With `dot` and no `ariaLabel` it is decorative (`aria-hidden`). Color must never be the only way to convey the status.',
+  'La etiqueta se lee como texto; el icono es decorativo y la imagen lleva `alt=""`. Con `removable`, el botón de quitar se nombra con la etiqueta ("Quitar Angular").':
+    'The label is read as text; the icon is decorative and the image has `alt=""`. With `removable`, the remove button is named with the label ("Remove Angular").',
+  'Al quitar el chip, su botón desaparece: en `(removed)`, mueve el foco a un elemento cercano para que no se pierda.':
+    'When the chip is removed its button disappears: in `(removed)`, move focus to a nearby element so it is not lost.',
+  'Mueve el foco al botón de quitar.': 'Moves focus to the remove button.',
+  'Quita el chip.': 'Removes the chip.',
+  'El título es texto; con `clickable` es un botón que emite `open`. El icono es decorativo.':
+    'The title is text; with `clickable` it is a button that emits `open`. The icon is decorative.',
+  'Con `actions`, el botón de acciones se nombra con el título ("Más acciones: informe.pdf"), indica `aria-haspopup="menu"` y `aria-expanded`, y abre un `cb-menu`; al cerrarlo, el foco vuelve al botón.':
+    'With `actions`, the actions button is named with the title ("More actions: report.pdf"), exposes `aria-haspopup="menu"` and `aria-expanded`, and opens a `cb-menu`; when it closes, focus returns to the button.',
+  'Mueve el foco al título (con clickable) y al botón de acciones.': 'Moves focus to the title (with clickable) and the actions button.',
+  'Abre el archivo o el menú de acciones.': 'Opens the file or the actions menu.',
+  'En el botón de acciones, abre el menú y enfoca la primera opción.':
+    'On the actions button, opens the menu and focuses the first option.',
+  'Mantiene Tab y Mayús + Tab dentro del contenedor. No mueve el foco al activarse ni lo devuelve al desactivarse: hazlo tú (por ejemplo, con `cbAutoFocus` al abrir y enfocando el disparador al cerrar).':
+    'It keeps Tab and Shift+Tab inside the container. It does not move focus when enabled nor return it when disabled: do that yourself (for example, with `cbAutoFocus` on open and by focusing the trigger on close).',
+  'Úsalo solo en capas modales y ofrece siempre una salida con teclado (un botón de cerrar o Escape). `cbFocusTrapDisabled` lo desactiva.':
+    'Use it only in modal layers and always offer a keyboard way out (a close button or Escape). `cbFocusTrapDisabled` turns it off.',
+  'Pasa al siguiente elemento; desde el último, vuelve al primero.':
+    'Moves to the next element; from the last one, goes back to the first.',
+  'Pasa al anterior; desde el primero, va al último.': 'Moves to the previous one; from the first, goes to the last.',
+  'El nombre es texto; con `clickable` es un botón que emite `open`. El icono de carpeta es decorativo, y el número de archivos y el tamaño se leen como texto.':
+    'The name is text; with `clickable` it is a button that emits `open`. The folder icon is decorative, and the file count and size are read as text.',
+  'Con `actions`, el botón de acciones se nombra con la carpeta ("Más acciones: Facturas"), indica `aria-haspopup="menu"` y `aria-expanded`, y abre un `cb-menu`; al cerrarlo, el foco vuelve al botón.':
+    'With `actions`, the actions button is named with the folder ("More actions: Invoices"), exposes `aria-haspopup="menu"` and `aria-expanded`, and opens a `cb-menu`; when it closes, focus returns to the button.',
+  'Mueve el foco al nombre (con clickable) y al botón de acciones.': 'Moves focus to the name (with clickable) and the actions button.',
+  'Abre la carpeta o el menú de acciones.': 'Opens the folder or the actions menu.',
+  'Con severidad `danger` o `warn` es un `role="alert"` y se anuncia al momento; con `info` o `success` es un `role="status"`, que se anuncia sin interrumpir. El icono es decorativo.':
+    'With `danger` or `warn` severity it is a `role="alert"` and is announced at once; with `info` or `success` it is a `role="status"`, announced without interrupting. The icon is decorative.',
+  'Para asociarlo a un campo, dale un `id` y apúntalo desde el campo con `aria-describedby`.':
+    'To associate it with a field, give it an `id` and point to it from the field with `aria-describedby`.',
+  'Con severidad `danger` o `warning` es un `role="alert"` y se anuncia al momento; con el resto es un `role="status"`, que se anuncia sin interrumpir. El icono es decorativo.':
+    'With `danger` or `warning` severity it is a `role="alert"` and is announced at once; with the rest it is a `role="status"`, announced without interrupting. The icon is decorative.',
+  'Los lectores anuncian lo que aparece, no lo que ya estaba al cargar la página: muestra el mensaje (con `@if`) cuando ocurra lo que comunica. Con `closable`, el botón de cerrar tiene nombre ("Cerrar").':
+    'Screen readers announce what appears, not what was already there on page load: show the message (with `@if`) when what it reports happens. With `closable`, the close button is named ("Close").',
+  'Mueve el foco al botón de cerrar.': 'Moves focus to the close button.',
+  'El título es un encabezado `h2`. Las características de cada plan forman una lista, y las no incluidas se anuncian con "(no incluido)", no solo con el color.':
+    'The title is an `h2` heading. Each plan\'s features form a list, and those not included are announced with "(not included)", not only with color.',
+  'El cambio mensual / anual es un grupo nombrado ("Ciclo de facturación"): en la vista de cuadrícula, dos botones con `aria-pressed`; en la horizontal, un `role="radiogroup"`. Cada plan termina en un botón con nombre propio ("Elegir Pro").':
+    'The monthly / annual switch is a named group ("Billing cycle"): in the grid view, two buttons with `aria-pressed`; in the horizontal view, a `role="radiogroup"`. Each plan ends with a button with its own name ("Choose Pro").',
+  'Mueve el foco al cambio de ciclo y al botón de cada plan.': 'Moves focus to the cycle switch and to each plan button.',
+  'Cambia el ciclo o elige el plan.': 'Changes the cycle or chooses the plan.',
+  'En la vista horizontal, cambia de ciclo.': 'In the horizontal view, changes the cycle.',
+  'Es un `role="progressbar"` con `aria-valuemin="0"`, `aria-valuemax="100"` y el valor en `aria-valuenow`; con `indeterminate` no lleva valor. Dale siempre un `ariaLabel` ("Subiendo archivo") para que se sepa qué progresa.':
+    'It is a `role="progressbar"` with `aria-valuemin="0"`, `aria-valuemax="100"` and the value in `aria-valuenow`; with `indeterminate` it has no value. Always give it an `ariaLabel` ("Uploading file") so it is clear what is progressing.',
+  'Con "reducir movimiento" activado, la animación de `indeterminate` va más despacio.':
+    'With "reduce motion" turned on, the `indeterminate` animation runs slower.',
+  'Es solo visual: no cambia el rol, el nombre ni el foco del elemento. Aplícalo a controles que ya sean accesibles (un `button`, un enlace).':
+    'It is purely visual: it does not change the role, name or focus of the element. Apply it to controls that are already accessible (a `button`, a link).',
+  'Con "reducir movimiento" activado en el sistema, no se dibuja la onda.':
+    'With "reduce motion" turned on in the system, the ripple is not drawn.',
+  'Es decorativo (`aria-hidden="true"`). Mientras carga, marca el contenedor con `aria-busy="true"` y, si la espera es larga, anúnciala con un `cb-spinner` o con un texto en una región `role="status"`.':
+    'It is decorative (`aria-hidden="true"`). While loading, mark the container with `aria-busy="true"` and, if the wait is long, announce it with a `cb-spinner` or with text in a `role="status"` region.',
+  'Con "reducir movimiento" activado, la animación se detiene.': 'With "reduce motion" turned on, the animation stops.',
+  'Es un `role="status"` con nombre ("Cargando", o `ariaLabel`); el SVG es decorativo. Para que se anuncie, muéstralo (con `@if`) al empezar la carga en lugar de dejarlo siempre en la página y ocultarlo con CSS.':
+    'It is a named `role="status"` ("Loading", or `ariaLabel`); the SVG is decorative. For it to be announced, show it (with `@if`) when loading starts instead of leaving it on the page and hiding it with CSS.',
+  'Con "reducir movimiento" activado, gira más despacio y el arco deja de cambiar de tamaño.':
+    'With "reduce motion" turned on, it spins slower and the arc stops changing size.',
+  'Solo añade o quita clases en el objetivo. Si las usas para mostrar u ocultar contenido, ese estado no llega a los lectores de pantalla: actualiza tú `aria-expanded` en el elemento que lo dispara, o usa un componente con estado (Panel, Accordion).':
+    'It only adds or removes classes on the target. If you use them to show or hide content, that state does not reach screen readers: update `aria-expanded` on the triggering element yourself, or use a stateful component (Panel, Accordion).',
+  'Ocultar con `display: none` saca el contenido también del lector de pantalla; ocultarlo solo con opacidad, no.':
+    'Hiding with `display: none` also removes the content from the screen reader; hiding it only with opacity does not.',
+  'Es texto en línea sin rol propio: se lee su valor y el icono es decorativo. El color de la severidad no se anuncia, así que el texto debe bastar por sí solo ("Pendiente", no un tag rojo sin texto).':
+    'It is inline text without its own role: its value is read and the icon is decorative. The severity color is not announced, so the text must be enough on its own ("Pending", not a red tag without text).',
 };

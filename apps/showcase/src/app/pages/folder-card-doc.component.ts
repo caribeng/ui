@@ -5,6 +5,8 @@ import { DocPageHeaderComponent } from '../shared/page-header.component';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { TocService } from '../services/toc.service';
+import { DocA11yComponent } from '../components/doc-a11y.component';
+import { DOC_A11Y } from '../components/doc-a11y-registry';
 
 interface Folder {
   name: string;
@@ -15,7 +17,7 @@ interface Folder {
 @Component({
   selector: 'doc-folder-card-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbFolderCard, DocPageHeaderComponent, DocSectionComponent, CodeBlockComponent],
+  imports: [DocA11yComponent, CbFolderCard, DocPageHeaderComponent, DocSectionComponent, CodeBlockComponent],
   template: `
     <doc-page-header
       eyebrow="Archivos"
@@ -73,6 +75,8 @@ interface Folder {
         <span cb-folder-actions class="fcd-badge">Compartida</span>
       </cb-folder-card>
     </doc-section>
+
+    <doc-a11y [data]="a11y" />
   `,
   styles: [
     `
@@ -96,6 +100,7 @@ interface Folder {
   ],
 })
 export class FolderCardDocComponent {
+  protected readonly a11y = DOC_A11Y['cb-folder-card'];
   constructor() {
     inject(TocService).reset();
   }

@@ -4,11 +4,13 @@ import { DocPageHeaderComponent } from '../shared/page-header.component';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { TocService } from '../services/toc.service';
+import { DocA11yComponent } from '../components/doc-a11y.component';
+import { DOC_A11Y } from '../components/doc-a11y-registry';
 
 @Component({
   selector: 'doc-pricing-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbPricing, DocPageHeaderComponent, DocSectionComponent, CodeBlockComponent],
+  imports: [DocA11yComponent, CbPricing, DocPageHeaderComponent, DocSectionComponent, CodeBlockComponent],
   template: `
     <doc-page-header
       eyebrow="Datos"
@@ -73,9 +75,12 @@ import { TocService } from '../services/toc.service';
     >
       <cb-pricing [plans]="plans" [showToggle]="false" />
     </doc-section>
+
+    <doc-a11y [data]="a11y" />
   `,
 })
 export class PricingDocComponent {
+  protected readonly a11y = DOC_A11Y['cb-pricing'];
   constructor() {
     inject(TocService).reset();
   }

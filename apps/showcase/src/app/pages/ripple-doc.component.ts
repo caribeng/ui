@@ -4,11 +4,13 @@ import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
 import { TocService } from '../services/toc.service';
+import { DocA11yComponent } from '../components/doc-a11y.component';
+import { DOC_A11Y } from '../components/doc-a11y-registry';
 
 @Component({
   selector: 'doc-ripple-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbRippleDirective, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
+  imports: [DocA11yComponent, CbRippleDirective, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
     <doc-page-header eyebrow="Varios" title="Ripple" lead="Directiva [cbRipple] para efecto visual de onda al hacer clic." />
     <doc-section id="import" title="Importación">
@@ -31,9 +33,12 @@ import { TocService } from '../services/toc.service';
         Haz clic aquí para ver la onda
       </button>
     </doc-section>
+
+    <doc-a11y [data]="a11y" />
   `,
 })
 export class RippleDocComponent {
+  protected readonly a11y = DOC_A11Y['[cbRipple]'];
   constructor() {
     inject(TocService).reset();
   }

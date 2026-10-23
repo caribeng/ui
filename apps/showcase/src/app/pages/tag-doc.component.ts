@@ -6,11 +6,13 @@ import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
 import { TocService } from '../services/toc.service';
+import { DocA11yComponent } from '../components/doc-a11y.component';
+import { DOC_A11Y } from '../components/doc-a11y-registry';
 
 @Component({
   selector: 'doc-tag-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [DocPlaygroundComponent, CbTag, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
+  imports: [DocA11yComponent, DocPlaygroundComponent, CbTag, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
     <doc-page-header eyebrow="Mensajes" title="Tag" lead="Etiqueta para categorizar o marcar estado, con icono opcional." />
 
@@ -48,10 +50,13 @@ import { TocService } from '../services/toc.service';
       </div>
     </doc-section>
 
+    <doc-a11y [data]="a11y" />
+
     <doc-playground [api]="docApi" />
   `,
 })
 export class TagDocComponent {
+  protected readonly a11y = DOC_A11Y['cb-tag'];
   protected readonly docApi = DOC_API['cb-tag'];
 
   constructor() {

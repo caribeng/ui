@@ -2,6 +2,8 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CbFocusTrapDirective } from '@caribeng/ui/focustrap';
 import { CbDocApiRow, CbDocPageComponent } from '../components/doc-page.component';
 import { CbDocExampleComponent } from '../components/doc-example.component';
+import { DocA11yComponent } from '../components/doc-a11y.component';
+import { DOC_A11Y } from '../components/doc-a11y-registry';
 
 const BASIC_CODE = `<div cbFocusTrap>
   <input placeholder="Nombre" />
@@ -11,7 +13,7 @@ const BASIC_CODE = `<div cbFocusTrap>
 @Component({
   selector: 'cb-focustrap-doc',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbDocPageComponent, CbDocExampleComponent, CbFocusTrapDirective],
+  imports: [DocA11yComponent, CbDocPageComponent, CbDocExampleComponent, CbFocusTrapDirective],
   template: `
     <cb-doc-page
       category="Varios"
@@ -34,10 +36,12 @@ const BASIC_CODE = `<div cbFocusTrap>
           <button type="button" style="padding: 0.4rem 0.85rem; border-radius: 0.375rem; border: 1px solid #0077b6; background: #0077b6; color: #fff">Confirmar</button>
         </div>
       </cb-doc-example>
+      <doc-a11y [data]="a11y" />
     </cb-doc-page>
   `,
 })
 export class FocustrapDocComponent {
+  protected readonly a11y = DOC_A11Y['[cbFocusTrap]'];
   protected readonly basicCode = BASIC_CODE;
 
   protected readonly api: CbDocApiRow[] = [

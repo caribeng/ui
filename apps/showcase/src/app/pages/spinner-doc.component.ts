@@ -6,11 +6,13 @@ import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
 import { TocService } from '../services/toc.service';
+import { DocA11yComponent } from '../components/doc-a11y.component';
+import { DOC_A11Y } from '../components/doc-a11y-registry';
 
 @Component({
   selector: 'doc-spinner-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [DocPlaygroundComponent, CbSpinner, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
+  imports: [DocA11yComponent, DocPlaygroundComponent, CbSpinner, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
     <doc-page-header eyebrow="Varios" title="Spinner" lead="Indicador de carga circular." />
 
@@ -37,10 +39,13 @@ import { TocService } from '../services/toc.service';
       </div>
     </doc-section>
 
+    <doc-a11y [data]="a11y" />
+
     <doc-playground [api]="docApi" />
   `,
 })
 export class SpinnerDocComponent {
+  protected readonly a11y = DOC_A11Y['cb-spinner'];
   protected readonly docApi = DOC_API['cb-spinner'];
 
   constructor() {

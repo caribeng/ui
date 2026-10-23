@@ -1007,4 +1007,140 @@ export const DOC_A11Y: Record<string, DocA11y> = {
       'Es una lista ordenada con nombre ("Cronología", o `ariaLabel`): cada evento es un elemento de la lista, en orden. Los marcadores y los conectores son decorativos, así que el color o el icono de un evento no debe ser la única forma de transmitir su estado.',
     ],
   },
+  // --- Tanda 3 (22.4): mensajes, varios y directivas ---
+  '[cbAnimateOnScroll]': {
+    screenReader: [
+      'Solo cambia clases CSS: no añade roles ni oculta nada a los lectores de pantalla, que leen el contenido aunque todavía no haya entrado en pantalla.',
+      'Envuelve la animación de tus clases en `@media (prefers-reduced-motion: no-preference)` para respetar a quien pide reducir movimiento.',
+    ],
+  },
+  '[cbAutoFocus]': {
+    screenReader: [
+      'Enfoca el elemento al montarse, y el lector de pantalla lo anuncia. Úsalo cuando el foco tenga un destino claro (el primer campo de un diálogo o de un formulario recién abierto), no al cargar la página: saltarse el contenido anterior desorienta.',
+      'El elemento tiene que poder recibir el foco: un control nativo o un elemento con `tabindex="-1"`.',
+    ],
+  },
+  'cb-avatar': {
+    screenReader: [
+      'Con `ariaLabel`, el avatar es un `role="img"` con ese nombre (la imagen interna lleva `alt=""` para no repetirlo). Sin él, las iniciales (`label`) se leen tal cual, y el icono o la imagen se ignoran.',
+      'Si el nombre de la persona ya aparece al lado, no pongas `ariaLabel`: se leería dos veces.',
+    ],
+  },
+  'cb-avatar-group': {
+    screenReader: [
+      'Es un `role="group"`: nómbralo con `ariaLabel` ("Participantes"). Si incluyes un avatar de recuento ("+3"), dale un `ariaLabel` como "3 más".',
+    ],
+  },
+  'cb-badge': {
+    screenReader: [
+      'Sin `ariaLabel` se lee el valor tal cual ("8"), que fuera de contexto dice poco: dale un `ariaLabel` como "8 mensajes sin leer", o incluye el contexto en el nombre del control al que acompaña.',
+      'Con `dot` y sin `ariaLabel` es decorativo (`aria-hidden`). El color nunca debe ser la única forma de transmitir el estado.',
+    ],
+  },
+  'cb-chip': {
+    screenReader: [
+      'La etiqueta se lee como texto; el icono es decorativo y la imagen lleva `alt=""`. Con `removable`, el botón de quitar se nombra con la etiqueta ("Quitar Angular").',
+      'Al quitar el chip, su botón desaparece: en `(removed)`, mueve el foco a un elemento cercano para que no se pierda.',
+    ],
+    keyboard: [
+      TAB_FOCUS('al botón de quitar'),
+      { keys: 'Enter / Espacio', action: 'Quita el chip.' },
+    ],
+  },
+  'cb-file-card': {
+    screenReader: [
+      'El título es texto; con `clickable` es un botón que emite `open`. El icono es decorativo.',
+      'Con `actions`, el botón de acciones se nombra con el título ("Más acciones: informe.pdf"), indica `aria-haspopup="menu"` y `aria-expanded`, y abre un `cb-menu`; al cerrarlo, el foco vuelve al botón.',
+    ],
+    keyboard: [
+      TAB_FOCUS('al título (con clickable) y al botón de acciones'),
+      { keys: 'Enter / Espacio', action: 'Abre el archivo o el menú de acciones.' },
+      { keys: 'Flecha abajo', action: 'En el botón de acciones, abre el menú y enfoca la primera opción.' },
+      { keys: 'Escape', action: 'Cierra el menú.' },
+    ],
+  },
+  '[cbFocusTrap]': {
+    screenReader: [
+      'Mantiene Tab y Mayús + Tab dentro del contenedor. No mueve el foco al activarse ni lo devuelve al desactivarse: hazlo tú (por ejemplo, con `cbAutoFocus` al abrir y enfocando el disparador al cerrar).',
+      'Úsalo solo en capas modales y ofrece siempre una salida con teclado (un botón de cerrar o Escape). `cbFocusTrapDisabled` lo desactiva.',
+    ],
+    keyboard: [
+      { keys: 'Tab', action: 'Pasa al siguiente elemento; desde el último, vuelve al primero.' },
+      { keys: 'Mayús + Tab', action: 'Pasa al anterior; desde el primero, va al último.' },
+    ],
+  },
+  'cb-folder-card': {
+    screenReader: [
+      'El nombre es texto; con `clickable` es un botón que emite `open`. El icono de carpeta es decorativo, y el número de archivos y el tamaño se leen como texto.',
+      'Con `actions`, el botón de acciones se nombra con la carpeta ("Más acciones: Facturas"), indica `aria-haspopup="menu"` y `aria-expanded`, y abre un `cb-menu`; al cerrarlo, el foco vuelve al botón.',
+    ],
+    keyboard: [
+      TAB_FOCUS('al nombre (con clickable) y al botón de acciones'),
+      { keys: 'Enter / Espacio', action: 'Abre la carpeta o el menú de acciones.' },
+      { keys: 'Flecha abajo', action: 'En el botón de acciones, abre el menú y enfoca la primera opción.' },
+      { keys: 'Escape', action: 'Cierra el menú.' },
+    ],
+  },
+  'cb-inline-message': {
+    screenReader: [
+      'Con severidad `danger` o `warn` es un `role="alert"` y se anuncia al momento; con `info` o `success` es un `role="status"`, que se anuncia sin interrumpir. El icono es decorativo.',
+      'Para asociarlo a un campo, dale un `id` y apúntalo desde el campo con `aria-describedby`.',
+    ],
+  },
+  'cb-message': {
+    screenReader: [
+      'Con severidad `danger` o `warning` es un `role="alert"` y se anuncia al momento; con el resto es un `role="status"`, que se anuncia sin interrumpir. El icono es decorativo.',
+      'Los lectores anuncian lo que aparece, no lo que ya estaba al cargar la página: muestra el mensaje (con `@if`) cuando ocurra lo que comunica. Con `closable`, el botón de cerrar tiene nombre ("Cerrar").',
+    ],
+    keyboard: [
+      TAB_FOCUS('al botón de cerrar'),
+      { keys: 'Enter / Espacio', action: 'Cierra el mensaje.' },
+    ],
+  },
+  'cb-pricing': {
+    screenReader: [
+      'El título es un encabezado `h2`. Las características de cada plan forman una lista, y las no incluidas se anuncian con "(no incluido)", no solo con el color.',
+      'El cambio mensual / anual es un grupo nombrado ("Ciclo de facturación"): en la vista de cuadrícula, dos botones con `aria-pressed`; en la horizontal, un `role="radiogroup"`. Cada plan termina en un botón con nombre propio ("Elegir Pro").',
+    ],
+    keyboard: [
+      TAB_FOCUS('al cambio de ciclo y al botón de cada plan'),
+      { keys: 'Enter / Espacio', action: 'Cambia el ciclo o elige el plan.' },
+      { keys: 'Flechas / Inicio / Fin', action: 'En la vista horizontal, cambia de ciclo.' },
+    ],
+  },
+  'cb-progressbar': {
+    screenReader: [
+      'Es un `role="progressbar"` con `aria-valuemin="0"`, `aria-valuemax="100"` y el valor en `aria-valuenow`; con `indeterminate` no lleva valor. Dale siempre un `ariaLabel` ("Subiendo archivo") para que se sepa qué progresa.',
+      'Con "reducir movimiento" activado, la animación de `indeterminate` va más despacio.',
+    ],
+  },
+  '[cbRipple]': {
+    screenReader: [
+      'Es solo visual: no cambia el rol, el nombre ni el foco del elemento. Aplícalo a controles que ya sean accesibles (un `button`, un enlace).',
+      'Con "reducir movimiento" activado en el sistema, no se dibuja la onda.',
+    ],
+  },
+  'cb-skeleton': {
+    screenReader: [
+      'Es decorativo (`aria-hidden="true"`). Mientras carga, marca el contenedor con `aria-busy="true"` y, si la espera es larga, anúnciala con un `cb-spinner` o con un texto en una región `role="status"`.',
+      'Con "reducir movimiento" activado, la animación se detiene.',
+    ],
+  },
+  'cb-spinner': {
+    screenReader: [
+      'Es un `role="status"` con nombre ("Cargando", o `ariaLabel`); el SVG es decorativo. Para que se anuncie, muéstralo (con `@if`) al empezar la carga en lugar de dejarlo siempre en la página y ocultarlo con CSS.',
+      'Con "reducir movimiento" activado, gira más despacio y el arco deja de cambiar de tamaño.',
+    ],
+  },
+  '[cbStyleClass]': {
+    screenReader: [
+      'Solo añade o quita clases en el objetivo. Si las usas para mostrar u ocultar contenido, ese estado no llega a los lectores de pantalla: actualiza tú `aria-expanded` en el elemento que lo dispara, o usa un componente con estado (Panel, Accordion).',
+      'Ocultar con `display: none` saca el contenido también del lector de pantalla; ocultarlo solo con opacidad, no.',
+    ],
+  },
+  'cb-tag': {
+    screenReader: [
+      'Es texto en línea sin rol propio: se lee su valor y el icono es decorativo. El color de la severidad no se anuncia, así que el texto debe bastar por sí solo ("Pendiente", no un tag rojo sin texto).',
+    ],
+  },
 };

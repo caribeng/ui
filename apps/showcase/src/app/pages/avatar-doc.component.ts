@@ -6,11 +6,13 @@ import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
 import { TocService } from '../services/toc.service';
+import { DocA11yComponent } from '../components/doc-a11y.component';
+import { DOC_A11Y } from '../components/doc-a11y-registry';
 
 @Component({
   selector: 'doc-avatar-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [DocPlaygroundComponent, CbAvatar, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
+  imports: [DocA11yComponent, DocPlaygroundComponent, CbAvatar, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
     <doc-page-header eyebrow="Multimedia" title="Avatar" lead="Imagen, iniciales o icono en círculo o cuadrado." />
 
@@ -50,10 +52,13 @@ import { TocService } from '../services/toc.service';
       </div>
     </doc-section>
 
+    <doc-a11y [data]="a11y" />
+
     <doc-playground [api]="docApi" />
   `,
 })
 export class AvatarDocComponent {
+  protected readonly a11y = DOC_A11Y['cb-avatar'];
   protected readonly docApi = DOC_API['cb-avatar'];
 
   constructor() {

@@ -4,6 +4,8 @@ import { DocPageHeaderComponent } from '../shared/page-header.component';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { TocService } from '../services/toc.service';
+import { DocA11yComponent } from '../components/doc-a11y.component';
+import { DOC_A11Y } from '../components/doc-a11y-registry';
 
 interface Cat {
   icon: string;
@@ -17,7 +19,7 @@ interface Cat {
 @Component({
   selector: 'doc-file-card-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbFileCard, DocPageHeaderComponent, DocSectionComponent, CodeBlockComponent],
+  imports: [DocA11yComponent, CbFileCard, DocPageHeaderComponent, DocSectionComponent, CodeBlockComponent],
   template: `
     <doc-page-header
       eyebrow="Archivos"
@@ -65,6 +67,8 @@ interface Cat {
         }
       </div>
     </doc-section>
+
+    <doc-a11y [data]="a11y" />
   `,
   styles: [
     `
@@ -77,6 +81,7 @@ interface Cat {
   ],
 })
 export class FileCardDocComponent {
+  protected readonly a11y = DOC_A11Y['cb-file-card'];
   constructor() {
     inject(TocService).reset();
   }

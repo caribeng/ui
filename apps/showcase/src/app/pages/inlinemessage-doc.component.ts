@@ -6,11 +6,13 @@ import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
 import { TocService } from '../services/toc.service';
+import { DocA11yComponent } from '../components/doc-a11y.component';
+import { DOC_A11Y } from '../components/doc-a11y-registry';
 
 @Component({
   selector: 'doc-inlinemessage-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [DocPlaygroundComponent, CbInlineMessage, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
+  imports: [DocA11yComponent, DocPlaygroundComponent, CbInlineMessage, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
     <doc-page-header eyebrow="Mensajes" title="InlineMessage" lead="Mensaje compacto en línea para retroalimentación inmediata de formularios." />
 
@@ -26,10 +28,13 @@ import { TocService } from '../services/toc.service';
       </div>
     </doc-section>
 
+    <doc-a11y [data]="a11y" />
+
     <doc-playground [api]="docApi" />
   `,
 })
 export class InlinemessageDocComponent {
+  protected readonly a11y = DOC_A11Y['cb-inline-message'];
   protected readonly docApi = DOC_API['cb-inline-message'];
 
   constructor() {

@@ -2,6 +2,8 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CbStyleClassDirective } from '@caribeng/ui/styleclass';
 import { CbDocApiRow, CbDocPageComponent } from '../components/doc-page.component';
 import { CbDocExampleComponent } from '../components/doc-example.component';
+import { DocA11yComponent } from '../components/doc-a11y.component';
+import { DOC_A11Y } from '../components/doc-a11y-registry';
 
 const BASIC_CODE = `<button type="button" cbStyleClass="@next" toggleClass="cb-hidden">
   Alternar panel
@@ -11,7 +13,7 @@ const BASIC_CODE = `<button type="button" cbStyleClass="@next" toggleClass="cb-h
 @Component({
   selector: 'cb-styleclass-doc',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbDocPageComponent, CbDocExampleComponent, CbStyleClassDirective],
+  imports: [DocA11yComponent, CbDocPageComponent, CbDocExampleComponent, CbStyleClassDirective],
   template: `
     <cb-doc-page
       category="Varios"
@@ -39,10 +41,12 @@ const BASIC_CODE = `<button type="button" cbStyleClass="@next" toggleClass="cb-h
           </div>
         </div>
       </cb-doc-example>
+      <doc-a11y [data]="a11y" />
     </cb-doc-page>
   `,
 })
 export class StyleclassDocComponent {
+  protected readonly a11y = DOC_A11Y['[cbStyleClass]'];
   protected readonly basicCode = BASIC_CODE;
 
   protected readonly api: CbDocApiRow[] = [

@@ -2,6 +2,8 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CbAnimateOnScrollDirective } from '@caribeng/ui/animateonscroll';
 import { CbDocApiRow, CbDocPageComponent } from '../components/doc-page.component';
 import { CbDocExampleComponent } from '../components/doc-example.component';
+import { DocA11yComponent } from '../components/doc-a11y.component';
+import { DOC_A11Y } from '../components/doc-a11y-registry';
 
 const BASIC_CODE = `<div cbAnimateOnScroll enterClass="cb-fade-in">
   Tarjeta animada al entrar en viewport
@@ -10,7 +12,7 @@ const BASIC_CODE = `<div cbAnimateOnScroll enterClass="cb-fade-in">
 @Component({
   selector: 'cb-animateonscroll-doc',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CbDocPageComponent, CbDocExampleComponent, CbAnimateOnScrollDirective],
+  imports: [DocA11yComponent, CbDocPageComponent, CbDocExampleComponent, CbAnimateOnScrollDirective],
   template: `
     <cb-doc-page
       category="Varios"
@@ -32,10 +34,12 @@ const BASIC_CODE = `<div cbAnimateOnScroll enterClass="cb-fade-in">
           Elemento observado con <code>[cbAnimateOnScroll]</code>
         </div>
       </cb-doc-example>
+      <doc-a11y [data]="a11y" />
     </cb-doc-page>
   `,
 })
 export class AnimateonscrollDocComponent {
+  protected readonly a11y = DOC_A11Y['[cbAnimateOnScroll]'];
   protected readonly basicCode = BASIC_CODE;
 
   protected readonly api: CbDocApiRow[] = [
