@@ -627,6 +627,23 @@ export const DOC_A11Y: Record<string, DocA11y> = {
       { keys: 'Escape', action: 'Cierra la lista y devuelve el foco al botón del país.' },
     ],
   },
+  'cb-gantt': {
+    screenReader: [
+      'La tabla de tareas es un `role="treegrid"` con nombre: cada fila indica su nivel (`aria-level`) y los grupos si están desplegados (`aria-expanded`); el botón de flecha tiene nombre ("Contraer Diseño").',
+      'Cada barra es un botón con nombre completo: tarea, fechas, avance y de qué depende ("API de pagos: 27 oct – 7 nov, 40 % completado. Depende de Wireframes"). Los hitos y los grupos lo dicen.',
+      'Arrastrar no es la única forma de editar (WCAG 2.5.7): con el teclado se mueve, se cambia el inicio, el fin y el avance, y se quitan dependencias; cada cambio se anuncia en una región `role="status"`.',
+      'La escala es un grupo de botones con `aria-pressed`. Las flechas de dependencia son decorativas: la dependencia se lee en el nombre de la barra.',
+    ],
+    keyboard: [
+      { keys: 'Tab', action: 'Recorre la barra de herramientas, la tabla y las barras del diagrama.' },
+      { keys: 'Flecha izquierda / derecha', action: 'Mueve la tarea (o el grupo con sus tareas) un día.' },
+      { keys: 'Mayús + flechas', action: 'Cambia la fecha de fin.' },
+      { keys: 'Alt + flechas', action: 'Cambia la fecha de inicio.' },
+      { keys: '+ / − (o Re Pág / Av Pág)', action: 'Sube o baja el avance un 10 %.' },
+      { keys: 'Supr', action: 'Quita las dependencias de la tarea.' },
+      { keys: 'Enter', action: 'Abre la tarea (taskOpen).' },
+    ],
+  },
   'cb-kanban': {
     screenReader: [
       'Cada columna es una región nombrada por su título, con una lista de tarjetas. Cada tarjeta es enfocable, se describe como "tarjeta" y lleva las instrucciones de teclado (`aria-describedby`).',

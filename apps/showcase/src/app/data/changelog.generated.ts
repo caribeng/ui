@@ -11,6 +11,10 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
         "type": "added",
         "items": [
           {
+            "component": "Componente nuevo: `Gantt`",
+            "text": "(`@caribeng/ui/gantt`): tabla de tareas en árbol (`role=\"treegrid\"`, grupos plegables, columnas configurables) y barras en el tiempo con escalas de día, semana y mes (`[(scale)]`), línea de hoy y botón Hoy. Se arrastra para mover, cambiar inicio o fin y avance; el conector crea dependencias fin → inicio (sin ciclos) y un clic en la flecha la quita; con `autoSchedule` (por defecto) las tareas dependientes se desplazan solas. Grupos calculados con sus tareas, hitos en rombo, teclado completo (flechas, Mayús/Alt + flechas, + / −, Supr, Enter) con cada cambio anunciado, `readonly`, y eventos `taskChange`, `taskOpen`, `linkAdd` y `linkRemove`. 163 entry points."
+          },
+          {
             "component": "Editor, fase 3",
             "text": "**lenguaje del bloque de código** en su propia barra (TypeScript, JavaScript, HTML, CSS, SCSS, JSON, Bash, Python, SQL) con coloreado que se guarda en el HTML y se rehace al salir del bloque, y botón Copiar código; **pie de imagen** (`<figure>` + `<figcaption>`, que se lleva el ancho y la alineación); **combinar y separar celdas** (a la derecha, abajo; el saneador ya respeta `rowspan`); **desplegables** (`<details>` / `<summary>`, herramienta `details`); **índice** automático de los títulos (`<nav data-type=\"toc\">`, herramienta `toc`, ids en los títulos); **menciones** con `@` (`mentions`: lista o búsqueda asíncrona; `mentionAdd`, `getMentions()`; tipos `CbEditorMention` y `CbEditorMentionSource`); y **autoguardado** del borrador en el navegador (`autosaveKey`, `autosaveDelay`, aviso para restaurar o descartar, `clearDraft()`)."
           },

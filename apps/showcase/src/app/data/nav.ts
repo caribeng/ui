@@ -91,6 +91,7 @@ export const NAV_MENU: NavItem[] = [
         label: 'Data',
         children: [
           { label: 'DataView', route: '/components/dataview' },
+          { label: 'Gantt', route: '/components/gantt', badge: 'NEW' },
           { label: 'Kanban', route: '/components/kanban', badge: 'NEW' },
           { label: 'Descriptions', route: '/components/descriptions', badge: 'NEW' },
           { label: 'OrderList', route: '/components/orderlist' },

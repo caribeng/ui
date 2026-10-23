@@ -488,6 +488,43 @@ export interface CbTranslation {
   editorDiscardDraft: string;
   /** `{0}`: hora. */
   editorDraftSaved: string;
+  ganttChart: string;
+  ganttScale: string;
+  ganttDay: string;
+  ganttWeek: string;
+  ganttMonth: string;
+  /** `{0}`: número de semana. */
+  ganttWeekShort: string;
+  ganttTask: string;
+  ganttStart: string;
+  ganttEnd: string;
+  ganttDuration: string;
+  ganttProgress: string;
+  ganttAssignee: string;
+  /** `{0}`: días. */
+  ganttDays: string;
+  /** `{0}`: grupo. */
+  ganttExpand: string;
+  /** `{0}`: grupo. */
+  ganttCollapse: string;
+  /** `{0}`: tarea, `{1}`: fechas, `{2}`: avance. */
+  ganttBarLabel: string;
+  /** `{0}`: grupo, `{1}`: fechas, `{2}`: avance. */
+  ganttGroupLabel: string;
+  /** `{0}`: hito, `{1}`: fecha. */
+  ganttMilestoneLabel: string;
+  /** `{0}`: tareas. */
+  ganttDependsOn: string;
+  /** `{0}` → `{1}`. */
+  ganttRemoveLink: string;
+  /** `{0}` → `{1}`. */
+  ganttLinkAdded: string;
+  ganttLinkRemoved: string;
+  /** `{0}`: tarea, `{1}`: fechas. */
+  ganttMoved: string;
+  /** `{0}`: tarea, `{1}`: avance. */
+  ganttProgressChanged: string;
+  ganttInstructions: string;
 
   // --- Varios ---
   scrollableArea: string;
@@ -1049,6 +1086,31 @@ export const CB_LOCALE_ES: CbTranslation = {
   editorRestoreDraft: 'Restaurar',
   editorDiscardDraft: 'Descartar',
   editorDraftSaved: 'Borrador guardado a las {0}',
+  ganttChart: 'Diagrama de Gantt',
+  ganttScale: 'Escala de tiempo',
+  ganttDay: 'Día',
+  ganttWeek: 'Semana',
+  ganttMonth: 'Mes',
+  ganttWeekShort: 'S{0}',
+  ganttTask: 'Tarea',
+  ganttStart: 'Inicio',
+  ganttEnd: 'Fin',
+  ganttDuration: 'Duración',
+  ganttProgress: 'Avance',
+  ganttAssignee: 'Responsable',
+  ganttDays: '{0} d',
+  ganttExpand: 'Expandir {0}',
+  ganttCollapse: 'Contraer {0}',
+  ganttBarLabel: '{0}: {1}, {2} % completado',
+  ganttGroupLabel: 'Grupo {0}: {1}, {2} % completado',
+  ganttMilestoneLabel: 'Hito {0}: {1}',
+  ganttDependsOn: 'Depende de {0}',
+  ganttRemoveLink: 'Quitar la dependencia {0} → {1}',
+  ganttLinkAdded: 'Dependencia creada: {0} → {1}.',
+  ganttLinkRemoved: 'Dependencia quitada.',
+  ganttMoved: '{0}: {1}.',
+  ganttProgressChanged: '{0}: {1} % completado.',
+  ganttInstructions: 'Flechas: mover un día. Mayús + flechas: cambiar el fin. Alt + flechas: cambiar el inicio. + y −: avance. Supr: quitar sus dependencias. Enter: abrir la tarea.',
 
   scrollableArea: 'Área desplazable',
   scrollTop: 'Volver arriba',
@@ -1599,6 +1661,31 @@ export const CB_LOCALE_EN: CbTranslation = {
   editorRestoreDraft: 'Restore',
   editorDiscardDraft: 'Discard',
   editorDraftSaved: 'Draft saved at {0}',
+  ganttChart: 'Gantt chart',
+  ganttScale: 'Time scale',
+  ganttDay: 'Day',
+  ganttWeek: 'Week',
+  ganttMonth: 'Month',
+  ganttWeekShort: 'W{0}',
+  ganttTask: 'Task',
+  ganttStart: 'Start',
+  ganttEnd: 'End',
+  ganttDuration: 'Duration',
+  ganttProgress: 'Progress',
+  ganttAssignee: 'Assignee',
+  ganttDays: '{0} d',
+  ganttExpand: 'Expand {0}',
+  ganttCollapse: 'Collapse {0}',
+  ganttBarLabel: '{0}: {1}, {2}% complete',
+  ganttGroupLabel: 'Group {0}: {1}, {2}% complete',
+  ganttMilestoneLabel: 'Milestone {0}: {1}',
+  ganttDependsOn: 'Depends on {0}',
+  ganttRemoveLink: 'Remove the dependency {0} → {1}',
+  ganttLinkAdded: 'Dependency created: {0} → {1}.',
+  ganttLinkRemoved: 'Dependency removed.',
+  ganttMoved: '{0}: {1}.',
+  ganttProgressChanged: '{0}: {1}% complete.',
+  ganttInstructions: 'Arrows: move one day. Shift + arrows: change the end. Alt + arrows: change the start. + and −: progress. Delete: remove its dependencies. Enter: open the task.',
 
   scrollableArea: 'Scrollable area',
   scrollTop: 'Back to top',

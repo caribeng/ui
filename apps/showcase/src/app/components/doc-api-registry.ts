@@ -129,6 +129,7 @@ import { CbChatMessage } from '@caribeng/ui/chat';
 import { CbCodeBlock } from '@caribeng/ui/code-block';
 import { CbPhoneInput } from '@caribeng/ui/phone-input';
 import { CbKanban } from '@caribeng/ui/kanban';
+import { CbGantt } from '@caribeng/ui/gantt';
 import { CbMentions } from '@caribeng/ui/mentions';
 import { CbCommandPalette } from '@caribeng/ui/command-palette';
 import { CbSidebar } from '@caribeng/ui/sidebar';
@@ -1782,6 +1783,28 @@ export const DOC_API: Record<string, DocApi> = {
     ],
     events: [
       { name: "phoneChange", type: "CbPhoneChange", description: "Cambio con { e164, national, country, valid }." }
+    ]
+  },
+  "cb-gantt": {
+    component: CbGantt,
+    selector: "cb-gantt",
+    props: [
+      { name: "tasks", kind: "string", type: "readonly CbGanttTask[] (model)", default: [], example: [{ id: 'a', name: 'Análisis', start: '2026-10-20', end: '2026-10-24', progress: 100 }, { id: 'b', name: 'Desarrollo', start: '2026-10-27', end: '2026-11-07', progress: 40, dependencies: ['a'] }, { id: 'c', name: 'Entrega', type: 'milestone', start: '2026-11-10', end: '2026-11-10', dependencies: ['b'] }], description: "Tareas (id, name, start, end, progress, parent, dependencies, type, color, assignee).", control: false },
+      { name: "scale", kind: "enum", type: "'day' | 'week' | 'month' (model)", options: ["day", "week", "month"], default: "day", description: "Un día, una semana o un mes por columna." },
+      { name: "columns", kind: "string", type: "CbGanttColumn[]", default: undefined, description: "Columnas de la tabla: name, start, end, duration, progress, assignee.", control: false },
+      { name: "gridWidth", kind: "string", type: "string", default: "30rem", description: "Ancho de la tabla de la izquierda." },
+      { name: "height", kind: "string", type: "string", default: "28rem", description: "Alto del componente (con scroll)." },
+      { name: "autoSchedule", kind: "boolean", type: "boolean", default: true, description: "Al retrasar una tarea, desplaza las que dependen de ella." },
+      { name: "readonly", kind: "boolean", type: "boolean", default: false, description: "Sin edición (ni arrastre ni dependencias)." },
+      { name: "showToolbar", kind: "boolean", type: "boolean", default: true, description: "Barra con la escala y el botón Hoy." },
+      { name: "emptyMessage", kind: "string", type: "string", default: undefined, localeKey: "noData", description: "Texto sin tareas." },
+      { name: "ariaLabel", kind: "string", type: "string", default: "", description: "Nombre del diagrama." }
+    ],
+    events: [
+      { name: "taskChange", type: "CbGanttChange", description: "Una tarea cambió ({ task, previous, reason: 'move' | 'resize' | 'progress' | 'schedule' })." },
+      { name: "taskOpen", type: "CbGanttTask", description: "Doble clic o Enter sobre una tarea." },
+      { name: "linkAdd", type: "CbGanttLink", description: "Dependencia creada ({ from, to }: to depende de from)." },
+      { name: "linkRemove", type: "CbGanttLink", description: "Dependencia quitada." }
     ]
   },
   "cb-kanban": {

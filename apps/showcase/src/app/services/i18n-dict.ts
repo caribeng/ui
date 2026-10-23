@@ -3132,4 +3132,71 @@ export const ES_EN: Record<string, string> = {
     'The table of contents is a `nav` of links to the headings; in the editor, a link moves the cursor to its heading. The collapsible is a native `details` / `summary`, which screen readers announce as collapsible.',
   'El aviso de borrador usa `role="status"` y tiene botones con texto ("Restaurar", "Descartar"); la hora del último guardado se lee en el pie.':
     'The draft notice uses `role="status"` and has text buttons ("Restore", "Discard"); the time of the last save is read in the footer.',
+  // --- Gantt ---
+  'Diagrama de Gantt para planificar proyectos: tabla de tareas en árbol, barras en el tiempo con escalas de día, semana y mes, dependencias, avance, hitos y grupos. Se edita arrastrando o con el teclado, y con la planificación automática las tareas que dependen de otra se desplazan solas.':
+    'Gantt chart to plan projects: a task table as a tree, bars over time with day, week and month scales, dependencies, progress, milestones and groups. It is edited by dragging or with the keyboard, and with automatic scheduling the tasks that depend on another one move by themselves.',
+  'Proyecto completo':
+    'Full project',
+  'Arrastra una barra para moverla y sus bordes para cambiar el inicio o el fin; el tirador de abajo cambia el avance y el punto de la derecha, arrastrado hasta otra tarea, crea una dependencia (fin → inicio). Haz clic en una flecha para quitarla. Con autoSchedule (activo por defecto), retrasar «Wireframes» desplaza todo lo que depende de ello. Los grupos abarcan a sus tareas y promedian su avance; «Lanzamiento» es un hito. Doble clic (o Enter) abre la tarea.':
+    'Drag a bar to move it and its edges to change the start or the end; the handle at the bottom changes the progress and the dot on the right, dragged to another task, creates a dependency (finish → start). Click an arrow to remove it. With autoSchedule (on by default), delaying «Wireframes» moves everything that depends on it. Groups span their tasks and average their progress; «Lanzamiento» is a milestone. Double-click (or Enter) opens the task.',
+  'Escalas':
+    'Scales',
+  '[(scale)] elige un día, una semana o un mes por columna; la barra de herramientas lo cambia y Hoy lleva a la fecha actual. Con escala de mes se ven proyectos largos de un vistazo.':
+    '[(scale)] chooses one day, one week or one month per column; the toolbar changes it and Today goes to the current date. With the month scale long projects are seen at a glance.',
+  'Solo lectura y columnas':
+    'Read-only and columns',
+  'readonly muestra el plan sin edición (las barras siguen siendo enfocables y se leen con lector de pantalla). columns elige las columnas de la tabla y su orden, aquí con Responsable; gridWidth fija su ancho y showToolbar oculta la barra.':
+    'readonly shows the plan without editing (bars are still focusable and read by screen readers). columns chooses the table columns and their order, here with Assignee; gridWidth sets its width and showToolbar hides the toolbar.',
+  'Tareas (id, name, start, end, progress, parent, dependencies, type, color, assignee).':
+    'Tasks (id, name, start, end, progress, parent, dependencies, type, color, assignee).',
+  'Un día, una semana o un mes por columna.':
+    'One day, one week or one month per column.',
+  'Columnas de la tabla: name, start, end, duration, progress, assignee.':
+    'Table columns: name, start, end, duration, progress, assignee.',
+  'Ancho de la tabla de la izquierda.':
+    'Width of the table on the left.',
+  'Alto del componente (con scroll).':
+    'Component height (with scroll).',
+  'Al retrasar una tarea, desplaza las que dependen de ella.':
+    'When a task is delayed, moves the ones that depend on it.',
+  'Sin edición (ni arrastre ni dependencias).':
+    'No editing (no dragging or dependencies).',
+  'Barra con la escala y el botón Hoy.':
+    'Toolbar with the scale and the Today button.',
+  'Texto sin tareas.':
+    'Text when there are no tasks.',
+  'Nombre del diagrama.':
+    'Name of the chart.',
+  'Una tarea cambió ({ task, previous, reason: \'move\' | \'resize\' | \'progress\' | \'schedule\' }).':
+    'A task changed ({ task, previous, reason: \'move\' | \'resize\' | \'progress\' | \'schedule\' }).',
+  'Doble clic o Enter sobre una tarea.':
+    'Double-click or Enter on a task.',
+  'Dependencia creada ({ from, to }: to depende de from).':
+    'Dependency created ({ from, to }: to depends on from).',
+  'Dependencia quitada.':
+    'Dependency removed.',
+  'La tabla de tareas es un `role="treegrid"` con nombre: cada fila indica su nivel (`aria-level`) y los grupos si están desplegados (`aria-expanded`); el botón de flecha tiene nombre ("Contraer Diseño").':
+    'The task table is a named `role="treegrid"`: each row states its level (`aria-level`) and groups whether they are expanded (`aria-expanded`); the arrow button has a name ("Collapse Design").',
+  'Cada barra es un botón con nombre completo: tarea, fechas, avance y de qué depende ("API de pagos: 27 oct – 7 nov, 40 % completado. Depende de Wireframes"). Los hitos y los grupos lo dicen.':
+    'Each bar is a button with a full name: task, dates, progress and what it depends on ("Payments API: 27 Oct – 7 Nov, 40% complete. Depends on Wireframes"). Milestones and groups say so.',
+  'Arrastrar no es la única forma de editar (WCAG 2.5.7): con el teclado se mueve, se cambia el inicio, el fin y el avance, y se quitan dependencias; cada cambio se anuncia en una región `role="status"`.':
+    'Dragging is not the only way to edit (WCAG 2.5.7): with the keyboard you move, change the start, the end and the progress, and remove dependencies; each change is announced in a `role="status"` region.',
+  'La escala es un grupo de botones con `aria-pressed`. Las flechas de dependencia son decorativas: la dependencia se lee en el nombre de la barra.':
+    'The scale is a group of buttons with `aria-pressed`. Dependency arrows are decorative: the dependency is read in the bar name.',
+  'Recorre la barra de herramientas, la tabla y las barras del diagrama.':
+    'Moves through the toolbar, the table and the chart bars.',
+  'Mueve la tarea (o el grupo con sus tareas) un día.':
+    'Moves the task (or the group with its tasks) one day.',
+  'Cambia la fecha de fin.':
+    'Changes the end date.',
+  'Alt + flechas':
+    'Alt + arrows',
+  'Cambia la fecha de inicio.':
+    'Changes the start date.',
+  '+ / − (o Re Pág / Av Pág)':
+    '+ / − (or Page Up / Page Down)',
+  'Sube o baja el avance un 10 %.':
+    'Raises or lowers the progress by 10%.',
+  'Quita las dependencias de la tarea.':
+    'Removes the task dependencies.',
 };
