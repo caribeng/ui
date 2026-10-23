@@ -3399,4 +3399,58 @@ export const ES_EN: Record<string, string> = {
     'Without src, the area invites you to choose an image or drop it on it; fileSelect gives the original file. A file that is not an image is rejected with a message.',
   'Sin recortar': 'Not cropped',
   'sin recortar': 'not cropped',
+  // --- InfiniteScroll ---
+  'Hay una carga en curso: muestra el indicador y evita pedir otra.':
+    'A load is in progress: shows the indicator and avoids requesting another.',
+  'Quedan elementos por cargar.': 'There are items left to load.',
+  'La última carga falló: muestra el aviso y Reintentar.': 'The last load failed: shows the message and Retry.',
+  'Elementos ya cargados, para anunciar cuántos llegaron y enfocar el primero nuevo.':
+    'Items already loaded, to announce how many arrived and focus the first new one.',
+  'Carga al llegar al final o solo con el botón.': 'Loads on reaching the end or only with the button.',
+  'Cargas automáticas seguidas antes de pasar al botón (0 = sin límite).':
+    'Automatic loads in a row before switching to the button (0 = no limit).',
+  'Distancia al final a la que empieza a cargar.': 'Distance to the end at which loading starts.',
+  'El propio componente hace scroll (si no, la página).': 'The component itself scrolls (otherwise, the page).',
+  'Alto máximo con scrollable.': 'Maximum height with scrollable.',
+  'Elementos de la lista, para enfocar el primero nuevo tras Cargar más.': 'List items, to focus the first new one after Load more.',
+  'Mensaje al llegar al final.': 'Message on reaching the end.',
+  'Texto del final.': 'End text.',
+  'Texto del error.': 'Error text.',
+  'Texto del botón.': 'Button text.',
+  'Pide la siguiente página: \'scroll\', \'button\' o \'retry\'.': 'Requests the next page: \'scroll\', \'button\' or \'retry\'.',
+  'Mientras carga, el contenedor expone `aria-busy="true"`. Una región `aria-live` anuncia "Cargando más resultados…", cuántos llegaron ("12 resultados más, 36 en total", con `count`), el final y los errores.':
+    'While loading, the container exposes `aria-busy="true"`. An `aria-live` region announces "Loading more results…", how many arrived ("12 more results, 36 in total", with `count`), the end and errors.',
+  'Una página que crece sin fin impide llegar al pie (WCAG 2.1.1 y 2.4.1 en la práctica): tras `autoLimit` cargas automáticas aparece "Cargar más", y `mode="button"` solo carga con él. Sin IntersectionObserver, el botón es la forma de cargar.':
+    'A page that grows endlessly prevents reaching the footer: after `autoLimit` automatic loads "Load more" appears, and `mode="button"` only loads with it. Without IntersectionObserver, the button is the way to load.',
+  'Al cargar con el botón, el foco va al primer elemento nuevo (con `tabindex="-1"` si no es enfocable) para seguir leyendo desde ahí, en lugar de quedarse al final.':
+    'When loading with the button, focus goes to the first new item (with `tabindex="-1"` if it is not focusable) to keep reading from there, instead of staying at the end.',
+  'Llega a Cargar más o Reintentar al final de la lista.': 'Reaches Load more or Retry at the end of the list.',
+  'Carga la siguiente página y lleva el foco al primer elemento nuevo.': 'Loads the next page and moves focus to the first new item.',
+  'Scroll infinito para listas largas: pide la siguiente página al acercarse al final, con un botón «Cargar más» como alternativa. Tras unas cuantas cargas automáticas pasa al botón para que el pie de la página siga siendo alcanzable, anuncia lo que llega y, al cargar con el botón, lleva el foco al primer elemento nuevo.':
+    'Infinite scroll for long lists: requests the next page when approaching the end, with a "Load more" button as an alternative. After a few automatic loads it switches to the button so the page footer stays reachable, announces what arrives and, when loading with the button, moves focus to the first new item.',
+  'Movimientos de la cuenta': 'Account transactions',
+  'El propio componente hace scroll (scrollable) y pide más al acercarse al final (loadMore). Con autoLimit="2", tras dos cargas automáticas aparece «Cargar más»; al pulsarlo, vuelve a cargar solo. [count] le dice cuántos hay para anunciar cuántos llegaron.':
+    'The component itself scrolls (scrollable) and requests more when approaching the end (loadMore). With autoLimit="2", after two automatic loads "Load more" appears; pressing it resumes automatic loading. [count] tells it how many there are to announce how many arrived.',
+  'Solo con botón y con errores': 'Button only and errors',
+  'mode="button" nunca carga solo: útil cuando hay contenido importante después de la lista. Si la carga falla ([error]), aparece el aviso y «Reintentar». Pulsa «Simular fallo» y después «Cargar más».':
+    'mode="button" never loads by itself: useful when there is important content after the list. If loading fails ([error]), the message and "Retry" appear. Press "Simulate failure" and then "Load more".',
+  'Simular fallo en la siguiente carga': 'Simulate a failure on the next load',
+  // --- Masonry ---
+  'Número fijo de columnas (0 = las que quepan con minColumnWidth).': 'Fixed number of columns (0 = as many as fit with minColumnWidth).',
+  'Ancho mínimo de columna cuando columns es 0.': 'Minimum column width when columns is 0.',
+  'Separación entre elementos (cualquier longitud CSS).': 'Spacing between items (any CSS length).',
+  'No reordena nada: los elementos se quedan en el orden del DOM, que es el visual por filas, así que el teclado y el lector de pantalla los recorren como se ven (las columnas de CSS, en cambio, leen de arriba abajo cada columna). No usa `grid-auto-flow: dense`, que movería elementos.':
+    'It reorders nothing: items stay in DOM order, which is the visual order by rows, so keyboard and screen readers go through them as they appear (CSS columns, instead, read each column top to bottom). It does not use `grid-auto-flow: dense`, which would move items.',
+  'No añade roles: si es una lista, pon `role="list"` (con nombre) en `cb-masonry` y `role="listitem"` en cada elemento, o usa una lista semántica dentro de cada tarjeta.':
+    'It adds no roles: if it is a list, put `role="list"` (with a name) on `cb-masonry` and `role="listitem"` on each item, or use a semantic list inside each card.',
+  'Recorre los elementos enfocables de cada tarjeta en el orden del DOM (por filas).':
+    'Moves through the focusable elements of each card in DOM order (by rows).',
+  'Rejilla de columnas con elementos de alturas distintas y sin huecos, como un tablero de Pinterest. Usa CSS Grid y mide el alto de cada elemento (también cuando carga una imagen), así que el orden del DOM —el que siguen el teclado y los lectores de pantalla— coincide con el orden visual por filas.':
+    'Column grid with items of different heights and no gaps, like a Pinterest board. It uses CSS Grid and measures the height of each item (also when an image loads), so the DOM order —the one keyboard and screen readers follow— matches the visual order by rows.',
+  'Galería con scroll infinito': 'Gallery with infinite scroll',
+  'Con minColumnWidth caben tantas columnas como permita el ancho (cambia el tamaño de la ventana). Cada foto ocupa las filas que pide su alto; las nuevas que llegan con cb-infinite-scroll se colocan solas. role="list" y role="listitem" le dan semántica de lista.':
+    'With minColumnWidth as many columns fit as the width allows (resize the window). Each photo takes the rows its height needs; new ones arriving with cb-infinite-scroll place themselves. role="list" and role="listitem" give it list semantics.',
+  'Columnas fijas y tarjetas de texto': 'Fixed columns and text cards',
+  'columns fija el número de columnas aunque cambie el ancho; gap acepta cualquier longitud CSS. Sirve igual para tarjetas de texto de distinto largo: el orden de lectura es 1, 2, 3… por filas.':
+    'columns fixes the number of columns even if the width changes; gap accepts any CSS length. It works the same for text cards of different lengths: the reading order is 1, 2, 3… by rows.',
 };

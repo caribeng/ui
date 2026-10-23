@@ -23,6 +23,14 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
             "text": "(`@caribeng/ui/image-cropper`): recortador de imagen independiente (el cálculo del recorte del Editor pasa aquí y el Editor lo reutiliza). Recuadro que se mueve y redimensiona con ratón, dedo o teclado (`role=\"slider\"` con el tamaño en % y en píxeles; flechas, Ctrl + flechas, Mayús + flechas, Enter), proporciones (`[(ratio)]`, `ratios`), `shape=\"circle\"` para fotos de perfil (PNG transparente), giro de 90° (`rotatable`), vista previa (`preview`) y selección de archivo con botón o arrastrándolo (`chooser`, `fileSelect`). `output` fija formato, calidad y tamaño máximo; `cropped` da `{ blob, dataUrl, rect, width, height }` y `crop()` lo devuelve sin botón. `[(rect)]` en fracciones de la imagen. Funciones exportadas: `cropImage`, `rotateImage`, `outputSize`, `previewStyle`… Textos nuevos: `cropper*`. 167 entry points."
           },
           {
+            "component": "Componente nuevo: `InfiniteScroll`",
+            "text": "(`@caribeng/ui/infinite-scroll`): pide la siguiente página (`loadMore`, con su origen `scroll`, `button` o `retry`) al acercarse al final (IntersectionObserver, `threshold`), en la página o en el propio componente (`scrollable`, `height`). Tras `autoLimit` cargas automáticas pasa a \"Cargar más\" para que el pie siga siendo alcanzable, y `mode=\"button\"` solo carga con el botón (también sin IntersectionObserver). `[loading]`, `[hasMore]`, `[error]` (con Reintentar) y `[count]`: anuncia cuántos llegaron, marca `aria-busy` y, tras Cargar más, enfoca el primer elemento nuevo (`itemSelector`). Detecta también las cargas síncronas. Textos nuevos: `infinite*`. 168 entry points."
+          },
+          {
+            "component": "Componente nuevo: `Masonry`",
+            "text": "(`@caribeng/ui/masonry`): rejilla de columnas con elementos de alturas distintas y sin huecos sobre CSS Grid (filas de 4 px; cada elemento ocupa las que pide su alto, medido con ResizeObserver, también al cargar imágenes o al llegar elementos nuevos). A diferencia de las columnas de CSS, conserva el orden del DOM, que es el visual por filas (accesible para teclado y lectores de pantalla). `columns` fijo o `minColumnWidth` adaptable, y `gap`. 169 entry points."
+          },
+          {
             "component": "Núcleo",
             "text": "`cbRelativeTime(date, now, locale, justNow)` da la fecha relativa (\"hace 5 minutos\", \"ayer\") en el idioma indicado y, a partir de una semana, la fecha corta. La usan Comments y NotificationCenter."
           },

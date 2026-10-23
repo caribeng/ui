@@ -92,6 +92,7 @@ export const NAV_MENU: NavItem[] = [
         label: 'Data',
         children: [
           { label: 'DataView', route: '/components/dataview' },
+          { label: 'InfiniteScroll', route: '/components/infinite-scroll', badge: 'NEW' },
           { label: 'Gantt', route: '/components/gantt', badge: 'NEW' },
           { label: 'Kanban', route: '/components/kanban', badge: 'NEW' },
           { label: 'Descriptions', route: '/components/descriptions', badge: 'NEW' },
@@ -116,6 +117,7 @@ export const NAV_MENU: NavItem[] = [
           { label: 'Divider', route: '/components/divider' },
           { label: 'Fieldset', route: '/components/fieldset' },
           { label: 'Panel', route: '/components/panel' },
+          { label: 'Masonry', route: '/components/masonry', badge: 'NEW' },
           { label: 'ScrollPanel', route: '/components/scrollpanel' },
           { label: 'ScrollTop', route: '/components/scrolltop' },
           { label: 'Splitter', route: '/components/splitter' },

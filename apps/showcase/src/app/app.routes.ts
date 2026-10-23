@@ -66,6 +66,8 @@ import { CopyButtonDocComponent } from './pages/copy-button-doc.component';
 import { ChatDocComponent } from './pages/chat-doc.component';
 import { KanbanDocComponent } from './pages/kanban-doc.component';
 import { GanttDocComponent } from './pages/gantt-doc.component';
+import { MasonryDocComponent } from './pages/masonry-doc.component';
+import { InfiniteScrollDocComponent } from './pages/infinite-scroll-doc.component';
 import { ImageCropperDocComponent } from './pages/image-cropper-doc.component';
 import { SignaturePadDocComponent } from './pages/signature-pad-doc.component';
 import { CommentsDocComponent } from './pages/comments-doc.component';
@@ -184,6 +186,8 @@ export const routes: Routes = [
   { path: 'components/chat', component: ChatDocComponent, title: 'Chat · CaribeNG' },
   { path: 'components/kanban', component: KanbanDocComponent, title: 'Kanban · CaribeNG' },
   { path: 'components/gantt', component: GanttDocComponent, title: 'Gantt · CaribeNG' },
+  { path: 'components/masonry', component: MasonryDocComponent, title: 'Masonry · CaribeNG' },
+  { path: 'components/infinite-scroll', component: InfiniteScrollDocComponent, title: 'InfiniteScroll · CaribeNG' },
   { path: 'components/image-cropper', component: ImageCropperDocComponent, title: 'ImageCropper · CaribeNG' },
   { path: 'components/signature-pad', component: SignaturePadDocComponent, title: 'SignaturePad · CaribeNG' },
   { path: 'components/comments', component: CommentsDocComponent, title: 'Comments · CaribeNG' },

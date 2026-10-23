@@ -787,6 +787,14 @@ export interface CbTranslation {
   cropperDone: string;
   cropperInvalidFile: string;
   cropperLoadError: string;
+  // --- Infinite scroll ---
+  infiniteLoading: string;
+  infiniteLoadMore: string;
+  /** `{0}`: nuevos; `{1}`: total. */
+  infiniteLoaded: string;
+  infiniteEnd: string;
+  infiniteError: string;
+  infiniteRetry: string;
 }
 
 /** Español (idioma por defecto). */
@@ -1444,6 +1452,13 @@ export const CB_LOCALE_ES: CbTranslation = {
   cropperDone: 'Imagen recortada',
   cropperInvalidFile: 'El archivo no es una imagen.',
   cropperLoadError: 'No se pudo cargar la imagen.',
+  // --- Infinite scroll ---
+  infiniteLoading: 'Cargando más resultados…',
+  infiniteLoadMore: 'Cargar más',
+  infiniteLoaded: '{0} resultados más, {1} en total',
+  infiniteEnd: 'No hay más resultados',
+  infiniteError: 'No se pudieron cargar más resultados.',
+  infiniteRetry: 'Reintentar',
 };
 
 /** Inglés. */
@@ -2101,6 +2116,13 @@ export const CB_LOCALE_EN: CbTranslation = {
   cropperDone: 'Image cropped',
   cropperInvalidFile: 'The file is not an image.',
   cropperLoadError: 'The image could not be loaded.',
+  // --- Infinite scroll ---
+  infiniteLoading: 'Loading more results…',
+  infiniteLoadMore: 'Load more',
+  infiniteLoaded: '{0} more results, {1} in total',
+  infiniteEnd: 'No more results',
+  infiniteError: 'More results could not be loaded.',
+  infiniteRetry: 'Retry',
 };
 
 /** Idiomas incluidos. */

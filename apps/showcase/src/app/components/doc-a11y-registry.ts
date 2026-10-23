@@ -680,6 +680,26 @@ export const DOC_A11Y: Record<string, DocA11y> = {
       { keys: 'Tab', action: 'Recorre el recuadro, las proporciones, girar, Cambiar imagen y Recortar.' },
     ],
   },
+  'cb-infinite-scroll': {
+    screenReader: [
+      'Mientras carga, el contenedor expone `aria-busy="true"`. Una región `aria-live` anuncia "Cargando más resultados…", cuántos llegaron ("12 resultados más, 36 en total", con `count`), el final y los errores.',
+      'Una página que crece sin fin impide llegar al pie (WCAG 2.1.1 y 2.4.1 en la práctica): tras `autoLimit` cargas automáticas aparece "Cargar más", y `mode="button"` solo carga con él. Sin IntersectionObserver, el botón es la forma de cargar.',
+      'Al cargar con el botón, el foco va al primer elemento nuevo (con `tabindex="-1"` si no es enfocable) para seguir leyendo desde ahí, en lugar de quedarse al final.',
+    ],
+    keyboard: [
+      { keys: 'Tab', action: 'Llega a Cargar más o Reintentar al final de la lista.' },
+      { keys: 'Enter / Espacio', action: 'Carga la siguiente página y lleva el foco al primer elemento nuevo.' },
+    ],
+  },
+  'cb-masonry': {
+    screenReader: [
+      'No reordena nada: los elementos se quedan en el orden del DOM, que es el visual por filas, así que el teclado y el lector de pantalla los recorren como se ven (las columnas de CSS, en cambio, leen de arriba abajo cada columna). No usa `grid-auto-flow: dense`, que movería elementos.',
+      'No añade roles: si es una lista, pon `role="list"` (con nombre) en `cb-masonry` y `role="listitem"` en cada elemento, o usa una lista semántica dentro de cada tarjeta.',
+    ],
+    keyboard: [
+      { keys: 'Tab', action: 'Recorre los elementos enfocables de cada tarjeta en el orden del DOM (por filas).' },
+    ],
+  },
   'cb-gantt': {
     screenReader: [
       'La tabla de tareas es un `role="treegrid"` con nombre: cada fila indica su nivel (`aria-level`) y los grupos si están desplegados (`aria-expanded`); el botón de flecha tiene nombre ("Contraer Diseño").',

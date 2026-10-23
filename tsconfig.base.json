@@ -273,6 +273,12 @@
       "@caribeng/ui/gantt": [
         "./packages/ui/gantt/src/public-api.ts"
       ],
+      "@caribeng/ui/masonry": [
+        "./packages/ui/masonry/src/public-api.ts"
+      ],
+      "@caribeng/ui/infinite-scroll": [
+        "./packages/ui/infinite-scroll/src/public-api.ts"
+      ],
       "@caribeng/ui/image-cropper": [
         "./packages/ui/image-cropper/src/public-api.ts"
       ],

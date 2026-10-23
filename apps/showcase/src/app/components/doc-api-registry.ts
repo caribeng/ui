@@ -130,6 +130,8 @@ import { CbCodeBlock } from '@caribeng/ui/code-block';
 import { CbPhoneInput } from '@caribeng/ui/phone-input';
 import { CbKanban } from '@caribeng/ui/kanban';
 import { CbGantt } from '@caribeng/ui/gantt';
+import { CbMasonry } from '@caribeng/ui/masonry';
+import { CbInfiniteScroll } from '@caribeng/ui/infinite-scroll';
 import { CbImageCropper } from '@caribeng/ui/image-cropper';
 import { CbSignaturePad } from '@caribeng/ui/signature-pad';
 import { CbComments } from '@caribeng/ui/comments';
@@ -1895,6 +1897,41 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "cropped", type: "CbCropResult", description: "Recorte hecho con Recortar o Enter ({ blob, dataUrl, rect, width, height })." },
       { name: "fileSelect", type: "File", description: "Imagen elegida o soltada por el usuario." },
       { name: "cropError", type: "unknown", description: "No se pudo cargar o recortar la imagen (p. ej. sin CORS)." }
+    ]
+  },
+  "cb-infinite-scroll": {
+    component: CbInfiniteScroll,
+    selector: "cb-infinite-scroll",
+    props: [
+      { name: "loading", kind: "boolean", type: "boolean", default: false, description: "Hay una carga en curso: muestra el indicador y evita pedir otra." },
+      { name: "hasMore", kind: "boolean", type: "boolean", default: true, description: "Quedan elementos por cargar." },
+      { name: "error", kind: "boolean", type: "boolean", default: false, description: "La última carga falló: muestra el aviso y Reintentar." },
+      { name: "count", kind: "number", type: "number", default: undefined, description: "Elementos ya cargados, para anunciar cuántos llegaron y enfocar el primero nuevo." },
+      { name: "mode", kind: "enum", type: "'auto' | 'button'", options: ["auto","button"], default: "auto", description: "Carga al llegar al final o solo con el botón." },
+      { name: "autoLimit", kind: "number", type: "number", default: 3, description: "Cargas automáticas seguidas antes de pasar al botón (0 = sin límite)." },
+      { name: "threshold", kind: "string", type: "string", default: "200px", description: "Distancia al final a la que empieza a cargar." },
+      { name: "scrollable", kind: "boolean", type: "boolean", default: false, description: "El propio componente hace scroll (si no, la página)." },
+      { name: "height", kind: "string", type: "string", default: "24rem", description: "Alto máximo con scrollable." },
+      { name: "itemSelector", kind: "string", type: "string", default: "li, [role=listitem], article", description: "Elementos de la lista, para enfocar el primero nuevo tras Cargar más." },
+      { name: "showEnd", kind: "boolean", type: "boolean", default: true, description: "Mensaje al llegar al final." },
+      { name: "endMessage", kind: "string", type: "string", default: undefined, localeKey: "infiniteEnd", description: "Texto del final." },
+      { name: "errorMessage", kind: "string", type: "string", default: undefined, localeKey: "infiniteError", description: "Texto del error." },
+      { name: "loadMoreLabel", kind: "string", type: "string", default: undefined, localeKey: "infiniteLoadMore", description: "Texto del botón." }
+    ],
+    events: [
+      { name: "loadMore", type: "CbLoadMoreSource", description: "Pide la siguiente página: 'scroll', 'button' o 'retry'." }
+    ]
+  },
+  "cb-masonry": {
+    component: CbMasonry,
+    selector: "cb-masonry",
+    props: [
+      { name: "columns", kind: "number", type: "number", default: 0, description: "Número fijo de columnas (0 = las que quepan con minColumnWidth)." },
+      { name: "minColumnWidth", kind: "string", type: "string", default: "16rem", description: "Ancho mínimo de columna cuando columns es 0." },
+      { name: "gap", kind: "string", type: "string", default: "16px", description: "Separación entre elementos (cualquier longitud CSS)." }
+    ],
+    events: [
+
     ]
   },
   "cb-gantt": {
