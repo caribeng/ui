@@ -386,8 +386,14 @@ node ./node_modules/typescript/bin/tsc -p apps/showcase/tsconfig.app.json --noEm
    `changelog.generated.ts` (`gen-changelog.mjs`).
 3. Build completo + `nx run ui:prepare-publish` + `npm pack --dry-run ./dist/packages/ui`.
 4. Commit `chore(release): X.Y.Z`, tag anotado `vX.Y.Z` («@caribeng/ui X.Y.Z») y push.
-5. `npm publish ./dist/packages/ui --access public` lo ejecuta el usuario
-   (con su cuenta y OTP); la CI no publica.
+5. Al subir el tag, `.github/workflows/release.yml` comprueba que coincide con
+   la versión, repite typecheck, tests y build, publica en npm con provenance
+   (secreto `NPM_TOKEN`) y crea la release de GitHub con las notas del
+   CHANGELOG. Etiqueta npm: `latest`; `next` si es prerelease; `vNN-lts` si el
+   major es menor que el de `latest` (línea en mantenimiento). Si la versión
+   ya está publicada no la repite. También se lanza a mano (Actions → Release →
+   Run workflow, con el tag). Para la línea 21.x hay que copiar el workflow a
+   `release/21.x`.
 
 ### Convenciones de commit
 
@@ -456,7 +462,7 @@ Todos los lotes planificados en `SPEC.md` (75 componentes/directivas), los +18 a
 
 ### Pendiente / ideas
 
-- **Publicación automática:** un workflow que ejecute `npm publish --provenance` al subir un tag `v*` (hoy se publica a mano).
+- Ninguno abierto.
 
 ---
 

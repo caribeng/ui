@@ -1,0 +1,118 @@
+name: Release
+
+# Publica @caribeng/ui en npm al subir un tag vX.Y.Z (o a mano, indicando el tag).
+# Requiere el secreto NPM_TOKEN (token de npm de tipo "Automation" o "Granular" con
+# permiso de publicación sobre @caribeng/ui).
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Tag a publicar (p. ej. v22.3.0)'
+        required: true
+
+concurrency:
+  group: release-${{ github.event.inputs.tag || github.ref_name }}
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    name: Verify & publish to npm
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # crear la release de GitHub
+      id-token: write # npm provenance
+    env:
+      NODE_OPTIONS: --dns-result-order=ipv4first
+      TAG: ${{ github.event.inputs.tag || github.ref_name }}
+
+    steps:
+      - name: Checkout tag
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ env.TAG }}
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 11.17.0
+
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'pnpm'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Check tag, version and npm dist-tag
+        id: meta
+        run: |
+          VERSION=$(node -p "require('./packages/ui/package.json').version")
+          if [ "$TAG" != "v$VERSION" ]; then
+            echo "::error::El tag $TAG no coincide con la versión de packages/ui/package.json ($VERSION)."
+            exit 1
+          fi
+          if npm view "@caribeng/ui@$VERSION" version >/dev/null 2>&1; then
+            echo "::notice::@caribeng/ui@$VERSION ya está publicado; no se vuelve a publicar."
+            echo "published=true" >> "$GITHUB_OUTPUT"
+          fi
+          # Prerelease → next; un major anterior al de latest (línea en mantenimiento) → vNN-lts; si no, latest.
+          MAJOR=${VERSION%%.*}
+          LATEST=$(npm view @caribeng/ui dist-tags.latest 2>/dev/null || echo 0)
+          if [[ "$VERSION" == *-* ]]; then
+            DIST_TAG=next
+          elif [ "$MAJOR" -lt "${LATEST%%.*}" ]; then
+            DIST_TAG="v$MAJOR-lts"
+          else
+            DIST_TAG=latest
+          fi
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "dist_tag=$DIST_TAG" >> "$GITHUB_OUTPUT"
+          echo "Versión $VERSION → dist-tag $DIST_TAG"
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Typecheck (lib, spec, showcase)
+        run: pnpm run typecheck
+
+      - name: Run unit tests
+        run: pnpm nx test ui
+
+      - name: Test schematics
+        run: pnpm nx run ui:test-schematics
+
+      - name: Build and prepare package
+        run: pnpm nx run ui:prepare-publish
+
+      - name: Verify npm package (APF dry-run)
+        working-directory: dist/packages/ui
+        run: npm pack --dry-run
+
+      - name: Publish to npm
+        if: steps.meta.outputs.published != 'true'
+        working-directory: dist/packages/ui
+        run: npm publish --provenance --access public --tag "${{ steps.meta.outputs.dist_tag }}"
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.meta.outputs.version }}
+        run: |
+          # Notas: la sección "## [X.Y.Z]" del CHANGELOG hasta la siguiente versión.
+          awk -v v="$VERSION" '
+            index($0, "## [" v "]") == 1 { on = 1; next }
+            on && /^## \[/ { exit }
+            on && $0 != "---" { print }
+          ' CHANGELOG.md > release-notes.md
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "La release $TAG ya existe."
+          else
+            PRERELEASE=""
+            [[ "$VERSION" == *-* ]] && PRERELEASE="--prerelease"
+            gh release create "$TAG" --title "@caribeng/ui $VERSION" --notes-file release-notes.md --verify-tag $PRERELEASE
+          fi
