@@ -700,6 +700,20 @@ export const DOC_A11Y: Record<string, DocA11y> = {
       { keys: 'Tab', action: 'Recorre los elementos enfocables de cada tarjeta en el orden del DOM (por filas).' },
     ],
   },
+  'cb-media-player': {
+    screenReader: [
+      'El reproductor es un grupo con nombre ("Reproductor de vídeo: Flor al amanecer") cuya descripción enumera los atajos de teclado, y los controles, otro grupo ("Controles"). Los controles no se ocultan solos, para que se puedan encontrar sin mover el ratón.',
+      'Reproducir / Pausar cambia de nombre según el estado; Silenciar, Subtítulos e Imagen en imagen son conmutadores con `aria-pressed`. Progreso y Volumen son sliders nativos que dicen su valor con palabras ("1 min 5 s de 4 min", "70 %"); Velocidad e idioma de los subtítulos son `select` nativos.',
+      'Los subtítulos son pistas WebVTT del propio `<video>`; el cambio de subtítulos, velocidad y volumen con el teclado se anuncia. Para audio, la transcripción (`cbMediaTranscript`) va en un `details` bajo los controles (WCAG 1.2.1).',
+    ],
+    keyboard: [
+      { keys: 'Espacio / K', action: 'Reproduce o pausa (en un botón, Espacio lo pulsa).' },
+      { keys: 'Flecha izquierda / derecha', action: 'Retrocede o avanza 5 s; J / L, 10 s. En la barra de progreso, Re Pág / Av Pág saltan 10 s.' },
+      { keys: 'Flecha arriba / abajo', action: 'Sube o baja el volumen (fuera de los sliders).' },
+      { keys: '0–9 / Inicio / Fin', action: 'Saltan al 0–90 %, al principio o al final.' },
+      { keys: 'M / F / C', action: 'Silencio, pantalla completa y subtítulos.' },
+    ],
+  },
   'cb-gantt': {
     screenReader: [
       'La tabla de tareas es un `role="treegrid"` con nombre: cada fila indica su nivel (`aria-level`) y los grupos si están desplegados (`aria-expanded`); el botón de flecha tiene nombre ("Contraer Diseño").',

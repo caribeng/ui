@@ -130,6 +130,7 @@ import { CbCodeBlock } from '@caribeng/ui/code-block';
 import { CbPhoneInput } from '@caribeng/ui/phone-input';
 import { CbKanban } from '@caribeng/ui/kanban';
 import { CbGantt } from '@caribeng/ui/gantt';
+import { CbMediaPlayer } from '@caribeng/ui/media-player';
 import { CbMasonry } from '@caribeng/ui/masonry';
 import { CbInfiniteScroll } from '@caribeng/ui/infinite-scroll';
 import { CbImageCropper } from '@caribeng/ui/image-cropper';
@@ -1834,7 +1835,7 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "announceNew", kind: "boolean", type: "boolean", default: true, description: "Anuncia los avisos nuevos sin leer (desactívalo si la misma lista se muestra en dos centros)." },
       { name: "showViewAll", kind: "boolean", type: "boolean", default: false, description: "Pie con «Ver todas» (viewAll)." },
       { name: "max", kind: "number", type: "number", default: 99, description: "A partir de este número la campana muestra «99+»." },
-      { name: "title", kind: "string", type: "string", default: undefined, localeKey: "notificationsTitle", description: "Título del panel." },
+      { name: "heading", kind: "string", type: "string", default: undefined, localeKey: "notificationsTitle", description: "Título del panel." },
       { name: "headingLevel", kind: "number", type: "number", default: 2, description: "Nivel del título (los grupos usan el siguiente)." },
       { name: "emptyMessage", kind: "string", type: "string", default: undefined, localeKey: "notificationsEmpty", description: "Texto sin avisos." },
       { name: "panelWidth", kind: "string", type: "string", default: "24rem", description: "Ancho del panel flotante." },
@@ -1932,6 +1933,34 @@ export const DOC_API: Record<string, DocApi> = {
     ],
     events: [
 
+    ]
+  },
+  "cb-media-player": {
+    component: CbMediaPlayer,
+    selector: "cb-media-player",
+    props: [
+      { name: "src", kind: "string", type: "string", default: "", example: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4", description: "Archivo a reproducir (o sources con varios formatos)." },
+      { name: "sources", kind: "string", type: "readonly CbMediaSource[]", default: [], description: "Varias fuentes ({ src, type }) para que el navegador elija.", control: false },
+      { name: "kind", kind: "enum", type: "'video' | 'audio'", options: ["video","audio"], default: "video", description: "Vídeo (con pantalla) o audio (con título)." },
+      { name: "poster", kind: "string", type: "string", default: "", description: "Imagen antes de reproducir el vídeo." },
+      { name: "heading", kind: "string", type: "string", default: "", description: "Título: nombre del reproductor y, en audio, se muestra." },
+      { name: "subtitle", kind: "string", type: "string", default: "", description: "Texto secundario en audio." },
+      { name: "tracks", kind: "string", type: "readonly CbMediaTrack[]", default: [], description: "Subtítulos WebVTT ({ src, srclang, label, kind, default }).", control: false },
+      { name: "rates", kind: "string", type: "readonly number[]", default: undefined, description: "Velocidades del selector. Por defecto, 0,5× a 2×.", control: false },
+      { name: "skipSeconds", kind: "number", type: "number", default: 10, description: "Segundos de los botones de retroceder y avanzar (0 los oculta)." },
+      { name: "loop", kind: "boolean", type: "boolean", default: false, description: "Repite al terminar." },
+      { name: "muted", kind: "boolean", type: "boolean", default: false, description: "Empieza silenciado." },
+      { name: "preload", kind: "enum", type: "'none' | 'metadata' | 'auto'", options: ["none","metadata","auto"], default: "metadata", description: "Qué carga el navegador antes de reproducir." },
+      { name: "crossorigin", kind: "enum", type: "'' | 'anonymous' | 'use-credentials'", options: ["","anonymous","use-credentials"], default: "", description: "CORS para medios o subtítulos de otro dominio." },
+      { name: "errorMessage", kind: "string", type: "string", default: undefined, localeKey: "mediaError", description: "Texto si no carga." },
+      { name: "ariaLabel", kind: "string", type: "string", default: "", description: "Nombre del reproductor (por defecto, el tipo y el título)." }
+    ],
+    events: [
+      { name: "played", type: "void", description: "Empieza o sigue la reproducción." },
+      { name: "paused", type: "void", description: "Se pausa." },
+      { name: "ended", type: "void", description: "Termina." },
+      { name: "timeUpdate", type: "number", description: "Segundo actual, mientras se reproduce." },
+      { name: "mediaError", type: "MediaError | null", description: "No se pudo cargar o reproducir." }
     ]
   },
   "cb-gantt": {

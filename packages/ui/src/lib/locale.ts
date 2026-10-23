@@ -795,6 +795,41 @@ export interface CbTranslation {
   infiniteEnd: string;
   infiniteError: string;
   infiniteRetry: string;
+  // --- Media player ---
+  mediaVideo: string;
+  mediaAudio: string;
+  mediaControls: string;
+  mediaPlay: string;
+  mediaPause: string;
+  /** `{0}`: segundos. */
+  mediaBack: string;
+  /** `{0}`: segundos. */
+  mediaForward: string;
+  mediaSeek: string;
+  /** `{0}`: tiempo actual; `{1}`: duración. */
+  mediaTimeOf: string;
+  mediaHours: string;
+  mediaMinutes: string;
+  mediaSeconds: string;
+  mediaMute: string;
+  mediaVolume: string;
+  /** `{0}`: porcentaje. */
+  mediaVolumeSet: string;
+  mediaSpeed: string;
+  /** `{0}`: velocidad ("1,5×"). */
+  mediaSpeedSet: string;
+  mediaCaptions: string;
+  mediaCaptionsLanguage: string;
+  mediaCaptionsNone: string;
+  /** `{0}`: idioma. */
+  mediaCaptionsOn: string;
+  mediaCaptionsOff: string;
+  mediaPip: string;
+  mediaFullscreen: string;
+  mediaExitFullscreen: string;
+  mediaTranscript: string;
+  mediaError: string;
+  mediaShortcuts: string;
 }
 
 /** Español (idioma por defecto). */
@@ -1459,6 +1494,35 @@ export const CB_LOCALE_ES: CbTranslation = {
   infiniteEnd: 'No hay más resultados',
   infiniteError: 'No se pudieron cargar más resultados.',
   infiniteRetry: 'Reintentar',
+  // --- Media player ---
+  mediaVideo: 'Reproductor de vídeo',
+  mediaAudio: 'Reproductor de audio',
+  mediaControls: 'Controles',
+  mediaPlay: 'Reproducir',
+  mediaPause: 'Pausar',
+  mediaBack: 'Retroceder {0} segundos',
+  mediaForward: 'Avanzar {0} segundos',
+  mediaSeek: 'Progreso',
+  mediaTimeOf: '{0} de {1}',
+  mediaHours: 'h',
+  mediaMinutes: 'min',
+  mediaSeconds: 's',
+  mediaMute: 'Silenciar',
+  mediaVolume: 'Volumen',
+  mediaVolumeSet: 'Volumen {0} %',
+  mediaSpeed: 'Velocidad',
+  mediaSpeedSet: 'Velocidad {0}',
+  mediaCaptions: 'Subtítulos',
+  mediaCaptionsLanguage: 'Idioma de los subtítulos',
+  mediaCaptionsNone: 'Sin subtítulos',
+  mediaCaptionsOn: 'Subtítulos: {0}',
+  mediaCaptionsOff: 'Subtítulos desactivados',
+  mediaPip: 'Imagen en imagen',
+  mediaFullscreen: 'Pantalla completa',
+  mediaExitFullscreen: 'Salir de pantalla completa',
+  mediaTranscript: 'Transcripción',
+  mediaError: 'No se pudo cargar el contenido.',
+  mediaShortcuts: 'Atajos: Espacio o K reproduce y pausa; flechas izquierda y derecha, 5 segundos; J y L, 10 segundos; flechas arriba y abajo, volumen; M silencia; F pantalla completa; C subtítulos; 0 a 9 saltan a ese punto.',
 };
 
 /** Inglés. */
@@ -2123,6 +2187,35 @@ export const CB_LOCALE_EN: CbTranslation = {
   infiniteEnd: 'No more results',
   infiniteError: 'More results could not be loaded.',
   infiniteRetry: 'Retry',
+  // --- Media player ---
+  mediaVideo: 'Video player',
+  mediaAudio: 'Audio player',
+  mediaControls: 'Controls',
+  mediaPlay: 'Play',
+  mediaPause: 'Pause',
+  mediaBack: 'Back {0} seconds',
+  mediaForward: 'Forward {0} seconds',
+  mediaSeek: 'Progress',
+  mediaTimeOf: '{0} of {1}',
+  mediaHours: 'h',
+  mediaMinutes: 'min',
+  mediaSeconds: 's',
+  mediaMute: 'Mute',
+  mediaVolume: 'Volume',
+  mediaVolumeSet: 'Volume {0}%',
+  mediaSpeed: 'Speed',
+  mediaSpeedSet: 'Speed {0}',
+  mediaCaptions: 'Captions',
+  mediaCaptionsLanguage: 'Captions language',
+  mediaCaptionsNone: 'No captions',
+  mediaCaptionsOn: 'Captions: {0}',
+  mediaCaptionsOff: 'Captions off',
+  mediaPip: 'Picture in picture',
+  mediaFullscreen: 'Full screen',
+  mediaExitFullscreen: 'Exit full screen',
+  mediaTranscript: 'Transcript',
+  mediaError: 'The media could not be loaded.',
+  mediaShortcuts: 'Shortcuts: Space or K plays and pauses; left and right arrows, 5 seconds; J and L, 10 seconds; up and down arrows, volume; M mutes; F full screen; C captions; 0 to 9 jump to that point.',
 };
 
 /** Idiomas incluidos. */

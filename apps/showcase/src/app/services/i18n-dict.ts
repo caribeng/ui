@@ -3453,4 +3453,45 @@ export const ES_EN: Record<string, string> = {
   'Columnas fijas y tarjetas de texto': 'Fixed columns and text cards',
   'columns fija el número de columnas aunque cambie el ancho; gap acepta cualquier longitud CSS. Sirve igual para tarjetas de texto de distinto largo: el orden de lectura es 1, 2, 3… por filas.':
     'columns fixes the number of columns even if the width changes; gap accepts any CSS length. It works the same for text cards of different lengths: the reading order is 1, 2, 3… by rows.',
+  // --- MediaPlayer ---
+  'Archivo a reproducir (o sources con varios formatos).': 'File to play (or sources with several formats).',
+  'Varias fuentes ({ src, type }) para que el navegador elija.': 'Several sources ({ src, type }) for the browser to choose.',
+  'Vídeo (con pantalla) o audio (con título).': 'Video (with screen) or audio (with title).',
+  'Imagen antes de reproducir el vídeo.': 'Image before playing the video.',
+  'Título: nombre del reproductor y, en audio, se muestra.': 'Title: name of the player and, in audio, it is shown.',
+  'Texto secundario en audio.': 'Secondary text in audio.',
+  'Subtítulos WebVTT ({ src, srclang, label, kind, default }).': 'WebVTT captions ({ src, srclang, label, kind, default }).',
+  'Velocidades del selector. Por defecto, 0,5× a 2×.': 'Speeds of the selector. By default, 0.5× to 2×.',
+  'Segundos de los botones de retroceder y avanzar (0 los oculta).': 'Seconds of the back and forward buttons (0 hides them).',
+  'Repite al terminar.': 'Loops when it ends.',
+  'Empieza silenciado.': 'Starts muted.',
+  'Qué carga el navegador antes de reproducir.': 'What the browser loads before playing.',
+  'CORS para medios o subtítulos de otro dominio.': 'CORS for media or captions from another domain.',
+  'Texto si no carga.': 'Text if it does not load.',
+  'Nombre del reproductor (por defecto, el tipo y el título).': 'Name of the player (by default, the type and the title).',
+  'Empieza o sigue la reproducción.': 'Playback starts or resumes.',
+  'Se pausa.': 'It is paused.',
+  'Termina.': 'It ends.',
+  'Segundo actual, mientras se reproduce.': 'Current second, while playing.',
+  'No se pudo cargar o reproducir.': 'It could not be loaded or played.',
+  'El reproductor es un grupo con nombre ("Reproductor de vídeo: Flor al amanecer") cuya descripción enumera los atajos de teclado, y los controles, otro grupo ("Controles"). Los controles no se ocultan solos, para que se puedan encontrar sin mover el ratón.':
+    'The player is a named group ("Video player: Flower at dawn") whose description lists the keyboard shortcuts, and the controls are another group ("Controls"). The controls do not hide by themselves, so they can be found without moving the mouse.',
+  'Reproducir / Pausar cambia de nombre según el estado; Silenciar, Subtítulos e Imagen en imagen son conmutadores con `aria-pressed`. Progreso y Volumen son sliders nativos que dicen su valor con palabras ("1 min 5 s de 4 min", "70 %"); Velocidad e idioma de los subtítulos son `select` nativos.':
+    'Play / Pause changes its name with the state; Mute, Captions and Picture in picture are toggles with `aria-pressed`. Progress and Volume are native sliders that speak their value ("1 min 5 s of 4 min", "70%"); Speed and captions language are native `select`s.',
+  'Los subtítulos son pistas WebVTT del propio `<video>`; el cambio de subtítulos, velocidad y volumen con el teclado se anuncia. Para audio, la transcripción (`cbMediaTranscript`) va en un `details` bajo los controles (WCAG 1.2.1).':
+    'Captions are WebVTT tracks of the `<video>` itself; changes of captions, speed and volume with the keyboard are announced. For audio, the transcript (`cbMediaTranscript`) goes in a `details` below the controls (WCAG 1.2.1).',
+  'Reproduce o pausa (en un botón, Espacio lo pulsa).': 'Plays or pauses (on a button, Space presses it).',
+  'Retrocede o avanza 5 s; J / L, 10 s. En la barra de progreso, Re Pág / Av Pág saltan 10 s.':
+    'Goes back or forward 5 s; J / L, 10 s. On the progress bar, Page Up / Page Down jump 10 s.',
+  'Sube o baja el volumen (fuera de los sliders).': 'Raises or lowers the volume (outside the sliders).',
+  'Saltan al 0–90 %, al principio o al final.': 'Jump to 0–90%, to the start or to the end.',
+  'Silencio, pantalla completa y subtítulos.': 'Mute, full screen and captions.',
+  'Reproductor de vídeo y audio con controles propios y accesibles: reproducir, avanzar y retroceder, barra de progreso y volumen que dicen su valor, silencio, velocidad, subtítulos en varios idiomas, imagen en imagen, pantalla completa, atajos de teclado como los de YouTube y transcripción. Los controles están siempre visibles.':
+    'Video and audio player with its own accessible controls: play, forward and back, progress and volume bars that speak their value, mute, speed, captions in several languages, picture in picture, full screen, YouTube-like keyboard shortcuts and transcript. The controls are always visible.',
+  'Vídeo con subtítulos': 'Video with captions',
+  'tracks añade subtítulos WebVTT: el botón los activa con el idioma por defecto y el selector cambia de idioma. Con el foco dentro del reproductor, Espacio o K reproduce, las flechas avanzan o retroceden 5 s, 0–9 saltan a ese punto, M silencia, F pone pantalla completa y C los subtítulos. Clic en el vídeo reproduce o pausa y doble clic, pantalla completa.':
+    'tracks adds WebVTT captions: the button turns them on with the default language and the selector changes the language. With focus inside the player, Space or K plays, the arrows go forward or back 5 s, 0–9 jump to that point, M mutes, F goes full screen and C toggles captions. Clicking the video plays or pauses and double-clicking goes full screen.',
+  'Audio con transcripción': 'Audio with transcript',
+  'kind="audio" muestra el título y el subtítulo encima de los controles, sin pantalla. Un contenido solo de audio necesita una transcripción (WCAG 1.2.1): proyéctala con cbMediaTranscript y aparece en un desplegable. skipSeconds cambia el salto de los botones.':
+    'kind="audio" shows the title and subtitle above the controls, without a screen. Audio-only content needs a transcript (WCAG 1.2.1): project it with cbMediaTranscript and it appears in a disclosure. skipSeconds changes the jump of the buttons.',
 };

@@ -12,7 +12,7 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
         "items": [
           {
             "component": "Componente nuevo: `NotificationCenter`",
-            "text": "(`@caribeng/ui/notification-center`): campana con el número de avisos sin leer (en su nombre accesible y en un contador \"99+\") que abre un panel (`role=\"dialog\"`, CDK Overlay) con la lista agrupada por fecha (Hoy, Ayer, Anteriores; `groupByDate`), filtro Todas / No leídas (`[(filter)]`), marcar como leída o no leída una o todas, eliminar (`removable`) y acciones propias por aviso (`actions`, `actionClick`). Cada aviso muestra la foto o las iniciales de una persona (`person`) o un icono por `severity`, y fecha relativa. Los avisos nuevos se anuncian (`aria-live`); Escape, Tab fuera o un clic fuera cierran y el foco vuelve a la campana. `inline` lo pinta en la página. `[(notifications)]`, `[(open)]` y eventos `itemClick`, `readChange`, `markAll`, `itemRemove` y `viewAll`. Textos nuevos: `notifications*`. 165 entry points."
+            "text": "(`@caribeng/ui/notification-center`): campana con el número de avisos sin leer (en su nombre accesible y en un contador \"99+\") que abre un panel (`role=\"dialog\"`, CDK Overlay) con la lista agrupada por fecha (Hoy, Ayer, Anteriores; `groupByDate`), filtro Todas / No leídas (`[(filter)]`), marcar como leída o no leída una o todas, eliminar (`removable`) y acciones propias por aviso (`actions`, `actionClick`). Cada aviso muestra la foto o las iniciales de una persona (`person`) o un icono por `severity`, y fecha relativa. Los avisos nuevos se anuncian (`aria-live`); Escape, Tab fuera o un clic fuera cierran y el foco vuelve a la campana. `heading` cambia el título e `inline` lo pinta en la página. `[(notifications)]`, `[(open)]` y eventos `itemClick`, `readChange`, `markAll`, `itemRemove` y `viewAll`. Textos nuevos: `notifications*`. 165 entry points."
           },
           {
             "component": "Componente nuevo: `SignaturePad`",
@@ -29,6 +29,10 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
           {
             "component": "Componente nuevo: `Masonry`",
             "text": "(`@caribeng/ui/masonry`): rejilla de columnas con elementos de alturas distintas y sin huecos sobre CSS Grid (filas de 4 px; cada elemento ocupa las que pide su alto, medido con ResizeObserver, también al cargar imágenes o al llegar elementos nuevos). A diferencia de las columnas de CSS, conserva el orden del DOM, que es el visual por filas (accesible para teclado y lectores de pantalla). `columns` fijo o `minColumnWidth` adaptable, y `gap`. 169 entry points."
+          },
+          {
+            "component": "Componente nuevo: `MediaPlayer`",
+            "text": "(`@caribeng/ui/media-player`): reproductor de vídeo y audio (`kind`) con controles propios siempre visibles: reproducir / pausar, retroceder y avanzar (`skipSeconds`), barra de progreso y volumen (sliders nativos con el valor hablado: \"1 min 5 s de 4 min\"), silencio, velocidad (`rates`), subtítulos WebVTT con selector de idioma (`tracks`), imagen en imagen y pantalla completa. Atajos como los de YouTube (Espacio / K, flechas, J / L, 0–9, M, F, C) que respetan el control enfocado, y anuncios de los cambios. En audio, título (`heading`, `subtitle`) y transcripción proyectada (`cbMediaTranscript`, en un `details`). `src` o `sources`, `poster`, `loop`, `muted`, `preload`, `crossorigin`; métodos `play()`, `pause()`, `toggle()`, `seekTo()`; eventos `played`, `paused`, `ended`, `timeUpdate` y `mediaError`. Textos nuevos: `media*`. 170 entry points."
           },
           {
             "component": "Núcleo",

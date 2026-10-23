@@ -273,6 +273,9 @@
       "@caribeng/ui/gantt": [
         "./packages/ui/gantt/src/public-api.ts"
       ],
+      "@caribeng/ui/media-player": [
+        "./packages/ui/media-player/src/public-api.ts"
+      ],
       "@caribeng/ui/masonry": [
         "./packages/ui/masonry/src/public-api.ts"
       ],

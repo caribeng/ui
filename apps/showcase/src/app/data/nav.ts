@@ -192,6 +192,7 @@ export const NAV_MENU: NavItem[] = [
           { label: 'Carousel', route: '/components/carousel' },
           { label: 'Galleria', route: '/components/galleria' },
           { label: 'Image', route: '/components/image' },
+          { label: 'MediaPlayer', route: '/components/media-player', badge: 'NEW' },
           { label: 'PDF Viewer', route: '/components/pdfviewer', badge: 'NEW' },
           { label: 'QRCode', route: '/components/qrcode', badge: 'NEW' },
         ],
