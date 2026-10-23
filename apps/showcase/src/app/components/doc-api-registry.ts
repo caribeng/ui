@@ -130,6 +130,7 @@ import { CbCodeBlock } from '@caribeng/ui/code-block';
 import { CbPhoneInput } from '@caribeng/ui/phone-input';
 import { CbKanban } from '@caribeng/ui/kanban';
 import { CbGantt } from '@caribeng/ui/gantt';
+import { CbSignaturePad } from '@caribeng/ui/signature-pad';
 import { CbComments } from '@caribeng/ui/comments';
 import { CbNotificationCenter } from '@caribeng/ui/notification-center';
 import { CbMentions } from '@caribeng/ui/mentions';
@@ -1843,6 +1844,32 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "markAll", type: "void", description: "Se marcaron todas como leídas." },
       { name: "itemRemove", type: "CbNotification", description: "Aviso eliminado." },
       { name: "viewAll", type: "void", description: "Se pulsó «Ver todas»." }
+    ]
+  },
+  "cb-signature-pad": {
+    component: CbSignaturePad,
+    selector: "cb-signature-pad",
+    props: [
+      { name: "value", kind: "string", type: "string (model)", default: "", description: "Firma como data URL en format ('' si está vacía). Una firma que llega de fuera se muestra de fondo.", control: false },
+      { name: "format", kind: "enum", type: "'png' | 'jpeg' | 'svg'", options: ["png","jpeg","svg"], default: "png", description: "Formato de value: PNG, JPEG (fondo blanco) o SVG vectorial." },
+      { name: "mode", kind: "enum", type: "'draw' | 'type' (model)", options: ["draw","type"], default: "draw", description: "Dibujar a mano o escribir el nombre." },
+      { name: "typing", kind: "boolean", type: "boolean", default: true, description: "Ofrece el modo escrito, la alternativa para quien no puede dibujar." },
+      { name: "penColor", kind: "string", type: "string", default: "#1e293b", description: "Color de la tinta." },
+      { name: "background", kind: "string", type: "string", default: "#ffffff", description: "Fondo del área y de la imagen (transparent para PNG o SVG sin fondo)." },
+      { name: "minWidth", kind: "number", type: "number", default: 1, description: "Grosor mínimo del trazo (trazo rápido)." },
+      { name: "maxWidth", kind: "number", type: "number", default: 3.2, description: "Grosor máximo del trazo (trazo lento o con presión)." },
+      { name: "height", kind: "string", type: "string", default: "11rem", description: "Alto del área de firma." },
+      { name: "font", kind: "string", type: "string", default: "CB_SIGNATURE_FONT", description: "Tipografía del nombre escrito (manuscritas del sistema por defecto).", control: false },
+      { name: "placeholder", kind: "string", type: "string", default: undefined, localeKey: "signaturePlaceholder", description: "Texto del área vacía." },
+      { name: "disabled", kind: "boolean", type: "boolean", default: false, description: "Desactiva el área (también con Angular Forms)." },
+      { name: "readonly", kind: "boolean", type: "boolean", default: false, description: "Muestra la firma sin permitir cambiarla." },
+      { name: "invalid", kind: "boolean", type: "boolean", default: false, description: "Marca de error (también con Angular Forms)." },
+      { name: "ariaLabel", kind: "string", type: "string", default: "", description: "Nombre del área (por defecto, \"Área de firma\")." }
+    ],
+    events: [
+      { name: "signStart", type: "void", description: "Empieza un trazo." },
+      { name: "signEnd", type: "CbSignatureData", description: "Termina un trazo o cambia el nombre escrito (con la firma completa: trazos o texto)." },
+      { name: "cleared", type: "void", description: "Se borró la firma." }
     ]
   },
   "cb-gantt": {

@@ -66,6 +66,7 @@ import { CopyButtonDocComponent } from './pages/copy-button-doc.component';
 import { ChatDocComponent } from './pages/chat-doc.component';
 import { KanbanDocComponent } from './pages/kanban-doc.component';
 import { GanttDocComponent } from './pages/gantt-doc.component';
+import { SignaturePadDocComponent } from './pages/signature-pad-doc.component';
 import { CommentsDocComponent } from './pages/comments-doc.component';
 import { NotificationCenterDocComponent } from './pages/notification-center-doc.component';
 import { MentionsDocComponent } from './pages/mentions-doc.component';
@@ -182,6 +183,7 @@ export const routes: Routes = [
   { path: 'components/chat', component: ChatDocComponent, title: 'Chat · CaribeNG' },
   { path: 'components/kanban', component: KanbanDocComponent, title: 'Kanban · CaribeNG' },
   { path: 'components/gantt', component: GanttDocComponent, title: 'Gantt · CaribeNG' },
+  { path: 'components/signature-pad', component: SignaturePadDocComponent, title: 'SignaturePad · CaribeNG' },
   { path: 'components/comments', component: CommentsDocComponent, title: 'Comments · CaribeNG' },
   { path: 'components/notification-center', component: NotificationCenterDocComponent, title: 'NotificationCenter · CaribeNG' },
   { path: 'components/mentions', component: MentionsDocComponent, title: 'Mentions · CaribeNG' },

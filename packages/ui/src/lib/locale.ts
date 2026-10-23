@@ -757,6 +757,21 @@ export interface CbTranslation {
   notificationsMarkedUnread: string;
   notificationsMarkedAllRead: string;
   notificationsRemoved: string;
+  // --- Signature pad ---
+  signaturePad: string;
+  signatureEmptyState: string;
+  signatureSignedState: string;
+  signaturePlaceholder: string;
+  signatureModes: string;
+  signatureDraw: string;
+  signatureType: string;
+  signatureTypeLabel: string;
+  signatureHint: string;
+  signatureHintDraw: string;
+  signatureUndo: string;
+  signatureClear: string;
+  signatureCleared: string;
+  signatureUndone: string;
 }
 
 /** Español (idioma por defecto). */
@@ -1385,6 +1400,21 @@ export const CB_LOCALE_ES: CbTranslation = {
   notificationsMarkedUnread: 'Marcada como no leída',
   notificationsMarkedAllRead: 'Todas marcadas como leídas',
   notificationsRemoved: 'Notificación eliminada',
+  // --- Signature pad ---
+  signaturePad: 'Área de firma',
+  signatureEmptyState: 'vacía',
+  signatureSignedState: 'firmada',
+  signaturePlaceholder: 'Firma aquí',
+  signatureModes: 'Forma de firmar',
+  signatureDraw: 'Dibujar',
+  signatureType: 'Escribir',
+  signatureTypeLabel: 'Escribe tu nombre',
+  signatureHint: 'Dibuja tu firma con el ratón, el dedo o un lápiz, o elige «Escribir» para teclear tu nombre.',
+  signatureHintDraw: 'Dibuja tu firma con el ratón, el dedo o un lápiz.',
+  signatureUndo: 'Deshacer trazo',
+  signatureClear: 'Borrar firma',
+  signatureCleared: 'Firma borrada',
+  signatureUndone: 'Trazo deshecho',
 };
 
 /** Inglés. */
@@ -2013,6 +2043,21 @@ export const CB_LOCALE_EN: CbTranslation = {
   notificationsMarkedUnread: 'Marked as unread',
   notificationsMarkedAllRead: 'All marked as read',
   notificationsRemoved: 'Notification removed',
+  // --- Signature pad ---
+  signaturePad: 'Signature area',
+  signatureEmptyState: 'empty',
+  signatureSignedState: 'signed',
+  signaturePlaceholder: 'Sign here',
+  signatureModes: 'How to sign',
+  signatureDraw: 'Draw',
+  signatureType: 'Type',
+  signatureTypeLabel: 'Type your name',
+  signatureHint: 'Draw your signature with the mouse, a finger or a pen, or choose "Type" to type your name.',
+  signatureHintDraw: 'Draw your signature with the mouse, a finger or a pen.',
+  signatureUndo: 'Undo stroke',
+  signatureClear: 'Clear signature',
+  signatureCleared: 'Signature cleared',
+  signatureUndone: 'Stroke undone',
 };
 
 /** Idiomas incluidos. */

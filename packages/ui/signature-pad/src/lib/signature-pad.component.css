@@ -1,0 +1,178 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  color: var(--cb-color-text);
+  font-family: var(--cb-font-sans);
+  font-size: var(--cb-text-sm, 0.875rem);
+}
+
+/* --- Barra: modo y herramientas --- */
+.cb-sig__bar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2rem;
+}
+
+.cb-sig__spacer {
+  flex: 1;
+}
+
+.cb-sig__modes {
+  display: inline-flex;
+  padding: 2px;
+  border: 1px solid var(--cb-color-border);
+  border-radius: var(--cb-radius-full, 999px);
+}
+
+.cb-sig__mode {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.25rem 0.75rem;
+  border: 0;
+  border-radius: var(--cb-radius-full, 999px);
+  background: transparent;
+  color: var(--cb-color-text-muted);
+  font: inherit;
+  font-size: var(--cb-text-xs, 0.75rem);
+  font-weight: var(--cb-font-weight-medium, 500);
+  cursor: pointer;
+}
+
+.cb-sig__mode:hover:not(:disabled) {
+  color: var(--cb-color-text);
+}
+
+.cb-sig__mode[aria-pressed='true'] {
+  background: var(--cb-color-surface-hover);
+  color: var(--cb-color-text);
+}
+
+.cb-sig__tool {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border: 0;
+  border-radius: var(--cb-radius-md, 6px);
+  background: transparent;
+  color: var(--cb-color-text-muted);
+  cursor: pointer;
+}
+
+.cb-sig__tool:hover:not(:disabled) {
+  background: var(--cb-color-surface-hover);
+  color: var(--cb-color-text);
+}
+
+.cb-sig__mode:disabled,
+.cb-sig__tool:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* --- Área de firma: un papel, también en oscuro (la tinta es oscura) --- */
+.cb-sig__pad {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--cb-color-border-strong, var(--cb-color-border));
+  border-radius: var(--cb-radius-lg, 8px);
+}
+
+:host(.cb-is-invalid) .cb-sig__pad {
+  border-color: var(--cb-color-danger);
+}
+
+:host(.cb-is-disabled) .cb-sig__pad {
+  opacity: 0.6;
+}
+
+.cb-sig__svg {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+  user-select: none;
+}
+
+.cb-sig__svg--draw {
+  cursor: crosshair;
+}
+
+/* Línea de firma con la "×", como en papel. */
+.cb-sig__line {
+  position: absolute;
+  right: 8%;
+  bottom: 24%;
+  left: 8%;
+  border-bottom: 1px solid #cbd5e1;
+  pointer-events: none;
+}
+
+.cb-sig__x {
+  position: absolute;
+  bottom: 0.125rem;
+  left: 0;
+  color: #94a3b8;
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.cb-sig__placeholder {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  color: #94a3b8;
+  transform: translate(-50%, -80%);
+  pointer-events: none;
+}
+
+/* --- Modo escrito --- */
+.cb-sig__type {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.cb-sig__type-label {
+  font-weight: var(--cb-font-weight-medium, 500);
+}
+
+.cb-sig__input {
+  min-height: 2.5rem;
+  padding: 0 0.75rem;
+  border: 1px solid var(--cb-color-border-strong, var(--cb-color-border));
+  border-radius: var(--cb-radius-md, 6px);
+  background: var(--cb-color-surface-raised, var(--cb-color-surface));
+  color: var(--cb-color-text);
+  font: inherit;
+}
+
+.cb-sig__input[aria-invalid='true'] {
+  border-color: var(--cb-color-danger);
+}
+
+.cb-sig__mode:focus-visible,
+.cb-sig__tool:focus-visible,
+.cb-sig__input:focus-visible {
+  outline: 2px solid var(--cb-color-focus-ring);
+  outline-offset: 1px;
+}
+
+/* Solo para lectores de pantalla. */
+.cb-sig__sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}

@@ -15,6 +15,10 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
             "text": "(`@caribeng/ui/notification-center`): campana con el número de avisos sin leer (en su nombre accesible y en un contador \"99+\") que abre un panel (`role=\"dialog\"`, CDK Overlay) con la lista agrupada por fecha (Hoy, Ayer, Anteriores; `groupByDate`), filtro Todas / No leídas (`[(filter)]`), marcar como leída o no leída una o todas, eliminar (`removable`) y acciones propias por aviso (`actions`, `actionClick`). Cada aviso muestra la foto o las iniciales de una persona (`person`) o un icono por `severity`, y fecha relativa. Los avisos nuevos se anuncian (`aria-live`); Escape, Tab fuera o un clic fuera cierran y el foco vuelve a la campana. `inline` lo pinta en la página. `[(notifications)]`, `[(open)]` y eventos `itemClick`, `readChange`, `markAll`, `itemRemove` y `viewAll`. Textos nuevos: `notifications*`. 165 entry points."
           },
           {
+            "component": "Componente nuevo: `SignaturePad`",
+            "text": "(`@caribeng/ui/signature-pad`): firma con ratón, dedo o lápiz sobre SVG (trazo suavizado con curvas, más fino cuanto más rápido y más grueso con presión; un toque es un punto) o, como alternativa accesible, escribiendo el nombre en letra manuscrita (`mode`, `typing`). `[(value)]` es la firma como data URL en `format` (PNG por defecto, JPEG o SVG vectorial), también con Angular Forms (`required`, `disable()`). Deshacer trazo, borrar, `penColor`, `background` (`transparent`), `minWidth` / `maxWidth`, línea de firma con ×, `readonly`; una firma que llega en `value` se muestra de fondo. Métodos `data()` / `setData()` para guardar los trazos, `toSvg()` y `toDataUrl()`. Textos nuevos: `signature*`. 166 entry points."
+          },
+          {
             "component": "Núcleo",
             "text": "`cbRelativeTime(date, now, locale, justNow)` da la fecha relativa (\"hace 5 minutos\", \"ayer\") en el idioma indicado y, a partir de una semana, la fecha corta. La usan Comments y NotificationCenter."
           },

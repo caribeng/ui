@@ -656,6 +656,17 @@ export const DOC_A11Y: Record<string, DocA11y> = {
       { keys: 'Escape', action: 'Cierra el panel y devuelve el foco a la campana.' },
     ],
   },
+  'cb-signature-pad': {
+    screenReader: [
+      'El área es un `role="img"` cuyo nombre dice si está vacía o firmada ("Área de firma: firmada"), con una descripción de cómo firmar. Borrar, deshacer y la primera firma se anuncian en una región `aria-live`.',
+      'Una firma a mano depende del trazo, así que no se puede hacer con teclado (WCAG 2.1.1 lo exceptúa). Por eso existe el modo «Escribir»: un campo con etiqueta ("Escribe tu nombre") cuyo texto se pinta en letra manuscrita. Con `typing="false"` desaparece: hazlo solo si ofreces otra alternativa.',
+      'Los modos Dibujar / Escribir son un grupo de botones con `aria-pressed`; Deshacer trazo y Borrar firma tienen nombre. Con Angular Forms, el campo del modo escrito expone `aria-invalid` y `aria-required`.',
+    ],
+    keyboard: [
+      { keys: 'Tab', action: 'Recorre los modos, Deshacer, Borrar y, en el modo escrito, el campo del nombre.' },
+      { keys: 'Enter / Espacio', action: 'Cambia de modo o pulsa Deshacer / Borrar.' },
+    ],
+  },
   'cb-gantt': {
     screenReader: [
       'La tabla de tareas es un `role="treegrid"` con nombre: cada fila indica su nivel (`aria-level`) y los grupos si están desplegados (`aria-expanded`); el botón de flecha tiene nombre ("Contraer Diseño").',

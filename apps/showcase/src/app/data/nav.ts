@@ -71,6 +71,7 @@ export const NAV_MENU: NavItem[] = [
           { label: 'Repeater', route: '/components/repeater', badge: 'NEW' },
           { label: 'Select', route: '/components/select' },
           { label: 'SelectButton', route: '/components/selectbutton' },
+          { label: 'SignaturePad', route: '/components/signature-pad', badge: 'NEW' },
           { label: 'Slider', route: '/components/slider' },
           { label: 'Textarea', route: '/components/textarea' },
           { label: 'Toggle', route: '/components/toggle' },

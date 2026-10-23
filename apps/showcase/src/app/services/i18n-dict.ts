@@ -3302,4 +3302,52 @@ export const ES_EN: Record<string, string> = {
   'Acciones propias': 'Custom actions',
   'Cada aviso puede llevar acciones (actions); la de severity "primary" se destaca. Pulsar una emite actionClick y marca el aviso como leído. groupByDate="false" quita los grupos y removable="false", el botón de eliminar.':
     'Each notification can have actions (actions); the one with severity "primary" stands out. Pressing one emits actionClick and marks the notification as read. groupByDate="false" removes the groups and removable="false" the remove button.',
+  // --- SignaturePad ---
+  'Firma como data URL en format (\'\' si está vacía). Una firma que llega de fuera se muestra de fondo.':
+    'Signature as a data URL in format (\'\' when empty). A signature coming from outside is shown in the background.',
+  'Formato de value: PNG, JPEG (fondo blanco) o SVG vectorial.': 'Format of value: PNG, JPEG (white background) or vector SVG.',
+  'Dibujar a mano o escribir el nombre.': 'Draw by hand or type the name.',
+  'Ofrece el modo escrito, la alternativa para quien no puede dibujar.':
+    'Offers the typed mode, the alternative for people who cannot draw.',
+  'Color de la tinta.': 'Ink color.',
+  'Fondo del área y de la imagen (transparent para PNG o SVG sin fondo).':
+    'Background of the area and of the image (transparent for PNG or SVG without background).',
+  'Grosor mínimo del trazo (trazo rápido).': 'Minimum stroke width (fast stroke).',
+  'Grosor máximo del trazo (trazo lento o con presión).': 'Maximum stroke width (slow or pressured stroke).',
+  'Alto del área de firma.': 'Height of the signature area.',
+  'Tipografía del nombre escrito (manuscritas del sistema por defecto).': 'Font of the typed name (system handwriting fonts by default).',
+  'Texto del área vacía.': 'Text of the empty area.',
+  'Desactiva el área (también con Angular Forms).': 'Disables the area (also with Angular Forms).',
+  'Muestra la firma sin permitir cambiarla.': 'Shows the signature without allowing changes.',
+  'Marca de error (también con Angular Forms).': 'Error state (also with Angular Forms).',
+  'Nombre del área (por defecto, "Área de firma").': 'Name of the area (by default, "Signature area").',
+  'Empieza un trazo.': 'A stroke starts.',
+  'Termina un trazo o cambia el nombre escrito (con la firma completa: trazos o texto).':
+    'A stroke ends or the typed name changes (with the whole signature: strokes or text).',
+  'Se borró la firma.': 'The signature was cleared.',
+  'El área es un `role="img"` cuyo nombre dice si está vacía o firmada ("Área de firma: firmada"), con una descripción de cómo firmar. Borrar, deshacer y la primera firma se anuncian en una región `aria-live`.':
+    'The area is a `role="img"` whose name tells whether it is empty or signed ("Signature area: signed"), with a description of how to sign. Clearing, undoing and the first signature are announced in an `aria-live` region.',
+  'Una firma a mano depende del trazo, así que no se puede hacer con teclado (WCAG 2.1.1 lo exceptúa). Por eso existe el modo «Escribir»: un campo con etiqueta ("Escribe tu nombre") cuyo texto se pinta en letra manuscrita. Con `typing="false"` desaparece: hazlo solo si ofreces otra alternativa.':
+    'A handwritten signature depends on the path, so it cannot be done with the keyboard (WCAG 2.1.1 makes an exception). That is why there is the "Type" mode: a labelled field ("Type your name") whose text is drawn in handwriting. With `typing="false"` it disappears: only do that if you offer another alternative.',
+  'Los modos Dibujar / Escribir son un grupo de botones con `aria-pressed`; Deshacer trazo y Borrar firma tienen nombre. Con Angular Forms, el campo del modo escrito expone `aria-invalid` y `aria-required`.':
+    'The Draw / Type modes are a group of buttons with `aria-pressed`; Undo stroke and Clear signature are named. With Angular Forms, the typed-mode field exposes `aria-invalid` and `aria-required`.',
+  'Recorre los modos, Deshacer, Borrar y, en el modo escrito, el campo del nombre.':
+    'Moves through the modes, Undo, Clear and, in typed mode, the name field.',
+  'Cambia de modo o pulsa Deshacer / Borrar.': 'Changes mode or presses Undo / Clear.',
+  'Firma digital para contratos, recibos o autorizaciones: se firma con el ratón, el dedo o un lápiz (el trazo se afina con la velocidad y engorda con la presión) o, como alternativa accesible, escribiendo el nombre en letra manuscrita. Devuelve la firma como PNG, JPEG o SVG y funciona con Angular Forms.':
+    'Digital signature for contracts, receipts or authorizations: sign with the mouse, a finger or a pen (the stroke thins with speed and thickens with pressure) or, as an accessible alternative, by typing the name in handwriting. Returns the signature as PNG, JPEG or SVG and works with Angular Forms.',
+  'Firmar un documento': 'Signing a document',
+  '[(value)] recibe la firma como data URL (PNG por defecto) al terminar cada trazo, listo para enviarlo a tu API o incrustarlo en un PDF. Deshacer quita el último trazo y Borrar, toda la firma. «Escribir» cambia al nombre tecleado.':
+    '[(value)] receives the signature as a data URL (PNG by default) after each stroke, ready to send to your API or embed in a PDF. Undo removes the last stroke and Clear the whole signature. "Type" switches to the typed name.',
+  'SVG, sin fondo y otra tinta': 'SVG, no background and another ink',
+  'format="svg" da un SVG vectorial, que se ve nítido a cualquier tamaño; background="transparent" lo deja sin fondo y penColor cambia la tinta. minWidth y maxWidth ajustan el grosor del trazo.':
+    'format="svg" gives a vector SVG that looks sharp at any size; background="transparent" leaves it without background and penColor changes the ink. minWidth and maxWidth adjust the stroke width.',
+  'Con formularios': 'With forms',
+  'Con [formControl] (o ngModel) el valor es la firma en el formato elegido y Validators.required pide que no esté vacía; el área se marca en rojo cuando el control es inválido y se ha tocado. disable() la desactiva.':
+    'With [formControl] (or ngModel) the value is the signature in the chosen format and Validators.required requires it not to be empty; the area turns red when the control is invalid and touched. disable() disables it.',
+  'Firma en el área para ver aquí la imagen.': 'Sign in the area to see the image here.',
+  'La firma es obligatoria.': 'The signature is required.',
+  'Aceptar y firmar': 'Accept and sign',
+  'Activar': 'Enable',
+  'Desactivar': 'Disable',
 };

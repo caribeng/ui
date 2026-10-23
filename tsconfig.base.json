@@ -273,6 +273,9 @@
       "@caribeng/ui/gantt": [
         "./packages/ui/gantt/src/public-api.ts"
       ],
+      "@caribeng/ui/signature-pad": [
+        "./packages/ui/signature-pad/src/public-api.ts"
+      ],
       "@caribeng/ui/notification-center": [
         "./packages/ui/notification-center/src/public-api.ts"
       ],
