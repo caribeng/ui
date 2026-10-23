@@ -28,14 +28,11 @@
 }
 
 :host(.cb-avatar--primary) { --_bg: var(--cb-color-primary-500); --_fg: var(--cb-color-primary-contrast); }
-:host(.cb-avatar--secondary) { --_bg: var(--cb-color-surface-200); --_fg: var(--cb-color-text); }
+/* --cb-color-border es surface-200 en claro y cambia con el tema (las escalas son absolutas). */
+:host(.cb-avatar--secondary) { --_bg: var(--cb-color-border); --_fg: var(--cb-color-text); }
 :host(.cb-avatar--success) { --_bg: var(--cb-color-success-500); --_fg: var(--cb-color-success-contrast); }
 :host(.cb-avatar--info) { --_bg: var(--cb-color-info-500); --_fg: var(--cb-color-info-contrast); }
 :host(.cb-avatar--warning) { --_bg: var(--cb-color-warning-500); --_fg: var(--cb-color-warning-contrast); }
 :host(.cb-avatar--danger) { --_bg: var(--cb-color-danger-500); --_fg: var(--cb-color-danger-contrast); }
 :host(.cb-avatar--help) { --_bg: var(--cb-color-help-500); --_fg: var(--cb-color-help-contrast); }
 :host(.cb-avatar--contrast) { --_bg: var(--cb-color-text); --_fg: var(--cb-color-bg); }
-
-:host-context([data-theme='dark']):host(.cb-avatar--secondary) {
-  --_bg: var(--cb-color-surface-300);
-}
