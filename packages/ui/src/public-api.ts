@@ -24,6 +24,7 @@ export { cbRunCommand, cbVisibleItems, type CbMenuCommandEvent } from './lib/men
 export { type CbSize, type CbSeverity } from './lib/types';
 export { cbFieldState, type CbFieldIndicator, type CbFieldState } from './lib/field-state';
 export { cbOverlayFocus, type CbOverlayFocusOptions } from './lib/overlay-focus';
+export { cbRelativeTime } from './lib/relative-time';
 export {
   CB_LOCALE_EN,
   CB_LOCALE_ES,

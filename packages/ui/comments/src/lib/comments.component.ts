@@ -16,7 +16,7 @@ import {
 } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
 import { DomSanitizer, type SafeHtml } from '@angular/platform-browser';
-import { cbFormat, injectCbTranslation } from '@caribeng/ui';
+import { cbFormat, cbRelativeTime, injectCbTranslation } from '@caribeng/ui';
 import { CbAvatar } from '@caribeng/ui/avatar';
 import { CbEditor, cbHtmlToText, cbSanitizeHtml, type CbEditorMention, type CbEditorMentionSource, type CbEditorTool } from '@caribeng/ui/editor';
 import { CbIcon, CbIconRegistry } from '@caribeng/ui/icon';
@@ -26,7 +26,6 @@ import {
   initialsOf,
   mentionIds,
   newCommentId,
-  relativeTime,
   removeComment,
   toTime,
   toggleReaction,
@@ -387,7 +386,7 @@ export class CbComments {
 
   protected rel(date: Date | string): string {
     const time = toTime(date);
-    return time ? relativeTime(time, this.now(), this.t().intlLocale, this.t().commentsJustNow) : '';
+    return time ? cbRelativeTime(time, this.now(), this.t().intlLocale, this.t().commentsJustNow) : '';
   }
 
   /** HTML del comentario, saneado (lista blanca del editor) y marcado como seguro una sola vez. */

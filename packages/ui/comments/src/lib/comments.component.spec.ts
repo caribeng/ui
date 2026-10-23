@@ -2,12 +2,12 @@ import { Component, signal } from '@angular/core';
 import { TestBed, type ComponentFixture } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { beforeEach, describe, expect, it } from 'vitest';
+import { cbRelativeTime as relativeTime } from '@caribeng/ui';
 import { CbEditor } from '@caribeng/ui/editor';
 import { CbComments } from './comments.component';
 import {
   buildFeed,
   mentionIds,
-  relativeTime,
   removeComment,
   toggleReaction,
   type CbActivity,

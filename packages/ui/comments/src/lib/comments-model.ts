@@ -158,17 +158,3 @@ export function initialsOf(name: string): string {
   return ((parts[0]?.[0] ?? '') + (parts.length > 1 ? parts[parts.length - 1][0] : '')).toUpperCase();
 }
 
-/**
- * Fecha relativa ("hace 5 minutos", "ayer"); a partir de una semana, la fecha corta.
- * `justNow` se usa por debajo de un minuto.
- */
-export function relativeTime(time: number, now: number, locale: string, justNow: string): string {
-  const diff = Math.round((time - now) / 1000);
-  const abs = Math.abs(diff);
-  if (abs < 60) return justNow;
-  const rtf = new Intl.RelativeTimeFormat(locale, { numeric: 'auto' });
-  if (abs < 3600) return rtf.format(Math.round(diff / 60), 'minute');
-  if (abs < 86400) return rtf.format(Math.round(diff / 3600), 'hour');
-  if (abs < 7 * 86400) return rtf.format(Math.round(diff / 86400), 'day');
-  return new Intl.DateTimeFormat(locale, { dateStyle: 'medium' }).format(time);
-}
