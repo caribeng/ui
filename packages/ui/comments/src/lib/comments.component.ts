@@ -595,11 +595,12 @@ export class CbComments {
     });
   }
 
+  /** Un espacio duro alterno hace que el mismo texto cuente como cambio y se vuelva a anunciar. */
   private announce(text: string): void {
-    // Vaciar antes para que el mismo texto se vuelva a anunciar.
-    this.announcement.set('');
-    afterNextRender(() => this.announcement.set(text), { injector: this.injector });
+    this.announceFlip = !this.announceFlip;
+    this.announcement.set(this.announceFlip ? text : `${text} `);
   }
+  private announceFlip = false;
 
   private focusLater(selector: string): void {
     afterNextRender(

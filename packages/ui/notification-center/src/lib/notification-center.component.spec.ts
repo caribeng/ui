@@ -164,7 +164,7 @@ describe('CbNotificationCenter', () => {
     host.list.update((l) => [{ id: 'n9', title: 'Pedido enviado', date: new Date().toISOString() }, ...l]);
     fixture.detectChanges();
     fixture.detectChanges();
-    expect(el.querySelector('.cb-nc__sr[aria-live]')!.textContent).toBe('Nueva notificación: Pedido enviado');
+    expect(el.querySelector('.cb-nc__sr[aria-live]')!.textContent!.trim()).toBe('Nueva notificación: Pedido enviado');
   });
 
   it('con announceNew en false no anuncia los avisos nuevos', () => {
