@@ -731,6 +731,45 @@ export const DOC_A11Y: Record<string, DocA11y> = {
       { keys: 'Enter', action: 'Abre la tarea (taskOpen).' },
     ],
   },
+  'cb-data-grid': {
+    screenReader: [
+      'Es una tabla con `role="grid"`, cabeceras de columna (`th scope="col"`) y de fila (el número de fila); `aria-rowcount` y `aria-colcount` dicen su tamaño y cada celda su posición.',
+      'Hay un único punto de tabulación: la celda activa (`tabindex="0"`); las flechas mueven el foco entre celdas. Las celdas seleccionadas llevan `aria-selected` y las de solo lectura, `aria-readonly`.',
+      'Las celdas con error llevan `aria-invalid` y el mensaje en texto oculto ("Obligatorio."); el editor muestra el error con `role="alert"`. La barra dice cuántos errores hay y su botón lleva al primero.',
+      'Las casillas se leen como "Sí" o "No". Cada edición, pegado, borrado, alta o baja y cada deshacer se anuncia en una región `role="status"`.',
+      'Las instrucciones de teclado están en el grid con `aria-describedby`. Las cabeceras ordenables son botones con `aria-sort`.',
+    ],
+    keyboard: [
+      { keys: 'Flechas', action: 'Mueve la celda activa (Ctrl + flecha, al extremo).' },
+      { keys: 'Mayús + flechas', action: 'Amplía la selección.' },
+      { keys: 'Inicio / Fin', action: 'Primera o última columna (con Ctrl, primera o última celda).' },
+      { keys: 'Enter / F2', action: 'Edita la celda (en una casilla, la marca o desmarca).' },
+      { keys: 'Escribir', action: 'Empieza a editar reemplazando el valor.' },
+      { keys: 'Enter / Tab', action: 'Al editar, confirma y pasa a la celda de abajo o de la derecha.' },
+      { keys: 'Escape', action: 'Cancela la edición.' },
+      { keys: 'Supr', action: 'Borra la selección.' },
+      { keys: 'Ctrl + C / X / V', action: 'Copia, corta y pega (en formato de Excel y Google Sheets).' },
+      { keys: 'Ctrl + Z / Y', action: 'Deshace y rehace.' },
+      { keys: 'Ctrl + D', action: 'Rellena hacia abajo con la primera fila de la selección.' },
+      { keys: 'Mayús + Espacio', action: 'Selecciona la fila.' },
+      { keys: 'Ctrl + A', action: 'Selecciona todo.' },
+    ],
+  },
+  'cb-scheduler': {
+    screenReader: [
+      'El título del periodo ("20 – 26 oct 2026") se anuncia al cambiar con `aria-live="polite"`. Anterior y Siguiente son botones con nombre y las vistas, botones con `aria-pressed`.',
+      'Cada evento es un botón con su nombre completo: título, día, hora y lugar ("Comité de crédito, jueves 23 de octubre, 09:00 – 10:30, Sala 3"); los de día completo lo dicen.',
+      'El mes es un `role="grid"` con cabeceras de día; cada número de día es un botón que abre ese día y "+2 más" dice cuántos eventos y de qué día son.',
+      'Crear y mover no dependen del ratón (WCAG 2.5.7): cada día tiene un botón "Nuevo evento el…" y los eventos se mueven y cambian de duración con el teclado; cada cambio se anuncia en una región `role="status"`.',
+    ],
+    keyboard: [
+      { keys: 'Tab', action: 'Recorre la barra, los días y los eventos.' },
+      { keys: 'Enter', action: 'En un evento, lo abre (eventOpen); en un día, abre su vista.' },
+      { keys: 'Flecha izquierda / derecha', action: 'Mueve el evento un día.' },
+      { keys: 'Flecha arriba / abajo', action: 'Mueve el evento una franja (en el mes y en la franja de día completo, una semana).' },
+      { keys: 'Mayús + flecha arriba / abajo', action: 'Acorta o alarga el evento una franja.' },
+    ],
+  },
   'cb-kanban': {
     screenReader: [
       'Cada columna es una región nombrada por su título, con una lista de tarjetas. Cada tarjeta es enfocable, se describe como "tarjeta" y lleva las instrucciones de teclado (`aria-describedby`).',

@@ -273,6 +273,12 @@
       "@caribeng/ui/gantt": [
         "./packages/ui/gantt/src/public-api.ts"
       ],
+      "@caribeng/ui/scheduler": [
+        "./packages/ui/scheduler/src/public-api.ts"
+      ],
+      "@caribeng/ui/datagrid": [
+        "./packages/ui/datagrid/src/public-api.ts"
+      ],
       "@caribeng/ui/media-player": [
         "./packages/ui/media-player/src/public-api.ts"
       ],

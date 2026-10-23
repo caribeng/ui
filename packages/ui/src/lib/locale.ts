@@ -525,6 +525,57 @@ export interface CbTranslation {
   /** `{0}`: tarea, `{1}`: avance. */
   ganttProgressChanged: string;
   ganttInstructions: string;
+  schedulerPrevious: string;
+  schedulerNext: string;
+  schedulerViews: string;
+  schedulerMonth: string;
+  schedulerWeek: string;
+  schedulerDay: string;
+  schedulerAgenda: string;
+  schedulerAllDay: string;
+  /** `{0}`: eventos. */
+  schedulerMore: string;
+  /** `{0}`: eventos, `{1}`: día. */
+  schedulerMoreLabel: string;
+  /** `{0}`: día. */
+  schedulerOpenDay: string;
+  /** `{0}`: día. */
+  schedulerNewEvent: string;
+  schedulerNoEvents: string;
+  /** `{0}`: evento con su fecha. */
+  schedulerMoved: string;
+  schedulerInstructions: string;
+  dataGridToolbar: string;
+  dataGridAddRow: string;
+  dataGridDeleteRow: string;
+  /** `{0}`: cantidad. */
+  dataGridDeleteRows: string;
+  dataGridOneError: string;
+  /** `{0}`: cantidad. */
+  dataGridErrors: string;
+  /** `{0}`: cantidad. */
+  dataGridChanged: string;
+  dataGridRequired: string;
+  /** `{0}`: mínimo. */
+  dataGridMin: string;
+  /** `{0}`: máximo. */
+  dataGridMax: string;
+  dataGridInvalidNumber: string;
+  dataGridInvalidDate: string;
+  dataGridInvalidOption: string;
+  /** `{0}`: cantidad. */
+  dataGridCopied: string;
+  /** `{0}`: cantidad. */
+  dataGridPasted: string;
+  /** `{0}`: cantidad. */
+  dataGridCleared: string;
+  dataGridUndone: string;
+  dataGridRedone: string;
+  dataGridRowAdded: string;
+  /** `{0}`: cantidad. */
+  dataGridRowsDeleted: string;
+  dataGridInstructions: string;
+  dataGridReadonlyInstructions: string;
 
   // --- Varios ---
   scrollableArea: string;
@@ -1245,6 +1296,43 @@ export const CB_LOCALE_ES: CbTranslation = {
   ganttMoved: '{0}: {1}.',
   ganttProgressChanged: '{0}: {1} % completado.',
   ganttInstructions: 'Flechas: mover un día. Mayús + flechas: cambiar el fin. Alt + flechas: cambiar el inicio. + y −: avance. Supr: quitar sus dependencias. Enter: abrir la tarea.',
+  schedulerPrevious: 'Anterior',
+  schedulerNext: 'Siguiente',
+  schedulerViews: 'Vista del calendario',
+  schedulerMonth: 'Mes',
+  schedulerWeek: 'Semana',
+  schedulerDay: 'Día',
+  schedulerAgenda: 'Agenda',
+  schedulerAllDay: 'Todo el día',
+  schedulerMore: '+{0} más',
+  schedulerMoreLabel: 'Ver {0} eventos más del {1}',
+  schedulerOpenDay: 'Ver el {0}',
+  schedulerNewEvent: 'Nuevo evento el {0}',
+  schedulerNoEvents: 'No hay eventos en estos días.',
+  schedulerMoved: 'Evento movido: {0}.',
+  schedulerInstructions: 'Flechas izquierda y derecha: mover un día. Flechas arriba y abajo: mover una franja (en el mes, una semana). Mayús + flechas arriba y abajo: cambiar la duración. Enter: abrir el evento.',
+  dataGridToolbar: 'Acciones de la tabla',
+  dataGridAddRow: 'Añadir fila',
+  dataGridDeleteRow: 'Eliminar fila',
+  dataGridDeleteRows: 'Eliminar {0} filas',
+  dataGridOneError: '1 error',
+  dataGridErrors: '{0} errores',
+  dataGridChanged: '{0} celdas cambiadas',
+  dataGridRequired: 'Obligatorio.',
+  dataGridMin: 'El mínimo es {0}.',
+  dataGridMax: 'El máximo es {0}.',
+  dataGridInvalidNumber: 'No es un número.',
+  dataGridInvalidDate: 'No es una fecha válida.',
+  dataGridInvalidOption: 'No es una de las opciones.',
+  dataGridCopied: '{0} celdas copiadas.',
+  dataGridPasted: '{0} celdas pegadas.',
+  dataGridCleared: '{0} celdas borradas.',
+  dataGridUndone: 'Cambio deshecho.',
+  dataGridRedone: 'Cambio rehecho.',
+  dataGridRowAdded: 'Fila añadida.',
+  dataGridRowsDeleted: 'Filas eliminadas: {0}.',
+  dataGridInstructions: 'Flechas: moverse. Mayús + flechas: seleccionar. Enter o F2: editar; escribe para reemplazar; Escape cancela. Supr: borrar. Ctrl + C, X y V: copiar, cortar y pegar. Ctrl + Z e Y: deshacer y rehacer. Ctrl + D: rellenar hacia abajo.',
+  dataGridReadonlyInstructions: 'Flechas: moverse. Mayús + flechas: seleccionar. Ctrl + C: copiar.',
 
   scrollableArea: 'Área desplazable',
   scrollTop: 'Volver arriba',
@@ -1938,6 +2026,43 @@ export const CB_LOCALE_EN: CbTranslation = {
   ganttMoved: '{0}: {1}.',
   ganttProgressChanged: '{0}: {1}% complete.',
   ganttInstructions: 'Arrows: move one day. Shift + arrows: change the end. Alt + arrows: change the start. + and −: progress. Delete: remove its dependencies. Enter: open the task.',
+  schedulerPrevious: 'Previous',
+  schedulerNext: 'Next',
+  schedulerViews: 'Calendar view',
+  schedulerMonth: 'Month',
+  schedulerWeek: 'Week',
+  schedulerDay: 'Day',
+  schedulerAgenda: 'Agenda',
+  schedulerAllDay: 'All day',
+  schedulerMore: '+{0} more',
+  schedulerMoreLabel: 'See {0} more events on {1}',
+  schedulerOpenDay: 'Show {0}',
+  schedulerNewEvent: 'New event on {0}',
+  schedulerNoEvents: 'No events in these days.',
+  schedulerMoved: 'Event moved: {0}.',
+  schedulerInstructions: 'Left and right arrows: move one day. Up and down arrows: move one slot (one week in the month). Shift + up and down arrows: change the duration. Enter: open the event.',
+  dataGridToolbar: 'Table actions',
+  dataGridAddRow: 'Add row',
+  dataGridDeleteRow: 'Delete row',
+  dataGridDeleteRows: 'Delete {0} rows',
+  dataGridOneError: '1 error',
+  dataGridErrors: '{0} errors',
+  dataGridChanged: '{0} changed cells',
+  dataGridRequired: 'Required.',
+  dataGridMin: 'The minimum is {0}.',
+  dataGridMax: 'The maximum is {0}.',
+  dataGridInvalidNumber: 'Not a number.',
+  dataGridInvalidDate: 'Not a valid date.',
+  dataGridInvalidOption: 'Not one of the options.',
+  dataGridCopied: '{0} cells copied.',
+  dataGridPasted: '{0} cells pasted.',
+  dataGridCleared: '{0} cells cleared.',
+  dataGridUndone: 'Change undone.',
+  dataGridRedone: 'Change redone.',
+  dataGridRowAdded: 'Row added.',
+  dataGridRowsDeleted: 'Rows deleted: {0}.',
+  dataGridInstructions: 'Arrows: move. Shift + arrows: select. Enter or F2: edit; type to replace; Escape cancels. Delete: clear. Ctrl + C, X and V: copy, cut and paste. Ctrl + Z and Y: undo and redo. Ctrl + D: fill down.',
+  dataGridReadonlyInstructions: 'Arrows: move. Shift + arrows: select. Ctrl + C: copy.',
 
   scrollableArea: 'Scrollable area',
   scrollTop: 'Back to top',
