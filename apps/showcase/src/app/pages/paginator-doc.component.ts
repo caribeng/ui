@@ -6,11 +6,13 @@ import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
 import { TocService } from '../services/toc.service';
+import { DocA11yComponent } from '../components/doc-a11y.component';
+import { DOC_A11Y } from '../components/doc-a11y-registry';
 
 @Component({
   selector: 'doc-paginator-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [DocPlaygroundComponent, CbPaginator, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
+  imports: [DocA11yComponent, DocPlaygroundComponent, CbPaginator, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
     <doc-page-header eyebrow="Datos" title="Paginator" lead="Control de paginación reutilizable. first y rows son two-way." />
 
@@ -31,10 +33,13 @@ import { TocService } from '../services/toc.service';
       <cb-paginator [totalRecords]="248" [(first)]="first2" [(rows)]="rows2" [rowsPerPageOptions]="[10, 20, 50]" />
     </doc-section>
 
+    <doc-a11y [data]="a11y" />
+
     <doc-playground [api]="docApi" />
   `,
 })
 export class PaginatorDocComponent {
+  protected readonly a11y = DOC_A11Y['cb-paginator'];
   protected readonly docApi = DOC_API['cb-paginator'];
 
   constructor() {

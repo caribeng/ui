@@ -12,11 +12,13 @@ import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
 import { TocService } from '../services/toc.service';
+import { DocA11yComponent } from '../components/doc-a11y.component';
+import { DOC_A11Y } from '../components/doc-a11y-registry';
 
 @Component({
   selector: 'doc-timeline-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
+  imports: [DocA11yComponent, 
     CbTimeline,
     CbTimelineContentTemplate,
     CbTimelineOppositeTemplate,
@@ -105,10 +107,13 @@ import { TocService } from '../services/toc.service';
       </div>
     </doc-section>
 
+    <doc-a11y [data]="a11y" />
+
     <doc-playground [api]="docApi" />
   `,
 })
 export class TimelineDocComponent {
+  protected readonly a11y = DOC_A11Y['cb-timeline'];
   protected readonly docApi = DOC_API['cb-timeline'];
 
   protected readonly pedido: CbTimelineEvent[] = [

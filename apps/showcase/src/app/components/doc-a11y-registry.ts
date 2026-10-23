@@ -793,7 +793,7 @@ export const DOC_A11Y: Record<string, DocA11y> = {
   },
   'cb-input-mask': {
     screenReader: [
-      'Es un campo de texto nativo; sin etiqueta visible, define `ariaLabel`. Con Angular Forms, `aria-invalid` y `aria-required` siguen al estado del control.',
+      'Es un campo de texto nativo: asócialo a su etiqueta con `inputId` (`<label for>`) o, sin etiqueta visible, define `ariaLabel`. Con Angular Forms, `aria-invalid` y `aria-required` siguen al estado del control.',
       'La máscara se muestra como placeholder ("(999) 999-9999") y los literales se insertan al escribir. Explica el formato esperado en un texto de ayuda: el placeholder desaparece al escribir.',
     ],
     keyboard: [TAB_FOCUS('al campo'), { keys: 'Retroceso', action: 'Borra el último carácter, también los literales de la máscara.' }],
@@ -895,6 +895,116 @@ export const DOC_A11Y: Record<string, DocA11y> = {
       { keys: 'Flecha izquierda', action: 'Cierra el submenú y vuelve a la opción que lo abrió.' },
       { keys: 'Enter / Espacio', action: 'Activa la opción y cierra el menú.' },
       { keys: 'Escape / Tab', action: 'Cierra el menú y devuelve el foco al botón.' },
+    ],
+  },
+  // --- Tanda 2 (22.4): panel, layout y datos ---
+  'cb-accordion': {
+    screenReader: [
+      'Cada panel tiene un encabezado `h3` con un botón que indica `aria-expanded`. Abierto, el contenido es un `role="region"` nombrado por su encabezado y el botón apunta a él con `aria-controls`. Los paneles deshabilitados no se pueden abrir.',
+      'Con `multiple` se pueden abrir varios a la vez; si no, abrir uno cierra el anterior.',
+    ],
+    keyboard: [TAB_FOCUS('al encabezado de cada panel'), { keys: 'Enter / Espacio', action: 'Abre o cierra el panel.' }],
+  },
+  'cb-card': {
+    screenReader: [
+      'Es un contenedor sin rol propio. El título (`header`) es un encabezado `h3` y el subtítulo un párrafo, así que la tarjeta aparece en la lista de encabezados del lector de pantalla.',
+      'Si toda la tarjeta lleva a un sitio, pon un enlace en el título en lugar de hacer pulsable el contenedor, para que tenga un nombre corto.',
+    ],
+  },
+  'cb-divider': {
+    screenReader: [
+      'Tiene `role="separator"` con `aria-orientation`. El texto dentro del separador es decorativo para muchos lectores de pantalla: si la etiqueta importa, ponla también fuera (por ejemplo, como encabezado de la sección).',
+    ],
+  },
+  'cb-fieldset': {
+    screenReader: [
+      'Usa `fieldset` y `legend` nativos, de modo que la leyenda nombra el grupo de campos y se anuncia al entrar en él.',
+      'Con `toggleable`, la leyenda contiene un botón con `aria-expanded`; abierto, el contenido es un `role="region"` nombrado por la leyenda y el botón apunta a él con `aria-controls`.',
+    ],
+    keyboard: [TAB_FOCUS('al botón de la leyenda (con toggleable) y a los campos'), { keys: 'Enter / Espacio', action: 'Abre o cierra el contenido.' }],
+  },
+  'cb-panel': {
+    screenReader: [
+      'El contenido es un `role="region"` nombrado por el título (`header`). Con `toggleable`, el botón de plegar indica `aria-expanded`, se nombra con el título y apunta al contenido con `aria-controls` mientras está abierto.',
+      'El título no es un encabezado: si el panel abre una sección de la página, pon un encabezado dentro o antes de él.',
+    ],
+    keyboard: [TAB_FOCUS('a las acciones de la cabecera y al botón de plegar'), { keys: 'Enter / Espacio', action: 'Pliega o despliega el contenido.' }],
+  },
+  'cb-scroll-panel': {
+    screenReader: [
+      'El área es un `role="region"` enfocable (`tabindex="0"`) con nombre ("Área desplazable", o `ariaLabel`), para que quien usa teclado pueda desplazar su contenido.',
+    ],
+    keyboard: [
+      TAB_FOCUS('al área'),
+      { keys: 'Flecha abajo / Flecha arriba / Re Pág / Av Pág', action: 'Desplaza el contenido.' },
+      { keys: 'Inicio / Fin', action: 'Va al principio o al final del contenido.' },
+    ],
+  },
+  'cb-scroll-top': {
+    screenReader: [
+      'Es un botón con nombre ("Volver arriba", o `ariaLabel`); el icono es decorativo. Solo existe a partir del umbral (`threshold`), así que no aparece en el orden de tabulación arriba de la página.',
+      'Con "reducir movimiento" activado en el sistema, el desplazamiento es instantáneo aunque `behavior` sea `smooth`.',
+    ],
+    keyboard: [TAB_FOCUS('al botón'), { keys: 'Enter / Espacio', action: 'Vuelve al principio.' }],
+  },
+  'cb-splitter': {
+    screenReader: [
+      'Cada barra entre paneles es un `role="separator"` enfocable con nombre ("Redimensionar paneles"), `aria-orientation` y el tamaño del panel anterior en `aria-valuenow` (en %), entre `aria-valuemin` y `aria-valuemax`.',
+    ],
+    keyboard: [
+      TAB_FOCUS('a cada barra'),
+      { keys: 'Flecha izquierda / Flecha derecha', action: 'En un splitter horizontal, cambia el tamaño un paso (`step`, 5 % por defecto).' },
+      { keys: 'Flecha arriba / Flecha abajo', action: 'Igual, en un splitter vertical.' },
+      { keys: 'Inicio / Fin', action: 'Lleva el panel a su tamaño mínimo o al máximo.' },
+    ],
+  },
+  'cb-stepper': {
+    screenReader: [
+      'Los pasos forman una lista ordenada de botones. Cada uno se nombra con su posición y su etiqueta ("Paso 2 de 3: Perfil"), añade "completado" a los que ya pasaron, y el actual expone `aria-current="step"`.',
+      'Solo se muestra el contenido del paso actual. Los botones Atrás y Siguiente se desactivan en el primer y en el último paso.',
+    ],
+    keyboard: [
+      TAB_FOCUS('a cada paso, al contenido y a Atrás / Siguiente'),
+      { keys: 'Enter / Espacio', action: 'Va al paso enfocado o pulsa Atrás / Siguiente.' },
+    ],
+  },
+  'cb-toolbar': {
+    screenReader: [
+      'El contenedor tiene `role="toolbar"` con nombre ("Barra de herramientas", o `ariaLabel`); si hay varias en la página, dale a cada una un nombre distinto. Los controles proyectados conservan su rol y su nombre.',
+    ],
+    keyboard: [TAB_FOCUS('a cada control de la barra, en orden')],
+  },
+  'cb-dataview': {
+    screenReader: [
+      'Los elementos forman un `role="list"` en las dos vistas. Con `showLayoutToggle`, el cambio de vista es un grupo nombrado ("Cambiar vista") de dos conmutadores (`aria-pressed`): "Vista de lista" y "Vista de cuadrícula".',
+      'En la plantilla por defecto, el botón de cada elemento se nombra con él ("Seleccionar Producto 1") e indica con `aria-pressed` si está elegido. Con `rows`, la paginación es un `cb-paginator`.',
+    ],
+    keyboard: [TAB_FOCUS('al cambio de vista, a los botones de cada elemento y a la paginación'), { keys: 'Enter / Espacio', action: 'Cambia la vista o elige el elemento.' }],
+  },
+  'cb-organization-chart': {
+    screenReader: [
+      'El organigrama es un grupo nombrado ("Organigrama", o `ariaLabel`) de listas anidadas: cada nivel es una lista dentro del nodo del que depende, así que el lector de pantalla anuncia cuántos nodos tiene y en qué nivel está.',
+      'Cada nodo es un botón con nombre ("Seleccionar Ingeniería") que indica con `aria-pressed` si está elegido. Los que tienen hijos tienen además un botón "Expandir …" / "Contraer …" con `aria-expanded`.',
+    ],
+    keyboard: [
+      TAB_FOCUS('a cada nodo y a su botón de expandir'),
+      { keys: 'Enter / Espacio', action: 'Elige el nodo, o expande o contrae sus hijos.' },
+    ],
+  },
+  'cb-paginator': {
+    screenReader: [
+      'Es una región `role="navigation"` nombrada ("Paginación"). Los botones de primera, anterior, siguiente y última página tienen nombre, y se desactivan cuando no hay adónde ir; la página actual expone `aria-current="page"`.',
+      'El selector de filas por página es un `select` nativo con nombre ("Registros por página").',
+    ],
+    keyboard: [
+      TAB_FOCUS('a cada botón y al selector de filas'),
+      { keys: 'Enter / Espacio', action: 'Va a la página.' },
+      { keys: 'Flecha abajo / Flecha arriba', action: 'En el selector, cambia las filas por página.' },
+    ],
+  },
+  'cb-timeline': {
+    screenReader: [
+      'Es una lista ordenada con nombre ("Cronología", o `ariaLabel`): cada evento es un elemento de la lista, en orden. Los marcadores y los conectores son decorativos, así que el color o el icono de un evento no debe ser la única forma de transmitir su estado.',
     ],
   },
 };

@@ -23,12 +23,41 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
             "text": "patrón WAI-ARIA *toolbar*: un solo elemento en el orden de tabulación y flechas (según la orientación), Inicio y Fin para recorrer las acciones."
           },
           {
+            "component": "Stepper",
+            "text": "cada paso se nombra con su posición y su etiqueta (\"Paso 2 de 3: Perfil\") y añade \"completado\" a los que ya pasaron; antes el botón solo decía el número, o nada si el paso estaba completado. Clave de idioma nueva: `stepCompleted`."
+          },
+          {
+            "component": "InputMask",
+            "text": "`inputId` para asociar el campo a un `<label for>`."
+          },
+          {
+            "component": "DataView",
+            "text": "el botón de seleccionar de la plantilla por defecto se nombra con su elemento (\"Seleccionar Producto 1\")."
+          },
+          {
+            "component": "ScrollTop",
+            "text": "con \"reducir movimiento\" en el sistema, el desplazamiento es instantáneo aunque `behavior` sea `smooth`."
+          },
+          {
             "component": "Showcase",
-            "text": "sección Accesibilidad en 19 páginas más: Button, Chips, ColorPicker, FileUpload, FloatLabel, IconField, InputGroup, InputMask, Knob, Password, ToggleButton, Breadcrumb, Dock, Menubar, PanelMenu, SpeedDial, Steps, TabMenu y TieredMenu."
+            "text": "sección Accesibilidad en 33 páginas más: Button, Chips, ColorPicker, FileUpload, FloatLabel, IconField, InputGroup, InputMask, Knob, Password, ToggleButton, Breadcrumb, Dock, Menubar, PanelMenu, SpeedDial, Steps, TabMenu, TieredMenu, Accordion, Card, Divider, Fieldset, Panel, ScrollPanel, ScrollTop, Splitter, Stepper, Toolbar, DataView, OrganizationChart, Paginator y Timeline."
           },
           {
             "component": "Kanban, espacio de trabajo",
             "text": "una `<ng-template cbKanbanCard>` dentro de `cb-kanban-workspace` se usa como plantilla de las tarjetas del tablero (antes no llegaba). `cb-kanban` acepta también la plantilla como input (`cardTemplate`); la proyectada tiene prioridad."
+          }
+        ]
+      },
+      {
+        "type": "fixed",
+        "items": [
+          {
+            "component": "Accordion / Fieldset / Panel",
+            "text": "`aria-controls` apuntaba al contenido también cerrado, cuando ese elemento no existe; ahora solo mientras está abierto. En Panel, la región se nombraba con toda la cabecera (el título se leía dos veces) y ahora solo con el título."
+          },
+          {
+            "component": "OrganizationChart",
+            "text": "usaba `role=\"tree\"` / `treeitem` sin la navegación con flechas del patrón y con botones dentro (ARIA inválido); ahora es un grupo nombrado de listas anidadas y el nodo elegido expone `aria-pressed`."
           }
         ]
       }

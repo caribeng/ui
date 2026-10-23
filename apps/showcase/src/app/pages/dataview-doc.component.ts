@@ -9,6 +9,8 @@ import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
 import { TocService } from '../services/toc.service';
+import { DocA11yComponent } from '../components/doc-a11y.component';
+import { DOC_A11Y } from '../components/doc-a11y-registry';
 
 interface Producto {
   id: number;
@@ -21,7 +23,7 @@ interface Producto {
 @Component({
   selector: 'doc-dataview-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
+  imports: [DocA11yComponent, 
     DecimalPipe,
     CbDataView,
     CbDataViewItemTemplate,
@@ -80,6 +82,8 @@ interface Producto {
       </div>
     </doc-section>
 
+    <doc-a11y [data]="a11y" />
+
     <doc-playground [api]="docApi" />
   `,
   styles: [`
@@ -90,6 +94,7 @@ interface Producto {
   `],
 })
 export class DataviewDocComponent {
+  protected readonly a11y = DOC_A11Y['cb-dataview'];
   protected readonly docApi = DOC_API['cb-dataview'];
 
   protected readonly layout = signal<CbDataViewLayout>('grid');

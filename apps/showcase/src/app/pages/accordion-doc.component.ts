@@ -6,11 +6,13 @@ import { DocPageHeaderComponent } from '../shared/page-header.component';
 import { TocService } from '../services/toc.service';
 import { DocPlaygroundComponent } from '../components/doc-playground.component';
 import { DOC_API } from '../components/doc-api-registry';
+import { DocA11yComponent } from '../components/doc-a11y.component';
+import { DOC_A11Y } from '../components/doc-a11y-registry';
 
 @Component({
   selector: 'doc-accordion-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [DocPlaygroundComponent, CbAccordion,
+  imports: [DocA11yComponent, DocPlaygroundComponent, CbAccordion,
     CbAccordionPanel,
     DocSectionComponent,
     CodeBlockComponent,
@@ -47,10 +49,13 @@ import { DOC_API } from '../components/doc-api-registry';
       </cb-accordion>
     </doc-section>
 
+    <doc-a11y [data]="a11y" />
+
     <doc-playground [api]="docApi" />
   `,
 })
 export class AccordionDocComponent {
+  protected readonly a11y = DOC_A11Y['cb-accordion'];
   protected readonly docApi = DOC_API['cb-accordion'];
 
   constructor() {

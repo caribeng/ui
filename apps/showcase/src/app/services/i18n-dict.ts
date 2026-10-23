@@ -2818,8 +2818,8 @@ export const ES_EN: Record<string, string> = {
     'The icon (`cb-input-icon`) is decorative (`aria-hidden="true"`): the field needs its own label or `aria-label`. If the icon does something (search, clear), use a named button instead of an icon.',
   'Solo agrupa visualmente: cada control proyectado (campo, botón) conserva su propio rol y nombre. Los addons de texto ("€", "https://") no forman parte de la etiqueta; si el campo los necesita para entenderse, inclúyelos en su `aria-label` o en el texto de ayuda.':
     'It only groups visually: each projected control (field, button) keeps its own role and name. Text addons ("€", "https://") are not part of the label; if the field needs them to make sense, include them in its `aria-label` or in the help text.',
-  'Es un campo de texto nativo; sin etiqueta visible, define `ariaLabel`. Con Angular Forms, `aria-invalid` y `aria-required` siguen al estado del control.':
-    'It is a native text field; without a visible label, set `ariaLabel`. With Angular Forms, `aria-invalid` and `aria-required` follow the control state.',
+  'Es un campo de texto nativo: asócialo a su etiqueta con `inputId` (`<label for>`) o, sin etiqueta visible, define `ariaLabel`. Con Angular Forms, `aria-invalid` y `aria-required` siguen al estado del control.':
+    'It is a native text field: associate it with its label using `inputId` (`<label for>`) or, without a visible label, set `ariaLabel`. With Angular Forms, `aria-invalid` and `aria-required` follow the control state.',
   'La máscara se muestra como placeholder ("(999) 999-9999") y los literales se insertan al escribir. Explica el formato esperado en un texto de ayuda: el placeholder desaparece al escribir.':
     'The mask is shown as the placeholder ("(999) 999-9999") and the literals are inserted while typing. Explain the expected format in a help text: the placeholder disappears while typing.',
   'Borra el último carácter, también los literales de la máscara.': 'Deletes the last character, including the mask literals.',
@@ -2887,4 +2887,78 @@ export const ES_EN: Record<string, string> = {
   'Mueve el foco al botón principal y, abierto, a cada acción.': 'Moves focus to the main button and, when open, to each action.',
   'Mueve el foco a cada paso.': 'Moves focus to each step.',
   'Mueve el foco a cada opción.': 'Moves focus to each option.',
+  // --- Accesibilidad, tanda 2 (panel, layout y datos) ---
+  'Cada panel tiene un encabezado `h3` con un botón que indica `aria-expanded`. Abierto, el contenido es un `role="region"` nombrado por su encabezado y el botón apunta a él con `aria-controls`. Los paneles deshabilitados no se pueden abrir.':
+    'Each panel has an `h3` heading with a button that exposes `aria-expanded`. When open, the content is a `role="region"` named by its heading and the button points to it with `aria-controls`. Disabled panels cannot be opened.',
+  'Con `multiple` se pueden abrir varios a la vez; si no, abrir uno cierra el anterior.':
+    'With `multiple` several can be open at once; otherwise, opening one closes the previous one.',
+  'Abre o cierra el panel.': 'Opens or closes the panel.',
+  'Es un contenedor sin rol propio. El título (`header`) es un encabezado `h3` y el subtítulo un párrafo, así que la tarjeta aparece en la lista de encabezados del lector de pantalla.':
+    'It is a container without its own role. The title (`header`) is an `h3` heading and the subtitle a paragraph, so the card shows up in the screen reader headings list.',
+  'Si toda la tarjeta lleva a un sitio, pon un enlace en el título en lugar de hacer pulsable el contenedor, para que tenga un nombre corto.':
+    'If the whole card leads somewhere, put a link on the title instead of making the container clickable, so it gets a short name.',
+  'Tiene `role="separator"` con `aria-orientation`. El texto dentro del separador es decorativo para muchos lectores de pantalla: si la etiqueta importa, ponla también fuera (por ejemplo, como encabezado de la sección).':
+    'It has `role="separator"` with `aria-orientation`. Text inside the separator is decorative for many screen readers: if the label matters, put it outside too (for example, as the section heading).',
+  'Usa `fieldset` y `legend` nativos, de modo que la leyenda nombra el grupo de campos y se anuncia al entrar en él.':
+    'It uses native `fieldset` and `legend`, so the legend names the group of fields and is announced when entering it.',
+  'Con `toggleable`, la leyenda contiene un botón con `aria-expanded`; abierto, el contenido es un `role="region"` nombrado por la leyenda y el botón apunta a él con `aria-controls`.':
+    'With `toggleable`, the legend holds a button with `aria-expanded`; when open, the content is a `role="region"` named by the legend and the button points to it with `aria-controls`.',
+  'Abre o cierra el contenido.': 'Opens or closes the content.',
+  'El contenido es un `role="region"` nombrado por el título (`header`). Con `toggleable`, el botón de plegar indica `aria-expanded`, se nombra con el título y apunta al contenido con `aria-controls` mientras está abierto.':
+    'The content is a `role="region"` named by the title (`header`). With `toggleable`, the collapse button exposes `aria-expanded`, is named with the title and points to the content with `aria-controls` while it is open.',
+  'El título no es un encabezado: si el panel abre una sección de la página, pon un encabezado dentro o antes de él.':
+    'The title is not a heading: if the panel starts a section of the page, put a heading inside or before it.',
+  'Pliega o despliega el contenido.': 'Collapses or expands the content.',
+  'El área es un `role="region"` enfocable (`tabindex="0"`) con nombre ("Área desplazable", o `ariaLabel`), para que quien usa teclado pueda desplazar su contenido.':
+    'The area is a focusable `role="region"` (`tabindex="0"`) with a name ("Scrollable area", or `ariaLabel`), so keyboard users can scroll its content.',
+  'Desplaza el contenido.': 'Scrolls the content.',
+  'Va al principio o al final del contenido.': 'Goes to the start or the end of the content.',
+  'Es un botón con nombre ("Volver arriba", o `ariaLabel`); el icono es decorativo. Solo existe a partir del umbral (`threshold`), así que no aparece en el orden de tabulación arriba de la página.':
+    'It is a named button ("Scroll to top", or `ariaLabel`); the icon is decorative. It only exists past the threshold (`threshold`), so it is not in the tab order at the top of the page.',
+  'Con "reducir movimiento" activado en el sistema, el desplazamiento es instantáneo aunque `behavior` sea `smooth`.':
+    'With "reduce motion" turned on in the system, scrolling is instant even if `behavior` is `smooth`.',
+  'Vuelve al principio.': 'Goes back to the top.',
+  'Cada barra entre paneles es un `role="separator"` enfocable con nombre ("Redimensionar paneles"), `aria-orientation` y el tamaño del panel anterior en `aria-valuenow` (en %), entre `aria-valuemin` y `aria-valuemax`.':
+    'Each bar between panels is a focusable `role="separator"` with a name ("Resize panels"), `aria-orientation` and the size of the previous panel in `aria-valuenow` (in %), between `aria-valuemin` and `aria-valuemax`.',
+  'En un splitter horizontal, cambia el tamaño un paso (`step`, 5 % por defecto).':
+    'In a horizontal splitter, changes the size by one step (`step`, 5% by default).',
+  'Igual, en un splitter vertical.': 'The same, in a vertical splitter.',
+  'Lleva el panel a su tamaño mínimo o al máximo.': 'Takes the panel to its minimum or maximum size.',
+  'Los pasos forman una lista ordenada de botones. Cada uno se nombra con su posición y su etiqueta ("Paso 2 de 3: Perfil"), añade "completado" a los que ya pasaron, y el actual expone `aria-current="step"`.':
+    'The steps are an ordered list of buttons. Each one is named with its position and label ("Step 2 of 3: Profile"), adds "completed" to the ones already passed, and the current one exposes `aria-current="step"`.',
+  'Solo se muestra el contenido del paso actual. Los botones Atrás y Siguiente se desactivan en el primer y en el último paso.':
+    'Only the content of the current step is shown. The Back and Next buttons are disabled on the first and last step.',
+  'Va al paso enfocado o pulsa Atrás / Siguiente.': 'Goes to the focused step or presses Back / Next.',
+  'El contenedor tiene `role="toolbar"` con nombre ("Barra de herramientas", o `ariaLabel`); si hay varias en la página, dale a cada una un nombre distinto. Los controles proyectados conservan su rol y su nombre.':
+    'The container has `role="toolbar"` with a name ("Toolbar", or `ariaLabel`); if the page has several, give each one a different name. Projected controls keep their role and name.',
+  'Los elementos forman un `role="list"` en las dos vistas. Con `showLayoutToggle`, el cambio de vista es un grupo nombrado ("Cambiar vista") de dos conmutadores (`aria-pressed`): "Vista de lista" y "Vista de cuadrícula".':
+    'The items form a `role="list"` in both views. With `showLayoutToggle`, the view switch is a named group ("Change layout") of two toggles (`aria-pressed`): "List view" and "Grid view".',
+  'En la plantilla por defecto, el botón de cada elemento se nombra con él ("Seleccionar Producto 1") e indica con `aria-pressed` si está elegido. Con `rows`, la paginación es un `cb-paginator`.':
+    'In the default template, each item button is named after the item ("Select Product 1") and tells with `aria-pressed` whether it is chosen. With `rows`, pagination is a `cb-paginator`.',
+  'Cambia la vista o elige el elemento.': 'Changes the view or chooses the item.',
+  'El organigrama es un grupo nombrado ("Organigrama", o `ariaLabel`) de listas anidadas: cada nivel es una lista dentro del nodo del que depende, así que el lector de pantalla anuncia cuántos nodos tiene y en qué nivel está.':
+    'The chart is a named group ("Organization chart", or `ariaLabel`) of nested lists: each level is a list inside the node it depends on, so the screen reader announces how many nodes it has and which level it is on.',
+  'Cada nodo es un botón con nombre ("Seleccionar Ingeniería") que indica con `aria-pressed` si está elegido. Los que tienen hijos tienen además un botón "Expandir …" / "Contraer …" con `aria-expanded`.':
+    'Each node is a named button ("Select Engineering") that tells with `aria-pressed` whether it is chosen. Nodes with children also have an "Expand …" / "Collapse …" button with `aria-expanded`.',
+  'Elige el nodo, o expande o contrae sus hijos.': 'Chooses the node, or expands or collapses its children.',
+  'Es una región `role="navigation"` nombrada ("Paginación"). Los botones de primera, anterior, siguiente y última página tienen nombre, y se desactivan cuando no hay adónde ir; la página actual expone `aria-current="page"`.':
+    'It is a named `role="navigation"` region ("Pagination"). The first, previous, next and last page buttons are named and disabled when there is nowhere to go; the current page exposes `aria-current="page"`.',
+  'El selector de filas por página es un `select` nativo con nombre ("Registros por página").':
+    'The rows per page selector is a named native `select` ("Rows per page").',
+  'Va a la página.': 'Goes to the page.',
+  'En el selector, cambia las filas por página.': 'In the selector, changes the rows per page.',
+  'Es una lista ordenada con nombre ("Cronología", o `ariaLabel`): cada evento es un elemento de la lista, en orden. Los marcadores y los conectores son decorativos, así que el color o el icono de un evento no debe ser la única forma de transmitir su estado.':
+    'It is a named ordered list ("Timeline", or `ariaLabel`): each event is a list item, in order. Markers and connectors are decorative, so the color or icon of an event must not be the only way to convey its status.',
+  'Mueve el foco al encabezado de cada panel.': 'Moves focus to the heading of each panel.',
+  'Mueve el foco al botón de la leyenda (con toggleable) y a los campos.':
+    'Moves focus to the legend button (with toggleable) and to the fields.',
+  'Mueve el foco a las acciones de la cabecera y al botón de plegar.': 'Moves focus to the header actions and the collapse button.',
+  'Mueve el foco al área.': 'Moves focus to the area.',
+  'Mueve el foco a cada barra.': 'Moves focus to each bar.',
+  'Mueve el foco a cada paso, al contenido y a Atrás / Siguiente.': 'Moves focus to each step, to the content and to Back / Next.',
+  'Mueve el foco a cada control de la barra, en orden.': 'Moves focus to each control of the bar, in order.',
+  'Mueve el foco al cambio de vista, a los botones de cada elemento y a la paginación.':
+    'Moves focus to the view switch, to each item button and to the pagination.',
+  'Mueve el foco a cada nodo y a su botón de expandir.': 'Moves focus to each node and its expand button.',
+  'Mueve el foco a cada botón y al selector de filas.': 'Moves focus to each button and the rows selector.',
 };

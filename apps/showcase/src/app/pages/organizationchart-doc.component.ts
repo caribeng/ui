@@ -9,11 +9,13 @@ import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { TocService } from '../services/toc.service';
+import { DocA11yComponent } from '../components/doc-a11y.component';
+import { DOC_A11Y } from '../components/doc-a11y-registry';
 
 @Component({
   selector: 'doc-organizationchart-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [DocPlaygroundComponent, CbOrganizationChart, CodeBlockComponent, DocPageHeaderComponent, DocSectionComponent],
+  imports: [DocA11yComponent, DocPlaygroundComponent, CbOrganizationChart, CodeBlockComponent, DocPageHeaderComponent, DocSectionComponent],
   template: `
     <doc-page-header eyebrow="Datos" title="OrganizationChart" lead="Organigrama jerárquico con expansión de ramas y selección de nodos." />
 
@@ -27,10 +29,13 @@ import { TocService } from '../services/toc.service';
       <p style="margin:.75rem 0 0;color:var(--cb-color-text-muted)">Selección: {{ selection()?.label ?? 'ninguna' }}</p>
     </doc-section>
 
+    <doc-a11y [data]="a11y" />
+
     <doc-playground [api]="docApi" />
   `,
 })
 export class OrganizationChartDocComponent {
+  protected readonly a11y = DOC_A11Y['cb-organization-chart'];
   protected readonly docApi = DOC_API['cb-organization-chart'];
 
   constructor() { inject(TocService).reset(); }
