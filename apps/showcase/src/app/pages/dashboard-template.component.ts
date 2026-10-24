@@ -126,6 +126,7 @@ interface ActivityRow {
 
             <!-- Actividad -->
             <cb-card header="Actividad reciente" class="dash__panel">
+              <div class="dash__table-wrap" tabindex="0" role="region" aria-label="Actividad reciente">
               <table class="dash__table">
                 <thead>
                   <tr>
@@ -154,6 +155,7 @@ interface ActivityRow {
                   }
                 </tbody>
               </table>
+              </div>
             </cb-card>
           </main>
         </div>
@@ -311,6 +313,13 @@ interface ActivityRow {
       .dash__stat-trend--down {
         color: var(--cb-color-danger-600, #dc2626);
       }
+      .dash__table-wrap {
+        overflow-x: auto;
+      }
+      .dash__table-wrap:focus-visible {
+        outline: 2px solid var(--cb-color-primary);
+        outline-offset: 2px;
+      }
       .dash__table {
         width: 100%;
         border-collapse: collapse;
@@ -429,9 +438,12 @@ export class DashboardTemplateComponent {
       </div>
 
       <cb-card header="Actividad reciente">
-        <table class="dash__table">
-          <!-- @for (row of rows) ... avatar + nombre + <cb-tag [value]="row.status" [severity]="row.severity" /> -->
-        </table>
+        <!-- En móvil la tabla se desplaza dentro de su contenedor. -->
+        <div class="dash__table-wrap" tabindex="0" role="region" aria-label="Actividad reciente">
+          <table class="dash__table">
+            <!-- @for (row of rows) ... avatar + nombre + <cb-tag [value]="row.status" [severity]="row.severity" /> -->
+          </table>
+        </div>
       </cb-card>
     </main>
   </div>

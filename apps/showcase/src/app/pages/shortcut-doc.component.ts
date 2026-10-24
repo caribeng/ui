@@ -24,7 +24,7 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
       </cb-doc-example>
 
       <cb-doc-example title="Panel de accesos rápidos" description="Varios accesos en cuadrícula forman un panel de acciones rápidas." [code]="composedCode">
-        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.75rem; width: 100%; max-width: 28rem">
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(6rem, 1fr)); gap: 0.75rem; width: 100%; max-width: 28rem">
           <cb-shortcut icon="arrow-right" label="Transfer" />
           <cb-shortcut icon="plus" label="Top up" />
           <cb-shortcut icon="search" label="Find" />

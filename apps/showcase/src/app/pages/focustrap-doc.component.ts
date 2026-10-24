@@ -29,7 +29,7 @@ const BASIC_CODE = `<div cbFocusTrap>
       >
         <div
           cbFocusTrap
-          style="display: flex; gap: 0.75rem; align-items: center; padding: 1rem; border: 1px dashed var(--cb-border-color, #cbd5e1); border-radius: 0.5rem"
+          style="display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; padding: 1rem; border: 1px dashed var(--cb-border-color, #cbd5e1); border-radius: 0.5rem"
         >
           <input placeholder="Primer campo" style="padding: 0.4rem 0.65rem; border-radius: 0.375rem; border: 1px solid #cbd5e1" />
           <input placeholder="Segundo campo" style="padding: 0.4rem 0.65rem; border-radius: 0.375rem; border: 1px solid #cbd5e1" />
