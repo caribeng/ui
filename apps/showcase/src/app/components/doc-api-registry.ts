@@ -138,6 +138,10 @@ import { CbAccountPicker } from '@caribeng/ui/account-picker';
 import { CbJournalEntry } from '@caribeng/ui/journal-entry';
 import { CbPeriodPicker } from '@caribeng/ui/period-picker';
 import { CbFinancialReport } from '@caribeng/ui/financial-report';
+import { CbAging } from '@caribeng/ui/aging';
+import { CbImportWizard } from '@caribeng/ui/import-wizard';
+import { CbReconciliation } from '@caribeng/ui/reconciliation';
+import { CbPivot } from '@caribeng/ui/pivot';
 import { CbMediaPlayer } from '@caribeng/ui/media-player';
 import { CbMasonry } from '@caribeng/ui/masonry';
 import { CbInfiniteScroll } from '@caribeng/ui/infinite-scroll';
@@ -2123,6 +2127,67 @@ export const DOC_API: Record<string, DocApi> = {
     ],
     events: [
       { name: "accountOpen", type: "CbAccount", description: "Clic o Enter en una cuenta de movimiento." }
+    ]
+  },
+  "cb-aging": {
+    component: CbAging,
+    selector: "cb-aging",
+    props: [
+      { name: "documents", kind: "string", type: "readonly CbAgingDocument[]", default: [], example: [{ id: 1, party: 'Distribuidora El Caribe', number: 'FV-1188', due: '2026-08-19', balance: 3250000 }, { id: 2, party: 'Distribuidora El Caribe', number: 'FV-1241', due: '2026-11-11', balance: 2640000 }, { id: 3, party: 'Hotel Las Américas', number: 'FV-1101', due: '2026-04-14', balance: 5600000 }], description: "Documentos pendientes (party, number, date, due, balance).", control: false },
+      { name: "asOf", kind: "string", type: "Date", default: undefined, description: "Fecha de corte (hoy por defecto).", control: false },
+      { name: "title", kind: "string", type: "string", default: "", example: "Cartera por edades", description: "Título." },
+      { name: "partyHeader", kind: "string", type: "string", default: "", localeKey: "agingParty", description: "Encabezado de la columna de terceros." },
+      { name: "buckets", kind: "string", type: "readonly CbAgingBucket[] | null", default: null, description: "Tramos (key, label, from, to); por defecto 1–30, 31–60, 61–90 y más de 90 días.", control: false },
+      { name: "sort", kind: "string", type: "{ key, order } (model)", default: undefined, description: "Orden de las filas.", control: false },
+      { name: "documentLinks", kind: "boolean", type: "boolean", default: false, description: "Los números de documento emiten documentOpen." },
+      { name: "currency", kind: "string", type: "string", default: undefined, description: "Moneda (si no, la de provideCaribeNG)." }
+    ],
+    events: [
+      { name: "documentOpen", type: "CbAgingDocument", description: "Clic en un número de documento." }
+    ]
+  },
+  "cb-import-wizard": {
+    component: CbImportWizard,
+    selector: "cb-import-wizard",
+    props: [
+      { name: "fields", kind: "string", type: "readonly CbImportField[]", default: [], example: [{ key: 'nit', label: 'NIT', required: true }, { key: 'nombre', label: 'Razón social', required: true }, { key: 'saldo', label: 'Saldo', type: 'number' }], description: "Campos de destino (key, label, type, required, aliases, validate).", control: false },
+      { name: "allowInvalid", kind: "boolean", type: "boolean", default: false, description: "Importa también las filas con errores." }
+    ],
+    events: [
+      { name: "import", type: "CbImportResult", description: "Filas importadas (con tipo), errores y descartadas." }
+    ]
+  },
+  "cb-reconciliation": {
+    component: CbReconciliation,
+    selector: "cb-reconciliation",
+    props: [
+      { name: "statement", kind: "string", type: "readonly CbReconItem[]", default: [], example: [{ id: 'e1', date: '2026-10-02', description: 'Consignación', amount: 2450000 }, { id: 'e2', date: '2026-10-31', description: 'Comisión', amount: -18900 }], description: "Movimientos del extracto (id, date, description, amount, reference).", control: false },
+      { name: "ledger", kind: "string", type: "readonly CbReconItem[]", default: [], example: [{ id: 'l1', date: '2026-10-01', description: 'Recaudo FV-1203', amount: 2450000 }], description: "Movimientos en libros.", control: false },
+      { name: "matches", kind: "string", type: "readonly CbReconMatch[] (model)", default: [], description: "Emparejamientos (statement y ledger: ids).", control: false },
+      { name: "toleranceDays", kind: "number", type: "number", default: 3, description: "Días de diferencia admitidos al conciliar automáticamente." },
+      { name: "statementLabel", kind: "string", type: "string", default: "", localeKey: "reconStatement", description: "Título del extracto." },
+      { name: "ledgerLabel", kind: "string", type: "string", default: "", localeKey: "reconLedger", description: "Título de los libros." },
+      { name: "allowCreate", kind: "boolean", type: "boolean", default: false, description: "Botón Crear asiento en los movimientos del extracto sin pareja." },
+      { name: "readonly", kind: "boolean", type: "boolean", default: false, description: "Solo consulta." },
+      { name: "currency", kind: "string", type: "string", default: undefined, description: "Moneda (si no, la de provideCaribeNG)." }
+    ],
+    events: [
+      { name: "createEntry", type: "CbReconItem", description: "Registrar en libros un movimiento del extracto." }
+    ]
+  },
+  "cb-pivot": {
+    component: CbPivot,
+    selector: "cb-pivot",
+    props: [
+      { name: "data", kind: "string", type: "readonly Record<string, unknown>[]", default: [], example: [{ cuenta: '5135', mes: '2026-09', valor: 300 }, { cuenta: '5135', mes: '2026-10', valor: 500 }, { cuenta: '5105', mes: '2026-10', valor: 1000 }], description: "Registros a cruzar.", control: false },
+      { name: "fields", kind: "string", type: "readonly CbPivotField[]", default: [], example: [{ key: 'cuenta', label: 'Cuenta' }, { key: 'mes', label: 'Mes' }], description: "Dimensiones (key, label, format).", control: false },
+      { name: "rows", kind: "string", type: "readonly string[] (model)", default: [], example: ['cuenta'], description: "Dimensiones de las filas.", control: false },
+      { name: "columns", kind: "string", type: "readonly string[] (model)", default: [], example: ['mes'], description: "Dimensiones de las columnas.", control: false },
+      { name: "values", kind: "string", type: "readonly CbPivotValue[]", default: [], example: [{ field: 'valor' }], description: "Medidas (field, aggregate, label, format).", control: false },
+      { name: "configurable", kind: "boolean", type: "boolean", default: false, example: true, description: "Selectores de filas, columnas y cálculo." },
+      { name: "collapsed", kind: "boolean", type: "boolean", default: false, description: "Las filas con hijos empiezan contraídas." },
+      { name: "currency", kind: "string", type: "string", default: undefined, description: "Moneda (si no, la de provideCaribeNG)." },
+      { name: "ariaLabel", kind: "string", type: "string", default: "", description: "Nombre de la tabla." }
     ]
   },
   "cb-data-grid": {

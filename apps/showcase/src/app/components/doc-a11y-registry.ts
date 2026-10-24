@@ -824,6 +824,51 @@ export const DOC_A11Y: Record<string, DocA11y> = {
       { keys: 'Enter', action: 'En una cuenta mayor, la abre o cierra; en una de movimiento, emite accountOpen.' },
     ],
   },
+  'cb-aging': {
+    screenReader: [
+      'La cartera es una tabla con cabeceras de columna (tramos) y de fila (terceros); los encabezados son botones que ordenan, con `aria-sort`.',
+      'Cada tercero es un botón con `aria-expanded` que abre la tabla de sus documentos, enlazada con `aria-controls` y con nombre propio («Documentos de Ana Ruiz»).',
+      'La barra de composición es decorativa: la misma información está en la leyenda con importes y porcentajes en texto. Los días vencidos se dicen con texto además del color rojo.',
+    ],
+    keyboard: [
+      { keys: 'Tab', action: 'Recorre el botón de Excel, los encabezados, los terceros y sus documentos.' },
+      { keys: 'Enter / Espacio', action: 'En un encabezado, ordena; en un tercero, abre o cierra sus documentos.' },
+    ],
+  },
+  'cb-import-wizard': {
+    screenReader: [
+      'Los pasos son una lista con `aria-current="step"` en el actual; al cambiar de paso, el foco va al título del paso.',
+      'El archivo se elige con un botón (arrastrar es opcional) o pegando los datos en un área de texto con nombre.',
+      'Cada campo de destino tiene su selector de columna enlazado con `aria-labelledby`; los obligatorios lo dicen con texto oculto y los que faltan se listan con `role="alert"`.',
+      'El resumen de filas válidas y con errores está en una región `role="status"`; en la vista previa, las celdas con error llevan `aria-invalid` y su mensaje.',
+    ],
+    keyboard: [
+      { keys: 'Tab', action: 'Recorre los controles del paso y los botones Atrás, Siguiente e Importar.' },
+      { keys: 'Flechas (vista previa)', action: 'Recorren las celdas de la revisión.' },
+    ],
+  },
+  'cb-reconciliation': {
+    screenReader: [
+      'Cada lado es una sección con título (extracto y libros) y una lista de movimientos; cada movimiento es una casilla con su fecha, descripción e importe como etiqueta.',
+      'Los movimientos conciliados lo dicen con texto oculto además del color. La suma de lo seleccionado y la diferencia se anuncian con `aria-live`.',
+      'Los resultados de conciliar, emparejar o deshacer se anuncian en una región `role="status"`. «Crear asiento» tiene un nombre que incluye el movimiento.',
+    ],
+    keyboard: [
+      { keys: 'Tab', action: 'Recorre las acciones y los movimientos de cada lado.' },
+      { keys: 'Espacio', action: 'Marca o desmarca un movimiento.' },
+    ],
+  },
+  'cb-pivot': {
+    screenReader: [
+      'La tabla tiene cabeceras de columna (`scope="colgroup"` con varias medidas) y de fila; las filas con hijos llevan un botón con `aria-expanded` que las contrae.',
+      'Los selectores de filas, columnas y cálculo tienen nombre con `aria-labelledby`. La primera columna y el pie quedan fijos al desplazarse.',
+      'Los totales están en el pie (`tfoot`) y en la última columna; los negativos llevan signo además del color.',
+    ],
+    keyboard: [
+      { keys: 'Tab', action: 'Recorre los selectores, el botón de Excel y los botones de las filas con hijos.' },
+      { keys: 'Enter / Espacio', action: 'Contrae o expande una fila con hijos.' },
+    ],
+  },
   'cb-data-grid': {
     screenReader: [
       'Es una tabla con `role="grid"`, cabeceras de columna (`th scope="col"`) y de fila (el número de fila); `aria-rowcount` y `aria-colcount` dicen su tamaño y cada celda su posición.',

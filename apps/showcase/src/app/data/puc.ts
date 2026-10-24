@@ -156,3 +156,61 @@ export const SALDOS: Readonly<Record<string, readonly number[]>> = {
 
 /** Meses cerrados de ejemplo para el selector de periodo. */
 export const MESES_CERRADOS = ['2026-01', '2026-02', '2026-03', '2026-04', '2026-05', '2026-06', '2026-07', '2026-08', '2026-09'];
+
+/** Facturas pendientes de clientes (corte: 31 de octubre de 2026). */
+export const CARTERA = [
+  { id: 1, party: 'Distribuidora El Caribe S.A.S.', number: 'FV-1188', date: '2026-07-20', due: '2026-08-19', balance: 3250000 },
+  { id: 2, party: 'Distribuidora El Caribe S.A.S.', number: 'FV-1203', date: '2026-09-05', due: '2026-10-05', balance: 1870000 },
+  { id: 3, party: 'Distribuidora El Caribe S.A.S.', number: 'FV-1241', date: '2026-10-12', due: '2026-11-11', balance: 2640000 },
+  { id: 4, party: 'Supermercados La 14', number: 'FV-1150', date: '2026-05-02', due: '2026-06-01', balance: 980000 },
+  { id: 5, party: 'Supermercados La 14', number: 'FV-1222', date: '2026-09-25', due: '2026-10-25', balance: 4120000 },
+  { id: 6, party: 'Ana Ruiz Mendoza', number: 'FV-1199', date: '2026-08-28', due: '2026-09-27', balance: 450000 },
+  { id: 7, party: 'Ferretería Bolívar', number: 'FV-1230', date: '2026-10-01', due: '2026-10-31', balance: 1360000 },
+  { id: 8, party: 'Ferretería Bolívar', number: 'FV-1252', date: '2026-10-20', due: '2026-11-19', balance: 2210000 },
+  { id: 9, party: 'Hotel Las Américas', number: 'FV-1101', date: '2026-03-15', due: '2026-04-14', balance: 5600000 },
+  { id: 10, party: 'Hotel Las Américas', number: 'FV-1214', date: '2026-09-18', due: '2026-10-18', balance: 3080000 },
+];
+
+/** Extracto del Banco de Bogotá de octubre de 2026 (positivo: entra; negativo: sale). */
+export const EXTRACTO = [
+  { id: 'e1', date: '2026-10-02', description: 'Consignación Distribuidora El Caribe', amount: 2450000, reference: 'RC-087' },
+  { id: 'e2', date: '2026-10-05', description: 'Transferencia a Enel Colombia', amount: -971750, reference: 'CE-124' },
+  { id: 'e3', date: '2026-10-08', description: 'Transferencia recibida Supermercados La 14', amount: 1000000 },
+  { id: 'e4', date: '2026-10-12', description: 'Pago nómina', amount: -6400000, reference: 'NOM-10' },
+  { id: 'e5', date: '2026-10-15', description: 'Cheque 1045 cobrado', amount: -350000, reference: 'CH-1045' },
+  { id: 'e6', date: '2026-10-21', description: 'Consignación Hotel Las Américas', amount: 1500000 },
+  { id: 'e7', date: '2026-10-31', description: 'Comisión manejo de cuenta', amount: -18900 },
+  { id: 'e8', date: '2026-10-31', description: 'Gravamen 4 x 1000', amount: -30970 },
+];
+
+/** Movimientos de la cuenta 111005 en libros, octubre de 2026. */
+export const LIBROS = [
+  { id: 'l1', date: '2026-10-01', description: 'Recaudo FV-1203', amount: 2450000, reference: 'RC-087' },
+  { id: 'l2', date: '2026-10-04', description: 'Pago Enel energía', amount: -971750, reference: 'CE-124' },
+  { id: 'l3', date: '2026-10-07', description: 'Abono FV-1210 La 14', amount: 600000 },
+  { id: 'l4', date: '2026-10-07', description: 'Abono FV-1211 La 14', amount: 400000 },
+  { id: 'l5', date: '2026-10-11', description: 'Nómina primera quincena', amount: -6400000, reference: 'NOM-10' },
+  { id: 'l6', date: '2026-10-14', description: 'Cheque 1045 a Ferretería', amount: -350000, reference: 'CH-1045' },
+  { id: 'l7', date: '2026-10-20', description: 'Recaudo Hotel Las Américas', amount: 1500000 },
+  { id: 'l8', date: '2026-10-29', description: 'Cheque 1046 a Papelería', amount: -280000, reference: 'CH-1046' },
+];
+
+/** Movimientos de gasto por cuenta, centro de costo y mes (julio a octubre de 2026). */
+export const MOVIMIENTOS_GASTO = (() => {
+  const cuentas = ['510506', '512010', '513530', '513535', '513540', '519530'];
+  const base: Record<string, number> = { '510506': 8000000, '512010': 2400000, '513530': 610000, '513535': 160000, '513540': 270000, '519530': 140000 };
+  const centros = ['100', '200', '300'];
+  const meses = ['2026-07', '2026-08', '2026-09', '2026-10'];
+  const out: { cuenta: string; centro: string; mes: string; valor: number }[] = [];
+  meses.forEach((mes, mi) =>
+    cuentas.forEach((cuenta, ci) =>
+      centros.forEach((centro, ki) => {
+        // Reparto fijo por centro y una pequeña variación mensual, sin azar.
+        const share = [0.5, 0.3, 0.2][ki];
+        const factor = 1 + (((mi + ci + ki) % 4) - 1.5) * 0.04;
+        out.push({ cuenta, centro, mes, valor: Math.round((base[cuenta] * share * factor) / 100) * 100 });
+      }),
+    ),
+  );
+  return out;
+})();

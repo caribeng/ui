@@ -11,6 +11,26 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
         "type": "added",
         "items": [
           {
+            "component": "Componente nuevo: `Aging`",
+            "text": "(`@caribeng/ui/aging`): antigüedad de cartera (cuentas por cobrar o por pagar) por tercero en tramos de vencimiento: por vencer, 1–30, 31–60, 61–90 y más de 90 días, o tramos propios con `buckets`. Barra de composición con importes y %, filas que se abren para ver los documentos con los días vencidos, orden por cualquier columna, totales y Excel con resumen y detalle. Funciones `ageDocuments`, `agingTotals` y `daysOverdue`. 180 entry points."
+          },
+          {
+            "component": "Componente nuevo: `ImportWizard`",
+            "text": "(`@caribeng/ui/import-wizard`): asistente de importación en tres pasos (archivo, columnas, revisión). Lee Excel (.xlsx, varias hojas), CSV con `,` o `;` y datos pegados de una hoja de cálculo. Asigna solas las columnas por nombre o `aliases`, interpreta importes (`$ 1.234,56`, `(1.234)`), fechas (`DD/MM/AAAA`, serie de Excel) y Sí / No, valida fila a fila (obligatorios, tipos, `validate`) y deja importar solo las filas válidas. 181 entry points."
+          },
+          {
+            "component": "`xlsx`",
+            "text": "lector de Excel en el navegador sin dependencias (`cbReadXlsx`, con `DecompressionStream`), con hojas, cadenas compartidas, números, booleanos y `excelSerialToDate`."
+          },
+          {
+            "component": "Componente nuevo: `Reconciliation`",
+            "text": "(`@caribeng/ui/reconciliation`): conciliación bancaria del extracto frente a los libros. Conciliación automática por valor y fecha cercana (`toleranceDays`, prefiere la misma referencia) y emparejamiento manual 1:1, 1:N o N:1 cuando las sumas coinciden, con la diferencia en vivo. Muestra los pendientes de cada lado y el % conciliado, permite deshacer emparejamientos, filtrar solo pendientes y emitir `createEntry` para registrar comisiones o intereses. 182 entry points."
+          },
+          {
+            "component": "Componente nuevo: `Pivot`",
+            "text": "(`@caribeng/ui/pivot`): tabla dinámica que cruza registros por dimensiones de filas (anidadas, con subtotales y contraíbles) y columnas, con una o varias medidas (suma, cuenta, promedio, mínimo, máximo). Totales por fila, columna y general, encabezado, primera columna y pie fijos, selectores en la propia tabla (`configurable`) y Excel con niveles. 183 entry points."
+          },
+          {
             "component": "Exportación a Excel",
             "text": "(`@caribeng/ui/xlsx`): generador de .xlsx sin dependencias (`cbXlsx`, `cbXlsxBytes`, `cbDownloadXlsx`). Admite varias hojas, títulos, encabezado fijo, filtros, anchos automáticos, formatos de importe con moneda y negativos en rojo o entre paréntesis, porcentajes, fechas como fecha de Excel, filas en negrita, sangría y niveles de agrupación plegables. `Table`, `TreeTable` y `Data Grid` ganan `exportExcel()` y `toExcelSheet()`, con los importes como números, subtotales, totales y, en el árbol, los niveles plegables. 177 entry points."
           },

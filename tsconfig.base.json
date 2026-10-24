@@ -300,6 +300,18 @@
       "@caribeng/ui/financial-report": [
         "./packages/ui/financial-report/src/public-api.ts"
       ],
+      "@caribeng/ui/aging": [
+        "./packages/ui/aging/src/public-api.ts"
+      ],
+      "@caribeng/ui/import-wizard": [
+        "./packages/ui/import-wizard/src/public-api.ts"
+      ],
+      "@caribeng/ui/reconciliation": [
+        "./packages/ui/reconciliation/src/public-api.ts"
+      ],
+      "@caribeng/ui/pivot": [
+        "./packages/ui/pivot/src/public-api.ts"
+      ],
       "@caribeng/ui/media-player": [
         "./packages/ui/media-player/src/public-api.ts"
       ],

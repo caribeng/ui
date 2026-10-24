@@ -701,6 +701,105 @@ export interface CbTranslation {
   reportExcel: string;
   reportPrint: string;
   reportVariation: string;
+  agingTitle: string;
+  /** `{0}`: fecha de corte. */
+  agingAsOf: string;
+  agingParty: string;
+  agingCurrent: string;
+  /** `{0}`, `{1}`: días. */
+  agingRange: string;
+  /** `{0}`: días. */
+  agingOver: string;
+  agingMaxDays: string;
+  /** `{0}`: días. */
+  agingDays: string;
+  /** `{0}`: días. */
+  agingDueIn: string;
+  /** `{0}`: cantidad. */
+  agingDocs: string;
+  /** `{0}`: tercero. */
+  agingDocsOf: string;
+  agingNumber: string;
+  agingDate: string;
+  agingDue: string;
+  agingOverdue: string;
+  agingBalance: string;
+  agingSummary: string;
+  agingDetail: string;
+  importStepFile: string;
+  importStepMap: string;
+  importStepReview: string;
+  importDrop: string;
+  importChoose: string;
+  importPaste: string;
+  importPasteHint: string;
+  importSheet: string;
+  importHeader: string;
+  /** `{0}`: filas; `{1}`: columnas. */
+  importRowsRead: string;
+  importSample: string;
+  importMapHint: string;
+  importField: string;
+  importColumn: string;
+  importExample: string;
+  importUnmapped: string;
+  /** `{0}`: letra. */
+  importColumnN: string;
+  /** `{0}`: campos. */
+  importMissing: string;
+  /** `{0}`: cantidad. */
+  importValid: string;
+  /** `{0}`: cantidad. */
+  importInvalid: string;
+  importOnlyValid: string;
+  importPreview: string;
+  importBack: string;
+  importNext: string;
+  /** `{0}`: cantidad. */
+  importDo: string;
+  importErrFile: string;
+  importErrRequired: string;
+  importErrNumber: string;
+  importErrDate: string;
+  importErrBoolean: string;
+  reconStatement: string;
+  reconLedger: string;
+  reconStatementPending: string;
+  reconLedgerPending: string;
+  reconProgress: string;
+  /** `{0}`: cantidad. */
+  reconItems: string;
+  reconToolbar: string;
+  reconAuto: string;
+  reconMatch: string;
+  reconUnmatch: string;
+  /** `{0}`: extracto; `{1}`: libros. */
+  reconSelection: string;
+  /** `{0}`: diferencia. */
+  reconDiff: string;
+  reconOnlyPending: string;
+  reconMatched: string;
+  reconCreate: string;
+  /** `{0}`: movimiento. */
+  reconCreateFor: string;
+  reconNothingPending: string;
+  /** `{0}`: cantidad. */
+  reconAutoDone: string;
+  reconMatchedDone: string;
+  /** `{0}`: cantidad. */
+  reconUnmatchedDone: string;
+  pivotTitle: string;
+  pivotConfig: string;
+  pivotRows: string;
+  pivotColumns: string;
+  pivotAggregate: string;
+  pivotNone: string;
+  pivotEmpty: string;
+  pivotSum: string;
+  pivotCount: string;
+  pivotAvg: string;
+  pivotMin: string;
+  pivotMax: string;
 
   // --- Varios ---
   scrollableArea: string;
@@ -1639,6 +1738,86 @@ export const CB_LOCALE_ES: CbTranslation = {
   reportExcel: 'Excel',
   reportPrint: 'Imprimir',
   reportVariation: 'Variación',
+  agingTitle: 'Antigüedad de cartera',
+  agingAsOf: 'Con corte al {0}',
+  agingParty: 'Tercero',
+  agingCurrent: 'Por vencer',
+  agingRange: '{0}–{1} días',
+  agingOver: 'Más de {0} días',
+  agingMaxDays: 'Más antiguo',
+  agingDays: '{0} días',
+  agingDueIn: 'Vence en {0} días',
+  agingDocs: '({0} doc.)',
+  agingDocsOf: 'Documentos de {0}',
+  agingNumber: 'Documento',
+  agingDate: 'Fecha',
+  agingDue: 'Vence',
+  agingOverdue: 'Días vencidos',
+  agingBalance: 'Saldo',
+  agingSummary: 'Resumen',
+  agingDetail: 'Detalle',
+  importStepFile: 'Archivo',
+  importStepMap: 'Columnas',
+  importStepReview: 'Revisión',
+  importDrop: 'Arrastra aquí un archivo de Excel (.xlsx) o CSV',
+  importChoose: 'Elegir archivo',
+  importPaste: 'O pega los datos desde una hoja de cálculo',
+  importPasteHint: 'Copia las celdas en Excel o Google Sheets y pégalas aquí',
+  importSheet: 'Hoja',
+  importHeader: 'La primera fila tiene los encabezados',
+  importRowsRead: '{0} filas y {1} columnas leídas.',
+  importSample: 'Primeras filas del archivo',
+  importMapHint: 'Elige qué columna del archivo corresponde a cada campo. Las que tienen el mismo nombre ya están asignadas.',
+  importField: 'Campo',
+  importColumn: 'Columna del archivo',
+  importExample: 'Ejemplo',
+  importUnmapped: '— Sin asignar —',
+  importColumnN: 'Columna {0}',
+  importMissing: 'Falta asignar: {0}.',
+  importValid: '{0} filas válidas',
+  importInvalid: '{0} filas con errores',
+  importOnlyValid: 'Importar solo las filas válidas',
+  importPreview: 'Vista previa de la importación',
+  importBack: 'Atrás',
+  importNext: 'Siguiente',
+  importDo: 'Importar {0} filas',
+  importErrFile: 'No se pudo leer el archivo. Usa un .xlsx, .csv o .txt.',
+  importErrRequired: 'Obligatorio.',
+  importErrNumber: 'No es un número.',
+  importErrDate: 'No es una fecha válida.',
+  importErrBoolean: 'Debe ser Sí o No.',
+  reconStatement: 'Extracto bancario',
+  reconLedger: 'Libros',
+  reconStatementPending: 'Pendiente en el extracto',
+  reconLedgerPending: 'Pendiente en libros',
+  reconProgress: 'Conciliado',
+  reconItems: '{0} movimientos',
+  reconToolbar: 'Acciones de conciliación',
+  reconAuto: 'Conciliar automáticamente',
+  reconMatch: 'Emparejar',
+  reconUnmatch: 'Deshacer emparejamiento',
+  reconSelection: 'Extracto {0} · Libros {1}',
+  reconDiff: 'diferencia {0}',
+  reconOnlyPending: 'Solo pendientes',
+  reconMatched: 'conciliado',
+  reconCreate: 'Crear asiento',
+  reconCreateFor: 'Crear asiento para {0}',
+  reconNothingPending: 'No hay movimientos pendientes.',
+  reconAutoDone: '{0} emparejamientos automáticos.',
+  reconMatchedDone: 'Movimientos emparejados.',
+  reconUnmatchedDone: '{0} emparejamientos deshechos.',
+  pivotTitle: 'Tabla dinámica',
+  pivotConfig: 'Configuración de la tabla dinámica',
+  pivotRows: 'Filas',
+  pivotColumns: 'Columnas',
+  pivotAggregate: 'Cálculo',
+  pivotNone: '— Ninguna —',
+  pivotEmpty: '(vacío)',
+  pivotSum: 'Suma',
+  pivotCount: 'Cuenta',
+  pivotAvg: 'Promedio',
+  pivotMin: 'Mínimo',
+  pivotMax: 'Máximo',
 
   scrollableArea: 'Área desplazable',
   scrollTop: 'Volver arriba',
@@ -2527,6 +2706,86 @@ export const CB_LOCALE_EN: CbTranslation = {
   reportExcel: 'Excel',
   reportPrint: 'Print',
   reportVariation: 'Variation',
+  agingTitle: 'Aging report',
+  agingAsOf: 'As of {0}',
+  agingParty: 'Party',
+  agingCurrent: 'Current',
+  agingRange: '{0}–{1} days',
+  agingOver: 'Over {0} days',
+  agingMaxDays: 'Oldest',
+  agingDays: '{0} days',
+  agingDueIn: 'Due in {0} days',
+  agingDocs: '({0} docs)',
+  agingDocsOf: 'Documents of {0}',
+  agingNumber: 'Document',
+  agingDate: 'Date',
+  agingDue: 'Due',
+  agingOverdue: 'Days overdue',
+  agingBalance: 'Balance',
+  agingSummary: 'Summary',
+  agingDetail: 'Detail',
+  importStepFile: 'File',
+  importStepMap: 'Columns',
+  importStepReview: 'Review',
+  importDrop: 'Drag an Excel (.xlsx) or CSV file here',
+  importChoose: 'Choose file',
+  importPaste: 'Or paste the data from a spreadsheet',
+  importPasteHint: 'Copy the cells in Excel or Google Sheets and paste them here',
+  importSheet: 'Sheet',
+  importHeader: 'The first row has the headers',
+  importRowsRead: '{0} rows and {1} columns read.',
+  importSample: 'First rows of the file',
+  importMapHint: 'Choose which file column matches each field. Those with the same name are already assigned.',
+  importField: 'Field',
+  importColumn: 'File column',
+  importExample: 'Example',
+  importUnmapped: '— Not assigned —',
+  importColumnN: 'Column {0}',
+  importMissing: 'Still to assign: {0}.',
+  importValid: '{0} valid rows',
+  importInvalid: '{0} rows with errors',
+  importOnlyValid: 'Import only the valid rows',
+  importPreview: 'Import preview',
+  importBack: 'Back',
+  importNext: 'Next',
+  importDo: 'Import {0} rows',
+  importErrFile: 'The file could not be read. Use an .xlsx, .csv or .txt file.',
+  importErrRequired: 'Required.',
+  importErrNumber: 'Not a number.',
+  importErrDate: 'Not a valid date.',
+  importErrBoolean: 'Must be Yes or No.',
+  reconStatement: 'Bank statement',
+  reconLedger: 'Books',
+  reconStatementPending: 'Pending in the statement',
+  reconLedgerPending: 'Pending in the books',
+  reconProgress: 'Reconciled',
+  reconItems: '{0} items',
+  reconToolbar: 'Reconciliation actions',
+  reconAuto: 'Auto-reconcile',
+  reconMatch: 'Match',
+  reconUnmatch: 'Unmatch',
+  reconSelection: 'Statement {0} · Books {1}',
+  reconDiff: 'difference {0}',
+  reconOnlyPending: 'Pending only',
+  reconMatched: 'reconciled',
+  reconCreate: 'Create entry',
+  reconCreateFor: 'Create an entry for {0}',
+  reconNothingPending: 'No pending items.',
+  reconAutoDone: '{0} automatic matches.',
+  reconMatchedDone: 'Items matched.',
+  reconUnmatchedDone: '{0} matches undone.',
+  pivotTitle: 'Pivot table',
+  pivotConfig: 'Pivot table settings',
+  pivotRows: 'Rows',
+  pivotColumns: 'Columns',
+  pivotAggregate: 'Calculation',
+  pivotNone: '— None —',
+  pivotEmpty: '(empty)',
+  pivotSum: 'Sum',
+  pivotCount: 'Count',
+  pivotAvg: 'Average',
+  pivotMin: 'Minimum',
+  pivotMax: 'Maximum',
 
   scrollableArea: 'Scrollable area',
   scrollTop: 'Back to top',

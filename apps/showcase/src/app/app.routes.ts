@@ -74,6 +74,10 @@ import { AccountPickerDocComponent } from './pages/account-picker-doc.component'
 import { JournalEntryDocComponent } from './pages/journal-entry-doc.component';
 import { PeriodPickerDocComponent } from './pages/period-picker-doc.component';
 import { FinancialReportDocComponent } from './pages/financial-report-doc.component';
+import { AgingDocComponent } from './pages/aging-doc.component';
+import { ImportWizardDocComponent } from './pages/import-wizard-doc.component';
+import { ReconciliationDocComponent } from './pages/reconciliation-doc.component';
+import { PivotDocComponent } from './pages/pivot-doc.component';
 import { MediaPlayerDocComponent } from './pages/media-player-doc.component';
 import { MasonryDocComponent } from './pages/masonry-doc.component';
 import { InfiniteScrollDocComponent } from './pages/infinite-scroll-doc.component';
@@ -203,6 +207,10 @@ export const routes: Routes = [
   { path: 'components/journal-entry', component: JournalEntryDocComponent, title: 'Journal Entry · CaribeNG' },
   { path: 'components/period-picker', component: PeriodPickerDocComponent, title: 'Period Picker · CaribeNG' },
   { path: 'components/financial-report', component: FinancialReportDocComponent, title: 'Financial Report · CaribeNG' },
+  { path: 'components/aging', component: AgingDocComponent, title: 'Aging · CaribeNG' },
+  { path: 'components/import-wizard', component: ImportWizardDocComponent, title: 'Import Wizard · CaribeNG' },
+  { path: 'components/reconciliation', component: ReconciliationDocComponent, title: 'Reconciliation · CaribeNG' },
+  { path: 'components/pivot', component: PivotDocComponent, title: 'Pivot · CaribeNG' },
   { path: 'components/media-player', component: MediaPlayerDocComponent, title: 'MediaPlayer · CaribeNG' },
   { path: 'components/masonry', component: MasonryDocComponent, title: 'Masonry · CaribeNG' },
   { path: 'components/infinite-scroll', component: InfiniteScrollDocComponent, title: 'InfiniteScroll · CaribeNG' },

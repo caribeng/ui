@@ -4082,4 +4082,143 @@ export const ES_EN: Record<string, string> = {
     'Open or close a control account (or go to its parent).',
   'En una cuenta mayor, la abre o cierra; en una de movimiento, emite accountOpen.':
     'On a control account, opens or closes it; on a posting account, emits accountOpen.',
+  // --- Contabilidad: Aging, Import Wizard, Reconciliation y Pivot ---
+  'Antigüedad de cartera: cuentas por cobrar o por pagar repartidas en tramos de vencimiento, por tercero, con la composición de la deuda y el detalle de cada documento.':
+    'Aging report: receivables or payables split into due-date buckets, by party, with the composition of the debt and the detail of each document.',
+  'Cartera por edades':
+    'Aged receivables',
+  'documents trae las facturas pendientes (tercero, número, fecha, vencimiento y saldo) y asOf la fecha de corte. La barra muestra la composición por tramo; cada cliente se abre para ver sus facturas con los días vencidos. Los encabezados ordenan (por defecto, por total) y Excel descarga el resumen y el detalle en dos hojas. Con documentLinks, el número de cada factura emite documentOpen.':
+    'documents brings the pending invoices (party, number, date, due date and balance) and asOf the cut-off date. The bar shows the composition by bucket; each customer opens to show their invoices with the days overdue. Headers sort (by total by default) and Excel downloads the summary and the detail in two sheets. With documentLinks, each invoice number emits documentOpen.',
+  'Tramos propios':
+    'Custom buckets',
+  'buckets cambia los tramos: aquí, por vencer, hasta 15 días, de 16 a 45 y más de 45, para una política de cobro más estricta.':
+    'buckets changes the buckets: here, current, up to 15 days, 16 to 45 and over 45, for a stricter collection policy.',
+  'Asistente de importación: un archivo de Excel o CSV (o datos pegados), la asignación de columnas y una revisión con validación fila a fila antes de importar terceros, saldos iniciales o extractos.':
+    'Import wizard: an Excel or CSV file (or pasted data), column mapping and a review with row-by-row validation before importing third parties, opening balances or statements.',
+  'Importar terceros':
+    'Import third parties',
+  'fields define los campos de destino: tipo (text, number, date, boolean), required, aliases para asignar solas las columnas y validate para reglas propias (aquí, el NIT solo con números). Descarga la plantilla, cámbiala en Excel (o pega filas desde una hoja de cálculo) y súbela: se interpretan importes como $ 1.234,56 o (1.234), fechas DD/MM/AAAA y Sí / No. En la revisión, las celdas con error se marcan y se importan solo las filas válidas.':
+    'fields defines the target fields: type (text, number, date, boolean), required, aliases to map the columns automatically and validate for your own rules (here, the tax ID with digits only). Download the template, change it in Excel (or paste rows from a spreadsheet) and upload it: amounts like $ 1.234,56 or (1.234), DD/MM/YYYY dates and Yes / No are understood. In the review, cells with errors are marked and only the valid rows are imported.',
+  'Conciliación bancaria: el extracto del banco frente a los movimientos en libros, con emparejamiento automático por valor y fecha, emparejamiento manual y lo que queda pendiente de cada lado.':
+    'Bank reconciliation: the bank statement against the book entries, with automatic matching by amount and date, manual matching and what remains pending on each side.',
+  'Conciliación de octubre':
+    'October reconciliation',
+  'Conciliar automáticamente empareja los movimientos de igual valor con hasta toleranceDays días de diferencia (3 por defecto), primero los de la misma referencia. Después marca de cada lado lo que corresponde (la transferencia de La 14 cubre dos abonos en libros) y Emparejar los une cuando las sumas coinciden; la diferencia se ve mientras eliges. Las comisiones del banco no están en libros: Crear asiento emite createEntry para registrarlas. matches guarda los emparejamientos (bidireccional).':
+    'Auto-reconcile matches the items with the same amount within toleranceDays days (3 by default), those with the same reference first. Then check on each side what belongs together (La 14\'s transfer covers two payments in the books) and Match joins them when the sums agree; the difference is shown while you choose. Bank fees are not in the books: Create entry emits createEntry to record them. matches keeps the matches (two-way).',
+  'Tabla dinámica: cruza los movimientos por cuenta, centro de costo, tercero o mes y agrega sus valores, con subtotales, totales por fila y columna y exportación a Excel.':
+    'Pivot table: crosses the entries by account, cost center, third party or month and aggregates their amounts, with subtotals, row and column totals and Excel export.',
+  'Gastos por centro de costo y mes':
+    'Expenses by cost center and month',
+  'data son los registros, fields las dimensiones con el texto de sus valores (el nombre de la cuenta a partir del código), rows y columns qué dimensiones van en filas y columnas, y values qué se agrega. Con configurable se eligen desde la tabla: prueba poner Cuenta en filas y Centro de costo en columnas, o cambiar Suma por Promedio. Las filas con hijos se contraen y Excel descarga la tabla con los niveles plegables.':
+    'data are the records, fields the dimensions with the text of their values (the account name from its code), rows and columns which dimensions go in rows and columns, and values what is aggregated. With configurable they are chosen from the table: try Account in rows and Cost center in columns, or change Sum to Average. Rows with children collapse and Excel downloads the table with collapsible levels.',
+  'Resumen contraído':
+    'Collapsed summary',
+  'collapsed empieza con las filas de primer nivel contraídas, para ver solo los totales por cuenta y abrir las que interesen.':
+    'collapsed starts with the first-level rows collapsed, to see only the totals per account and open the ones you need.',
+  'Cliente':
+    'Customer',
+  'Descargar plantilla de ejemplo':
+    'Download sample template',
+  'Extracto Banco de Bogotá':
+    'Banco de Bogotá statement',
+  'Libros · 111005':
+    'Books · 111005',
+  'Documentos pendientes (party, number, date, due, balance).':
+    'Pending documents (party, number, date, due, balance).',
+  'Fecha de corte (hoy por defecto).':
+    'Cut-off date (today by default).',
+  'Título.':
+    'Title.',
+  'Encabezado de la columna de terceros.':
+    'Header of the party column.',
+  'Tramos (key, label, from, to); por defecto 1–30, 31–60, 61–90 y más de 90 días.':
+    'Buckets (key, label, from, to); by default 1–30, 31–60, 61–90 and over 90 days.',
+  'Orden de las filas.':
+    'Row order.',
+  'Los números de documento emiten documentOpen.':
+    'Document numbers emit documentOpen.',
+  'Clic en un número de documento.':
+    'Click on a document number.',
+  'Campos de destino (key, label, type, required, aliases, validate).':
+    'Target fields (key, label, type, required, aliases, validate).',
+  'Importa también las filas con errores.':
+    'Also imports the rows with errors.',
+  'Filas importadas (con tipo), errores y descartadas.':
+    'Imported rows (typed), errors and skipped.',
+  'Movimientos del extracto (id, date, description, amount, reference).':
+    'Statement items (id, date, description, amount, reference).',
+  'Movimientos en libros.':
+    'Book entries.',
+  'Emparejamientos (statement y ledger: ids).':
+    'Matches (statement and ledger: ids).',
+  'Días de diferencia admitidos al conciliar automáticamente.':
+    'Days of difference allowed when auto-reconciling.',
+  'Título del extracto.':
+    'Statement title.',
+  'Título de los libros.':
+    'Books title.',
+  'Botón Crear asiento en los movimientos del extracto sin pareja.':
+    'Create entry button on unmatched statement items.',
+  'Solo consulta.':
+    'View only.',
+  'Registrar en libros un movimiento del extracto.':
+    'Record a statement item in the books.',
+  'Registros a cruzar.':
+    'Records to cross.',
+  'Dimensiones (key, label, format).':
+    'Dimensions (key, label, format).',
+  'Dimensiones de las filas.':
+    'Row dimensions.',
+  'Dimensiones de las columnas.':
+    'Column dimensions.',
+  'Medidas (field, aggregate, label, format).':
+    'Measures (field, aggregate, label, format).',
+  'Selectores de filas, columnas y cálculo.':
+    'Row, column and calculation selectors.',
+  'Las filas con hijos empiezan contraídas.':
+    'Rows with children start collapsed.',
+  'La cartera es una tabla con cabeceras de columna (tramos) y de fila (terceros); los encabezados son botones que ordenan, con `aria-sort`.':
+    'The aging report is a table with column headers (buckets) and row headers (parties); the headers are buttons that sort, with `aria-sort`.',
+  'Cada tercero es un botón con `aria-expanded` que abre la tabla de sus documentos, enlazada con `aria-controls` y con nombre propio («Documentos de Ana Ruiz»).':
+    'Each party is a button with `aria-expanded` that opens the table of its documents, linked with `aria-controls` and with its own name ("Documents of Ana Ruiz").',
+  'La barra de composición es decorativa: la misma información está en la leyenda con importes y porcentajes en texto. Los días vencidos se dicen con texto además del color rojo.':
+    'The composition bar is decorative: the same information is in the legend with amounts and percentages as text. Days overdue are given in text as well as red color.',
+  'Recorre el botón de Excel, los encabezados, los terceros y sus documentos.':
+    'Moves through the Excel button, the headers, the parties and their documents.',
+  'En un encabezado, ordena; en un tercero, abre o cierra sus documentos.':
+    'On a header, sorts; on a party, opens or closes its documents.',
+  'Los pasos son una lista con `aria-current="step"` en el actual; al cambiar de paso, el foco va al título del paso.':
+    'The steps are a list with `aria-current="step"` on the current one; when the step changes, focus goes to the step title.',
+  'El archivo se elige con un botón (arrastrar es opcional) o pegando los datos en un área de texto con nombre.':
+    'The file is chosen with a button (dragging is optional) or by pasting the data into a named text area.',
+  'Cada campo de destino tiene su selector de columna enlazado con `aria-labelledby`; los obligatorios lo dicen con texto oculto y los que faltan se listan con `role="alert"`.':
+    'Each target field has its column selector linked with `aria-labelledby`; required ones say so in hidden text and missing ones are listed with `role="alert"`.',
+  'El resumen de filas válidas y con errores está en una región `role="status"`; en la vista previa, las celdas con error llevan `aria-invalid` y su mensaje.':
+    'The summary of valid rows and rows with errors is in a `role="status"` region; in the preview, cells with errors have `aria-invalid` and their message.',
+  'Recorre los controles del paso y los botones Atrás, Siguiente e Importar.':
+    'Moves through the controls of the step and the Back, Next and Import buttons.',
+  'Flechas (vista previa)':
+    'Arrows (preview)',
+  'Recorren las celdas de la revisión.':
+    'Move through the cells of the review.',
+  'Cada lado es una sección con título (extracto y libros) y una lista de movimientos; cada movimiento es una casilla con su fecha, descripción e importe como etiqueta.':
+    'Each side is a section with a title (statement and books) and a list of items; each item is a checkbox labelled with its date, description and amount.',
+  'Los movimientos conciliados lo dicen con texto oculto además del color. La suma de lo seleccionado y la diferencia se anuncian con `aria-live`.':
+    'Reconciled items say so in hidden text as well as color. The sum of the selection and the difference are announced with `aria-live`.',
+  'Los resultados de conciliar, emparejar o deshacer se anuncian en una región `role="status"`. «Crear asiento» tiene un nombre que incluye el movimiento.':
+    'The results of reconciling, matching or undoing are announced in a `role="status"` region. "Create entry" has a name that includes the item.',
+  'Recorre las acciones y los movimientos de cada lado.':
+    'Moves through the actions and the items of each side.',
+  'Marca o desmarca un movimiento.':
+    'Checks or unchecks an item.',
+  'La tabla tiene cabeceras de columna (`scope="colgroup"` con varias medidas) y de fila; las filas con hijos llevan un botón con `aria-expanded` que las contrae.':
+    'The table has column headers (`scope="colgroup"` with several measures) and row headers; rows with children have a button with `aria-expanded` that collapses them.',
+  'Los selectores de filas, columnas y cálculo tienen nombre con `aria-labelledby`. La primera columna y el pie quedan fijos al desplazarse.':
+    'The row, column and calculation selectors are named with `aria-labelledby`. The first column and the footer stay fixed when scrolling.',
+  'Los totales están en el pie (`tfoot`) y en la última columna; los negativos llevan signo además del color.':
+    'Totals are in the footer (`tfoot`) and in the last column; negatives have a sign as well as color.',
+  'Recorre los selectores, el botón de Excel y los botones de las filas con hijos.':
+    'Moves through the selectors, the Excel button and the buttons of the rows with children.',
+  'Contrae o expande una fila con hijos.':
+    'Collapses or expands a row with children.',
 };

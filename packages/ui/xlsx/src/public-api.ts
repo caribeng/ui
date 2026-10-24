@@ -15,3 +15,4 @@ export {
   type CbXlsxSheet,
   type CbXlsxType,
 } from './lib/xlsx';
+export { cbReadXlsx, excelSerialToDate, type CbXlsxReadSheet } from './lib/reader';
