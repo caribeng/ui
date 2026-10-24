@@ -133,6 +133,7 @@ import { CbGantt } from '@caribeng/ui/gantt';
 import { CbFlowEditor } from '@caribeng/ui/flow';
 import { CbScheduler } from '@caribeng/ui/scheduler';
 import { CbDataGrid } from '@caribeng/ui/datagrid';
+import { CbDynamicForm } from '@caribeng/ui/dynamic-form';
 import { CbMediaPlayer } from '@caribeng/ui/media-player';
 import { CbMasonry } from '@caribeng/ui/masonry';
 import { CbInfiniteScroll } from '@caribeng/ui/infinite-scroll';
@@ -2011,6 +2012,26 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "taskOpen", type: "CbGanttTask", description: "Doble clic o Enter sobre una tarea." },
       { name: "linkAdd", type: "CbGanttLink", description: "Dependencia creada ({ from, to }: to depende de from)." },
       { name: "linkRemove", type: "CbGanttLink", description: "Dependencia quitada." }
+    ]
+  },
+  "cb-dynamic-form": {
+    component: CbDynamicForm,
+    selector: "cb-dynamic-form",
+    props: [
+      { name: "schema", kind: "string", type: "CbFormSchema", default: undefined, example: { columns: 2, fields: [{ key: 'nombre', label: 'Nombre', required: true }, { key: 'correo', label: 'Correo', type: 'email', required: true }, { key: 'pais', label: 'País', type: 'select', options: [{ label: 'Colombia', value: 'CO' }, { label: 'Panamá', value: 'PA' }] }, { key: 'acepto', label: 'Acepto las condiciones', type: 'checkbox', colSpan: 'full' }] }, description: "Esquema: fields o sections, columns, layout, labelWidth, submitLabel y resetLabel.", control: false },
+      { name: "value", kind: "string", type: "Record<string, unknown> (model)", default: {}, description: "Valor del formulario (sin los campos ocultos).", control: false },
+      { name: "layout", kind: "enum", type: "'vertical' | 'horizontal'", options: ["vertical", "horizontal"], default: undefined, description: "Etiqueta encima o a la izquierda (si no, la del esquema)." },
+      { name: "columns", kind: "number", type: "number", default: undefined, description: "Columnas de la rejilla (si no, las del esquema; 1 por defecto)." },
+      { name: "labelWidth", kind: "string", type: "string", default: undefined, description: "Ancho de la etiqueta en horizontal (10rem por defecto)." },
+      { name: "actions", kind: "boolean", type: "boolean", default: true, description: "Botones de enviar y restablecer." },
+      { name: "disabled", kind: "boolean", type: "boolean", default: false, description: "Deshabilita todo el formulario." },
+      { name: "loading", kind: "boolean", type: "boolean", default: false, description: "Botón de enviar cargando." },
+      { name: "ariaLabel", kind: "string", type: "string", default: "", description: "Nombre del formulario." }
+    ],
+    events: [
+      { name: "formSubmit", type: "Record<string, unknown>", description: "Envío válido: el valor del formulario." },
+      { name: "formInvalid", type: "{ key, message }[]", description: "Envío con errores: los campos que fallan." },
+      { name: "formReset", type: "void", description: "Se restableció el formulario." }
     ]
   },
   "cb-data-grid": {

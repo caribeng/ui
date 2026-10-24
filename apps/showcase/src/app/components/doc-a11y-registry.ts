@@ -753,6 +753,20 @@ export const DOC_A11Y: Record<string, DocA11y> = {
       { keys: 'Enter', action: 'Abre la tarea (taskOpen).' },
     ],
   },
+  'cb-dynamic-form': {
+    screenReader: [
+      'Cada campo tiene su etiqueta visible enlazada: `<label for>` en los campos de texto y `aria-labelledby` o `aria-label` en listas, opciones, deslizadores y valoraciones. Los obligatorios llevan el validador `required` y el asterisco es decorativo.',
+      'En los campos de texto, número, fecha y área de texto, la ayuda y el error se asocian con `aria-describedby` y el control queda `aria-invalid`; en el resto, el error se anuncia con `role="alert"`. El error aparece al salir del campo, al cambiarlo o al intentar enviar.',
+      'Al enviar con errores aparece arriba un resumen con `role="alert"` que recibe el foco y lista cada campo con su error; cada elemento es un enlace que lleva el foco a ese campo.',
+      'Cada sección es un `fieldset` con su título como `legend`. Los campos ocultos por una condición se quitan del DOM (no se leen ni se validan) y los deshabilitados se anuncian como tales.',
+      'Las columnas y la disposición horizontal no cambian el orden de lectura ni de tabulación: siguen el orden del esquema, y en contenedores estrechos todo pasa a una columna con la etiqueta encima.',
+    ],
+    keyboard: [
+      { keys: 'Tab', action: 'Recorre los campos en el orden del esquema y después los botones.' },
+      { keys: 'Enter', action: 'En un campo de texto, envía el formulario.' },
+      { keys: 'Enter (resumen)', action: 'En un enlace del resumen de errores, lleva el foco a ese campo.' },
+    ],
+  },
   'cb-data-grid': {
     screenReader: [
       'Es una tabla con `role="grid"`, cabeceras de columna (`th scope="col"`) y de fila (el número de fila); `aria-rowcount` y `aria-colcount` dicen su tamaño y cada celda su posición.',

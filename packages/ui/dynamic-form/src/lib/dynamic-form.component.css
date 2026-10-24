@@ -1,0 +1,193 @@
+:host {
+  --cb-df-label-width: 10rem;
+  --cb-df-gap-x: var(--cb-space-5, 1.25rem);
+  --cb-df-gap-y: var(--cb-space-4, 1rem);
+  display: block;
+  width: 100%;
+  min-width: 0;
+  container-type: inline-size;
+  color: var(--cb-color-text);
+  font-family: var(--cb-font-sans);
+}
+
+.cb-df__form {
+  display: grid;
+  gap: var(--cb-space-6, 1.5rem);
+}
+
+/* --- Resumen de errores ----------------------------------------------------------------- */
+.cb-df__summary {
+  padding: 0.85rem 1rem;
+  border: 1px solid color-mix(in srgb, var(--cb-color-danger-500, #ef4444) 45%, transparent);
+  border-left-width: 4px;
+  border-radius: var(--cb-radius-md);
+  background: color-mix(in srgb, var(--cb-color-danger-500, #ef4444) 7%, var(--cb-color-bg));
+  outline: none;
+}
+
+.cb-df__summary:focus-visible {
+  outline: 2px solid var(--cb-color-focus-ring);
+  outline-offset: 2px;
+}
+
+.cb-df__summary-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 0 0.4rem;
+  color: var(--cb-color-danger-600, #dc2626);
+  font-weight: var(--cb-font-weight-semibold, 600);
+}
+
+.cb-df__summary-list {
+  display: grid;
+  gap: 0.2rem;
+  margin: 0;
+  padding-left: 1.75rem;
+  font-size: var(--cb-text-sm, 0.875rem);
+}
+
+.cb-df__summary-list a {
+  color: var(--cb-color-danger-600, #dc2626);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* --- Secciones y rejilla ---------------------------------------------------------------- */
+.cb-df__section {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.cb-df__legend {
+  margin-bottom: 0.25rem;
+  padding: 0;
+  font-size: var(--cb-text-base, 1rem);
+  font-weight: var(--cb-font-weight-semibold, 600);
+}
+
+.cb-df__section-desc {
+  margin: 0 0 0.75rem;
+  color: var(--cb-color-text-muted);
+  font-size: var(--cb-text-sm, 0.875rem);
+}
+
+.cb-df__section--titled .cb-df__grid {
+  margin-top: 0.75rem;
+}
+
+.cb-df__grid {
+  --cb-df-cols: 1;
+  display: grid;
+  grid-template-columns: repeat(var(--cb-df-cols), minmax(0, 1fr));
+  gap: var(--cb-df-gap-y) var(--cb-df-gap-x);
+  align-items: start;
+}
+
+.cb-df__field {
+  display: grid;
+  gap: 0.375rem;
+  min-width: 0;
+}
+
+.cb-df__label {
+  color: var(--cb-color-text);
+  font-size: var(--cb-text-sm, 0.875rem);
+  font-weight: var(--cb-font-weight-medium, 500);
+}
+
+.cb-df__label--empty {
+  display: none;
+}
+
+.cb-df__req {
+  margin-left: 0.15rem;
+  color: var(--cb-color-danger-500, #ef4444);
+}
+
+.cb-df__control {
+  display: grid;
+  gap: 0.375rem;
+  min-width: 0;
+}
+
+.cb-df__message {
+  margin: 0;
+  color: var(--cb-color-text-muted);
+  font-size: var(--cb-text-xs, 0.75rem);
+}
+
+.cb-df__message--error {
+  color: var(--cb-color-danger-600, #dc2626);
+}
+
+/* Casilla e interruptor (sin etiqueta encima): alineados con los campos de su fila. */
+:host(:not(.cb-df--horizontal)) .cb-df__field--inline {
+  align-self: end;
+  align-content: center;
+  min-height: 2.5rem;
+}
+
+/* --- Horizontal: etiqueta a la izquierda ------------------------------------------------ */
+:host(.cb-df--horizontal) .cb-df__field,
+:host(.cb-df--horizontal) .cb-df__actions {
+  grid-template-columns: var(--cb-df-label-width) minmax(0, 1fr);
+  column-gap: var(--cb-space-4, 1rem);
+}
+
+:host(.cb-df--horizontal) .cb-df__label {
+  /* Alineada con el texto del control (alto de 2.5rem). */
+  padding-top: 0.6rem;
+  line-height: 1.3;
+}
+
+:host(.cb-df--horizontal) .cb-df__label--empty {
+  display: block;
+}
+
+:host(.cb-df--horizontal) .cb-df__field--inline .cb-df__control {
+  padding-top: 0.5rem;
+}
+
+/* --- Botones ---------------------------------------------------------------------------- */
+.cb-df__actions {
+  display: grid;
+}
+
+.cb-df__buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/* --- Responsive: en contenedores estrechos, una columna y etiqueta encima -------------- */
+@container (max-width: 40rem) {
+  .cb-df__grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .cb-df__field {
+    grid-column: auto !important;
+  }
+}
+
+@container (max-width: 30rem) {
+  :host(.cb-df--horizontal) .cb-df__field,
+  :host(.cb-df--horizontal) .cb-df__actions {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  :host(.cb-df--horizontal) .cb-df__label {
+    padding-top: 0;
+  }
+
+  :host(.cb-df--horizontal) .cb-df__label--empty {
+    display: none;
+  }
+
+  :host(.cb-df--horizontal) .cb-df__field--inline .cb-df__control {
+    padding-top: 0;
+  }
+}
