@@ -204,6 +204,14 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
             "text": "las casillas del código se estrechan para caber y el teléfono ya no se sale de su contenedor."
           },
           {
+            "component": "`TieredMenu`",
+            "text": "tocar una opción con submenú ya lo abre en pantallas táctiles (antes el `mouseenter` emulado lo abría y el `click` lo volvía a cerrar), y en pantallas estrechas los submenús se anidan debajo de su opción en lugar de salirse por la derecha."
+          },
+          {
+            "component": "`TabMenu` en móvil",
+            "text": "si las pestañas no caben, la lista se desplaza de lado (antes la última quedaba cortada e inalcanzable)."
+          },
+          {
             "component": "`InputNumber`",
             "text": "en modo de solo lectura conserva el formato al recibir el foco."
           },

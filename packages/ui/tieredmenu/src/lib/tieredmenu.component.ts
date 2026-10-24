@@ -32,7 +32,7 @@ export interface CbTieredMenuItem {
           @else {
             <li class="cb-tieredmenu__entry" role="none" [class.cb-tieredmenu__entry--open]="openIndex() === i">
               @if (item.items?.length) {
-                <button class="cb-tieredmenu__item" type="button" role="menuitem" aria-haspopup="menu" [attr.aria-expanded]="openIndex() === i" data-level="1" [attr.data-index]="i" [disabled]="item.disabled" (mouseenter)="openIndex.set(i)" (click)="openIndex.set(openIndex() === i ? null : i)">
+                <button class="cb-tieredmenu__item" type="button" role="menuitem" aria-haspopup="menu" [attr.aria-expanded]="openIndex() === i" data-level="1" [attr.data-index]="i" [disabled]="item.disabled" (mouseenter)="openIndex.set(i)" (click)="openIndex.set(i)">
                   @if (item.icon) { <cb-icon [name]="item.icon" [size]="16" aria-hidden="true" /> }<span>{{ item.label }}</span><cb-icon name="chevron-right" [size]="15" aria-hidden="true" />
                 </button>
                 @if (openIndex() === i) {
@@ -40,7 +40,7 @@ export interface CbTieredMenuItem {
                     @for (child of item.items; track $index; let j = $index) {
                       <li role="none">
                         @if (child.items?.length) {
-                          <button class="cb-tieredmenu__item" type="button" role="menuitem" aria-haspopup="menu" [attr.aria-expanded]="openChildIndex() === j" data-level="2" [attr.data-index]="j" [disabled]="child.disabled" (mouseenter)="openChildIndex.set(j)" (click)="openChildIndex.set(openChildIndex() === j ? null : j)">
+                          <button class="cb-tieredmenu__item" type="button" role="menuitem" aria-haspopup="menu" [attr.aria-expanded]="openChildIndex() === j" data-level="2" [attr.data-index]="j" [disabled]="child.disabled" (mouseenter)="openChildIndex.set(j)" (click)="openChildIndex.set(j)">
                             @if (child.icon) { <cb-icon [name]="child.icon" [size]="16" aria-hidden="true" /> }<span>{{ child.label }}</span><cb-icon name="chevron-right" [size]="15" aria-hidden="true" />
                           </button>
                           @if (openChildIndex() === j) {

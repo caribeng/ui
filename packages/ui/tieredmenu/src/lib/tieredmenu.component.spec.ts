@@ -28,6 +28,15 @@ describe('CbTieredMenu', () => {
     document.body.querySelector<HTMLButtonElement>('.cb-tieredmenu__submenu [aria-haspopup="menu"]')!.click(); fixture.detectChanges();
     expect(document.body.querySelectorAll('[role="menu"]')).toHaveLength(3);
   });
+  it('al tocar una opción con submenú (mouseenter y luego click, como en móvil) el submenú queda abierto', () => {
+    const fixture = TestBed.createComponent(HostComponent); fixture.detectChanges();
+    (fixture.nativeElement as HTMLElement).querySelector('button')!.click(); fixture.detectChanges();
+    const parent = document.body.querySelector<HTMLButtonElement>('.cb-tieredmenu__list > .cb-tieredmenu__entry [aria-haspopup="menu"]')!;
+    parent.dispatchEvent(new MouseEvent('mouseenter')); fixture.detectChanges();
+    parent.click(); fixture.detectChanges();
+    expect(parent.getAttribute('aria-expanded')).toBe('true');
+    expect(document.body.querySelector('.cb-tieredmenu__submenu')).toBeTruthy();
+  });
   it('emits a leaf selection and closes the popup', () => {
     const fixture = TestBed.createComponent(HostComponent); fixture.detectChanges();
     (fixture.nativeElement as HTMLElement).querySelector('button')!.click(); fixture.detectChanges();
