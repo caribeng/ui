@@ -25,6 +25,7 @@ export { type CbSize, type CbSeverity } from './lib/types';
 export { cbFieldState, type CbFieldIndicator, type CbFieldState } from './lib/field-state';
 export { cbOverlayFocus, type CbOverlayFocusOptions } from './lib/overlay-focus';
 export { cbRelativeTime } from './lib/relative-time';
+export { CB_BREAKPOINTS, CbBreakpoints, type CbBreakpoint } from './lib/breakpoints';
 export {
   CB_LOCALE_EN,
   CB_LOCALE_ES,

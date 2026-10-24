@@ -11,6 +11,10 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
         "type": "added",
         "items": [
           {
+            "component": "Utilidades responsive",
+            "text": "las utilidades de layout, flex, grid, alineación, espaciado, tamaño, posición y tipografía tienen variantes `sm:`, `md:`, `lg:`, `xl:` y `2xl:` (mobile-first, desde 576, 768, 992, 1200 y 1400 px): `cb-grid-cols-1 md:cb-grid-cols-3`, `cb-hidden lg:cb-block`, `cb-p-3 lg:cb-p-6`. Van al final del CSS, así que ganan a la clase sin prefijo. Núcleo: `CbBreakpoints` da el breakpoint como signals (`current()`, `up()`, `down()`, `between()` y `matches()` para cualquier media query), sin listeners repetidos y seguro en SSR; `CB_BREAKPOINTS` con los anchos."
+          },
+          {
             "component": "Componente nuevo: `NotificationCenter`",
             "text": "(`@caribeng/ui/notification-center`): campana con el número de avisos sin leer (en su nombre accesible y en un contador \"99+\") que abre un panel (`role=\"dialog\"`, CDK Overlay) con la lista agrupada por fecha (Hoy, Ayer, Anteriores; `groupByDate`), filtro Todas / No leídas (`[(filter)]`), marcar como leída o no leída una o todas, eliminar (`removable`) y acciones propias por aviso (`actions`, `actionClick`). Cada aviso muestra la foto o las iniciales de una persona (`person`) o un icono por `severity`, y fecha relativa. Los avisos nuevos se anuncian (`aria-live`); Escape, Tab fuera o un clic fuera cierran y el foco vuelve a la campana. `heading` cambia el título e `inline` lo pinta en la página. `[(notifications)]`, `[(open)]` y eventos `itemClick`, `readChange`, `markAll`, `itemRemove` y `viewAll`. Textos nuevos: `notifications*`. 167 entry points."
           },

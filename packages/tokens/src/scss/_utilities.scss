@@ -4,6 +4,8 @@
 // Todas leen los tokens --cb-*, así que siguen el tema (claro/oscuro).
 // =============================================================================
 
+@use "mixins" as m;
+
 // Escala de espaciado expuesta en las utilidades (clave → token).
 $space: (
   0: 0,
@@ -18,63 +20,7 @@ $space: (
 
 $severities: primary, success, info, warning, danger, help;
 
-// Layout
-.cb-flex { display: flex; }
-.cb-inline-flex { display: inline-flex; }
-.cb-grid { display: grid; }
-.cb-block { display: block; }
-.cb-inline-block { display: inline-block; }
-.cb-inline { display: inline; }
-.cb-hidden { display: none; }
-
-.cb-flex-col { flex-direction: column; }
-.cb-flex-row { flex-direction: row; }
-.cb-flex-wrap { flex-wrap: wrap; }
-.cb-flex-nowrap { flex-wrap: nowrap; }
-.cb-flex-1 { flex: 1 1 0%; }
-.cb-flex-auto { flex: 1 1 auto; }
-.cb-flex-none { flex: none; }
-.cb-grow { flex-grow: 1; }
-.cb-grow-0 { flex-grow: 0; }
-.cb-shrink-0 { flex-shrink: 0; }
-
-// Grid
-@for $i from 1 through 12 {
-  .cb-grid-cols-#{$i} { grid-template-columns: repeat(#{$i}, minmax(0, 1fr)); }
-}
-@for $i from 1 through 12 {
-  .cb-col-span-#{$i} { grid-column: span #{$i} / span #{$i}; }
-}
-.cb-col-span-full { grid-column: 1 / -1; }
-
-// Alineación
-.cb-items-center { align-items: center; }
-.cb-items-start { align-items: flex-start; }
-.cb-items-end { align-items: flex-end; }
-.cb-items-stretch { align-items: stretch; }
-.cb-items-baseline { align-items: baseline; }
-.cb-justify-center { justify-content: center; }
-.cb-justify-between { justify-content: space-between; }
-.cb-justify-start { justify-content: flex-start; }
-.cb-justify-end { justify-content: flex-end; }
-.cb-justify-around { justify-content: space-around; }
-.cb-justify-evenly { justify-content: space-evenly; }
-.cb-self-start { align-self: flex-start; }
-.cb-self-center { align-self: center; }
-.cb-self-end { align-self: flex-end; }
-.cb-self-stretch { align-self: stretch; }
-
-// Espaciado · gap (cb-gap-0…8, cb-gap-x-*, cb-gap-y-*)
-@each $key, $value in $space {
-  .cb-gap-#{$key} { gap: $value; }
-}
-@each $key, $value in $space {
-  .cb-gap-x-#{$key} { column-gap: $value; }
-  .cb-gap-y-#{$key} { row-gap: $value; }
-}
-
-// Espaciado · padding y margin. El shorthand va primero para que los lados
-// (px/py/pt…) lo puedan matizar: `cb-p-4 cb-pt-0`.
+// Lados de padding y margin (clave → sufijos de la propiedad).
 $sides: (
   "": (""),
   "x": ("-left", "-right"),
@@ -84,60 +30,125 @@ $sides: (
   "b": ("-bottom"),
   "l": ("-left"),
 );
-@each $prop, $abbr in (padding: p, margin: m) {
-  @each $side, $suffixes in $sides {
-    @each $key, $value in $space {
-      .cb-#{$abbr}#{$side}-#{$key} {
-        @each $suffix in $suffixes {
-          #{$prop}#{$suffix}: $value;
+
+// Utilidades que también existen con prefijo de breakpoint (mobile-first):
+// `md:cb-flex` aplica display: flex desde 768px. `$p` es el prefijo del
+// selector, ya escapado ("" en las utilidades sin breakpoint).
+@mixin responsive-utilities($p) {
+  // Layout
+  .#{$p}cb-flex { display: flex; }
+  .#{$p}cb-inline-flex { display: inline-flex; }
+  .#{$p}cb-grid { display: grid; }
+  .#{$p}cb-block { display: block; }
+  .#{$p}cb-inline-block { display: inline-block; }
+  .#{$p}cb-inline { display: inline; }
+  .#{$p}cb-hidden { display: none; }
+
+  .#{$p}cb-flex-col { flex-direction: column; }
+  .#{$p}cb-flex-row { flex-direction: row; }
+  .#{$p}cb-flex-wrap { flex-wrap: wrap; }
+  .#{$p}cb-flex-nowrap { flex-wrap: nowrap; }
+  .#{$p}cb-flex-1 { flex: 1 1 0%; }
+  .#{$p}cb-flex-auto { flex: 1 1 auto; }
+  .#{$p}cb-flex-none { flex: none; }
+  .#{$p}cb-grow { flex-grow: 1; }
+  .#{$p}cb-grow-0 { flex-grow: 0; }
+  .#{$p}cb-shrink-0 { flex-shrink: 0; }
+
+  // Grid
+  @for $i from 1 through 12 {
+    .#{$p}cb-grid-cols-#{$i} { grid-template-columns: repeat(#{$i}, minmax(0, 1fr)); }
+  }
+  @for $i from 1 through 12 {
+    .#{$p}cb-col-span-#{$i} { grid-column: span #{$i} / span #{$i}; }
+  }
+  .#{$p}cb-col-span-full { grid-column: 1 / -1; }
+
+  // Alineación
+  .#{$p}cb-items-center { align-items: center; }
+  .#{$p}cb-items-start { align-items: flex-start; }
+  .#{$p}cb-items-end { align-items: flex-end; }
+  .#{$p}cb-items-stretch { align-items: stretch; }
+  .#{$p}cb-items-baseline { align-items: baseline; }
+  .#{$p}cb-justify-center { justify-content: center; }
+  .#{$p}cb-justify-between { justify-content: space-between; }
+  .#{$p}cb-justify-start { justify-content: flex-start; }
+  .#{$p}cb-justify-end { justify-content: flex-end; }
+  .#{$p}cb-justify-around { justify-content: space-around; }
+  .#{$p}cb-justify-evenly { justify-content: space-evenly; }
+  .#{$p}cb-self-start { align-self: flex-start; }
+  .#{$p}cb-self-center { align-self: center; }
+  .#{$p}cb-self-end { align-self: flex-end; }
+  .#{$p}cb-self-stretch { align-self: stretch; }
+
+  // Espaciado · gap (cb-gap-0…8, cb-gap-x-*, cb-gap-y-*)
+  @each $key, $value in $space {
+    .#{$p}cb-gap-#{$key} { gap: $value; }
+  }
+  @each $key, $value in $space {
+    .#{$p}cb-gap-x-#{$key} { column-gap: $value; }
+    .#{$p}cb-gap-y-#{$key} { row-gap: $value; }
+  }
+
+  // Espaciado · padding y margin. El shorthand va primero para que los lados
+  // (px/py/pt…) lo puedan matizar: `cb-p-4 cb-pt-0`.
+  @each $prop, $abbr in (padding: p, margin: m) {
+    @each $side, $suffixes in $sides {
+      @each $key, $value in $space {
+        .#{$p}cb-#{$abbr}#{$side}-#{$key} {
+          @each $suffix in $suffixes {
+            #{$prop}#{$suffix}: $value;
+          }
         }
       }
     }
   }
-}
-.cb-mx-auto { margin-left: auto; margin-right: auto; }
-.cb-ml-auto { margin-left: auto; }
-.cb-mr-auto { margin-right: auto; }
-.cb-mt-auto { margin-top: auto; }
+  .#{$p}cb-mx-auto { margin-left: auto; margin-right: auto; }
+  .#{$p}cb-ml-auto { margin-left: auto; }
+  .#{$p}cb-mr-auto { margin-right: auto; }
+  .#{$p}cb-mt-auto { margin-top: auto; }
 
-// Tamaño
-.cb-w-full { width: 100%; }
-.cb-h-full { height: 100%; }
-.cb-max-w-full { max-width: 100%; }
-.cb-min-w-0 { min-width: 0; }
+  // Tamaño
+  .#{$p}cb-w-full { width: 100%; }
+  .#{$p}cb-h-full { height: 100%; }
+  .#{$p}cb-max-w-full { max-width: 100%; }
+  .#{$p}cb-min-w-0 { min-width: 0; }
 
-// Posición y desbordamiento
-.cb-relative { position: relative; }
-.cb-absolute { position: absolute; }
-.cb-fixed { position: fixed; }
-.cb-sticky { position: sticky; }
-.cb-inset-0 { inset: 0; }
-.cb-top-0 { top: 0; }
-.cb-overflow-hidden { overflow: hidden; }
-.cb-overflow-auto { overflow: auto; }
-.cb-overflow-x-auto { overflow-x: auto; }
-.cb-overflow-y-auto { overflow-y: auto; }
+  // Posición y desbordamiento
+  .#{$p}cb-relative { position: relative; }
+  .#{$p}cb-absolute { position: absolute; }
+  .#{$p}cb-fixed { position: fixed; }
+  .#{$p}cb-sticky { position: sticky; }
+  .#{$p}cb-inset-0 { inset: 0; }
+  .#{$p}cb-top-0 { top: 0; }
+  .#{$p}cb-overflow-hidden { overflow: hidden; }
+  .#{$p}cb-overflow-auto { overflow: auto; }
+  .#{$p}cb-overflow-x-auto { overflow-x: auto; }
+  .#{$p}cb-overflow-y-auto { overflow-y: auto; }
 
-// Tipografía
-@each $size in xs, sm, base, lg, xl, 2xl {
-  .cb-text-#{$size} { font-size: var(--cb-text-#{$size}); }
+  // Tipografía
+  @each $size in xs, sm, base, lg, xl, 2xl {
+    .#{$p}cb-text-#{$size} { font-size: var(--cb-text-#{$size}); }
+  }
+  @each $weight in regular, medium, semibold, bold {
+    .#{$p}cb-font-#{$weight} { font-weight: var(--cb-font-weight-#{$weight}); }
+  }
+  .#{$p}cb-font-mono { font-family: var(--cb-font-mono); }
+  .#{$p}cb-text-left { text-align: left; }
+  .#{$p}cb-text-center { text-align: center; }
+  .#{$p}cb-text-right { text-align: right; }
+  .#{$p}cb-uppercase { text-transform: uppercase; }
+  .#{$p}cb-capitalize { text-transform: capitalize; }
+  .#{$p}cb-nowrap { white-space: nowrap; }
+  .#{$p}cb-break-words { overflow-wrap: anywhere; }
+  .#{$p}cb-truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 }
-@each $weight in regular, medium, semibold, bold {
-  .cb-font-#{$weight} { font-weight: var(--cb-font-weight-#{$weight}); }
-}
-.cb-font-mono { font-family: var(--cb-font-mono); }
-.cb-text-left { text-align: left; }
-.cb-text-center { text-align: center; }
-.cb-text-right { text-align: right; }
-.cb-uppercase { text-transform: uppercase; }
-.cb-capitalize { text-transform: capitalize; }
-.cb-nowrap { white-space: nowrap; }
-.cb-break-words { overflow-wrap: anywhere; }
-.cb-truncate {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
+
+@include responsive-utilities("");
 
 // Color de texto. Las severidades usan el tono 700 en claro y el 400 en oscuro
 // para mantener el contraste sobre la superficie.
@@ -196,4 +207,17 @@ $sides: (
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border: 0;
+}
+
+// Variantes responsive: sm:, md:, lg:, xl: y 2xl: (mobile-first, min-width).
+// Van al final para ganar a las utilidades base, que tienen la misma especificidad.
+@each $name, $min in m.$cb-breakpoints {
+  @media (min-width: $min) {
+    // "2xl" empieza por un dígito: en el selector se escapa como \32 xl.
+    $escaped: $name;
+    @if $name == "2xl" {
+      $escaped: "\\32 xl";
+    }
+    @include responsive-utilities("#{$escaped}\\:");
+  }
 }

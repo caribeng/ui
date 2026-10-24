@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { CbBreakpoints } from '@caribeng/ui';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { TocService } from '../services/toc.service';
@@ -91,6 +92,80 @@ interface UtilGroup {
           <span class="util-demo-badge">$ 4.250.000</span>
         </div>
       </div>
+    </doc-section>
+
+    <doc-section
+      id="responsive"
+      [title]="i18n.t('Responsive (sm:, md:, lg:, xl:, 2xl:)', 'Responsive (sm:, md:, lg:, xl:, 2xl:)')"
+      [description]="
+        i18n.t(
+          'Las utilidades de layout, flex, grid, alineación, espaciado, tamaño, posición y tipografía tienen variantes con prefijo de breakpoint. Son mobile-first: md:cb-flex aplica desde 768 px hacia arriba y, por debajo, manda la clase sin prefijo. Dependen del ancho de la ventana, no del contenedor: cambia el tamaño de la ventana para ver el ejemplo.',
+          'Layout, flex, grid, alignment, spacing, sizing, position and typography utilities have breakpoint-prefixed variants. They are mobile-first: md:cb-flex applies from 768 px up and, below that, the unprefixed class wins. They depend on the window width, not the container: resize the window to see the example.'
+        )
+      "
+      [code]="responsiveCode"
+    >
+      <div class="cb-flex cb-flex-col cb-gap-4 cb-w-full">
+        <p class="util-bp-now">
+          {{ i18n.t('Breakpoint actual', 'Current breakpoint') }}: <strong>{{ bp.current() }}</strong>
+          <span class="md:cb-hidden"> · {{ i18n.t('vista móvil', 'mobile view') }}</span>
+          <span class="cb-hidden md:cb-inline"> · {{ i18n.t('vista de escritorio', 'desktop view') }}</span>
+        </p>
+        <div class="cb-grid cb-grid-cols-1 sm:cb-grid-cols-2 lg:cb-grid-cols-4 cb-gap-3">
+          @for (card of cards; track card.es) {
+            <div class="util-demo-card cb-flex cb-flex-col md:cb-flex-row md:cb-items-center cb-gap-2 cb-p-3 lg:cb-p-4">
+              <div class="util-demo-avatar">{{ card.code }}</div>
+              <div class="cb-flex cb-flex-col cb-min-w-0">
+                <strong class="util-demo-title cb-truncate">{{ i18n.t(card.es, card.en) }}</strong>
+                <span class="util-demo-sub">{{ card.amount }}</span>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+      <div class="util-table-wrap">
+        <table class="util-table">
+          <thead>
+            <tr>
+              <th style="width: 7rem">{{ i18n.t('Prefijo', 'Prefix') }}</th>
+              <th style="width: 9rem">{{ i18n.t('Desde', 'From') }}</th>
+              <th>{{ i18n.t('Uso típico', 'Typical use') }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (row of breakpointRows; track row.prefix) {
+              <tr>
+                <td><code class="util-cls-badge">{{ row.prefix }}</code></td>
+                <td><code class="util-css-prop">{{ row.min }}</code></td>
+                <td class="util-desc-cell">{{ i18n.t(row.es, row.en) }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </doc-section>
+
+    <doc-section
+      id="breakpoints-service"
+      [title]="i18n.t('Breakpoints en código (CbBreakpoints)', 'Breakpoints in code (CbBreakpoints)')"
+      [description]="
+        i18n.t(
+          'Para lo que el CSS no puede hacer, como no renderizar una parte o cambiar un input, CbBreakpoints da el breakpoint como signals: current(), up(), down(), between() y matches() para cualquier media query. En el servidor todo es false y current() es xs.',
+          'For what CSS cannot do, such as not rendering a part or changing an input, CbBreakpoints exposes the breakpoint as signals: current(), up(), down(), between() and matches() for any media query. On the server everything is false and current() is xs.'
+        )
+      "
+      [code]="breakpointsCode"
+    >
+      <dl class="util-bp-list">
+        <dt><code>current()</code></dt>
+        <dd>{{ bp.current() }}</dd>
+        <dt><code>up('lg')()</code></dt>
+        <dd>{{ desktop() }}</dd>
+        <dt><code>down('md')()</code></dt>
+        <dd>{{ mobile() }}</dd>
+        <dt><code>matches('(orientation: portrait)')()</code></dt>
+        <dd>{{ portrait() }}</dd>
+      </dl>
     </doc-section>
 
     @for (group of groups; track group.id) {
@@ -586,6 +661,27 @@ interface UtilGroup {
         font-size: 0.7rem;
         font-weight: 600;
       }
+      .util-bp-now {
+        margin: 0;
+        font-size: var(--cb-text-sm);
+        color: var(--cb-color-text-muted);
+      }
+      .util-bp-now strong {
+        color: var(--cb-color-text);
+        font-family: var(--cb-font-mono);
+      }
+      .util-bp-list {
+        display: grid;
+        grid-template-columns: max-content auto;
+        gap: var(--cb-space-2) var(--cb-space-4);
+        margin: 0;
+        font-size: var(--cb-text-sm);
+      }
+      .util-bp-list dd {
+        margin: 0;
+        font-family: var(--cb-font-mono);
+        font-weight: var(--cb-font-weight-semibold);
+      }
       .util-a11y-btn {
         display: inline-flex;
         align-items: center;
@@ -603,10 +699,58 @@ interface UtilGroup {
 })
 export class UtilitiesComponent {
   protected readonly i18n = inject(I18nService);
+  protected readonly bp = inject(CbBreakpoints);
+  protected readonly desktop = this.bp.up('lg');
+  protected readonly mobile = this.bp.down('md');
+  protected readonly portrait = this.bp.matches('(orientation: portrait)');
 
   constructor() {
     inject(TocService).reset();
   }
+
+  protected readonly cards = [
+    { code: 'AH', es: 'Cuenta de ahorros', en: 'Savings account', amount: '$ 4.250.000' },
+    { code: 'CC', es: 'Cuenta corriente', en: 'Checking account', amount: '$ 1.180.500' },
+    { code: 'TC', es: 'Tarjeta de crédito', en: 'Credit card', amount: '$ 312.900' },
+    { code: 'CD', es: 'CDT a 90 días', en: '90-day deposit', amount: '$ 10.000.000' },
+  ];
+
+  protected readonly breakpointRows = [
+    { prefix: '—', min: '0', es: 'Móvil: la clase sin prefijo es la base para todos los tamaños.', en: 'Mobile: the unprefixed class is the base for every size.' },
+    { prefix: 'sm:', min: '576px', es: 'Móvil en horizontal.', en: 'Mobile in landscape.' },
+    { prefix: 'md:', min: '768px', es: 'Tableta.', en: 'Tablet.' },
+    { prefix: 'lg:', min: '992px', es: 'Portátil y escritorio.', en: 'Laptop and desktop.' },
+    { prefix: 'xl:', min: '1200px', es: 'Escritorio ancho.', en: 'Wide desktop.' },
+    { prefix: '2xl:', min: '1400px', es: 'Pantallas grandes.', en: 'Large screens.' },
+  ];
+
+  protected readonly responsiveCode = `<!-- Una columna en móvil, dos desde sm y cuatro desde lg -->
+<div class="cb-grid cb-grid-cols-1 sm:cb-grid-cols-2 lg:cb-grid-cols-4 cb-gap-3">
+  <div class="cb-flex cb-flex-col md:cb-flex-row md:cb-items-center cb-gap-2 cb-p-3 lg:cb-p-4">…</div>
+</div>
+
+<!-- Visible solo en móvil / solo desde md -->
+<span class="md:cb-hidden">Vista móvil</span>
+<span class="cb-hidden md:cb-inline">Vista de escritorio</span>
+
+<!-- Menú lateral fijo en escritorio -->
+<aside class="cb-hidden lg:cb-block lg:cb-sticky lg:cb-top-0">…</aside>`;
+
+  protected readonly breakpointsCode = `import { CbBreakpoints } from '@caribeng/ui';
+
+export class Page {
+  protected readonly bp = inject(CbBreakpoints);
+  protected readonly desktop = this.bp.up('lg');        // Signal<boolean>
+  protected readonly mobile = this.bp.down('md');        // por debajo de 768px
+  protected readonly tablet = this.bp.between('md', 'lg');
+  protected readonly portrait = this.bp.matches('(orientation: portrait)');
+}
+
+<!-- En la plantilla -->
+@if (desktop()) {
+  <app-side-panel />
+}
+<cb-paginator [maxPageLinks]="mobile() ? 3 : 7" />`;
 
   protected readonly compositionCode = `<div class="cb-flex cb-items-center cb-justify-between cb-gap-4 cb-p-4">
   <div class="cb-flex cb-items-center cb-gap-3">

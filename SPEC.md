@@ -210,6 +210,11 @@ Dark mode con `[data-theme="dark"]`. `CbThemeService` gestionado con signals
 | `xl` | 1200 px |
 | `2xl` | 1400 px |
 
+Las utilidades de layout, flex, grid, alineación, espaciado, tamaño, posición y
+tipografía tienen variantes con prefijo de breakpoint (`md:cb-flex`,
+`lg:cb-grid-cols-4`), mobile-first. En código, `CbBreakpoints` (núcleo) da el
+breakpoint como signals (`current()`, `up()`, `down()`, `between()`, `matches()`).
+
 ---
 
 ## 14. Utilidades CSS (prefijo `cb-`)

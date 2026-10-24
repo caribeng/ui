@@ -18,6 +18,15 @@ npm install @caribeng/tokens
 
 Incluye las variables `--cb-*`, el tema oscuro (`[data-theme="dark"]`) y las utilidades `.cb-*`.
 
+### Utilidades responsive
+
+Las utilidades de layout, espaciado, tamaño, posición y tipografía tienen variantes `sm:`, `md:`, `lg:`, `xl:` y `2xl:` (mobile-first):
+
+```html
+<div class="cb-grid cb-grid-cols-1 md:cb-grid-cols-2 lg:cb-grid-cols-4 cb-gap-4">…</div>
+<aside class="cb-hidden lg:cb-block">…</aside>
+```
+
 ### SCSS
 
 ```scss
