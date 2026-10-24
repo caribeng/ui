@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, signal, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal, viewChild } from '@angular/core';
 import { CbButton } from '@caribeng/ui/button';
 import { CbDataGrid, type CbDataGridCellChange, type CbDataGridColumn } from '@caribeng/ui/datagrid';
 import { DocPlaygroundComponent } from '../components/doc-playground.component';
@@ -28,6 +28,14 @@ interface Contacto {
   edad: number | null;
 }
 
+interface LineaComprobante {
+  id: number;
+  cuenta: string | null;
+  tercero: string | null;
+  debito: number | null;
+  credito: number | null;
+}
+
 interface Linea {
   id: number;
   articulo: string;
@@ -36,7 +44,7 @@ interface Linea {
 }
 
 let nextId = 100;
-const moneda = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 });
+const formatoMoneda = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 });
 
 @Component({
   selector: 'doc-datagrid-page',
@@ -87,6 +95,18 @@ const moneda = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'CO
     </doc-section>
 
     <doc-section
+      id="voucher"
+      title="Comprobante con totales"
+      description="currency: true escribe los importes con la moneda del grid o de provideCaribeNG({ currency, numberLocale }); summary suma la columna en el pie, que queda fijo abajo y se recalcula con cada edición o pegado. Con los totales se comprueba que el comprobante cuadra: aquí falta un crédito."
+      [code]="voucherCode"
+    >
+      <div style="display: grid; gap: 0.5rem; width: 100%">
+        <cb-data-grid [(rows)]="lineasComprobante" [columns]="columnasComprobante" ariaLabel="Comprobante de egreso" scrollHeight="18rem" />
+        <p class="dg-log" [style.color]="diferencia() === 0 ? null : 'var(--cb-color-danger-600)'" role="status">{{ diferencia() === 0 ? 'El comprobante cuadra.' : 'Diferencia: ' + moneda.format(diferencia()) }}</p>
+      </div>
+    </doc-section>
+
+    <doc-section
       id="readonly"
       title="Solo lectura"
       description="Con [editable]=&quot;false&quot; se sigue navegando, seleccionando rangos, ordenando y copiando, pero nada cambia: útil para revisar datos antes de aprobarlos."
@@ -120,6 +140,7 @@ export class DatagridDocComponent {
   private readonly grid = viewChild.required<CbDataGrid<Producto>>('grid');
 
   protected readonly ultimo = signal('');
+  protected readonly moneda = formatoMoneda;
 
   protected readonly columnas: CbDataGridColumn<Producto>[] = [
     { field: 'nombre', header: 'Producto', width: '12rem', required: true },
@@ -185,8 +206,8 @@ export class DatagridDocComponent {
   protected readonly columnasPedido: CbDataGridColumn<Linea>[] = [
     { field: 'articulo', header: 'Artículo', width: '14rem', required: true },
     { field: 'cantidad', header: 'Cantidad', type: 'number', min: 1, width: '7rem' },
-    { field: 'precio', header: 'Precio', type: 'number', min: 0, format: (v) => moneda.format(Number(v)) },
-    { field: 'total', header: 'Total', editable: false, sortable: false, align: 'end', format: (_, l) => moneda.format(l.cantidad * l.precio) },
+    { field: 'precio', header: 'Precio', type: 'number', min: 0, format: (v) => formatoMoneda.format(Number(v)) },
+    { field: 'total', header: 'Total', editable: false, sortable: false, align: 'end', format: (_, l) => formatoMoneda.format(l.cantidad * l.precio) },
   ];
 
   protected readonly lineas = signal<readonly Linea[]>([
@@ -194,6 +215,30 @@ export class DatagridDocComponent {
     { id: 2, articulo: 'Panela orgánica', cantidad: 10, precio: 4500 },
     { id: 3, articulo: 'Cacao en polvo', cantidad: 2, precio: 18500 },
   ]);
+
+  protected readonly columnasComprobante: CbDataGridColumn<LineaComprobante>[] = [
+    { field: 'cuenta', header: 'Cuenta', width: '13rem', required: true },
+    { field: 'tercero', header: 'Tercero', width: '11rem' },
+    { field: 'debito', header: 'Débito', type: 'number', min: 0, currency: true, summary: 'sum', width: '10rem' },
+    { field: 'credito', header: 'Crédito', type: 'number', min: 0, currency: true, summary: 'sum', width: '10rem' },
+  ];
+
+  protected readonly lineasComprobante = signal<readonly LineaComprobante[]>([
+    { id: 1, cuenta: '5135 Servicios', tercero: 'Energía del Caribe', debito: 845000, credito: null },
+    { id: 2, cuenta: '2408 IVA descontable', tercero: 'Energía del Caribe', debito: 160550, credito: null },
+    { id: 3, cuenta: '2365 Retención en la fuente', tercero: 'DIAN', debito: null, credito: 33800 },
+    { id: 4, cuenta: '1110 Bancos', tercero: 'Banco de Bogotá', debito: null, credito: 900000 },
+  ]);
+
+  protected readonly diferencia = computed(() => {
+    const suma = (campo: 'debito' | 'credito') => this.lineasComprobante().reduce((t, l) => t + (l[campo] ?? 0), 0);
+    return Math.round((suma('debito') - suma('credito')) * 100) / 100;
+  });
+
+  protected readonly voucherCode = `<div style="display: grid; gap: 0.5rem; width: 100%">
+  <cb-data-grid [(rows)]="lineasComprobante" [columns]="columnasComprobante" ariaLabel="Comprobante de egreso" scrollHeight="18rem" />
+  <p class="dg-log" [style.color]="diferencia() === 0 ? null : 'var(--cb-color-danger-600)'" role="status">{{ diferencia() === 0 ? 'El comprobante cuadra.' : 'Diferencia: ' + moneda.format(diferencia()) }}</p>
+</div>`;
 
   protected readonly importCode = `import { CbDataGrid, type CbDataGridColumn } from '@caribeng/ui/datagrid';`;
   protected readonly inventoryCode = `<div style="display: grid; gap: 0.75rem; width: 100%">

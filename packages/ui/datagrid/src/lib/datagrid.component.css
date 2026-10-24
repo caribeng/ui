@@ -249,6 +249,27 @@
   background: color-mix(in srgb, var(--cb-color-primary-500) 6%, transparent);
 }
 
+.cb-dg__cell--negative {
+  color: var(--cb-color-danger-600, #dc2626);
+}
+
+/* Pie con totales: fijo abajo al hacer scroll. */
+.cb-dg__table tfoot th,
+.cb-dg__table tfoot td {
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+  border-top: 2px solid var(--cb-color-border-strong);
+  border-bottom: 0;
+  background: var(--cb-color-surface-subtle);
+  font-weight: var(--cb-font-weight-semibold, 600);
+  font-variant-numeric: tabular-nums;
+}
+
+.cb-dg__table tfoot .cb-dg__num--foot {
+  z-index: 3;
+}
+
 /* Marca de celda cambiada: triángulo en la esquina superior izquierda. */
 .cb-dg__cell--dirty::before {
   position: absolute;

@@ -22,7 +22,7 @@ import {
 import { DOCUMENT, NgTemplateOutlet } from '@angular/common';
 import { CbIcon } from '@caribeng/ui/icon';
 import { CbPaginator, type CbPaginatorState } from '@caribeng/ui/paginator';
-import { cbFormat, injectCbTranslation } from '@caribeng/ui';
+import { CB_CONFIG, cbFormat, cbFormatAmount, cbSummarize, cbToNumber, injectCbTranslation, type CbNegativeStyle, type CbSummary } from '@caribeng/ui';
 
 /** Cómo compara un filtro el texto buscado con el valor de la celda (sin distinguir mayúsculas ni tildes). */
 export type CbTableFilterMatchMode = 'contains' | 'startsWith' | 'equals';
@@ -48,6 +48,29 @@ export interface CbTableColumn {
   frozen?: boolean;
   /** Incluir la columna en `toCSV()` / `exportCSV()`. Por defecto `true`. */
   exportable?: boolean;
+  /**
+   * Formato del valor: `number` (separadores y decimales), `currency` (moneda) o
+   * `percent` (`0.15` → 15 %). Los numéricos se alinean a la derecha y los
+   * negativos se marcan en rojo.
+   */
+  type?: 'text' | 'number' | 'currency' | 'percent';
+  /** Moneda de una columna `currency` (si no, la de la tabla o `provideCaribeNG({ currency })`). */
+  currency?: string;
+  /** Decimales fijos de una columna numérica. */
+  decimals?: number;
+  /** Negativos con signo o entre paréntesis (si no, el de la tabla). */
+  negative?: CbNegativeStyle;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- como PrimeNG: la fila llega sin tipar.
+  /** Texto propio de la celda (no cambia el valor con el que se ordena, filtra o exporta). */
+  format?: (value: any, row: any) => string;
+  /**
+   * Total de la columna en el pie (y en los subtotales de grupo): `sum`, `avg`,
+   * `count`, `min`, `max` o una función con las filas filtradas.
+   */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- filas sin tipar.
+  summary?: CbSummary | ((rows: readonly any[]) => unknown);
+  /** Texto fijo en el pie de esta columna (p. ej. "Total"). */
+  footer?: string;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any -- como PrimeNG: la plantilla recibe la fila sin tipar.
@@ -219,7 +242,7 @@ const MIN_COLUMN_WIDTH = 48;
                 [style.left.px]="col.frozen ? frozenLeft(col.field) : null"
                 [class.cb-is-sortable]="col.sortable"
                 [style.width]="columnWidth(col)"
-                [style.text-align]="col.align || null"
+                [style.text-align]="alignOf(col)"
                 [attr.aria-sort]="ariaSort(col)"
               >
                 @if (col.sortable) {
@@ -340,17 +363,51 @@ const MIN_COLUMN_WIDTH = 48;
                   class="cb-table__td"
                   [class.cb-is-frozen]="!!col.frozen"
                   [class.cb-is-frozen-last]="col.field === lastFrozen()"
+                  [class.cb-table__num]="isNumeric(col)"
+                  [class.cb-is-negative]="isNegative(cellValue(row, col), col)"
                   [style.left.px]="col.frozen ? frozenLeft(col.field) : null"
-                  [style.text-align]="col.align || null"
+                  [style.text-align]="alignOf(col)"
                 >
                   @if (cellTemplate(col.field); as cell) {
                     <ng-container [ngTemplateOutlet]="cell.template" [ngTemplateOutletContext]="cellContext(row, col)" />
                   } @else {
-                    {{ cellValue(row, col) }}
+                    {{ display(cellValue(row, col), col, row) }}
                   }
                 </td>
               }
             </tr>
+            @if (groupRowsBy() && groupSubtotals() && hasSummary() && isGroupEnd(i)) {
+              <tr class="cb-table__subtotal">
+                @if (expansion()) {
+                  <td class="cb-table__sel" [class.cb-is-frozen]="hasFrozen()" [style.left.px]="frozenLeft('__exp')"></td>
+                }
+                @if (selectionMode()) {
+                  <td class="cb-table__sel" [class.cb-is-frozen]="hasFrozen()" [style.left.px]="frozenLeft('__sel')"></td>
+                }
+                @for (col of displayColumns(); track col.field; let c = $index) {
+                  @if (c < labelColumn() + labelSpan() && c > labelColumn()) {
+                    <!-- cubierta por la etiqueta -->
+                  } @else if (c === labelColumn()) {
+                    <th
+                      scope="row"
+                      class="cb-table__td"
+                      [attr.colspan]="labelSpan() > 1 ? labelSpan() : null"
+                      [class.cb-is-frozen]="!!col.frozen"
+                      [style.left.px]="col.frozen ? frozenLeft(col.field) : null"
+                    >{{ fmt(t().tableSubtotal, groupOf(row)) }}</th>
+                  } @else {
+                    <td
+                      class="cb-table__td"
+                      [class.cb-is-frozen]="!!col.frozen"
+                      [class.cb-table__num]="isNumeric(col)"
+                      [class.cb-is-negative]="isNegative(groupSummary(row, col), col)"
+                      [style.left.px]="col.frozen ? frozenLeft(col.field) : null"
+                      [style.text-align]="alignOf(col)"
+                    >{{ summaryText(groupSummary(row, col), col) }}</td>
+                  }
+                }
+              </tr>
+            }
             @if (expansion(); as exp) {
               @if (isExpanded(row)) {
                 <tr class="cb-table__expansion" [id]="expansionId(first() + i)">
@@ -369,6 +426,41 @@ const MIN_COLUMN_WIDTH = 48;
             </tr>
           }
         </tbody>
+        @if (hasFooter() && pageRows().length) {
+          <tfoot>
+            <tr class="cb-table__foot">
+              @if (expansion()) {
+                <td class="cb-table__sel" [class.cb-is-frozen]="hasFrozen()" [style.left.px]="frozenLeft('__exp')"></td>
+              }
+              @if (selectionMode()) {
+                <td class="cb-table__sel" [class.cb-is-frozen]="hasFrozen()" [style.left.px]="frozenLeft('__sel')"></td>
+              }
+              @for (col of displayColumns(); track col.field; let c = $index) {
+                @if (!hasFooterText() && c < labelColumn() + labelSpan() && c > labelColumn()) {
+                  <!-- cubierta por la etiqueta -->
+                } @else if (col.footer || (c === labelColumn() && !hasFooterText())) {
+                  <th
+                    scope="row"
+                    class="cb-table__td"
+                    [attr.colspan]="!hasFooterText() && labelSpan() > 1 ? labelSpan() : null"
+                    [class.cb-is-frozen]="!!col.frozen"
+                    [style.left.px]="col.frozen ? frozenLeft(col.field) : null"
+                    [style.text-align]="hasFooterText() ? alignOf(col) : null"
+                  >{{ col.footer || t().tableTotal }}</th>
+                } @else {
+                  <td
+                    class="cb-table__td"
+                    [class.cb-is-frozen]="!!col.frozen"
+                    [class.cb-table__num]="isNumeric(col)"
+                    [class.cb-is-negative]="isNegative(totals()[col.field], col)"
+                    [style.left.px]="col.frozen ? frozenLeft(col.field) : null"
+                    [style.text-align]="alignOf(col)"
+                  >{{ summaryText(totals()[col.field], col) }}</td>
+                }
+              }
+            </tr>
+          </tfoot>
+        }
       </table>
       @if (loading()) {
         <div class="cb-table__loading" role="status">
@@ -444,6 +536,12 @@ export class CbTable {
   readonly totalRecords = input<number | null>(null);
   /** Muestra la capa de carga y marca la tabla con `aria-busy`. */
   readonly loading = input<boolean, unknown>(false, { transform: toBoolean });
+  /** Con `groupRowsBy`, una fila de subtotal al final de cada grupo (columnas con `summary`). */
+  readonly groupSubtotals = input<boolean, unknown>(false, { transform: toBoolean });
+  /** Moneda de las columnas `currency` (si no, la de `provideCaribeNG({ currency })`). */
+  readonly currency = input<string | undefined>(undefined);
+  /** Negativos con signo o entre paréntesis (si no, el de `provideCaribeNG({ negativeStyle })`). */
+  readonly negativeStyle = input<CbNegativeStyle | undefined>(undefined);
 
   readonly selection = model<unknown>(null);
   readonly sortChange = output<{ field: string | null; order: 1 | -1 }>();
@@ -531,6 +629,40 @@ export class CbTable {
     if (!this.paginator() || this.lazy()) return data;
     const start = Math.min(this.first(), Math.max(0, data.length - 1));
     return data.slice(start, start + this.rows());
+  });
+
+  private readonly config = inject(CB_CONFIG);
+  protected readonly hasSummary = computed(() => this.columns().some((c) => c.summary));
+  protected readonly hasFooterText = computed(() => this.columns().some((c) => c.footer));
+  protected readonly hasFooter = computed(() => this.hasSummary() || this.hasFooterText());
+  /** Columna donde va la etiqueta "Total" / "Subtotal": la primera sin total. */
+  protected readonly labelColumn = computed(() => Math.max(0, this.displayColumns().findIndex((c) => !c.summary)));
+  /**
+   * Columnas que ocupa la etiqueta: desde la suya hasta la siguiente con total
+   * (sin partir columnas fijas de no fijas).
+   */
+  protected readonly labelSpan = computed(() => {
+    const cols = this.displayColumns();
+    const start = this.labelColumn();
+    let end = start + 1;
+    while (end < cols.length && !cols[end].summary && !!cols[end].frozen === !!cols[start].frozen) end++;
+    return end - start;
+  });
+  /** Totales del pie, sobre todas las filas filtradas (no solo la página). */
+  protected readonly totals = computed(() => this.summarize(this.sorted()));
+  /** Totales por grupo (con `groupSubtotals`). */
+  private readonly groupTotals = computed(() => {
+    const field = this.groupRowsBy();
+    const out = new Map<unknown, Record<string, unknown>>();
+    if (!field || !this.groupSubtotals() || !this.hasSummary()) return out;
+    const groups = new Map<unknown, unknown[]>();
+    for (const row of this.sorted()) {
+      const key = fieldValue(row, field);
+      if (!groups.has(key)) groups.set(key, []);
+      groups.get(key)!.push(row);
+    }
+    for (const [key, rows] of groups) out.set(key, this.summarize(rows));
+    return out;
   });
 
   protected readonly colspan = computed(
@@ -714,6 +846,14 @@ export class CbTable {
   protected groupCount(row: unknown): number {
     return this.groupCounts().get(this.groupOf(row)) ?? 0;
   }
+  /** La fila cierra grupo si es la última de la página o el siguiente cambia de grupo. */
+  protected isGroupEnd(index: number): boolean {
+    const rows = this.pageRows();
+    return index === rows.length - 1 || this.groupOf(rows[index + 1]) !== this.groupOf(rows[index]);
+  }
+  protected groupSummary(row: unknown, col: CbTableColumn): unknown {
+    return this.groupTotals().get(this.groupOf(row))?.[col.field];
+  }
   /** La fila abre grupo si es la primera de la página o cambia el valor del grupo. */
   protected isGroupStart(index: number): boolean {
     const rows = this.pageRows();
@@ -767,6 +907,52 @@ export class CbTable {
     link.download = filename.endsWith('.csv') ? filename : `${filename}.csv`;
     link.click();
     setTimeout(() => URL.revokeObjectURL(url));
+  }
+
+  // --- Formato y totales -----------------------------------------------------------
+  /** Totales de las columnas con `summary` sobre unas filas. */
+  private summarize(rows: readonly unknown[]): Record<string, unknown> {
+    const out: Record<string, unknown> = {};
+    for (const col of this.columns()) {
+      if (!col.summary) continue;
+      out[col.field] = typeof col.summary === 'function' ? col.summary(rows) : cbSummarize(rows.map((r) => fieldValue(r, col.field)), col.summary);
+    }
+    return out;
+  }
+  protected isNumeric(col: CbTableColumn): boolean {
+    return col.type === 'number' || col.type === 'currency' || col.type === 'percent';
+  }
+  protected alignOf(col: CbTableColumn): string | null {
+    return col.align || (this.isNumeric(col) ? 'right' : null);
+  }
+  protected isNegative(value: unknown, col: CbTableColumn): boolean {
+    if (!this.isNumeric(col)) return false;
+    const n = cbToNumber(value);
+    return n !== null && n < 0;
+  }
+  /** Texto de una celda: `format`, o el formato de su `type`. */
+  protected display(value: unknown, col: CbTableColumn, row: unknown): unknown {
+    if (col.format) return col.format(value, row);
+    return this.isNumeric(col) ? this.formatNumber(value, col) : value;
+  }
+  /** Texto de un total: con el formato de la columna (una cuenta, como número entero). */
+  protected summaryText(value: unknown, col: CbTableColumn): string {
+    if (value === undefined || value === null) return '';
+    if (col.summary === 'count') return cbFormatAmount(value, this.config.numberLocale ?? this.t().intlLocale, { decimals: 0 });
+    if (col.format && typeof col.summary !== 'function') return col.format(value, null);
+    return this.isNumeric(col) ? this.formatNumber(value, col) : String(value);
+  }
+  private formatNumber(value: unknown, col: CbTableColumn): string {
+    const locale = this.config.numberLocale ?? this.t().intlLocale;
+    const negative = col.negative ?? this.negativeStyle() ?? this.config.negativeStyle ?? 'minus';
+    if (col.type === 'percent') {
+      const n = cbToNumber(value);
+      if (n === null) return value == null ? '' : String(value);
+      const text = new Intl.NumberFormat(locale, { style: 'percent', minimumFractionDigits: col.decimals ?? 0, maximumFractionDigits: col.decimals ?? 2 }).format(Math.abs(n));
+      return n < 0 ? (negative === 'parens' ? `(${text})` : `-${text}`) : text;
+    }
+    const currency = col.type === 'currency' ? (col.currency ?? this.currency() ?? this.config.currency ?? null) : null;
+    return cbFormatAmount(value, locale, { currency, decimals: col.decimals, negative });
   }
 
   // --- Helpers ---------------------------------------------------------------

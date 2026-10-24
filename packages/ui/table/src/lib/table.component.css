@@ -280,6 +280,39 @@ thead .cb-is-frozen {
   color: var(--cb-color-text-muted);
 }
 
+/* Importes: cifras tabulares, alineadas a la derecha y negativos en rojo. */
+.cb-table__num {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.cb-table .cb-is-negative {
+  color: var(--cb-color-danger-600, #dc2626);
+}
+
+/* Subtotales de grupo y pie con totales */
+.cb-table__subtotal > .cb-table__td {
+  font-weight: var(--cb-font-weight-semibold);
+  background-color: var(--cb-color-surface-subtle);
+  border-bottom: var(--cb-border-width) solid var(--cb-color-border-strong);
+}
+.cb-table__foot > .cb-table__td,
+.cb-table__foot > .cb-table__sel {
+  font-weight: var(--cb-font-weight-semibold);
+  color: var(--cb-color-text-strong);
+  background-color: var(--cb-color-surface-subtle);
+  border-top: 2px solid var(--cb-color-border-strong);
+  border-bottom: 0;
+}
+.cb-table--scroll tfoot {
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+}
+tfoot .cb-is-frozen,
+.cb-table__subtotal .cb-is-frozen {
+  background-color: var(--cb-color-surface-subtle);
+}
+
 /* Capa de carga (loading) */
 .cb-table__loading {
   position: absolute;

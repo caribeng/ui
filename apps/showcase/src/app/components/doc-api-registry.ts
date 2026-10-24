@@ -2047,7 +2047,9 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "scrollHeight", kind: "string", type: "string | null", default: "28rem", description: "Alto máximo del área con scroll." },
       { name: "newRow", kind: "string", type: "(() => T) | null", default: null, description: "Crea la fila nueva al añadir o al pegar más filas de las que hay.", control: false },
       { name: "emptyMessage", kind: "string", type: "string", default: undefined, localeKey: "noData", description: "Texto cuando no hay filas." },
-      { name: "ariaLabel", kind: "string", type: "string", default: "", description: "Nombre del grid." }
+      { name: "ariaLabel", kind: "string", type: "string", default: "", description: "Nombre del grid." },
+      { name: "currency", kind: "string", type: "string", default: undefined, description: "Moneda de las columnas con currency: true (si no, la de provideCaribeNG)." },
+      { name: "negativeStyle", kind: "enum", type: "'minus' | 'parens'", options: ["minus", "parens"], default: undefined, description: "Negativos con signo o entre paréntesis." }
     ],
     events: [
       { name: "cellChange", type: "CbDataGridCellChange<T>", description: "Una celda cambió de valor ({ row, field, value, previous })." },
@@ -2339,6 +2341,9 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "lazy", kind: "boolean", type: "boolean", default: false, description: "Datos desde el servidor: la tabla emite lazyLoad y muestra value tal cual." },
       { name: "totalRecords", kind: "number", type: "number | null", default: null, description: "Total de filas en el servidor (modo lazy), para el paginador.", control: false },
       { name: "loading", kind: "boolean", type: "boolean", default: false, description: "Capa de carga y aria-busy." },
+      { name: "groupSubtotals", kind: "boolean", type: "boolean", default: false, description: "Con groupRowsBy, subtotal de las columnas con summary al final de cada grupo." },
+      { name: "currency", kind: "string", type: "string", default: undefined, description: "Moneda de las columnas type: 'currency' (si no, la de provideCaribeNG)." },
+      { name: "negativeStyle", kind: "enum", type: "'minus' | 'parens'", options: ["minus", "parens"], default: undefined, description: "Negativos con signo o entre paréntesis." },
       { name: "scrollHeight", kind: "string", type: "string | null", default: null, description: "Alto máximo (CSS): la tabla hace scroll con la cabecera fija." },
       { name: "groupRowsBy", kind: "string", type: "string | null", default: null, description: "Agrupa las filas por este campo, con una cabecera por grupo." }
     ],
@@ -2553,7 +2558,11 @@ export const DOC_API: Record<string, DocApi> = {
     selector: "cb-treetable",
     props: [
       { name: "value", kind: "string", type: "readonly CbTreeTableNode[]", default: [], example: [{ key: '1', data: { name: 'Savings', balance: '$ 2,500' }, children: [{ key: '1-1', data: { name: 'Emergency fund', balance: '$ 1,200' } }] }, { key: '2', data: { name: 'Checking', balance: '$ 840' } }], description: "", control: false },
-      { name: "columns", kind: "string", type: "readonly CbTreeTableColumn[]", default: [], example: [{ field: 'name', header: 'Account' }, { field: 'balance', header: 'Balance' }], description: "", control: false }
+      { name: "columns", kind: "string", type: "readonly CbTreeTableColumn[]", default: [], example: [{ field: 'name', header: 'Account' }, { field: 'balance', header: 'Balance' }], description: "Columnas (field, header, type, currency, decimals, negative, align, width, format, summary, footer).", control: false },
+      { name: "rollup", kind: "boolean", type: "boolean", default: false, description: "Las filas padre muestran el total de sus descendientes en las columnas con summary." },
+      { name: "currency", kind: "string", type: "string", default: undefined, description: "Moneda de las columnas type: 'currency' (si no, la de provideCaribeNG)." },
+      { name: "negativeStyle", kind: "enum", type: "'minus' | 'parens'", options: ["minus", "parens"], default: undefined, description: "Negativos con signo o entre paréntesis." },
+      { name: "ariaLabel", kind: "string", type: "string", default: "", description: "Nombre de la tabla." }
     ]
   },
   "cb-virtualscroller": {

@@ -82,3 +82,29 @@
 .cb-treetable__toggler cb-icon.cb-is-open {
   transform: rotate(90deg);
 }
+
+/* Importes, filas padre con totales y pie */
+.cb-treetable__num {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.cb-treetable .cb-is-negative {
+  color: var(--cb-color-danger-600, #dc2626);
+}
+
+.cb-treetable__row--parent {
+  font-weight: var(--cb-font-weight-semibold, 600);
+}
+
+.cb-treetable__foot > th,
+.cb-treetable__foot > td {
+  padding: 0.65rem 0.85rem;
+  border-top: 2px solid var(--cb-color-border-strong);
+  background: var(--cb-color-surface-subtle);
+  color: var(--cb-color-text-strong, var(--cb-color-text));
+  font-size: var(--cb-text-sm, 0.875rem);
+  font-weight: var(--cb-font-weight-semibold, 600);
+  text-transform: none;
+  letter-spacing: 0;
+}

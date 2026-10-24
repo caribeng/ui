@@ -633,6 +633,9 @@ export interface CbTranslation {
   dynamicFormSummaryOne: string;
   /** `{0}`: cantidad. */
   dynamicFormSummary: string;
+  tableTotal: string;
+  /** `{0}`: grupo. */
+  tableSubtotal: string;
 
   // --- Varios ---
   scrollableArea: string;
@@ -1512,6 +1515,8 @@ export const CB_LOCALE_ES: CbTranslation = {
   dynamicFormInvalid: 'El valor no es válido.',
   dynamicFormSummaryOne: 'Revisa 1 campo:',
   dynamicFormSummary: 'Revisa {0} campos:',
+  tableTotal: 'Total',
+  tableSubtotal: 'Subtotal {0}',
 
   scrollableArea: 'Área desplazable',
   scrollTop: 'Volver arriba',
@@ -2341,6 +2346,8 @@ export const CB_LOCALE_EN: CbTranslation = {
   dynamicFormInvalid: 'The value is not valid.',
   dynamicFormSummaryOne: 'Check 1 field:',
   dynamicFormSummary: 'Check {0} fields:',
+  tableTotal: 'Total',
+  tableSubtotal: 'Subtotal {0}',
 
   scrollableArea: 'Scrollable area',
   scrollTop: 'Back to top',

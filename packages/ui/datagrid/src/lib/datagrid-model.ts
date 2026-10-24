@@ -1,3 +1,5 @@
+import { cbFormatAmount, type CbNegativeStyle, type CbSummary } from '@caribeng/ui';
+
 /** Tipo de dato (y de editor) de una columna del Data Grid. */
 export type CbDataGridColumnType = 'text' | 'number' | 'select' | 'date' | 'checkbox';
 
@@ -30,6 +32,17 @@ export interface CbDataGridColumn<T extends object = CbDataGridRow> {
   readonly max?: number;
   /** Decimales que se muestran en una columna `number`. */
   readonly decimals?: number;
+  /**
+   * Importe en moneda (columna `number`): un código ISO 4217 (`COP`) o `true` para la
+   * moneda del grid / `provideCaribeNG({ currency })`.
+   */
+  readonly currency?: string | boolean;
+  /** Negativos con signo o entre paréntesis (si no, el del grid). */
+  readonly negative?: CbNegativeStyle;
+  /** Total en el pie: `sum`, `avg`, `count`, `min`, `max` o una función con las filas. */
+  readonly summary?: CbSummary | ((rows: readonly T[]) => unknown);
+  /** Texto fijo en el pie de esta columna (p. ej. "Total"). */
+  readonly footer?: string;
   /** `false` quita la ordenación por esta columna. */
   readonly sortable?: boolean;
   readonly align?: 'start' | 'center' | 'end';
@@ -157,15 +170,27 @@ export function validateCell(col: CbDataGridColumn<object>, value: unknown, row:
   return col.validate?.(value, row) ?? null;
 }
 
+/** Moneda y negativos por defecto del grid (para las columnas con `currency: true`). */
+export interface AmountDefaults {
+  readonly currency?: string | null;
+  /** Idioma de los importes (si no, el de la interfaz). */
+  readonly locale?: string;
+  readonly negative?: CbNegativeStyle;
+}
+
 /** Texto plano de una celda: el que se ve, se copia y se ordena. */
-export function cellText(col: CbDataGridColumn<object>, value: unknown, row: object, locale: string, yesNo: [string, string]): string {
+export function cellText(col: CbDataGridColumn<object>, value: unknown, row: object, locale: string, yesNo: [string, string], amount: AmountDefaults = {}): string {
   if (col.format) return col.format(value, row);
   if (isEmpty(value)) return '';
   switch (col.type ?? 'text') {
-    case 'number':
-      return typeof value === 'number'
-        ? new Intl.NumberFormat(locale, col.decimals === undefined ? undefined : { minimumFractionDigits: col.decimals, maximumFractionDigits: col.decimals }).format(value)
-        : String(value);
+    case 'number': {
+      if (typeof value !== 'number') return String(value);
+      const currency = typeof col.currency === 'string' ? col.currency : col.currency ? (amount.currency ?? null) : null;
+      const negative = col.negative ?? amount.negative ?? 'minus';
+      const numberLocale = amount.locale ?? locale;
+      if (currency || col.decimals !== undefined || negative === 'parens') return cbFormatAmount(value, numberLocale, { currency, decimals: col.decimals, negative });
+      return new Intl.NumberFormat(numberLocale).format(value);
+    }
     case 'checkbox':
       return value ? yesNo[0] : yesNo[1];
     case 'select':

@@ -247,6 +247,15 @@ interface Usuario {
     </doc-section>
 
     <doc-section
+      id="totals"
+      title="Importes, totales y subtotales"
+      description="type: 'currency' formatea con la moneda de la tabla o de provideCaribeNG({ currency, numberLocale }), alinea a la derecha y pone los negativos en rojo (negative: 'parens' los escribe entre paréntesis). summary ('sum', 'avg', 'count', 'min', 'max' o una función) suma la columna en el pie con todas las filas filtradas, no solo la página; con groupRowsBy y groupSubtotals cada grupo cierra con su subtotal."
+      [code]="totalsCode"
+    >
+      <cb-table style="width: 100%" [value]="asientos" [columns]="asientoCols" groupRowsBy="cuenta" [groupSubtotals]="true" size="sm" ariaLabel="Libro auxiliar" />
+    </doc-section>
+
+    <doc-section
       id="export"
       title="Exportar a CSV"
       description="exportCSV() descarga las filas filtradas y ordenadas (todas, no solo la página) con BOM para que Excel respete tildes; toCSV() devuelve el texto. exportable: false excluye una columna y selectionOnly exporta solo lo seleccionado."
@@ -521,6 +530,23 @@ export class TableDocComponent {
     {{ count }} movimientos
   </ng-template>
 </cb-table>`;
+  protected readonly asientoCols: CbTableColumn[] = [
+    { field: 'fecha', header: 'Fecha', width: '7rem' },
+    { field: 'cuenta', header: 'Cuenta' },
+    { field: 'detalle', header: 'Detalle' },
+    { field: 'debito', header: 'Débito', type: 'currency', summary: 'sum' },
+    { field: 'credito', header: 'Crédito', type: 'currency', summary: 'sum' },
+    { field: 'neto', header: 'Neto', type: 'currency', summary: 'sum', negative: 'parens' },
+  ];
+  protected readonly asientos = [
+    { fecha: '2026-10-01', cuenta: '1105 Caja', detalle: 'Ventas de contado', debito: 2450000, credito: 0, neto: 2450000 },
+    { fecha: '2026-10-03', cuenta: '1105 Caja', detalle: 'Consignación', debito: 0, credito: 2000000, neto: -2000000 },
+    { fecha: '2026-10-03', cuenta: '1110 Bancos', detalle: 'Consignación', debito: 2000000, credito: 0, neto: 2000000 },
+    { fecha: '2026-10-08', cuenta: '1110 Bancos', detalle: 'Pago a proveedor', debito: 0, credito: 1250000, neto: -1250000 },
+    { fecha: '2026-10-15', cuenta: '1110 Bancos', detalle: 'Comisión bancaria', debito: 0, credito: 18900, neto: -18900 },
+    { fecha: '2026-10-08', cuenta: '2205 Proveedores', detalle: 'Pago a proveedor', debito: 1250000, credito: 0, neto: 1250000 },
+  ];
+  protected readonly totalsCode = `<cb-table [value]="asientos" [columns]="asientoCols" groupRowsBy="cuenta" [groupSubtotals]="true" size="sm" ariaLabel="Libro auxiliar" />`;
   protected readonly exportCode = `<cb-button size="sm" variant="outlined" (click)="tablaCsv.exportCSV('movimientos')">Exportar CSV</cb-button>
 <cb-table #tablaCsv [value]="movimientos" [columns]="movCols" [paginator]="true" [rows]="4" size="sm" />`;
   protected readonly elegido = signal<Producto | null>(null);

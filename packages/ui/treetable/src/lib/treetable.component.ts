@@ -13,12 +13,30 @@ import {
   output,
   signal,
 } from '@angular/core';
-import { cbFormat, injectCbTranslation } from '@caribeng/ui';
+import { CB_CONFIG, cbFormat, cbFormatAmount, cbSummarize, cbToNumber, injectCbTranslation, type CbNegativeStyle, type CbSummary } from '@caribeng/ui';
 import { CbIcon } from '@caribeng/ui/icon';
 
 export interface CbTreeTableColumn {
   field: string;
   header: string;
+  /** Formato: `number`, `currency` o `percent` (alineados a la derecha, negativos en rojo). */
+  type?: 'text' | 'number' | 'currency' | 'percent';
+  /** Moneda de una columna `currency` (si no, la de la tabla o `provideCaribeNG({ currency })`). */
+  currency?: string;
+  decimals?: number;
+  negative?: CbNegativeStyle;
+  align?: 'left' | 'center' | 'right';
+  width?: string;
+  /** Texto propio de la celda. */
+  format?: (value: unknown, node: CbTreeTableNode | null) => string;
+  /**
+   * Total de la columna: en el pie (sobre las hojas) y, con `rollup`, en cada fila
+   * padre (sobre sus descendientes). `sum`, `avg`, `count`, `min`, `max` o una
+   * función con los datos de las hojas.
+   */
+  summary?: CbSummary | ((leaves: readonly Record<string, unknown>[]) => unknown);
+  /** Texto fijo en el pie de esta columna. */
+  footer?: string;
 }
 
 export interface CbTreeTableNode {
@@ -78,7 +96,7 @@ let nextUid = 0;
       <thead>
         <tr>
           @for (col of columns(); track col.field) {
-            <th scope="col">{{ col.header }}</th>
+            <th scope="col" [style.text-align]="alignOf(col)" [style.width]="col.width || null">{{ col.header }}</th>
           }
         </tr>
       </thead>
@@ -86,6 +104,7 @@ let nextUid = 0;
         @for (row of rows(); track row.node.key) {
           <tr
             class="cb-treetable__row"
+            [class.cb-treetable__row--parent]="rollup() && hasChildren(row.node)"
             [id]="rowId(row.node)"
             [attr.aria-level]="row.level"
             [attr.aria-setsize]="row.setSize"
@@ -95,7 +114,12 @@ let nextUid = 0;
             (focus)="activeKey.set(row.node.key)"
           >
             @for (col of columns(); track col.field; let first = $first) {
-              <td [class.cb-treetable__first]="first">
+              <td
+                [class.cb-treetable__first]="first"
+                [class.cb-treetable__num]="isNumeric(col)"
+                [class.cb-is-negative]="isNegative(valueOf(row.node, col), col)"
+                [style.text-align]="alignOf(col)"
+              >
                 @if (first) {
                   <span
                     class="cb-treetable__indent"
@@ -117,15 +141,30 @@ let nextUid = 0;
                   }
                 }
                 @if (cellTemplate(col.field); as tpl) {
-                  <ng-container *ngTemplateOutlet="tpl; context: { $implicit: row.node.data[col.field], node: row.node, level: row.level }" />
+                  <ng-container *ngTemplateOutlet="tpl; context: { $implicit: valueOf(row.node, col), node: row.node, level: row.level }" />
                 } @else {
-                  {{ row.node.data[col.field] }}
+                  {{ display(valueOf(row.node, col), col, row.node) }}
                 }
               </td>
             }
           </tr>
         }
       </tbody>
+      @if (hasFooter() && rows().length) {
+        <tfoot>
+          <tr class="cb-treetable__foot">
+            @for (col of columns(); track col.field; let c = $index) {
+              @if (col.footer || (c === labelColumn() && !hasFooterText())) {
+                <th scope="row" [style.text-align]="alignOf(col)">{{ col.footer || t().tableTotal }}</th>
+              } @else {
+                <td [class.cb-treetable__num]="isNumeric(col)" [class.cb-is-negative]="isNegative(totals()[col.field], col)" [style.text-align]="alignOf(col)">
+                  {{ summaryText(totals()[col.field], col) }}
+                </td>
+              }
+            }
+          </tr>
+        </tfoot>
+      }
     </table>
   `,
   styleUrl: './treetable.component.css',
@@ -142,6 +181,15 @@ export class CbTreeTable {
   readonly columns = input<readonly CbTreeTableColumn[]>([]);
   /** Nombre accesible de la tabla. */
   readonly ariaLabel = input<string>('');
+  /**
+   * Las filas padre muestran, en las columnas con `summary`, el total de sus
+   * descendientes (p. ej. el saldo de una cuenta mayor a partir de sus auxiliares).
+   */
+  readonly rollup = input<boolean, unknown>(false, { transform: (v: unknown) => v !== false && v != null && `${v}` !== 'false' });
+  /** Moneda de las columnas `currency` (si no, la de `provideCaribeNG({ currency })`). */
+  readonly currency = input<string | undefined>(undefined);
+  /** Negativos con signo o entre paréntesis (si no, el de `provideCaribeNG({ negativeStyle })`). */
+  readonly negativeStyle = input<CbNegativeStyle | undefined>(undefined);
 
   /** Se emite al expandir una fila. */
   readonly nodeExpand = output<CbTreeTableNode>();
@@ -164,6 +212,31 @@ export class CbTreeTable {
     walk(this.value(), 1, null);
     return out;
   });
+
+  private readonly config = inject(CB_CONFIG);
+  protected readonly hasFooterText = computed(() => this.columns().some((c) => c.footer));
+  protected readonly hasFooter = computed(() => this.hasFooterText() || this.columns().some((c) => c.summary));
+  /** Columna de la etiqueta "Total": la primera sin total. */
+  protected readonly labelColumn = computed(() => Math.max(0, this.columns().findIndex((c) => !c.summary)));
+
+  /** Totales de cada nodo con hijos (sobre sus hojas), por columna con `summary`. */
+  private readonly aggregates = computed(() => {
+    const cols = this.columns().filter((c) => c.summary);
+    const out = new Map<string, Record<string, unknown>>();
+    if (!cols.length) return out;
+    const leavesOf = (node: CbTreeTableNode): Record<string, unknown>[] => {
+      if (!node.children?.length) return [node.data];
+      const leaves = node.children.flatMap(leavesOf);
+      out.set(node.key, this.summarize(cols, leaves));
+      return leaves;
+    };
+    const all = this.value().flatMap(leavesOf);
+    out.set('', this.summarize(cols, all));
+    return out;
+  });
+
+  /** Totales del pie (sobre todas las hojas). */
+  protected readonly totals = computed(() => this.aggregates().get('') ?? {});
 
   /** Expande todas las filas. */
   expandAll(): void {
@@ -200,6 +273,57 @@ export class CbTreeTable {
   protected label(node: CbTreeTableNode): string {
     const field = this.columns()[0]?.field;
     return field ? String(node.data[field] ?? '') : node.key;
+  }
+
+  /** Valor de una celda: el total de sus descendientes en las filas padre con `rollup`. */
+  protected valueOf(node: CbTreeTableNode, col: CbTreeTableColumn): unknown {
+    if (this.rollup() && col.summary && node.children?.length) return this.aggregates().get(node.key)?.[col.field];
+    return node.data[col.field];
+  }
+
+  protected isNumeric(col: CbTreeTableColumn): boolean {
+    return col.type === 'number' || col.type === 'currency' || col.type === 'percent';
+  }
+
+  protected alignOf(col: CbTreeTableColumn): string | null {
+    return col.align || (this.isNumeric(col) ? 'right' : null);
+  }
+
+  protected isNegative(value: unknown, col: CbTreeTableColumn): boolean {
+    const n = this.isNumeric(col) ? cbToNumber(value) : null;
+    return n !== null && n < 0;
+  }
+
+  protected display(value: unknown, col: CbTreeTableColumn, node: CbTreeTableNode | null): unknown {
+    if (col.format) return col.format(value, node);
+    return this.isNumeric(col) ? this.formatNumber(value, col) : value;
+  }
+
+  protected summaryText(value: unknown, col: CbTreeTableColumn): string {
+    if (value === undefined || value === null) return '';
+    if (col.summary === 'count') return cbFormatAmount(value, this.config.numberLocale ?? this.t().intlLocale, { decimals: 0 });
+    return String(this.display(value, col, null) ?? '');
+  }
+
+  private summarize(cols: readonly CbTreeTableColumn[], leaves: readonly Record<string, unknown>[]): Record<string, unknown> {
+    const out: Record<string, unknown> = {};
+    for (const col of cols) {
+      out[col.field] = typeof col.summary === 'function' ? col.summary(leaves) : cbSummarize(leaves.map((d) => d[col.field]), col.summary!);
+    }
+    return out;
+  }
+
+  private formatNumber(value: unknown, col: CbTreeTableColumn): string {
+    const locale = this.config.numberLocale ?? this.t().intlLocale;
+    const negative = col.negative ?? this.negativeStyle() ?? this.config.negativeStyle ?? 'minus';
+    if (col.type === 'percent') {
+      const n = cbToNumber(value);
+      if (n === null) return value == null ? '' : String(value);
+      const text = new Intl.NumberFormat(locale, { style: 'percent', minimumFractionDigits: col.decimals ?? 0, maximumFractionDigits: col.decimals ?? 2 }).format(Math.abs(n));
+      return n < 0 ? (negative === 'parens' ? `(${text})` : `-${text}`) : text;
+    }
+    const currency = col.type === 'currency' ? (col.currency ?? this.currency() ?? this.config.currency ?? null) : null;
+    return cbFormatAmount(value, locale, { currency, decimals: col.decimals, negative });
   }
 
   protected cellTemplate(field: string): TemplateRef<CbTreeTableCellContext> | null {

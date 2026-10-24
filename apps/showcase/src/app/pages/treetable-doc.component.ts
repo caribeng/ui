@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { CbButton } from '@caribeng/ui/button';
 import { CbTag } from '@caribeng/ui/tag';
 import { CbTreeTable, CbTreeTableCellTemplate, type CbTreeTableColumn, type CbTreeTableNode } from '@caribeng/ui/treetable';
 import { DocPlaygroundComponent } from '../components/doc-playground.component';
@@ -17,6 +18,7 @@ import { TocService } from '../services/toc.service';
     CbTreeTable,
     CbTreeTableCellTemplate,
     CbTag,
+    CbButton,
     DocPlaygroundComponent,
     DocA11yComponent,
     DocSectionComponent,
@@ -60,6 +62,21 @@ import { TocService } from '../services/toc.service';
       </div>
     </doc-section>
 
+    <doc-section
+      id="balances"
+      title="Saldos por cuenta (rollup)"
+      description="Con rollup, las filas padre muestran en las columnas con summary el total de sus descendientes: el saldo de cada cuenta mayor sale de sus auxiliares. type: 'currency' formatea los importes, los negativos van en rojo y el pie suma todas las hojas. expandAll() y collapseAll() abren y cierran todo."
+      [code]="balancesCode"
+    >
+      <div style="display: grid; gap: 0.75rem; width: 100%">
+        <div style="display: flex; gap: 0.5rem">
+          <cb-button size="sm" variant="outlined" (click)="puc.expandAll()">Expandir todo</cb-button>
+          <cb-button size="sm" variant="text" (click)="puc.collapseAll()">Contraer todo</cb-button>
+        </div>
+        <cb-treetable #puc [value]="cuentas" [columns]="cuentaCols" rollup ariaLabel="Balance de prueba" />
+      </div>
+    </doc-section>
+
     <doc-a11y [data]="a11y" />
 
     <doc-playground [api]="docApi" />
@@ -93,6 +110,46 @@ export class TreetableDocComponent {
     },
     { key: 'readme', data: { name: 'README.md', size: '4 KB', type: 'Markdown' } },
   ];
+
+  protected readonly cuentaCols: CbTreeTableColumn[] = [
+    { field: 'cuenta', header: 'Cuenta' },
+    { field: 'anterior', header: 'Saldo anterior', type: 'currency', summary: 'sum' },
+    { field: 'debito', header: 'Débitos', type: 'currency', summary: 'sum' },
+    { field: 'credito', header: 'Créditos', type: 'currency', summary: 'sum' },
+    { field: 'saldo', header: 'Nuevo saldo', type: 'currency', summary: 'sum', negative: 'parens' },
+  ];
+
+  protected readonly cuentas: CbTreeTableNode[] = [
+    {
+      key: '1',
+      data: { cuenta: '1 Activo' },
+      children: [
+        {
+          key: '11',
+          data: { cuenta: '11 Disponible' },
+          children: [
+            { key: '1105', data: { cuenta: '1105 Caja', anterior: 1200000, debito: 2450000, credito: 2000000, saldo: 1650000 } },
+            { key: '1110', data: { cuenta: '1110 Bancos', anterior: 18500000, debito: 2000000, credito: 1268900, saldo: 19231100 } },
+          ],
+        },
+        { key: '13', data: { cuenta: '13 Deudores' }, children: [{ key: '1305', data: { cuenta: '1305 Clientes', anterior: 7300000, debito: 4100000, credito: 3900000, saldo: 7500000 } }] },
+      ],
+    },
+    {
+      key: '2',
+      data: { cuenta: '2 Pasivo' },
+      children: [
+        { key: '2205', data: { cuenta: '2205 Proveedores', anterior: -9400000, debito: 1250000, credito: 3100000, saldo: -11250000 } },
+        { key: '2408', data: { cuenta: '2408 IVA por pagar', anterior: -2100000, debito: 0, credito: 780000, saldo: -2880000 } },
+      ],
+    },
+  ];
+
+  protected readonly balancesCode = `<div style="display: flex; gap: 0.5rem">
+  <cb-button size="sm" variant="outlined" (click)="puc.expandAll()">Expandir todo</cb-button>
+  <cb-button size="sm" variant="text" (click)="puc.collapseAll()">Contraer todo</cb-button>
+</div>
+<cb-treetable #puc [value]="cuentas" [columns]="cuentaCols" rollup ariaLabel="Balance de prueba" />`;
 
   protected readonly importCode = `import { CbTreeTable, CbTreeTableCellTemplate } from '@caribeng/ui/treetable';`;
 

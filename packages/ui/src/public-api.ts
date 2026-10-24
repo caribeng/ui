@@ -25,6 +25,15 @@ export { type CbSize, type CbSeverity } from './lib/types';
 export { cbFieldState, type CbFieldIndicator, type CbFieldState } from './lib/field-state';
 export { cbOverlayFocus, type CbOverlayFocusOptions } from './lib/overlay-focus';
 export { cbRelativeTime } from './lib/relative-time';
+export {
+  cbFormatAmount,
+  cbSummarize,
+  cbToNumber,
+  injectCbAmount,
+  type CbAmountOptions,
+  type CbNegativeStyle,
+  type CbSummary,
+} from './lib/amount';
 export { CB_BREAKPOINTS, CbBreakpoints, type CbBreakpoint } from './lib/breakpoints';
 export {
   CB_LOCALE_EN,

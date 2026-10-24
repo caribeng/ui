@@ -130,6 +130,18 @@ export interface CaribeNgConfig {
   locale?: CbLocaleCode | CbTranslation;
   /** Textos sueltos que sobrescriben los del idioma, p. ej. `{ close: 'Salir' }`. */
   translation?: Partial<CbTranslation>;
+  /**
+   * Moneda por defecto de los importes (código ISO 4217: `COP`, `USD`…) en tablas,
+   * Data Grid e `injectCbAmount()`. Sin ella, los importes se escriben sin símbolo.
+   */
+  currency?: string;
+  /** Negativos con signo (`-1.234`, por defecto) o entre paréntesis (`(1.234)`, estilo contable). */
+  negativeStyle?: 'minus' | 'parens';
+  /**
+   * Idioma y país (BCP 47) con el que se escriben los importes: `es-CO` da
+   * `$ 1.234,50`. Si se omite, el del idioma de la interfaz (`es`, `en`).
+   */
+  numberLocale?: string;
 }
 
 /**

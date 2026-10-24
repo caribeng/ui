@@ -1,6 +1,7 @@
 import { Component, signal, viewChild } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { afterEach, describe, expect, it } from 'vitest';
+import { provideCaribeNG } from '@caribeng/ui';
 import { CbDataGrid } from './datagrid.component';
 import { fromTsv, parseCell, toTsv, validateCell, type CbDataGridCellChange, type CbDataGridColumn, type ValidationTexts } from './datagrid-model';
 
@@ -251,5 +252,40 @@ describe('CbDataGrid', () => {
     expect(host.rows()).toBe(ROWS);
     expect(el.querySelector('.cb-dg__btn')).toBeNull();
     expect(await clipboard('copy')).toBe('Silla');
+  });
+});
+
+@Component({
+  imports: [CbDataGrid],
+  template: `<cb-data-grid [(rows)]="rows" [columns]="columns" currency="COP" negativeStyle="parens" />`,
+})
+class TotalsHostComponent {
+  rows = signal<readonly { id: number; cuenta: string; debito: number | null; credito: number | null }[]>([
+    { id: 1, cuenta: '1105', debito: 150000, credito: null },
+    { id: 2, cuenta: '4135', debito: null, credito: 150000.5 },
+    { id: 3, cuenta: '5195', debito: -20, credito: null },
+  ]);
+  columns: CbDataGridColumn<{ id: number; cuenta: string; debito: number | null; credito: number | null }>[] = [
+    { field: 'cuenta', header: 'Cuenta' },
+    { field: 'debito', header: 'Débito', type: 'number', currency: true, summary: 'sum' },
+    { field: 'credito', header: 'Crédito', type: 'number', currency: true, summary: 'sum' },
+  ];
+}
+
+describe('CbDataGrid: importes y totales', () => {
+  it('formatea la moneda, marca negativos y suma en el pie (y recalcula al editar)', async () => {
+    TestBed.configureTestingModule({ providers: [provideCaribeNG({ numberLocale: 'es-CO' })] });
+    const fixture = TestBed.createComponent(TotalsHostComponent);
+    fixture.detectChanges();
+    await fixture.whenStable();
+    const el = fixture.nativeElement as HTMLElement;
+    const text = (nodes: Iterable<Element>) => Array.from(nodes).map((n) => n.textContent!.replace(/\s+/g, ' ').trim());
+    const cell = el.querySelectorAll('tbody tr')[2].querySelectorAll('td')[1];
+    expect(cell.textContent!.trim().replace(/\s/g, ' ')).toBe('($ 20,00)');
+    expect(cell.classList).toContain('cb-dg__cell--negative');
+    expect(text(el.querySelector('tfoot tr')!.children)).toEqual(['', 'Total', '$ 149.980,00', '$ 150.000,50']);
+    fixture.componentInstance.rows.update((rows) => rows.map((r) => (r.id === 3 ? { ...r, debito: 20 } : r)));
+    fixture.detectChanges();
+    expect(text(el.querySelector('tfoot tr')!.children)[2]).toBe('$ 150.020,00');
   });
 });

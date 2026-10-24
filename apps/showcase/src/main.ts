@@ -16,6 +16,6 @@ bootstrapApplication(AppComponent, {
         anchorScrolling: 'enabled',
       }),
     ),
-    provideCaribeNG({ theme: 'light', persistTheme: true }),
+    provideCaribeNG({ theme: 'light', persistTheme: true, currency: 'COP', numberLocale: 'es-CO' }),
   ],
 }).catch((err) => console.error(err));

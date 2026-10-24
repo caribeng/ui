@@ -15,7 +15,7 @@ import {
   signal,
   untracked,
 } from '@angular/core';
-import { cbFormat, injectCbTranslation } from '@caribeng/ui';
+import { CB_CONFIG, cbFormat, cbSummarize, injectCbTranslation, type CbNegativeStyle } from '@caribeng/ui';
 import { CbIcon } from '@caribeng/ui/icon';
 import {
   cellText,
@@ -202,6 +202,7 @@ let nextKey = 0;
                   [class.cb-dg__cell--dirty]="isDirty(row, col)"
                   [class.cb-dg__cell--invalid]="!!errorOf(row, col)"
                   [class.cb-dg__cell--editing]="editing()?.r === r && editing()?.c === c"
+                  [class.cb-dg__cell--negative]="isNegative(get(row, col.field), col)"
                   [attr.tabindex]="active().r === r && active().c === c ? 0 : -1"
                   [attr.aria-selected]="isSelected(r, c)"
                   [attr.aria-readonly]="!canEdit(col) || null"
@@ -267,6 +268,22 @@ let nextKey = 0;
             </tr>
           }
         </tbody>
+        @if (hasFooter() && view().length) {
+          <tfoot>
+            <tr class="cb-dg__foot">
+              @if (rowNumbers()) {
+                <td class="cb-dg__num cb-dg__num--foot"></td>
+              }
+              @for (col of columns(); track col.field; let c = $index) {
+                @if (col.footer || (c === labelColumn() && !hasFooterText())) {
+                  <th scope="row" class="cb-dg__total" [class]="'cb-dg__align--' + alignOf(col)">{{ col.footer || t().tableTotal }}</th>
+                } @else {
+                  <td class="cb-dg__total" [class]="'cb-dg__align--' + alignOf(col)" [class.cb-dg__cell--negative]="isNegative(totals()[col.field], col)">{{ totalText(col) }}</td>
+                }
+              }
+            </tr>
+          </tfoot>
+        }
       </table>
     </div>
     <p class="cb-dg__sr" [id]="uid + '-help'">{{ editable() ? t().dataGridInstructions : t().dataGridReadonlyInstructions }}</p>
@@ -299,6 +316,10 @@ export class CbDataGrid<T extends object = CbDataGridRow> {
   readonly newRow = input<(() => T) | null>(null);
   readonly emptyMessage = input<string | undefined>(undefined);
   readonly ariaLabel = input<string | undefined>(undefined);
+  /** Moneda de las columnas con `currency: true` (si no, la de `provideCaribeNG({ currency })`). */
+  readonly currency = input<string | undefined>(undefined);
+  /** Negativos con signo o entre paréntesis (si no, el de `provideCaribeNG({ negativeStyle })`). */
+  readonly negativeStyle = input<CbNegativeStyle | undefined>(undefined);
 
   /** Una celda cambió de valor (al editar, pegar, borrar o rellenar; una vez por celda). */
   readonly cellChange = output<CbDataGridCellChange<T>>();
@@ -370,6 +391,23 @@ export class CbDataGrid<T extends object = CbDataGridRow> {
     let n = 0;
     for (const row of this.rows()) for (const col of this.columns()) if (this.isDirty(row, col)) n++;
     return n;
+  });
+
+  private readonly config = inject(CB_CONFIG);
+  private readonly amount = computed(() => ({ currency: this.currency() ?? this.config.currency ?? null, negative: this.negativeStyle() ?? this.config.negativeStyle ?? 'minus', locale: this.config.numberLocale }) as const);
+  protected readonly hasFooterText = computed(() => this.columns().some((c) => c.footer));
+  protected readonly hasFooter = computed(() => this.hasFooterText() || this.columns().some((c) => c.summary));
+  /** Columna de la etiqueta "Total": la primera sin total. */
+  protected readonly labelColumn = computed(() => Math.max(0, this.columns().findIndex((c) => !c.summary)));
+  /** Totales del pie (columnas con `summary`), sobre todas las filas. */
+  readonly totals = computed<Record<string, unknown>>(() => {
+    const rows = this.rows();
+    const out: Record<string, unknown> = {};
+    for (const col of this.columns()) {
+      if (!col.summary) continue;
+      out[col.field] = typeof col.summary === 'function' ? col.summary(rows) : cbSummarize(rows.map((r) => this.get(r, col.field)), col.summary);
+    }
+    return out;
   });
 
   protected readonly tableWidth = computed(() => `calc(${[this.rowNumbers() ? '3rem' : '0rem', ...this.columns().map((c) => this.widthOf(c))].join(' + ')})`);
@@ -504,7 +542,19 @@ export class CbDataGrid<T extends object = CbDataGridRow> {
 
   protected text(row: T, col: CbDataGridColumn<T>): string {
     const t = this.t();
-    return cellText(col as CbDataGridColumn<object>, this.get(row, col.field), row, t.intlLocale, [t.yes, t.no]);
+    return cellText(col as CbDataGridColumn<object>, this.get(row, col.field), row, t.intlLocale, [t.yes, t.no], this.amount());
+  }
+
+  protected isNegative(value: unknown, col: CbDataGridColumn<T>): boolean {
+    return col.type === 'number' && typeof value === 'number' && value < 0;
+  }
+
+  protected totalText(col: CbDataGridColumn<T>): string {
+    const value = this.totals()[col.field];
+    if (value === undefined || value === null) return '';
+    if (col.summary === 'count' || typeof value !== 'number') return typeof value === 'number' ? new Intl.NumberFormat(this.config.numberLocale ?? this.t().intlLocale).format(value) : String(value);
+    const t = this.t();
+    return cellText({ ...(col as CbDataGridColumn<object>), type: 'number', format: undefined }, value, {}, t.intlLocale, [t.yes, t.no], this.amount());
   }
 
   protected errorOf(row: T, col: CbDataGridColumn<T>): string | null {

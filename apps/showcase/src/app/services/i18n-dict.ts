@@ -3809,4 +3809,37 @@ export const ES_EN: Record<string, string> = {
   'Validación y orden automático': 'Validation and automatic layout',
   'cbValidateFlow(flow) devuelve los problemas (falta inicio o fin, nodos sin salida o inalcanzables, decisiones con una sola salida o sin etiquetas) y cbLayoutFlow(flow) coloca los nodos por niveles. Este flujo llega sin posiciones y se ordena al cargarlo; el botón Ordenar de la barra hace lo mismo.':
     'cbValidateFlow(flow) returns the issues (missing start or end, nodes without exit or unreachable, decisions with a single exit or without labels) and cbLayoutFlow(flow) places the nodes in levels. This flow arrives without positions and is arranged on load; the Arrange button in the toolbar does the same.',
+  // --- Totales e importes ---
+  'Importes, totales y subtotales':
+    'Amounts, totals and subtotals',
+  'type: \'currency\' formatea con la moneda de la tabla o de provideCaribeNG({ currency, numberLocale }), alinea a la derecha y pone los negativos en rojo (negative: \'parens\' los escribe entre paréntesis). summary (\'sum\', \'avg\', \'count\', \'min\', \'max\' o una función) suma la columna en el pie con todas las filas filtradas, no solo la página; con groupRowsBy y groupSubtotals cada grupo cierra con su subtotal.':
+    'type: \'currency\' formats with the currency of the table or of provideCaribeNG({ currency, numberLocale }), aligns right and shows negatives in red (negative: \'parens\' writes them in parentheses). summary (\'sum\', \'avg\', \'count\', \'min\', \'max\' or a function) totals the column in the footer with all filtered rows, not just the page; with groupRowsBy and groupSubtotals each group ends with its subtotal.',
+  'Saldos por cuenta (rollup)':
+    'Balances by account (rollup)',
+  'Con rollup, las filas padre muestran en las columnas con summary el total de sus descendientes: el saldo de cada cuenta mayor sale de sus auxiliares. type: \'currency\' formatea los importes, los negativos van en rojo y el pie suma todas las hojas. expandAll() y collapseAll() abren y cierran todo.':
+    'With rollup, parent rows show in the columns with summary the total of their descendants: the balance of each control account comes from its sub-accounts. type: \'currency\' formats the amounts, negatives are red and the footer totals all leaves. expandAll() and collapseAll() open and close everything.',
+  'Comprobante con totales':
+    'Voucher with totals',
+  'currency: true escribe los importes con la moneda del grid o de provideCaribeNG({ currency, numberLocale }); summary suma la columna en el pie, que queda fijo abajo y se recalcula con cada edición o pegado. Con los totales se comprueba que el comprobante cuadra: aquí falta un crédito.':
+    'currency: true writes the amounts with the currency of the grid or of provideCaribeNG({ currency, numberLocale }); summary totals the column in the footer, which stays fixed at the bottom and is recalculated with every edit or paste. The totals check that the voucher balances: here a credit is missing.',
+  'Expandir todo':
+    'Expand all',
+  'Contraer todo':
+    'Collapse all',
+  'El comprobante cuadra.':
+    'The voucher balances.',
+  'Con groupRowsBy, subtotal de las columnas con summary al final de cada grupo.':
+    'With groupRowsBy, subtotal of the columns with summary at the end of each group.',
+  'Moneda de las columnas type: \'currency\' (si no, la de provideCaribeNG).':
+    'Currency of the type: \'currency\' columns (otherwise, the provideCaribeNG one).',
+  'Negativos con signo o entre paréntesis.':
+    'Negatives with a sign or in parentheses.',
+  'Columnas (field, header, type, currency, decimals, negative, align, width, format, summary, footer).':
+    'Columns (field, header, type, currency, decimals, negative, align, width, format, summary, footer).',
+  'Las filas padre muestran el total de sus descendientes en las columnas con summary.':
+    'Parent rows show the total of their descendants in the columns with summary.',
+  'Nombre de la tabla.':
+    'Name of the table.',
+  'Moneda de las columnas con currency: true (si no, la de provideCaribeNG).':
+    'Currency of the columns with currency: true (otherwise, the provideCaribeNG one).',
 };
