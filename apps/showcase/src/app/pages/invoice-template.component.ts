@@ -50,6 +50,7 @@ interface Line {
           <p>Claire Williams, Calle Hope 148<br />Palo Alto, CA 94304</p>
         </section>
 
+        <div class="inv__table-wrap" tabindex="0" role="region" aria-label="Detalle de la factura">
         <table class="inv__table">
           <thead>
             <tr>
@@ -70,6 +71,7 @@ interface Line {
             }
           </tbody>
         </table>
+        </div>
 
         <div class="inv__foot">
           <div class="inv__notes">
@@ -175,6 +177,13 @@ interface Line {
         font-size: 0.9rem;
         line-height: 1.5;
       }
+      .inv__table-wrap {
+        overflow-x: auto;
+      }
+      .inv__table-wrap:focus-visible {
+        outline: 2px solid var(--cb-color-primary);
+        outline-offset: 2px;
+      }
       .inv__table {
         width: 100%;
         border-collapse: collapse;
@@ -195,6 +204,7 @@ interface Line {
       .inv__num {
         text-align: right;
         font-variant-numeric: tabular-nums;
+        white-space: nowrap;
       }
       .inv__foot {
         display: flex;
@@ -237,9 +247,20 @@ interface Line {
       }
       .inv__actions {
         display: flex;
+        flex-wrap: wrap;
         justify-content: flex-end;
         gap: 0.6rem;
         margin-top: 2rem;
+      }
+      /* En móvil: menos relleno y los totales a todo el ancho. */
+      @media (max-width: 480px) {
+        .inv {
+          padding: 1.25rem;
+        }
+        .inv__totals {
+          flex: 1 1 100%;
+          min-width: 0;
+        }
       }
     `,
   ],

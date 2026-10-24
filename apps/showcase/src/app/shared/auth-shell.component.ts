@@ -54,6 +54,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
       .auth__panel {
         position: relative;
         flex: 1;
+        min-width: 0;
         display: flex;
         flex-direction: column;
         background: #0b1324;
@@ -140,7 +141,11 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
         justify-content: center;
       }
       .auth__panel ::ng-deep .auth-otp-box {
+        /* Las casillas se estrechan en pantallas pequeñas en lugar de salirse del panel. */
+        flex: 0 1 48px;
+        box-sizing: border-box;
         width: 48px;
+        min-width: 0;
         height: 54px;
         text-align: center;
         font-size: 1.25rem;
@@ -165,6 +170,14 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
       @media (max-width: 720px) {
         .auth__media {
           display: none;
+        }
+      }
+      @media (max-width: 480px) {
+        .auth__inner {
+          padding: 0 1.25rem;
+        }
+        .auth__panel ::ng-deep .auth-otp {
+          gap: 0.4rem;
         }
       }
     `,

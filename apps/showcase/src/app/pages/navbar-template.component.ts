@@ -115,6 +115,22 @@ import { TocService } from '../services/toc.service';
           display: none;
         }
       }
+      /* En móvil la barra se compacta: menos márgenes y sin el botón (queda el avatar). */
+      @media (max-width: 480px) {
+        .nb-demo {
+          padding: 0;
+        }
+        .nb {
+          gap: var(--cb-space-2, 0.5rem);
+          padding: 0 var(--cb-space-3, 0.75rem);
+        }
+        .nb__actions {
+          gap: var(--cb-space-3, 0.75rem);
+        }
+        .nb__actions > cb-button {
+          display: none;
+        }
+      }
     `,
   ],
 })
