@@ -4356,4 +4356,23 @@ export const ES_EN: Record<string, string> = {
     'The logo is decorative (`alt=""`): the company name is in text. The total in words and the signatures are visible text.',
   'print() imprime solo el documento en una ventana de impresión, sin cambiar la página.':
     'print() prints only the document in a print window, without changing the page.',
+  // --- Plantilla: tablero contable ---
+  'Tablero de un programa contable armado con los componentes de Contabilidad: periodo, indicadores, estado de resultados comparativo, cartera por edades, conciliación bancaria y últimos comprobantes.':
+    'Dashboard of an accounting program built with the Accounting components: period, indicators, comparative income statement, aged receivables, bank reconciliation and latest vouchers.',
+  'Tablero contable':
+    'Accounting dashboard',
+  'Resumen contable':
+    'Accounting summary',
+  'Nuevo comprobante':
+    'New voucher',
+  'Resultados':
+    'Results',
+  'Cartera':
+    'Receivables',
+  'Bancos':
+    'Banks',
+  'Comprobantes':
+    'Vouchers',
+  'Utilidad del ejercicio':
+    'Profit for the year',
 };

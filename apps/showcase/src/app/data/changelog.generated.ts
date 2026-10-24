@@ -11,6 +11,10 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
         "type": "added",
         "items": [
           {
+            "component": "Showcase",
+            "text": "nueva plantilla «Tablero contable» (`/templates/accounting`). Combina selector de periodo, indicadores, estado de resultados comparativo, cartera por edades, conciliación bancaria y los últimos comprobantes; cada comprobante se abre en un panel lateral y los nuevos se crean con el editor de comprobante."
+          },
+          {
             "component": "Componente nuevo: `Amount`",
             "text": "(`@caribeng/ui/amount`): importe con su moneda, negativos en rojo (con signo o entre paréntesis), código ISO, tamaños, equivalente en otra moneda con la tasa (`convert`, p. ej. la TRM) e importe en letras (`words`). Incluye `cbAmountInWords()` en español e inglés para pesos, dólares, euros y otras monedas, en estilo cheque («UN MILLÓN DE PESOS CON 50/100 M/CTE») o texto. 184 entry points."
           },

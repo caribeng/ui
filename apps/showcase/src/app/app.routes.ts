@@ -359,6 +359,7 @@ export const routes: Routes = [
   { path: 'templates/reset-password', loadComponent: () => import('./pages/reset-password-template.component').then((m) => m.ResetPasswordTemplateComponent), title: 'Reset Password · Templates · CaribeNG' },
   { path: 'templates/two-factor', loadComponent: () => import('./pages/two-factor-template.component').then((m) => m.TwoFactorTemplateComponent), title: 'Two-Factor · Templates · CaribeNG' },
   { path: 'templates/invoice', loadComponent: () => import('./pages/invoice-template.component').then((m) => m.InvoiceTemplateComponent), title: 'Invoice · Templates · CaribeNG' },
+  { path: 'templates/accounting', loadComponent: () => import('./pages/accounting-template.component').then((m) => m.AccountingTemplateComponent), title: 'Tablero contable · Templates · CaribeNG' },
   { path: 'templates/file-manager', loadComponent: () => import('./pages/file-manager-template.component').then((m) => m.FileManagerTemplateComponent), title: 'File Manager · Templates · CaribeNG' },
   { path: 'templates/pricing', loadComponent: () => import('./pages/pricing-template.component').then((m) => m.PricingTemplateComponent), title: 'Pricing · Templates · CaribeNG' },
   { path: 'components/pricing', loadComponent: () => import('./pages/pricing-doc.component').then((m) => m.PricingDocComponent), title: 'Pricing · CaribeNG' },

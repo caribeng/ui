@@ -330,6 +330,7 @@ export const NAV_MENU: NavItem[] = [
       { label: 'Error Pages', route: '/templates/error' },
       { label: 'Invoice', route: '/templates/invoice' },
       { label: 'Dashboard', route: '/templates/dashboard' },
+      { label: 'Tablero contable', route: '/templates/accounting', badge: 'NEW' },
       { label: 'Navbar', route: '/templates/navbar' },
       { label: 'File Manager', route: '/templates/file-manager' },
       { label: 'Pricing', route: '/templates/pricing' },
