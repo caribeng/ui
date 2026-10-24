@@ -636,6 +636,7 @@ export interface CbTranslation {
   tableTotal: string;
   /** `{0}`: grupo. */
   tableSubtotal: string;
+  tableScrollRegion: string;
   accountPickerPlaceholder: string;
   /** `{0}`: cantidad. */
   accountPickerResults: string;
@@ -1729,6 +1730,7 @@ export const CB_LOCALE_ES: CbTranslation = {
   dynamicFormSummary: 'Revisa {0} campos:',
   tableTotal: 'Total',
   tableSubtotal: 'Subtotal {0}',
+  tableScrollRegion: 'Tabla con desplazamiento',
   accountPickerPlaceholder: 'Buscar cuenta por código o nombre',
   accountPickerResults: '{0} cuentas',
   journalHeader: 'Datos del comprobante',
@@ -2738,6 +2740,7 @@ export const CB_LOCALE_EN: CbTranslation = {
   dynamicFormSummary: 'Check {0} fields:',
   tableTotal: 'Total',
   tableSubtotal: 'Subtotal {0}',
+  tableScrollRegion: 'Scrollable table',
   accountPickerPlaceholder: 'Search account by code or name',
   accountPickerResults: '{0} accounts',
   journalHeader: 'Voucher details',

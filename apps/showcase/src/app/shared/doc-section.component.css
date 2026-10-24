@@ -126,6 +126,6 @@
 }
 
 .doc-card__tab--active {
-  color: var(--cb-color-primary-500);
+  color: var(--cb-color-primary-text, var(--cb-color-primary-700));
   background: color-mix(in srgb, var(--cb-color-primary-500) 12%, transparent);
 }

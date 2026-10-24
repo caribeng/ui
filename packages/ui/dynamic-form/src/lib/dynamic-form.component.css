@@ -35,7 +35,7 @@
   align-items: center;
   gap: 0.5rem;
   margin: 0 0 0.4rem;
-  color: var(--cb-color-danger-600, #dc2626);
+  color: var(--cb-color-danger-text, #dc2626);
   font-weight: var(--cb-font-weight-semibold, 600);
 }
 
@@ -48,7 +48,7 @@
 }
 
 .cb-df__summary-list a {
-  color: var(--cb-color-danger-600, #dc2626);
+  color: var(--cb-color-danger-text, #dc2626);
   text-decoration: underline;
   text-underline-offset: 2px;
 }
@@ -120,7 +120,7 @@
 }
 
 .cb-df__message--error {
-  color: var(--cb-color-danger-600, #dc2626);
+  color: var(--cb-color-danger-text, #dc2626);
 }
 
 /* Casilla e interruptor (sin etiqueta encima): alineados con los campos de su fila. */

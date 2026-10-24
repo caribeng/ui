@@ -223,3 +223,15 @@
     order: -1;
   }
 }
+
+/* Móvil: menos relleno y fuera lo prescindible, para que la barra no desborde. */
+@media (max-width: 520px) {
+  .topbar {
+    gap: var(--cb-space-2);
+    padding: 0 var(--cb-space-3);
+  }
+  .topbar__version-wrap,
+  .topbar__actions a.topbar__icon-btn {
+    display: none;
+  }
+}

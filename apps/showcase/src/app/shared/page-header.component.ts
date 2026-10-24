@@ -26,7 +26,7 @@ import { I18nService } from '../services/i18n.service';
         letter-spacing: 0.08em;
         font-size: var(--cb-text-xs);
         font-weight: var(--cb-font-weight-bold);
-        color: var(--cb-color-primary-600);
+        color: var(--cb-color-primary-text, var(--cb-color-primary-700));
         margin: 0 0 var(--cb-space-2);
       }
       :host-context([data-theme='dark']) .page-head__eyebrow {

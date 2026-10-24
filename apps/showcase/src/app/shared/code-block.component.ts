@@ -12,6 +12,8 @@ import { HighlightService, type CodeLang } from './highlight.service';
 /** Bloque de código resaltado con botón de copiar. */
 @Component({
   selector: 'doc-code-block',
+  // `lang` es el lenguaje del código, no el idioma: se quita el atributo HTML del host.
+  host: { '[attr.lang]': 'null' },
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CbIcon],
   template: `
@@ -26,7 +28,7 @@ import { HighlightService, type CodeLang } from './highlight.service';
         <cb-icon [name]="copied() ? 'check' : 'copy'" [size]="14" aria-hidden="true" />
         {{ copied() ? 'Copiado' : 'Copiar' }}
       </button>
-      <pre class="doc-code__pre"><code
+      <pre class="doc-code__pre" tabindex="0" aria-label="Código"><code
         class="doc-code__code"
         [class]="'language-' + lang()"
         [innerHTML]="highlighted()"

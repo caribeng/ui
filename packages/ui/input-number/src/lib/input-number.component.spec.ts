@@ -88,4 +88,30 @@ describe('CbInputNumber', () => {
     up.click();
     expect(fixture.componentInstance.decimal.value).toBe(5);
   });
+
+  it('al enfocar muestra el valor crudo ya seleccionado (escribir lo reemplaza) y usa 2 decimales en moneda', () => {
+    const fixture = TestBed.createComponent(CopHostComponent);
+    fixture.detectChanges();
+    const input = (fixture.nativeElement as HTMLElement).querySelector('input')!;
+    expect(input.value.replace(/\s/g, ' ')).toBe('$ 1.250.000,50');
+    input.focus();
+    input.dispatchEvent(new FocusEvent('focus'));
+    expect(input.value).toBe('1250000,5');
+    expect([input.selectionStart, input.selectionEnd]).toEqual([0, input.value.length]);
+    input.value = '2000000';
+    input.dispatchEvent(new Event('input'));
+    input.dispatchEvent(new Event('blur'));
+    fixture.detectChanges();
+    expect(fixture.componentInstance.valor).toBe(2000000);
+    expect(input.value.replace(/\s/g, ' ')).toBe('$ 2.000.000,00');
+  });
 });
+
+@Component({
+  imports: [CbInputNumber],
+  template: `<cb-input-number [(value)]="valor" mode="currency" currency="COP" locale="es-CO" />`,
+})
+class CopHostComponent {
+  valor: number | null = 1250000.5;
+}
+

@@ -1,6 +1,8 @@
 :host {
   display: block;
   min-width: 0;
+  /* En pantallas estrechas, el documento se desplaza dentro de su recuadro. */
+  overflow-x: auto;
 }
 
 .cb-doc {
@@ -232,6 +234,13 @@
   color: #6b7280;
   font-size: 0.7rem;
   text-align: center;
+}
+
+@media (max-width: 40rem) {
+  .cb-doc {
+    min-width: 30rem;
+    padding: 1.25rem 1rem;
+  }
 }
 
 @media print {

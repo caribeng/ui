@@ -172,7 +172,7 @@ th[aria-sort='descending'] .cb-ag__sort::after {
 }
 
 .cb-ag__late {
-  color: var(--cb-color-danger-600, #dc2626);
+  color: var(--cb-color-danger-text, #dc2626);
 }
 
 .cb-ag__strong {
@@ -205,7 +205,7 @@ th[aria-sort='descending'] .cb-ag__sort::after {
   padding: 0;
   border: 0;
   background: none;
-  color: var(--cb-color-primary-700, var(--cb-color-primary-500));
+  color: var(--cb-color-primary-text, var(--cb-color-primary-700));
   font: inherit;
   text-decoration: underline;
   text-underline-offset: 2px;

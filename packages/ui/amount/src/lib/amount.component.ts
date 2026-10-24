@@ -60,7 +60,7 @@ export interface CbAmountConversion {
         justify-content: start;
       }
       :host(.cb-amount--negative) .cb-amount__value {
-        color: var(--cb-color-danger-600, #dc2626);
+        color: var(--cb-color-danger-text, #dc2626);
       }
       :host(.cb-amount--sm) {
         font-size: var(--cb-text-sm, 0.875rem);

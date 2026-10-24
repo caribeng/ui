@@ -49,7 +49,7 @@
 
 .cb-iw__step.cb-is-done .cb-iw__step-num {
   border-color: var(--cb-color-success-500, #10b981);
-  color: var(--cb-color-success-600, #059669);
+  color: var(--cb-color-success-text, #059669);
 }
 
 .cb-iw__panel {
@@ -117,7 +117,7 @@
 
 .cb-iw__paste summary {
   cursor: pointer;
-  color: var(--cb-color-primary-700, var(--cb-color-primary-500));
+  color: var(--cb-color-primary-text, var(--cb-color-primary-700));
 }
 
 .cb-iw__textarea {
@@ -150,7 +150,7 @@
 
 .cb-iw__error {
   margin: 0;
-  color: var(--cb-color-danger-600, #dc2626);
+  color: var(--cb-color-danger-text, #dc2626);
 }
 
 .cb-iw__sample-wrap {
@@ -220,12 +220,12 @@
 
 .cb-iw__badge--ok {
   background: color-mix(in srgb, var(--cb-color-success-500, #10b981) 12%, transparent);
-  color: var(--cb-color-success-700, #047857);
+  color: var(--cb-color-success-text, #047857);
 }
 
 .cb-iw__badge--bad {
   background: color-mix(in srgb, var(--cb-color-danger-500, #ef4444) 10%, transparent);
-  color: var(--cb-color-danger-700, #b91c1c);
+  color: var(--cb-color-danger-text, #b91c1c);
 }
 
 .cb-iw__actions {

@@ -102,7 +102,7 @@ const formatoMoneda = new Intl.NumberFormat('es-CO', { style: 'currency', curren
     >
       <div style="display: grid; gap: 0.5rem; width: 100%">
         <cb-data-grid [(rows)]="lineasComprobante" [columns]="columnasComprobante" ariaLabel="Comprobante de egreso" scrollHeight="18rem" />
-        <p class="dg-log" [style.color]="diferencia() === 0 ? null : 'var(--cb-color-danger-600)'" role="status">{{ diferencia() === 0 ? 'El comprobante cuadra.' : 'Diferencia: ' + moneda.format(diferencia()) }}</p>
+        <p class="dg-log" [style.color]="diferencia() === 0 ? null : 'var(--cb-color-danger-text)'" role="status">{{ diferencia() === 0 ? 'El comprobante cuadra.' : 'Diferencia: ' + moneda.format(diferencia()) }}</p>
       </div>
     </doc-section>
 
@@ -237,7 +237,7 @@ export class DatagridDocComponent {
 
   protected readonly voucherCode = `<div style="display: grid; gap: 0.5rem; width: 100%">
   <cb-data-grid [(rows)]="lineasComprobante" [columns]="columnasComprobante" ariaLabel="Comprobante de egreso" scrollHeight="18rem" />
-  <p class="dg-log" [style.color]="diferencia() === 0 ? null : 'var(--cb-color-danger-600)'" role="status">{{ diferencia() === 0 ? 'El comprobante cuadra.' : 'Diferencia: ' + moneda.format(diferencia()) }}</p>
+  <p class="dg-log" [style.color]="diferencia() === 0 ? null : 'var(--cb-color-danger-text)'" role="status">{{ diferencia() === 0 ? 'El comprobante cuadra.' : 'Diferencia: ' + moneda.format(diferencia()) }}</p>
 </div>`;
 
   protected readonly importCode = `import { CbDataGrid, type CbDataGridColumn } from '@caribeng/ui/datagrid';`;

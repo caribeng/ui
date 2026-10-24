@@ -75,7 +75,7 @@ let nextUid = 0;
         [attr.aria-valuenow]="value()"
         [attr.aria-valuemin]="min()"
         [attr.aria-valuemax]="max()"
-        (focus)="onFocus()"
+        (focus)="onFocus($event)"
         (input)="onInput($event)"
         (blur)="onBlur()"
         (keydown)="onKeydown($event)"
@@ -231,10 +231,16 @@ export class CbInputNumber implements ControlValueAccessor {
   }
 
   // --- Interacción -----------------------------------------------------------
-  protected onFocus(): void {
+  protected onFocus(event: FocusEvent): void {
     this.focused.set(true);
     const v = this.value();
-    this.editing.set(v == null ? '' : this.toRawString(v));
+    const raw = v == null ? '' : this.toRawString(v);
+    this.editing.set(raw);
+    // El texto crudo se escribe ya (sin esperar al render) y queda seleccionado:
+    // así lo que se escribe reemplaza el valor y las teclas no actúan sobre el texto con formato.
+    const field = event.target as HTMLInputElement;
+    if (field.value !== raw) field.value = raw;
+    field.select();
   }
 
   protected onInput(event: Event): void {
@@ -286,12 +292,16 @@ export class CbInputNumber implements ControlValueAccessor {
     const options: Intl.NumberFormatOptions = {
       useGrouping: this.useGrouping(),
     };
+    const minF = this.minFractionDigits();
+    const maxF = this.maxFractionDigits();
     if (this.mode() === 'currency') {
       options.style = 'currency';
       options.currency = this.currency();
+      // Decimales fijos de la moneda, iguales en todos los navegadores (Chrome usa 0 para COP).
+      const digits = ZERO_DECIMALS.has(this.currency().toUpperCase()) ? 0 : 2;
+      options.minimumFractionDigits = Math.min(digits, maxF ?? digits);
+      options.maximumFractionDigits = Math.max(digits, minF ?? digits);
     }
-    const minF = this.minFractionDigits();
-    const maxF = this.maxFractionDigits();
     if (minF != null) options.minimumFractionDigits = minF;
     if (maxF != null) options.maximumFractionDigits = maxF;
     return new Intl.NumberFormat(this.locale(), options).format(n);
@@ -325,6 +335,9 @@ export class CbInputNumber implements ControlValueAccessor {
     return r;
   }
 }
+
+/** Monedas sin decimales (ISO 4217). */
+const ZERO_DECIMALS = new Set(['BIF', 'CLP', 'DJF', 'GNF', 'ISK', 'JPY', 'KMF', 'KRW', 'PYG', 'RWF', 'UGX', 'UYI', 'VND', 'VUV', 'XAF', 'XOF', 'XPF']);
 
 function toBoolean(value: unknown): boolean {
   return value !== false && value != null && `${value}` !== 'false';

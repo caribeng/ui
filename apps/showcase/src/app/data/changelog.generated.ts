@@ -172,6 +172,22 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
         "type": "fixed",
         "items": [
           {
+            "component": "`InputNumber`",
+            "text": "al entrar en el campo (con Tab o clic), el valor queda seleccionado, así que lo que se escribe lo reemplaza; antes se añadía al final y las primeras teclas actuaban sobre el texto con formato. En modo moneda usa 2 decimales en todos los navegadores (0 en monedas sin centavos): antes Chrome redondeaba los pesos a enteros."
+          },
+          {
+            "component": "Contraste y modo oscuro de los componentes contables (WCAG AA)",
+            "text": "nuevos tokens `--cb-color-primary-text`, `--cb-color-success-text`, `--cb-color-warning-text` y `--cb-color-danger-text`, oscuros en el tema claro y claros en el oscuro. Los usan los importes negativos, errores, variaciones, estados y enlaces de Table, TreeTable, Data Grid, Amount, Kpi, JournalEntry, Reconciliation, Aging, AuditLog, ImportWizard, Pivot, PeriodPicker y Dynamic Form."
+          },
+          {
+            "component": "Accesibilidad",
+            "text": "la tabla dinámica ya no pone `aria-level` en filas de una tabla normal; el área con scroll de `Table` (`scrollHeight`) es una región enfocable con nombre."
+          },
+          {
+            "component": "Móvil",
+            "text": "la conciliación pasa la descripción bajo la fecha y el importe en contenedores estrechos, y el documento imprimible se desplaza dentro de su recuadro."
+          },
+          {
             "component": "Avatar",
             "text": "en modo oscuro, `severity=\"secondary\"` (la de por defecto) pintaba las iniciales blancas sobre un fondo claro, ilegibles: la regla oscura (`:host-context(...):host(...)`) nunca se aplicaba. Ahora usa el token `--cb-color-border`, que cambia con el tema."
           },

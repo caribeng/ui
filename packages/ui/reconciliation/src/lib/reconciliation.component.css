@@ -161,7 +161,7 @@
 
 .cb-rc__desc {
   min-width: 0;
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
   line-height: 1.3;
 }
 
@@ -182,7 +182,7 @@
 }
 
 .cb-rc__amount--out {
-  color: var(--cb-color-danger-600, #dc2626);
+  color: var(--cb-color-danger-text, #dc2626);
 }
 
 .cb-rc__item--matched .cb-rc__amount--out {
@@ -190,7 +190,7 @@
 }
 
 .cb-rc__linked {
-  color: var(--cb-color-success-600, #059669);
+  color: var(--cb-color-success-text, #059669);
 }
 
 .cb-rc__create {
@@ -219,6 +219,32 @@
   padding: 1.5rem 1rem;
   color: var(--cb-color-text-muted);
   text-align: center;
+}
+
+/* Contenedor estrecho: fecha e importe arriba, descripción debajo a todo el ancho. */
+@container (max-width: 30rem) {
+  .cb-rc__label {
+    grid-template-columns: auto auto 1fr auto;
+    grid-template-areas:
+      'check date amount linked'
+      '. desc desc desc';
+    row-gap: 0.15rem;
+  }
+  .cb-rc__label > input {
+    grid-area: check;
+  }
+  .cb-rc__date {
+    grid-area: date;
+  }
+  .cb-rc__desc {
+    grid-area: desc;
+  }
+  .cb-rc__amount {
+    grid-area: amount;
+  }
+  .cb-rc__linked {
+    grid-area: linked;
+  }
 }
 
 .cb-rc__sr {

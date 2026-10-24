@@ -189,7 +189,14 @@ const MIN_COLUMN_WIDTH = 48;
   host: { class: 'cb-table-host' },
   template: `
     <ng-content select="[cbTableHeader]" />
-    <div class="cb-table__wrap" [class.cb-table__wrap--scroll]="!!scrollHeight()" [style.max-height]="scrollHeight()">
+    <div
+      class="cb-table__wrap"
+      [class.cb-table__wrap--scroll]="!!scrollHeight()"
+      [style.max-height]="scrollHeight()"
+      [attr.tabindex]="scrollHeight() ? 0 : null"
+      [attr.role]="scrollHeight() ? 'region' : null"
+      [attr.aria-label]="scrollHeight() ? ariaLabel() || t().tableScrollRegion : null"
+    >
       <table
         #table
         class="cb-table"

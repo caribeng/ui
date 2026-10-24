@@ -239,6 +239,10 @@
 .cb-table__wrap--scroll {
   overflow: auto;
 }
+.cb-table__wrap--scroll:focus-visible {
+  outline: 2px solid var(--cb-color-focus-ring);
+  outline-offset: 2px;
+}
 .cb-table--scroll thead {
   position: sticky;
   top: 0;
@@ -286,7 +290,7 @@ thead .cb-is-frozen {
   white-space: nowrap;
 }
 .cb-table .cb-is-negative {
-  color: var(--cb-color-danger-600, #dc2626);
+  color: var(--cb-color-danger-text, #dc2626);
 }
 
 /* Subtotales de grupo y pie con totales */

@@ -96,11 +96,11 @@ let nextUid = 0;
       }
       .cb-kpi__delta--good {
         background: color-mix(in srgb, var(--cb-color-success-500, #10b981) 14%, transparent);
-        color: var(--cb-color-success-700, #047857);
+        color: var(--cb-color-success-text, #047857);
       }
       .cb-kpi__delta--bad {
         background: color-mix(in srgb, var(--cb-color-danger-500, #ef4444) 12%, transparent);
-        color: var(--cb-color-danger-700, #b91c1c);
+        color: var(--cb-color-danger-text, #b91c1c);
       }
       .cb-kpi__value {
         overflow: hidden;

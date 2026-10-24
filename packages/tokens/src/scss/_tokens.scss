@@ -124,6 +124,12 @@
   --cb-color-danger-contrast: #ffffff;
   --cb-color-help: var(--cb-color-help-500);
   --cb-color-help-contrast: #ffffff;
+  // Texto de estado (importes negativos, errores, variaciones, enlaces): tonos
+  // con contraste AA sobre el fondo; en dark pasan a los tonos claros.
+  --cb-color-primary-text: var(--cb-color-primary-700);
+  --cb-color-success-text: var(--cb-color-success-800);
+  --cb-color-warning-text: var(--cb-color-warning-700);
+  --cb-color-danger-text: var(--cb-color-danger-700);
 
   // Superficie y texto
   --cb-color-bg: var(--cb-color-surface-0);
@@ -250,6 +256,10 @@
   --cb-color-primary: var(--cb-color-primary-400);
   --cb-color-primary-contrast: var(--cb-color-surface-950);
   --cb-color-focus-ring: var(--cb-color-primary-400);
+  --cb-color-primary-text: var(--cb-color-primary-400);
+  --cb-color-success-text: var(--cb-color-success-400);
+  --cb-color-warning-text: var(--cb-color-warning-400);
+  --cb-color-danger-text: var(--cb-color-danger-400);
 
   --cb-shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.4);
   --cb-shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.5), 0 2px 4px -2px rgb(0 0 0 / 0.5);

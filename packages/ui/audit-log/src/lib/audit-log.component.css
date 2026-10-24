@@ -154,7 +154,7 @@
   padding: 0;
   border: 0;
   background: none;
-  color: var(--cb-color-primary-700, var(--cb-color-primary-500));
+  color: var(--cb-color-primary-text, var(--cb-color-primary-700));
   font: inherit;
   cursor: pointer;
 }
@@ -211,14 +211,14 @@
   padding: 0 0.2rem;
   border-radius: 3px;
   background: color-mix(in srgb, var(--cb-color-danger-500, #ef4444) 12%, transparent);
-  color: var(--cb-color-danger-700, #b91c1c);
+  color: var(--cb-color-danger-text, #b91c1c);
 }
 
 .cb-al__after ins {
   padding: 0 0.2rem;
   border-radius: 3px;
   background: color-mix(in srgb, var(--cb-color-success-500, #10b981) 14%, transparent);
-  color: var(--cb-color-success-700, #047857);
+  color: var(--cb-color-success-text, #047857);
   text-decoration: none;
 }
 

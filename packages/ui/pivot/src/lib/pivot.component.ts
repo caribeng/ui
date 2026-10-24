@@ -78,7 +78,7 @@ let nextUid = 0;
         </thead>
         <tbody>
           @for (r of flat(); track r.node.key) {
-            <tr [class.cb-pv__group]="r.hasChildren" [attr.aria-level]="rows().length > 1 ? r.node.level + 1 : null">
+            <tr [class.cb-pv__group]="r.hasChildren">
               <th scope="row" [style.padding-inline-start]="'calc(0.75rem + ' + r.node.level * 1.1 + 'rem)'">
                 @if (r.hasChildren) {
                   <button type="button" class="cb-pv__toggle" [attr.aria-expanded]="!isCollapsed(r.node.key)" (click)="toggle(r.node.key)">

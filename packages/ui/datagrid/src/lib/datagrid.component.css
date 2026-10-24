@@ -69,7 +69,7 @@
 .cb-dg__errors {
   border-color: color-mix(in srgb, var(--cb-dg-invalid) 45%, transparent);
   background: color-mix(in srgb, var(--cb-dg-invalid) 8%, transparent);
-  color: var(--cb-color-danger-600, #dc2626);
+  color: var(--cb-color-danger-text, #dc2626);
 }
 
 .cb-dg__dirty {
@@ -250,7 +250,7 @@
 }
 
 .cb-dg__cell--negative {
-  color: var(--cb-color-danger-600, #dc2626);
+  color: var(--cb-color-danger-text, #dc2626);
 }
 
 /* Pie con totales: fijo abajo al hacer scroll. */

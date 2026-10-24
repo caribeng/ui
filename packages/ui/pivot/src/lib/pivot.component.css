@@ -89,7 +89,7 @@
 }
 
 .cb-pv__neg {
-  color: var(--cb-color-danger-600, #dc2626);
+  color: var(--cb-color-danger-text, #dc2626);
 }
 
 .cb-pv__toggle {
