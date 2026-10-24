@@ -68,6 +68,7 @@ import { KanbanDocComponent } from './pages/kanban-doc.component';
 import { GanttDocComponent } from './pages/gantt-doc.component';
 import { SchedulerDocComponent } from './pages/scheduler-doc.component';
 import { DatagridDocComponent } from './pages/datagrid-doc.component';
+import { DynamicFormDocComponent } from './pages/dynamic-form-doc.component';
 import { MediaPlayerDocComponent } from './pages/media-player-doc.component';
 import { MasonryDocComponent } from './pages/masonry-doc.component';
 import { InfiniteScrollDocComponent } from './pages/infinite-scroll-doc.component';
@@ -191,6 +192,7 @@ export const routes: Routes = [
   { path: 'components/gantt', component: GanttDocComponent, title: 'Gantt · CaribeNG' },
   { path: 'components/scheduler', component: SchedulerDocComponent, title: 'Scheduler · CaribeNG' },
   { path: 'components/datagrid', component: DatagridDocComponent, title: 'Data Grid · CaribeNG' },
+  { path: 'components/dynamic-form', component: DynamicFormDocComponent, title: 'Dynamic Form · CaribeNG' },
   { path: 'components/media-player', component: MediaPlayerDocComponent, title: 'MediaPlayer · CaribeNG' },
   { path: 'components/masonry', component: MasonryDocComponent, title: 'Masonry · CaribeNG' },
   { path: 'components/infinite-scroll', component: InfiniteScrollDocComponent, title: 'InfiniteScroll · CaribeNG' },

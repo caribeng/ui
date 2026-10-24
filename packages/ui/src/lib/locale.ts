@@ -576,6 +576,22 @@ export interface CbTranslation {
   dataGridRowsDeleted: string;
   dataGridInstructions: string;
   dataGridReadonlyInstructions: string;
+  dynamicFormSubmit: string;
+  dynamicFormRequired: string;
+  /** `{0}`: mínimo. */
+  dynamicFormMin: string;
+  /** `{0}`: máximo. */
+  dynamicFormMax: string;
+  /** `{0}`: caracteres. */
+  dynamicFormMinLength: string;
+  /** `{0}`: caracteres. */
+  dynamicFormMaxLength: string;
+  dynamicFormEmail: string;
+  dynamicFormPattern: string;
+  dynamicFormInvalid: string;
+  dynamicFormSummaryOne: string;
+  /** `{0}`: cantidad. */
+  dynamicFormSummary: string;
 
   // --- Varios ---
   scrollableArea: string;
@@ -1333,6 +1349,17 @@ export const CB_LOCALE_ES: CbTranslation = {
   dataGridRowsDeleted: 'Filas eliminadas: {0}.',
   dataGridInstructions: 'Flechas: moverse. Mayús + flechas: seleccionar. Enter o F2: editar; escribe para reemplazar; Escape cancela. Supr: borrar. Ctrl + C, X y V: copiar, cortar y pegar. Ctrl + Z e Y: deshacer y rehacer. Ctrl + D: rellenar hacia abajo.',
   dataGridReadonlyInstructions: 'Flechas: moverse. Mayús + flechas: seleccionar. Ctrl + C: copiar.',
+  dynamicFormSubmit: 'Enviar',
+  dynamicFormRequired: 'Este campo es obligatorio.',
+  dynamicFormMin: 'El valor mínimo es {0}.',
+  dynamicFormMax: 'El valor máximo es {0}.',
+  dynamicFormMinLength: 'Escribe al menos {0} caracteres.',
+  dynamicFormMaxLength: 'Escribe como máximo {0} caracteres.',
+  dynamicFormEmail: 'Escribe un correo válido.',
+  dynamicFormPattern: 'El formato no es válido.',
+  dynamicFormInvalid: 'El valor no es válido.',
+  dynamicFormSummaryOne: 'Revisa 1 campo:',
+  dynamicFormSummary: 'Revisa {0} campos:',
 
   scrollableArea: 'Área desplazable',
   scrollTop: 'Volver arriba',
@@ -2063,6 +2090,17 @@ export const CB_LOCALE_EN: CbTranslation = {
   dataGridRowsDeleted: 'Rows deleted: {0}.',
   dataGridInstructions: 'Arrows: move. Shift + arrows: select. Enter or F2: edit; type to replace; Escape cancels. Delete: clear. Ctrl + C, X and V: copy, cut and paste. Ctrl + Z and Y: undo and redo. Ctrl + D: fill down.',
   dataGridReadonlyInstructions: 'Arrows: move. Shift + arrows: select. Ctrl + C: copy.',
+  dynamicFormSubmit: 'Submit',
+  dynamicFormRequired: 'This field is required.',
+  dynamicFormMin: 'The minimum value is {0}.',
+  dynamicFormMax: 'The maximum value is {0}.',
+  dynamicFormMinLength: 'Enter at least {0} characters.',
+  dynamicFormMaxLength: 'Enter at most {0} characters.',
+  dynamicFormEmail: 'Enter a valid email.',
+  dynamicFormPattern: 'The format is not valid.',
+  dynamicFormInvalid: 'The value is not valid.',
+  dynamicFormSummaryOne: 'Check 1 field:',
+  dynamicFormSummary: 'Check {0} fields:',
 
   scrollableArea: 'Scrollable area',
   scrollTop: 'Back to top',

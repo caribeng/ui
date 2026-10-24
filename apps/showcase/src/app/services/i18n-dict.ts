@@ -3654,4 +3654,67 @@ export const ES_EN: Record<string, string> = {
   'Audio con transcripción': 'Audio with transcript',
   'kind="audio" muestra el título y el subtítulo encima de los controles, sin pantalla. Un contenido solo de audio necesita una transcripción (WCAG 1.2.1): proyéctala con cbMediaTranscript y aparece en un desplegable. skipSeconds cambia el salto de los botones.':
     'kind="audio" shows the title and subtitle above the controls, without a screen. Audio-only content needs a transcript (WCAG 1.2.1): project it with cbMediaTranscript and it appears in a disclosure. skipSeconds changes the jump of the buttons.',
+  // --- Dynamic Form ---
+  'Formulario que se arma a partir de un esquema JSON: cada campo dice su tipo, etiqueta, validaciones y cuántas columnas ocupa. La disposición puede ser vertical (etiqueta encima) u horizontal (etiqueta a la izquierda), en una o varias columnas, con secciones y campos que aparecen según otros valores.':
+    'Form built from a JSON schema: each field states its type, label, validations and how many columns it spans. The layout can be vertical (label on top) or horizontal (label on the left), in one or several columns, with sections and fields that appear depending on other values.',
+  'Disposición y columnas':
+    'Layout and columns',
+  'layout elige si la etiqueta va encima (vertical) o a la izquierda (horizontal, con labelWidth) y columns cuántas columnas tiene la rejilla; colSpan hace que un campo ocupe varias (o full, toda la fila) y cada sección puede tener sus propias columnas. Cambia las opciones: en un contenedor estrecho todo pasa a una columna y la etiqueta vuelve arriba.':
+    'layout chooses whether the label goes on top (vertical) or on the left (horizontal, with labelWidth) and columns how many columns the grid has; colSpan makes a field span several (or full, the whole row) and each section can have its own columns. Change the options: in a narrow container everything becomes one column and the label goes back on top.',
+  'Esquema en JSON':
+    'Schema in JSON',
+  'El esquema es JSON puro: se puede guardar en una base de datos o recibir de una API. Edita el JSON y el formulario se vuelve a armar al momento; las condiciones también son JSON (visibleWhen con equals, notEquals, in o filled).':
+    'The schema is plain JSON: it can be stored in a database or received from an API. Edit the JSON and the form is rebuilt instantly; conditions are JSON too (visibleWhen with equals, notEquals, in or filled).',
+  'Campos condicionales':
+    'Conditional fields',
+  'visibleWhen muestra un campo solo si se cumple la condición (los ocultos no se validan ni se envían), requiredWhen lo vuelve obligatorio y disabledWhen lo deshabilita. Aquí el NIT y la razón social solo aparecen para empresas, el teléfono es obligatorio si se elige contactar por teléfono y el código postal se deshabilita fuera de México.':
+    'visibleWhen shows a field only if the condition is met (hidden fields are neither validated nor submitted), requiredWhen makes it required and disabledWhen disables it. Here the tax ID and company name only appear for companies, the phone is required if contacting by phone is chosen and the postal code is disabled outside Mexico.',
+  'Todos los tipos de campo':
+    'All field types',
+  'text, email, password, tel, url, number, textarea, select, multiselect, radio, buttons, checkbox, toggle, date, slider, rating, chips y color: cada uno usa el control de CaribeNG correspondiente, conectado con Angular Forms.':
+    'text, email, password, tel, url, number, textarea, select, multiselect, radio, buttons, checkbox, toggle, date, slider, rating, chips and color: each one uses the matching CaribeNG control, connected to Angular Forms.',
+  'Esquema':
+    'Schema',
+  'Esquema: fields o sections, columns, layout, labelWidth, submitLabel y resetLabel.':
+    'Schema: fields or sections, columns, layout, labelWidth, submitLabel and resetLabel.',
+  'Valor del formulario (sin los campos ocultos).':
+    'Form value (without hidden fields).',
+  'Etiqueta encima o a la izquierda (si no, la del esquema).':
+    'Label on top or on the left (otherwise, the schema one).',
+  'Columnas de la rejilla (si no, las del esquema; 1 por defecto).':
+    'Grid columns (otherwise, the schema ones; 1 by default).',
+  'Ancho de la etiqueta en horizontal (10rem por defecto).':
+    'Label width in horizontal (10rem by default).',
+  'Botones de enviar y restablecer.':
+    'Submit and reset buttons.',
+  'Deshabilita todo el formulario.':
+    'Disables the whole form.',
+  'Botón de enviar cargando.':
+    'Submit button loading.',
+  'Nombre del formulario.':
+    'Name of the form.',
+  'Envío válido: el valor del formulario.':
+    'Valid submit: the form value.',
+  'Envío con errores: los campos que fallan.':
+    'Submit with errors: the failing fields.',
+  'Se restableció el formulario.':
+    'The form was reset.',
+  'Cada campo tiene su etiqueta visible enlazada: `<label for>` en los campos de texto y `aria-labelledby` o `aria-label` en listas, opciones, deslizadores y valoraciones. Los obligatorios llevan el validador `required` y el asterisco es decorativo.':
+    'Each field has its visible label linked: `<label for>` in text fields and `aria-labelledby` or `aria-label` in lists, options, sliders and ratings. Required fields have the `required` validator and the asterisk is decorative.',
+  'En los campos de texto, número, fecha y área de texto, la ayuda y el error se asocian con `aria-describedby` y el control queda `aria-invalid`; en el resto, el error se anuncia con `role="alert"`. El error aparece al salir del campo, al cambiarlo o al intentar enviar.':
+    'In text, number, date and text area fields, the hint and the error are linked with `aria-describedby` and the control becomes `aria-invalid`; in the rest, the error is announced with `role="alert"`. The error appears when leaving the field, changing it or trying to submit.',
+  'Al enviar con errores aparece arriba un resumen con `role="alert"` que recibe el foco y lista cada campo con su error; cada elemento es un enlace que lleva el foco a ese campo.':
+    'When submitting with errors, a summary with `role="alert"` appears on top, receives focus and lists each field with its error; each item is a link that moves focus to that field.',
+  'Cada sección es un `fieldset` con su título como `legend`. Los campos ocultos por una condición se quitan del DOM (no se leen ni se validan) y los deshabilitados se anuncian como tales.':
+    'Each section is a `fieldset` with its title as `legend`. Fields hidden by a condition are removed from the DOM (not read or validated) and disabled ones are announced as such.',
+  'Las columnas y la disposición horizontal no cambian el orden de lectura ni de tabulación: siguen el orden del esquema, y en contenedores estrechos todo pasa a una columna con la etiqueta encima.':
+    'Columns and the horizontal layout do not change the reading or tab order: they follow the schema order, and in narrow containers everything becomes one column with the label on top.',
+  'Recorre los campos en el orden del esquema y después los botones.':
+    'Moves through the fields in schema order and then the buttons.',
+  'En un campo de texto, envía el formulario.':
+    'In a text field, submits the form.',
+  'Enter (resumen)':
+    'Enter (summary)',
+  'En un enlace del resumen de errores, lleva el foco a ese campo.':
+    'On a link of the error summary, moves focus to that field.',
 };

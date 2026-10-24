@@ -51,6 +51,7 @@ export const NAV_MENU: NavItem[] = [
           { label: 'Chips', route: '/components/chips' },
           { label: 'ColorPicker', route: '/components/colorpicker' },
           { label: 'DatePicker', route: '/components/datepicker' },
+          { label: 'Dynamic Form', route: '/components/dynamic-form', badge: 'NEW' },
           { label: 'Editor', route: '/components/editor' },
           { label: 'FloatLabel', route: '/components/floatlabel' },
           { label: 'IconField', route: '/components/iconfield' },
