@@ -196,6 +196,14 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
             "text": "en contenedores estrechos el nombre se parte con sangría y no baja por debajo de la flecha."
           },
           {
+            "component": "`CascadeSelect` y `TreeSelect`",
+            "text": "el panel se abre en un overlay del CDK, así que ya no lo recorta un contenedor con `overflow` (tarjetas, diálogos, tablas), se recoloca si no cabe y se cierra al hacer clic fuera. En `CascadeSelect` las listas se estrechan en móvil."
+          },
+          {
+            "component": "`InputOtp` y `PhoneInput` en móvil",
+            "text": "las casillas del código se estrechan para caber y el teléfono ya no se sale de su contenedor."
+          },
+          {
             "component": "`InputNumber`",
             "text": "en modo de solo lectura conserva el formato al recibir el foco."
           },

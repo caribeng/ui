@@ -39,7 +39,7 @@ function setup() {
   fixture.detectChanges();
   const el: HTMLElement = fixture.nativeElement;
   const trigger = () => el.querySelector<HTMLButtonElement>('.cb-cascade-select__trigger')!;
-  const options = () => Array.from(el.querySelectorAll<HTMLButtonElement>('.cb-cascade-select__option'));
+  const options = () => Array.from(document.querySelectorAll<HTMLButtonElement>('.cb-cascade-select__option'));
   const click = (b: HTMLElement) => {
     b.click();
     fixture.detectChanges();
@@ -57,7 +57,7 @@ describe('CbCascadeSelect', () => {
     click(options()[2]);
     expect(fixture.componentInstance.val()).toBe('MDE');
     expect(el.querySelector('.cb-cascade-select__label')?.textContent?.trim()).toBe('Colombia / Medellín');
-    expect(el.querySelector('.cb-cascade-select__menus')).toBeNull();
+    expect(document.querySelector('.cb-cascade-select__menus')).toBeNull();
   });
 
   it('muestra el placeholder sin valor y refleja aria-expanded', () => {
@@ -94,8 +94,22 @@ describe('CbCascadeSelect', () => {
     options()[0].focus();
     options()[0].dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
     fixture.detectChanges();
-    expect(el.querySelector('.cb-cascade-select__menus')).toBeNull();
+    expect(document.querySelector('.cb-cascade-select__menus')).toBeNull();
     expect(document.activeElement).toBe(trigger());
+    el.remove();
+  });
+
+  it('el panel va en un overlay (no lo recorta el contenedor) y se cierra al hacer clic fuera', () => {
+    const { el, trigger, click, fixture } = setup();
+    document.body.appendChild(el);
+    click(trigger());
+    const menus = document.querySelector('.cb-cascade-select__menus')!;
+    expect(menus.closest('.cdk-overlay-container')).not.toBeNull();
+    expect(el.contains(menus)).toBe(false);
+    document.body.dispatchEvent(new MouseEvent('pointerdown', { bubbles: true }));
+    document.body.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    fixture.detectChanges();
+    expect(document.querySelector('.cb-cascade-select__menus')).toBeNull();
     el.remove();
   });
 
@@ -105,7 +119,7 @@ describe('CbCascadeSelect', () => {
     fixture.detectChanges();
     expect(trigger().disabled).toBe(true);
     click(trigger());
-    expect(el.querySelector('.cb-cascade-select__menus')).toBeNull();
+    expect(document.querySelector('.cb-cascade-select__menus')).toBeNull();
   });
 
   it('se integra con Reactive Forms: valor inicial, cambios y disable()', () => {
@@ -117,7 +131,7 @@ describe('CbCascadeSelect', () => {
 
     el.querySelector<HTMLButtonElement>('.cb-cascade-select__trigger')!.click();
     fixture.detectChanges();
-    el.querySelectorAll<HTMLButtonElement>('.cb-cascade-select__option')[1].click();
+    document.querySelectorAll<HTMLButtonElement>('.cb-cascade-select__option')[1].click();
     fixture.detectChanges();
     expect(ctrl.value).toBe('NONE');
     expect(ctrl.touched).toBe(true);

@@ -10,7 +10,9 @@ import {
   signal,
   viewChild,
   booleanAttribute,
+  inject,
 } from '@angular/core';
+import { OverlayModule, type ConnectedPosition } from '@angular/cdk/overlay';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { CbIcon } from '@caribeng/ui/icon';
 import { cbFieldState, injectCbTranslation } from '@caribeng/ui';
@@ -28,7 +30,7 @@ export interface CbCascadeOption {
   selector: 'cb-cascade-select',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
-  imports: [CbIcon],
+  imports: [OverlayModule, CbIcon],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -60,7 +62,17 @@ export interface CbCascadeOption {
       <cb-icon name="chevron-down" [size]="16" aria-hidden="true" />
     </button>
 
-    @if (open()) {
+    <!-- El panel va en un overlay: no lo recorta un contenedor con overflow (tarjetas, diálogos, tablas). -->
+    <ng-template
+      cdkConnectedOverlay
+      [cdkConnectedOverlayOrigin]="trigger"
+      [cdkConnectedOverlayOpen]="open()"
+      [cdkConnectedOverlayMinWidth]="triggerWidth()"
+      [cdkConnectedOverlayPositions]="positions"
+      (overlayOutsideClick)="onOutsideClick($event)"
+      (overlayKeydown)="closeOnEscape($event)"
+      (detach)="open.set(false)"
+    >
       <div class="cb-cascade-select__menus">
         <ul class="cb-cascade-select__list" role="listbox">
           @for (group of options(); track group.label) {
@@ -96,7 +108,7 @@ export interface CbCascadeOption {
           </ul>
         }
       </div>
-    }
+    </ng-template>
   `,
   styleUrl: './cascadeselect.component.css',
 })
@@ -150,10 +162,22 @@ export class CbCascadeSelect implements ControlValueAccessor {
   }
 
   private readonly trigger = viewChild.required<ElementRef<HTMLButtonElement>>('trigger');
+  private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
+  protected readonly triggerWidth = signal(0);
+  protected readonly positions: ConnectedPosition[] = [
+    { originX: 'start', originY: 'bottom', overlayX: 'start', overlayY: 'top', offsetY: 4 },
+    { originX: 'start', originY: 'top', overlayX: 'start', overlayY: 'bottom', offsetY: -4 },
+    { originX: 'end', originY: 'bottom', overlayX: 'end', overlayY: 'top', offsetY: 4 },
+  ];
+
+  /** Un clic fuera del panel lo cierra (el del disparador ya lo alterna). */
+  protected onOutsideClick(event: MouseEvent): void {
+    if (!this.host.nativeElement.contains(event.target as Node)) this.open.set(false);
+  }
 
   /** Escape cierra el panel y devuelve el foco al disparador. */
   protected closeOnEscape(event: Event): void {
-    if (!this.open()) return;
+    if (!this.open() || (event as KeyboardEvent).key !== 'Escape') return;
     event.preventDefault();
     this.open.set(false);
     this.trigger().nativeElement.focus();
@@ -161,6 +185,7 @@ export class CbCascadeSelect implements ControlValueAccessor {
 
   toggleOpen(): void {
     if (this.isDisabled()) return;
+    this.triggerWidth.set(this.trigger().nativeElement.offsetWidth);
     this.open.set(!this.open());
   }
 

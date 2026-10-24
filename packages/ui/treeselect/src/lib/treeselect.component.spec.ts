@@ -40,9 +40,9 @@ function setup() {
   fixture.detectChanges();
   const el: HTMLElement = fixture.nativeElement;
   const trigger = () => el.querySelector<HTMLButtonElement>('.cb-tree-select__trigger')!;
-  const items = () => Array.from(el.querySelectorAll<HTMLElement>('[role="treeitem"]'));
+  const items = () => Array.from(document.querySelectorAll<HTMLElement>('[role="treeitem"]'));
   const nodeBtn = (label: string) =>
-    Array.from(el.querySelectorAll<HTMLButtonElement>('.cb-tree-select__node-btn')).find(
+    Array.from(document.querySelectorAll<HTMLButtonElement>('.cb-tree-select__node-btn')).find(
       (b) => b.textContent!.trim() === label,
     )!;
   const click = (b: HTMLElement) => {
@@ -56,12 +56,12 @@ describe('CbTreeSelect', () => {
   it('abre el árbol, expande nodos hijos y selecciona un valor', () => {
     const { fixture, el, trigger, nodeBtn, click } = setup();
     click(trigger());
-    click(el.querySelector<HTMLButtonElement>('.cb-tree-select__expander')!);
+    click(document.querySelector<HTMLButtonElement>('.cb-tree-select__expander')!);
     click(nodeBtn('SPEC.md'));
 
     expect(fixture.componentInstance.selected()).toBe('spec');
     expect(el.querySelector('.cb-tree-select__label')?.textContent?.trim()).toBe('SPEC.md');
-    expect(el.querySelector('[role="tree"]')).toBeNull();
+    expect(document.querySelector('[role="tree"]')).toBeNull();
   });
 
   it('expone ARIA de árbol: aria-expanded en ramas y aria-selected en el elegido', () => {
@@ -78,7 +78,7 @@ describe('CbTreeSelect', () => {
     expect(pics.getAttribute('aria-selected')).toBe('true');
     expect(docs.getAttribute('aria-selected')).toBe('false');
 
-    click(el.querySelector<HTMLButtonElement>('.cb-tree-select__expander')!);
+    click(document.querySelector<HTMLButtonElement>('.cb-tree-select__expander')!);
     expect(items()[0].getAttribute('aria-expanded')).toBe('true');
     expect(items()).toHaveLength(4);
   });
@@ -86,7 +86,7 @@ describe('CbTreeSelect', () => {
   it('el expansor tiene nombre accesible y contrae la rama al volver a pulsarlo', () => {
     const { el, trigger, items, click } = setup();
     click(trigger());
-    const expander = el.querySelector<HTMLButtonElement>('.cb-tree-select__expander')!;
+    const expander = document.querySelector<HTMLButtonElement>('.cb-tree-select__expander')!;
     expect(expander.getAttribute('aria-label')).toContain('Documentos');
     click(expander);
     expect(items()).toHaveLength(4);
@@ -97,7 +97,7 @@ describe('CbTreeSelect', () => {
   it('no permite seleccionar un nodo deshabilitado', () => {
     const { fixture, el, trigger, nodeBtn, click } = setup();
     click(trigger());
-    click(el.querySelector<HTMLButtonElement>('.cb-tree-select__expander')!);
+    click(document.querySelector<HTMLButtonElement>('.cb-tree-select__expander')!);
     expect(nodeBtn('Antiguo.md').disabled).toBe(true);
     expect(fixture.componentInstance.selected()).toBeNull();
   });
@@ -109,7 +109,7 @@ describe('CbTreeSelect', () => {
     nodeBtn('Imágenes').focus();
     nodeBtn('Imágenes').dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
     fixture.detectChanges();
-    expect(el.querySelector('[role="tree"]')).toBeNull();
+    expect(document.querySelector('[role="tree"]')).toBeNull();
     expect(document.activeElement).toBe(trigger());
     el.remove();
   });
@@ -119,7 +119,7 @@ describe('CbTreeSelect', () => {
     fixture.componentInstance.disabled.set(true);
     fixture.detectChanges();
     click(trigger());
-    expect(el.querySelector('[role="tree"]')).toBeNull();
+    expect(document.querySelector('[role="tree"]')).toBeNull();
     expect(el.querySelector('cb-tree-select')!.classList).toContain('cb-is-disabled');
   });
 
@@ -131,7 +131,7 @@ describe('CbTreeSelect', () => {
 
     el.querySelector<HTMLButtonElement>('.cb-tree-select__trigger')!.click();
     fixture.detectChanges();
-    el.querySelectorAll<HTMLButtonElement>('.cb-tree-select__node-btn')[1].click();
+    document.querySelectorAll<HTMLButtonElement>('.cb-tree-select__node-btn')[1].click();
     fixture.detectChanges();
     expect(fixture.componentInstance.ctrl.value).toBe('pics');
     expect(fixture.componentInstance.ctrl.touched).toBe(true);

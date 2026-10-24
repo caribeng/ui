@@ -2,11 +2,16 @@
   display: inline-flex;
   align-items: center;
   gap: var(--cb-space-2);
+  max-width: 100%;
   font-family: var(--cb-font-sans);
 }
 
+/* Las casillas se estrechan en contenedores pequeños (móvil) en lugar de salirse. */
 .cb-input-otp__slot {
+  flex: 0 1 2.5rem;
+  box-sizing: border-box;
   width: 2.5rem;
+  min-width: 2rem;
   height: 2.75rem;
   text-align: center;
   border: var(--cb-border-width) solid var(--cb-color-border);

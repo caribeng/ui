@@ -26,11 +26,8 @@
 }
 
 .cb-cascade-select__menus {
-  position: absolute;
-  top: calc(100% + 4px);
-  left: 0;
-  z-index: 30;
   display: flex;
+  max-width: calc(100vw - 1rem);
   border: var(--cb-border-width) solid var(--cb-color-border);
   border-radius: var(--cb-radius-md);
   background: var(--cb-color-surface);
@@ -42,7 +39,9 @@
   list-style: none;
   margin: 0;
   padding: var(--cb-space-1);
-  min-width: 150px;
+  min-width: min(150px, 44vw);
+  max-height: 16rem;
+  overflow-y: auto;
   border-right: var(--cb-border-width) solid var(--cb-color-border);
 }
 

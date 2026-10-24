@@ -26,11 +26,8 @@
 }
 
 .cb-tree-select__panel {
-  position: absolute;
-  top: calc(100% + 4px);
-  left: 0;
-  right: 0;
-  z-index: 30;
+  box-sizing: border-box;
+  width: 100%;
   max-height: 240px;
   overflow: auto;
   padding: var(--cb-space-1);
