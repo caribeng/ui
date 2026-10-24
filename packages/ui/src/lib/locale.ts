@@ -636,6 +636,36 @@ export interface CbTranslation {
   tableTotal: string;
   /** `{0}`: grupo. */
   tableSubtotal: string;
+  accountPickerPlaceholder: string;
+  /** `{0}`: cantidad. */
+  accountPickerResults: string;
+  journalHeader: string;
+  journalDate: string;
+  journalType: string;
+  journalNumber: string;
+  journalDescription: string;
+  journalLines: string;
+  journalAccount: string;
+  journalThirdParty: string;
+  journalCostCenter: string;
+  journalLineDescription: string;
+  journalDebit: string;
+  journalCredit: string;
+  journalDifference: string;
+  journalBalanced: string;
+  journalUnbalanced: string;
+  journalBalance: string;
+  journalSave: string;
+  journalAccountRequired: string;
+  journalAmountRequired: string;
+  journalThirdPartyRequired: string;
+  journalCannotSave: string;
+  journalErrDate: string;
+  journalErrLines: string;
+  /** `{0}`: diferencia. */
+  journalErrUnbalanced: string;
+  /** `{0}`: cantidad. */
+  journalErrCells: string;
 
   // --- Varios ---
   scrollableArea: string;
@@ -1517,6 +1547,33 @@ export const CB_LOCALE_ES: CbTranslation = {
   dynamicFormSummary: 'Revisa {0} campos:',
   tableTotal: 'Total',
   tableSubtotal: 'Subtotal {0}',
+  accountPickerPlaceholder: 'Buscar cuenta por código o nombre',
+  accountPickerResults: '{0} cuentas',
+  journalHeader: 'Datos del comprobante',
+  journalDate: 'Fecha',
+  journalType: 'Tipo',
+  journalNumber: 'Número',
+  journalDescription: 'Descripción',
+  journalLines: 'Líneas del comprobante',
+  journalAccount: 'Cuenta',
+  journalThirdParty: 'Tercero',
+  journalCostCenter: 'Centro de costo',
+  journalLineDescription: 'Detalle',
+  journalDebit: 'Débito',
+  journalCredit: 'Crédito',
+  journalDifference: 'Diferencia',
+  journalBalanced: 'Cuadrado',
+  journalUnbalanced: 'Descuadrado',
+  journalBalance: 'Cuadrar',
+  journalSave: 'Guardar comprobante',
+  journalAccountRequired: 'Elige la cuenta.',
+  journalAmountRequired: 'Escribe un débito o un crédito.',
+  journalThirdPartyRequired: 'Esta cuenta exige tercero.',
+  journalCannotSave: 'No se puede guardar:',
+  journalErrDate: 'Falta la fecha.',
+  journalErrLines: 'Necesita al menos dos líneas con valor.',
+  journalErrUnbalanced: 'Los débitos y los créditos no cuadran (diferencia {0}).',
+  journalErrCells: 'Hay {0} celdas con errores en las líneas.',
 
   scrollableArea: 'Área desplazable',
   scrollTop: 'Volver arriba',
@@ -2348,6 +2405,33 @@ export const CB_LOCALE_EN: CbTranslation = {
   dynamicFormSummary: 'Check {0} fields:',
   tableTotal: 'Total',
   tableSubtotal: 'Subtotal {0}',
+  accountPickerPlaceholder: 'Search account by code or name',
+  accountPickerResults: '{0} accounts',
+  journalHeader: 'Voucher details',
+  journalDate: 'Date',
+  journalType: 'Type',
+  journalNumber: 'Number',
+  journalDescription: 'Description',
+  journalLines: 'Voucher lines',
+  journalAccount: 'Account',
+  journalThirdParty: 'Third party',
+  journalCostCenter: 'Cost center',
+  journalLineDescription: 'Detail',
+  journalDebit: 'Debit',
+  journalCredit: 'Credit',
+  journalDifference: 'Difference',
+  journalBalanced: 'Balanced',
+  journalUnbalanced: 'Unbalanced',
+  journalBalance: 'Balance',
+  journalSave: 'Save voucher',
+  journalAccountRequired: 'Choose the account.',
+  journalAmountRequired: 'Enter a debit or a credit.',
+  journalThirdPartyRequired: 'This account requires a third party.',
+  journalCannotSave: 'Cannot save:',
+  journalErrDate: 'The date is missing.',
+  journalErrLines: 'At least two lines with an amount are needed.',
+  journalErrUnbalanced: 'Debits and credits do not balance (difference {0}).',
+  journalErrCells: 'There are {0} cells with errors in the lines.',
 
   scrollableArea: 'Scrollable area',
   scrollTop: 'Back to top',

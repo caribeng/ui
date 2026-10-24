@@ -289,3 +289,84 @@ describe('CbDataGrid: importes y totales', () => {
     expect(text(el.querySelector('tfoot tr')!.children)[2]).toBe('$ 150.020,00');
   });
 });
+
+interface Linea {
+  id: number;
+  cuenta: string | null;
+  debito: number | null;
+  credito: number | null;
+}
+
+@Component({
+  imports: [CbDataGrid],
+  template: `<cb-data-grid [(rows)]="rows" [columns]="columns" />`,
+})
+class LookupHostComponent {
+  rows = signal<readonly Linea[]>([{ id: 1, cuenta: null, debito: null, credito: 5000 }]);
+  columns: CbDataGridColumn<Linea>[] = [
+    {
+      field: 'cuenta',
+      header: 'Cuenta',
+      type: 'autocomplete',
+      options: [
+        { label: '11 Disponible', value: '11', disabled: true },
+        { label: '110505 Caja general', value: '110505', description: 'Activo › Disponible › Caja' },
+        { label: '111005 Bancos nacionales', value: '111005', description: 'Activo › Disponible › Bancos' },
+        { label: '413505 Ventas de mercancía', value: '413505' },
+      ],
+    },
+    { field: 'debito', header: 'Débito', type: 'number', onEdit: (v) => (v ? { credito: null } : null) },
+    { field: 'credito', header: 'Crédito', type: 'number', onEdit: (v) => (v ? { debito: null } : null) },
+  ];
+}
+
+describe('CbDataGrid: autocomplete y onEdit', () => {
+  it('busca por código o nombre (sin tildes), salta las deshabilitadas y elige con Enter', async () => {
+    const fixture = TestBed.createComponent(LookupHostComponent);
+    document.body.appendChild(fixture.nativeElement);
+    const settle = async () => {
+      fixture.detectChanges();
+      await fixture.whenStable();
+      fixture.detectChanges();
+    };
+    await settle();
+    const el = fixture.nativeElement as HTMLElement;
+    const cell = el.querySelector<HTMLElement>('td')!;
+    cell.dispatchEvent(new KeyboardEvent('keydown', { key: 'b', bubbles: true, cancelable: true }));
+    await settle();
+    const input = el.querySelector<HTMLInputElement>('input[role="combobox"]')!;
+    input.value = 'bancos';
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+    await settle();
+    const options = () => Array.from(document.querySelectorAll('.cb-dg__option')).map((o) => o.querySelector('.cb-dg__option-label')?.textContent);
+    expect(options()).toEqual(['111005 Bancos nacionales']);
+    input.value = '11';
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+    await settle();
+    expect(options()).toEqual(['11 Disponible', '110505 Caja general', '111005 Bancos nacionales']);
+    expect(input.getAttribute('aria-activedescendant')).toMatch(/-opt-1$/);
+    input.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true, cancelable: true }));
+    await settle();
+    input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true, cancelable: true }));
+    await settle();
+    expect(fixture.componentInstance.rows()[0].cuenta).toBe('111005');
+    expect(cell.textContent).toContain('111005 Bancos nacionales');
+  });
+
+  it('pegar un código encuentra la opción y onEdit limpia el campo contrario en el mismo paso', async () => {
+    const fixture = TestBed.createComponent(LookupHostComponent);
+    document.body.appendChild(fixture.nativeElement);
+    fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    const el = fixture.nativeElement as HTMLElement;
+    const paste = (target: HTMLElement, text: string) => {
+      const event = new Event('paste', { bubbles: true, cancelable: true });
+      Object.defineProperty(event, 'clipboardData', { value: { getData: () => text } });
+      target.dispatchEvent(event);
+    };
+    paste(el.querySelector<HTMLElement>('td')!, '413505\t7000');
+    fixture.detectChanges();
+    expect(fixture.componentInstance.rows()[0]).toMatchObject({ cuenta: '413505', debito: 7000, credito: null });
+  });
+});

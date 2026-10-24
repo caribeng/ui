@@ -11,6 +11,22 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
         "type": "added",
         "items": [
           {
+            "component": "Componente nuevo: `AccountPicker`",
+            "text": "(`@caribeng/ui/account-picker`): selector de cuenta contable que busca en el plan de cuentas (PUC) por prefijo de código o por palabras del nombre y de la ruta, sin tildes. La jerarquía se deduce del código (o de `parent`) y la ruta se muestra bajo el campo y en los resultados. Solo deja elegir cuentas de movimiento (`allowParents` para las mayores) y nunca las inactivas; escribir el código completo y salir lo elige. Es un control de Angular Forms y se puede usar con `[(value)]`. Incluye las utilidades `resolveAccounts`, `searchAccounts`, `accountPath` y `cbAccountOptions` (opciones para el Data Grid). 175 entry points."
+          },
+          {
+            "component": "Componente nuevo: `JournalEntry`",
+            "text": "(`@caribeng/ui/journal-entry`): editor de comprobante contable. Cabecera con fecha, tipo, número y descripción; líneas en un Data Grid con cuenta, tercero y centro de costo (con búsqueda), detalle, débito y crédito excluyentes. Totales y diferencia en vivo con el estado Cuadrado o Descuadrado, botón «Cuadrar», cuentas que exigen tercero (`thirdPartyRequired`) y validación al guardar (fecha, dos líneas con valor, cuentas, que cuadre). Guarda con Ctrl + Enter y emite `save` sin líneas vacías y con los detalles heredados; incluye `cbEmptyJournalEntry()` y modo `readonly`. 176 entry points."
+          },
+          {
+            "component": "`Data Grid`",
+            "text": "columnas `autocomplete` (lista de búsqueda dentro de la celda, opciones con descripción y deshabilitadas; pegar un código encuentra la opción) y `onEdit` para cambiar otros campos de la fila en el mismo paso de deshacer. La validación propia (`validate`) también se aplica a las celdas vacías."
+          },
+          {
+            "component": "Núcleo",
+            "text": "los importes en moneda usan 2 decimales en todos los navegadores (0 en monedas sin centavos, como JPY o CLP)."
+          },
+          {
             "component": "",
             "text": "**Importes y totales para contabilidad:** - **Núcleo:** `cbFormatAmount()` (moneda, decimales y negativos con signo o entre paréntesis), `cbSummarize()` (suma sin errores de coma flotante, promedio, cuenta, mínimo y máximo), `cbToNumber()` e `injectCbAmount()`. Nuevas opciones de `provideCaribeNG`: `currency`, `negativeStyle` y `numberLocale` (p. ej. `es-CO` para escribir `$ 1.234,50`). - **`Table`:** columnas con `type` (`number`, `currency`, `percent`), `currency`, `decimals`, `negative` y `format`, alineadas a la derecha y con los negativos en rojo. `summary` (`sum`, `avg`, `count`, `min`, `max` o una función) suma en un pie sobre todas las filas filtradas, y con `groupSubtotals` cada grupo cierra con su subtotal. Nuevos inputs `currency` y `negativeStyle`. - **`TreeTable`:** las mismas columnas de importe y un pie con totales. Con `rollup`, cada fila padre muestra el total de sus descendientes (el saldo de una cuenta mayor a partir de sus auxiliares). - **`Data Grid`:** columnas con `currency`, `negative`, `summary` y `footer`. El pie queda fijo y se recalcula con cada edición o pegado, y hay un `totals()` público."
           },

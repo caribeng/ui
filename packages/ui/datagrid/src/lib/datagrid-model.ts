@@ -1,12 +1,16 @@
 import { cbFormatAmount, type CbNegativeStyle, type CbSummary } from '@caribeng/ui';
 
 /** Tipo de dato (y de editor) de una columna del Data Grid. */
-export type CbDataGridColumnType = 'text' | 'number' | 'select' | 'date' | 'checkbox';
+export type CbDataGridColumnType = 'text' | 'number' | 'select' | 'autocomplete' | 'date' | 'checkbox';
 
-/** Opción de una columna `select`. */
+/** Opción de una columna `select` o `autocomplete`. */
 export interface CbDataGridOption {
   readonly label: string;
   readonly value: unknown;
+  /** Texto secundario en la lista de `autocomplete` (p. ej. la ruta de una cuenta). */
+  readonly description?: string;
+  /** Se ve en la lista pero no se puede elegir. */
+  readonly disabled?: boolean;
 }
 
 /** Fila del Data Grid: un objeto con los campos de las columnas. */
@@ -25,8 +29,14 @@ export interface CbDataGridColumn<T extends object = CbDataGridRow> {
   readonly editable?: boolean;
   /** No admite celdas vacías. */
   readonly required?: boolean;
-  /** Opciones de una columna `select`. */
+  /** Opciones de una columna `select` o `autocomplete` (en esta se buscan escribiendo). */
   readonly options?: readonly CbDataGridOption[];
+  /**
+   * Al editar (escribir, pegar, borrar o rellenar) esta celda, otros campos de la
+   * fila que cambian con ella, en el mismo paso de deshacer. P. ej., en un
+   * comprobante, escribir el débito borra el crédito: `onEdit: (v) => (v ? { credito: null } : null)`.
+   */
+  readonly onEdit?: (value: unknown, row: T) => Partial<T> | null;
   /** Límites de una columna `number`. */
   readonly min?: number;
   readonly max?: number;
@@ -131,10 +141,10 @@ export function parseCell(col: CbDataGridColumn<object>, text: string, texts: Va
       if (FALSE_WORDS.has(w)) return { value: false };
       return { value: false };
     }
-    case 'select': {
+    case 'select':
+    case 'autocomplete': {
       if (!raw) return { value: null };
-      const low = raw.toLowerCase();
-      const opt = (col.options ?? []).find((o) => o.label.toLowerCase() === low || String(o.value).toLowerCase() === low);
+      const opt = findOption(col.options ?? [], raw);
       return opt ? { value: opt.value } : { value: text, error: texts.option };
     }
     case 'date': {
@@ -151,6 +161,43 @@ export function parseCell(col: CbDataGridColumn<object>, text: string, texts: Va
   }
 }
 
+/** Minúsculas y sin tildes. */
+export function fold(text: string): string {
+  return text.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+}
+
+/**
+ * Opción que corresponde a un texto escrito o pegado: por valor, por etiqueta
+ * exacta o por el código con el que empieza la etiqueta ("110505" → "110505 Caja general").
+ */
+export function findOption(options: readonly CbDataGridOption[], text: string): CbDataGridOption | undefined {
+  const q = fold(text);
+  if (!q) return undefined;
+  const usable = options.filter((o) => !o.disabled);
+  return (
+    usable.find((o) => fold(String(o.value)) === q) ??
+    usable.find((o) => fold(o.label) === q) ??
+    usable.find((o) => fold(o.label).startsWith(q + ' '))
+  );
+}
+
+/**
+ * Opciones de `autocomplete` que coinciden con lo escrito: primero las que
+ * empiezan por el texto (por código), después las que lo contienen; sin tildes.
+ */
+export function searchOptions(options: readonly CbDataGridOption[], text: string, limit = 50): CbDataGridOption[] {
+  const q = fold(text);
+  if (!q) return options.slice(0, limit);
+  const starts: CbDataGridOption[] = [];
+  const contains: CbDataGridOption[] = [];
+  for (const o of options) {
+    const label = fold(o.label);
+    if (label.startsWith(q) || fold(String(o.value)).startsWith(q)) starts.push(o);
+    else if (label.includes(q) || (o.description && fold(o.description).includes(q))) contains.push(o);
+  }
+  return [...starts, ...contains].slice(0, limit);
+}
+
 export function isoDate(d: Date): string {
   const pad = (n: number) => String(n).padStart(2, '0');
   return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
@@ -158,14 +205,15 @@ export function isoDate(d: Date): string {
 
 /** Mensaje de error de una celda (obligatoria, límites y validación propia) o `null`. */
 export function validateCell(col: CbDataGridColumn<object>, value: unknown, row: object, texts: ValidationTexts): string | null {
-  if (isEmpty(value)) return col.required ? texts.required : null;
+  // Vacía: obligatoria, o la validación propia (puede exigirla según la fila).
+  if (isEmpty(value)) return col.required ? texts.required : (col.validate?.(value, row) ?? null);
   const type = col.type ?? 'text';
   if (type === 'number') {
     if (typeof value !== 'number') return texts.number;
     if (col.min !== undefined && value < col.min) return texts.min.replace('{0}', String(col.min));
     if (col.max !== undefined && value > col.max) return texts.max.replace('{0}', String(col.max));
   }
-  if (type === 'select' && !(col.options ?? []).some((o) => o.value === value)) return texts.option;
+  if ((type === 'select' || type === 'autocomplete') && !(col.options ?? []).some((o) => o.value === value)) return texts.option;
   if (type === 'date' && (typeof value !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(value))) return texts.date;
   return col.validate?.(value, row) ?? null;
 }
@@ -194,6 +242,7 @@ export function cellText(col: CbDataGridColumn<object>, value: unknown, row: obj
     case 'checkbox':
       return value ? yesNo[0] : yesNo[1];
     case 'select':
+    case 'autocomplete':
       return (col.options ?? []).find((o) => o.value === value)?.label ?? String(value);
     case 'date': {
       const m = typeof value === 'string' ? /^(\d{4})-(\d{2})-(\d{2})$/.exec(value) : null;
@@ -217,7 +266,7 @@ export function compareCells(col: CbDataGridColumn<object>, a: unknown, b: unkno
   if (isEmpty(a) || isEmpty(b)) return isEmpty(a) === isEmpty(b) ? 0 : isEmpty(a) ? 1 : -1;
   if (typeof a === 'number' && typeof b === 'number') return a - b;
   if (typeof a === 'boolean' && typeof b === 'boolean') return Number(a) - Number(b);
-  if (col.type === 'select') {
+  if (col.type === 'select' || col.type === 'autocomplete') {
     const label = (v: unknown) => (col.options ?? []).find((o) => o.value === v)?.label ?? String(v);
     return label(a).localeCompare(label(b), locale, { numeric: true, sensitivity: 'base' });
   }

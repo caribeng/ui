@@ -12,7 +12,7 @@ export type CbSummary = 'sum' | 'avg' | 'count' | 'min' | 'max';
 export interface CbAmountOptions {
   /** Código ISO 4217 (`COP`, `USD`…); `null` escribe solo el número. */
   readonly currency?: string | null;
-  /** Decimales fijos (por defecto, los de la moneda; sin moneda, 2). */
+  /** Decimales fijos (por defecto 2; 0 en monedas sin centavos como JPY o CLP). */
   readonly decimals?: number;
   readonly negative?: CbNegativeStyle;
   /** `symbol` ($), `narrowSymbol` ($ sin país) o `code` (COP). */
@@ -21,11 +21,14 @@ export interface CbAmountOptions {
 
 const formatters = new Map<string, Intl.NumberFormat>();
 
+/** Monedas sin decimales (ISO 4217); el resto se escribe con 2, igual en todos los navegadores. */
+const ZERO_DECIMALS = new Set(['BIF', 'CLP', 'DJF', 'GNF', 'ISK', 'JPY', 'KMF', 'KRW', 'PYG', 'RWF', 'UGX', 'UYI', 'VND', 'VUV', 'XAF', 'XOF', 'XPF']);
+
 function formatter(locale: string, options: CbAmountOptions): Intl.NumberFormat {
   const key = `${locale}|${options.currency ?? ''}|${options.decimals ?? ''}|${options.currencyDisplay ?? ''}`;
   let f = formatters.get(key);
   if (!f) {
-    const digits = options.decimals ?? (options.currency ? undefined : 2);
+    const digits = options.decimals ?? (options.currency && ZERO_DECIMALS.has(options.currency.toUpperCase()) ? 0 : 2);
     f = new Intl.NumberFormat(locale, {
       style: options.currency ? 'currency' : 'decimal',
       currency: options.currency ?? undefined,

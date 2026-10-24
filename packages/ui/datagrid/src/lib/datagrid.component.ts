@@ -16,6 +16,7 @@ import {
   untracked,
 } from '@angular/core';
 import { CB_CONFIG, cbFormat, cbSummarize, injectCbTranslation, type CbNegativeStyle } from '@caribeng/ui';
+import { OverlayModule, type ConnectedPosition } from '@angular/cdk/overlay';
 import { CbIcon } from '@caribeng/ui/icon';
 import {
   cellText,
@@ -24,6 +25,7 @@ import {
   fromTsv,
   inRange,
   isEmpty,
+  searchOptions,
   parseCell,
   rangeOf,
   toTsv,
@@ -31,6 +33,7 @@ import {
   type CbDataGridCellChange,
   type CbDataGridColumn,
   type CbDataGridError,
+  type CbDataGridOption,
   type CbDataGridRow,
   type CellPos,
   type ValidationTexts,
@@ -48,7 +51,15 @@ interface Editing {
   /** `native`: editor propio del tipo (fecha, lista); `text`: se empezó escribiendo. */
   readonly mode: 'native' | 'text';
   readonly error: string | null;
+  /** `autocomplete`: opción resaltada en la lista. */
+  readonly active: number;
 }
+
+/** Posiciones de la lista de `autocomplete`: debajo de la celda o, si no cabe, encima. */
+const LIST_POSITIONS: ConnectedPosition[] = [
+  { originX: 'start', originY: 'bottom', overlayX: 'start', overlayY: 'top', offsetY: 2 },
+  { originX: 'start', originY: 'top', overlayX: 'start', overlayY: 'bottom', offsetY: -2 },
+];
 
 interface Patch<T> {
   readonly row: T;
@@ -79,7 +90,7 @@ let nextKey = 0;
   selector: 'cb-data-grid',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
-  imports: [CbIcon],
+  imports: [CbIcon, OverlayModule],
   host: {
     class: 'cb-data-grid',
     '[class.cb-data-grid--readonly]': '!editable()',
@@ -215,6 +226,50 @@ let nextKey = 0;
                 >
                   @if (editing()?.r === r && editing()?.c === c) {
                     @switch (editorKind(col)) {
+                      @case ('autocomplete') {
+                        <input
+                          #acInput
+                          class="cb-dg__editor"
+                          type="text"
+                          role="combobox"
+                          autocomplete="off"
+                          aria-autocomplete="list"
+                          aria-expanded="true"
+                          [attr.aria-label]="col.header"
+                          [attr.aria-controls]="uid + '-list'"
+                          [attr.aria-activedescendant]="matches().length ? uid + '-opt-' + editing()!.active : null"
+                          [attr.aria-invalid]="editing()!.error ? true : null"
+                          [attr.aria-describedby]="editing()!.error ? uid + '-editor-error' : null"
+                          [value]="editing()!.text"
+                          (input)="editText($event)"
+                          (keydown)="onEditorKeydown($event)"
+                          (blur)="commit(null)"
+                        />
+                        <ng-template cdkConnectedOverlay [cdkConnectedOverlayOrigin]="acInput" [cdkConnectedOverlayOpen]="true" [cdkConnectedOverlayPositions]="listPositions" [cdkConnectedOverlayMinWidth]="acInput.offsetWidth">
+                          <ul class="cb-dg__list" role="listbox" [id]="uid + '-list'" [attr.aria-label]="col.header">
+                            @for (o of matches(); track $index; let i = $index) {
+                              <li
+                                class="cb-dg__option"
+                                role="option"
+                                [id]="uid + '-opt-' + i"
+                                [class.cb-dg__option--active]="i === editing()!.active"
+                                [attr.aria-selected]="i === editing()!.active"
+                                [attr.aria-disabled]="o.disabled || null"
+                                (mousedown)="$event.preventDefault()"
+                                (mouseenter)="setActive(i)"
+                                (click)="pick(o)"
+                              >
+                                <span class="cb-dg__option-label">{{ o.label }}</span>
+                                @if (o.description) {
+                                  <span class="cb-dg__option-desc">{{ o.description }}</span>
+                                }
+                              </li>
+                            } @empty {
+                              <li class="cb-dg__option cb-dg__option--empty" role="option" aria-disabled="true">{{ t().noResults }}</li>
+                            }
+                          </ul>
+                        </ng-template>
+                      }
                       @case ('select') {
                         <select class="cb-dg__editor" [attr.aria-label]="col.header" (change)="editText($event)" (keydown)="onEditorKeydown($event)" (blur)="commit(null)">
                           <option value="" [selected]="editing()!.text === ''"></option>
@@ -250,7 +305,7 @@ let nextKey = 0;
                     <span class="cb-dg__sr">{{ text(row, col) }}</span>
                   } @else {
                     <span class="cb-dg__text">{{ text(row, col) }}</span>
-                    @if (col.type === 'select' && canEdit(col)) {
+                    @if ((col.type === 'select' || col.type === 'autocomplete') && canEdit(col)) {
                       <cb-icon class="cb-dg__caret" name="chevron-down" [size]="14" aria-hidden="true" />
                     }
                   }
@@ -574,7 +629,31 @@ export class CbDataGrid<T extends object = CbDataGridRow> {
     return before !== row && this.get(before, col.field) !== this.get(row, col.field);
   }
 
-  protected editorKind(col: CbDataGridColumn<T>): 'select' | 'date' | 'text' {
+  protected readonly listPositions = LIST_POSITIONS;
+
+  /** Opciones de `autocomplete` que coinciden con lo escrito en el editor. */
+  protected readonly matches = computed<CbDataGridOption[]>(() => {
+    const e = this.editing();
+    const col = e ? this.columns()[e.c] : null;
+    if (!e || col?.type !== 'autocomplete') return [];
+    return searchOptions(col.options ?? [], e.text);
+  });
+
+  protected setActive(i: number): void {
+    this.editing.update((e) => (e ? { ...e, active: i } : e));
+  }
+
+  /** Elige una opción de `autocomplete` con el ratón. */
+  protected pick(option: CbDataGridOption): void {
+    if (option.disabled) return;
+    const e = this.editing();
+    if (!e) return;
+    this.editing.set({ ...e, text: option.label, active: this.matches().indexOf(option) });
+    this.commit('down');
+  }
+
+  protected editorKind(col: CbDataGridColumn<T>): 'select' | 'autocomplete' | 'date' | 'text' {
+    if (col.type === 'autocomplete') return 'autocomplete';
     const mode = this.editing()?.mode;
     if (col.type === 'select' && mode === 'native') return 'select';
     if (col.type === 'date' && mode === 'native') return 'date';
@@ -643,7 +722,7 @@ export class CbDataGrid<T extends object = CbDataGridRow> {
       // Teclas que llegan a la celda antes de que el editor tenga el foco (al escribir rápido).
       if (event.key.length === 1 && !event.ctrlKey && !event.metaKey && !event.altKey) {
         event.preventDefault();
-        this.editing.update((e) => (e && e.mode === 'text' ? { ...e, text: e.text + event.key } : e));
+        this.editing.update((e) => (e && e.mode === 'text' ? { ...e, text: e.text + event.key, active: this.firstEnabled(e.c, e.text + event.key) } : e));
       } else if (['Enter', 'Tab', 'Escape'].includes(event.key)) this.onEditorKeydown(event);
       return;
     }
@@ -780,6 +859,21 @@ export class CbDataGrid<T extends object = CbDataGridRow> {
         break;
       case 'ArrowUp':
       case 'ArrowDown':
+        // En `autocomplete`, las flechas recorren la lista (saltando las deshabilitadas).
+        if (this.columns()[e.c]?.type === 'autocomplete') {
+          event.preventDefault();
+          const list = this.matches();
+          if (!list.length) break;
+          const step = event.key === 'ArrowDown' ? 1 : -1;
+          let i = e.active;
+          for (let n = 0; n < list.length; n++) {
+            i = (i + step + list.length) % list.length;
+            if (!list[i].disabled) break;
+          }
+          this.setActive(i);
+          this.host.nativeElement.ownerDocument.getElementById(`${this.uid}-opt-${i}`)?.scrollIntoView?.({ block: 'nearest' });
+          break;
+        }
         // Si se empezó escribiendo, las flechas confirman y se mueven (como en Excel).
         if (e.mode === 'text') {
           event.preventDefault();
@@ -791,7 +885,14 @@ export class CbDataGrid<T extends object = CbDataGridRow> {
 
   protected editText(event: Event): void {
     const value = (event.target as HTMLInputElement | HTMLSelectElement).value;
-    this.editing.update((e) => (e ? { ...e, text: value, error: null } : e));
+    this.editing.update((e) => (e ? { ...e, text: value, error: null, active: this.firstEnabled(e.c, value) } : e));
+  }
+
+  /** Primera opción elegible de `autocomplete` para un texto. */
+  private firstEnabled(c: number, text: string): number {
+    const col = this.columns()[c];
+    if (col?.type !== 'autocomplete') return 0;
+    return Math.max(0, searchOptions(col.options ?? [], text).findIndex((o) => !o.disabled));
   }
 
   // --- Edición -----------------------------------------------------------------------------
@@ -809,7 +910,7 @@ export class CbDataGrid<T extends object = CbDataGridRow> {
       if (col.type === 'number' && typeof value === 'number') text = this.localNumber(value);
     }
     this.select({ r, c }, false);
-    this.editing.set({ r, c, text, mode: mode ?? (initial === undefined ? 'native' : 'text'), error: null });
+    this.editing.set({ r, c, text, mode: mode ?? (initial === undefined ? 'native' : 'text'), error: null, active: this.firstEnabled(c, initial ?? '') });
     afterNextRender(
       () => {
         const input = this.host.nativeElement.querySelector<HTMLInputElement | HTMLSelectElement>(`#${this.cellId(r, c)} .cb-dg__editor`);
@@ -830,8 +931,10 @@ export class CbDataGrid<T extends object = CbDataGridRow> {
       this.editing.set(null);
       return;
     }
-    const parsed = parseCell(col as CbDataGridColumn<object>, e.text, this.texts());
-    if (parsed.error) {
+    // En `autocomplete`, con Enter o Tab se elige la opción resaltada (al salir, solo si coincide).
+    const highlighted = col.type === 'autocomplete' && move !== null ? this.matches()[e.active] : undefined;
+    const parsed = highlighted && !highlighted.disabled && e.text.trim() ? { value: highlighted.value } : parseCell(col as CbDataGridColumn<object>, e.text, this.texts());
+    if ('error' in parsed && parsed.error) {
       // Al salir con un valor que no se entiende, se descarta; con Enter o Tab se avisa.
       if (move === null) this.editing.set(null);
       else this.editing.set({ ...e, error: parsed.error });
@@ -975,6 +1078,9 @@ export class CbDataGrid<T extends object = CbDataGridRow> {
     for (const p of patches) {
       const copy = byRow.get(p.row) ?? { ...(p.row as Record<string, unknown>) };
       copy[p.field] = p.value;
+      // Campos que cambian con esta celda (`onEdit`), en el mismo paso.
+      const extra = this.columns().find((c) => c.field === p.field)?.onEdit?.(p.value, copy as T);
+      if (extra) Object.assign(copy, extra);
       byRow.set(p.row, copy);
     }
     const next = this.rows().map((row) => (byRow.get(row) as T | undefined) ?? row);

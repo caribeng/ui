@@ -134,6 +134,8 @@ import { CbFlowEditor } from '@caribeng/ui/flow';
 import { CbScheduler } from '@caribeng/ui/scheduler';
 import { CbDataGrid } from '@caribeng/ui/datagrid';
 import { CbDynamicForm } from '@caribeng/ui/dynamic-form';
+import { CbAccountPicker } from '@caribeng/ui/account-picker';
+import { CbJournalEntry } from '@caribeng/ui/journal-entry';
 import { CbMediaPlayer } from '@caribeng/ui/media-player';
 import { CbMasonry } from '@caribeng/ui/masonry';
 import { CbInfiniteScroll } from '@caribeng/ui/infinite-scroll';
@@ -2032,6 +2034,48 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "formSubmit", type: "Record<string, unknown>", description: "Envío válido: el valor del formulario." },
       { name: "formInvalid", type: "{ key, message }[]", description: "Envío con errores: los campos que fallan." },
       { name: "formReset", type: "void", description: "Se restableció el formulario." }
+    ]
+  },
+  "cb-account-picker": {
+    component: CbAccountPicker,
+    selector: "cb-account-picker",
+    props: [
+      { name: "accounts", kind: "string", type: "readonly CbAccount[]", default: [], example: [{ code: '1', name: 'Activo' }, { code: '11', name: 'Disponible' }, { code: '1105', name: 'Caja' }, { code: '110505', name: 'Caja general' }, { code: '1110', name: 'Bancos' }, { code: '111005', name: 'Moneda nacional' }], description: "Plan de cuentas (code, name, parent, postable, nature, disabled); la jerarquía se deduce del código.", control: false },
+      { name: "value", kind: "string", type: "string | null (model)", default: null, description: "Código de la cuenta elegida.", control: false },
+      { name: "label", kind: "string", type: "string", default: "", example: "Cuenta", description: "Etiqueta del campo." },
+      { name: "allowParents", kind: "boolean", type: "boolean", default: false, description: "Deja elegir también cuentas mayores." },
+      { name: "showPath", kind: "boolean", type: "boolean", default: true, description: "Muestra la ruta de la cuenta bajo el campo y en los resultados." },
+      { name: "placeholder", kind: "string", type: "string", default: undefined, localeKey: "accountPickerPlaceholder", description: "Texto de ayuda dentro del campo." },
+      { name: "hint", kind: "string", type: "string", default: "", description: "Ayuda bajo el campo." },
+      { name: "error", kind: "string", type: "string", default: "", description: "Mensaje cuando el campo es inválido." },
+      { name: "size", kind: "enum", type: "'sm' | 'md' | 'lg'", options: ["sm", "md", "lg"], default: "md", description: "Tamaño." },
+      { name: "required", kind: "boolean", type: "boolean", default: false, description: "Obligatorio." },
+      { name: "disabled", kind: "boolean", type: "boolean", default: false, description: "Deshabilitado." },
+      { name: "limit", kind: "number", type: "number", default: 50, description: "Máximo de resultados en la lista." }
+    ],
+    events: [
+      { name: "accountChange", type: "CbAccount | null", description: "Cuenta elegida (o null al limpiar)." }
+    ]
+  },
+  "cb-journal-entry": {
+    component: CbJournalEntry,
+    selector: "cb-journal-entry",
+    props: [
+      { name: "entry", kind: "string", type: "CbJournalEntryData (model)", default: undefined, description: "Comprobante: date, type, number, description y lines (account, thirdParty, costCenter, description, debit, credit).", control: false },
+      { name: "accounts", kind: "string", type: "readonly CbAccount[]", default: [], example: [{ code: '1110', name: 'Bancos' }, { code: '111005', name: 'Moneda nacional' }, { code: '5135', name: 'Servicios' }, { code: '513530', name: 'Energía eléctrica' }], description: "Plan de cuentas; solo se eligen cuentas de movimiento.", control: false },
+      { name: "thirdParties", kind: "string", type: "readonly CbJournalOption[]", default: [], description: "Terceros (sin ellos no se muestra la columna).", control: false },
+      { name: "costCenters", kind: "string", type: "readonly CbJournalOption[]", default: [], description: "Centros de costo (sin ellos no se muestra la columna).", control: false },
+      { name: "types", kind: "string", type: "readonly CbJournalOption[]", default: [], description: "Tipos de comprobante (sin ellos no se muestra el campo).", control: false },
+      { name: "thirdPartyRequired", kind: "string", type: "readonly string[]", default: [], description: "Prefijos de cuenta que exigen tercero (p. ej. ['13', '22']).", control: false },
+      { name: "currency", kind: "string", type: "string", default: undefined, description: "Moneda de los importes (si no, la de provideCaribeNG)." },
+      { name: "readonly", kind: "boolean", type: "boolean", default: false, description: "Solo consulta: sin edición ni botones." },
+      { name: "saving", kind: "boolean", type: "boolean", default: false, description: "Botón de guardar cargando." },
+      { name: "saveLabel", kind: "string", type: "string", default: undefined, localeKey: "journalSave", description: "Texto del botón de guardar." },
+      { name: "scrollHeight", kind: "string", type: "string | null", default: "22rem", description: "Alto máximo de las líneas." }
+    ],
+    events: [
+      { name: "save", type: "CbJournalEntryData", description: "Comprobante válido y cuadrado (sin líneas vacías, detalles heredados)." },
+      { name: "invalid", type: "string[]", description: "Se intentó guardar con problemas: cuáles." }
     ]
   },
   "cb-data-grid": {

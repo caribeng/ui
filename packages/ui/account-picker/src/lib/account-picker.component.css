@@ -1,0 +1,203 @@
+:host {
+  display: block;
+  font-family: var(--cb-font-sans);
+}
+
+.cb-ap__label {
+  display: block;
+  margin-bottom: var(--cb-space-1);
+  color: var(--cb-color-text);
+  font-size: var(--cb-text-sm);
+  font-weight: var(--cb-font-weight-medium);
+}
+
+.cb-ap__required {
+  margin-left: 2px;
+  color: var(--cb-color-danger);
+}
+
+.cb-ap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  width: 100%;
+  border: var(--cb-border-width) solid var(--cb-color-border-strong);
+  border-radius: var(--cb-radius-md);
+  background-color: var(--cb-color-bg);
+  transition:
+    border-color var(--cb-duration-fast) var(--cb-ease),
+    box-shadow var(--cb-duration-fast) var(--cb-ease);
+}
+
+.cb-ap:hover:not(.cb-is-disabled):not(:focus-within) {
+  border-color: var(--cb-color-text-muted);
+}
+
+.cb-ap:focus-within,
+.cb-ap.cb-is-open {
+  border-color: var(--cb-color-primary-500);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--cb-color-primary-500) 25%, transparent);
+}
+
+.cb-ap.cb-is-invalid {
+  border-color: var(--cb-color-danger);
+}
+
+.cb-ap.cb-is-disabled {
+  background-color: var(--cb-color-surface);
+  opacity: 0.8;
+}
+
+.cb-ap__icon {
+  flex: none;
+  margin-left: var(--cb-space-3);
+  color: var(--cb-color-text-muted);
+}
+
+.cb-ap__field {
+  flex: 1 1 auto;
+  min-width: 0;
+  box-sizing: border-box;
+  border: none;
+  background: transparent;
+  color: var(--cb-color-text);
+  font-family: var(--cb-font-sans);
+  font-variant-numeric: tabular-nums;
+}
+
+.cb-ap__field::placeholder {
+  color: var(--cb-color-text-muted);
+}
+
+.cb-ap__field:focus {
+  outline: none;
+}
+
+.cb-ap--sm .cb-ap__field {
+  min-height: 2rem;
+  padding: var(--cb-space-1) var(--cb-space-2);
+  font-size: var(--cb-text-sm);
+}
+
+.cb-ap--md .cb-ap__field {
+  min-height: 2.5rem;
+  padding: var(--cb-space-2) var(--cb-space-3) var(--cb-space-2) var(--cb-space-2);
+  font-size: var(--cb-text-base);
+}
+
+.cb-ap--lg .cb-ap__field {
+  min-height: 3rem;
+  padding: var(--cb-space-3) var(--cb-space-4) var(--cb-space-3) var(--cb-space-2);
+  font-size: var(--cb-text-lg);
+}
+
+.cb-ap__clear {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  margin-right: 0.25rem;
+  padding: 0;
+  border: 0;
+  border-radius: var(--cb-radius-sm, 4px);
+  background: transparent;
+  color: var(--cb-color-text-muted);
+  cursor: pointer;
+}
+
+.cb-ap__clear:hover {
+  color: var(--cb-color-text);
+  background: var(--cb-color-surface-hover);
+}
+
+.cb-ap__path {
+  margin: var(--cb-space-1) 0 0;
+  overflow: hidden;
+  color: var(--cb-color-text-muted);
+  font-size: var(--cb-text-xs);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cb-ap__list {
+  box-sizing: border-box;
+  max-height: 18rem;
+  margin: 0;
+  padding: var(--cb-space-1);
+  overflow-y: auto;
+  border: 1px solid var(--cb-color-border);
+  border-radius: var(--cb-radius-md);
+  background-color: var(--cb-color-surface-raised);
+  box-shadow: var(--cb-shadow-md);
+  list-style: none;
+  font-family: var(--cb-font-sans);
+  font-size: var(--cb-text-sm);
+  color: var(--cb-color-text);
+}
+
+.cb-ap__option {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 0.6rem;
+  align-items: baseline;
+  padding: 0.4rem 0.6rem;
+  border-radius: var(--cb-radius-sm, 4px);
+  cursor: pointer;
+}
+
+.cb-ap__option--active {
+  background: color-mix(in srgb, var(--cb-color-primary-500) 12%, transparent);
+}
+
+.cb-ap__option--selected .cb-ap__name {
+  font-weight: var(--cb-font-weight-semibold, 600);
+}
+
+.cb-ap__option--group {
+  color: var(--cb-color-text-muted);
+  cursor: default;
+}
+
+.cb-ap__option--group.cb-ap__option--active {
+  background: transparent;
+}
+
+.cb-ap__option--empty {
+  display: block;
+  color: var(--cb-color-text-muted);
+  cursor: default;
+}
+
+.cb-ap__code {
+  font-variant-numeric: tabular-nums;
+  font-weight: var(--cb-font-weight-semibold, 600);
+}
+
+.cb-ap__opt-path {
+  grid-column: 2;
+  color: var(--cb-color-text-muted);
+  font-size: var(--cb-text-xs);
+}
+
+.cb-ap__message {
+  margin: var(--cb-space-1) 0 0;
+  color: var(--cb-color-text-muted);
+  font-size: var(--cb-text-xs);
+}
+
+.cb-ap__message--error {
+  color: var(--cb-color-danger);
+}
+
+.cb-ap__sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}

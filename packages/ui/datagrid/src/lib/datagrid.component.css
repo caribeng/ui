@@ -266,8 +266,50 @@
   font-variant-numeric: tabular-nums;
 }
 
+.cb-dg__total {
+  text-align: start;
+}
+
 .cb-dg__table tfoot .cb-dg__num--foot {
   z-index: 3;
+}
+
+/* Lista de `autocomplete` (en un overlay; sigue siendo parte de la plantilla). */
+.cb-dg__list {
+  max-height: 16rem;
+  margin: 0;
+  padding: 0.25rem;
+  overflow: auto;
+  border: 1px solid var(--cb-color-border);
+  border-radius: var(--cb-radius-md);
+  background: var(--cb-color-surface-raised, var(--cb-color-bg));
+  box-shadow: var(--cb-shadow-lg, 0 10px 24px rgb(0 0 0 / 0.14));
+  list-style: none;
+  color: var(--cb-color-text);
+  font-family: var(--cb-font-sans);
+  font-size: var(--cb-text-sm, 0.875rem);
+}
+
+.cb-dg__option {
+  display: grid;
+  gap: 0.1rem;
+  padding: 0.4rem 0.6rem;
+  border-radius: var(--cb-radius-sm, 4px);
+  cursor: pointer;
+}
+
+.cb-dg__option--active {
+  background: color-mix(in srgb, var(--cb-color-primary-500) 12%, transparent);
+}
+
+.cb-dg__option[aria-disabled='true'] {
+  color: var(--cb-color-text-muted);
+  cursor: default;
+}
+
+.cb-dg__option-desc {
+  color: var(--cb-color-text-muted);
+  font-size: var(--cb-text-xs, 0.75rem);
 }
 
 /* Marca de celda cambiada: triángulo en la esquina superior izquierda. */

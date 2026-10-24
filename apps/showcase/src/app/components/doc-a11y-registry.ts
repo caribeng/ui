@@ -767,6 +767,35 @@ export const DOC_A11Y: Record<string, DocA11y> = {
       { keys: 'Enter (resumen)', action: 'En un enlace del resumen de errores, lleva el foco a ese campo.' },
     ],
   },
+  'cb-account-picker': {
+    screenReader: [
+      'El campo es un `combobox` con `aria-autocomplete="list"`, `aria-expanded` y `aria-activedescendant`; la etiqueta visible está enlazada con `<label for>`.',
+      'Cada resultado es una opción con el código y el nombre. Las cuentas mayores y las inactivas llevan `aria-disabled` y no se pueden elegir; la elegida lleva `aria-selected`.',
+      'Al buscar, una región `role="status"` dice cuántas cuentas coinciden. La ruta de la cuenta elegida se muestra en texto bajo el campo.',
+      'Con Angular Forms, el error y la ayuda se asocian con `aria-describedby` y el campo queda `aria-invalid` al tocarlo sin elegir.',
+    ],
+    keyboard: [
+      { keys: 'Escribir', action: 'Busca por código o por nombre y abre la lista.' },
+      { keys: 'Flecha abajo / arriba', action: 'Abre la lista y recorre las cuentas que se pueden elegir.' },
+      { keys: 'Enter', action: 'Elige la cuenta resaltada.' },
+      { keys: 'Tab', action: 'Con una búsqueda, elige la resaltada y pasa al siguiente campo.' },
+      { keys: 'Escape', action: 'Cierra la lista y vuelve a la cuenta elegida.' },
+    ],
+  },
+  'cb-journal-entry': {
+    screenReader: [
+      'La cabecera es un grupo con nombre ("Datos del comprobante") con fecha, tipo, número y descripción, cada uno con su etiqueta.',
+      'Las líneas son un Data Grid (`role="grid"`) con una sola parada de tabulación; las celdas de cuenta, tercero y centro de costo son `combobox` con lista de búsqueda.',
+      'Los totales de débitos, créditos y la diferencia están en una lista de definiciones con `aria-live="polite"`, y el estado Cuadrado / Descuadrado se dice con texto además del color.',
+      'Al intentar guardar con problemas aparece una lista con `role="alert"`; las celdas con error llevan `aria-invalid` y su mensaje en texto oculto.',
+    ],
+    keyboard: [
+      { keys: 'Tab', action: 'Recorre la cabecera, las líneas y los botones.' },
+      { keys: 'Flechas, Enter, F2', action: 'Navegan y editan las líneas como en el Data Grid.' },
+      { keys: 'Flecha abajo / arriba (cuenta)', action: 'Recorren la lista de cuentas; Enter elige.' },
+      { keys: 'Ctrl + Enter', action: 'Guarda el comprobante.' },
+    ],
+  },
   'cb-data-grid': {
     screenReader: [
       'Es una tabla con `role="grid"`, cabeceras de columna (`th scope="col"`) y de fila (el número de fila); `aria-rowcount` y `aria-colcount` dicen su tamaño y cada celda su posición.',

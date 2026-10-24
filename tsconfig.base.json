@@ -285,6 +285,12 @@
       "@caribeng/ui/dynamic-form": [
         "./packages/ui/dynamic-form/src/public-api.ts"
       ],
+      "@caribeng/ui/account-picker": [
+        "./packages/ui/account-picker/src/public-api.ts"
+      ],
+      "@caribeng/ui/journal-entry": [
+        "./packages/ui/journal-entry/src/public-api.ts"
+      ],
       "@caribeng/ui/media-player": [
         "./packages/ui/media-player/src/public-api.ts"
       ],

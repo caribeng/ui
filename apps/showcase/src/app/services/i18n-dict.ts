@@ -3842,4 +3842,125 @@ export const ES_EN: Record<string, string> = {
     'Name of the table.',
   'Moneda de las columnas con currency: true (si no, la de provideCaribeNG).':
     'Currency of the columns with currency: true (otherwise, the provideCaribeNG one).',
+  // --- Contabilidad: Account Picker y Journal Entry ---
+  'Selector de cuenta contable: busca en el plan de cuentas (PUC) por código o por nombre, muestra la jerarquía de cada cuenta y solo deja elegir cuentas de movimiento.':
+    'Accounting account picker: searches the chart of accounts by code or name, shows the hierarchy of each account and only lets you choose posting accounts.',
+  'accounts recibe el plan de cuentas como lista plana: la jerarquía se deduce del código (110505 cuelga de 1105) o de parent. Escribe un código (1105) o una palabra (energía, bancos nacional); las cuentas mayores aparecen como contexto pero no se eligen. Escribir el código completo y salir del campo lo elige; bajo el campo se ve la ruta.':
+    'accounts takes the chart of accounts as a flat list: the hierarchy is deduced from the code (110505 hangs from 1105) or from parent. Type a code (1105) or a word (energy, national banks); control accounts appear as context but cannot be chosen. Typing the full code and leaving the field chooses it; the path is shown under the field.',
+  'En un formulario':
+    'In a form',
+  'Funciona con Angular Forms: el valor es el código de la cuenta, required marca el campo y error muestra el mensaje al tocarlo sin elegir.':
+    'Works with Angular Forms: the value is the account code, required marks the field and error shows the message when it is touched without choosing.',
+  'Cuentas mayores e inactivas':
+    'Control and inactive accounts',
+  'allowParents deja elegir también cuentas mayores (útil en filtros de informes). Las cuentas con disabled: true (como 530515 Comisiones) se ven pero nunca se eligen.':
+    'allowParents also lets you choose control accounts (useful in report filters). Accounts with disabled: true (like 530515 Commissions) are shown but can never be chosen.',
+  'En el Data Grid':
+    'In the Data Grid',
+  'cbAccountOptions(puc) convierte el plan de cuentas en opciones para una columna autocomplete del Data Grid: etiqueta código y nombre, ruta como descripción y solo cuentas de movimiento. Así se busca la cuenta escribiendo dentro de la celda, y pegar un código desde Excel la encuentra.':
+    'cbAccountOptions(puc) turns the chart of accounts into options for an autocomplete column of the Data Grid: code and name label, path as description and only posting accounts. The account is searched by typing inside the cell, and pasting a code from Excel finds it.',
+  'Editor de comprobante contable: cabecera y líneas con cuenta, tercero, centro de costo, detalle, débito y crédito, editables como una hoja de cálculo, con los totales y la diferencia en vivo y la validación antes de guardar.':
+    'Accounting voucher editor: header and lines with account, third party, cost center, detail, debit and credit, editable like a spreadsheet, with live totals and difference and validation before saving.',
+  'Comprobante de egreso':
+    'Payment voucher',
+  'Escribe en la celda de la cuenta un código o un nombre (energía, bancos) y elige con Enter; tercero y centro de costo se buscan igual. Escribir el débito borra el crédito de la línea y al revés. Cuadrar pone la diferencia en la última línea sin valor; Guardar (o Ctrl + Enter) valida la fecha, que haya dos líneas con valor, las cuentas, el tercero de las cuentas que lo exigen (13 y 22 aquí) y que cuadre. Las líneas vacías se quitan y las que no tienen detalle toman la descripción.':
+    'Type a code or a name (energy, banks) in the account cell and choose with Enter; third party and cost center are searched the same way. Typing the debit clears the credit of the line and vice versa. Balance puts the difference in the last line without an amount; Save (or Ctrl + Enter) checks the date, that there are two lines with an amount, the accounts, the third party of the accounts that require it (13 and 22 here) and that it balances. Empty lines are removed and lines without detail take the description.',
+  'Comprobante nuevo':
+    'New voucher',
+  'cbEmptyJournalEntry() crea un comprobante con la fecha de hoy y dos líneas vacías. Sin terceros, centros de costo ni tipos, esas columnas y campos no se muestran.':
+    'cbEmptyJournalEntry() creates a voucher with today\'s date and two empty lines. Without third parties, cost centers or types, those columns and fields are not shown.',
+  'Con readonly se consulta un comprobante ya contabilizado: se navega, se selecciona y se copia, pero no se edita ni se guarda.':
+    'With readonly you view a voucher that is already posted: you can navigate, select and copy, but not edit or save.',
+  'Cuenta':
+    'Account',
+  'Cuenta de gasto':
+    'Expense account',
+  'Elige la cuenta de gasto.':
+    'Choose the expense account.',
+  'Solo cuentas de movimiento.':
+    'Posting accounts only.',
+  'Filtrar por cuenta':
+    'Filter by account',
+  'Plan de cuentas (code, name, parent, postable, nature, disabled); la jerarquía se deduce del código.':
+    'Chart of accounts (code, name, parent, postable, nature, disabled); the hierarchy is deduced from the code.',
+  'Código de la cuenta elegida.':
+    'Code of the chosen account.',
+  'Deja elegir también cuentas mayores.':
+    'Also lets you choose control accounts.',
+  'Muestra la ruta de la cuenta bajo el campo y en los resultados.':
+    'Shows the account path under the field and in the results.',
+  'Texto de ayuda dentro del campo.':
+    'Placeholder text inside the field.',
+  'Ayuda bajo el campo.':
+    'Hint under the field.',
+  'Mensaje cuando el campo es inválido.':
+    'Message when the field is invalid.',
+  'Máximo de resultados en la lista.':
+    'Maximum results in the list.',
+  'Cuenta elegida (o null al limpiar).':
+    'Chosen account (or null when cleared).',
+  'Comprobante: date, type, number, description y lines (account, thirdParty, costCenter, description, debit, credit).':
+    'Voucher: date, type, number, description and lines (account, thirdParty, costCenter, description, debit, credit).',
+  'Plan de cuentas; solo se eligen cuentas de movimiento.':
+    'Chart of accounts; only posting accounts can be chosen.',
+  'Terceros (sin ellos no se muestra la columna).':
+    'Third parties (without them the column is not shown).',
+  'Centros de costo (sin ellos no se muestra la columna).':
+    'Cost centers (without them the column is not shown).',
+  'Tipos de comprobante (sin ellos no se muestra el campo).':
+    'Voucher types (without them the field is not shown).',
+  'Prefijos de cuenta que exigen tercero (p. ej. [\'13\', \'22\']).':
+    'Account prefixes that require a third party (e.g. [\'13\', \'22\']).',
+  'Moneda de los importes (si no, la de provideCaribeNG).':
+    'Currency of the amounts (otherwise, the provideCaribeNG one).',
+  'Solo consulta: sin edición ni botones.':
+    'View only: no editing or buttons.',
+  'Botón de guardar cargando.':
+    'Save button loading.',
+  'Texto del botón de guardar.':
+    'Save button text.',
+  'Alto máximo de las líneas.':
+    'Maximum height of the lines.',
+  'Comprobante válido y cuadrado (sin líneas vacías, detalles heredados).':
+    'Valid and balanced voucher (without empty lines, details inherited).',
+  'Se intentó guardar con problemas: cuáles.':
+    'Saving was attempted with problems: which ones.',
+  'El campo es un `combobox` con `aria-autocomplete="list"`, `aria-expanded` y `aria-activedescendant`; la etiqueta visible está enlazada con `<label for>`.':
+    'The field is a `combobox` with `aria-autocomplete="list"`, `aria-expanded` and `aria-activedescendant`; the visible label is linked with `<label for>`.',
+  'Cada resultado es una opción con el código y el nombre. Las cuentas mayores y las inactivas llevan `aria-disabled` y no se pueden elegir; la elegida lleva `aria-selected`.':
+    'Each result is an option with the code and the name. Control and inactive accounts have `aria-disabled` and cannot be chosen; the chosen one has `aria-selected`.',
+  'Al buscar, una región `role="status"` dice cuántas cuentas coinciden. La ruta de la cuenta elegida se muestra en texto bajo el campo.':
+    'While searching, a `role="status"` region says how many accounts match. The path of the chosen account is shown as text under the field.',
+  'Con Angular Forms, el error y la ayuda se asocian con `aria-describedby` y el campo queda `aria-invalid` al tocarlo sin elegir.':
+    'With Angular Forms, the error and the hint are linked with `aria-describedby` and the field becomes `aria-invalid` when touched without choosing.',
+  'Busca por código o por nombre y abre la lista.':
+    'Searches by code or name and opens the list.',
+  'Abre la lista y recorre las cuentas que se pueden elegir.':
+    'Opens the list and moves through the accounts that can be chosen.',
+  'Elige la cuenta resaltada.':
+    'Chooses the highlighted account.',
+  'Con una búsqueda, elige la resaltada y pasa al siguiente campo.':
+    'With a search, chooses the highlighted one and moves to the next field.',
+  'Cierra la lista y vuelve a la cuenta elegida.':
+    'Closes the list and goes back to the chosen account.',
+  'La cabecera es un grupo con nombre ("Datos del comprobante") con fecha, tipo, número y descripción, cada uno con su etiqueta.':
+    'The header is a named group ("Voucher details") with date, type, number and description, each with its label.',
+  'Las líneas son un Data Grid (`role="grid"`) con una sola parada de tabulación; las celdas de cuenta, tercero y centro de costo son `combobox` con lista de búsqueda.':
+    'The lines are a Data Grid (`role="grid"`) with a single tab stop; the account, third party and cost center cells are `combobox` with a search list.',
+  'Los totales de débitos, créditos y la diferencia están en una lista de definiciones con `aria-live="polite"`, y el estado Cuadrado / Descuadrado se dice con texto además del color.':
+    'The debit, credit and difference totals are in a definition list with `aria-live="polite"`, and the Balanced / Unbalanced state is given in text as well as color.',
+  'Al intentar guardar con problemas aparece una lista con `role="alert"`; las celdas con error llevan `aria-invalid` y su mensaje en texto oculto.':
+    'When saving with problems, a list with `role="alert"` appears; cells with errors have `aria-invalid` and their message in hidden text.',
+  'Recorre la cabecera, las líneas y los botones.':
+    'Moves through the header, the lines and the buttons.',
+  'Flechas, Enter, F2':
+    'Arrows, Enter, F2',
+  'Navegan y editan las líneas como en el Data Grid.':
+    'Navigate and edit the lines as in the Data Grid.',
+  'Flecha abajo / arriba (cuenta)':
+    'Down / Up arrow (account)',
+  'Recorren la lista de cuentas; Enter elige.':
+    'Move through the list of accounts; Enter chooses.',
+  'Guarda el comprobante.':
+    'Saves the voucher.',
 };
