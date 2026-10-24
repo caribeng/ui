@@ -232,6 +232,8 @@ export class CbInputNumber implements ControlValueAccessor {
 
   // --- Interacción -----------------------------------------------------------
   protected onFocus(event: FocusEvent): void {
+    // De solo lectura: se sigue viendo con formato (no se edita).
+    if (this.readonly()) return;
     this.focused.set(true);
     const v = this.value();
     const raw = v == null ? '' : this.toRawString(v);

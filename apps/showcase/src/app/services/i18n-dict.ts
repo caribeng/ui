@@ -3704,12 +3704,6 @@ export const ES_EN: Record<string, string> = {
   'kind="audio" muestra el título y el subtítulo encima de los controles, sin pantalla. Un contenido solo de audio necesita una transcripción (WCAG 1.2.1): proyéctala con cbMediaTranscript y aparece en un desplegable. skipSeconds cambia el salto de los botones.':
     'kind="audio" shows the title and subtitle above the controls, without a screen. Audio-only content needs a transcript (WCAG 1.2.1): project it with cbMediaTranscript and it appears in a disclosure. skipSeconds changes the jump of the buttons.',
   // --- Dynamic Form ---
-  'Formulario que se arma a partir de un esquema JSON: cada campo dice su tipo, etiqueta, validaciones y cuántas columnas ocupa. La disposición puede ser vertical (etiqueta encima) u horizontal (etiqueta a la izquierda), en una o varias columnas, con secciones y campos que aparecen según otros valores.':
-    'Form built from a JSON schema: each field states its type, label, validations and how many columns it spans. The layout can be vertical (label on top) or horizontal (label on the left), in one or several columns, with sections and fields that appear depending on other values.',
-  'Disposición y columnas':
-    'Layout and columns',
-  'layout elige si la etiqueta va encima (vertical) o a la izquierda (horizontal, con labelWidth) y columns cuántas columnas tiene la rejilla; colSpan hace que un campo ocupe varias (o full, toda la fila) y cada sección puede tener sus propias columnas. Cambia las opciones: en un contenedor estrecho todo pasa a una columna y la etiqueta vuelve arriba.':
-    'layout chooses whether the label goes on top (vertical) or on the left (horizontal, with labelWidth) and columns how many columns the grid has; colSpan makes a field span several (or full, the whole row) and each section can have its own columns. Change the options: in a narrow container everything becomes one column and the label goes back on top.',
   'Esquema en JSON':
     'Schema in JSON',
   'El esquema es JSON puro: se puede guardar en una base de datos o recibir de una API. Edita el JSON y el formulario se vuelve a armar al momento; las condiciones también son JSON (visibleWhen con equals, notEquals, in o filled).':
@@ -3724,16 +3718,10 @@ export const ES_EN: Record<string, string> = {
     'text, email, password, tel, url, number, textarea, select, multiselect, radio, buttons, checkbox, toggle, date, slider, rating, chips and color: each one uses the matching CaribeNG control, connected to Angular Forms.',
   'Esquema':
     'Schema',
-  'Esquema: fields o sections, columns, layout, labelWidth, submitLabel y resetLabel.':
-    'Schema: fields or sections, columns, layout, labelWidth, submitLabel and resetLabel.',
   'Valor del formulario (sin los campos ocultos).':
     'Form value (without hidden fields).',
   'Etiqueta encima o a la izquierda (si no, la del esquema).':
     'Label on top or on the left (otherwise, the schema one).',
-  'Columnas de la rejilla (si no, las del esquema; 1 por defecto).':
-    'Grid columns (otherwise, the schema ones; 1 by default).',
-  'Ancho de la etiqueta en horizontal (10rem por defecto).':
-    'Label width in horizontal (10rem by default).',
   'Botones de enviar y restablecer.':
     'Submit and reset buttons.',
   'Deshabilita todo el formulario.':
@@ -4375,4 +4363,83 @@ export const ES_EN: Record<string, string> = {
     'Vouchers',
   'Utilidad del ejercicio':
     'Profit for the year',
+  // --- Dynamic Form (parametrización) ---
+  'Formulario que se arma a partir de un esquema JSON: cada campo dice su tipo, etiqueta, validaciones y cuántas columnas ocupa. Las etiquetas van encima, a un lado, flotantes u ocultas; hay columnas por tamaño de pantalla, secciones, pasos, grupos repetibles, opciones que dependen de otros campos y campos calculados.':
+    'Form built from a JSON schema: each field states its type, label, validations and how many columns it spans. Labels go on top, to one side, floating or hidden; there are columns per screen size, sections, steps, repeatable groups, options that depend on other fields and computed fields.',
+  'Etiquetas y columnas':
+    'Labels and columns',
+  'labelPosition ubica las etiquetas: encima (top), a la izquierda (left), a la derecha (right), dentro del campo (floating, sube al escribir) u ocultas (hidden, solo para lectores de pantalla). Se fija en el formulario, en cada sección o en cada campo; labelAlign las alinea al inicio o al final y labelWidth da su ancho. columns da las columnas y colSpan cuántas ocupa un campo (o full). Cambia las opciones: en un contenedor estrecho todo pasa a una columna y las etiquetas laterales suben.':
+    'labelPosition places the labels: on top (top), on the left (left), on the right (right), inside the field (floating, moves up when typing) or hidden (hidden, only for screen readers). It is set on the form, on each section or on each field; labelAlign aligns them to the start or the end and labelWidth sets their width. columns sets the columns and colSpan how many a field spans (or full). Change the options: in a narrow container everything becomes one column and side labels move up.',
+  'Diseño: columnas por tamaño, títulos y separadores':
+    'Layout: columns per size, headings and dividers',
+  'columns y colSpan aceptan un valor por tamaño del formulario: base (móvil), sm (desde 30rem), md (desde 40rem) y lg (desde 60rem); cada uno hereda el anterior. Los elementos heading, paragraph y divider ponen títulos, textos y separadores entre los campos; newRow empieza una fila nueva, order cambia el orden y size el tamaño de los controles. Cada sección puede tener su propia posición de etiquetas.':
+    'columns and colSpan accept a value per form size: base (mobile), sm (from 30rem), md (from 40rem) and lg (from 60rem); each one inherits the previous one. The heading, paragraph and divider elements add headings, texts and dividers between fields; newRow starts a new row, order changes the order and size the size of the controls. Each section can have its own label position.',
+  'Opciones dependientes y cargadas':
+    'Dependent and loaded options',
+  'optionsFrom toma las opciones según el valor de otro campo (el departamento según el país); optionsLoader las pide a una función de loaders (aquí, una API simulada que tarda medio segundo) y se vuelve a llamar cuando cambia algo de dependsOn. Si el valor elegido ya no está entre las opciones nuevas, se limpia.':
+    'optionsFrom takes the options according to the value of another field (the state according to the country); optionsLoader requests them from a function in loaders (here, a fake API that takes half a second) and is called again when something in dependsOn changes. If the chosen value is no longer among the new options, it is cleared.',
+  'Grupos repetibles y campos calculados':
+    'Repeatable groups and computed fields',
+  'Un campo type: \'group\' agrupa otros en un objeto; con repeatable es una lista que se amplía con «Añadir línea» y cada elemento se quita con su botón (minItems y maxItems ponen límites). formula calcula un campo con una expresión segura: aquí cada subtotal es cantidad * precio y el total suma la lista con sum(lineas.subtotal); también hay round, min, max, abs y count.':
+    'A type: \'group\' field groups others into an object; with repeatable it is a list that grows with «Add line» and each item is removed with its button (minItems and maxItems set limits). formula computes a field with a safe expression: here each subtotal is cantidad * precio and the total adds up the list with sum(lineas.subtotal); there are also round, min, max, abs and count.',
+  'Formulario por pasos':
+    'Step-by-step form',
+  'steps divide el formulario en pasos con su título: Siguiente valida los campos del paso y muestra sus errores antes de avanzar, Atrás vuelve sin validar y el último paso envía. El foco va al título de cada paso al cambiar.':
+    'steps splits the form into steps with their title: Next validates the fields of the step and shows its errors before moving on, Back returns without validating and the last step submits. Focus goes to the title of each step when it changes.',
+  'Validaciones entre campos, prefijos, máscaras y campos propios':
+    'Cross-field validations, prefixes, masks and custom fields',
+  'rules compara un campo con otro: equalsField para confirmar la contraseña, gteField para que la fecha final no sea anterior a la inicial. prefix, suffix e icon ponen símbolos alrededor del control; type: \'mask\' usa una máscara. Un type propio (aquí \'firma\') se pinta con la plantilla ng-template cbFormField de ese nombre, que recibe el control, el campo y su id.':
+    'rules compares a field with another: equalsField to confirm the password, gteField so the end date is not before the start date. prefix, suffix and icon put symbols around the control; type: \'mask\' uses a mask. A custom type (here \'firma\') is rendered with the ng-template cbFormField of that name, which receives the control, the field and its id.',
+  'Encima':
+    'On top',
+  'Izquierda':
+    'Left',
+  'Derecha':
+    'Right',
+  'Flotante':
+    'Floating',
+  'Oculta':
+    'Hidden',
+  'Inicio':
+    'Start',
+  'Fin':
+    'End',
+  '1 columna':
+    '1 column',
+  '2 columnas':
+    '2 columns',
+  '3 columnas':
+    '3 columns',
+  'Columnas':
+    'Columns',
+  'Posición de las etiquetas':
+    'Label position',
+  'Alineación de las etiquetas':
+    'Label alignment',
+  'Esquema: fields, sections o steps, columns, layout, labelPosition, labelAlign, labelWidth, size, submitLabel y resetLabel.':
+    'Schema: fields, sections or steps, columns, layout, labelPosition, labelAlign, labelWidth, size, submitLabel and resetLabel.',
+  'Posición de las etiquetas; tiene prioridad sobre layout y la sobrescriben la sección y el campo.':
+    'Label position; it takes priority over layout and is overridden by the section and the field.',
+  'Columnas de la rejilla, una cifra o por tamaño del formulario (si no, las del esquema; 1 por defecto).':
+    'Grid columns, a number or per form size (otherwise, the schema ones; 1 by default).',
+  'Ancho de las etiquetas laterales (10rem por defecto).':
+    'Width of side labels (10rem by default).',
+  'Tamaño de los controles (si no, el del esquema).':
+    'Size of the controls (otherwise, the schema one).',
+  'Funciones que cargan opciones; cada campo las nombra con optionsLoader.':
+    'Functions that load options; each field names one with optionsLoader.',
+  'Traduce los textos del esquema que son cadenas; los objetos { es, en } se eligen por idioma.':
+    'Translates the schema texts that are strings; { es, en } objects are chosen by language.',
+  'Cambió el paso visible (índice desde 0).':
+    'The visible step changed (index from 0).',
+  'Las etiquetas flotantes son `<label>` reales y las ocultas (`hidden`) siguen en el DOM para los lectores de pantalla; los prefijos y sufijos son decorativos y conviene repetir la unidad en la etiqueta o la ayuda.':
+    'Floating labels are real `<label>` elements and hidden ones (`hidden`) stay in the DOM for screen readers; prefixes and suffixes are decorative, so repeat the unit in the label or the hint.',
+  'Los grupos son un `fieldset` con `legend`; en los repetibles cada elemento es un `role="group"` con su nombre («Línea 2»), el botón de quitar dice qué quita y una región `role="status"` anuncia lo que se añade o se quita.':
+    'Groups are a `fieldset` with a `legend`; in repeatable ones each item is a `role="group"` with its name («Line 2»), the remove button says what it removes and a `role="status"` region announces what is added or removed.',
+  'En los pasos, la lista de pasos marca el actual con `aria-current="step"`; al cambiar de paso el foco va a su título, que anuncia «Paso 2 de 3», y si hay errores aparece el resumen solo con los del paso.':
+    'In steps, the step list marks the current one with `aria-current="step"`; when the step changes focus goes to its title, which announces «Step 2 of 3», and if there are errors the summary shows only those of the step.',
+  'En un formulario por pasos, Enter en un campo de texto equivale a Siguiente.':
+    'In a step-by-step form, Enter in a text field is the same as Next.',
+  'Enter (pasos)':
+    'Enter (steps)',
 };

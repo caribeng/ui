@@ -760,11 +760,15 @@ export const DOC_A11Y: Record<string, DocA11y> = {
       'Al enviar con errores aparece arriba un resumen con `role="alert"` que recibe el foco y lista cada campo con su error; cada elemento es un enlace que lleva el foco a ese campo.',
       'Cada sección es un `fieldset` con su título como `legend`. Los campos ocultos por una condición se quitan del DOM (no se leen ni se validan) y los deshabilitados se anuncian como tales.',
       'Las columnas y la disposición horizontal no cambian el orden de lectura ni de tabulación: siguen el orden del esquema, y en contenedores estrechos todo pasa a una columna con la etiqueta encima.',
+      'Las etiquetas flotantes son `<label>` reales y las ocultas (`hidden`) siguen en el DOM para los lectores de pantalla; los prefijos y sufijos son decorativos y conviene repetir la unidad en la etiqueta o la ayuda.',
+      'Los grupos son un `fieldset` con `legend`; en los repetibles cada elemento es un `role="group"` con su nombre («Línea 2»), el botón de quitar dice qué quita y una región `role="status"` anuncia lo que se añade o se quita.',
+      'En los pasos, la lista de pasos marca el actual con `aria-current="step"`; al cambiar de paso el foco va a su título, que anuncia «Paso 2 de 3», y si hay errores aparece el resumen solo con los del paso.',
     ],
     keyboard: [
       { keys: 'Tab', action: 'Recorre los campos en el orden del esquema y después los botones.' },
       { keys: 'Enter', action: 'En un campo de texto, envía el formulario.' },
       { keys: 'Enter (resumen)', action: 'En un enlace del resumen de errores, lleva el foco a ese campo.' },
+      { keys: 'Enter (pasos)', action: 'En un formulario por pasos, Enter en un campo de texto equivale a Siguiente.' },
     ],
   },
   'cb-account-picker': {

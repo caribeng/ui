@@ -2030,11 +2030,15 @@ export const DOC_API: Record<string, DocApi> = {
     component: CbDynamicForm,
     selector: "cb-dynamic-form",
     props: [
-      { name: "schema", kind: "string", type: "CbFormSchema", default: undefined, example: { columns: 2, fields: [{ key: 'nombre', label: 'Nombre', required: true }, { key: 'correo', label: 'Correo', type: 'email', required: true }, { key: 'pais', label: 'País', type: 'select', options: [{ label: 'Colombia', value: 'CO' }, { label: 'Panamá', value: 'PA' }] }, { key: 'acepto', label: 'Acepto las condiciones', type: 'checkbox', colSpan: 'full' }] }, description: "Esquema: fields o sections, columns, layout, labelWidth, submitLabel y resetLabel.", control: false },
+      { name: "schema", kind: "string", type: "CbFormSchema", default: undefined, example: { columns: 2, fields: [{ key: 'nombre', label: 'Nombre', required: true }, { key: 'correo', label: 'Correo', type: 'email', required: true }, { key: 'pais', label: 'País', type: 'select', options: [{ label: 'Colombia', value: 'CO' }, { label: 'Panamá', value: 'PA' }] }, { key: 'acepto', label: 'Acepto las condiciones', type: 'checkbox', colSpan: 'full' }] }, description: "Esquema: fields, sections o steps, columns, layout, labelPosition, labelAlign, labelWidth, size, submitLabel y resetLabel.", control: false },
       { name: "value", kind: "string", type: "Record<string, unknown> (model)", default: {}, description: "Valor del formulario (sin los campos ocultos).", control: false },
       { name: "layout", kind: "enum", type: "'vertical' | 'horizontal'", options: ["vertical", "horizontal"], default: undefined, description: "Etiqueta encima o a la izquierda (si no, la del esquema)." },
-      { name: "columns", kind: "number", type: "number", default: undefined, description: "Columnas de la rejilla (si no, las del esquema; 1 por defecto)." },
-      { name: "labelWidth", kind: "string", type: "string", default: undefined, description: "Ancho de la etiqueta en horizontal (10rem por defecto)." },
+      { name: "labelPosition", kind: "enum", type: "'top' | 'left' | 'right' | 'floating' | 'hidden'", options: ["top", "left", "right", "floating", "hidden"], default: undefined, description: "Posición de las etiquetas; tiene prioridad sobre layout y la sobrescriben la sección y el campo." },
+      { name: "columns", kind: "number", type: "number | { base, sm, md, lg }", default: undefined, description: "Columnas de la rejilla, una cifra o por tamaño del formulario (si no, las del esquema; 1 por defecto)." },
+      { name: "labelWidth", kind: "string", type: "string", default: undefined, description: "Ancho de las etiquetas laterales (10rem por defecto)." },
+      { name: "size", kind: "enum", type: "'sm' | 'md' | 'lg'", options: ["sm", "md", "lg"], default: undefined, description: "Tamaño de los controles (si no, el del esquema)." },
+      { name: "loaders", kind: "string", type: "Record<string, CbFormOptionsLoader>", default: {}, description: "Funciones que cargan opciones; cada campo las nombra con optionsLoader.", control: false },
+      { name: "translate", kind: "string", type: "(text: string) => string", default: undefined, description: "Traduce los textos del esquema que son cadenas; los objetos { es, en } se eligen por idioma.", control: false },
       { name: "actions", kind: "boolean", type: "boolean", default: true, description: "Botones de enviar y restablecer." },
       { name: "disabled", kind: "boolean", type: "boolean", default: false, description: "Deshabilita todo el formulario." },
       { name: "loading", kind: "boolean", type: "boolean", default: false, description: "Botón de enviar cargando." },
@@ -2043,7 +2047,8 @@ export const DOC_API: Record<string, DocApi> = {
     events: [
       { name: "formSubmit", type: "Record<string, unknown>", description: "Envío válido: el valor del formulario." },
       { name: "formInvalid", type: "{ key, message }[]", description: "Envío con errores: los campos que fallan." },
-      { name: "formReset", type: "void", description: "Se restableció el formulario." }
+      { name: "formReset", type: "void", description: "Se restableció el formulario." },
+      { name: "stepChange", type: "number", description: "Cambió el paso visible (índice desde 0)." }
     ]
   },
   "cb-account-picker": {

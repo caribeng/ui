@@ -11,6 +11,12 @@ Desde la 22.0.0 el major de la librería coincide con el de Angular (22.x = Angu
 ## [Unreleased]
 
 ### Added
+- **`DynamicForm`, más parametrización:**
+  - **Etiquetas:** `labelPosition` (`top`, `left`, `right`, `floating`, `hidden`) en el formulario, en cada sección o en cada campo, `labelAlign` y `labelWidth`. Los textos aceptan un objeto por idioma (`{ es, en }`) o pasan por la función `translate`.
+  - **Diseño:** `columns` y `colSpan` por tamaño del formulario (`{ base, sm, md, lg }`, con container queries), `newRow`, `order`, `size`, y los elementos `heading`, `paragraph` y `divider`.
+  - **Dependencias:** `optionsFrom` (opciones según otro campo) y `optionsLoader` con `loaders` y `dependsOn` (opciones remotas con Promise); el valor se limpia si ya no está entre las opciones.
+  - **Grupos y pasos:** `type: 'group'` (objeto anidado) y `repeatable` (lista con añadir y quitar, `minItems`, `maxItems`, `itemLabel`), campos calculados con `formula` (expresiones seguras con `sum`, `round`, `min`, `max`…, exportada como `evaluateFormula`) o `compute`, y `steps` con validación por paso y el evento `stepChange`.
+  - **Validaciones y campos propios:** `rules` entre campos (`equalsField`, `gteField`, `lteField`…), `prefix`, `suffix`, `icon`, `type: 'mask'` y tipos propios pintados con `<ng-template cbFormField="nombre">`.
 - **Showcase:** nueva plantilla «Tablero contable» (`/templates/accounting`). Combina selector de periodo, indicadores, estado de resultados comparativo, cartera por edades, conciliación bancaria y los últimos comprobantes; cada comprobante se abre en un panel lateral y los nuevos se crean con el editor de comprobante.
 - **Componente nuevo: `Amount`** (`@caribeng/ui/amount`): importe con su moneda, negativos en rojo (con signo o entre paréntesis), código ISO, tamaños, equivalente en otra moneda con la tasa (`convert`, p. ej. la TRM) e importe en letras (`words`). Incluye `cbAmountInWords()` en español e inglés para pesos, dólares, euros y otras monedas, en estilo cheque («UN MILLÓN DE PESOS CON 50/100 M/CTE») o texto. 184 entry points.
 - **Componente nuevo: `Kpi`** (`@caribeng/ui/kpi`): indicador para tableros con valor, variación frente al periodo anterior (calculada sola y dicha con texto), color según si subir es bueno o malo (`better`), minigráfica de tendencia (`series`), avance hacia una meta (`target`) y formatos de moneda, número, entero o porcentaje. 185 entry points.
@@ -57,6 +63,7 @@ Desde la 22.0.0 el major de la librería coincide con el de Angular (22.x = Angu
 - **Showcase:** el Editor abre con «Todo en un editor», un documento con todas sus funciones (tabla, imagen, código, tareas, cita, fuentes, alineación…), y el PDF Viewer tiene un ejemplo por funcionalidad (búsqueda, giro, barra reducida, descargar e imprimir, eventos y errores, formulario como imagen, `save()`).
 
 ### Fixed
+- **`InputNumber`:** en modo de solo lectura conserva el formato al recibir el foco.
 - **`InputNumber`:** al entrar en el campo (con Tab o clic), el valor queda seleccionado, así que lo que se escribe lo reemplaza; antes se añadía al final y las primeras teclas actuaban sobre el texto con formato. En modo moneda usa 2 decimales en todos los navegadores (0 en monedas sin centavos): antes Chrome redondeaba los pesos a enteros.
 - **Contraste y modo oscuro de los componentes contables (WCAG AA):** nuevos tokens `--cb-color-primary-text`, `--cb-color-success-text`, `--cb-color-warning-text` y `--cb-color-danger-text`, oscuros en el tema claro y claros en el oscuro. Los usan los importes negativos, errores, variaciones, estados y enlaces de Table, TreeTable, Data Grid, Amount, Kpi, JournalEntry, Reconciliation, Aging, AuditLog, ImportWizard, Pivot, PeriodPicker y Dynamic Form.
 - **Accesibilidad:** la tabla dinámica ya no pone `aria-level` en filas de una tabla normal; el área con scroll de `Table` (`scrollHeight`) es una región enfocable con nombre.

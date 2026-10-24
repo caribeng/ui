@@ -97,8 +97,10 @@ describe('CbDynamicForm', () => {
   it('arma los campos del esquema con etiquetas, valor inicial y la rejilla de columnas', async () => {
     const { el, field, host } = await setup();
     expect(el.querySelector('legend')!.textContent).toContain('Datos');
-    expect(el.querySelector<HTMLElement>('.cb-df__grid')!.style.getPropertyValue('--cb-df-cols')).toBe('2');
-    expect(field('notas')!.style.gridColumn).toBe('1 / -1');
+    const grid = el.querySelector<HTMLElement>('.cb-df__grid')!;
+    expect([grid.style.getPropertyValue('--df-cols-base'), grid.style.getPropertyValue('--df-cols-md')]).toEqual(['1', '2']);
+    expect(field('notas')!.style.getPropertyValue('--df-col-md')).toBe('1 / -1');
+    expect(field('nombre')!.style.getPropertyValue('--df-col-md')).toBe('span 1');
     const label = field('nombre')!.querySelector('label')!;
     expect(label.textContent).toContain('Nombre');
     expect(document.getElementById(label.getAttribute('for')!)!.tagName).toBe('INPUT');
@@ -171,7 +173,7 @@ describe('CbDynamicForm', () => {
       ],
     });
     await settle();
-    expect(el.querySelector('cb-dynamic-form')!.classList).toContain('cb-df--horizontal');
+    expect(field('tel')!.classList).toContain('cb-df__field--left');
     expect(field('tel')!.querySelector('.cb-df__req')).toBeNull();
     host.form().form().controls['contacto'].setValue('tel');
     await settle();

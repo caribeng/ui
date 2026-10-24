@@ -11,6 +11,10 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
         "type": "added",
         "items": [
           {
+            "component": "",
+            "text": "**`DynamicForm`, más parametrización:** - **Etiquetas:** `labelPosition` (`top`, `left`, `right`, `floating`, `hidden`) en el formulario, en cada sección o en cada campo, `labelAlign` y `labelWidth`. Los textos aceptan un objeto por idioma (`{ es, en }`) o pasan por la función `translate`. - **Diseño:** `columns` y `colSpan` por tamaño del formulario (`{ base, sm, md, lg }`, con container queries), `newRow`, `order`, `size`, y los elementos `heading`, `paragraph` y `divider`. - **Dependencias:** `optionsFrom` (opciones según otro campo) y `optionsLoader` con `loaders` y `dependsOn` (opciones remotas con Promise); el valor se limpia si ya no está entre las opciones. - **Grupos y pasos:** `type: 'group'` (objeto anidado) y `repeatable` (lista con añadir y quitar, `minItems`, `maxItems`, `itemLabel`), campos calculados con `formula` (expresiones seguras con `sum`, `round`, `min`, `max`…, exportada como `evaluateFormula`) o `compute`, y `steps` con validación por paso y el evento `stepChange`. - **Validaciones y campos propios:** `rules` entre campos (`equalsField`, `gteField`, `lteField`…), `prefix`, `suffix`, `icon`, `type: 'mask'` y tipos propios pintados con `<ng-template cbFormField=\"nombre\">`."
+          },
+          {
             "component": "Showcase",
             "text": "nueva plantilla «Tablero contable» (`/templates/accounting`). Combina selector de periodo, indicadores, estado de resultados comparativo, cartera por edades, conciliación bancaria y los últimos comprobantes; cada comprobante se abre en un panel lateral y los nuevos se crean con el editor de comprobante."
           },
@@ -171,6 +175,10 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
       {
         "type": "fixed",
         "items": [
+          {
+            "component": "`InputNumber`",
+            "text": "en modo de solo lectura conserva el formato al recibir el foco."
+          },
           {
             "component": "`InputNumber`",
             "text": "al entrar en el campo (con Tab o clic), el valor queda seleccionado, así que lo que se escribe lo reemplaza; antes se añadía al final y las primeras teclas actuaban sobre el texto con formato. En modo moneda usa 2 decimales en todos los navegadores (0 en monedas sin centavos): antes Chrome redondeaba los pesos a enteros."

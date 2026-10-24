@@ -633,6 +633,20 @@ export interface CbTranslation {
   dynamicFormSummaryOne: string;
   /** `{0}`: cantidad. */
   dynamicFormSummary: string;
+  dynamicFormNext: string;
+  dynamicFormBack: string;
+  /** `{0}`: paso; `{1}`: total. */
+  dynamicFormStep: string;
+  /** `{0}`: grupo. */
+  dynamicFormAdd: string;
+  /** `{0}`: elemento. */
+  dynamicFormRemove: string;
+  /** `{0}`: número. */
+  dynamicFormItem: string;
+  /** `{0}`: elemento. */
+  dynamicFormAdded: string;
+  /** `{0}`: elemento. */
+  dynamicFormRemoved: string;
   tableTotal: string;
   /** `{0}`: grupo. */
   tableSubtotal: string;
@@ -1728,6 +1742,14 @@ export const CB_LOCALE_ES: CbTranslation = {
   dynamicFormInvalid: 'El valor no es válido.',
   dynamicFormSummaryOne: 'Revisa 1 campo:',
   dynamicFormSummary: 'Revisa {0} campos:',
+  dynamicFormNext: 'Siguiente',
+  dynamicFormBack: 'Atrás',
+  dynamicFormStep: 'Paso {0} de {1}:',
+  dynamicFormAdd: 'Añadir {0}',
+  dynamicFormRemove: 'Quitar {0}',
+  dynamicFormItem: 'Elemento {0}',
+  dynamicFormAdded: '{0} añadido.',
+  dynamicFormRemoved: '{0} quitado.',
   tableTotal: 'Total',
   tableSubtotal: 'Subtotal {0}',
   tableScrollRegion: 'Tabla con desplazamiento',
@@ -2738,6 +2760,14 @@ export const CB_LOCALE_EN: CbTranslation = {
   dynamicFormInvalid: 'The value is not valid.',
   dynamicFormSummaryOne: 'Check 1 field:',
   dynamicFormSummary: 'Check {0} fields:',
+  dynamicFormNext: 'Next',
+  dynamicFormBack: 'Back',
+  dynamicFormStep: 'Step {0} of {1}:',
+  dynamicFormAdd: 'Add {0}',
+  dynamicFormRemove: 'Remove {0}',
+  dynamicFormItem: 'Item {0}',
+  dynamicFormAdded: '{0} added.',
+  dynamicFormRemoved: '{0} removed.',
   tableTotal: 'Total',
   tableSubtotal: 'Subtotal {0}',
   tableScrollRegion: 'Scrollable table',
