@@ -117,7 +117,9 @@ export const NAV_MENU: NavItem[] = [
         label: 'Contabilidad',
         children: [
           { label: 'Account Picker', route: '/components/account-picker', badge: 'NEW' },
+          { label: 'Financial Report', route: '/components/financial-report', badge: 'NEW' },
           { label: 'Journal Entry', route: '/components/journal-entry', badge: 'NEW' },
+          { label: 'Period Picker', route: '/components/period-picker', badge: 'NEW' },
         ],
       },
       {

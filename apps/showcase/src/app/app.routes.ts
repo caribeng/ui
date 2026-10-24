@@ -72,6 +72,8 @@ import { DatagridDocComponent } from './pages/datagrid-doc.component';
 import { DynamicFormDocComponent } from './pages/dynamic-form-doc.component';
 import { AccountPickerDocComponent } from './pages/account-picker-doc.component';
 import { JournalEntryDocComponent } from './pages/journal-entry-doc.component';
+import { PeriodPickerDocComponent } from './pages/period-picker-doc.component';
+import { FinancialReportDocComponent } from './pages/financial-report-doc.component';
 import { MediaPlayerDocComponent } from './pages/media-player-doc.component';
 import { MasonryDocComponent } from './pages/masonry-doc.component';
 import { InfiniteScrollDocComponent } from './pages/infinite-scroll-doc.component';
@@ -199,6 +201,8 @@ export const routes: Routes = [
   { path: 'components/dynamic-form', component: DynamicFormDocComponent, title: 'Dynamic Form · CaribeNG' },
   { path: 'components/account-picker', component: AccountPickerDocComponent, title: 'Account Picker · CaribeNG' },
   { path: 'components/journal-entry', component: JournalEntryDocComponent, title: 'Journal Entry · CaribeNG' },
+  { path: 'components/period-picker', component: PeriodPickerDocComponent, title: 'Period Picker · CaribeNG' },
+  { path: 'components/financial-report', component: FinancialReportDocComponent, title: 'Financial Report · CaribeNG' },
   { path: 'components/media-player', component: MediaPlayerDocComponent, title: 'MediaPlayer · CaribeNG' },
   { path: 'components/masonry', component: MasonryDocComponent, title: 'Masonry · CaribeNG' },
   { path: 'components/infinite-scroll', component: InfiniteScrollDocComponent, title: 'InfiniteScroll · CaribeNG' },

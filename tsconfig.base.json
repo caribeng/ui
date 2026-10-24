@@ -291,6 +291,15 @@
       "@caribeng/ui/journal-entry": [
         "./packages/ui/journal-entry/src/public-api.ts"
       ],
+      "@caribeng/ui/xlsx": [
+        "./packages/ui/xlsx/src/public-api.ts"
+      ],
+      "@caribeng/ui/period-picker": [
+        "./packages/ui/period-picker/src/public-api.ts"
+      ],
+      "@caribeng/ui/financial-report": [
+        "./packages/ui/financial-report/src/public-api.ts"
+      ],
       "@caribeng/ui/media-player": [
         "./packages/ui/media-player/src/public-api.ts"
       ],

@@ -136,6 +136,8 @@ import { CbDataGrid } from '@caribeng/ui/datagrid';
 import { CbDynamicForm } from '@caribeng/ui/dynamic-form';
 import { CbAccountPicker } from '@caribeng/ui/account-picker';
 import { CbJournalEntry } from '@caribeng/ui/journal-entry';
+import { CbPeriodPicker } from '@caribeng/ui/period-picker';
+import { CbFinancialReport } from '@caribeng/ui/financial-report';
 import { CbMediaPlayer } from '@caribeng/ui/media-player';
 import { CbMasonry } from '@caribeng/ui/masonry';
 import { CbInfiniteScroll } from '@caribeng/ui/infinite-scroll';
@@ -2076,6 +2078,51 @@ export const DOC_API: Record<string, DocApi> = {
     events: [
       { name: "save", type: "CbJournalEntryData", description: "Comprobante válido y cuadrado (sin líneas vacías, detalles heredados)." },
       { name: "invalid", type: "string[]", description: "Se intentó guardar con problemas: cuáles." }
+    ]
+  },
+  "cb-period-picker": {
+    component: CbPeriodPicker,
+    selector: "cb-period-picker",
+    props: [
+      { name: "value", kind: "string", type: "CbPeriod | null (model)", default: null, description: "Periodo elegido (kind, from, to, key).", control: false },
+      { name: "label", kind: "string", type: "string", default: "", example: "Periodo", description: "Etiqueta del campo." },
+      { name: "mode", kind: "enum", type: "'month' | 'quarter' | 'year' (model)", options: ["month", "quarter", "year"], default: "month", description: "Vista de la cuadrícula." },
+      { name: "modes", kind: "string", type: "('month' | 'quarter' | 'year')[]", default: undefined, description: "Vistas disponibles.", control: false },
+      { name: "presets", kind: "string", type: "CbPeriodPreset[]", default: undefined, description: "Atajos (thisMonth, lastMonth, thisQuarter, lastQuarter, yearToDate, thisYear, lastYear).", control: false },
+      { name: "fiscalYearStart", kind: "number", type: "number", default: 1, description: "Mes en que empieza el año fiscal (1 = enero)." },
+      { name: "closed", kind: "string", type: "readonly string[]", default: [], example: ['2026-08', '2026-09'], description: "Meses cerrados (AAAA-MM), marcados con un candado.", control: false },
+      { name: "disableClosed", kind: "boolean", type: "boolean", default: false, description: "No deja elegir periodos con meses cerrados." },
+      { name: "placeholder", kind: "string", type: "string", default: undefined, localeKey: "periodPickerPlaceholder", description: "Texto sin periodo." },
+      { name: "hint", kind: "string", type: "string", default: "", description: "Ayuda bajo el campo." },
+      { name: "error", kind: "string", type: "string", default: "", description: "Mensaje cuando el campo es inválido." },
+      { name: "size", kind: "enum", type: "'sm' | 'md' | 'lg'", options: ["sm", "md", "lg"], default: "md", description: "Tamaño." },
+      { name: "disabled", kind: "boolean", type: "boolean", default: false, description: "Deshabilitado." }
+    ],
+    events: [
+      { name: "periodChange", type: "CbPeriod | null", description: "Periodo elegido." }
+    ]
+  },
+  "cb-financial-report": {
+    component: CbFinancialReport,
+    selector: "cb-financial-report",
+    props: [
+      { name: "title", kind: "string", type: "string", default: "", example: "Estado de resultados", description: "Título del informe." },
+      { name: "subtitle", kind: "string", type: "readonly string[]", default: [], description: "Líneas bajo el título (empresa, periodo).", control: false },
+      { name: "accounts", kind: "string", type: "readonly CbAccount[]", default: [], example: [{ code: '4', name: 'Ingresos', nature: 'credit' }, { code: '4135', name: 'Comercio' }, { code: '413595', name: 'Venta de otros productos' }, { code: '5', name: 'Gastos', nature: 'debit' }, { code: '5135', name: 'Servicios' }, { code: '513530', name: 'Energía' }], description: "Plan de cuentas.", control: false },
+      { name: "balances", kind: "string", type: "Record<string, (number | null)[]>", default: {}, example: { '413595': [-10000000, -8000000], '513530': [1200000, 1000000] }, description: "Saldos de las cuentas de movimiento, uno por periodo.", control: false },
+      { name: "periods", kind: "string", type: "readonly string[]", default: [], example: ['2026', '2025'], description: "Nombres de los periodos (columnas).", control: false },
+      { name: "comparative", kind: "boolean", type: "boolean", default: false, example: true, description: "Variación y % del primer periodo frente al segundo." },
+      { name: "classes", kind: "string", type: "readonly string[] | null", default: null, description: "Clases que se muestran (todas por defecto).", control: false },
+      { name: "signByNature", kind: "boolean", type: "boolean", default: true, description: "Saldos de naturaleza crédito en positivo." },
+      { name: "totals", kind: "string", type: "readonly CbReportTotal[]", default: [], description: "Filas de total (label y terms con code y sign).", control: false },
+      { name: "level", kind: "number", type: "number (model)", default: 2, description: "Niveles abiertos." },
+      { name: "hideZero", kind: "boolean", type: "boolean (model)", default: false, description: "Oculta las cuentas en cero." },
+      { name: "toolbar", kind: "boolean", type: "boolean", default: true, description: "Barra con niveles, ocultar en cero, Excel e Imprimir." },
+      { name: "currency", kind: "string", type: "string", default: undefined, description: "Moneda (si no, la de provideCaribeNG)." },
+      { name: "negativeStyle", kind: "enum", type: "'minus' | 'parens'", options: ["minus", "parens"], default: "parens", description: "Negativos con signo o entre paréntesis." }
+    ],
+    events: [
+      { name: "accountOpen", type: "CbAccount", description: "Clic o Enter en una cuenta de movimiento." }
     ]
   },
   "cb-data-grid": {

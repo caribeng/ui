@@ -666,6 +666,41 @@ export interface CbTranslation {
   journalErrUnbalanced: string;
   /** `{0}`: cantidad. */
   journalErrCells: string;
+  periodPickerPlaceholder: string;
+  periodPresets: string;
+  periodKind: string;
+  periodMonth: string;
+  periodQuarterTab: string;
+  periodYear: string;
+  periodPrevYear: string;
+  periodNextYear: string;
+  periodPrevYears: string;
+  periodNextYears: string;
+  /** `{0}`: trimestre; `{1}`: año. */
+  periodQuarter: string;
+  /** `{0}`: trimestre. */
+  periodQuarterShort: string;
+  /** `{0}`: trimestre; `{1}`: año fiscal. */
+  periodFiscalQuarter: string;
+  /** `{0}`: año fiscal. */
+  periodFiscalYear: string;
+  periodClosed: string;
+  periodThisMonth: string;
+  periodLastMonth: string;
+  periodThisQuarter: string;
+  periodLastQuarter: string;
+  periodYearToDate: string;
+  periodThisYear: string;
+  periodLastYear: string;
+  reportTitle: string;
+  reportToolbar: string;
+  reportLevel: string;
+  /** `{0}`: nivel. */
+  reportLevelN: string;
+  reportHideZero: string;
+  reportExcel: string;
+  reportPrint: string;
+  reportVariation: string;
 
   // --- Varios ---
   scrollableArea: string;
@@ -1574,6 +1609,36 @@ export const CB_LOCALE_ES: CbTranslation = {
   journalErrLines: 'Necesita al menos dos líneas con valor.',
   journalErrUnbalanced: 'Los débitos y los créditos no cuadran (diferencia {0}).',
   journalErrCells: 'Hay {0} celdas con errores en las líneas.',
+  periodPickerPlaceholder: 'Elegir periodo',
+  periodPresets: 'Atajos',
+  periodKind: 'Tipo de periodo',
+  periodMonth: 'Mes',
+  periodQuarterTab: 'Trimestre',
+  periodYear: 'Año',
+  periodPrevYear: 'Año anterior',
+  periodNextYear: 'Año siguiente',
+  periodPrevYears: 'Años anteriores',
+  periodNextYears: 'Años siguientes',
+  periodQuarter: 'T{0} {1}',
+  periodQuarterShort: 'T{0}',
+  periodFiscalQuarter: 'T{0} AF {1}',
+  periodFiscalYear: 'Año fiscal {0}',
+  periodClosed: 'cerrado',
+  periodThisMonth: 'Este mes',
+  periodLastMonth: 'Mes anterior',
+  periodThisQuarter: 'Este trimestre',
+  periodLastQuarter: 'Trimestre anterior',
+  periodYearToDate: 'Año a la fecha',
+  periodThisYear: 'Este año',
+  periodLastYear: 'Año anterior',
+  reportTitle: 'Informe financiero',
+  reportToolbar: 'Opciones del informe',
+  reportLevel: 'Nivel de detalle',
+  reportLevelN: 'Abrir hasta el nivel {0}',
+  reportHideZero: 'Ocultar cuentas en cero',
+  reportExcel: 'Excel',
+  reportPrint: 'Imprimir',
+  reportVariation: 'Variación',
 
   scrollableArea: 'Área desplazable',
   scrollTop: 'Volver arriba',
@@ -2432,6 +2497,36 @@ export const CB_LOCALE_EN: CbTranslation = {
   journalErrLines: 'At least two lines with an amount are needed.',
   journalErrUnbalanced: 'Debits and credits do not balance (difference {0}).',
   journalErrCells: 'There are {0} cells with errors in the lines.',
+  periodPickerPlaceholder: 'Choose period',
+  periodPresets: 'Shortcuts',
+  periodKind: 'Period type',
+  periodMonth: 'Month',
+  periodQuarterTab: 'Quarter',
+  periodYear: 'Year',
+  periodPrevYear: 'Previous year',
+  periodNextYear: 'Next year',
+  periodPrevYears: 'Previous years',
+  periodNextYears: 'Next years',
+  periodQuarter: 'Q{0} {1}',
+  periodQuarterShort: 'Q{0}',
+  periodFiscalQuarter: 'Q{0} FY {1}',
+  periodFiscalYear: 'Fiscal year {0}',
+  periodClosed: 'closed',
+  periodThisMonth: 'This month',
+  periodLastMonth: 'Last month',
+  periodThisQuarter: 'This quarter',
+  periodLastQuarter: 'Last quarter',
+  periodYearToDate: 'Year to date',
+  periodThisYear: 'This year',
+  periodLastYear: 'Last year',
+  reportTitle: 'Financial report',
+  reportToolbar: 'Report options',
+  reportLevel: 'Detail level',
+  reportLevelN: 'Open down to level {0}',
+  reportHideZero: 'Hide zero accounts',
+  reportExcel: 'Excel',
+  reportPrint: 'Print',
+  reportVariation: 'Variation',
 
   scrollableArea: 'Scrollable area',
   scrollTop: 'Back to top',

@@ -11,6 +11,22 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
         "type": "added",
         "items": [
           {
+            "component": "Exportación a Excel",
+            "text": "(`@caribeng/ui/xlsx`): generador de .xlsx sin dependencias (`cbXlsx`, `cbXlsxBytes`, `cbDownloadXlsx`). Admite varias hojas, títulos, encabezado fijo, filtros, anchos automáticos, formatos de importe con moneda y negativos en rojo o entre paréntesis, porcentajes, fechas como fecha de Excel, filas en negrita, sangría y niveles de agrupación plegables. `Table`, `TreeTable` y `Data Grid` ganan `exportExcel()` y `toExcelSheet()`, con los importes como números, subtotales, totales y, en el árbol, los niveles plegables. 177 entry points."
+          },
+          {
+            "component": "Componente nuevo: `PeriodPicker`",
+            "text": "(`@caribeng/ui/period-picker`): selector de periodo contable con vistas de mes, trimestre y año, y atajos («Este mes», «Mes anterior», «Trimestre anterior», «Año a la fecha»…). `fiscalYearStart` cambia el inicio del año fiscal y `closed` marca los meses cerrados con un candado (`disableClosed` impide elegirlos). Teclado completo en la cuadrícula; es un control de Angular Forms y el valor es un `CbPeriod` (`kind`, `from`, `to`, `key`), con utilidades como `presetPeriod`, `quarterPeriod`, `fiscalYear` y `periodFromKey`. 178 entry points."
+          },
+          {
+            "component": "Componente nuevo: `FinancialReport`",
+            "text": "(`@caribeng/ui/financial-report`): informe financiero jerárquico (estado de resultados, balance general, balance de prueba) a partir del plan de cuentas y los saldos de las cuentas de movimiento. Las cuentas mayores suman a sus auxiliares; admite varios periodos, comparativo con variación y %, saldos crédito en positivo (`signByNature`) y filas de total calculadas con cualquier cuenta (`totals`). Incluye niveles 1…N, «Ocultar cuentas en cero», exportación a Excel con niveles e impresión limpia; `accountOpen` sirve para ver los movimientos de una cuenta. 179 entry points."
+          },
+          {
+            "component": "`TreeTable`",
+            "text": "`expandToLevel(n)`, `showFooter`, `rowClass` y `activateLeaves` con el evento `nodeActivate`."
+          },
+          {
             "component": "Componente nuevo: `AccountPicker`",
             "text": "(`@caribeng/ui/account-picker`): selector de cuenta contable que busca en el plan de cuentas (PUC) por prefijo de código o por palabras del nombre y de la ruta, sin tildes. La jerarquía se deduce del código (o de `parent`) y la ruta se muestra bajo el campo y en los resultados. Solo deja elegir cuentas de movimiento (`allowParents` para las mayores) y nunca las inactivas; escribir el código completo y salir lo elige. Es un control de Angular Forms y se puede usar con `[(value)]`. Incluye las utilidades `resolveAccounts`, `searchAccounts`, `accountPath` y `cbAccountOptions` (opciones para el Data Grid). 175 entry points."
           },

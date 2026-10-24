@@ -796,6 +796,34 @@ export const DOC_A11Y: Record<string, DocA11y> = {
       { keys: 'Ctrl + Enter', action: 'Guarda el comprobante.' },
     ],
   },
+  'cb-period-picker': {
+    screenReader: [
+      'El campo es un botón con `aria-haspopup="dialog"` y `aria-expanded` que dice el periodo elegido («Octubre de 2026»); si el periodo está cerrado lo dice con texto.',
+      'El panel es un diálogo con nombre. Los atajos son botones; las vistas (mes, trimestre, año), botones con `aria-pressed`, y el año visible se anuncia al cambiarlo.',
+      'Cada celda dice su periodo completo («Agosto de 2026, cerrado»); la elegida lleva `aria-pressed` y las que no se pueden elegir, `aria-disabled`.',
+      'Al elegir o pulsar Escape, el panel se cierra y el foco vuelve al campo.',
+    ],
+    keyboard: [
+      { keys: 'Enter / Espacio / Flecha abajo', action: 'Abre el panel con el foco en el periodo elegido (o el actual).' },
+      { keys: 'Flechas', action: 'Recorren la cuadrícula; al salir por un lado pasan al año anterior o siguiente.' },
+      { keys: 'RePág / AvPág', action: 'Año anterior o siguiente (en años, la docena).' },
+      { keys: 'Inicio / Fin', action: 'Primera o última celda.' },
+      { keys: 'Escape', action: 'Cierra el panel.' },
+    ],
+  },
+  'cb-financial-report': {
+    screenReader: [
+      'El informe es un TreeGrid (`role="treegrid"`) con el título como nombre: cada cuenta dice su nivel, su posición y si está abierta (`aria-expanded`).',
+      'Los botones de nivel son un grupo con `aria-pressed` y nombre («Abrir hasta el nivel 2»); Ocultar cuentas en cero es un botón conmutador.',
+      'Los importes se leen con su formato de moneda; los negativos llevan paréntesis o signo además del color rojo.',
+      'Las filas de total están al final y en negrita. La impresión abre un documento limpio con el título y la tabla.',
+    ],
+    keyboard: [
+      { keys: 'Flecha arriba / abajo', action: 'Recorren las cuentas.' },
+      { keys: 'Flecha derecha / izquierda', action: 'Abren o cierran una cuenta mayor (o van a su padre).' },
+      { keys: 'Enter', action: 'En una cuenta mayor, la abre o cierra; en una de movimiento, emite accountOpen.' },
+    ],
+  },
   'cb-data-grid': {
     screenReader: [
       'Es una tabla con `role="grid"`, cabeceras de columna (`th scope="col"`) y de fila (el número de fila); `aria-rowcount` y `aria-colcount` dicen su tamaño y cada celda su posición.',

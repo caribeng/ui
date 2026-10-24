@@ -64,4 +64,26 @@ describe('CbTreeTable: totales jerárquicos', () => {
     const foot = Array.from(el.querySelector('tfoot tr')!.children).map((c) => c.textContent!.replace(/\s+/g, ' ').trim());
     expect(foot).toEqual(['Total', '$ 13.800.000,25']);
   });
+
+  it('toExcelSheet exporta todo el árbol con niveles, sangría y totales', async () => {
+    TestBed.configureTestingModule({ providers: [provideCaribeNG({ numberLocale: 'es-CO' })] });
+    const fixture = TestBed.createComponent(HostComponent);
+    fixture.detectChanges();
+    const tree = fixture.debugElement.children[0].componentInstance as CbTreeTable;
+    const sheet = tree.toExcelSheet();
+    const rows = sheet.rows as { cells: unknown[]; level?: number; bold?: boolean }[];
+    expect(rows.map((r) => [r.cells[0], r.level, r.bold])).toEqual([
+      ['11 Disponible', 0, true],
+      ['1105 Caja', 1, false],
+      ['1110 Bancos', 1, true],
+      ['111005 Nacionales', 2, false],
+      ['111010 Extranjeros', 2, false],
+      ['13 Deudores', 0, true],
+      ['1305 Clientes', 1, false],
+    ]);
+    expect(rows[0].cells[1]).toBe(9500000.25);
+    expect(sheet.totals).toEqual(['Total', 13800000.25]);
+    expect(sheet.name).toBe('Plan de cuentas');
+  });
 });
+

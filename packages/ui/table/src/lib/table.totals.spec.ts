@@ -67,4 +67,17 @@ describe('CbTable: importes y totales', () => {
     expect(text(subtotals[0].children as unknown as Element[])).toEqual(['Subtotal 1105 Caja', '2', '$ 150.000,00', '$ 40.000,50', '$ 109.999,50']);
     expect(subtotals[0].previousElementSibling!.textContent).toContain('Leo');
   });
+
+  it('toExcelSheet exporta importes como números, subtotales y totales en negrita', async () => {
+    const { fixture } = await setup((h) => h.group.set('cuenta'));
+    const table = fixture.debugElement.children[0].componentInstance as CbTable;
+    const sheet = table.toExcelSheet({ title: ['Libro auxiliar'] });
+    expect(sheet.columns.map((c) => [c.type, c.symbol])).toEqual([['text', undefined], ['text', undefined], ['currency', '$'], ['currency', '$'], ['currency', '$']]);
+    expect(sheet.columns[4].negative).toBe('parens');
+    const rows = sheet.rows as { cells: unknown[]; bold?: boolean }[];
+    expect(rows.map((r) => r.cells[0])).toEqual(['1105 Caja', '1105 Caja', 'Subtotal 1105 Caja', '1110 Bancos', 'Subtotal 1110 Bancos']);
+    expect(rows[2]).toMatchObject({ bold: true, cells: ['Subtotal 1105 Caja', 2, 150000, 40000.5, 109999.5] });
+    expect(sheet.totals).toEqual(['Total', 3, 1130000, 160000.5, 969999.5]);
+    expect(sheet.title).toEqual(['Libro auxiliar']);
+  });
 });

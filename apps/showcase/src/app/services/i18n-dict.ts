@@ -1983,11 +1983,11 @@ export const ES_EN: Record<string, string> = {
     'scrollHeight limits the height and keeps the header fixed; frozen: true pins a column to the left when scrolling horizontally (frozen columns are shown first).',
   'groupRowsBy agrupa las filas por un campo y añade una cabecera por grupo con su recuento; la plantilla cbTableGroupHeader la personaliza.':
     'groupRowsBy groups rows by a field and adds a header per group with its count; the cbTableGroupHeader template customizes it.',
-  'exportCSV() descarga las filas filtradas y ordenadas (todas, no solo la página) con BOM para que Excel respete tildes; toCSV() devuelve el texto. exportable: false excluye una columna y selectionOnly exporta solo lo seleccionado.':
-    'exportCSV() downloads the filtered and sorted rows (all of them, not just the page) with a BOM so Excel keeps accents; toCSV() returns the text. exportable: false excludes a column and selectionOnly exports only the selection.',
+  'exportCSV() descarga las filas filtradas y ordenadas (todas, no solo la página) con BOM para que Excel respete tildes; toCSV() devuelve el texto. exportable: false excluye una columna y selectionOnly exporta solo lo seleccionado. exportExcel() descarga un .xlsx con los importes como números con su formato, el encabezado fijo, filtros, subtotales y totales; toExcelSheet() devuelve la hoja.':
+    'exportCSV() downloads the filtered and sorted rows (all of them, not just the page) with a BOM so Excel keeps accents; toCSV() returns the text. exportable: false excludes a column and selectionOnly exports only the selection. exportExcel() downloads an .xlsx with the amounts as numbers with their format, a fixed header, filters, subtotals and totals; toExcelSheet() returns the sheet.',
   'Datos desde el servidor (lazy)': 'Server-side data (lazy)',
   'Cabecera y columnas fijas': 'Fixed header and frozen columns',
-  'Exportar a CSV': 'Export to CSV',
+  'Exportar a CSV y Excel': 'Export to CSV and Excel',
   'Agrupación': 'Grouping',
   'Las cabeceras de grupo son celdas `th scope="rowgroup"`. Mientras `loading` está activo la tabla expone `aria-busy="true"` y la capa de carga es un `role="status"`.':
     'Group headers are `th scope="rowgroup"` cells. While `loading` is on, the table exposes `aria-busy="true"` and the loading overlay is a `role="status"`.',
@@ -3963,4 +3963,123 @@ export const ES_EN: Record<string, string> = {
     'Move through the list of accounts; Enter chooses.',
   'Guarda el comprobante.':
     'Saves the voucher.',
+  // --- Contabilidad: Period Picker y Financial Report ---
+  'Selector de periodo contable: mes, trimestre o año fiscal, con atajos como «Mes anterior» o «Año a la fecha» y los meses cerrados marcados con un candado.':
+    'Accounting period picker: month, quarter or fiscal year, with shortcuts like "Last month" or "Year to date" and closed months marked with a lock.',
+  'El valor es un CbPeriod con kind, from, to y key (2026-10, 2026-Q3, 2026 o un rango). El panel tiene atajos a la izquierda y la cuadrícula de meses, trimestres o años; las flechas recorren la cuadrícula, RePág / AvPág cambian de año y Escape cierra. closed marca los meses cerrados con un candado, pero se pueden consultar.':
+    'The value is a CbPeriod with kind, from, to and key (2026-10, 2026-Q3, 2026 or a range). The panel has shortcuts on the left and the grid of months, quarters or years; the arrows move through the grid, PageUp / PageDown change the year and Escape closes. closed marks closed months with a lock, but they can be viewed.',
+  'Al contabilizar: periodos cerrados bloqueados':
+    'When posting: closed periods blocked',
+  'Con disableClosed no se pueden elegir meses cerrados (ni trimestres o años que los incluyan, ni los atajos que caen en ellos). Funciona con Angular Forms: required y error como en cualquier campo.':
+    'With disableClosed closed months cannot be chosen (nor quarters or years that include them, nor the shortcuts that fall on them). Works with Angular Forms: required and error like any field.',
+  'Año fiscal que no empieza en enero':
+    'Fiscal year that does not start in January',
+  'fiscalYearStart mueve el inicio del año fiscal: con 7 (julio), el año fiscal 2026 va de julio de 2025 a junio de 2026 y sus trimestres siguen ese calendario («T2 AF 2026» es octubre–diciembre de 2025).':
+    'fiscalYearStart moves the start of the fiscal year: with 7 (July), fiscal year 2026 goes from July 2025 to June 2026 and its quarters follow that calendar ("Q2 FY 2026" is October–December 2025).',
+  'Informe financiero jerárquico a partir del plan de cuentas y los saldos: estado de resultados, balance general y balance de prueba, con comparativo entre periodos, niveles de detalle, totales calculados, exportación a Excel e impresión.':
+    'Hierarchical financial report from the chart of accounts and the balances: income statement, balance sheet and trial balance, with period comparison, detail levels, computed totals, Excel export and printing.',
+  'Estado de resultados comparativo':
+    'Comparative income statement',
+  'balances trae los saldos de las cuentas de movimiento (uno por periodo) y cada cuenta mayor suma a las suyas. Con comparative se añaden la variación y el % del primer periodo frente al segundo; signByNature (activo por defecto) muestra en positivo los ingresos. totals calcula filas como la utilidad (4 − 5 − 6). Los botones 1–4 abren los niveles, Ocultar cuentas en cero las quita, Excel descarga el informe con los niveles plegables e Imprimir lo imprime limpio. Clic o Enter en una cuenta de movimiento emite accountOpen.':
+    'balances brings the balances of the posting accounts (one per period) and each control account adds up its own. With comparative the variation and % of the first period against the second are added; signByNature (on by default) shows income as positive. totals computes rows such as the profit (4 − 5 − 6). Buttons 1–4 open the levels, Hide zero accounts removes them, Excel downloads the report with collapsible levels and Print prints it clean. Clicking or pressing Enter on a posting account emits accountOpen.',
+  'Balance general':
+    'Balance sheet',
+  'classes elige las clases que se muestran (1, 2 y 3); los totales pueden usar cualquier cuenta, así que la utilidad del ejercicio (4 − 5 − 6) se suma al patrimonio y el total de pasivo y patrimonio cuadra con el activo. level fija el nivel abierto al empezar.':
+    'classes chooses the classes that are shown (1, 2 and 3); totals can use any account, so the profit for the year (4 − 5 − 6) is added to equity and total liabilities and equity balances with assets. level sets the level open at the start.',
+  'Balance de prueba':
+    'Trial balance',
+  'Sin signByNature los saldos van con su signo contable (débito positivo, crédito negativo) y el total de todas las clases debe ser cero: «Sumas iguales». hideZero empieza ocultando las cuentas sin saldo.':
+    'Without signByNature the balances keep their accounting sign (debit positive, credit negative) and the total of all classes must be zero: "Equal sums". hideZero starts hiding accounts without a balance.',
+  'Periodo del informe':
+    'Report period',
+  'Periodo contable':
+    'Accounting period',
+  'Elige un periodo abierto.':
+    'Choose an open period.',
+  'Periodo fiscal':
+    'Fiscal period',
+  'Estado de resultados':
+    'Income statement',
+  'Exportar Excel':
+    'Export Excel',
+  'Haz clic en una cuenta de movimiento.':
+    'Click a posting account.',
+  'Periodo elegido (kind, from, to, key).':
+    'Chosen period (kind, from, to, key).',
+  'Vista de la cuadrícula.':
+    'Grid view.',
+  'Vistas disponibles.':
+    'Available views.',
+  'Atajos (thisMonth, lastMonth, thisQuarter, lastQuarter, yearToDate, thisYear, lastYear).':
+    'Shortcuts (thisMonth, lastMonth, thisQuarter, lastQuarter, yearToDate, thisYear, lastYear).',
+  'Mes en que empieza el año fiscal (1 = enero).':
+    'Month in which the fiscal year starts (1 = January).',
+  'Meses cerrados (AAAA-MM), marcados con un candado.':
+    'Closed months (YYYY-MM), marked with a lock.',
+  'No deja elegir periodos con meses cerrados.':
+    'Does not allow choosing periods with closed months.',
+  'Texto sin periodo.':
+    'Text without a period.',
+  'Periodo elegido.':
+    'Chosen period.',
+  'Título del informe.':
+    'Report title.',
+  'Líneas bajo el título (empresa, periodo).':
+    'Lines under the title (company, period).',
+  'Plan de cuentas.':
+    'Chart of accounts.',
+  'Saldos de las cuentas de movimiento, uno por periodo.':
+    'Balances of the posting accounts, one per period.',
+  'Nombres de los periodos (columnas).':
+    'Names of the periods (columns).',
+  'Variación y % del primer periodo frente al segundo.':
+    'Variation and % of the first period against the second.',
+  'Clases que se muestran (todas por defecto).':
+    'Classes that are shown (all by default).',
+  'Saldos de naturaleza crédito en positivo.':
+    'Credit-nature balances as positive.',
+  'Filas de total (label y terms con code y sign).':
+    'Total rows (label and terms with code and sign).',
+  'Niveles abiertos.':
+    'Open levels.',
+  'Oculta las cuentas en cero.':
+    'Hides zero accounts.',
+  'Barra con niveles, ocultar en cero, Excel e Imprimir.':
+    'Toolbar with levels, hide zero, Excel and Print.',
+  'Moneda (si no, la de provideCaribeNG).':
+    'Currency (otherwise, the provideCaribeNG one).',
+  'Clic o Enter en una cuenta de movimiento.':
+    'Click or Enter on a posting account.',
+  'El campo es un botón con `aria-haspopup="dialog"` y `aria-expanded` que dice el periodo elegido («Octubre de 2026»); si el periodo está cerrado lo dice con texto.':
+    'The field is a button with `aria-haspopup="dialog"` and `aria-expanded` that says the chosen period ("October 2026"); if the period is closed it says so in text.',
+  'El panel es un diálogo con nombre. Los atajos son botones; las vistas (mes, trimestre, año), botones con `aria-pressed`, y el año visible se anuncia al cambiarlo.':
+    'The panel is a named dialog. Shortcuts are buttons; the views (month, quarter, year), buttons with `aria-pressed`, and the visible year is announced when it changes.',
+  'Cada celda dice su periodo completo («Agosto de 2026, cerrado»); la elegida lleva `aria-pressed` y las que no se pueden elegir, `aria-disabled`.':
+    'Each cell says its full period ("August 2026, closed"); the chosen one has `aria-pressed` and those that cannot be chosen, `aria-disabled`.',
+  'Al elegir o pulsar Escape, el panel se cierra y el foco vuelve al campo.':
+    'When choosing or pressing Escape, the panel closes and focus returns to the field.',
+  'Abre el panel con el foco en el periodo elegido (o el actual).':
+    'Opens the panel with focus on the chosen (or current) period.',
+  'Recorren la cuadrícula; al salir por un lado pasan al año anterior o siguiente.':
+    'Move through the grid; leaving it on one side goes to the previous or next year.',
+  'Año anterior o siguiente (en años, la docena).':
+    'Previous or next year (in years, the dozen).',
+  'Primera o última celda.':
+    'First or last cell.',
+  'El informe es un TreeGrid (`role="treegrid"`) con el título como nombre: cada cuenta dice su nivel, su posición y si está abierta (`aria-expanded`).':
+    'The report is a TreeGrid (`role="treegrid"`) named by its title: each account says its level, its position and whether it is open (`aria-expanded`).',
+  'Los botones de nivel son un grupo con `aria-pressed` y nombre («Abrir hasta el nivel 2»); Ocultar cuentas en cero es un botón conmutador.':
+    'The level buttons are a group with `aria-pressed` and a name ("Open down to level 2"); Hide zero accounts is a toggle button.',
+  'Los importes se leen con su formato de moneda; los negativos llevan paréntesis o signo además del color rojo.':
+    'Amounts are read with their currency format; negatives have parentheses or a sign as well as red color.',
+  'Las filas de total están al final y en negrita. La impresión abre un documento limpio con el título y la tabla.':
+    'Total rows are at the end and in bold. Printing opens a clean document with the title and the table.',
+  'Recorren las cuentas.':
+    'Move through the accounts.',
+  'Flecha derecha / izquierda':
+    'Right / Left arrow',
+  'Abren o cierran una cuenta mayor (o van a su padre).':
+    'Open or close a control account (or go to its parent).',
+  'En una cuenta mayor, la abre o cierra; en una de movimiento, emite accountOpen.':
+    'On a control account, opens or closes it; on a posting account, emits accountOpen.',
 };

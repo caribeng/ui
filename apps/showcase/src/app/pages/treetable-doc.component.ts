@@ -72,6 +72,7 @@ import { TocService } from '../services/toc.service';
         <div style="display: flex; gap: 0.5rem">
           <cb-button size="sm" variant="outlined" (click)="puc.expandAll()">Expandir todo</cb-button>
           <cb-button size="sm" variant="text" (click)="puc.collapseAll()">Contraer todo</cb-button>
+          <cb-button size="sm" variant="text" (click)="puc.exportExcel('balance-de-prueba', { title: ['Balance de prueba'] })">Exportar Excel</cb-button>
         </div>
         <cb-treetable #puc [value]="cuentas" [columns]="cuentaCols" rollup ariaLabel="Balance de prueba" />
       </div>
@@ -148,6 +149,7 @@ export class TreetableDocComponent {
   protected readonly balancesCode = `<div style="display: flex; gap: 0.5rem">
   <cb-button size="sm" variant="outlined" (click)="puc.expandAll()">Expandir todo</cb-button>
   <cb-button size="sm" variant="text" (click)="puc.collapseAll()">Contraer todo</cb-button>
+  <cb-button size="sm" variant="text" (click)="puc.exportExcel('balance-de-prueba', { title: ['Balance de prueba'] })">Exportar Excel</cb-button>
 </div>
 <cb-treetable #puc [value]="cuentas" [columns]="cuentaCols" rollup ariaLabel="Balance de prueba" />`;
 

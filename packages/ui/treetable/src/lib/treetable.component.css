@@ -108,3 +108,7 @@
   text-transform: none;
   letter-spacing: 0;
 }
+
+.cb-treetable__row--activatable {
+  cursor: pointer;
+}

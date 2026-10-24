@@ -15,6 +15,7 @@ import {
 } from '@angular/core';
 import { CB_CONFIG, cbFormat, cbFormatAmount, cbSummarize, cbToNumber, injectCbTranslation, type CbNegativeStyle, type CbSummary } from '@caribeng/ui';
 import { CbIcon } from '@caribeng/ui/icon';
+import { cbDownloadXlsx, currencySymbol, type CbExcelExportOptions, type CbXlsxRow, type CbXlsxSheet } from '@caribeng/ui/xlsx';
 
 export interface CbTreeTableColumn {
   field: string;
@@ -104,7 +105,10 @@ let nextUid = 0;
         @for (row of rows(); track row.node.key) {
           <tr
             class="cb-treetable__row"
+            [class]="rowClass()?.(row.node) ?? ''"
             [class.cb-treetable__row--parent]="rollup() && hasChildren(row.node)"
+            [class.cb-treetable__row--activatable]="activateLeaves() && !hasChildren(row.node)"
+            (click)="onRowClick(row.node)"
             [id]="rowId(row.node)"
             [attr.aria-level]="row.level"
             [attr.aria-setsize]="row.setSize"
@@ -150,7 +154,7 @@ let nextUid = 0;
           </tr>
         }
       </tbody>
-      @if (hasFooter() && rows().length) {
+      @if (showFooter() && hasFooter() && rows().length) {
         <tfoot>
           <tr class="cb-treetable__foot">
             @for (col of columns(); track col.field; let c = $index) {
@@ -188,6 +192,12 @@ export class CbTreeTable {
   readonly rollup = input<boolean, unknown>(false, { transform: (v: unknown) => v !== false && v != null && `${v}` !== 'false' });
   /** Moneda de las columnas `currency` (si no, la de `provideCaribeNG({ currency })`). */
   readonly currency = input<string | undefined>(undefined);
+  /** Muestra el pie con los totales de las columnas con `summary`. */
+  readonly showFooter = input<boolean, unknown>(true, { transform: (v: unknown) => v !== false && v != null && `${v}` !== 'false' });
+  /** Clases CSS extra por fila (p. ej. para filas de total). */
+  readonly rowClass = input<((node: CbTreeTableNode) => string | null) | null>(null);
+  /** Las filas sin hijos se activan con clic o Enter (`nodeActivate`), p. ej. para ver sus movimientos. */
+  readonly activateLeaves = input<boolean, unknown>(false, { transform: (v: unknown) => v !== false && v != null && `${v}` !== 'false' });
   /** Negativos con signo o entre paréntesis (si no, el de `provideCaribeNG({ negativeStyle })`). */
   readonly negativeStyle = input<CbNegativeStyle | undefined>(undefined);
 
@@ -195,6 +205,8 @@ export class CbTreeTable {
   readonly nodeExpand = output<CbTreeTableNode>();
   /** Se emite al contraer una fila. */
   readonly nodeCollapse = output<CbTreeTableNode>();
+  /** Con `activateLeaves`: clic o Enter sobre una fila sin hijos. */
+  readonly nodeActivate = output<CbTreeTableNode>();
 
   private readonly cellTemplates = contentChildren(CbTreeTableCellTemplate);
   protected readonly expanded = signal<ReadonlySet<string>>(new Set());
@@ -238,6 +250,45 @@ export class CbTreeTable {
   /** Totales del pie (sobre todas las hojas). */
   protected readonly totals = computed(() => this.aggregates().get('') ?? {});
 
+  /**
+   * Hoja de Excel con todas las filas (también las contraídas) agrupadas por
+   * nivel con el esquema de Excel, sangría en la primera columna, filas padre en
+   * negrita (con sus totales si hay `rollup`) y el total al final.
+   */
+  toExcelSheet(options: CbExcelExportOptions = {}): CbXlsxSheet {
+    const cols = this.columns();
+    const locale = this.config.numberLocale ?? this.t().intlLocale;
+    const rows: CbXlsxRow[] = [];
+    const walk = (nodes: readonly CbTreeTableNode[], level: number) =>
+      nodes.forEach((node) => {
+        const parent = !!node.children?.length;
+        rows.push({ level, indent: level, bold: parent, cells: cols.map((c) => (c.format && !this.isNumeric(c) ? c.format(this.valueOf(node, c), node) : this.valueOf(node, c))) });
+        if (parent) walk(node.children!, level + 1);
+      });
+    walk(this.value(), 0);
+    return {
+      name: options.sheetName ?? (this.ariaLabel() || 'Datos'),
+      title: options.title,
+      columns: cols.map((c) => {
+        const currency = c.currency ?? this.currency() ?? this.config.currency;
+        return {
+          header: c.header,
+          type: c.type === 'currency' ? (currency ? 'currency' : 'number') : c.type === 'number' ? 'number' : c.type === 'percent' ? 'percent' : 'text',
+          decimals: c.decimals,
+          negative: c.negative ?? this.negativeStyle() ?? this.config.negativeStyle,
+          symbol: c.type === 'currency' && currency ? currencySymbol(currency, locale) : undefined,
+        };
+      }),
+      rows,
+      totals: this.hasFooter() ? cols.map((c, i) => (c.footer ?? (i === this.labelColumn() && !this.hasFooterText() ? this.t().tableTotal : (this.totals()[c.field] ?? null)))) : undefined,
+    };
+  }
+
+  /** Descarga el árbol en Excel (`nombre.xlsx`), con los niveles plegables. */
+  exportExcel(filename = 'datos', options: CbExcelExportOptions = {}): void {
+    cbDownloadXlsx(filename, this.toExcelSheet(options));
+  }
+
   /** Expande todas las filas. */
   expandAll(): void {
     const keys = new Set<string>();
@@ -249,6 +300,20 @@ export class CbTreeTable {
         }
       });
     walk(this.value());
+    this.expanded.set(keys);
+  }
+
+  /** Expande las filas hasta el nivel `level` (1 = solo las raíces visibles) y contrae el resto. */
+  expandToLevel(level: number): void {
+    const keys = new Set<string>();
+    const walk = (nodes: readonly CbTreeTableNode[], depth: number) =>
+      nodes.forEach((n) => {
+        if (n.children?.length && depth < level) {
+          keys.add(n.key);
+          walk(n.children, depth + 1);
+        }
+      });
+    walk(this.value(), 1);
     this.expanded.set(keys);
   }
 
@@ -330,6 +395,10 @@ export class CbTreeTable {
     return this.cellTemplates().find((c) => c.field() === field)?.template ?? null;
   }
 
+  protected onRowClick(node: CbTreeTableNode): void {
+    if (this.activateLeaves() && !this.hasChildren(node)) this.nodeActivate.emit(node);
+  }
+
   protected toggle(node: CbTreeTableNode): void {
     this.setExpanded(node, !this.isExpanded(node));
   }
@@ -365,6 +434,7 @@ export class CbTreeTable {
       case 'Enter':
       case ' ':
         if (this.hasChildren(current.node)) this.toggle(current.node);
+        else if (event.key === 'Enter' && this.activateLeaves()) this.nodeActivate.emit(current.node);
         break;
       default:
         return;

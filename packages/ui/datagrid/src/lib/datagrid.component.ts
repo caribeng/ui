@@ -18,6 +18,7 @@ import {
 import { CB_CONFIG, cbFormat, cbSummarize, injectCbTranslation, type CbNegativeStyle } from '@caribeng/ui';
 import { OverlayModule, type ConnectedPosition } from '@angular/cdk/overlay';
 import { CbIcon } from '@caribeng/ui/icon';
+import { cbDownloadXlsx, currencySymbol, type CbExcelExportOptions, type CbXlsxSheet } from '@caribeng/ui/xlsx';
 import {
   cellText,
   compareCells,
@@ -511,6 +512,39 @@ export class CbDataGrid<T extends object = CbDataGridRow> {
     }
     const removed = [...base.entries()].filter(([key]) => !keys.has(key)).map(([, row]) => row);
     return { added, updated, removed };
+  }
+
+  /**
+   * Hoja de Excel con las filas en el orden en que se ven: números y fechas como
+   * valores con formato, listas con su etiqueta, casillas como Sí / No y totales.
+   */
+  toExcelSheet(options: CbExcelExportOptions = {}): CbXlsxSheet {
+    const t = this.t();
+    const amount = this.amount();
+    const locale = this.config.numberLocale ?? t.intlLocale;
+    const cols = this.columns();
+    return {
+      name: options.sheetName ?? this.ariaLabel() ?? 'Datos',
+      title: options.title,
+      columns: cols.map((c) => {
+        const currency = typeof c.currency === 'string' ? c.currency : c.currency ? amount.currency : null;
+        const type = c.type === 'number' ? (currency ? 'currency' : 'number') : c.type === 'date' ? 'date' : 'text';
+        return { header: c.header, type, decimals: c.decimals, negative: c.negative ?? amount.negative, symbol: currency ? currencySymbol(currency, locale) : undefined };
+      }),
+      rows: this.view().map((row) =>
+        cols.map((c) => {
+          const v = this.get(row, c.field);
+          if (c.type === 'number' || c.type === 'date') return typeof v === 'number' || typeof v === 'string' ? v : null;
+          return this.text(row, c);
+        }),
+      ),
+      totals: this.hasFooter() ? cols.map((c, i) => (c.footer ?? (i === this.labelColumn() && !this.hasFooterText() ? t.tableTotal : (this.totals()[c.field] ?? null)))) : undefined,
+    };
+  }
+
+  /** Descarga las filas en Excel (`nombre.xlsx`). */
+  exportExcel(filename = 'datos', options: CbExcelExportOptions = {}): void {
+    cbDownloadXlsx(filename, this.toExcelSheet(options));
   }
 
   /** `true` si ninguna celda tiene errores de validación. */

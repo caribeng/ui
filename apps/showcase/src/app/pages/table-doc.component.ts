@@ -257,14 +257,17 @@ interface Usuario {
 
     <doc-section
       id="export"
-      title="Exportar a CSV"
-      description="exportCSV() descarga las filas filtradas y ordenadas (todas, no solo la página) con BOM para que Excel respete tildes; toCSV() devuelve el texto. exportable: false excluye una columna y selectionOnly exporta solo lo seleccionado."
+      title="Exportar a CSV y Excel"
+      description="exportCSV() descarga las filas filtradas y ordenadas (todas, no solo la página) con BOM para que Excel respete tildes; toCSV() devuelve el texto. exportable: false excluye una columna y selectionOnly exporta solo lo seleccionado. exportExcel() descarga un .xlsx con los importes como números con su formato, el encabezado fijo, filtros, subtotales y totales; toExcelSheet() devuelve la hoja."
       [code]="exportCode"
     >
       <div style="display: grid; gap: 0.75rem; width: 100%">
         <div>
           <cb-button size="sm" variant="outlined" (click)="tablaCsv.exportCSV('movimientos')">
             <cb-icon name="download" [size]="15" aria-hidden="true" /> Exportar CSV
+          </cb-button>
+          <cb-button size="sm" variant="outlined" (click)="tablaCsv.exportExcel('movimientos', { title: ['Movimientos'] })">
+            <cb-icon name="download" [size]="15" aria-hidden="true" /> Exportar Excel
           </cb-button>
         </div>
         <cb-table #tablaCsv style="width: 100%" [value]="movimientos" [columns]="movCols" [paginator]="true" [rows]="4" size="sm" />
@@ -548,6 +551,7 @@ export class TableDocComponent {
   ];
   protected readonly totalsCode = `<cb-table [value]="asientos" [columns]="asientoCols" groupRowsBy="cuenta" [groupSubtotals]="true" size="sm" ariaLabel="Libro auxiliar" />`;
   protected readonly exportCode = `<cb-button size="sm" variant="outlined" (click)="tablaCsv.exportCSV('movimientos')">Exportar CSV</cb-button>
+<cb-button size="sm" variant="outlined" (click)="tablaCsv.exportExcel('movimientos', { title: ['Movimientos'] })">Exportar Excel</cb-button>
 <cb-table #tablaCsv [value]="movimientos" [columns]="movCols" [paginator]="true" [rows]="4" size="sm" />`;
   protected readonly elegido = signal<Producto | null>(null);
   protected readonly busqueda = signal('');

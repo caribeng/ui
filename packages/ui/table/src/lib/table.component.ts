@@ -22,6 +22,7 @@ import {
 import { DOCUMENT, NgTemplateOutlet } from '@angular/common';
 import { CbIcon } from '@caribeng/ui/icon';
 import { CbPaginator, type CbPaginatorState } from '@caribeng/ui/paginator';
+import { cbDownloadXlsx, currencySymbol, type CbExcelExportOptions, type CbXlsxColumn, type CbXlsxRow, type CbXlsxSheet } from '@caribeng/ui/xlsx';
 import { CB_CONFIG, cbFormat, cbFormatAmount, cbSummarize, cbToNumber, injectCbTranslation, type CbNegativeStyle, type CbSummary } from '@caribeng/ui';
 
 /** Cómo compara un filtro el texto buscado con el valor de la celda (sin distinguir mayúsculas ni tildes). */
@@ -883,6 +884,49 @@ export class CbTable {
   }
 
   // --- Exportación ---------------------------------------------------------------------
+  /**
+   * Hoja de Excel con las columnas visibles (salvo `exportable: false`) y todas las
+   * filas filtradas y ordenadas: importes como números con su formato, subtotales
+   * de grupo y totales en negrita.
+   */
+  toExcelSheet(options: CbExcelExportOptions & CbTableCsvOptions = {}): CbXlsxSheet {
+    const cols = this.displayColumns().filter((c) => c.exportable !== false);
+    const locale = this.config.numberLocale ?? this.t().intlLocale;
+    const columns: CbXlsxColumn[] = cols.map((c) => {
+      const currency = c.currency ?? this.currency() ?? this.config.currency;
+      const negative = c.negative ?? this.negativeStyle() ?? this.config.negativeStyle;
+      return {
+        header: c.header,
+        type: c.type === 'currency' ? (currency ? 'currency' : 'number') : c.type === 'number' ? 'number' : c.type === 'percent' ? 'percent' : 'text',
+        decimals: c.decimals,
+        negative,
+        symbol: c.type === 'currency' && currency ? currencySymbol(currency, locale) : undefined,
+      };
+    });
+    const cell = (row: unknown, c: CbTableColumn) => {
+      const v = fieldValue(row, c.field);
+      return c.format && !this.isNumeric(c) ? c.format(v, row) : v;
+    };
+    const source = options.selectionOnly ? this.sorted().filter((row) => this.isSelected(row)) : this.sorted();
+    const rows: CbXlsxRow[] = [];
+    const group = this.groupRowsBy();
+    source.forEach((row, i) => {
+      rows.push({ cells: cols.map((c) => cell(row, c)) });
+      const key = group ? fieldValue(row, group) : null;
+      if (group && this.groupSubtotals() && this.hasSummary() && (i === source.length - 1 || fieldValue(source[i + 1], group) !== key)) {
+        const totals = this.groupTotals().get(key) ?? {};
+        rows.push({ bold: true, cells: cols.map((c, ci) => (ci === 0 && !c.summary ? cbFormat(this.t().tableSubtotal, key) : totals[c.field])) });
+      }
+    });
+    const totals = this.hasSummary() ? cols.map((c, ci) => (ci === 0 && !c.summary ? (c.footer ?? this.t().tableTotal) : (this.totals()[c.field] ?? c.footer ?? null))) : undefined;
+    return { name: options.sheetName ?? this.ariaLabel() ?? 'Datos', title: options.title, columns, rows, totals };
+  }
+
+  /** Descarga las filas en Excel (`nombre.xlsx`) con formatos de número, subtotales y totales. */
+  exportExcel(filename = 'datos', options: CbExcelExportOptions & CbTableCsvOptions = {}): void {
+    cbDownloadXlsx(filename, this.toExcelSheet(options));
+  }
+
   /**
    * Datos en CSV: columnas visibles (salvo `exportable: false`) y todas las filas
    * filtradas y ordenadas (no solo la página), o las seleccionadas con `selectionOnly`.

@@ -1,0 +1,99 @@
+:host {
+  display: grid;
+  gap: var(--cb-space-3, 0.75rem);
+  width: 100%;
+  min-width: 0;
+  color: var(--cb-color-text);
+  font-family: var(--cb-font-sans);
+}
+
+.cb-fr__head {
+  display: grid;
+  gap: 0.15rem;
+}
+
+.cb-fr__title {
+  margin: 0;
+  font-size: var(--cb-text-lg, 1.125rem);
+  font-weight: var(--cb-font-weight-semibold, 600);
+}
+
+.cb-fr__subtitle {
+  margin: 0;
+  color: var(--cb-color-text-muted);
+  font-size: var(--cb-text-sm, 0.875rem);
+}
+
+.cb-fr__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+}
+
+.cb-fr__levels {
+  display: inline-flex;
+  padding: 2px;
+  border-radius: var(--cb-radius-md);
+  background: var(--cb-color-surface-subtle);
+}
+
+.cb-fr__level,
+.cb-fr__toggle {
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: var(--cb-text-sm, 0.875rem);
+  cursor: pointer;
+}
+
+.cb-fr__level {
+  min-width: 2rem;
+  height: 1.85rem;
+  border-radius: var(--cb-radius-sm, 4px);
+  color: var(--cb-color-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.cb-fr__level[aria-pressed='true'] {
+  background: var(--cb-color-bg);
+  box-shadow: var(--cb-shadow-sm, 0 1px 2px rgb(0 0 0 / 0.08));
+  color: var(--cb-color-text);
+  font-weight: var(--cb-font-weight-semibold, 600);
+}
+
+.cb-fr__toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  height: 2rem;
+  padding: 0 0.6rem;
+  border-radius: var(--cb-radius-md);
+  color: var(--cb-color-text-muted);
+}
+
+.cb-fr__toggle[aria-pressed='true'] {
+  background: color-mix(in srgb, var(--cb-color-primary-500) 12%, transparent);
+  color: var(--cb-color-text);
+}
+
+:is(.cb-fr__level, .cb-fr__toggle):focus-visible {
+  outline: 2px solid var(--cb-color-focus-ring);
+  outline-offset: 1px;
+}
+
+.cb-fr__spacer {
+  flex: 1;
+}
+
+/* Filas de clase y de total (las pinta el TreeTable; se estilizan desde fuera). */
+:host ::ng-deep .cb-fr__class > td {
+  background: var(--cb-color-surface-subtle);
+}
+
+:host ::ng-deep .cb-fr__total > td {
+  border-top: 2px solid var(--cb-color-border-strong);
+  background: var(--cb-color-surface-subtle);
+  font-weight: var(--cb-font-weight-semibold, 600);
+}
