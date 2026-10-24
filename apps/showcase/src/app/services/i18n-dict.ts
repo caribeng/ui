@@ -3041,6 +3041,55 @@ export const ES_EN: Record<string, string> = {
     'It is inline text without its own role: its value is read and the icon is decorative. The severity color is not announced, so the text must be enough on its own ("Pending", not a red tag without text).',
   'Gestor de archivos tipo Drive con carpetas anidadas, ruta navegable, subida de archivos (botón o arrastrándolos), almacenamiento por categoría y acciones para renombrar, mover, descargar y eliminar.':
     'Drive-style file manager with nested folders, a navigable path, file uploads (button or drag and drop), storage by category and actions to rename, move, download and delete.',
+  // --- PDF Viewer nivel 3 ---
+  'Anotaciones y firma':
+    'Annotations and signature',
+  'Con annotatable, la barra añade Resaltar (con texto seleccionado lo resalta al momento; si no, resalta lo que selecciones después), Nota (clic en la página; con el teclado se pone en la página visible), Dibujar y Firmar, que abre un panel de firma y la coloca en la página. Con el foco en una anotación, las flechas la mueven, + y − cambian su tamaño, Intro edita la nota o el comentario del resaltado y Supr la borra; la pestaña Anotaciones del panel lateral las lista todas. [(annotations)] las da en puntos PDF para guardarlas en tu servidor, y Descargar, Imprimir y save() las escriben en el PDF como anotaciones estándar que se ven en cualquier lector.':
+    'With annotatable, the toolbar adds Highlight (with text selected it highlights it at once; otherwise it highlights what you select next), Note (click on the page; with the keyboard it is placed on the visible page), Draw and Sign, which opens a signature panel and places it on the page. With focus on an annotation, the arrows move it, + and − resize it, Enter edits the note or the highlight comment and Delete removes it; the Annotations tab of the side panel lists them all. [(annotations)] gives them in PDF points to store on your server, and Download, Print and save() write them into the PDF as standard annotations that any reader shows.',
+  'Cargar anotaciones de ejemplo':
+    'Load sample annotations',
+  'Quitar todas':
+    'Remove all',
+  ' anotaciones':
+    ' annotations',
+  'Herramientas para resaltar, poner notas, dibujar y firmar, y la pestaña Anotaciones.':
+    'Tools to highlight, add notes, draw and sign, and the Annotations tab.',
+  'Anotaciones en puntos PDF (resaltados, notas, dibujos y firmas). Se escriben en el PDF al descargar o imprimir.':
+    'Annotations in PDF points (highlights, notes, drawings and signatures). They are written into the PDF on download or print.',
+  'Herramienta activa; Escape vuelve a none.':
+    'Active tool; Escape goes back to none.',
+  'Color de las anotaciones nuevas.':
+    'Color of new annotations.',
+  'Autor de las anotaciones nuevas (se guarda en el PDF).':
+    'Author of new annotations (stored in the PDF).',
+  'Vista del panel lateral (outline si el documento tiene índice; annotations con annotatable).':
+    'Side panel view (outline if the document has one; annotations with annotatable).',
+  'El usuario creó una anotación.':
+    'The user created an annotation.',
+  'El usuario borró una anotación.':
+    'The user deleted an annotation.',
+  'Con annotatable, la barra tiene un grupo "Anotar": Resaltar, Nota y Dibujar son conmutadores con `aria-pressed` y Firmar abre un diálogo (`aria-haspopup="dialog"`) con el panel de firma, que también permite escribir el nombre. El color es un `select` nativo. La herramienta activa se explica en un aviso sobre el documento ("Selecciona texto del documento para resaltarlo.").':
+    'With annotatable, the toolbar has an "Annotate" group: Highlight, Note and Draw are toggles with `aria-pressed` and Sign opens a dialog (`aria-haspopup="dialog"`) with the signature panel, which also lets you type the name. The color is a native `select`. The active tool is explained in a notice over the document ("Select text in the document to highlight it.").',
+  'Cada anotación es un botón con nombre ("Resaltado: Supermercado La Ceiba. Comentario: No reconozco este cargo", "Nota: Revisar", "Firma") descrito con sus atajos. Crearla, moverla, cambiar su tamaño o borrarla se anuncia ("Añadido en la página 1: Nota", "Movido a 40 %, 25 %"). El editor de la nota o del comentario es un `textarea` con etiqueta visible, y al cerrarlo el foco vuelve a la anotación.':
+    'Each annotation is a named button ("Highlight: Supermercado La Ceiba. Comment: I do not recognize this charge", "Note: Review", "Signature") described with its shortcuts. Creating, moving, resizing or deleting it is announced ("Added on page 1: Note", "Moved to 40%, 25%"). The note or comment editor is a `textarea` with a visible label, and when it closes focus returns to the annotation.',
+  'La pestaña Anotaciones lista todas por página con un botón que lleva a cada una y otro para borrarla ("Eliminar anotación: Nota: Revisar"). Descargar se llama "Descargar con las anotaciones" cuando las hay. Resaltar funciona con cualquier selección de texto, también la hecha con el teclado; dibujar requiere puntero.':
+    'The Annotations tab lists them all by page with a button that goes to each one and another to delete it ("Delete annotation: Note: Review"). Download is called "Download with the annotations" when there are any. Highlight works with any text selection, including one made with the keyboard; drawing requires a pointer.',
+  'Flechas / Mayús + flechas':
+    'Arrows / Shift + arrows',
+  'En una nota, dibujo o firma: la mueve (Mayús, más rápido).':
+    'On a note, drawing or signature: moves it (Shift, faster).',
+  '+ / −':
+    '+ / −',
+  'En una firma: cambia su tamaño; en una nota, el de la letra.':
+    'On a signature: resizes it; on a note, its font size.',
+  'Intro / Supr':
+    'Enter / Delete',
+  'En una anotación: edita la nota o el comentario / la borra. En el editor, Escape o Ctrl + Intro lo cierran.':
+    'On an annotation: edits the note or comment / deletes it. In the editor, Escape or Ctrl + Enter close it.',
+  'Escape':
+    'Escape',
+  'Con una herramienta activa: vuelve a la selección normal.':
+    'With a tool active: goes back to normal selection.',
   // --- PDF Viewer nivel 2 ---
   'Índice, enlaces y formularios': 'Outline, links and forms',
   'Si el documento tiene marcadores, el panel lateral muestra la pestaña Índice. Los enlaces internos llevan a su página y posición, y los externos se abren en otra pestaña. Los campos de formulario se rellenan en el visor; Descargar e Imprimir incluyen lo escrito, getFormData() devuelve los valores por nombre de campo y save() el PDF relleno como Blob.':

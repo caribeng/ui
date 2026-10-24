@@ -13,3 +13,14 @@ export {
   type CbPdfPage,
 } from './lib/pdf-engine';
 export type { CbPdfMatch, CbPdfTextPosition } from './lib/pdf-search';
+export {
+  CB_PDF_COLORS,
+  type CbPdfAnnotation,
+  type CbPdfAnnotationColor,
+  type CbPdfHighlight,
+  type CbPdfInk,
+  type CbPdfNote,
+  type CbPdfRect,
+  type CbPdfSignature,
+  type CbPdfTool,
+} from './lib/pdf-annotations';

@@ -23,9 +23,31 @@ import {
 } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
 import { cbFormat, injectCbTranslation } from '@caribeng/ui';
+import { CbDialog } from '@caribeng/ui/dialog';
 import { CbIcon, CbIconRegistry } from '@caribeng/ui/icon';
-import { panelLeft, printer, zoomIn, zoomOut } from '@caribeng/ui/icons';
+import { highlighter, panelLeft, penLine, printer, signature, stickyNote, zoomIn, zoomOut } from '@caribeng/ui/icons';
+import { CbSignaturePad } from '@caribeng/ui/signature-pad';
 import { CbSpinner } from '@caribeng/ui/spinner';
+import {
+  CB_PDF_COLORS,
+  PDFJS_EDITOR_PREFIX,
+  imageToBitmap,
+  mergeLineRects,
+  moveRect,
+  pdfToView,
+  rectToView,
+  scaleRect,
+  simplifyPath,
+  toPdfJsAnnotation,
+  trimSignature,
+  viewToPdf,
+  viewToRect,
+  type CbPdfAnnotation,
+  type CbPdfAnnotationColor,
+  type CbPdfPageGeometry,
+  type CbPdfTool,
+  type CbPdfViewTransform,
+} from './pdf-annotations';
 import { CbPdfEngine, type CbPdfDocument, type CbPdfJs, type CbPdfPage, type CbPdfSource } from './pdf-engine';
 import { printPdfDocument } from './pdf-print';
 import { buildTextIndex, findMatches, highlightMatches, type CbPdfMatch, type CbPdfTextIndex } from './pdf-search';
@@ -53,12 +75,35 @@ type ViewerState = 'idle' | 'loading' | 'password' | 'ready' | 'error';
 type TextContent = Awaited<ReturnType<CbPdfPage['getTextContent']>>;
 
 interface PageSize {
+  /** Esquina inferior izquierda de la caja de la página (`view`), en puntos. */
+  x0: number;
+  y0: number;
   /** Ancho y alto en puntos (con `userUnit`), sin girar. */
   width: number;
   height: number;
   rotate: number;
   userUnit: number;
 }
+
+type SidebarView = 'thumbnails' | 'outline' | 'annotations';
+
+/** Una anotación ya colocada en su página dibujada (píxeles CSS). */
+interface Mark {
+  readonly a: CbPdfAnnotation;
+  readonly box: { left: number; top: number; width: number; height: number };
+  /** Resaltado: un rectángulo por línea, relativo a `box`. */
+  readonly rects?: readonly { left: number; top: number; width: number; height: number }[];
+  /** Dibujo: trazado SVG relativo a `box`. */
+  readonly d?: string;
+  readonly strokePx?: number;
+  /** Nota: tamaño de letra en píxeles. */
+  readonly fontPx?: number;
+  readonly light: string;
+  readonly dark: string;
+  readonly label: string;
+}
+
+let nextAnnotationId = 0;
 
 interface TextLayerLike {
   render(): Promise<unknown>;
@@ -96,6 +141,10 @@ const PDF_ICONS: Record<string, string> = {
   'zoom-out': zoomOut,
   printer,
   'panel-left': panelLeft,
+  highlighter,
+  'sticky-note': stickyNote,
+  'pen-line': penLine,
+  signature,
 };
 
 /**
@@ -117,7 +166,7 @@ const PDF_ICONS: Record<string, string> = {
   selector: 'cb-pdf-viewer',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
-  imports: [CbIcon, CbSpinner, NgTemplateOutlet],
+  imports: [CbDialog, CbIcon, CbSignaturePad, CbSpinner, NgTemplateOutlet],
   host: {
     class: 'cb-pdf-viewer',
     role: 'region',
@@ -207,6 +256,70 @@ const PDF_ICONS: Record<string, string> = {
           }
         </div>
 
+        @if (annotatable()) {
+          <div class="cb-pdf__group" role="group" [attr.aria-label]="t().pdfAnnotate">
+            <!-- mousedown sin default: pulsar la herramienta no quita la selección de texto. -->
+            <button
+              type="button"
+              class="cb-pdf__tool"
+              [attr.aria-label]="t().pdfHighlight"
+              [attr.aria-pressed]="tool() === 'highlight'"
+              [attr.title]="t().pdfHighlight"
+              [disabled]="state() !== 'ready'"
+              (mousedown)="$event.preventDefault()"
+              (click)="onHighlightTool()"
+            >
+              <cb-icon name="highlighter" [size]="18" aria-hidden="true" />
+            </button>
+            <button
+              type="button"
+              class="cb-pdf__tool"
+              [attr.aria-label]="t().pdfNote"
+              [attr.aria-pressed]="tool() === 'note'"
+              [attr.title]="t().pdfNote"
+              [disabled]="state() !== 'ready'"
+              (click)="onNoteTool($event)"
+            >
+              <cb-icon name="sticky-note" [size]="18" aria-hidden="true" />
+            </button>
+            <button
+              type="button"
+              class="cb-pdf__tool"
+              [attr.aria-label]="t().pdfDraw"
+              [attr.aria-pressed]="tool() === 'ink'"
+              [attr.title]="t().pdfDraw"
+              [disabled]="state() !== 'ready'"
+              (click)="toggleTool('ink')"
+            >
+              <cb-icon name="pen-line" [size]="18" aria-hidden="true" />
+            </button>
+            <button
+              type="button"
+              class="cb-pdf__tool"
+              aria-haspopup="dialog"
+              [attr.aria-label]="t().pdfSign"
+              [attr.title]="t().pdfSign"
+              [disabled]="state() !== 'ready'"
+              (click)="openSignature()"
+            >
+              <cb-icon name="signature" [size]="18" aria-hidden="true" />
+            </button>
+            <span class="cb-pdf__color">
+              <span class="cb-pdf__swatch" aria-hidden="true" [style.background]="colors[annotationColor()].light" [style.border-color]="colors[annotationColor()].dark"></span>
+              <select
+                class="cb-pdf__field cb-pdf__color-select"
+                [attr.aria-label]="t().pdfColor"
+                [disabled]="state() !== 'ready'"
+                (change)="annotationColor.set($any($event.target).value)"
+              >
+                @for (c of colorNames; track c) {
+                  <option [value]="c" [selected]="annotationColor() === c">{{ colorLabel(c) }}</option>
+                }
+              </select>
+            </span>
+          </div>
+        }
+
         <span class="cb-pdf__spacer"></span>
 
         @if (showSearch()) {
@@ -240,8 +353,8 @@ const PDF_ICONS: Record<string, string> = {
               <button
                 type="button"
                 class="cb-pdf__tool"
-                [attr.aria-label]="formModified() ? t().pdfDownloadFilled : t().download"
-                [attr.title]="formModified() ? t().pdfDownloadFilled : null"
+                [attr.aria-label]="annotations().length ? t().pdfDownloadAnnotated : formModified() ? t().pdfDownloadFilled : t().download"
+                [attr.title]="annotations().length ? t().pdfDownloadAnnotated : formModified() ? t().pdfDownloadFilled : null"
                 [disabled]="state() !== 'ready'"
                 (click)="download()"
               >
@@ -268,24 +381,47 @@ const PDF_ICONS: Record<string, string> = {
       @if (state() === 'ready' && sidebar() && showThumbnails()) {
         <div
           class="cb-pdf__sidebar"
-          [class.cb-pdf__sidebar--tabs]="outline().length && showOutline()"
-          [class.cb-pdf__sidebar--outline]="sidebarView() === 'outline' && outline().length && showOutline()"
+          [class.cb-pdf__sidebar--tabs]="sidebarTabs().length > 1"
+          [class.cb-pdf__sidebar--outline]="activeView() !== 'thumbnails' || sidebarTabs().length > 2"
           [id]="uid + '-thumbs'"
         >
-          @if (outline().length && showOutline()) {
+          @if (sidebarTabs().length > 1) {
             <div class="cb-pdf__views" role="group" [attr.aria-label]="t().pdfSidebarView">
-              <button type="button" class="cb-pdf__view" [attr.aria-pressed]="sidebarView() === 'thumbnails'" (click)="sidebarView.set('thumbnails')">
-                {{ t().thumbnails }}
-              </button>
-              <button type="button" class="cb-pdf__view" [attr.aria-pressed]="sidebarView() === 'outline'" (click)="sidebarView.set('outline')">
-                {{ t().pdfOutline }}
-              </button>
+              @for (view of sidebarTabs(); track view) {
+                <button type="button" class="cb-pdf__view" [attr.aria-pressed]="activeView() === view" (click)="sidebarView.set(view)">
+                  {{ view === 'outline' ? t().pdfOutline : view === 'annotations' ? t().pdfAnnotations : t().thumbnails }}
+                </button>
+              }
             </div>
           }
-          @if (sidebarView() === 'outline' && outline().length && showOutline()) {
+          @if (activeView() === 'outline') {
             <nav class="cb-pdf__outline" [attr.aria-label]="t().pdfOutline">
               <ng-container *ngTemplateOutlet="outlineList; context: { $implicit: outline(), path: '' }" />
             </nav>
+          } @else if (activeView() === 'annotations') {
+            <section class="cb-pdf__notes-panel" [attr.aria-label]="t().pdfAnnotations">
+              @if (!sortedAnnotations().length) {
+                <p class="cb-pdf__notes-empty">{{ t().pdfNoAnnotations }}</p>
+              } @else {
+                <ul class="cb-pdf__notes-list">
+                  @for (a of sortedAnnotations(); track a.id) {
+                    <li class="cb-pdf__notes-item">
+                      <button type="button" class="cb-pdf__notes-link" (click)="revealAnnotation(a)">
+                        <span class="cb-pdf__notes-swatch" aria-hidden="true" [style.background]="swatchOf(a)"></span>
+                        <span class="cb-pdf__notes-text">
+                          <!-- La coma oculta separa la página del texto en el nombre del botón. -->
+                          <span class="cb-pdf__notes-page">{{ format(t().pageOf, a.page, numPages()) }}<span class="cb-pdf__sr">, </span></span>
+                          <span class="cb-pdf__notes-label">{{ labelOf(a) }}</span>
+                        </span>
+                      </button>
+                      <button type="button" class="cb-pdf__notes-remove" [attr.aria-label]="t().pdfDeleteAnnotation + ': ' + labelOf(a)" (click)="removeAnnotation(a)">
+                        <cb-icon name="trash" [size]="14" aria-hidden="true" />
+                      </button>
+                    </li>
+                  }
+                </ul>
+              }
+            </section>
           } @else {
           <nav class="cb-pdf__thumbs" [attr.aria-label]="t().thumbnails">
           @for (thumb of thumbBoxes(); track $index; let i = $index) {
@@ -352,7 +488,10 @@ const PDF_ICONS: Record<string, string> = {
             </form>
           }
           @case ('ready') {
-            <div class="cb-pdf__pages">
+            @if (toolHint(); as hint) {
+              <div class="cb-pdf__hint">{{ hint }}</div>
+            }
+            <div class="cb-pdf__pages" (pointerup)="onPagesPointerUp()">
               @for (box of pageBoxes(); track $index; let i = $index) {
                 <div
                   #pageEl
@@ -368,6 +507,96 @@ const PDF_ICONS: Record<string, string> = {
                   <div class="cb-pdf__canvas"></div>
                   <div class="cb-pdf__text"></div>
                   <div class="cb-pdf__annotations" (input)="onFormInput()" (change)="onFormInput()"></div>
+                  @if (annotatable() || marks()[i]?.length) {
+                    <div
+                      class="cb-pdf__marks"
+                      [class.cb-pdf__marks--capture]="annotatable() && (tool() === 'ink' || tool() === 'note')"
+                      [class.cb-pdf__marks--ink]="tool() === 'ink'"
+                      [class.cb-pdf__marks--pass]="tool() === 'highlight'"
+                      (pointerdown)="onMarksPointerDown($event, i + 1)"
+                    >
+                      @for (m of marks()[i]; track m.a.id) {
+                        <div
+                          class="cb-pdf__mark"
+                          [class]="'cb-pdf__mark cb-pdf__mark--' + m.a.type"
+                          [class.cb-is-selected]="selectedId() === m.a.id"
+                          [attr.data-id]="m.a.id"
+                          [attr.tabindex]="annotatable() ? 0 : null"
+                          [attr.role]="annotatable() ? 'button' : 'img'"
+                          [attr.aria-label]="m.label"
+                          [attr.aria-describedby]="annotatable() ? uid + '-mark-hint' : null"
+                          [attr.aria-expanded]="annotatable() && (m.a.type === 'note' || m.a.type === 'highlight') ? editingId() === m.a.id : null"
+                          [style.left.px]="m.box.left"
+                          [style.top.px]="m.box.top"
+                          [style.width.px]="m.a.type === 'note' ? null : m.box.width"
+                          [style.height.px]="m.a.type === 'note' ? null : m.box.height"
+                          [style.--cb-pdf-mark-light]="m.light"
+                          [style.--cb-pdf-mark-dark]="m.dark"
+                          (pointerdown)="onMarkPointerDown($event, m.a)"
+                          (keydown)="onMarkKeydown($event, m.a)"
+                          (focus)="select(m.a.id)"
+                        >
+                          @switch (m.a.type) {
+                            @case ('highlight') {
+                              @for (r of m.rects; track $index) {
+                                <span class="cb-pdf__hl-rect" [style.left.px]="r.left" [style.top.px]="r.top" [style.width.px]="r.width" [style.height.px]="r.height"></span>
+                              }
+                              @if (m.a.comment) {
+                                <span class="cb-pdf__hl-badge" aria-hidden="true"></span>
+                              }
+                            }
+                            @case ('note') {
+                              <span class="cb-pdf__note-text" [style.font-size.px]="m.fontPx" [style.min-width.px]="m.box.width">{{ m.a.text || ' ' }}</span>
+                            }
+                            @case ('ink') {
+                              <svg class="cb-pdf__ink" [attr.viewBox]="'0 0 ' + m.box.width + ' ' + m.box.height" aria-hidden="true">
+                                <path [attr.d]="m.d" [attr.stroke-width]="m.strokePx" />
+                              </svg>
+                            }
+                            @case ('signature') {
+                              <img class="cb-pdf__sig" [src]="m.a.image" alt="" draggable="false" />
+                              @if (annotatable() && selectedId() === m.a.id) {
+                                <span class="cb-pdf__resize" aria-hidden="true" (pointerdown)="onResizePointerDown($event, m.a)"></span>
+                              }
+                            }
+                          }
+                        </div>
+                      }
+                      @if (stroke(); as s) {
+                        @if (s.page === i + 1) {
+                          <svg class="cb-pdf__stroke" aria-hidden="true" [style.--cb-pdf-mark-dark]="colors[annotationColor()].dark">
+                            <polyline [attr.points]="s.points.join(' ')" [attr.stroke-width]="2 * box.scaleFactor" />
+                          </svg>
+                        }
+                      }
+                      @if (editingMark(); as e) {
+                        @if (e.a.page === i + 1) {
+                          <div
+                            class="cb-pdf__card"
+                            role="group"
+                            [attr.aria-label]="e.label"
+                            [style.left.px]="cardLeft(e, box.width)"
+                            [style.top.px]="e.box.top + (e.a.type === 'note' ? noteHeight(e) : e.box.height) + 6"
+                            (pointerdown)="$event.stopPropagation()"
+                            (keydown)="onCardKeydown($event)"
+                          >
+                            <label class="cb-pdf__card-label" [for]="uid + '-card'">{{ e.a.type === 'note' ? t().pdfNoteText : t().pdfComment }}</label>
+                            <textarea
+                              #cardText
+                              class="cb-pdf__field cb-pdf__card-text"
+                              rows="3"
+                              [id]="uid + '-card'"
+                              (input)="onCardInput($any($event.target).value)"
+                            ></textarea>
+                            <div class="cb-pdf__card-actions">
+                              <button type="button" class="cb-pdf__card-btn" (click)="removeAnnotation(e.a)">{{ t().pdfDeleteAnnotation }}</button>
+                              <button type="button" class="cb-pdf__card-btn cb-pdf__card-btn--primary" (click)="closeEditor(true)">{{ t().pdfDone }}</button>
+                            </div>
+                          </div>
+                        }
+                      }
+                    </div>
+                  }
                 </div>
               }
             </div>
@@ -375,6 +604,20 @@ const PDF_ICONS: Record<string, string> = {
         }
       </div>
     </div>
+
+    @if (annotatable()) {
+      <span class="cb-pdf__sr" [id]="uid + '-mark-hint'">{{ t().pdfAnnotationHint }}</span>
+      <span class="cb-pdf__sr" aria-live="polite">{{ announcement() }}</span>
+      <cb-dialog [(visible)]="signing" [header]="t().pdfSignTitle" width="34rem" (onHide)="onSignatureHide()">
+        <cb-signature-pad [(value)]="signatureValue" background="transparent" [ariaLabel]="t().pdfSignTitle" />
+        <div cb-dialog-footer class="cb-pdf__sign-actions">
+          <button type="button" class="cb-pdf__card-btn" (click)="signing.set(false)">{{ t().pdfCancel }}</button>
+          <button type="button" class="cb-pdf__card-btn cb-pdf__card-btn--primary" [disabled]="!signatureValue()" (click)="insertSignature()">
+            {{ t().pdfInsertSignature }}
+          </button>
+        </div>
+      </cb-dialog>
+    }
 
     <ng-template #outlineList let-items let-path="path">
       <ul class="cb-pdf__outline-list" [attr.role]="path ? 'group' : null">
@@ -450,9 +693,23 @@ export class CbPdfViewer {
   /** Enlaces externos del documento: se abren en otra pestaña. `false` los desactiva. */
   readonly externalLinks = input(true, { transform: booleanAttribute });
   /** Vista del panel lateral. */
-  readonly sidebarView = model<'thumbnails' | 'outline'>('thumbnails');
+  readonly sidebarView = model<SidebarView>('thumbnails');
   /** Nombre accesible del visor (por defecto, "Visor de PDF"). */
   readonly ariaLabel = input<string>('');
+
+  /** Herramientas para resaltar, poner notas, dibujar y firmar (y la pestaña Anotaciones). */
+  readonly annotatable = input(false, { transform: booleanAttribute });
+  /**
+   * Anotaciones del usuario, en puntos PDF. Se ven siempre; con `annotatable` se crean, mueven y
+   * borran. Al descargar o imprimir se escriben en el PDF como anotaciones estándar.
+   */
+  readonly annotations = model<readonly CbPdfAnnotation[]>([]);
+  /** Herramienta activa (`none`, `highlight`, `note`, `ink`). Escape vuelve a `none`. */
+  readonly tool = model<CbPdfTool>('none');
+  /** Color de las anotaciones nuevas. */
+  readonly annotationColor = model<CbPdfAnnotationColor>('yellow');
+  /** Autor de las anotaciones nuevas (se guarda en el PDF). */
+  readonly author = input<string>('');
 
   /** Documento abierto. */
   readonly loaded = output<{ numPages: number }>();
@@ -460,10 +717,15 @@ export class CbPdfViewer {
   readonly loadError = output<unknown>();
   /** El usuario cambió un campo del formulario (los valores, con `getFormData()`). */
   readonly formChange = output<void>();
+  /** El usuario creó una anotación. */
+  readonly annotationAdd = output<CbPdfAnnotation>();
+  /** El usuario borró una anotación. */
+  readonly annotationRemove = output<CbPdfAnnotation>();
 
   private readonly engine = inject(CbPdfEngine);
   private readonly document = inject(DOCUMENT);
   private readonly injector = inject(Injector);
+  private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
   protected readonly uid = `cb-pdf-${++nextUid}`;
@@ -512,6 +774,7 @@ export class CbPdfViewer {
   private readonly thumbEls = viewChildren<ElementRef<HTMLElement>>('thumbEl');
   private readonly searchInput = viewChild<ElementRef<HTMLInputElement>>('searchInput');
   private readonly passwordInput = viewChild<ElementRef<HTMLInputElement>>('passwordInput');
+  private readonly cardText = viewChild<ElementRef<HTMLTextAreaElement>>('cardText');
 
   /** Factor de zoom efectivo (1 = 100 %). */
   readonly scale = computed(() => {
@@ -557,6 +820,68 @@ export class CbPdfViewer {
     const total = this.matches().length;
     if (total) return cbFormat(this.t().matchOf, this.matchIndex() + 1, total);
     return this.searching() ? this.t().searching : this.t().noResults;
+  });
+
+  // --- Anotaciones -------------------------------------------------------------
+
+  protected readonly colors = CB_PDF_COLORS;
+  protected readonly colorNames = Object.keys(CB_PDF_COLORS) as CbPdfAnnotationColor[];
+  protected readonly selectedId = signal<string | null>(null);
+  /** Anotación con el editor (texto de la nota o comentario del resaltado) abierto. */
+  protected readonly editingId = signal<string | null>(null);
+  /** Anotación mientras se arrastra o cambia de tamaño (se confirma al soltar). */
+  private readonly dragPreview = signal<CbPdfAnnotation | null>(null);
+  /** Trazo que se está dibujando, en píxeles de la página. */
+  protected readonly stroke = signal<{ page: number; points: number[] } | null>(null);
+  protected readonly announcement = signal('');
+  private announceFlip = false;
+  protected readonly signing = signal(false);
+  protected readonly signatureValue = signal('');
+  private pendingFocus: string | null = null;
+
+  private readonly shownAnnotations = computed(() => {
+    const preview = this.dragPreview();
+    const list = this.annotations();
+    return preview ? list.map((a) => (a.id === preview.id ? preview : a)) : list;
+  });
+
+  /** Anotaciones de cada página, ya colocadas con el zoom y el giro actuales. */
+  protected readonly marks = computed<Mark[][]>(() => {
+    const sizes = this.sizes();
+    const pages: Mark[][] = sizes.map(() => []);
+    for (const a of this.shownAnnotations()) {
+      const size = sizes[a.page - 1];
+      if (!size) continue;
+      pages[a.page - 1].push(this.toMark(a, size));
+    }
+    return pages;
+  });
+
+  protected readonly editingMark = computed(() => {
+    const id = this.editingId();
+    if (!id) return null;
+    for (const page of this.marks()) for (const m of page) if (m.a.id === id) return m;
+    return null;
+  });
+
+  protected readonly sortedAnnotations = computed(() =>
+    [...this.annotations()].sort((a, b) => a.page - b.page || this.topOf(b) - this.topOf(a)),
+  );
+
+  protected readonly sidebarTabs = computed(() => {
+    const tabs: SidebarView[] = ['thumbnails'];
+    if (this.outline().length && this.showOutline()) tabs.push('outline');
+    if (this.annotatable()) tabs.push('annotations');
+    return tabs;
+  });
+
+  protected readonly activeView = computed<SidebarView>(() => (this.sidebarTabs().includes(this.sidebarView()) ? this.sidebarView() : 'thumbnails'));
+
+  protected readonly toolHint = computed(() => {
+    if (!this.annotatable()) return '';
+    const tool = this.tool();
+    const t = this.t();
+    return tool === 'highlight' ? t.pdfHighlightHint : tool === 'note' ? t.pdfNoteHint : tool === 'ink' ? t.pdfDrawHint : '';
   });
 
   private pdfjs?: CbPdfJs;
@@ -760,18 +1085,20 @@ export class CbPdfViewer {
     return data;
   }
 
-  /** El PDF con lo escrito en el formulario (o el original si no cambió). */
+  /** El PDF con lo escrito en el formulario y las anotaciones (o el original si no hay cambios). */
   async save(): Promise<Blob | null> {
-    if (!this.pdf) return null;
-    const bytes = this.formModified() ? await this.pdf.saveDocument() : await this.pdf.getData();
+    const pdf = this.pdf;
+    if (!pdf) return null;
+    const changed = this.formModified() || this.annotations().length > 0;
+    const bytes = changed ? await this.withAnnotations(() => pdf.saveDocument()) : await pdf.getData();
     return new Blob([bytes as BlobPart], { type: 'application/pdf' });
   }
 
-  /** Descarga el documento (con los datos del formulario, si se rellenó). */
+  /** Descarga el documento (con los datos del formulario y las anotaciones, si los hay). */
   async download(): Promise<void> {
     if (!this.pdf) return;
     const src = this.src();
-    const blob = src instanceof Blob && !this.formModified() ? src : await this.save();
+    const blob = src instanceof Blob && !this.formModified() && !this.annotations().length ? src : await this.save();
     if (!blob) return;
     const url = URL.createObjectURL(blob);
     const a = this.document.createElement('a');
@@ -789,7 +1116,10 @@ export class CbPdfViewer {
     if (!this.pdf || this.printProgress()) return;
     this.printProgress.set({ done: 0, total: this.numPages() });
     try {
-      await printPdfDocument(this.pdf, this.document, (done, total) => this.printProgress.set({ done, total }), this.rotation());
+      const pdf = this.pdf;
+      // La copia para imprimir se toma con las anotaciones escritas; después se quitan.
+      const storage = await this.withAnnotations(async () => pdf.annotationStorage.print);
+      await printPdfDocument(pdf, this.document, (done, total) => this.printProgress.set({ done, total }), this.rotation(), storage);
     } finally {
       this.printProgress.set(null);
     }
@@ -929,6 +1259,10 @@ export class CbPdfViewer {
     this.sizes.set([]);
     this.outline.set([]);
     this.formModified.set(false);
+    this.selectedId.set(null);
+    this.editingId.set(null);
+    this.stroke.set(null);
+    this.dragPreview.set(null);
   }
 
   private getPage(n: number): Promise<CbPdfPage> {
@@ -1280,6 +1614,523 @@ export class CbPdfViewer {
     return this.pageEls()[n - 1]?.nativeElement;
   }
 
+  // --- Anotaciones -------------------------------------------------------------
+
+  protected toggleTool(tool: CbPdfTool): void {
+    this.tool.set(this.tool() === tool ? 'none' : tool);
+  }
+
+  /** Con texto seleccionado lo resalta al momento; si no, activa la herramienta. */
+  protected onHighlightTool(): void {
+    if (this.tool() !== 'highlight' && this.highlightSelection()) return;
+    this.toggleTool('highlight');
+  }
+
+  /** Con el teclado (sin puntero) la nota se pone directamente en la página que se ve. */
+  protected onNoteTool(event: MouseEvent): void {
+    if (event.detail === 0 && this.tool() !== 'note') {
+      const page = this.page();
+      const spot = this.visibleSpot(page);
+      if (spot) this.addNote(page, spot.x - 80, spot.y - 20);
+      return;
+    }
+    this.toggleTool('note');
+  }
+
+  protected openSignature(): void {
+    this.tool.set('none');
+    this.signatureValue.set('');
+    this.signing.set(true);
+  }
+
+  protected async insertSignature(): Promise<void> {
+    const value = this.signatureValue();
+    if (!value) return;
+    const page = this.page();
+    const size = this.sizes()[page - 1];
+    const spot = this.visibleSpot(page);
+    this.signing.set(false);
+    if (!size || !spot) return;
+    const { url, width, height } = await trimSignature(value, this.document);
+    const view = this.viewOf(size);
+    const pageWidth = this.pageBoxes()[page - 1]?.width ?? 400;
+    // 180 pt de ancho como máximo (algo menos que media página A4), con la proporción de la firma.
+    const w = Math.min(pageWidth * 0.45, 180 * view.factor);
+    const h = (w * height) / Math.max(1, width);
+    const rect = viewToRect(this.geomOf(size), view, spot.x - w / 2, spot.y - h / 2, w, h);
+    const id = this.addAnnotation({ ...this.newBase(page), type: 'signature', rect, image: url });
+    this.pendingFocus = id;
+  }
+
+  /** El foco vuelve tras cerrar el diálogo: entonces se lleva a la firma recién puesta. */
+  protected onSignatureHide(): void {
+    const id = this.pendingFocus;
+    this.pendingFocus = null;
+    if (id) setTimeout(() => this.focusMark(id));
+  }
+
+  /** Resalta el texto seleccionado en el documento (una anotación por página). */
+  protected highlightSelection(): boolean {
+    const selection = this.document.getSelection();
+    if (!selection || selection.isCollapsed || !selection.rangeCount) return false;
+    let created = 0;
+    for (const [index, ref] of this.pageEls().entries()) {
+      const pageEl = ref.nativeElement;
+      const textEl = pageEl.querySelector<HTMLElement>('.cb-pdf__text');
+      const size = this.sizes()[index];
+      if (!textEl || !size) continue;
+      const boxes: { left: number; top: number; width: number; height: number }[] = [];
+      let text = '';
+      for (let k = 0; k < selection.rangeCount; k++) {
+        const range = selection.getRangeAt(k);
+        if (!range.intersectsNode(textEl)) continue;
+        const part = range.cloneRange();
+        if (!textEl.contains(part.startContainer)) part.setStart(textEl, 0);
+        if (!textEl.contains(part.endContainer)) part.setEnd(textEl, textEl.childNodes.length);
+        const origin = pageEl.getBoundingClientRect();
+        for (const r of Array.from(part.getClientRects())) {
+          boxes.push({ left: r.left - origin.left, top: r.top - origin.top, width: r.width, height: r.height });
+        }
+        text += part.toString();
+      }
+      const lines = mergeLineRects(withoutTallRects(boxes));
+      if (!lines.length) continue;
+      const geom = this.geomOf(size);
+      const view = this.viewOf(size);
+      const rects = lines.map((l) => viewToRect(geom, view, l.left, l.top, l.width, l.height));
+      this.addAnnotation({ ...this.newBase(index + 1), type: 'highlight', rects, color: this.annotationColor(), text: text.replace(/\s+/g, ' ').trim() });
+      created++;
+    }
+    if (created) selection.removeAllRanges();
+    return created > 0;
+  }
+
+  protected onPagesPointerUp(): void {
+    // La selección termina de fijarse después del pointerup.
+    if (this.annotatable() && this.tool() === 'highlight') setTimeout(() => this.highlightSelection());
+  }
+
+  protected onMarksPointerDown(event: PointerEvent, page: number): void {
+    if (!this.annotatable() || event.button !== 0) return;
+    const layer = event.currentTarget as HTMLElement;
+    const origin = layer.getBoundingClientRect();
+    const tool = this.tool();
+    if (tool === 'note') {
+      event.preventDefault();
+      this.addNote(page, event.clientX - origin.left, event.clientY - origin.top);
+    } else if (tool === 'ink') {
+      event.preventDefault();
+      layer.setPointerCapture?.(event.pointerId);
+      this.stroke.set({ page, points: [event.clientX - origin.left, event.clientY - origin.top] });
+      const move = (e: PointerEvent) => {
+        const s = this.stroke();
+        if (s) this.stroke.set({ page, points: [...s.points, e.clientX - origin.left, e.clientY - origin.top] });
+      };
+      const end = () => {
+        layer.removeEventListener('pointermove', move);
+        layer.removeEventListener('pointerup', end);
+        layer.removeEventListener('pointercancel', end);
+        this.finishStroke();
+      };
+      layer.addEventListener('pointermove', move);
+      layer.addEventListener('pointerup', end);
+      layer.addEventListener('pointercancel', end);
+    } else if (tool === 'none') {
+      this.closeEditor(false);
+      this.selectedId.set(null);
+    }
+  }
+
+  private finishStroke(): void {
+    const s = this.stroke();
+    this.stroke.set(null);
+    const size = s && this.sizes()[s.page - 1];
+    if (!s || !size) return;
+    const points = s.points.length === 2 ? [...s.points, s.points[0] + 0.5, s.points[1] + 0.5] : s.points;
+    const geom = this.geomOf(size);
+    const view = this.viewOf(size);
+    const pdf: number[] = [];
+    for (let i = 0; i + 1 < points.length; i += 2) pdf.push(...viewToPdf(geom, view, points[i], points[i + 1]));
+    const path = simplifyPath(pdf, 0.4).map((v) => Math.round(v * 100) / 100);
+    this.addAnnotation({ ...this.newBase(s.page), type: 'ink', paths: [path], color: this.annotationColor(), thickness: 2 }, false);
+  }
+
+  private addNote(page: number, x: number, y: number): void {
+    const size = this.sizes()[page - 1];
+    if (!size) return;
+    const view = this.viewOf(size);
+    const box = this.pageBoxes()[page - 1];
+    const w = 160 * view.factor;
+    const h = 12 * 1.5 * view.factor;
+    const left = clamp(x, 0, Math.max(0, (box?.width ?? w) - w));
+    const top = clamp(y, 0, Math.max(0, (box?.height ?? h) - h));
+    const rect = viewToRect(this.geomOf(size), view, left, top, w, h);
+    const id = this.addAnnotation({ ...this.newBase(page), type: 'note', rect, text: '', color: this.annotationColor() }, false);
+    this.tool.set('none');
+    this.openEditor(id);
+  }
+
+  /** Añade una anotación, la anuncia y la selecciona. Devuelve su `id`. */
+  private addAnnotation(annotation: CbPdfAnnotation, focus = true): string {
+    this.annotations.update((list) => [...list, annotation]);
+    this.annotationAdd.emit(annotation);
+    this.announce(cbFormat(this.t().pdfAnnotationAdded, this.nounOf(annotation), annotation.page));
+    this.selectedId.set(annotation.id);
+    if (focus) afterNextRender(() => this.focusMark(annotation.id), { injector: this.injector });
+    return annotation.id;
+  }
+
+  /** Borra una anotación y deja el foco en la siguiente de la página (o en el documento). */
+  removeAnnotation(annotation: CbPdfAnnotation): void {
+    const list = this.annotations();
+    const index = list.findIndex((a) => a.id === annotation.id);
+    if (index === -1) return;
+    const samePage = list.filter((a) => a.page === annotation.page && a.id !== annotation.id);
+    const hadFocus = this.host.nativeElement.contains(this.document.activeElement);
+    this.annotations.set(list.filter((a) => a.id !== annotation.id));
+    if (this.editingId() === annotation.id) this.editingId.set(null);
+    if (this.selectedId() === annotation.id) this.selectedId.set(null);
+    this.annotationRemove.emit(annotation);
+    this.announce(this.t().pdfAnnotationRemoved);
+    if (!hadFocus || this.activeView() === 'annotations' && this.sidebar()) return;
+    const next = samePage[0]?.id;
+    afterNextRender(() => (next ? this.focusMark(next) : this.viewport()?.nativeElement.focus()), { injector: this.injector });
+  }
+
+  private replaceAnnotation(annotation: CbPdfAnnotation): void {
+    this.annotations.update((list) => list.map((a) => (a.id === annotation.id ? annotation : a)));
+  }
+
+  protected select(id: string): void {
+    if (this.editingId() && this.editingId() !== id) this.closeEditor(false);
+    this.selectedId.set(id);
+  }
+
+  /** Lleva a la anotación (desde la lista del panel) y le da el foco. */
+  protected revealAnnotation(annotation: CbPdfAnnotation): void {
+    this.goToPage(annotation.page);
+    this.selectedId.set(annotation.id);
+    afterNextRender(() => this.focusMark(annotation.id, true), { injector: this.injector });
+  }
+
+  private focusMark(id: string, scroll = false): void {
+    const el = this.host.nativeElement.querySelector<HTMLElement>(`.cb-pdf__mark[data-id="${id}"]`);
+    if (!el) return;
+    el.focus({ preventScroll: !scroll });
+    if (scroll) el.scrollIntoView?.({ block: 'center', inline: 'nearest' });
+  }
+
+  protected openEditor(id: string): void {
+    const annotation = this.annotations().find((a) => a.id === id);
+    if (!annotation || (annotation.type !== 'note' && annotation.type !== 'highlight')) return;
+    this.selectedId.set(id);
+    this.editingId.set(id);
+    afterNextRender(
+      () => {
+        const textarea = this.cardText()?.nativeElement;
+        if (!textarea) return;
+        textarea.value = annotation.type === 'note' ? annotation.text : (annotation.comment ?? '');
+        textarea.focus();
+      },
+      { injector: this.injector },
+    );
+  }
+
+  protected onCardInput(value: string): void {
+    const annotation = this.annotations().find((a) => a.id === this.editingId());
+    if (annotation?.type === 'note') this.replaceAnnotation({ ...annotation, text: value });
+    else if (annotation?.type === 'highlight') this.replaceAnnotation({ ...annotation, comment: value || undefined });
+  }
+
+  protected onCardKeydown(event: KeyboardEvent): void {
+    event.stopPropagation();
+    if (event.key === 'Escape' || (event.key === 'Enter' && (event.ctrlKey || event.metaKey))) {
+      event.preventDefault();
+      this.closeEditor(true);
+    }
+  }
+
+  /** Cierra el editor: una nota vacía se borra y una con texto ajusta su caja a lo escrito. */
+  closeEditor(refocus: boolean): void {
+    const id = this.editingId();
+    if (!id) return;
+    this.editingId.set(null);
+    const annotation = this.annotations().find((a) => a.id === id);
+    if (annotation?.type === 'note') {
+      if (!annotation.text.trim()) {
+        this.annotations.update((list) => list.filter((a) => a.id !== id));
+        this.selectedId.set(null);
+        if (refocus) this.viewport()?.nativeElement.focus();
+        return;
+      }
+      this.measureNote(annotation);
+    }
+    if (refocus) afterNextRender(() => this.focusMark(id), { injector: this.injector });
+  }
+
+  /** La caja de la nota en el PDF es la que ocupa su texto en pantalla. */
+  private measureNote(note: Extract<CbPdfAnnotation, { type: 'note' }>): void {
+    const el = this.host.nativeElement.querySelector<HTMLElement>(`.cb-pdf__mark[data-id="${note.id}"]`);
+    const size = this.sizes()[note.page - 1];
+    if (!el || !size || !el.offsetWidth) return;
+    const rect = viewToRect(this.geomOf(size), this.viewOf(size), el.offsetLeft, el.offsetTop, el.offsetWidth, el.offsetHeight);
+    if (rect.some((v, i) => Math.abs(v - note.rect[i]) > 0.5)) this.replaceAnnotation({ ...note, rect });
+  }
+
+  protected onMarkPointerDown(event: PointerEvent, annotation: CbPdfAnnotation): void {
+    event.stopPropagation();
+    const el = event.currentTarget as HTMLElement;
+    if (!this.annotatable() || event.button !== 0) return;
+    if (annotation.type === 'highlight') {
+      this.select(annotation.id);
+      return;
+    }
+    // Sin el default no empieza una selección de texto al arrastrar; el foco se da a mano.
+    event.preventDefault();
+    el.focus({ preventScroll: true });
+    this.trackPointer(event, el, (dx, dy) => this.translated(annotation, dx, dy), () => {
+      if (annotation.type === 'note' && this.editingId() !== annotation.id) this.openEditor(annotation.id);
+    });
+  }
+
+  protected onResizePointerDown(event: PointerEvent, annotation: CbPdfAnnotation): void {
+    event.stopPropagation();
+    event.preventDefault();
+    if (annotation.type !== 'signature') return;
+    const size = this.sizes()[annotation.page - 1];
+    if (!size) return;
+    const width = rectToView(this.geomOf(size), this.viewOf(size), annotation.rect).width;
+    this.trackPointer(event, event.currentTarget as HTMLElement, (dx) => ({ ...annotation, rect: scaleRect(annotation.rect, (width + dx) / Math.max(1, width)) }));
+  }
+
+  /** Arrastre con vista previa: se confirma al soltar; sin moverse es un clic (`onClick`). */
+  private trackPointer(event: PointerEvent, el: HTMLElement, update: (dx: number, dy: number) => CbPdfAnnotation, onClick?: () => void): void {
+    el.setPointerCapture?.(event.pointerId);
+    const [x, y] = [event.clientX, event.clientY];
+    let moved = false;
+    const move = (e: PointerEvent) => {
+      const [dx, dy] = [e.clientX - x, e.clientY - y];
+      if (!moved && Math.hypot(dx, dy) < 3) return;
+      moved = true;
+      this.dragPreview.set(update(dx, dy));
+    };
+    const end = () => {
+      el.removeEventListener('pointermove', move);
+      el.removeEventListener('pointerup', end);
+      el.removeEventListener('pointercancel', end);
+      const preview = this.dragPreview();
+      this.dragPreview.set(null);
+      if (moved && preview) this.replaceAnnotation(preview);
+      else onClick?.();
+    };
+    el.addEventListener('pointermove', move);
+    el.addEventListener('pointerup', end);
+    el.addEventListener('pointercancel', end);
+  }
+
+  protected onMarkKeydown(event: KeyboardEvent, rendered: CbPdfAnnotation): void {
+    if (!this.annotatable() || event.ctrlKey || event.metaKey || event.altKey) return;
+    // La de la plantilla puede ser de antes del último repintado (tecla mantenida): se usa la actual.
+    const annotation = this.annotations().find((a) => a.id === rendered.id) ?? rendered;
+    const step = event.shiftKey ? 20 : 4;
+    const arrows: Record<string, [number, number]> = { ArrowLeft: [-step, 0], ArrowRight: [step, 0], ArrowUp: [0, -step], ArrowDown: [0, step] };
+    if (event.key === 'Delete' || event.key === 'Backspace') {
+      this.removeAnnotation(annotation);
+    } else if (event.key === 'Enter' || event.key === ' ') {
+      if (annotation.type !== 'note' && annotation.type !== 'highlight') return;
+      this.openEditor(annotation.id);
+    } else if (arrows[event.key] && annotation.type !== 'highlight') {
+      const moved = this.translated(annotation, ...arrows[event.key]);
+      this.replaceAnnotation(moved);
+      this.announcePosition(moved);
+    } else if ((event.key === '+' || event.key === '=' || event.key === '-') && (annotation.type === 'signature' || annotation.type === 'note')) {
+      const grow = event.key !== '-';
+      if (annotation.type === 'signature') {
+        const rect = scaleRect(annotation.rect, grow ? 1.1 : 1 / 1.1);
+        const pageWidth = (this.sizes()[annotation.page - 1]?.width ?? 1) / (this.sizes()[annotation.page - 1]?.userUnit ?? 1);
+        this.replaceAnnotation({ ...annotation, rect });
+        this.announce(cbFormat(this.t().pdfSignatureResized, Math.round(((rect[2] - rect[0]) / pageWidth) * 100)));
+      } else {
+        const fontSize = clamp((annotation.fontSize ?? 12) + (grow ? 1 : -1), 6, 48);
+        this.replaceAnnotation({ ...annotation, fontSize });
+        this.announce(cbFormat(this.t().pdfNoteResized, fontSize));
+        afterNextRender(() => this.measureNote({ ...annotation, fontSize }), { injector: this.injector });
+      }
+    } else {
+      return;
+    }
+    event.preventDefault();
+    event.stopPropagation();
+  }
+
+  /** Desplaza `dx`, `dy` píxeles de pantalla (con el giro, en el sentido en que se ven). */
+  private translated(annotation: CbPdfAnnotation, dx: number, dy: number): CbPdfAnnotation {
+    const size = this.sizes()[annotation.page - 1];
+    if (!size || annotation.type === 'highlight') return annotation;
+    const geom = this.geomOf(size);
+    const view = this.viewOf(size);
+    const [ax, ay] = viewToPdf(geom, view, 0, 0);
+    const [bx, by] = viewToPdf(geom, view, dx, dy);
+    const [px, py] = [bx - ax, by - ay];
+    if (annotation.type === 'ink') {
+      return { ...annotation, paths: annotation.paths.map((p) => p.map((v, i) => Math.round((v + (i % 2 ? py : px)) * 100) / 100)) };
+    }
+    return { ...annotation, rect: moveRect(geom, annotation.rect, px, py) };
+  }
+
+  private announcePosition(annotation: CbPdfAnnotation): void {
+    const box = this.marks()[annotation.page - 1]?.find((m) => m.a.id === annotation.id)?.box;
+    const page = this.pageBoxes()[annotation.page - 1];
+    if (!box || !page) return;
+    this.announce(cbFormat(this.t().pdfAnnotationMoved, Math.round((box.left / page.width) * 100), Math.round((box.top / page.height) * 100)));
+  }
+
+  private announce(text: string): void {
+    // Un espacio duro alterno hace que se repita aunque el texto sea el mismo.
+    this.announceFlip = !this.announceFlip;
+    this.announcement.set(this.announceFlip ? text : `${text} `);
+  }
+
+  /** Centro de la parte visible de la página `n`, en píxeles de la página. */
+  private visibleSpot(n: number): { x: number; y: number } | null {
+    const root = this.viewport()?.nativeElement;
+    const el = this.pageEl(n);
+    if (!root || !el) return null;
+    const top = Math.max(0, root.scrollTop - el.offsetTop);
+    const bottom = Math.min(el.offsetHeight, root.scrollTop + root.clientHeight - el.offsetTop);
+    const y = bottom > top ? (top + bottom) / 2 : el.offsetHeight / 3;
+    return { x: (el.offsetWidth || this.pageBoxes()[n - 1]?.width || 0) / 2, y };
+  }
+
+  private toMark(a: CbPdfAnnotation, size: PageSize): Mark {
+    const geom = this.geomOf(size);
+    const view = this.viewOf(size);
+    const color = CB_PDF_COLORS[a.type === 'signature' ? 'blue' : a.color];
+    const base = { a, light: color.light, dark: color.dark, label: this.labelOf(a) };
+    switch (a.type) {
+      case 'highlight': {
+        const boxes = a.rects.map((r) => rectToView(geom, view, r));
+        const box = unionBox(boxes);
+        return { ...base, box, rects: boxes.map((b) => ({ ...b, left: b.left - box.left, top: b.top - box.top })) };
+      }
+      case 'note':
+        return { ...base, box: rectToView(geom, view, a.rect), fontPx: (a.fontSize ?? 12) * view.factor * geom.userUnit };
+      case 'ink': {
+        const pad = (a.thickness / 2 + 1) * view.factor;
+        const points = a.paths.map((p) => {
+          const out: [number, number][] = [];
+          for (let i = 0; i + 1 < p.length; i += 2) out.push(pdfToView(geom, view, p[i], p[i + 1]));
+          return out;
+        });
+        const flat = points.flat();
+        const left = Math.min(...flat.map((p) => p[0])) - pad;
+        const top = Math.min(...flat.map((p) => p[1])) - pad;
+        const width = Math.max(...flat.map((p) => p[0])) + pad - left;
+        const height = Math.max(...flat.map((p) => p[1])) + pad - top;
+        const d = points.map((p) => p.map(([x, y], i) => `${i ? 'L' : 'M'}${round2(x - left)} ${round2(y - top)}`).join(' ')).join(' ');
+        return { ...base, box: { left, top, width, height }, d, strokePx: a.thickness * view.factor };
+      }
+      case 'signature':
+        return { ...base, box: rectToView(geom, view, a.rect) };
+    }
+  }
+
+  protected labelOf(a: CbPdfAnnotation): string {
+    const t = this.t();
+    switch (a.type) {
+      case 'highlight': {
+        const label = cbFormat(t.pdfHighlightOf, truncate(a.text, 80));
+        return a.comment ? `${label}. ${t.pdfComment}: ${truncate(a.comment, 120)}` : label;
+      }
+      case 'note':
+        return cbFormat(t.pdfNoteOf, a.text.trim() ? truncate(a.text, 120) : t.pdfEmptyNote);
+      case 'ink':
+        return t.pdfInkOf;
+      case 'signature':
+        return t.pdfSignatureOf;
+    }
+  }
+
+  private nounOf(a: CbPdfAnnotation): string {
+    const t = this.t();
+    return a.type === 'highlight' ? t.pdfHighlightNoun : a.type === 'note' ? t.pdfNote : a.type === 'ink' ? t.pdfInkOf : t.pdfSignatureOf;
+  }
+
+  protected swatchOf(a: CbPdfAnnotation): string {
+    if (a.type === 'signature') return CB_PDF_COLORS.blue.dark;
+    return a.type === 'highlight' ? CB_PDF_COLORS[a.color].light : CB_PDF_COLORS[a.color].dark;
+  }
+
+  protected colorLabel(color: CbPdfAnnotationColor): string {
+    const t = this.t();
+    return { yellow: t.pdfColorYellow, green: t.pdfColorGreen, blue: t.pdfColorBlue, red: t.pdfColorRed }[color];
+  }
+
+  /** Posición del editor: bajo la anotación, sin salirse de la página. */
+  protected cardLeft(m: Mark, pageWidth: number): number {
+    return clamp(m.box.left, 0, Math.max(0, pageWidth - 260));
+  }
+
+  protected noteHeight(m: Mark): number {
+    if (m.a.type !== 'note') return m.box.height;
+    const lines = Math.max(1, m.a.text.split('\n').length);
+    return Math.max(m.box.height, lines * (m.fontPx ?? 16) * 1.25 + 8);
+  }
+
+  private newBase(page: number): { id: string; page: number; author?: string; date: string } {
+    const author = this.author();
+    return { id: `cb-annot-${Date.now().toString(36)}-${++nextAnnotationId}`, page, ...(author ? { author } : {}), date: new Date().toISOString() };
+  }
+
+  private geomOf(size: PageSize): CbPdfPageGeometry {
+    return { x0: size.x0, y0: size.y0, width: size.width, height: size.height, userUnit: size.userUnit };
+  }
+
+  private viewOf(size: PageSize): CbPdfViewTransform {
+    return { factor: this.scale() * CSS_UNITS, rotation: (size.rotate + this.rotation()) % 360 };
+  }
+
+  /** Altura (para ordenar de arriba abajo en el panel). */
+  private topOf(a: CbPdfAnnotation): number {
+    if (a.type === 'highlight') return Math.max(...a.rects.map((r) => r[3]));
+    if (a.type === 'ink') return Math.max(...a.paths.flatMap((p) => p.filter((_, i) => i % 2)));
+    return a.rect[3];
+  }
+
+  /**
+   * Escribe las anotaciones en el `annotationStorage` de pdf.js mientras dura `run` (guardar o
+   * tomar la copia para imprimir) y las quita después, sin marcar el formulario como cambiado.
+   */
+  private async withAnnotations<T>(run: () => Promise<T>): Promise<T> {
+    const pdf = this.pdf;
+    const list = this.annotations();
+    if (!pdf || !list.length) return run();
+    const storage = pdf.annotationStorage as unknown as {
+      setValue(key: string, value: unknown): void;
+      remove(key: string): void;
+      onSetModified: (() => void) | null;
+    };
+    const hook = storage.onSetModified;
+    storage.onSetModified = null;
+    const keys: string[] = [];
+    try {
+      for (const a of list) {
+        const size = this.sizes()[a.page - 1];
+        if (!size) continue;
+        const bitmap = a.type === 'signature' ? await imageToBitmap(a.image) : undefined;
+        const value = toPdfJsAnnotation(a, size.rotate, bitmap);
+        if (!value) continue;
+        const key = `${PDFJS_EDITOR_PREFIX}${a.id}`;
+        storage.setValue(key, value);
+        keys.push(key);
+      }
+      return await run();
+    } finally {
+      for (const key of keys) storage.remove(key);
+      storage.onSetModified = hook;
+    }
+  }
+
   // --- Barra y teclado -------------------------------------------------------------
 
   protected isCollapsed(path: string): boolean {
@@ -1331,6 +2182,11 @@ export class CbPdfViewer {
   }
 
   protected onHostKeydown(event: KeyboardEvent): void {
+    if (event.key === 'Escape' && this.tool() !== 'none') {
+      this.tool.set('none');
+      event.preventDefault();
+      return;
+    }
     if (this.state() !== 'ready' || !(event.ctrlKey || event.metaKey) || event.altKey) return;
     const key = event.key.toLowerCase();
     if (key === '+' || key === '=') this.zoomIn();
@@ -1376,7 +2232,8 @@ export class CbPdfViewer {
 function sizeOf(page: CbPdfPage): PageSize {
   const viewport = page.getViewport({ scale: 1, rotation: 0 });
   const userUnit = page.userUnit || 1;
-  return { width: viewport.width, height: viewport.height, rotate: page.rotate || 0, userUnit };
+  const [x0 = 0, y0 = 0] = (page.view as number[] | undefined) ?? [];
+  return { x0, y0, width: viewport.width, height: viewport.height, rotate: page.rotate || 0, userUnit };
 }
 
 /** Bytes del documento si no es una URL (copiados: pdf.js transfiere el buffer al worker). */
@@ -1410,4 +2267,23 @@ function clamp(value: number, min: number, max: number): number {
 
 function round2(value: number): number {
   return Math.round(value * 100) / 100;
+}
+
+/** Quita de una selección las cajas mucho más altas que una línea (contenedores, fin de contenido). */
+function withoutTallRects<T extends { height: number }>(rects: T[]): T[] {
+  if (rects.length < 2) return rects;
+  const heights = rects.map((r) => r.height).sort((a, b) => a - b);
+  const median = heights[Math.floor(heights.length / 2)];
+  return rects.filter((r) => r.height <= median * 2.5);
+}
+
+function unionBox(boxes: readonly { left: number; top: number; width: number; height: number }[]): { left: number; top: number; width: number; height: number } {
+  const left = Math.min(...boxes.map((b) => b.left));
+  const top = Math.min(...boxes.map((b) => b.top));
+  return { left, top, width: Math.max(...boxes.map((b) => b.left + b.width)) - left, height: Math.max(...boxes.map((b) => b.top + b.height)) - top };
+}
+
+function truncate(text: string, max: number): string {
+  const clean = text.replace(/\s+/g, ' ').trim();
+  return clean.length > max ? `${clean.slice(0, max - 1)}…` : clean;
 }

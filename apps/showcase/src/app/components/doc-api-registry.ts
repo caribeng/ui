@@ -926,7 +926,7 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "zoom", kind: "enum", type: "'page-width' | 'page-fit' | number (model)", options: ["page-width", "page-fit"], default: "page-width", description: "Ajustar al ancho, página completa o un factor (1 = 100 %)." },
       { name: "rotation", kind: "number", type: "0 | 90 | 180 | 270 (model)", default: 0, description: "Giro del documento.", control: false },
       { name: "sidebar", kind: "boolean", type: "boolean (model)", default: false, description: "Panel lateral (miniaturas o índice) abierto." },
-      { name: "sidebarView", kind: "enum", type: "'thumbnails' | 'outline' (model)", default: "thumbnails", options: ["thumbnails", "outline"], description: "Vista del panel lateral (outline solo si el documento tiene índice)." },
+      { name: "sidebarView", kind: "enum", type: "'thumbnails' | 'outline' | 'annotations' (model)", default: "thumbnails", options: ["thumbnails", "outline", "annotations"], description: "Vista del panel lateral (outline si el documento tiene índice; annotations con annotatable)." },
       { name: "fileName", kind: "string", type: "string", default: undefined, description: "Nombre del archivo al descargar." },
       { name: "password", kind: "string", type: "string", default: undefined, description: "Contraseña para abrir el documento sin pedirla.", control: false },
       { name: "withCredentials", kind: "boolean", type: "boolean", default: false, description: "Envía cookies en peticiones a otro origen.", control: false },
@@ -940,12 +940,19 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "ariaLabel", kind: "string", type: "string", default: undefined, localeKey: "pdfViewer", description: "Nombre accesible del visor." },
       { name: "showOutline", kind: "boolean", type: "boolean", default: true, description: "Pestaña Índice en el panel lateral (si el documento tiene marcadores)." },
       { name: "forms", kind: "boolean", type: "boolean", default: true, description: "Campos de formulario rellenables (si no, se pintan como imagen)." },
-      { name: "externalLinks", kind: "boolean", type: "boolean", default: true, description: "Los enlaces externos del documento se abren en otra pestaña." }
+      { name: "externalLinks", kind: "boolean", type: "boolean", default: true, description: "Los enlaces externos del documento se abren en otra pestaña." },
+      { name: "annotatable", kind: "boolean", type: "boolean", default: false, description: "Herramientas para resaltar, poner notas, dibujar y firmar, y la pestaña Anotaciones." },
+      { name: "annotations", kind: "string", type: "readonly CbPdfAnnotation[] (model)", default: undefined, description: "Anotaciones en puntos PDF (resaltados, notas, dibujos y firmas). Se escriben en el PDF al descargar o imprimir.", control: false },
+      { name: "tool", kind: "enum", type: "'none' | 'highlight' | 'note' | 'ink' (model)", default: "none", options: ["none", "highlight", "note", "ink"], description: "Herramienta activa; Escape vuelve a none." },
+      { name: "annotationColor", kind: "enum", type: "'yellow' | 'green' | 'blue' | 'red' (model)", default: "yellow", options: ["yellow", "green", "blue", "red"], description: "Color de las anotaciones nuevas." },
+      { name: "author", kind: "string", type: "string", default: undefined, description: "Autor de las anotaciones nuevas (se guarda en el PDF)." }
     ],
     events: [
       { name: "loaded", type: "{ numPages: number }", description: "Documento abierto." },
       { name: "loadError", type: "unknown", description: "No se pudo abrir el documento." },
-      { name: "formChange", type: "void", description: "Cambió un campo del formulario (valores con getFormData())." }
+      { name: "formChange", type: "void", description: "Cambió un campo del formulario (valores con getFormData())." },
+      { name: "annotationAdd", type: "CbPdfAnnotation", description: "El usuario creó una anotación." },
+      { name: "annotationRemove", type: "CbPdfAnnotation", description: "El usuario borró una anotación." }
     ]
   },
   "cb-image": {

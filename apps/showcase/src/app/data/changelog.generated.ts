@@ -11,6 +11,10 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
         "type": "added",
         "items": [
           {
+            "component": "PDF Viewer, anotaciones y firma",
+            "text": "con `annotatable`, la barra añade Resaltar (texto seleccionado, también con el teclado), Nota (texto sobre la página), Dibujar (a mano alzada) y Firmar (diálogo con `cb-signature-pad`; la firma se recorta, se coloca en la página visible, se arrastra y cambia de tamaño), con cuatro colores (`annotationColor`) y `author`. `[(annotations)]` (`CbPdfAnnotation`: `highlight`, `note`, `ink`, `signature`) usa puntos PDF, así que no depende del zoom ni del giro. Descargar, Imprimir y `save()` las escriben en el PDF como anotaciones estándar (Highlight con comentario, FreeText, Ink y Stamp) que se ven en cualquier lector. Cada anotación es un botón con nombre: flechas para mover, + / − para el tamaño, Intro para editar la nota o el comentario y Supr para borrar, con anuncios; pestaña Anotaciones en el panel lateral; `[(tool)]` y Escape para soltarla; eventos `annotationAdd` y `annotationRemove`. La impresión toma una sola copia de los campos para todas las páginas (antes una por página). Textos nuevos: `pdfAnnotate`, `pdfHighlight`… `pdfDownloadAnnotated`."
+          },
+          {
             "component": "Utilidades responsive",
             "text": "las utilidades de layout, flex, grid, alineación, espaciado, tamaño, posición y tipografía tienen variantes `sm:`, `md:`, `lg:`, `xl:` y `2xl:` (mobile-first, desde 576, 768, 992, 1200 y 1400 px): `cb-grid-cols-1 md:cb-grid-cols-3`, `cb-hidden lg:cb-block`, `cb-p-3 lg:cb-p-6`. Van al final del CSS, así que ganan a la clase sin prefijo. Núcleo: `CbBreakpoints` da el breakpoint como signals (`current()`, `up()`, `down()`, `between()` y `matches()` para cualquier media query), sin listeners repetidos y seguro en SSR; `CB_BREAKPOINTS` con los anchos."
           },

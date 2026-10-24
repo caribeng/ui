@@ -7,12 +7,16 @@ const PRINT_DPI = 150;
  * Imprime el documento: rasteriza cada página a {@link PRINT_DPI} ppp en un
  * `<iframe>` oculto y abre el diálogo de impresión del navegador (así se
  * imprime el PDF y no la página de la aplicación).
+ *
+ * `printStorage` es una copia de los campos y anotaciones nuevas (`annotationStorage.print`): se
+ * toma una vez para todas las páginas, porque al copiarla pdf.js transfiere las imágenes al worker.
  */
 export async function printPdfDocument(
   pdf: CbPdfDocument,
   document: Document,
   onProgress: (done: number, total: number) => void,
   rotation = 0,
+  printStorage: CbPdfDocument['annotationStorage']['print'] = pdf.annotationStorage.print,
 ): Promise<void> {
   const urls: string[] = [];
   const frame = document.createElement('iframe');
@@ -28,8 +32,8 @@ export async function printPdfDocument(
       const canvas = document.createElement('canvas');
       canvas.width = Math.floor(viewport.width);
       canvas.height = Math.floor(viewport.height);
-      // AnnotationMode.ENABLE_STORAGE (3): los campos de formulario se imprimen con lo que escribió el usuario.
-      await page.render({ canvas, viewport, intent: 'print', annotationMode: 3, printAnnotationStorage: pdf.annotationStorage.print }).promise;
+      // AnnotationMode.ENABLE_STORAGE (3): los campos se imprimen con lo escrito y con las anotaciones nuevas.
+      await page.render({ canvas, viewport, intent: 'print', annotationMode: 3, printAnnotationStorage: printStorage }).promise;
       const blob = await new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, 'image/png'));
       if (blob) urls.push(URL.createObjectURL(blob));
       canvas.width = canvas.height = 0;

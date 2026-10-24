@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { CbPdfViewer, type CbPdfRotation, type CbPdfSource, type CbPdfZoom } from '@caribeng/ui/pdfviewer';
+import { CbPdfViewer, type CbPdfAnnotation, type CbPdfRotation, type CbPdfSource, type CbPdfZoom } from '@caribeng/ui/pdfviewer';
 import { DocPlaygroundComponent } from '../components/doc-playground.component';
 import { DOC_API } from '../components/doc-api-registry';
 import { DocA11yComponent } from '../components/doc-a11y.component';
@@ -101,6 +101,32 @@ import { TocService } from '../services/toc.service';
         @if (datos(); as d) {
           <pre class="doc-pre" aria-label="Datos del formulario">{{ d }}</pre>
         }
+      </div>
+    </doc-section>
+
+    <doc-section
+      id="annotations"
+      title="Anotaciones y firma"
+      description="Con annotatable, la barra añade Resaltar (con texto seleccionado lo resalta al momento; si no, resalta lo que selecciones después), Nota (clic en la página; con el teclado se pone en la página visible), Dibujar y Firmar, que abre un panel de firma y la coloca en la página. Con el foco en una anotación, las flechas la mueven, + y − cambian su tamaño, Intro edita la nota o el comentario del resaltado y Supr la borra; la pestaña Anotaciones del panel lateral las lista todas. [(annotations)] las da en puntos PDF para guardarlas en tu servidor, y Descargar, Imprimir y save() las escriben en el PDF como anotaciones estándar que se ven en cualquier lector."
+      [code]="annotationsCode"
+      [codeTs]="annotationsTs"
+    >
+      <div style="display: grid; gap: 0.75rem; width: 100%">
+        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center">
+          <button type="button" class="doc-btn" (click)="anotaciones.set(ejemploAnotaciones)">Cargar anotaciones de ejemplo</button>
+          <button type="button" class="doc-btn" (click)="anotaciones.set([])">Quitar todas</button>
+          <span style="font-size: 0.875rem; color: var(--cb-color-text-muted)">{{ anotaciones().length }} anotaciones</span>
+        </div>
+        <cb-pdf-viewer
+          style="--cb-pdf-viewer-height: 36rem"
+          src="pdf/extracto-demo.pdf"
+          fileName="extracto-anotado.pdf"
+          annotatable
+          author="Ana Pérez"
+          [(annotations)]="anotaciones"
+          [sidebar]="true"
+          sidebarView="annotations"
+        />
       </div>
     </doc-section>
 
@@ -275,6 +301,45 @@ export class PdfviewerDocComponent {
   protected readonly archivo = signal<CbPdfSource | null>(null);
 
   protected readonly cambios = signal(0);
+  protected readonly ejemploAnotaciones: readonly CbPdfAnnotation[] = [
+    {
+      id: 'ejemplo-1',
+      page: 1,
+      type: 'highlight',
+      rects: [[108, 375, 220, 388]],
+      color: 'yellow',
+      text: 'Supermercado La Ceiba',
+      comment: 'No reconozco este cargo',
+      author: 'Ana Pérez',
+    },
+    { id: 'ejemplo-2', page: 1, type: 'note', rect: [330, 516, 462, 532], text: 'Confirmar con el titular', color: 'red', author: 'Ana Pérez' },
+  ];
+  protected readonly anotaciones = signal<readonly CbPdfAnnotation[]>(this.ejemploAnotaciones);
+  protected readonly annotationsCode = `<cb-pdf-viewer
+  src="pdf/extracto-demo.pdf"
+  fileName="extracto-anotado.pdf"
+  annotatable
+  author="Ana Pérez"
+  [(annotations)]="anotaciones"
+  [sidebar]="true"
+  sidebarView="annotations"
+/>`;
+  protected readonly annotationsTs = `import { signal } from '@angular/core';
+import { CbPdfViewer, type CbPdfAnnotation } from '@caribeng/ui/pdfviewer';
+
+// Coordenadas en puntos PDF (y hacia arriba): no cambian con el zoom ni el giro.
+anotaciones = signal<readonly CbPdfAnnotation[]>([
+  {
+    id: 'ejemplo-1',
+    page: 1,
+    type: 'highlight',
+    rects: [[108, 375, 220, 388]],
+    color: 'yellow',
+    text: 'Supermercado La Ceiba',
+    comment: 'No reconozco este cargo',
+  },
+  { id: 'ejemplo-2', page: 1, type: 'note', rect: [330, 516, 462, 532], text: 'Confirmar con el titular', color: 'red' },
+]);`;
   protected readonly pdfRelleno = signal('');
   protected readonly giros: CbPdfRotation[] = [0, 90, 180, 270];
   protected readonly giro = signal<CbPdfRotation>(0);

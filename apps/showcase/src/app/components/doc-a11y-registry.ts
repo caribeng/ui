@@ -386,6 +386,9 @@ export const DOC_A11Y: Record<string, DocA11y> = {
       'El índice es una lista anidada de botones dentro de un `nav` con nombre ("Índice"); las entradas con subniveles tienen un botón con `aria-expanded` ("Contraer 2. Condiciones"). Las pestañas Miniaturas / Índice indican la elegida con `aria-pressed`.',
       'Los enlaces del documento son enlaces de verdad sobre el texto; los externos se abren en otra pestaña con `rel="noopener"` y solo si son http(s), mailto o tel.',
       'Los campos de formulario son controles nativos (`input`, `textarea`, `select`, casillas) con el nombre que les da el PDF (`TU`); se recorren con Tab. Descargar cambia su nombre a "Descargar con los datos del formulario" cuando hay cambios.',
+      'Con annotatable, la barra tiene un grupo "Anotar": Resaltar, Nota y Dibujar son conmutadores con `aria-pressed` y Firmar abre un diálogo (`aria-haspopup="dialog"`) con el panel de firma, que también permite escribir el nombre. El color es un `select` nativo. La herramienta activa se explica en un aviso sobre el documento ("Selecciona texto del documento para resaltarlo.").',
+      'Cada anotación es un botón con nombre ("Resaltado: Supermercado La Ceiba. Comentario: No reconozco este cargo", "Nota: Revisar", "Firma") descrito con sus atajos. Crearla, moverla, cambiar su tamaño o borrarla se anuncia ("Añadido en la página 1: Nota", "Movido a 40 %, 25 %"). El editor de la nota o del comentario es un `textarea` con etiqueta visible, y al cerrarlo el foco vuelve a la anotación.',
+      'La pestaña Anotaciones lista todas por página con un botón que lleva a cada una y otro para borrarla ("Eliminar anotación: Nota: Revisar"). Descargar se llama "Descargar con las anotaciones" cuando las hay. Resaltar funciona con cualquier selección de texto, también la hecha con el teclado; dibujar requiere puntero.',
     ],
     keyboard: [
       { keys: 'Tab', action: 'Recorre la barra, el panel de miniaturas y el documento (que se desplaza con las flechas, Re Pág / Av Pág e Inicio / Fin).' },
@@ -396,6 +399,10 @@ export const DOC_A11Y: Record<string, DocA11y> = {
       { keys: 'Ctrl + F', action: 'Lleva el foco a la búsqueda del documento.' },
       { keys: 'Ctrl + + / Ctrl + - / Ctrl + 0', action: 'Acerca, aleja o ajusta al ancho.' },
       { keys: 'Ctrl + P', action: 'Imprime el documento (no la página).' },
+      { keys: 'Flechas / Mayús + flechas', action: 'En una nota, dibujo o firma: la mueve (Mayús, más rápido).' },
+      { keys: '+ / −', action: 'En una firma: cambia su tamaño; en una nota, el de la letra.' },
+      { keys: 'Intro / Supr', action: 'En una anotación: edita la nota o el comentario / la borra. En el editor, Escape o Ctrl + Intro lo cierran.' },
+      { keys: 'Escape', action: 'Con una herramienta activa: vuelve a la selección normal.' },
     ],
   },
   'cb-image': {

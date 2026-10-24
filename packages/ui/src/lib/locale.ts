@@ -467,6 +467,47 @@ export interface CbTranslation {
   /** `{0}`: título de la entrada del índice. */
   pdfCollapseItem: string;
   pdfDownloadFilled: string;
+  pdfAnnotate: string;
+  pdfHighlight: string;
+  pdfNote: string;
+  pdfDraw: string;
+  pdfSign: string;
+  pdfColor: string;
+  pdfColorYellow: string;
+  pdfColorGreen: string;
+  pdfColorBlue: string;
+  pdfColorRed: string;
+  pdfAnnotations: string;
+  pdfNoAnnotations: string;
+  /** `{0}`: texto resaltado. */
+  pdfHighlightOf: string;
+  /** `{0}`: texto de la nota. */
+  pdfNoteOf: string;
+  pdfHighlightNoun: string;
+  pdfInkOf: string;
+  pdfSignatureOf: string;
+  pdfEmptyNote: string;
+  pdfComment: string;
+  pdfNoteText: string;
+  pdfDone: string;
+  pdfDeleteAnnotation: string;
+  /** `{0}`: tipo de anotación; `{1}`: página. */
+  pdfAnnotationAdded: string;
+  pdfAnnotationRemoved: string;
+  /** `{0}` y `{1}`: posición horizontal y vertical en la página. */
+  pdfAnnotationMoved: string;
+  /** `{0}`: ancho de la firma en % del ancho de la página. */
+  pdfSignatureResized: string;
+  /** `{0}`: tamaño de letra en puntos. */
+  pdfNoteResized: string;
+  pdfAnnotationHint: string;
+  pdfHighlightHint: string;
+  pdfNoteHint: string;
+  pdfDrawHint: string;
+  pdfSignTitle: string;
+  pdfInsertSignature: string;
+  pdfCancel: string;
+  pdfDownloadAnnotated: string;
   editorCodeTools: string;
   editorCodeLanguage: string;
   editorPlainText: string;
@@ -1252,6 +1293,41 @@ export const CB_LOCALE_ES: CbTranslation = {
   pdfExpandItem: 'Expandir {0}',
   pdfCollapseItem: 'Contraer {0}',
   pdfDownloadFilled: 'Descargar con los datos del formulario',
+  pdfAnnotate: 'Anotar',
+  pdfHighlight: 'Resaltar',
+  pdfNote: 'Nota',
+  pdfDraw: 'Dibujar',
+  pdfSign: 'Firmar',
+  pdfColor: 'Color',
+  pdfColorYellow: 'Amarillo',
+  pdfColorGreen: 'Verde',
+  pdfColorBlue: 'Azul',
+  pdfColorRed: 'Rojo',
+  pdfAnnotations: 'Anotaciones',
+  pdfNoAnnotations: 'Aún no hay anotaciones.',
+  pdfHighlightOf: 'Resaltado: {0}',
+  pdfNoteOf: 'Nota: {0}',
+  pdfHighlightNoun: 'Resaltado',
+  pdfInkOf: 'Dibujo',
+  pdfSignatureOf: 'Firma',
+  pdfEmptyNote: 'Nota vacía',
+  pdfComment: 'Comentario',
+  pdfNoteText: 'Texto de la nota',
+  pdfDone: 'Listo',
+  pdfDeleteAnnotation: 'Eliminar anotación',
+  pdfAnnotationAdded: 'Añadido en la página {1}: {0}',
+  pdfAnnotationRemoved: 'Anotación eliminada',
+  pdfAnnotationMoved: 'Movido a {0} %, {1} %',
+  pdfSignatureResized: 'Ancho: {0} % de la página',
+  pdfNoteResized: 'Letra de {0} pt',
+  pdfAnnotationHint: 'Flechas para mover (Mayús, más rápido), + y − para cambiar el tamaño, Intro para editar y Supr para eliminar.',
+  pdfHighlightHint: 'Selecciona texto del documento para resaltarlo.',
+  pdfNoteHint: 'Haz clic en la página para poner la nota.',
+  pdfDrawHint: 'Dibuja sobre la página con el ratón, el dedo o el lápiz.',
+  pdfSignTitle: 'Añade tu firma',
+  pdfInsertSignature: 'Insertar firma',
+  pdfCancel: 'Cancelar',
+  pdfDownloadAnnotated: 'Descargar con las anotaciones',
   editorCodeTools: 'Herramientas del bloque de código',
   editorCodeLanguage: 'Lenguaje del código',
   editorPlainText: 'Texto sin colores',
@@ -1982,6 +2058,41 @@ export const CB_LOCALE_EN: CbTranslation = {
   pdfExpandItem: 'Expand {0}',
   pdfCollapseItem: 'Collapse {0}',
   pdfDownloadFilled: 'Download with the form data',
+  pdfAnnotate: 'Annotate',
+  pdfHighlight: 'Highlight',
+  pdfNote: 'Note',
+  pdfDraw: 'Draw',
+  pdfSign: 'Sign',
+  pdfColor: 'Color',
+  pdfColorYellow: 'Yellow',
+  pdfColorGreen: 'Green',
+  pdfColorBlue: 'Blue',
+  pdfColorRed: 'Red',
+  pdfAnnotations: 'Annotations',
+  pdfNoAnnotations: 'No annotations yet.',
+  pdfHighlightOf: 'Highlight: {0}',
+  pdfNoteOf: 'Note: {0}',
+  pdfHighlightNoun: 'Highlight',
+  pdfInkOf: 'Drawing',
+  pdfSignatureOf: 'Signature',
+  pdfEmptyNote: 'Empty note',
+  pdfComment: 'Comment',
+  pdfNoteText: 'Note text',
+  pdfDone: 'Done',
+  pdfDeleteAnnotation: 'Delete annotation',
+  pdfAnnotationAdded: 'Added on page {1}: {0}',
+  pdfAnnotationRemoved: 'Annotation removed',
+  pdfAnnotationMoved: 'Moved to {0}%, {1}%',
+  pdfSignatureResized: 'Width: {0}% of the page',
+  pdfNoteResized: '{0} pt text',
+  pdfAnnotationHint: 'Arrows to move (Shift, faster), + and − to resize, Enter to edit and Delete to remove.',
+  pdfHighlightHint: 'Select text in the document to highlight it.',
+  pdfNoteHint: 'Click on the page to place the note.',
+  pdfDrawHint: 'Draw on the page with the mouse, finger or pen.',
+  pdfSignTitle: 'Add your signature',
+  pdfInsertSignature: 'Insert signature',
+  pdfCancel: 'Cancel',
+  pdfDownloadAnnotated: 'Download with the annotations',
   editorCodeTools: 'Code block tools',
   editorCodeLanguage: 'Code language',
   editorPlainText: 'Plain text',

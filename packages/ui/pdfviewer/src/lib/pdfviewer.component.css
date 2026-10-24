@@ -653,3 +653,359 @@
   color: #fff;
   box-shadow: var(--cb-shadow-md);
 }
+
+/* --- Anotaciones -------------------------------------------------------------- */
+
+.cb-pdf__tool[aria-pressed='true'] {
+  background: color-mix(in srgb, var(--cb-color-primary-500) 16%, transparent);
+  color: var(--cb-color-primary-700);
+}
+
+:host-context([data-theme='dark']) .cb-pdf__tool[aria-pressed='true'] {
+  color: var(--cb-color-primary-300);
+}
+
+.cb-pdf__color {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.cb-pdf__swatch {
+  position: absolute;
+  left: 0.625rem;
+  width: 0.875rem;
+  height: 0.875rem;
+  border: 2px solid;
+  border-radius: var(--cb-radius-full);
+  pointer-events: none;
+}
+
+.cb-pdf__color-select {
+  padding-left: 1.875rem;
+}
+
+/* Aviso de la herramienta activa: flota arriba del documento sin empujar las páginas. */
+.cb-pdf__hint {
+  position: sticky;
+  top: var(--cb-space-2);
+  z-index: 4;
+  box-sizing: border-box;
+  width: max-content;
+  max-width: calc(100% - 2rem);
+  height: 2rem;
+  margin: var(--cb-space-2) auto calc(-2rem - var(--cb-space-2));
+  padding: 0 var(--cb-space-3);
+  overflow: hidden;
+  border-radius: var(--cb-radius-full);
+  background: var(--cb-color-surface-950, #0f172a);
+  color: #fff;
+  font-size: var(--cb-text-xs);
+  line-height: 2rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  box-shadow: var(--cb-shadow-md);
+}
+
+/* Capa propia encima del texto y de los campos: solo las anotaciones reciben el puntero. */
+.cb-pdf__marks {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.cb-pdf__marks--capture {
+  pointer-events: auto;
+  cursor: cell;
+  touch-action: none;
+}
+
+.cb-pdf__marks--ink {
+  cursor: crosshair;
+}
+
+.cb-pdf__mark {
+  position: absolute;
+  box-sizing: border-box;
+  pointer-events: auto;
+  border-radius: 2px;
+  outline-offset: 2px;
+  touch-action: none;
+}
+
+.cb-pdf__mark:focus-visible,
+.cb-pdf__mark.cb-is-selected {
+  outline: 2px solid var(--cb-color-focus-ring);
+}
+
+/* Al resaltar, los resaltados dejan pasar el puntero para seleccionar el texto de debajo. */
+.cb-pdf__marks--pass .cb-pdf__mark--highlight {
+  pointer-events: none;
+}
+
+.cb-pdf__mark--highlight {
+  cursor: pointer;
+}
+
+/* Translúcido: la capa es su propio contexto de apilamiento, así que multiply no llegaría al canvas. */
+.cb-pdf__hl-rect {
+  position: absolute;
+  background: color-mix(in srgb, var(--cb-pdf-mark-light) 55%, transparent);
+}
+
+.cb-pdf__hl-badge {
+  position: absolute;
+  top: -0.35rem;
+  right: -0.35rem;
+  width: 0.625rem;
+  height: 0.625rem;
+  border: 2px solid #fff;
+  border-radius: var(--cb-radius-full);
+  background: var(--cb-pdf-mark-dark);
+}
+
+.cb-pdf__mark--note,
+.cb-pdf__mark--signature,
+.cb-pdf__mark--ink {
+  cursor: move;
+}
+
+/* Como la escribe el PDF (FreeText con /Helv): solo el texto; el borde discontinuo es del visor. */
+.cb-pdf__note-text {
+  display: block;
+  box-sizing: border-box;
+  padding: 0.1em 0.3em;
+  border: 1px dashed color-mix(in srgb, var(--cb-pdf-mark-dark) 45%, transparent);
+  border-radius: 2px;
+  background: transparent;
+  color: var(--cb-pdf-mark-dark);
+  font-family: Helvetica, Arial, sans-serif;
+  line-height: 1.2;
+  white-space: pre;
+}
+
+.cb-pdf__ink,
+.cb-pdf__stroke {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.cb-pdf__ink path,
+.cb-pdf__stroke polyline {
+  fill: none;
+  stroke: var(--cb-pdf-mark-dark);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.cb-pdf__sig {
+  display: block;
+  width: 100%;
+  height: 100%;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.cb-pdf__resize {
+  position: absolute;
+  right: -0.4rem;
+  bottom: -0.4rem;
+  width: 0.8rem;
+  height: 0.8rem;
+  border: 2px solid #fff;
+  border-radius: 2px;
+  background: var(--cb-color-focus-ring);
+  cursor: nwse-resize;
+}
+
+/* Editor de la nota o del comentario. */
+.cb-pdf__card {
+  position: absolute;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  gap: var(--cb-space-2);
+  box-sizing: border-box;
+  width: 16rem;
+  padding: var(--cb-space-3);
+  border: var(--cb-border-width, 1px) solid var(--cb-color-border);
+  border-radius: var(--cb-radius-md);
+  background: var(--cb-color-surface-raised, var(--cb-color-surface));
+  color: var(--cb-color-text);
+  font-size: var(--cb-text-sm);
+  box-shadow: var(--cb-shadow-lg);
+  pointer-events: auto;
+  cursor: auto;
+}
+
+.cb-pdf__card-label {
+  font-weight: var(--cb-font-weight-medium);
+}
+
+.cb-pdf__card-text {
+  height: auto;
+  min-height: 4.5rem;
+  padding: var(--cb-space-2);
+  resize: vertical;
+}
+
+.cb-pdf__card-actions,
+.cb-pdf__sign-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--cb-space-2);
+}
+
+.cb-pdf__card-btn {
+  height: 2rem;
+  padding: 0 var(--cb-space-3);
+  border: var(--cb-border-width, 1px) solid var(--cb-color-border-strong);
+  border-radius: var(--cb-radius-md);
+  background: transparent;
+  color: var(--cb-color-text);
+  font: inherit;
+  cursor: pointer;
+}
+
+.cb-pdf__card-btn:hover:not(:disabled) {
+  background: var(--cb-color-surface-hover);
+}
+
+.cb-pdf__card-btn--primary {
+  border-color: var(--cb-color-primary-500);
+  background: var(--cb-color-primary-500);
+  color: var(--cb-color-primary-contrast);
+  font-weight: var(--cb-font-weight-semibold);
+}
+
+.cb-pdf__card-btn--primary:hover:not(:disabled) {
+  background: var(--cb-color-primary-600);
+}
+
+.cb-pdf__card-btn:disabled {
+  opacity: var(--cb-opacity-disabled, 0.5);
+  cursor: default;
+}
+
+.cb-pdf__card-btn:focus-visible,
+.cb-pdf__card-text:focus-visible,
+.cb-pdf__notes-link:focus-visible,
+.cb-pdf__notes-remove:focus-visible {
+  outline: 2px solid var(--cb-color-focus-ring);
+  outline-offset: 2px;
+}
+
+/* Panel Anotaciones */
+.cb-pdf__notes-panel {
+  padding: 0 var(--cb-space-2);
+}
+
+.cb-pdf__notes-empty {
+  margin: 0;
+  padding: var(--cb-space-2);
+  color: var(--cb-color-text-muted);
+}
+
+.cb-pdf__notes-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cb-pdf__notes-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 2px;
+}
+
+.cb-pdf__notes-link {
+  display: flex;
+  flex: 1;
+  align-items: flex-start;
+  gap: var(--cb-space-2);
+  min-width: 0;
+  padding: var(--cb-space-2);
+  border: 0;
+  border-radius: var(--cb-radius-md);
+  background: transparent;
+  color: var(--cb-color-text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.cb-pdf__notes-link:hover,
+.cb-pdf__notes-remove:hover {
+  background: var(--cb-color-surface-hover);
+}
+
+.cb-pdf__notes-swatch {
+  flex: none;
+  width: 0.625rem;
+  height: 0.625rem;
+  margin-top: 0.3rem;
+  border-radius: var(--cb-radius-full);
+}
+
+.cb-pdf__notes-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.cb-pdf__notes-page {
+  color: var(--cb-color-text-muted);
+  font-size: var(--cb-text-xs);
+}
+
+.cb-pdf__notes-label {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow-wrap: anywhere;
+}
+
+.cb-pdf__notes-remove {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border: 0;
+  border-radius: var(--cb-radius-md);
+  background: transparent;
+  color: var(--cb-color-text-muted);
+  cursor: pointer;
+}
+
+.cb-pdf__sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (forced-colors: active) {
+  .cb-pdf__hl-rect {
+    background: transparent;
+    outline: 2px solid Mark;
+  }
+
+  .cb-pdf__note-text {
+    border-color: CanvasText;
+  }
+}
