@@ -184,6 +184,18 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
             "text": "dice «1 cambio» en singular."
           },
           {
+            "component": "`Gantt` en móvil",
+            "text": "en contenedores estrechos la tabla solo muestra la tarea (antes las columnas de fechas se montaban sobre el diagrama)."
+          },
+          {
+            "component": "`Scheduler` en móvil",
+            "text": "en la vista de semana los días conservan un ancho legible y se desplazan de lado con la columna de horas fija, y la vista se abre en el día de hoy."
+          },
+          {
+            "component": "`TreeTable`",
+            "text": "en contenedores estrechos el nombre se parte con sangría y no baja por debajo de la flecha."
+          },
+          {
             "component": "`InputNumber`",
             "text": "en modo de solo lectura conserva el formato al recibir el foco."
           },

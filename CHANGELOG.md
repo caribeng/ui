@@ -65,6 +65,9 @@ Desde la 22.0.0 el major de la librería coincide con el de Angular (22.x = Angu
 ### Fixed
 - **Componentes contables en móvil:** en contenedores estrechos `Aging`, `Pivot` y `TreeTable` (también `FinancialReport`) dejan fija la primera columna y la parten en varias líneas, así se ven los importes; `Document` se reacomoda y cada línea pasa a ser una ficha con sus datos (antes había que desplazarlo de lado); `AccountPicker` ya no se sale de su contenedor con rutas largas y las casillas de `Reconciliation` son más grandes.
 - **`AuditLog`:** dice «1 cambio» en singular.
+- **`Gantt` en móvil:** en contenedores estrechos la tabla solo muestra la tarea (antes las columnas de fechas se montaban sobre el diagrama).
+- **`Scheduler` en móvil:** en la vista de semana los días conservan un ancho legible y se desplazan de lado con la columna de horas fija, y la vista se abre en el día de hoy.
+- **`TreeTable`:** en contenedores estrechos el nombre se parte con sangría y no baja por debajo de la flecha.
 - **`InputNumber`:** en modo de solo lectura conserva el formato al recibir el foco.
 - **`InputNumber`:** al entrar en el campo (con Tab o clic), el valor queda seleccionado, así que lo que se escribe lo reemplaza; antes se añadía al final y las primeras teclas actuaban sobre el texto con formato. En modo moneda usa 2 decimales en todos los navegadores (0 en monedas sin centavos): antes Chrome redondeaba los pesos a enteros.
 - **Contraste y modo oscuro de los componentes contables (WCAG AA):** nuevos tokens `--cb-color-primary-text`, `--cb-color-success-text`, `--cb-color-warning-text` y `--cb-color-danger-text`, oscuros en el tema claro y claros en el oscuro. Los usan los importes negativos, errores, variaciones, estados y enlaces de Table, TreeTable, Data Grid, Amount, Kpi, JournalEntry, Reconciliation, Aging, AuditLog, ImportWizard, Pivot, PeriodPicker y Dynamic Form.

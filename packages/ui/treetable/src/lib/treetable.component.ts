@@ -125,6 +125,7 @@ let nextUid = 0;
                 [style.text-align]="alignOf(col)"
               >
                 @if (first) {
+                  <span class="cb-treetable__cell">
                   <span
                     class="cb-treetable__indent"
                     [style.inline-size]="'calc(' + (row.level - 1) + ' * var(--cb-treetable-indent, 1.25rem))'"
@@ -143,17 +144,25 @@ let nextUid = 0;
                   } @else {
                     <span class="cb-treetable__spacer" aria-hidden="true"></span>
                   }
-                }
-                @if (cellTemplate(col.field); as tpl) {
-                  <ng-container *ngTemplateOutlet="tpl; context: { $implicit: valueOf(row.node, col), node: row.node, level: row.level }" />
+                  <span class="cb-treetable__label">
+                    <ng-container *ngTemplateOutlet="content; context: { row, col }" />
+                  </span>
+                  </span>
                 } @else {
-                  {{ display(valueOf(row.node, col), col, row.node) }}
+                  <ng-container *ngTemplateOutlet="content; context: { row, col }" />
                 }
               </td>
             }
           </tr>
         }
       </tbody>
+      <ng-template #content let-row="row" let-col="col">
+        @if (cellTemplate(col.field); as tpl) {
+          <ng-container *ngTemplateOutlet="tpl; context: { $implicit: valueOf(row.node, col), node: row.node, level: row.level }" />
+        } @else {
+          {{ display(valueOf(row.node, col), col, row.node) }}
+        }
+      </ng-template>
       @if (showFooter() && hasFooter() && rows().length) {
         <tfoot>
           <tr class="cb-treetable__foot">

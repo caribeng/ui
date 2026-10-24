@@ -171,6 +171,22 @@
   background: var(--cb-color-surface-hover);
 }
 
+/* En contenedores estrechos la tabla solo muestra la tarea: las fechas, la duración y el avance se ven en la barra. */
+@container (max-width: 40rem) {
+  .cb-gantt__col-start,
+  .cb-gantt__col-end,
+  .cb-gantt__col-duration,
+  .cb-gantt__col-progress,
+  .cb-gantt__col-assignee {
+    display: none;
+  }
+
+  .cb-gantt__head-grid,
+  .cb-gantt__row {
+    overflow: hidden;
+  }
+}
+
 /* --- Cuerpo ------------------------------------------------------------------------------ */
 .cb-gantt__body {
   position: relative;

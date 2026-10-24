@@ -7,6 +7,7 @@
   gap: var(--cb-space-3, 0.75rem);
   width: 100%;
   min-width: 0;
+  container-type: inline-size;
   color: var(--cb-color-text);
   font-family: var(--cb-font-sans);
   font-size: var(--cb-text-sm, 0.875rem);
@@ -302,6 +303,28 @@
   flex: 1;
   min-height: 0;
   overflow-y: auto;
+}
+
+/* En contenedores estrechos los días de la semana conservan un ancho legible y se desplazan de lado; la columna de horas queda fija. */
+@container (max-width: 40rem) {
+  .cb-sched__time {
+    --_min: calc(var(--cb-sched-gutter) + var(--cb-sched-days) * 4.5rem);
+    overflow-x: auto;
+  }
+
+  .cb-sched__sticky,
+  .cb-sched__time-head,
+  .cb-sched__allday,
+  .cb-sched__hours {
+    min-width: var(--_min);
+  }
+
+  .cb-sched__time .cb-sched__gutter {
+    position: sticky;
+    left: 0;
+    z-index: 3;
+    background: var(--cb-color-surface);
+  }
 }
 
 /* Cabecera y franja de día completo: fijas arriba, en el mismo scroll que las horas (columnas alineadas). */

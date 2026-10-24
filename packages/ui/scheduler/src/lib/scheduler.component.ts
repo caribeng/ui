@@ -364,7 +364,12 @@ export class CbScheduler {
         afterNextRender(
           () => {
             const el = this.scrollRef()?.nativeElement;
-            if (el) el.scrollTop = Math.max(0, this.scrollHour() * HOUR - 8);
+            if (!el) return;
+            el.scrollTop = Math.max(0, this.scrollHour() * HOUR - 8);
+            // Si la semana se desplaza de lado (contenedor estrecho), se abre en el día de hoy.
+            const today = el.querySelector<HTMLElement>('.cb-sched__col--today');
+            const gutter = el.querySelector<HTMLElement>('.cb-sched__gutter')?.offsetWidth ?? 0;
+            if (today && el.scrollWidth > el.clientWidth) el.scrollLeft = Math.max(0, today.offsetLeft - gutter);
           },
           { injector: this.injector },
         ),

@@ -45,6 +45,10 @@
   white-space: nowrap;
 }
 
+.cb-treetable__cell {
+  display: contents;
+}
+
 .cb-treetable__indent,
 .cb-treetable__spacer {
   display: inline-block;
@@ -134,5 +138,22 @@
 
   .cb-treetable__first {
     box-shadow: inset -1px 0 0 var(--cb-color-border);
+  }
+
+  /* El nombre se parte con sangría francesa: no baja por debajo de la flecha. */
+  .cb-treetable__cell {
+    display: flex;
+    align-items: center;
+  }
+
+  .cb-treetable__indent,
+  .cb-treetable__spacer,
+  .cb-treetable__toggler {
+    flex: none;
+  }
+
+  .cb-treetable__label {
+    flex: 1;
+    min-width: 0;
   }
 }
