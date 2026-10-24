@@ -130,6 +130,7 @@ import { CbCodeBlock } from '@caribeng/ui/code-block';
 import { CbPhoneInput } from '@caribeng/ui/phone-input';
 import { CbKanban } from '@caribeng/ui/kanban';
 import { CbGantt } from '@caribeng/ui/gantt';
+import { CbFlowEditor } from '@caribeng/ui/flow';
 import { CbScheduler } from '@caribeng/ui/scheduler';
 import { CbDataGrid } from '@caribeng/ui/datagrid';
 import { CbMediaPlayer } from '@caribeng/ui/media-player';
@@ -1970,6 +1971,24 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "ended", type: "void", description: "Termina." },
       { name: "timeUpdate", type: "number", description: "Segundo actual, mientras se reproduce." },
       { name: "mediaError", type: "MediaError | null", description: "No se pudo cargar o reproducir." }
+    ]
+  },
+  "cb-flow-editor": {
+    component: CbFlowEditor,
+    selector: "cb-flow-editor",
+    props: [
+      { name: "flow", kind: "string", type: "CbFlow (model)", default: undefined, description: "El flujo: nodos (inicio, tarea, decisión, fin) y conexiones con etiqueta.", control: false },
+      { name: "readonly", kind: "boolean", type: "boolean", default: false, description: "Sin edición: se recorre, desplaza y amplía; Intro abre el nodo (nodeOpen)." },
+      { name: "gridSize", kind: "number", type: "number", default: 16, description: "Rejilla en px a la que se ajustan los nodos (1 la desactiva)." },
+      { name: "zoom", kind: "number", type: "number (model)", default: 1, description: "Zoom (1 = 100 %), de 0,25 a 2." },
+      { name: "view", kind: "enum", type: "'diagram' | 'list' (model)", options: ["diagram","list"], default: "diagram", description: "Diagrama o lista (alternativa sin lienzo para teclado y lector de pantalla)." },
+      { name: "selected", kind: "string", type: "string | null (model)", default: undefined, description: "Nodo o conexión seleccionada (su id).", control: false },
+      { name: "showValidation", kind: "boolean", type: "boolean", default: true, description: "Muestra los problemas del flujo bajo el editor." },
+      { name: "fitOnLoad", kind: "boolean", type: "boolean", default: true, description: "Ajusta el zoom para ver todo el flujo al cargarlo." },
+      { name: "ariaLabel", kind: "string", type: "string", default: undefined, localeKey: "flowEditor", description: "Nombre accesible del editor." }
+    ],
+    events: [
+      { name: "nodeOpen", type: "CbFlowNode", description: "Se abrió un nodo: doble clic, o Intro en solo lectura." }
     ]
   },
   "cb-gantt": {

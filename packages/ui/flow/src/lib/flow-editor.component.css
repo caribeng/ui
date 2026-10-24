@@ -1,0 +1,644 @@
+:host {
+  --_start: var(--cb-color-success-600);
+  --_decision: var(--cb-color-warning-600);
+  --_end: var(--cb-color-text-strong);
+  --_line: var(--cb-color-text-muted);
+
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  width: 100%;
+  overflow: hidden;
+  border: var(--cb-border-width, 1px) solid var(--cb-color-border);
+  border-radius: var(--cb-radius-lg);
+  background: var(--cb-color-surface);
+  color: var(--cb-color-text);
+  font-family: var(--cb-font-sans);
+  font-size: var(--cb-text-sm);
+}
+
+/* --- Barra ----------------------------------------------------------------- */
+
+.cb-flow__bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--cb-space-2) var(--cb-space-3);
+  padding: var(--cb-space-2) var(--cb-space-3);
+  border-bottom: var(--cb-border-width, 1px) solid var(--cb-color-border);
+}
+
+.cb-flow__group {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--cb-space-1);
+}
+
+.cb-flow__spacer {
+  flex: 1;
+}
+
+.cb-flow__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  height: 2.25rem;
+  padding: 0 var(--cb-space-3);
+  border: var(--cb-border-width, 1px) solid var(--cb-color-border);
+  border-radius: var(--cb-radius-md);
+  background: var(--cb-color-surface);
+  color: var(--cb-color-text);
+  font: inherit;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.cb-flow__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+  border: 0;
+  border-radius: var(--cb-radius-md);
+  background: transparent;
+  color: var(--cb-color-text);
+  cursor: pointer;
+}
+
+.cb-flow__btn:hover:not(:disabled),
+.cb-flow__icon:hover:not(:disabled) {
+  background: var(--cb-color-surface-hover);
+}
+
+.cb-flow__btn[aria-pressed='true'] {
+  border-color: var(--cb-color-primary-500);
+  background: color-mix(in srgb, var(--cb-color-primary-500) 14%, transparent);
+  color: var(--cb-color-primary-700);
+}
+
+:host-context([data-theme='dark']) .cb-flow__btn[aria-pressed='true'] {
+  color: var(--cb-color-primary-300);
+}
+
+.cb-flow__btn:disabled,
+.cb-flow__icon:disabled {
+  opacity: var(--cb-opacity-disabled, 0.5);
+  cursor: default;
+}
+
+.cb-flow__swatch {
+  width: 0.75rem;
+  height: 0.75rem;
+  border: 2px solid var(--cb-color-border-strong);
+  border-radius: 3px;
+  background: var(--cb-color-surface-raised, var(--cb-color-surface));
+}
+
+.cb-flow__swatch--start,
+.cb-flow__swatch--end {
+  border-radius: var(--cb-radius-full);
+}
+
+.cb-flow__swatch--start {
+  border-color: var(--_start);
+}
+
+.cb-flow__swatch--end {
+  border-color: var(--_end);
+  border-width: 3px;
+}
+
+.cb-flow__swatch--decision {
+  border-color: var(--_decision);
+  transform: rotate(45deg) scale(0.85);
+}
+
+.cb-flow__percent {
+  min-width: 3.25rem;
+  color: var(--cb-color-text-muted);
+  font-size: var(--cb-text-xs);
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.cb-flow__views {
+  display: inline-flex;
+  gap: 2px;
+  padding: 2px;
+  border-radius: var(--cb-radius-md);
+  background: var(--cb-color-surface-hover);
+}
+
+.cb-flow__view {
+  padding: 0.3rem 0.75rem;
+  border: 0;
+  border-radius: calc(var(--cb-radius-md) - 2px);
+  background: transparent;
+  color: var(--cb-color-text-muted);
+  font: inherit;
+  font-size: var(--cb-text-xs);
+  font-weight: var(--cb-font-weight-medium);
+  cursor: pointer;
+}
+
+.cb-flow__view[aria-pressed='true'] {
+  background: var(--cb-color-surface-raised, var(--cb-color-surface));
+  color: var(--cb-color-text-strong);
+  box-shadow: 0 1px 2px rgb(15 23 42 / 0.12);
+}
+
+.cb-flow__btn:focus-visible,
+.cb-flow__icon:focus-visible,
+.cb-flow__view:focus-visible,
+.cb-flow__field:focus-visible,
+.cb-flow__issue-link:focus-visible,
+.cb-flow__node:focus-visible {
+  outline: 2px solid var(--cb-color-focus-ring);
+  outline-offset: 2px;
+}
+
+/* --- Lienzo ------------------------------------------------------------------ */
+
+.cb-flow__viewport {
+  position: relative;
+  height: var(--cb-flow-height, 32rem);
+  overflow: hidden;
+  background-color: var(--cb-color-surface-subtle);
+  background-image: radial-gradient(circle, color-mix(in srgb, var(--cb-color-border-strong) 70%, transparent) 1px, transparent 1.5px);
+  cursor: grab;
+  touch-action: none;
+  outline: none;
+}
+
+.cb-flow__viewport--panning {
+  cursor: grabbing;
+}
+
+.cb-flow__viewport--connect,
+.cb-flow__viewport--connect .cb-flow__node {
+  cursor: crosshair;
+}
+
+.cb-flow__empty {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  margin: 0;
+  padding: var(--cb-space-6);
+  color: var(--cb-color-text-muted);
+  text-align: center;
+  pointer-events: none;
+}
+
+.cb-flow__world {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform-origin: 0 0;
+}
+
+/* Nodos */
+.cb-flow__node {
+  position: absolute;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 0 var(--cb-space-3);
+  border-radius: var(--cb-radius-md);
+  color: var(--cb-color-text-strong);
+  cursor: move;
+  user-select: none;
+  touch-action: none;
+}
+
+.cb-flow__shape {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.cb-flow__shape :is(rect, polygon) {
+  fill: var(--cb-color-surface-raised, var(--cb-color-surface));
+  stroke: var(--cb-color-border-strong);
+  stroke-width: 1.5;
+}
+
+.cb-flow__node--start .cb-flow__shape rect {
+  fill: color-mix(in srgb, var(--_start) 14%, var(--cb-color-surface));
+  stroke: var(--_start);
+  stroke-width: 2;
+}
+
+.cb-flow__node--end .cb-flow__shape rect {
+  fill: color-mix(in srgb, var(--_end) 8%, var(--cb-color-surface));
+  stroke: var(--_end);
+  stroke-width: 3;
+}
+
+.cb-flow__node--decision .cb-flow__shape polygon {
+  fill: color-mix(in srgb, var(--_decision) 14%, var(--cb-color-surface));
+  stroke: var(--_decision);
+  stroke-width: 2;
+}
+
+/* En px: un porcentaje se calcularía sobre el ancho de la capa del lienzo, que es 0. */
+.cb-flow__node--decision {
+  padding: 0 36px;
+}
+
+.cb-flow__node.cb-is-selected .cb-flow__shape :is(rect, polygon) {
+  stroke: var(--cb-color-primary-500);
+  stroke-width: 3;
+}
+
+.cb-flow__node.cb-is-source .cb-flow__shape :is(rect, polygon) {
+  stroke: var(--cb-color-primary-500);
+  stroke-dasharray: 6 4;
+  stroke-width: 3;
+}
+
+.cb-flow__label {
+  position: relative;
+  /* Sin min-width: 0 un hijo flex no se estrecha y el texto no pasa a la segunda línea. */
+  min-width: 0;
+  max-width: 100%;
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  font-size: 0.8125rem;
+  font-weight: var(--cb-font-weight-medium);
+  line-height: 1.25;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+.cb-flow__badge {
+  position: absolute;
+  top: -0.5rem;
+  right: -0.25rem;
+  display: grid;
+  place-items: center;
+  width: 1.125rem;
+  height: 1.125rem;
+  border: 2px solid var(--cb-color-surface);
+  border-radius: var(--cb-radius-full);
+  background: var(--cb-color-danger-600);
+  color: #fff;
+  font-size: 0.6875rem;
+  font-weight: var(--cb-font-weight-bold);
+  line-height: 1;
+}
+
+.cb-flow__node--decision .cb-flow__badge {
+  right: 28px;
+}
+
+/* Tirador: se arrastra hasta otro nodo para conectarlos. */
+.cb-flow__handle {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 0.875rem;
+  height: 0.875rem;
+  border: 2px solid var(--cb-color-surface);
+  border-radius: var(--cb-radius-full);
+  background: var(--cb-color-primary-500);
+  transform: translate(-50%, 50%);
+  cursor: crosshair;
+  opacity: 0;
+  transition: opacity var(--cb-duration-fast, 120ms) var(--cb-ease, ease);
+}
+
+.cb-flow__node:hover .cb-flow__handle,
+.cb-flow__node:focus-visible .cb-flow__handle,
+.cb-flow__node.cb-is-selected .cb-flow__handle {
+  opacity: 1;
+}
+
+@media (hover: none) {
+  .cb-flow__handle {
+    opacity: 1;
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+}
+
+/* Conexiones */
+.cb-flow__edges {
+  position: absolute;
+  z-index: 1;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.cb-flow__edge {
+  outline: none;
+  cursor: pointer;
+}
+
+.cb-flow__edge-hit {
+  fill: none;
+  stroke: transparent;
+  stroke-width: 14;
+  pointer-events: stroke;
+}
+
+.cb-flow__edge-line {
+  fill: none;
+  stroke: var(--_line);
+  stroke-width: 1.75;
+}
+
+.cb-flow__edge-arrow {
+  fill: var(--_line);
+}
+
+.cb-flow__edge:hover :is(.cb-flow__edge-line) {
+  stroke: var(--cb-color-text);
+}
+
+.cb-flow__edge:hover .cb-flow__edge-arrow {
+  fill: var(--cb-color-text);
+}
+
+.cb-flow__edge.cb-is-selected .cb-flow__edge-line,
+.cb-flow__edge:focus-visible .cb-flow__edge-line {
+  stroke: var(--cb-color-primary-500);
+  stroke-width: 3;
+}
+
+.cb-flow__edge.cb-is-selected .cb-flow__edge-arrow,
+.cb-flow__edge:focus-visible .cb-flow__edge-arrow {
+  fill: var(--cb-color-primary-500);
+}
+
+.cb-flow__edge:focus-visible .cb-flow__edge-hit {
+  stroke: color-mix(in srgb, var(--cb-color-focus-ring) 35%, transparent);
+  stroke-width: 10;
+}
+
+.cb-flow__edge-line--temp {
+  stroke: var(--cb-color-primary-500);
+  stroke-dasharray: 6 4;
+  stroke-width: 2;
+}
+
+.cb-flow__edge-label {
+  position: absolute;
+  z-index: 3;
+  padding: 0.125rem 0.5rem;
+  border: var(--cb-border-width, 1px) solid var(--cb-color-border);
+  border-radius: var(--cb-radius-full);
+  background: var(--cb-color-surface);
+  color: var(--cb-color-text);
+  font-size: var(--cb-text-xs);
+  font-weight: var(--cb-font-weight-medium);
+  white-space: nowrap;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  user-select: none;
+}
+
+.cb-flow__edge-label.cb-is-selected {
+  border-color: var(--cb-color-primary-500);
+  color: var(--cb-color-primary-700);
+}
+
+:host-context([data-theme='dark']) .cb-flow__edge-label.cb-is-selected {
+  color: var(--cb-color-primary-300);
+}
+
+.cb-flow__editor {
+  position: absolute;
+  z-index: 5;
+  box-sizing: border-box;
+  height: 30px;
+  padding: 0 var(--cb-space-2);
+  border: 2px solid var(--cb-color-primary-500);
+  border-radius: var(--cb-radius-sm);
+  background: var(--cb-color-surface);
+  color: var(--cb-color-text);
+  font: inherit;
+  font-size: 0.8125rem;
+  text-align: center;
+  outline: none;
+  box-shadow: var(--cb-shadow-md);
+}
+
+/* --- Lista ---------------------------------------------------------------------- */
+
+.cb-flow__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cb-space-2);
+  max-height: var(--cb-flow-height, 32rem);
+  margin: 0;
+  padding: var(--cb-space-3);
+  overflow-y: auto;
+  list-style: none;
+  background: var(--cb-color-surface-subtle);
+}
+
+.cb-flow__empty--list {
+  position: static;
+  padding: var(--cb-space-4);
+}
+
+.cb-flow__item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cb-space-2);
+  padding: var(--cb-space-3);
+  border: var(--cb-border-width, 1px) solid var(--cb-color-border);
+  border-radius: var(--cb-radius-md);
+  background: var(--cb-color-surface);
+}
+
+.cb-flow__item--issue {
+  border-left: 3px solid var(--cb-color-danger-500);
+}
+
+.cb-flow__item-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--cb-space-2);
+}
+
+.cb-flow__item-name {
+  flex: 1;
+  min-width: 10rem;
+}
+
+.cb-flow__type {
+  flex: none;
+  padding: 0.125rem 0.5rem;
+  border-radius: var(--cb-radius-full);
+  background: var(--cb-color-surface-hover);
+  color: var(--cb-color-text);
+  font-size: var(--cb-text-xs);
+  font-weight: var(--cb-font-weight-semibold);
+}
+
+.cb-flow__type--start {
+  background: color-mix(in srgb, var(--_start) 16%, transparent);
+}
+
+.cb-flow__type--decision {
+  background: color-mix(in srgb, var(--_decision) 18%, transparent);
+}
+
+.cb-flow__type--end {
+  background: color-mix(in srgb, var(--_end) 12%, transparent);
+}
+
+.cb-flow__field {
+  box-sizing: border-box;
+  height: 2.25rem;
+  padding: 0 var(--cb-space-2);
+  border: var(--cb-border-width, 1px) solid var(--cb-color-border-strong);
+  border-radius: var(--cb-radius-md);
+  background: var(--cb-color-surface);
+  color: var(--cb-color-text);
+  font: inherit;
+}
+
+.cb-flow__field--sm {
+  height: 2rem;
+  width: 9rem;
+}
+
+.cb-flow__item-issue {
+  margin: 0;
+  color: var(--cb-color-danger-700);
+  font-size: var(--cb-text-xs);
+}
+
+:host-context([data-theme='dark']) .cb-flow__item-issue {
+  color: var(--cb-color-danger-300);
+}
+
+.cb-flow__exits {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cb-space-1);
+  margin: 0;
+  padding: 0 0 0 var(--cb-space-4);
+  list-style: none;
+}
+
+.cb-flow__exit {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--cb-space-2);
+}
+
+.cb-flow__exit-target {
+  font-weight: var(--cb-font-weight-medium);
+}
+
+.cb-flow__exit-label {
+  color: var(--cb-color-text-muted);
+}
+
+.cb-flow__exit--none {
+  color: var(--cb-color-text-muted);
+}
+
+.cb-flow__connect-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--cb-space-2);
+  padding-left: var(--cb-space-4);
+}
+
+/* --- Problemas ------------------------------------------------------------------- */
+
+.cb-flow__issues,
+.cb-flow__valid {
+  margin: 0;
+  padding: var(--cb-space-2) var(--cb-space-3);
+  border-top: var(--cb-border-width, 1px) solid var(--cb-color-border);
+}
+
+.cb-flow__issues summary {
+  color: var(--cb-color-danger-700);
+  font-weight: var(--cb-font-weight-semibold);
+  cursor: pointer;
+}
+
+:host-context([data-theme='dark']) .cb-flow__issues summary {
+  color: var(--cb-color-danger-300);
+}
+
+.cb-flow__issues-list {
+  margin: var(--cb-space-2) 0 0;
+  padding-left: var(--cb-space-5);
+}
+
+.cb-flow__issue--warning {
+  color: var(--cb-color-text-muted);
+}
+
+.cb-flow__issue-link {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  cursor: pointer;
+}
+
+.cb-flow__valid {
+  display: flex;
+  align-items: center;
+  gap: var(--cb-space-2);
+  color: var(--cb-color-success-700);
+}
+
+:host-context([data-theme='dark']) .cb-flow__valid {
+  color: var(--cb-color-success-300);
+}
+
+.cb-flow__sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (forced-colors: active) {
+  .cb-flow__shape :is(rect, polygon) {
+    stroke: CanvasText;
+  }
+
+  .cb-flow__node.cb-is-selected .cb-flow__shape :is(rect, polygon),
+  .cb-flow__edge.cb-is-selected .cb-flow__edge-line {
+    stroke: Highlight;
+  }
+
+  .cb-flow__edge-line {
+    stroke: CanvasText;
+  }
+
+  .cb-flow__edge-arrow {
+    fill: CanvasText;
+  }
+}

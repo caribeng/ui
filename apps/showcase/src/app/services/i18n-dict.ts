@@ -3703,4 +3703,47 @@ export const ES_EN: Record<string, string> = {
   'Audio con transcripción': 'Audio with transcript',
   'kind="audio" muestra el título y el subtítulo encima de los controles, sin pantalla. Un contenido solo de audio necesita una transcripción (WCAG 1.2.1): proyéctala con cbMediaTranscript y aparece en un desplegable. skipSeconds cambia el salto de los botones.':
     'kind="audio" shows the title and subtitle above the controls, without a screen. Audio-only content needs a transcript (WCAG 1.2.1): project it with cbMediaTranscript and it appears in a disclosure. skipSeconds changes the jump of the buttons.',
+  // --- FlowEditor ---
+  'El flujo: nodos (inicio, tarea, decisión, fin) y conexiones con etiqueta.':
+    'The flow: nodes (start, task, decision, end) and labelled connections.',
+  'Sin edición: se recorre, desplaza y amplía; Intro abre el nodo (nodeOpen).':
+    'No editing: it can be browsed, panned and zoomed; Enter opens the node (nodeOpen).',
+  'Rejilla en px a la que se ajustan los nodos (1 la desactiva).': 'Grid in px the nodes snap to (1 turns it off).',
+  'Zoom (1 = 100 %), de 0,25 a 2.': 'Zoom (1 = 100%), from 0.25 to 2.',
+  'Diagrama o lista (alternativa sin lienzo para teclado y lector de pantalla).':
+    'Diagram or list (an alternative without canvas for keyboard and screen readers).',
+  'Nodo o conexión seleccionada (su id).': 'Selected node or connection (its id).',
+  'Muestra los problemas del flujo bajo el editor.': 'Shows the flow issues below the editor.',
+  'Ajusta el zoom para ver todo el flujo al cargarlo.': 'Fits the zoom to show the whole flow when it loads.',
+  'Nombre accesible del editor.': 'Accessible name of the editor.',
+  'Se abrió un nodo: doble clic, o Intro en solo lectura.': 'A node was opened: double click, or Enter in read-only mode.',
+  'El editor es un grupo con nombre ("Editor de flujo"). Cada nodo es un botón cuyo nombre dice su tipo, su nombre, sus salidas y sus problemas ("Decisión: ¿Monto alto?. Salidas: Comité (Sí), Analista (No)"), descrito con los atajos; cada conexión es otro botón ("Conexión de Revisar a ¿Monto alto?"). El lienzo y las flechas son decorativos.':
+    'The editor is a named group ("Flow editor"). Each node is a button whose name gives its type, name, exits and issues ("Decision: High amount?. Exits: Committee (Yes), Analyst (No)"), described with the shortcuts; each connection is another button ("Connection from Review to High amount?"). The canvas and the arrows are decorative.',
+  'Añadir, conectar, renombrar y eliminar se anuncian en una región aria-live ("Añadido: Tarea: Tarea 2", "Conectado: Revisar → Comité"). Al empezar una conexión con C se explica cómo terminarla, y si no se puede (hacia un inicio, desde un fin, repetida) se dice.':
+    'Adding, connecting, renaming and deleting are announced in an aria-live region ("Added: Task: Task 2", "Connected: Review → Committee"). Starting a connection with C explains how to finish it, and if it is not possible (into a start, from an end, repeated) it says so.',
+  'La vista Lista es una alternativa sin lienzo: una lista ordenada en orden de lectura con el nombre de cada nodo en un campo con etiqueta, sus salidas con su etiqueta editable y un select para añadir conexiones. Los problemas del flujo se listan con un botón que lleva a cada nodo.':
+    'The List view is an alternative without canvas: an ordered list in reading order with each node name in a labelled field, its exits with an editable label and a select to add connections. Flow issues are listed with a button that goes to each node.',
+  'Recorre la barra, los nodos y las conexiones.': 'Moves through the toolbar, the nodes and the connections.',
+  'En un nodo: lo mueve un paso de la rejilla (Mayús, cuatro).': 'On a node: moves it one grid step (Shift, four).',
+  'Renombra el nodo o edita la etiqueta de la conexión; en solo lectura, Intro abre el nodo. En el campo, Intro guarda y Escape cancela.':
+    'Renames the node or edits the connection label; in read-only mode, Enter opens the node. In the field, Enter saves and Escape cancels.',
+  'Conecta el nodo enfocado con el que tenga el foco al pulsar Intro. Escape cancela.':
+    'Connects the focused node to the one focused when Enter is pressed. Escape cancels.',
+  'Elimina el nodo (con sus conexiones) o la conexión.': 'Deletes the node (with its connections) or the connection.',
+  'Acerca, aleja o ajusta el flujo a la vista.': 'Zooms in, out or fits the flow to the view.',
+  'Editor de flujos para aprobaciones y procesos: nodos de inicio, tarea, decisión y fin unidos por conexiones con etiqueta. Se arrastran, se conectan desde su tirador y el lienzo se desplaza y amplía; todo se puede hacer con el teclado y la vista Lista permite editar el flujo sin lienzo. Avisa de los problemas del flujo y lo ordena por niveles.':
+    'Flow editor for approvals and processes: start, task, decision and end nodes joined by labelled connections. They are dragged, connected from their handle and the canvas pans and zooms; everything can be done with the keyboard and the List view lets you edit the flow without the canvas. It flags the issues of the flow and arranges it in levels.',
+  'Flujo de aprobación': 'Approval flow',
+  'Arrastra los nodos para moverlos y el tirador de su borde inferior hasta otro nodo para conectarlos; doble clic renombra un nodo o la etiqueta de una conexión. Con el teclado: Tab recorre nodos y conexiones, las flechas mueven el nodo, Intro lo renombra, C empieza una conexión (ve al destino y pulsa Intro) y Supr borra. Los botones de Añadir ponen el nodo nuevo debajo del seleccionado, ya conectado. La rueda desplaza el lienzo y Ctrl + rueda (o + y −) cambia el zoom.':
+    'Drag the nodes to move them and the handle on their bottom edge to another node to connect them; double click renames a node or a connection label. With the keyboard: Tab moves through nodes and connections, the arrows move the node, Enter renames it, C starts a connection (go to the target and press Enter) and Delete removes. The Add buttons put the new node below the selected one, already connected. The wheel pans the canvas and Ctrl + wheel (or + and −) changes the zoom.',
+  'Restaurar el ejemplo': 'Restore the example',
+  'Empezar vacío': 'Start empty',
+  'readonly muestra el flujo sin herramientas de edición: se recorre, se desplaza y se amplía. Intro o doble clic en un nodo emite nodeOpen, para abrir su detalle.':
+    'readonly shows the flow without editing tools: it can be browsed, panned and zoomed. Enter or double click on a node emits nodeOpen, to open its detail.',
+  'Pulsa Intro o haz doble clic en un nodo.': 'Press Enter or double click a node.',
+  'view="list" muestra el mismo flujo como una lista en orden de lectura: cada nodo con su nombre editable, sus salidas con su etiqueta y un selector para añadir conexiones. Es la forma de editar el flujo con lector de pantalla o sin puntero; el botón Diagrama / Lista de la barra cambia de vista.':
+    'view="list" shows the same flow as a list in reading order: each node with its editable name, its exits with their label and a selector to add connections. It is the way to edit the flow with a screen reader or without a pointer; the Diagram / List button in the toolbar switches views.',
+  'Validación y orden automático': 'Validation and automatic layout',
+  'cbValidateFlow(flow) devuelve los problemas (falta inicio o fin, nodos sin salida o inalcanzables, decisiones con una sola salida o sin etiquetas) y cbLayoutFlow(flow) coloca los nodos por niveles. Este flujo llega sin posiciones y se ordena al cargarlo; el botón Ordenar de la barra hace lo mismo.':
+    'cbValidateFlow(flow) returns the issues (missing start or end, nodes without exit or unreachable, decisions with a single exit or without labels) and cbLayoutFlow(flow) places the nodes in levels. This flow arrives without positions and is arranged on load; the Arrange button in the toolbar does the same.',
 };

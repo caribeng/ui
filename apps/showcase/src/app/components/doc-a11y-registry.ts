@@ -721,6 +721,21 @@ export const DOC_A11Y: Record<string, DocA11y> = {
       { keys: 'M / F / C', action: 'Silencio, pantalla completa y subtítulos.' },
     ],
   },
+  'cb-flow-editor': {
+    screenReader: [
+      'El editor es un grupo con nombre ("Editor de flujo"). Cada nodo es un botón cuyo nombre dice su tipo, su nombre, sus salidas y sus problemas ("Decisión: ¿Monto alto?. Salidas: Comité (Sí), Analista (No)"), descrito con los atajos; cada conexión es otro botón ("Conexión de Revisar a ¿Monto alto?"). El lienzo y las flechas son decorativos.',
+      'Añadir, conectar, renombrar y eliminar se anuncian en una región aria-live ("Añadido: Tarea: Tarea 2", "Conectado: Revisar → Comité"). Al empezar una conexión con C se explica cómo terminarla, y si no se puede (hacia un inicio, desde un fin, repetida) se dice.',
+      'La vista Lista es una alternativa sin lienzo: una lista ordenada en orden de lectura con el nombre de cada nodo en un campo con etiqueta, sus salidas con su etiqueta editable y un select para añadir conexiones. Los problemas del flujo se listan con un botón que lleva a cada nodo.',
+    ],
+    keyboard: [
+      { keys: 'Tab / Mayús + Tab', action: 'Recorre la barra, los nodos y las conexiones.' },
+      { keys: 'Flechas / Mayús + flechas', action: 'En un nodo: lo mueve un paso de la rejilla (Mayús, cuatro).' },
+      { keys: 'Intro / F2', action: 'Renombra el nodo o edita la etiqueta de la conexión; en solo lectura, Intro abre el nodo. En el campo, Intro guarda y Escape cancela.' },
+      { keys: 'C, luego Intro', action: 'Conecta el nodo enfocado con el que tenga el foco al pulsar Intro. Escape cancela.' },
+      { keys: 'Supr', action: 'Elimina el nodo (con sus conexiones) o la conexión.' },
+      { keys: '+ / − / 0', action: 'Acerca, aleja o ajusta el flujo a la vista.' },
+    ],
+  },
   'cb-gantt': {
     screenReader: [
       'La tabla de tareas es un `role="treegrid"` con nombre: cada fila indica su nivel (`aria-level`) y los grupos si están desplegados (`aria-expanded`); el botón de flecha tiene nombre ("Contraer Diseño").',

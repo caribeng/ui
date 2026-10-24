@@ -922,6 +922,82 @@ export interface CbTranslation {
   mediaTranscript: string;
   mediaError: string;
   mediaShortcuts: string;
+  // --- Flow editor ---
+  flowEditor: string;
+  flowDiagram: string;
+  flowList: string;
+  flowView: string;
+  flowAdd: string;
+  flowStart: string;
+  flowTask: string;
+  flowDecision: string;
+  flowEnd: string;
+  /** `{0}`: tipo de nodo; `{1}`: su nombre. */
+  flowNodeOf: string;
+  /** `{0}`: destinos separados por comas. */
+  flowExits: string;
+  flowNoExits: string;
+  /** `{0}`: nombre del nodo. */
+  flowExitsOf: string;
+  /** `{0}` y `{1}`: nombres de los nodos. */
+  flowEdgeOf: string;
+  flowConnect: string;
+  /** `{0}`: nombre del nodo. */
+  flowConnectFrom: string;
+  /** `{0}` y `{1}`: nombres de los nodos. */
+  flowConnected: string;
+  /** `{0}` y `{1}`: nombres de los nodos. */
+  flowCannotConnect: string;
+  flowConnectCancelled: string;
+  flowDelete: string;
+  /** `{0}`: nombre del nodo. */
+  flowDeleteNode: string;
+  /** `{0}`: tipo y nombre del nodo. */
+  flowAdded: string;
+  /** `{0}`: lo que se eliminó. */
+  flowRemoved: string;
+  /** `{0}`: tipo de nodo. */
+  flowNameOf: string;
+  flowEdgeLabel: string;
+  /** `{0}` y `{1}`: nombres de los nodos. */
+  flowEdgeLabelOf: string;
+  /** `{0}`: nombre del nodo. */
+  flowConnectTo: string;
+  flowChooseTarget: string;
+  flowAddConnection: string;
+  /** `{0}`: nombre del destino. */
+  flowRemoveConnection: string;
+  flowLayout: string;
+  flowLaidOut: string;
+  flowZoomIn: string;
+  flowZoomOut: string;
+  flowFit: string;
+  flowZoom: string;
+  flowEmpty: string;
+  /** `{0}`: número de problemas. */
+  flowIssues: string;
+  flowNoIssues: string;
+  /** `{0}`: descripción del problema. */
+  flowIssueOf: string;
+  flowIssueNoStart: string;
+  /** `{0}`: nombre del nodo. */
+  flowIssueManyStarts: string;
+  flowIssueNoEnd: string;
+  /** `{0}`: nombre del nodo. */
+  flowIssueStartIncoming: string;
+  /** `{0}`: nombre del nodo. */
+  flowIssueEndOutgoing: string;
+  /** `{0}`: nombre del nodo. */
+  flowIssueDeadEnd: string;
+  /** `{0}`: nombre del nodo. */
+  flowIssueBranches: string;
+  /** `{0}`: nombre del nodo. */
+  flowIssueBranchLabel: string;
+  /** `{0}`: nombre del nodo. */
+  flowIssueUnreachable: string;
+  flowNodeHint: string;
+  flowReadonlyHint: string;
+  flowEdgeHint: string;
 }
 
 /** Español (idioma por defecto). */
@@ -1687,6 +1763,59 @@ export const CB_LOCALE_ES: CbTranslation = {
   mediaTranscript: 'Transcripción',
   mediaError: 'No se pudo cargar el contenido.',
   mediaShortcuts: 'Atajos: Espacio o K reproduce y pausa; flechas izquierda y derecha, 5 segundos; J y L, 10 segundos; flechas arriba y abajo, volumen; M silencia; F pantalla completa; C subtítulos; 0 a 9 saltan a ese punto.',
+  // --- Flow editor ---
+  flowEditor: 'Editor de flujo',
+  flowDiagram: 'Diagrama',
+  flowList: 'Lista',
+  flowView: 'Vista',
+  flowAdd: 'Añadir',
+  flowStart: 'Inicio',
+  flowTask: 'Tarea',
+  flowDecision: 'Decisión',
+  flowEnd: 'Fin',
+  flowNodeOf: '{0}: {1}',
+  flowExits: 'Salidas: {0}',
+  flowNoExits: 'Sin salidas',
+  flowExitsOf: 'Salidas de {0}',
+  flowEdgeOf: 'Conexión de {0} a {1}',
+  flowConnect: 'Conectar',
+  flowConnectFrom: 'Conectar desde {0}: ve al nodo de destino y pulsa Intro. Escape cancela.',
+  flowConnected: 'Conectado: {0} → {1}',
+  flowCannotConnect: 'No se puede conectar {0} con {1}.',
+  flowConnectCancelled: 'Conexión cancelada',
+  flowDelete: 'Eliminar',
+  flowDeleteNode: 'Eliminar {0}',
+  flowAdded: 'Añadido: {0}',
+  flowRemoved: 'Eliminado: {0}',
+  flowNameOf: 'Nombre ({0})',
+  flowEdgeLabel: 'Etiqueta',
+  flowEdgeLabelOf: 'Etiqueta de {0} a {1}',
+  flowConnectTo: 'Conectar {0} con',
+  flowChooseTarget: 'Elige el destino',
+  flowAddConnection: 'Añadir conexión',
+  flowRemoveConnection: 'Quitar la conexión a {0}',
+  flowLayout: 'Ordenar',
+  flowLaidOut: 'Diagrama ordenado',
+  flowZoomIn: 'Acercar',
+  flowZoomOut: 'Alejar',
+  flowFit: 'Ajustar a la vista',
+  flowZoom: 'Zoom',
+  flowEmpty: 'El flujo está vacío. Añade un inicio para empezar.',
+  flowIssues: 'Problemas ({0})',
+  flowNoIssues: 'El flujo es válido.',
+  flowIssueOf: 'Problema: {0}',
+  flowIssueNoStart: 'Falta un nodo de inicio.',
+  flowIssueManyStarts: 'Hay más de un inicio: {0}.',
+  flowIssueNoEnd: 'Falta un nodo de fin.',
+  flowIssueStartIncoming: '{0} es un inicio y le llegan conexiones.',
+  flowIssueEndOutgoing: '{0} es un fin y tiene salidas.',
+  flowIssueDeadEnd: '{0} no tiene salida.',
+  flowIssueBranches: 'La decisión {0} necesita al menos dos salidas.',
+  flowIssueBranchLabel: 'Alguna salida de la decisión {0} no tiene etiqueta.',
+  flowIssueUnreachable: '{0} no se alcanza desde el inicio.',
+  flowNodeHint: 'Flechas para mover (Mayús, más), Intro para renombrar, C para conectar con otro nodo y Supr para eliminar.',
+  flowReadonlyHint: 'Intro para abrir.',
+  flowEdgeHint: 'Intro para editar la etiqueta y Supr para eliminar.',
 };
 
 /** Inglés. */
@@ -2452,6 +2581,59 @@ export const CB_LOCALE_EN: CbTranslation = {
   mediaTranscript: 'Transcript',
   mediaError: 'The media could not be loaded.',
   mediaShortcuts: 'Shortcuts: Space or K plays and pauses; left and right arrows, 5 seconds; J and L, 10 seconds; up and down arrows, volume; M mutes; F full screen; C captions; 0 to 9 jump to that point.',
+  // --- Flow editor ---
+  flowEditor: 'Flow editor',
+  flowDiagram: 'Diagram',
+  flowList: 'List',
+  flowView: 'View',
+  flowAdd: 'Add',
+  flowStart: 'Start',
+  flowTask: 'Task',
+  flowDecision: 'Decision',
+  flowEnd: 'End',
+  flowNodeOf: '{0}: {1}',
+  flowExits: 'Exits: {0}',
+  flowNoExits: 'No exits',
+  flowExitsOf: 'Exits of {0}',
+  flowEdgeOf: 'Connection from {0} to {1}',
+  flowConnect: 'Connect',
+  flowConnectFrom: 'Connecting from {0}: go to the target node and press Enter. Escape cancels.',
+  flowConnected: 'Connected: {0} → {1}',
+  flowCannotConnect: '{0} cannot be connected to {1}.',
+  flowConnectCancelled: 'Connection cancelled',
+  flowDelete: 'Delete',
+  flowDeleteNode: 'Delete {0}',
+  flowAdded: 'Added: {0}',
+  flowRemoved: 'Removed: {0}',
+  flowNameOf: 'Name ({0})',
+  flowEdgeLabel: 'Label',
+  flowEdgeLabelOf: 'Label from {0} to {1}',
+  flowConnectTo: 'Connect {0} to',
+  flowChooseTarget: 'Choose the target',
+  flowAddConnection: 'Add connection',
+  flowRemoveConnection: 'Remove the connection to {0}',
+  flowLayout: 'Arrange',
+  flowLaidOut: 'Diagram arranged',
+  flowZoomIn: 'Zoom in',
+  flowZoomOut: 'Zoom out',
+  flowFit: 'Fit to view',
+  flowZoom: 'Zoom',
+  flowEmpty: 'The flow is empty. Add a start to begin.',
+  flowIssues: 'Issues ({0})',
+  flowNoIssues: 'The flow is valid.',
+  flowIssueOf: 'Issue: {0}',
+  flowIssueNoStart: 'A start node is missing.',
+  flowIssueManyStarts: 'There is more than one start: {0}.',
+  flowIssueNoEnd: 'An end node is missing.',
+  flowIssueStartIncoming: '{0} is a start and has incoming connections.',
+  flowIssueEndOutgoing: '{0} is an end and has exits.',
+  flowIssueDeadEnd: '{0} has no exit.',
+  flowIssueBranches: 'The decision {0} needs at least two exits.',
+  flowIssueBranchLabel: 'Some exit of the decision {0} has no label.',
+  flowIssueUnreachable: '{0} cannot be reached from the start.',
+  flowNodeHint: 'Arrows to move (Shift, further), Enter to rename, C to connect to another node and Delete to remove.',
+  flowReadonlyHint: 'Enter to open.',
+  flowEdgeHint: 'Enter to edit the label and Delete to remove.',
 };
 
 /** Idiomas incluidos. */

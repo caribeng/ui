@@ -273,6 +273,9 @@
       "@caribeng/ui/gantt": [
         "./packages/ui/gantt/src/public-api.ts"
       ],
+      "@caribeng/ui/flow": [
+        "./packages/ui/flow/src/public-api.ts"
+      ],
       "@caribeng/ui/scheduler": [
         "./packages/ui/scheduler/src/public-api.ts"
       ],

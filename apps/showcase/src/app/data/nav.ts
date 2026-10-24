@@ -98,6 +98,7 @@ export const NAV_MENU: NavItem[] = [
           { label: 'Kanban', route: '/components/kanban', badge: 'NEW' },
           { label: 'Scheduler', route: '/components/scheduler', badge: 'NEW' },
           { label: 'Descriptions', route: '/components/descriptions', badge: 'NEW' },
+          { label: 'FlowEditor', route: '/components/flow', badge: 'NEW' },
           { label: 'OrderList', route: '/components/orderlist' },
           { label: 'OrganizationChart', route: '/components/organizationchart' },
           { label: 'Paginator', route: '/components/paginator' },
