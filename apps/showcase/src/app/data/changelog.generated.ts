@@ -176,6 +176,14 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
         "type": "fixed",
         "items": [
           {
+            "component": "Componentes contables en móvil",
+            "text": "en contenedores estrechos `Aging`, `Pivot` y `TreeTable` (también `FinancialReport`) dejan fija la primera columna y la parten en varias líneas, así se ven los importes; `Document` se reacomoda y cada línea pasa a ser una ficha con sus datos (antes había que desplazarlo de lado); `AccountPicker` ya no se sale de su contenedor con rutas largas y las casillas de `Reconciliation` son más grandes."
+          },
+          {
+            "component": "`AuditLog`",
+            "text": "dice «1 cambio» en singular."
+          },
+          {
             "component": "`InputNumber`",
             "text": "en modo de solo lectura conserva el formato al recibir el foco."
           },

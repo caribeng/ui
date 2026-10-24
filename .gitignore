@@ -29,3 +29,6 @@ Thumbs.db
 # Env
 .env
 .env.local
+
+# Archivos temporales del plugin de Playwright
+.playwright-mcp/

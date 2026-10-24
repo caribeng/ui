@@ -39,6 +39,9 @@ describe('CbDocument', () => {
     expect(text(el.querySelector('.cb-doc__title')!)).toBe('Factura de venta');
     expect(Array.from(el.querySelectorAll('.cb-doc__lines thead th')).map(text)).toEqual(['Código', 'Descripción', 'Cant.', 'Valor unitario', 'Descuento', 'Impuesto', 'Valor']);
     expect(Array.from(el.querySelectorAll('.cb-doc__lines tbody tr')[1].children).map(text)).toEqual(['P-02', 'Escritorio', '1', '$ 1.200.000,00', '10%', '19%', '$ 1.080.000,00']);
+    // En móvil cada celda muestra su encabezado (data-label) y la tabla conserva sus roles.
+    expect(Array.from(el.querySelectorAll('.cb-doc__lines tbody tr')[1].children).map((td) => td.getAttribute('data-label'))).toEqual(['Código', null, 'Cant.', 'Valor unitario', 'Descuento', 'Impuesto', 'Valor']);
+    expect(el.querySelector('.cb-doc__lines')!.getAttribute('role')).toBe('table');
     expect(Array.from(el.querySelector('.cb-doc__grand')!.children).map(text)).toEqual(['Total a pagar', '$ 2.457.450,00']);
     expect(text(el.querySelector('.cb-doc__words')!)).toBe('DOS MILLONES CUATROCIENTOS CINCUENTA Y SIETE MIL CUATROCIENTOS CINCUENTA PESOS M/CTE');
     expect(el.querySelectorAll('.cb-doc__sign').length).toBe(2);

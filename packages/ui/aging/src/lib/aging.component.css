@@ -3,6 +3,7 @@
   gap: var(--cb-space-4, 1rem);
   width: 100%;
   min-width: 0;
+  container-type: inline-size;
   color: var(--cb-color-text);
   font-family: var(--cb-font-sans);
   font-size: var(--cb-text-sm, 0.875rem);
@@ -235,5 +236,39 @@ th[aria-sort='descending'] .cb-ag__sort::after {
 @media (forced-colors: active) {
   .cb-ag__seg {
     forced-color-adjust: none;
+  }
+}
+
+/* En contenedores estrechos el cliente queda fijo a la izquierda y se parte en varias líneas. */
+@container (max-width: 40rem) {
+  .cb-ag__table > thead > tr > th:first-child,
+  .cb-ag__table > tbody > tr > th[scope='row'],
+  .cb-ag__table > tfoot > tr > :first-child {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    min-width: 8rem;
+    max-width: 10rem;
+    white-space: normal;
+    box-shadow: inset -1px 0 0 var(--cb-color-border);
+  }
+
+  .cb-ag__table > tbody > tr > th[scope='row'] {
+    background: var(--cb-color-bg);
+  }
+
+  .cb-ag__toggle {
+    flex-wrap: wrap;
+    min-height: 2rem;
+  }
+
+  .cb-ag__party {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  .cb-ag__count {
+    flex-basis: 100%;
+    padding-inline-start: calc(14px + 0.35rem);
   }
 }

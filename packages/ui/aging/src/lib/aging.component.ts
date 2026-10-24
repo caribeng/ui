@@ -101,7 +101,7 @@ let nextUid = 0;
                   (click)="toggle(row.party)"
                 >
                   <cb-icon name="chevron-right" [size]="14" [class.cb-is-open]="isOpen(row.party)" aria-hidden="true" />
-                  {{ row.party }}
+                  <span class="cb-ag__party">{{ row.party }} </span>
                   <span class="cb-ag__count">{{ fmt(t().agingDocs, row.documents.length) }}</span>
                 </button>
               </th>

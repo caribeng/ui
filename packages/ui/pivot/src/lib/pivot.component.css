@@ -3,6 +3,7 @@
   gap: var(--cb-space-3, 0.75rem);
   width: 100%;
   min-width: 0;
+  container-type: inline-size;
   color: var(--cb-color-text);
   font-family: var(--cb-font-sans);
   font-size: var(--cb-text-sm, 0.875rem);
@@ -101,6 +102,7 @@
   background: none;
   color: inherit;
   font: inherit;
+  text-align: start;
   cursor: pointer;
 }
 
@@ -137,4 +139,19 @@
   height: 5rem;
   color: var(--cb-color-text-muted);
   text-align: center !important;
+}
+
+/* En contenedores estrechos la columna de filas se parte en varias líneas y deja ver los valores. */
+@container (max-width: 40rem) {
+  .cb-pv__table tbody th,
+  .cb-pv__table tfoot th,
+  .cb-pv__table thead th:first-child {
+    min-width: 8rem;
+    max-width: 11rem;
+    white-space: normal;
+  }
+
+  .cb-pv__table tbody th {
+    box-shadow: inset -1px 0 0 var(--cb-color-border);
+  }
 }

@@ -158,40 +158,40 @@ export function documentTotals(lines: readonly CbDocumentLine[], adjustments: re
       }
 
       @if (lines().length) {
-        <table class="cb-doc__lines">
-          <thead>
-            <tr>
+        <table class="cb-doc__lines" role="table">
+          <thead role="rowgroup">
+            <tr role="row">
               @if (hasCodes()) {
-                <th scope="col">{{ t().documentCode }}</th>
+                <th scope="col" role="columnheader">{{ t().documentCode }}</th>
               }
-              <th scope="col">{{ t().documentDescription }}</th>
-              <th scope="col" class="cb-doc__num">{{ t().documentQuantity }}</th>
-              <th scope="col" class="cb-doc__num">{{ t().documentUnitPrice }}</th>
+              <th scope="col" role="columnheader">{{ t().documentDescription }}</th>
+              <th scope="col" role="columnheader" class="cb-doc__num">{{ t().documentQuantity }}</th>
+              <th scope="col" role="columnheader" class="cb-doc__num">{{ t().documentUnitPrice }}</th>
               @if (hasDiscounts()) {
-                <th scope="col" class="cb-doc__num">{{ t().documentDiscount }}</th>
+                <th scope="col" role="columnheader" class="cb-doc__num">{{ t().documentDiscount }}</th>
               }
               @if (hasTaxes()) {
-                <th scope="col" class="cb-doc__num">{{ t().documentTax }}</th>
+                <th scope="col" role="columnheader" class="cb-doc__num">{{ t().documentTax }}</th>
               }
-              <th scope="col" class="cb-doc__num">{{ t().documentAmount }}</th>
+              <th scope="col" role="columnheader" class="cb-doc__num">{{ t().documentAmount }}</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody role="rowgroup">
             @for (l of lines(); track $index) {
-              <tr>
+              <tr role="row">
                 @if (hasCodes()) {
-                  <td class="cb-doc__code">{{ l.code }}</td>
+                  <td class="cb-doc__code" role="cell" [attr.data-label]="t().documentCode">{{ l.code }}</td>
                 }
-                <td>{{ l.description }}</td>
-                <td class="cb-doc__num">{{ qty(l.quantity) }}</td>
-                <td class="cb-doc__num">{{ money(l.unitPrice) }}</td>
+                <td class="cb-doc__desc" role="cell">{{ l.description }}</td>
+                <td class="cb-doc__num" role="cell" [attr.data-label]="t().documentQuantity">{{ qty(l.quantity) }}</td>
+                <td class="cb-doc__num" role="cell" [attr.data-label]="t().documentUnitPrice">{{ money(l.unitPrice) }}</td>
                 @if (hasDiscounts()) {
-                  <td class="cb-doc__num">{{ l.discount ? pct(l.discount) : '' }}</td>
+                  <td class="cb-doc__num" role="cell" [attr.data-label]="t().documentDiscount">{{ l.discount ? pct(l.discount) : '' }}</td>
                 }
                 @if (hasTaxes()) {
-                  <td class="cb-doc__num">{{ l.tax ? pct(l.tax) : '' }}</td>
+                  <td class="cb-doc__num" role="cell" [attr.data-label]="t().documentTax">{{ l.tax ? pct(l.tax) : '' }}</td>
                 }
-                <td class="cb-doc__num">{{ money(l.quantity * l.unitPrice * (1 - (l.discount ?? 0))) }}</td>
+                <td class="cb-doc__num cb-doc__amount" role="cell" [attr.data-label]="t().documentAmount">{{ money(l.quantity * l.unitPrice * (1 - (l.discount ?? 0))) }}</td>
               </tr>
             }
           </tbody>

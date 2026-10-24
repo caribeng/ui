@@ -86,7 +86,7 @@ let nextUid = 0;
                 @if (e.changes?.length) {
                   <button type="button" class="cb-al__toggle" [attr.aria-expanded]="isOpen(e.id)" [attr.aria-controls]="uid + '-c-' + e.id" (click)="toggle(e.id)">
                     <cb-icon name="chevron-right" [size]="13" [class.cb-is-open]="isOpen(e.id)" aria-hidden="true" />
-                    {{ fmt(t().auditChanges, e.changes!.length) }}
+                    {{ e.changes!.length === 1 ? t().auditChangesOne : fmt(t().auditChanges, e.changes!.length) }}
                   </button>
                   @if (isOpen(e.id)) {
                     <table class="cb-al__diff" [id]="uid + '-c-' + e.id" [attr.aria-label]="fmt(t().auditChangesOf, e.entity)">

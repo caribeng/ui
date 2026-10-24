@@ -31,6 +31,16 @@ class HostComponent {
 afterEach(() => document.body.replaceChildren());
 
 describe('CbAuditLog', () => {
+  it('dice «1 cambio» en singular', async () => {
+    const fixture = TestBed.createComponent(HostComponent);
+    fixture.componentInstance.entries = [{ id: 9, date: '2026-10-23T10:00:00', user: 'Ana Ruiz', action: 'update', entity: 'Tercero', changes: [{ field: 'name', label: 'Nombre', before: 'A', after: 'B' }] }];
+    fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    const toggle = (fixture.nativeElement as HTMLElement).querySelector('.cb-al__toggle')!;
+    expect(toggle.textContent!.replace(/\s+/g, ' ').trim()).toBe('1 cambio');
+  });
+
   it('agrupa por día del más reciente al más antiguo, abre la diferencia y filtra', async () => {
     const fixture = TestBed.createComponent(HostComponent);
     document.body.appendChild(fixture.nativeElement);

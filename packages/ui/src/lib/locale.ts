@@ -840,6 +840,8 @@ export interface CbTranslation {
   auditDeleted: string;
   /** `{0}`: cantidad. */
   auditChanges: string;
+  /** Singular de `auditChanges`. */
+  auditChangesOne: string;
   /** `{0}`: registro. */
   auditChangesOf: string;
   auditField: string;
@@ -1909,6 +1911,7 @@ export const CB_LOCALE_ES: CbTranslation = {
   auditUpdated: 'modificó',
   auditDeleted: 'eliminó',
   auditChanges: '{0} cambios',
+  auditChangesOne: '1 cambio',
   auditChangesOf: 'Cambios en {0}',
   auditField: 'Campo',
   auditBefore: 'Antes',
@@ -2927,6 +2930,7 @@ export const CB_LOCALE_EN: CbTranslation = {
   auditUpdated: 'updated',
   auditDeleted: 'deleted',
   auditChanges: '{0} changes',
+  auditChangesOne: '1 change',
   auditChangesOf: 'Changes in {0}',
   auditField: 'Field',
   auditBefore: 'Before',

@@ -1,6 +1,7 @@
 :host {
   display: block;
   overflow-x: auto;
+  container-type: inline-size;
   color: var(--cb-color-text);
   font-size: var(--cb-text-sm, 0.875rem);
 }
@@ -111,4 +112,27 @@
 
 .cb-treetable__row--activatable {
   cursor: pointer;
+}
+
+/* En contenedores estrechos la primera columna queda fija, se parte en varias líneas y deja ver los importes. */
+@container (max-width: 40rem) {
+  .cb-treetable__first,
+  .cb-treetable thead th:first-child,
+  .cb-treetable__foot > :first-child {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    min-width: 8rem;
+    max-width: 11rem;
+    white-space: normal;
+  }
+
+  .cb-treetable__first,
+  .cb-treetable thead th:first-child {
+    background-color: var(--cb-color-bg);
+  }
+
+  .cb-treetable__first {
+    box-shadow: inset -1px 0 0 var(--cb-color-border);
+  }
 }

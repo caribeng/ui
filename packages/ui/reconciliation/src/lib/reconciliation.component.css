@@ -154,6 +154,12 @@
   cursor: pointer;
 }
 
+.cb-rc__label > input {
+  inline-size: 1.125rem;
+  block-size: 1.125rem;
+  margin: 0;
+}
+
 .cb-rc__date {
   color: var(--cb-color-text-muted);
   font-variant-numeric: tabular-nums;

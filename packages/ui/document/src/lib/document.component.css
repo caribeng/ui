@@ -1,8 +1,7 @@
 :host {
   display: block;
   min-width: 0;
-  /* En pantallas estrechas, el documento se desplaza dentro de su recuadro. */
-  overflow-x: auto;
+  container-type: inline-size;
 }
 
 .cb-doc {
@@ -236,10 +235,70 @@
   text-align: center;
 }
 
-@media (max-width: 40rem) {
+/* En contenedores estrechos (móvil) el documento se reacomoda: cada línea pasa a ser una ficha con sus datos. */
+@container (max-width: 36rem) {
   .cb-doc {
-    min-width: 30rem;
     padding: 1.25rem 1rem;
+  }
+
+  .cb-doc__title-box {
+    text-align: start;
+  }
+
+  .cb-doc__lines thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .cb-doc__lines,
+  .cb-doc__lines tbody,
+  .cb-doc__lines tr,
+  .cb-doc__lines td {
+    display: block;
+  }
+
+  .cb-doc__lines tr {
+    display: flex;
+    flex-direction: column;
+    padding: 0.55rem 0;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  .cb-doc__lines td {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.1rem 0;
+    border: 0;
+  }
+
+  .cb-doc__lines td:empty {
+    display: none;
+  }
+
+  .cb-doc__lines td[data-label]::before {
+    content: attr(data-label);
+    color: #6b7280;
+    font-weight: 400;
+    text-align: start;
+    white-space: normal;
+  }
+
+  .cb-doc__lines .cb-doc__desc {
+    order: -1;
+    font-weight: 600;
+  }
+
+  .cb-doc__lines .cb-doc__amount {
+    font-weight: 600;
+  }
+
+  .cb-doc__totals {
+    flex-basis: 100%;
   }
 }
 
