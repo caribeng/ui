@@ -869,6 +869,39 @@ export const DOC_A11Y: Record<string, DocA11y> = {
       { keys: 'Enter / Espacio', action: 'Contrae o expande una fila con hijos.' },
     ],
   },
+  'cb-amount': {
+    screenReader: [
+      'El importe es texto con su formato de moneda; los negativos llevan signo o paréntesis además del color rojo.',
+      'El equivalente en otra moneda y el importe en letras son texto visible que se lee después del valor.',
+    ],
+    keyboard: [],
+  },
+  'cb-kpi': {
+    screenReader: [
+      'Cada indicador es un grupo nombrado por su etiqueta. La variación se dice con texto («sube 24,4 %», «baja 17,9 %»); la flecha y el color son decorativos.',
+      'La minigráfica es una imagen con nombre que resume la tendencia («Tendencia de 10 periodos: de $ 142 a $ 208»). El avance hacia la meta es un `progressbar` con su valor.',
+    ],
+    keyboard: [],
+  },
+  'cb-audit-log': {
+    screenReader: [
+      'El historial se agrupa por día en secciones con título; cada registro dice quién, qué acción, sobre qué y a qué hora (`<time datetime>`).',
+      'Los registros con cambios tienen un botón con `aria-expanded` que abre una tabla Campo · Antes · Después con nombre propio; los valores eliminados y añadidos usan `<del>` e `<ins>`.',
+      'La búsqueda y los filtros tienen nombre; el número de registros que coinciden se anuncia con `aria-live`.',
+    ],
+    keyboard: [
+      { keys: 'Tab', action: 'Recorre la búsqueda, los filtros, el botón de Excel y los botones de cambios.' },
+      { keys: 'Enter / Espacio', action: 'Abre o cierra los cambios de un registro.' },
+    ],
+  },
+  'cb-document': {
+    screenReader: [
+      'El documento es un `article` con nombre (título y número). Las líneas son una tabla con cabeceras y los totales una lista de definiciones.',
+      'El logo es decorativo (`alt=""`): el nombre de la empresa está en texto. El total en letras y las firmas son texto visible.',
+      'print() imprime solo el documento en una ventana de impresión, sin cambiar la página.',
+    ],
+    keyboard: [],
+  },
   'cb-data-grid': {
     screenReader: [
       'Es una tabla con `role="grid"`, cabeceras de columna (`th scope="col"`) y de fila (el número de fila); `aria-rowcount` y `aria-colcount` dicen su tamaño y cada celda su posición.',

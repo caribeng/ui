@@ -78,6 +78,10 @@ import { AgingDocComponent } from './pages/aging-doc.component';
 import { ImportWizardDocComponent } from './pages/import-wizard-doc.component';
 import { ReconciliationDocComponent } from './pages/reconciliation-doc.component';
 import { PivotDocComponent } from './pages/pivot-doc.component';
+import { AmountDocComponent } from './pages/amount-doc.component';
+import { KpiDocComponent } from './pages/kpi-doc.component';
+import { AuditLogDocComponent } from './pages/audit-log-doc.component';
+import { DocumentDocComponent } from './pages/document-doc.component';
 import { MediaPlayerDocComponent } from './pages/media-player-doc.component';
 import { MasonryDocComponent } from './pages/masonry-doc.component';
 import { InfiniteScrollDocComponent } from './pages/infinite-scroll-doc.component';
@@ -211,6 +215,10 @@ export const routes: Routes = [
   { path: 'components/import-wizard', component: ImportWizardDocComponent, title: 'Import Wizard · CaribeNG' },
   { path: 'components/reconciliation', component: ReconciliationDocComponent, title: 'Reconciliation · CaribeNG' },
   { path: 'components/pivot', component: PivotDocComponent, title: 'Pivot · CaribeNG' },
+  { path: 'components/amount', component: AmountDocComponent, title: 'Amount · CaribeNG' },
+  { path: 'components/kpi', component: KpiDocComponent, title: 'KPI · CaribeNG' },
+  { path: 'components/audit-log', component: AuditLogDocComponent, title: 'Audit Log · CaribeNG' },
+  { path: 'components/document', component: DocumentDocComponent, title: 'Document · CaribeNG' },
   { path: 'components/media-player', component: MediaPlayerDocComponent, title: 'MediaPlayer · CaribeNG' },
   { path: 'components/masonry', component: MasonryDocComponent, title: 'Masonry · CaribeNG' },
   { path: 'components/infinite-scroll', component: InfiniteScrollDocComponent, title: 'InfiniteScroll · CaribeNG' },

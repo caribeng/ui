@@ -312,6 +312,18 @@
       "@caribeng/ui/pivot": [
         "./packages/ui/pivot/src/public-api.ts"
       ],
+      "@caribeng/ui/amount": [
+        "./packages/ui/amount/src/public-api.ts"
+      ],
+      "@caribeng/ui/kpi": [
+        "./packages/ui/kpi/src/public-api.ts"
+      ],
+      "@caribeng/ui/audit-log": [
+        "./packages/ui/audit-log/src/public-api.ts"
+      ],
+      "@caribeng/ui/document": [
+        "./packages/ui/document/src/public-api.ts"
+      ],
       "@caribeng/ui/media-player": [
         "./packages/ui/media-player/src/public-api.ts"
       ],

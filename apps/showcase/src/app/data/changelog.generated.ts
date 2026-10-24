@@ -11,6 +11,22 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
         "type": "added",
         "items": [
           {
+            "component": "Componente nuevo: `Amount`",
+            "text": "(`@caribeng/ui/amount`): importe con su moneda, negativos en rojo (con signo o entre paréntesis), código ISO, tamaños, equivalente en otra moneda con la tasa (`convert`, p. ej. la TRM) e importe en letras (`words`). Incluye `cbAmountInWords()` en español e inglés para pesos, dólares, euros y otras monedas, en estilo cheque («UN MILLÓN DE PESOS CON 50/100 M/CTE») o texto. 184 entry points."
+          },
+          {
+            "component": "Componente nuevo: `Kpi`",
+            "text": "(`@caribeng/ui/kpi`): indicador para tableros con valor, variación frente al periodo anterior (calculada sola y dicha con texto), color según si subir es bueno o malo (`better`), minigráfica de tendencia (`series`), avance hacia una meta (`target`) y formatos de moneda, número, entero o porcentaje. 185 entry points."
+          },
+          {
+            "component": "Componente nuevo: `AuditLog`",
+            "text": "(`@caribeng/ui/audit-log`): visor de auditoría agrupado por día, con quién, cuándo, la acción (crear, modificar, eliminar o propias con `actionLabels`) y sobre qué registro. Cada registro abre la diferencia Campo · Antes · Después (`<del>` / `<ins>`); tiene búsqueda, filtros por usuario y acción, `format` para los valores y Excel. 186 entry points."
+          },
+          {
+            "component": "Componente nuevo: `Document`",
+            "text": "(`@caribeng/ui/document`): documento imprimible (factura, cotización, comprobante, recibo) con empresa y logo, tercero, datos de cabecera, líneas con descuento e impuesto, impuestos agrupados por tarifa, retenciones (`adjustments`), total en letras, observaciones, firmas y pie. `print()` imprime solo el documento o lo guarda en PDF. Incluye `documentTotals()` y `cbPrintElement()` para imprimir cualquier elemento con sus estilos. 187 entry points."
+          },
+          {
             "component": "Componente nuevo: `Aging`",
             "text": "(`@caribeng/ui/aging`): antigüedad de cartera (cuentas por cobrar o por pagar) por tercero en tramos de vencimiento: por vencer, 1–30, 31–60, 61–90 y más de 90 días, o tramos propios con `buckets`. Barra de composición con importes y %, filas que se abren para ver los documentos con los días vencidos, orden por cualquier columna, totales y Excel con resumen y detalle. Funciones `ageDocuments`, `agingTotals` y `daysOverdue`. 180 entry points."
           },

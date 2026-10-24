@@ -4221,4 +4221,139 @@ export const ES_EN: Record<string, string> = {
     'Moves through the selectors, the Excel button and the buttons of the rows with children.',
   'Contrae o expande una fila con hijos.':
     'Collapses or expands a row with children.',
+  // --- Contabilidad: Amount, KPI, Audit Log y Document ---
+  'Importe con su moneda, negativos en rojo (con signo o entre paréntesis), equivalente en otra moneda con la tasa de cambio e importe en letras para cheques, recibos y facturas.':
+    'Amount with its currency, negatives in red (with a sign or in parentheses), equivalent in another currency with the exchange rate and amount in words for checks, receipts and invoices.',
+  'Importes y negativos':
+    'Amounts and negatives',
+  'currency elige la moneda (si no, la de provideCaribeNG({ currency })); negative escribe los negativos con signo o entre paréntesis, siempre en rojo; showCode añade el código ISO y size el tamaño.':
+    'currency chooses the currency (otherwise, the provideCaribeNG({ currency }) one); negative writes negatives with a sign or in parentheses, always in red; showCode adds the ISO code and size the size.',
+  'Importe en letras':
+    'Amount in words',
+  'words muestra el importe en letras debajo: en estilo cheque (mayúsculas, centavos como 50/100 y M/CTE para pesos colombianos) o en texto. cbAmountInWords() da el mismo texto desde código, en español o inglés y para pesos, dólares, euros y otras monedas. Escribe un valor para verlo.':
+    'words shows the amount in words underneath: in check style (uppercase, cents as 50/100 and M/CTE for Colombian pesos) or as text. cbAmountInWords() gives the same text from code, in Spanish or English and for pesos, dollars, euros and other currencies. Type a value to see it.',
+  'Equivalente en otra moneda':
+    'Equivalent in another currency',
+  'convert muestra el valor en otra moneda con su tasa: aquí, pesos a dólares dividiendo por la TRM, y dólares a pesos multiplicando.':
+    'convert shows the value in another currency with its rate: here, pesos to dollars dividing by the TRM, and dollars to pesos multiplying.',
+  'Indicador para tableros contables: valor, variación frente al periodo anterior (con su color según si subir es bueno o malo), minigráfica de tendencia y avance hacia una meta.':
+    'Indicator for accounting dashboards: value, variation against the previous period (colored by whether going up is good or bad), trend sparkline and progress towards a goal.',
+  'Tablero del mes':
+    'Monthly dashboard',
+  'previous calcula la variación sola; better dice si subir es bueno (up, ingresos) o malo (down, gastos y cartera vencida), y la variación se lee con texto («sube 24,4 %»). series dibuja la tendencia y target el avance hacia la meta. format elige currency, number, integer o percent.':
+    'previous computes the variation by itself; better says whether going up is good (up, income) or bad (down, expenses and overdue receivables), and the variation is read as text ("up 24.4 %"). series draws the trend and target the progress towards the goal. format chooses currency, number, integer or percent.',
+  'Visor de auditoría: el historial de quién creó, modificó, aprobó o eliminó cada registro y cuándo, con la diferencia antes y después de cada campo.':
+    'Audit viewer: the history of who created, updated, approved or deleted each record and when, with the before and after difference of each field.',
+  'Historial de un comprobante':
+    'History of a voucher',
+  'entries son los registros (fecha, usuario, acción, registro, cambios y nota); se muestran por día, del más reciente al más antiguo. Los que tienen cambios se abren para ver Campo · Antes · Después. format da el texto de los valores (aquí, los importes en pesos) y actionLabels nombra acciones propias como aprobó o anuló. La búsqueda recorre usuarios, registros, notas y valores; Excel descarga lo filtrado.':
+    'entries are the records (date, user, action, record, changes and note); they are shown by day, from newest to oldest. Those with changes open to show Field · Before · After. format gives the text of the values (here, amounts in pesos) and actionLabels names custom actions such as approved or voided. The search covers users, records, notes and values; Excel downloads what is filtered.',
+  'Documento imprimible: factura, cotización, comprobante o recibo con la empresa, el tercero, las líneas, los impuestos, las retenciones, el total en letras, notas y firmas, listo para imprimir o guardar en PDF.':
+    'Printable document: invoice, quote, voucher or receipt with the company, the third party, the lines, taxes, withholdings, the total in words, notes and signatures, ready to print or save as PDF.',
+  'Factura de venta':
+    'Sales invoice',
+  'lines calcula cada valor con su descuento; los impuestos se agrupan por tarifa (IVA 19 %) y adjustments resta retenciones o suma cargos después de impuestos. El total va también en letras. fields añade datos de la cabecera y signatures las firmas. print() imprime solo el documento con sus estilos (o lo guarda como PDF desde el diálogo de impresión).':
+    'lines computes each amount with its discount; taxes are grouped by rate (19 % VAT) and adjustments subtracts withholdings or adds charges after taxes. The total also goes in words. fields adds header data and signatures the signatures. print() prints only the document with its styles (or saves it as PDF from the print dialog).',
+  'Sin líneas, el documento sirve como recibo o comprobante: el contenido propio va entre las etiquetas (ng-content) y se mantienen la cabecera, el tercero, los datos y las firmas.':
+    'Without lines, the document works as a receipt or voucher: your own content goes between the tags (ng-content) and the header, third party, data and signatures are kept.',
+  'Imprimir o guardar en PDF':
+    'Print or save as PDF',
+  'Valor':
+    'Amount',
+  'Ingresos':
+    'Income',
+  'Gastos operacionales':
+    'Operating expenses',
+  'Cartera vencida':
+    'Overdue receivables',
+  'Margen neto':
+    'Net margin',
+  'Importe.':
+    'Amount.',
+  'Código de moneda (si no, el de provideCaribeNG).':
+    'Currency code (otherwise, the provideCaribeNG one).',
+  'Decimales (2 por defecto; 0 en monedas sin centavos).':
+    'Decimals (2 by default; 0 for currencies without cents).',
+  'Código ISO tras el importe.':
+    'ISO code after the amount.',
+  'Importe en letras debajo.':
+    'Amount in words underneath.',
+  'Letras estilo cheque (mayúsculas, 50/100, M/CTE) o texto.':
+    'Words in check style (uppercase, 50/100, M/CTE) or text.',
+  'Equivalente en otra moneda (currency, rate, divide, label).':
+    'Equivalent in another currency (currency, rate, divide, label).',
+  'Nombre del indicador.':
+    'Indicator name.',
+  'Valor actual.':
+    'Current value.',
+  'Valor del periodo con el que se compara.':
+    'Value of the period it is compared with.',
+  'Texto de la comparación.':
+    'Comparison text.',
+  'Si subir es bueno o malo (color de la variación).':
+    'Whether going up is good or bad (variation color).',
+  'Formato del valor.':
+    'Value format.',
+  'Serie de la minigráfica.':
+    'Sparkline series.',
+  'Meta: muestra el avance hacia ella.':
+    'Goal: shows the progress towards it.',
+  'Registros (id, date, user, action, entity, changes, note).':
+    'Records (id, date, user, action, entity, changes, note).',
+  'Texto de los valores.':
+    'Text of the values.',
+  'Nombres de acciones propias.':
+    'Names of custom actions.',
+  'Se abrieron los cambios de un registro.':
+    'The changes of a record were opened.',
+  'Título del documento.':
+    'Document title.',
+  'Número.':
+    'Number.',
+  'Fecha.':
+    'Date.',
+  'Empresa (name, taxId, address, phone, email, logo).':
+    'Company (name, taxId, address, phone, email, logo).',
+  'Tercero (label, name, taxId, address…).':
+    'Third party (label, name, taxId, address…).',
+  'Datos de la cabecera (label, value).':
+    'Header data (label, value).',
+  'Líneas (description, code, quantity, unitPrice, discount, tax).':
+    'Lines (description, code, quantity, unitPrice, discount, tax).',
+  'Retenciones o cargos después de impuestos.':
+    'Withholdings or charges after taxes.',
+  'Nombre del impuesto.':
+    'Tax name.',
+  'Total en letras.':
+    'Total in words.',
+  'Observaciones.':
+    'Notes.',
+  'Rótulos de las firmas.':
+    'Signature labels.',
+  'Pie del documento.':
+    'Document footer.',
+  'El importe es texto con su formato de moneda; los negativos llevan signo o paréntesis además del color rojo.':
+    'The amount is text with its currency format; negatives have a sign or parentheses as well as red color.',
+  'El equivalente en otra moneda y el importe en letras son texto visible que se lee después del valor.':
+    'The equivalent in another currency and the amount in words are visible text read after the value.',
+  'Cada indicador es un grupo nombrado por su etiqueta. La variación se dice con texto («sube 24,4 %», «baja 17,9 %»); la flecha y el color son decorativos.':
+    'Each indicator is a group named by its label. The variation is given as text ("up 24.4 %", "down 17.9 %"); the arrow and the color are decorative.',
+  'La minigráfica es una imagen con nombre que resume la tendencia («Tendencia de 10 periodos: de $ 142 a $ 208»). El avance hacia la meta es un `progressbar` con su valor.':
+    'The sparkline is a named image that summarizes the trend ("Trend over 10 periods: from $ 142 to $ 208"). The progress towards the goal is a `progressbar` with its value.',
+  'El historial se agrupa por día en secciones con título; cada registro dice quién, qué acción, sobre qué y a qué hora (`<time datetime>`).':
+    'The history is grouped by day in sections with a title; each record says who, what action, on what and at what time (`<time datetime>`).',
+  'Los registros con cambios tienen un botón con `aria-expanded` que abre una tabla Campo · Antes · Después con nombre propio; los valores eliminados y añadidos usan `<del>` e `<ins>`.':
+    'Records with changes have a button with `aria-expanded` that opens a named Field · Before · After table; removed and added values use `<del>` and `<ins>`.',
+  'La búsqueda y los filtros tienen nombre; el número de registros que coinciden se anuncia con `aria-live`.':
+    'The search and the filters are named; the number of matching records is announced with `aria-live`.',
+  'Recorre la búsqueda, los filtros, el botón de Excel y los botones de cambios.':
+    'Moves through the search, the filters, the Excel button and the change buttons.',
+  'Abre o cierra los cambios de un registro.':
+    'Opens or closes the changes of a record.',
+  'El documento es un `article` con nombre (título y número). Las líneas son una tabla con cabeceras y los totales una lista de definiciones.':
+    'The document is an `article` with a name (title and number). The lines are a table with headers and the totals a definition list.',
+  'El logo es decorativo (`alt=""`): el nombre de la empresa está en texto. El total en letras y las firmas son texto visible.':
+    'The logo is decorative (`alt=""`): the company name is in text. The total in words and the signatures are visible text.',
+  'print() imprime solo el documento en una ventana de impresión, sin cambiar la página.':
+    'print() prints only the document in a print window, without changing the page.',
 };

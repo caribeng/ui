@@ -142,6 +142,10 @@ import { CbAging } from '@caribeng/ui/aging';
 import { CbImportWizard } from '@caribeng/ui/import-wizard';
 import { CbReconciliation } from '@caribeng/ui/reconciliation';
 import { CbPivot } from '@caribeng/ui/pivot';
+import { CbAmount } from '@caribeng/ui/amount';
+import { CbKpi } from '@caribeng/ui/kpi';
+import { CbAuditLog } from '@caribeng/ui/audit-log';
+import { CbDocument } from '@caribeng/ui/document';
 import { CbMediaPlayer } from '@caribeng/ui/media-player';
 import { CbMasonry } from '@caribeng/ui/masonry';
 import { CbInfiniteScroll } from '@caribeng/ui/infinite-scroll';
@@ -2188,6 +2192,68 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "collapsed", kind: "boolean", type: "boolean", default: false, description: "Las filas con hijos empiezan contraídas." },
       { name: "currency", kind: "string", type: "string", default: undefined, description: "Moneda (si no, la de provideCaribeNG)." },
       { name: "ariaLabel", kind: "string", type: "string", default: "", description: "Nombre de la tabla." }
+    ]
+  },
+  "cb-amount": {
+    component: CbAmount,
+    selector: "cb-amount",
+    props: [
+      { name: "value", kind: "number", type: "number | null", default: null, example: 1250000.5, description: "Importe." },
+      { name: "currency", kind: "string", type: "string", default: undefined, description: "Código de moneda (si no, el de provideCaribeNG)." },
+      { name: "decimals", kind: "number", type: "number", default: undefined, description: "Decimales (2 por defecto; 0 en monedas sin centavos)." },
+      { name: "negative", kind: "enum", type: "'minus' | 'parens'", options: ["minus", "parens"], default: undefined, description: "Negativos con signo o entre paréntesis." },
+      { name: "showCode", kind: "boolean", type: "boolean", default: false, description: "Código ISO tras el importe." },
+      { name: "words", kind: "boolean", type: "boolean", default: false, example: true, description: "Importe en letras debajo." },
+      { name: "wordsStyle", kind: "enum", type: "'check' | 'text'", options: ["check", "text"], default: "check", description: "Letras estilo cheque (mayúsculas, 50/100, M/CTE) o texto." },
+      { name: "convert", kind: "string", type: "CbAmountConversion | null", default: null, description: "Equivalente en otra moneda (currency, rate, divide, label).", control: false },
+      { name: "size", kind: "enum", type: "'sm' | 'md' | 'lg' | 'xl'", options: ["sm", "md", "lg", "xl"], default: "md", description: "Tamaño." }
+    ]
+  },
+  "cb-kpi": {
+    component: CbKpi,
+    selector: "cb-kpi",
+    props: [
+      { name: "label", kind: "string", type: "string", default: "", example: "Ingresos", description: "Nombre del indicador." },
+      { name: "value", kind: "number", type: "number | null", default: null, example: 208330000, description: "Valor actual." },
+      { name: "previous", kind: "number", type: "number | null", default: null, example: 167440000, description: "Valor del periodo con el que se compara." },
+      { name: "compareLabel", kind: "string", type: "string", default: "", localeKey: "kpiPrevious", description: "Texto de la comparación." },
+      { name: "better", kind: "enum", type: "'up' | 'down' | 'none'", options: ["up", "down", "none"], default: "up", description: "Si subir es bueno o malo (color de la variación)." },
+      { name: "format", kind: "enum", type: "'currency' | 'number' | 'integer' | 'percent'", options: ["currency", "number", "integer", "percent"], default: "currency", description: "Formato del valor." },
+      { name: "currency", kind: "string", type: "string", default: undefined, description: "Moneda (si no, la de provideCaribeNG)." },
+      { name: "series", kind: "string", type: "readonly number[]", default: [], example: [142, 151, 149, 160, 171, 168, 180, 186, 195, 208], description: "Serie de la minigráfica.", control: false },
+      { name: "target", kind: "number", type: "number | null", default: null, description: "Meta: muestra el avance hacia ella." }
+    ]
+  },
+  "cb-audit-log": {
+    component: CbAuditLog,
+    selector: "cb-audit-log",
+    props: [
+      { name: "entries", kind: "string", type: "readonly CbAuditEntry[]", default: [], example: [{ id: 1, date: '2026-10-20T08:42:00', user: 'Ana Ruiz', action: 'create', entity: 'Comprobante CE-000124' }, { id: 2, date: '2026-10-21T09:05:00', user: 'Leo Mora', action: 'update', entity: 'Comprobante CE-000124', changes: [{ field: 'valor', label: 'Valor', before: 800000, after: 845000 }] }], description: "Registros (id, date, user, action, entity, changes, note).", control: false },
+      { name: "format", kind: "string", type: "(field, value) => string", default: null, description: "Texto de los valores.", control: false },
+      { name: "actionLabels", kind: "string", type: "Record<string, string>", default: {}, description: "Nombres de acciones propias.", control: false }
+    ],
+    events: [
+      { name: "entryOpen", type: "CbAuditEntry", description: "Se abrieron los cambios de un registro." }
+    ]
+  },
+  "cb-document": {
+    component: CbDocument,
+    selector: "cb-document",
+    props: [
+      { name: "title", kind: "string", type: "string", default: "", example: "Factura de venta", description: "Título del documento." },
+      { name: "number", kind: "string", type: "string", default: "", example: "FV-1252", description: "Número." },
+      { name: "date", kind: "string", type: "Date | null", default: null, description: "Fecha.", control: false },
+      { name: "issuer", kind: "string", type: "CbDocumentIssuer", default: undefined, example: { name: 'CaribeNG S.A.S.', taxId: '901.234.567-1' }, description: "Empresa (name, taxId, address, phone, email, logo).", control: false },
+      { name: "party", kind: "string", type: "CbDocumentParty | null", default: null, example: { name: 'Ferretería Bolívar', taxId: '800.123.456-7' }, description: "Tercero (label, name, taxId, address…).", control: false },
+      { name: "fields", kind: "string", type: "readonly CbDocumentField[]", default: [], description: "Datos de la cabecera (label, value).", control: false },
+      { name: "lines", kind: "string", type: "readonly CbDocumentLine[]", default: [], example: [{ description: 'Silla ergonómica', quantity: 2, unitPrice: 450000, tax: 0.19 }, { description: 'Instalación', quantity: 1, unitPrice: 150000 }], description: "Líneas (description, code, quantity, unitPrice, discount, tax).", control: false },
+      { name: "adjustments", kind: "string", type: "readonly CbDocumentAdjustment[]", default: [], description: "Retenciones o cargos después de impuestos.", control: false },
+      { name: "taxLabel", kind: "string", type: "string", default: "IVA", description: "Nombre del impuesto." },
+      { name: "words", kind: "boolean", type: "boolean", default: true, description: "Total en letras." },
+      { name: "notes", kind: "string", type: "string", default: "", description: "Observaciones." },
+      { name: "signatures", kind: "string", type: "readonly string[]", default: [], description: "Rótulos de las firmas.", control: false },
+      { name: "footer", kind: "string", type: "string", default: "", description: "Pie del documento." },
+      { name: "currency", kind: "string", type: "string", default: undefined, description: "Moneda (si no, la de provideCaribeNG)." }
     ]
   },
   "cb-data-grid": {

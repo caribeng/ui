@@ -800,6 +800,54 @@ export interface CbTranslation {
   pivotAvg: string;
   pivotMin: string;
   pivotMax: string;
+  kpiPrevious: string;
+  /** `{0}`: porcentaje. */
+  kpiUp: string;
+  /** `{0}`: porcentaje. */
+  kpiDown: string;
+  kpiSame: string;
+  /** `{0}`: primero; `{1}`: último; `{2}`: puntos. */
+  kpiTrend: string;
+  kpiGoal: string;
+  /** `{0}`: porcentaje; `{1}`: meta. */
+  kpiOfGoal: string;
+  auditTitle: string;
+  auditSearch: string;
+  auditUser: string;
+  auditAction: string;
+  auditEntity: string;
+  auditAllUsers: string;
+  auditAllActions: string;
+  /** `{0}`: cantidad. */
+  auditCount: string;
+  auditCreated: string;
+  auditUpdated: string;
+  auditDeleted: string;
+  /** `{0}`: cantidad. */
+  auditChanges: string;
+  /** `{0}`: registro. */
+  auditChangesOf: string;
+  auditField: string;
+  auditBefore: string;
+  auditAfter: string;
+  auditEmpty: string;
+  auditNone: string;
+  auditTime: string;
+  auditNote: string;
+  documentTaxId: string;
+  documentDate: string;
+  documentParty: string;
+  documentCode: string;
+  documentDescription: string;
+  documentQuantity: string;
+  documentUnitPrice: string;
+  documentDiscount: string;
+  documentTax: string;
+  documentAmount: string;
+  documentSubtotal: string;
+  documentTotal: string;
+  documentInWords: string;
+  documentNotes: string;
 
   // --- Varios ---
   scrollableArea: string;
@@ -1818,6 +1866,47 @@ export const CB_LOCALE_ES: CbTranslation = {
   pivotAvg: 'Promedio',
   pivotMin: 'Mínimo',
   pivotMax: 'Máximo',
+  kpiPrevious: 'Periodo anterior',
+  kpiUp: 'sube {0}',
+  kpiDown: 'baja {0}',
+  kpiSame: 'sin cambio',
+  kpiTrend: 'Tendencia de {2} periodos: de {0} a {1}',
+  kpiGoal: 'Avance hacia la meta',
+  kpiOfGoal: '{0} % de la meta ({1})',
+  auditTitle: 'Auditoría',
+  auditSearch: 'Buscar en el historial',
+  auditUser: 'Usuario',
+  auditAction: 'Acción',
+  auditEntity: 'Registro',
+  auditAllUsers: 'Todos los usuarios',
+  auditAllActions: 'Todas las acciones',
+  auditCount: '{0} registros',
+  auditCreated: 'creó',
+  auditUpdated: 'modificó',
+  auditDeleted: 'eliminó',
+  auditChanges: '{0} cambios',
+  auditChangesOf: 'Cambios en {0}',
+  auditField: 'Campo',
+  auditBefore: 'Antes',
+  auditAfter: 'Después',
+  auditEmpty: '(vacío)',
+  auditNone: 'No hay registros con estos filtros.',
+  auditTime: 'Hora',
+  auditNote: 'Nota',
+  documentTaxId: 'NIT',
+  documentDate: 'Fecha',
+  documentParty: 'Cliente',
+  documentCode: 'Código',
+  documentDescription: 'Descripción',
+  documentQuantity: 'Cant.',
+  documentUnitPrice: 'Valor unitario',
+  documentDiscount: 'Descuento',
+  documentTax: 'Impuesto',
+  documentAmount: 'Valor',
+  documentSubtotal: 'Subtotal',
+  documentTotal: 'Total a pagar',
+  documentInWords: 'Son',
+  documentNotes: 'Observaciones',
 
   scrollableArea: 'Área desplazable',
   scrollTop: 'Volver arriba',
@@ -2786,6 +2875,47 @@ export const CB_LOCALE_EN: CbTranslation = {
   pivotAvg: 'Average',
   pivotMin: 'Minimum',
   pivotMax: 'Maximum',
+  kpiPrevious: 'Previous period',
+  kpiUp: 'up {0}',
+  kpiDown: 'down {0}',
+  kpiSame: 'no change',
+  kpiTrend: 'Trend over {2} periods: from {0} to {1}',
+  kpiGoal: 'Progress to goal',
+  kpiOfGoal: '{0}% of the goal ({1})',
+  auditTitle: 'Audit log',
+  auditSearch: 'Search the history',
+  auditUser: 'User',
+  auditAction: 'Action',
+  auditEntity: 'Record',
+  auditAllUsers: 'All users',
+  auditAllActions: 'All actions',
+  auditCount: '{0} entries',
+  auditCreated: 'created',
+  auditUpdated: 'updated',
+  auditDeleted: 'deleted',
+  auditChanges: '{0} changes',
+  auditChangesOf: 'Changes in {0}',
+  auditField: 'Field',
+  auditBefore: 'Before',
+  auditAfter: 'After',
+  auditEmpty: '(empty)',
+  auditNone: 'No entries match these filters.',
+  auditTime: 'Time',
+  auditNote: 'Note',
+  documentTaxId: 'Tax ID',
+  documentDate: 'Date',
+  documentParty: 'Customer',
+  documentCode: 'Code',
+  documentDescription: 'Description',
+  documentQuantity: 'Qty',
+  documentUnitPrice: 'Unit price',
+  documentDiscount: 'Discount',
+  documentTax: 'Tax',
+  documentAmount: 'Amount',
+  documentSubtotal: 'Subtotal',
+  documentTotal: 'Total due',
+  documentInWords: 'Amount in words',
+  documentNotes: 'Notes',
 
   scrollableArea: 'Scrollable area',
   scrollTop: 'Back to top',
