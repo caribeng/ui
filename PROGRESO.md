@@ -11,8 +11,8 @@
 | Métrica | Valor |
 |---|---|
 | Versión | **22.4.0** (major alineado con Angular; línea v21 en `release/21.x`, solo correcciones) |
-| Entry points publicables | `@caribeng/ui` + **117** de la librería (incluye `icon` e `icons`) + **45** de Caribe Design (`@caribeng/ui/caribe/<name>`) = **162** |
-| Tests unitarios | **1029** en verde (**212** archivos de spec, 0 warnings en stderr) |
+| Entry points publicables | **173** — `@caribeng/ui` (núcleo) + **172** secondary entry points, incluidos los **30** de Caribe Design ya integrados en `@caribeng/ui/<name>` |
+| Tests unitarios | **1231** en verde (**228** archivos de spec, 0 warnings en stderr) |
 | Build | Limpio (ng-packagr / APF, sin source maps al publicar) |
 | Iconos | **361** núcleo + **1891** catálogo (Lucide, ISC) |
 | Idiomas | Español (por defecto) e inglés (`provideCaribeNG({ locale: 'en' })`) |
@@ -73,7 +73,6 @@ caribeng/
 │   │   ├── icons/           # @caribeng/ui/icons (catálogo 1891, tree-shakeable)
 │   │   ├── button/          # @caribeng/ui/button
 │   │   ├── <component>/     # un directorio = un secondary entry point
-│   │   ├── caribe/<name>/   # @caribeng/ui/caribe/<name> (45 de Caribe Design)
 │   │   ├── schematics/      # ng add y migrate-from-primeng
 │   │   └── ...
 │   └── tokens/              # compila los SCSS de tokens a dist/packages/ui/styles
@@ -254,13 +253,16 @@ caribeng/
 | Kbd | `@caribeng/ui/kbd` | 22.3 |
 | CopyButton + `CbClipboard` | `@caribeng/ui/copy-button` | 22.3 |
 
-### Caribe Design (`@caribeng/ui/caribe/<name>`, desde 1.1.0)
-45 componentes tomados de la referencia funcional de Caribe
-(`C:\DEVELOPER\DATA_COPY\NU0065001_WebComponents_Lib\packages\caribe-design-system`):
+### Caribe Design (integrado en `@caribeng/ui/<name>`, desde 1.1.0)
+30 componentes tomados de la referencia funcional de Caribe
+(`C:\DEVELOPER\DATA_COPY\NU0065001_WebComponents_Lib\packages\caribe-design-system`),
+fusionados en el catálogo principal (ya no bajo `@caribeng/ui/caribe/*`):
 
-- **Cards, transacciones y alertas:** `alert`, `inline-alert`, `card-content`, `card-move`, `card-primary`, `card-select`, `coachmark`, `onboarding`, `status`, `tracker`, `transaction-status`, `voucher`, `data-table`, `modal`, `pop-over`.
-- **Navegación, botones y paneles:** `button-group`, `icon-button`, `tag-button`, `fab-menu`, `float-menu`, `header`, `footer`, `link`, `shortcut`, `expansion-panel`, `off-canvas`, `dots-indicator`, `step-indicator`, `switch`, `progress-bar`.
-- **Identidad, loaders, archivos y formularios:** `animation-lottie`, `circle-loading`, `loader`, `preloader`, `logo`, `illustration`, `pictogram`, `stroke`, `file-download`, `file-select`, `input-search`, `input-token`, `input-date`, `input-select`, `calendar`.
+- **Cards, transacciones y alertas:** `alert`, `card-content`, `card-move`, `card-primary`, `card-select`, `coachmark`, `onboarding`, `status`, `tracker`, `transaction-status`, `voucher`.
+- **Navegación, botones y paneles:** `button-group`, `icon-button`, `tag-button`, `fab-menu`, `float-menu`, `header`, `footer`, `link`, `shortcut`, `expansion-panel`, `off-canvas`, `dots-indicator`, `step-indicator`.
+- **Identidad, loaders, archivos y formularios:** `animation-lottie`, `logo`, `illustration`, `file-download`, `input-search`, `input-token`.
+
+> Eliminados (duplicados de la base): `stroke`, `pictogram`, `switch`→`toggle`, `progress-bar`→`progressbar`, `modal`→`dialog`, `pop-over`→`popover`, `data-table`→`table`, `calendar`/`input-date`→`datepicker`, `input-select`→`select`, `file-select`→`fileupload`, `inline-alert`→`inlinemessage`, `loader`/`circle-loading`/`preloader`→`spinner`/`skeleton`.
 
 ---
 
@@ -427,7 +429,7 @@ node ./node_modules/typescript/bin/tsc -p apps/showcase/tsconfig.app.json --noEm
 
 ## 9. Estado del catálogo de componentes
 
-### Componentes (100 % completado — 162 entry points)
+### Componentes (100 % completado — 173 entry points)
 
 Todos los lotes planificados en `SPEC.md` (75 componentes/directivas), los +18 adicionales, los 45 de Caribe Design (1.1.0) y los nuevos de 22.x (ver §4) están implementados, documentados en `showcase` y verificados con tests unitarios. Lotes originales:
 
@@ -495,3 +497,4 @@ Todos los lotes planificados en `SPEC.md` (75 componentes/directivas), los +18 a
 - **v22.2.0** — plan de mejora 22.x completo (i18n ES/EN, 11 componentes reescritos, base de tests, paridad con PrimeNG en Table, Select y DatePicker), `ng add`, Chart ampliado, PDF Viewer y componentes nuevos (SplitButton, Empty, Descriptions, Result, Statistic, ThemeToggle…).
 - **v22.3.0** — Kanban con cinco vistas y espacio de trabajo, Chat (IA), PhoneInput, CommandPalette, Kbd, CopyButton, Pricing horizontal/list, utilidades CSS (277 clases) y migrador `migrate-from-primeng`. No llegó a npm (lockfile desactualizado); se publica dentro de la 22.4.0.
 - **v22.4.0** — accesibilidad: sección Accesibilidad en todas las páginas de la librería; teclado en ColorPicker, TieredMenu y Dock; nombres y roles corregidos en Stepper, OrganizationChart, Message, Pricing y otros; plantilla de tarjeta en el espacio de trabajo Kanban; publicación automática en npm (`release.yml`).
+- **Fusión Caribe Design (sin versionar)** — los 30 componentes de Caribe Design pasan de `@caribeng/ui/caribe/<name>` a `@caribeng/ui/<name>` (catálogo unificado); se eliminan 15 duplicados de la base (`stroke`, `pictogram`, `switch`, `progress-bar`, `modal`, `pop-over`, `data-table`, `calendar`, `input-date`, `input-select`, `file-select`, `inline-alert`, `loader`, `circle-loading`, `preloader`).

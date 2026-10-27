@@ -1,0 +1,85 @@
+:host {
+  display: inline-flex;
+}
+
+.cb-fab-menu {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--cb-space-2, 0.5rem);
+  font-family: var(--cb-font-sans, inherit);
+}
+
+.cb-fab-menu__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cb-space-2, 0.35rem);
+  animation: cb-fab-in var(--cb-duration-fast, 0.12s) var(--cb-ease-out, ease-out);
+}
+
+.cb-fab-menu__item {
+  padding: var(--cb-space-2, 0.5rem) var(--cb-space-4, 1rem);
+  font: inherit;
+  font-size: var(--cb-text-sm, 0.8125rem);
+  font-weight: var(--cb-font-weight-medium, 500);
+  color: var(--cb-color-text-strong, #0f172a);
+  background-color: var(--cb-color-surface-0, #ffffff);
+  border: 1px solid var(--cb-color-border, #e2e8f0);
+  border-radius: var(--cb-radius-full, 999px);
+  box-shadow: var(--cb-shadow-sm, 0 1px 2px rgba(0, 0, 0, 0.12));
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color var(--cb-duration-fast, 0.12s) var(--cb-ease, ease);
+}
+.cb-fab-menu__item:hover {
+  background-color: var(--cb-color-surface-100, #f1f5f9);
+}
+
+.cb-fab-menu__trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.25rem;
+  height: 3.25rem;
+  font-size: 1.6rem;
+  line-height: 1;
+  color: #ffffff;
+  background-color: var(--cb-color-primary-700, #047857);
+  border: none;
+  border-radius: var(--cb-radius-full, 999px);
+  box-shadow: var(--cb-shadow-md, 0 6px 16px rgba(0, 0, 0, 0.2));
+  cursor: pointer;
+  transition:
+    background-color var(--cb-duration-fast, 0.12s) var(--cb-ease, ease),
+    transform var(--cb-duration-normal, 0.2s) var(--cb-ease, ease);
+}
+.cb-fab-menu__trigger:hover {
+  background-color: var(--cb-color-primary-700, #065f46);
+}
+.cb-fab-menu__trigger.cb-is-open {
+  transform: rotate(90deg);
+}
+.cb-fab-menu__trigger:focus-visible {
+  outline: 2px solid var(--cb-color-focus-ring, var(--cb-color-primary-500, #10b981));
+  outline-offset: 2px;
+}
+
+@keyframes cb-fab-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+:host-context([data-theme='dark']) .cb-fab-menu__item {
+  color: var(--cb-color-surface-0, #f8fafc);
+  background-color: var(--cb-color-surface-800, #1e293b);
+  border-color: var(--cb-color-surface-600, #475569);
+}
+:host-context([data-theme='dark']) .cb-fab-menu__item:hover {
+  background-color: var(--cb-color-surface-700, #334155);
+}

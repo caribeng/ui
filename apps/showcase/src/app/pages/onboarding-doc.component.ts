@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { DocPlaygroundComponent } from '../components/doc-playground.component';
 import { DOC_API } from '../components/doc-api-registry';
-import { CbOnboarding } from '@caribeng/ui/caribe/onboarding';
-import { CbIllustration } from '@caribeng/ui/caribe/illustration';
+import { CbOnboarding } from '@caribeng/ui/onboarding';
+import { CbIllustration } from '@caribeng/ui/illustration';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
@@ -13,7 +13,7 @@ import { I18nService } from '../services/i18n.service';
   selector: 'doc-onboarding-page', changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [DocPlaygroundComponent, CbOnboarding, CbIllustration, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
-    <doc-page-header eyebrow="Caribe Design" title="Onboarding" lead="Onboarding para interfaces accesibles, con estilos basados en tokens CaribeNG." />
+    <doc-page-header eyebrow="Overlays" title="Onboarding" lead="Onboarding para interfaces accesibles, con estilos basados en tokens CaribeNG." />
 
     <doc-section id="import" title="Importación"><doc-code-block [code]="importCode" lang="typescript" /></doc-section>
     <doc-section id="basic" title="Básico" description="Pantallas de bienvenida paso a paso a partir del arreglo steps." [code]="exampleCode"><cb-onboarding [steps]="steps" /></doc-section>
@@ -45,7 +45,7 @@ export class OnboardingDocComponent {
   constructor() { inject(TocService).reset(); }
   protected readonly steps = ['Te damos la bienvenida', 'Configura tus preferencias'];
   protected readonly flowSteps = ['Welcome aboard', 'Secure your account', 'Start banking'];
-  protected readonly importCode = `import { CbOnboarding } from '@caribeng/ui/caribe/onboarding';`;
+  protected readonly importCode = `import { CbOnboarding } from '@caribeng/ui/onboarding';`;
   protected readonly exampleCode = `<cb-onboarding [steps]="steps" />`;
   protected readonly composedCode = `<cb-onboarding [steps]="steps">
   <cb-illustration name="transfer-success" size="120px" />

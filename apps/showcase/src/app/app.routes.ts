@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 import { AlertDocComponent } from './pages/alert-doc.component';
-import { InlineAlertDocComponent } from './pages/inline-alert-doc.component';
 import { CardContentDocComponent } from './pages/card-content-doc.component';
 import { CardMoveDocComponent } from './pages/card-move-doc.component';
 import { CardPrimaryDocComponent } from './pages/card-primary-doc.component';
@@ -11,9 +10,6 @@ import { StatusDocComponent } from './pages/status-doc.component';
 import { TrackerDocComponent } from './pages/tracker-doc.component';
 import { TransactionStatusDocComponent } from './pages/transaction-status-doc.component';
 import { VoucherDocComponent } from './pages/voucher-doc.component';
-import { DataTableDocComponent } from './pages/data-table-doc.component';
-import { ModalDocComponent } from './pages/modal-doc.component';
-import { PopOverDocComponent } from './pages/pop-over-doc.component';
 import { IntroductionComponent } from './pages/introduction.component';
 import { ChangelogComponent } from './pages/changelog.component';
 import { I18nComponent } from './pages/i18n.component';
@@ -304,7 +300,6 @@ export const routes: Routes = [
   { path: 'components/organizationchart', component: OrganizationChartDocComponent, title: 'OrganizationChart · CaribeNG' },
   { path: 'components/speeddial', component: SpeedDialDocComponent, title: 'SpeedDial · CaribeNG' },
   { path: 'components/alert', component: AlertDocComponent, title: 'Alert · CaribeNG' },
-  { path: 'components/inline-alert', component: InlineAlertDocComponent, title: 'Inline Alert · CaribeNG' },
   { path: 'components/card-content', component: CardContentDocComponent, title: 'Card Content · CaribeNG' },
   { path: 'components/card-move', component: CardMoveDocComponent, title: 'Card Move · CaribeNG' },
   { path: 'components/card-primary', component: CardPrimaryDocComponent, title: 'Card Primary · CaribeNG' },
@@ -315,9 +310,6 @@ export const routes: Routes = [
   { path: 'components/tracker', component: TrackerDocComponent, title: 'Tracker · CaribeNG' },
   { path: 'components/transaction-status', component: TransactionStatusDocComponent, title: 'Transaction Status · CaribeNG' },
   { path: 'components/voucher', component: VoucherDocComponent, title: 'Voucher · CaribeNG' },
-  { path: 'components/data-table', component: DataTableDocComponent, title: 'Data Table · CaribeNG' },
-  { path: 'components/modal', component: ModalDocComponent, title: 'Modal · CaribeNG' },
-  { path: 'components/pop-over', component: PopOverDocComponent, title: 'Pop Over · CaribeNG' },
   { path: 'components/button-group', loadComponent: () => import('./pages/button-group-doc.component').then((m) => m.ButtonGroupDocComponent), title: 'ButtonGroup · CaribeNG' },
   { path: 'components/icon-button', loadComponent: () => import('./pages/icon-button-doc.component').then((m) => m.IconButtonDocComponent), title: 'IconButton · CaribeNG' },
   { path: 'components/tag-button', loadComponent: () => import('./pages/tag-button-doc.component').then((m) => m.TagButtonDocComponent), title: 'TagButton · CaribeNG' },
@@ -331,23 +323,12 @@ export const routes: Routes = [
   { path: 'components/off-canvas', loadComponent: () => import('./pages/off-canvas-doc.component').then((m) => m.OffCanvasDocComponent), title: 'OffCanvas · CaribeNG' },
   { path: 'components/dots-indicator', loadComponent: () => import('./pages/dots-indicator-doc.component').then((m) => m.DotsIndicatorDocComponent), title: 'DotsIndicator · CaribeNG' },
   { path: 'components/step-indicator', loadComponent: () => import('./pages/step-indicator-doc.component').then((m) => m.StepIndicatorDocComponent), title: 'StepIndicator · CaribeNG' },
-  { path: 'components/switch', loadComponent: () => import('./pages/switch-doc.component').then((m) => m.SwitchDocComponent), title: 'Switch · CaribeNG' },
-  { path: 'components/progress-bar', loadComponent: () => import('./pages/progress-bar-doc.component').then((m) => m.ProgressBarCaribeDocComponent), title: 'ProgressBar · CaribeNG' },
   { path: 'components/animation-lottie', loadComponent: () => import('./pages/animation-lottie-doc.component').then((m) => m.AnimationLottieDocComponent), title: 'AnimationLottie · CaribeNG' },
-  { path: 'components/circle-loading', loadComponent: () => import('./pages/circle-loading-doc.component').then((m) => m.CircleLoadingDocComponent), title: 'CircleLoading · CaribeNG' },
-  { path: 'components/loader', loadComponent: () => import('./pages/loader-doc.component').then((m) => m.LoaderDocComponent), title: 'Loader · CaribeNG' },
-  { path: 'components/preloader', loadComponent: () => import('./pages/preloader-doc.component').then((m) => m.PreloaderDocComponent), title: 'Preloader · CaribeNG' },
   { path: 'components/logo', loadComponent: () => import('./pages/logo-doc.component').then((m) => m.LogoDocComponent), title: 'Logo · CaribeNG' },
   { path: 'components/illustration', loadComponent: () => import('./pages/illustration-doc.component').then((m) => m.IllustrationDocComponent), title: 'Illustration · CaribeNG' },
-  { path: 'components/pictogram', loadComponent: () => import('./pages/pictogram-doc.component').then((m) => m.PictogramDocComponent), title: 'Pictogram · CaribeNG' },
-  { path: 'components/stroke', loadComponent: () => import('./pages/stroke-doc.component').then((m) => m.StrokeDocComponent), title: 'Stroke · CaribeNG' },
   { path: 'components/file-download', loadComponent: () => import('./pages/file-download-doc.component').then((m) => m.FileDownloadDocComponent), title: 'FileDownload · CaribeNG' },
-  { path: 'components/file-select', loadComponent: () => import('./pages/file-select-doc.component').then((m) => m.FileSelectDocComponent), title: 'FileSelect · CaribeNG' },
   { path: 'components/input-search', loadComponent: () => import('./pages/input-search-doc.component').then((m) => m.InputSearchDocComponent), title: 'InputSearch · CaribeNG' },
   { path: 'components/input-token', loadComponent: () => import('./pages/input-token-doc.component').then((m) => m.InputTokenDocComponent), title: 'InputToken · CaribeNG' },
-  { path: 'components/input-date', loadComponent: () => import('./pages/input-date-doc.component').then((m) => m.InputDateDocComponent), title: 'InputDate · CaribeNG' },
-  { path: 'components/input-select', loadComponent: () => import('./pages/input-select-doc.component').then((m) => m.InputSelectDocComponent), title: 'InputSelect · CaribeNG' },
-  { path: 'components/calendar', loadComponent: () => import('./pages/calendar-doc.component').then((m) => m.CalendarDocComponent), title: 'Calendar · CaribeNG' },
   { path: 'templates/login', loadComponent: () => import('./pages/login-template.component').then((m) => m.LoginTemplateComponent), title: 'Login · Templates · CaribeNG' },
   { path: 'templates/register', loadComponent: () => import('./pages/register-template.component').then((m) => m.RegisterTemplateComponent), title: 'Register · Templates · CaribeNG' },
   { path: 'templates/dashboard', loadComponent: () => import('./pages/dashboard-template.component').then((m) => m.DashboardTemplateComponent), title: 'Dashboard · Templates · CaribeNG' },

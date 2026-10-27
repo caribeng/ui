@@ -33,8 +33,29 @@
       "@caribeng/ui/accordion": [
         "./packages/ui/accordion/src/public-api.ts"
       ],
+      "@caribeng/ui/account-picker": [
+        "./packages/ui/account-picker/src/public-api.ts"
+      ],
+      "@caribeng/ui/aging": [
+        "./packages/ui/aging/src/public-api.ts"
+      ],
+      "@caribeng/ui/alert": [
+        "./packages/ui/alert/src/public-api.ts"
+      ],
+      "@caribeng/ui/amount": [
+        "./packages/ui/amount/src/public-api.ts"
+      ],
+      "@caribeng/ui/anchor": [
+        "./packages/ui/anchor/src/public-api.ts"
+      ],
       "@caribeng/ui/animateonscroll": [
         "./packages/ui/animateonscroll/src/public-api.ts"
+      ],
+      "@caribeng/ui/animation-lottie": [
+        "./packages/ui/animation-lottie/src/public-api.ts"
+      ],
+      "@caribeng/ui/audit-log": [
+        "./packages/ui/audit-log/src/public-api.ts"
       ],
       "@caribeng/ui/autocomplete": [
         "./packages/ui/autocomplete/src/public-api.ts"
@@ -60,143 +81,23 @@
       "@caribeng/ui/button": [
         "./packages/ui/button/src/public-api.ts"
       ],
+      "@caribeng/ui/button-group": [
+        "./packages/ui/button-group/src/public-api.ts"
+      ],
       "@caribeng/ui/card": [
         "./packages/ui/card/src/public-api.ts"
       ],
-      "@caribeng/ui/caribe/alert": [
-        "./packages/ui/caribe/alert/src/public-api.ts"
+      "@caribeng/ui/card-content": [
+        "./packages/ui/card-content/src/public-api.ts"
       ],
-      "@caribeng/ui/caribe/animation-lottie": [
-        "./packages/ui/caribe/animation-lottie/src/public-api.ts"
+      "@caribeng/ui/card-move": [
+        "./packages/ui/card-move/src/public-api.ts"
       ],
-      "@caribeng/ui/caribe/button-group": [
-        "./packages/ui/caribe/button-group/src/public-api.ts"
+      "@caribeng/ui/card-primary": [
+        "./packages/ui/card-primary/src/public-api.ts"
       ],
-      "@caribeng/ui/caribe/calendar": [
-        "./packages/ui/caribe/calendar/src/public-api.ts"
-      ],
-      "@caribeng/ui/caribe/card-content": [
-        "./packages/ui/caribe/card-content/src/public-api.ts"
-      ],
-      "@caribeng/ui/caribe/card-move": [
-        "./packages/ui/caribe/card-move/src/public-api.ts"
-      ],
-      "@caribeng/ui/caribe/card-primary": [
-        "./packages/ui/caribe/card-primary/src/public-api.ts"
-      ],
-      "@caribeng/ui/caribe/card-select": [
-        "./packages/ui/caribe/card-select/src/public-api.ts"
-      ],
-      "@caribeng/ui/caribe/circle-loading": [
-        "./packages/ui/caribe/circle-loading/src/public-api.ts"
-      ],
-      "@caribeng/ui/caribe/coachmark": [
-        "./packages/ui/caribe/coachmark/src/public-api.ts"
-      ],
-      "@caribeng/ui/caribe/data-table": [
-        "./packages/ui/caribe/data-table/src/public-api.ts"
-      ],
-      "@caribeng/ui/caribe/dots-indicator": [
-        "./packages/ui/caribe/dots-indicator/src/public-api.ts"
-      ],
-      "@caribeng/ui/caribe/expansion-panel": [
-        "./packages/ui/caribe/expansion-panel/src/public-api.ts"
-      ],
-      "@caribeng/ui/caribe/fab-menu": [
-        "./packages/ui/caribe/fab-menu/src/public-api.ts"
-      ],
-      "@caribeng/ui/caribe/file-download": [
-        "./packages/ui/caribe/file-download/src/public-api.ts"
-      ],
-      "@caribeng/ui/caribe/file-select": [
-        "./packages/ui/caribe/file-select/src/public-api.ts"
-      ],
-      "@caribeng/ui/caribe/float-menu": [
-        "./packages/ui/caribe/float-menu/src/public-api.ts"
-      ],
-      "@caribeng/ui/caribe/footer": [
-        "./packages/ui/caribe/footer/src/public-api.ts"
-      ],
-      "@caribeng/ui/caribe/header": [
-        "./packages/ui/caribe/header/src/public-api.ts"
-      ],
-      "@caribeng/ui/caribe/icon-button": [
-        "./packages/ui/caribe/icon-button/src/public-api.ts"
-      ],
-      "@caribeng/ui/caribe/illustration": [
-        "./packages/ui/caribe/illustration/src/public-api.ts"
-      ],
-      "@caribeng/ui/caribe/inline-alert": [
-        "./packages/ui/caribe/inline-alert/src/public-api.ts"
-      ],
-      "@caribeng/ui/caribe/input-date": [
-        "./packages/ui/caribe/input-date/src/public-api.ts"
-      ],
-      "@caribeng/ui/caribe/input-search": [
-        "./packages/ui/caribe/input-search/src/public-api.ts"
-      ],
-      "@caribeng/ui/caribe/input-select": [
-        "./packages/ui/caribe/input-select/src/public-api.ts"
-      ],
-      "@caribeng/ui/caribe/input-token": [
-        "./packages/ui/caribe/input-token/src/public-api.ts"
-      ],
-      "@caribeng/ui/caribe/link": [
-        "./packages/ui/caribe/link/src/public-api.ts"
-      ],
-      "@caribeng/ui/caribe/loader": [
-        "./packages/ui/caribe/loader/src/public-api.ts"
-      ],
-      "@caribeng/ui/caribe/logo": [
-        "./packages/ui/caribe/logo/src/public-api.ts"
-      ],
-      "@caribeng/ui/caribe/modal": [
-        "./packages/ui/caribe/modal/src/public-api.ts"
-      ],
-      "@caribeng/ui/caribe/off-canvas": [
-        "./packages/ui/caribe/off-canvas/src/public-api.ts"
-      ],
-      "@caribeng/ui/caribe/onboarding": [
-        "./packages/ui/caribe/onboarding/src/public-api.ts"
-      ],
-      "@caribeng/ui/caribe/pictogram": [
-        "./packages/ui/caribe/pictogram/src/public-api.ts"
-      ],
-      "@caribeng/ui/caribe/pop-over": [
-        "./packages/ui/caribe/pop-over/src/public-api.ts"
-      ],
-      "@caribeng/ui/caribe/preloader": [
-        "./packages/ui/caribe/preloader/src/public-api.ts"
-      ],
-      "@caribeng/ui/caribe/progress-bar": [
-        "./packages/ui/caribe/progress-bar/src/public-api.ts"
-      ],
-      "@caribeng/ui/caribe/shortcut": [
-        "./packages/ui/caribe/shortcut/src/public-api.ts"
-      ],
-      "@caribeng/ui/caribe/status": [
-        "./packages/ui/caribe/status/src/public-api.ts"
-      ],
-      "@caribeng/ui/caribe/step-indicator": [
-        "./packages/ui/caribe/step-indicator/src/public-api.ts"
-      ],
-      "@caribeng/ui/caribe/stroke": [
-        "./packages/ui/caribe/stroke/src/public-api.ts"
-      ],
-      "@caribeng/ui/caribe/switch": [
-        "./packages/ui/caribe/switch/src/public-api.ts"
-      ],
-      "@caribeng/ui/caribe/tag-button": [
-        "./packages/ui/caribe/tag-button/src/public-api.ts"
-      ],
-      "@caribeng/ui/caribe/tracker": [
-        "./packages/ui/caribe/tracker/src/public-api.ts"
-      ],
-      "@caribeng/ui/caribe/transaction-status": [
-        "./packages/ui/caribe/transaction-status/src/public-api.ts"
-      ],
-      "@caribeng/ui/caribe/voucher": [
-        "./packages/ui/caribe/voucher/src/public-api.ts"
+      "@caribeng/ui/card-select": [
+        "./packages/ui/card-select/src/public-api.ts"
       ],
       "@caribeng/ui/carousel": [
         "./packages/ui/carousel/src/public-api.ts"
@@ -207,6 +108,9 @@
       "@caribeng/ui/chart": [
         "./packages/ui/chart/src/public-api.ts"
       ],
+      "@caribeng/ui/chat": [
+        "./packages/ui/chat/src/public-api.ts"
+      ],
       "@caribeng/ui/checkbox": [
         "./packages/ui/checkbox/src/public-api.ts"
       ],
@@ -216,8 +120,20 @@
       "@caribeng/ui/chips": [
         "./packages/ui/chips/src/public-api.ts"
       ],
+      "@caribeng/ui/coachmark": [
+        "./packages/ui/coachmark/src/public-api.ts"
+      ],
+      "@caribeng/ui/code-block": [
+        "./packages/ui/code-block/src/public-api.ts"
+      ],
       "@caribeng/ui/colorpicker": [
         "./packages/ui/colorpicker/src/public-api.ts"
+      ],
+      "@caribeng/ui/command-palette": [
+        "./packages/ui/command-palette/src/public-api.ts"
+      ],
+      "@caribeng/ui/comments": [
+        "./packages/ui/comments/src/public-api.ts"
       ],
       "@caribeng/ui/confirmdialog": [
         "./packages/ui/confirmdialog/src/public-api.ts"
@@ -228,149 +144,23 @@
       "@caribeng/ui/contextmenu": [
         "./packages/ui/contextmenu/src/public-api.ts"
       ],
+      "@caribeng/ui/copy-button": [
+        "./packages/ui/copy-button/src/public-api.ts"
+      ],
+      "@caribeng/ui/datagrid": [
+        "./packages/ui/datagrid/src/public-api.ts"
+      ],
       "@caribeng/ui/dataview": [
         "./packages/ui/dataview/src/public-api.ts"
       ],
       "@caribeng/ui/datepicker": [
         "./packages/ui/datepicker/src/public-api.ts"
       ],
-      "@caribeng/ui/dialog": [
-        "./packages/ui/dialog/src/public-api.ts"
-      ],
-      "@caribeng/ui/splitbutton": [
-        "./packages/ui/splitbutton/src/public-api.ts"
-      ],
-      "@caribeng/ui/empty": [
-        "./packages/ui/empty/src/public-api.ts"
-      ],
-      "@caribeng/ui/chat": [
-        "./packages/ui/chat/src/public-api.ts"
-      ],
-      "@caribeng/ui/code-block": [
-        "./packages/ui/code-block/src/public-api.ts"
-      ],
-      "@caribeng/ui/phone-input": [
-        "./packages/ui/phone-input/src/public-api.ts"
-      ],
-      "@caribeng/ui/kanban": [
-        "./packages/ui/kanban/src/public-api.ts"
-      ],
-      "@caribeng/ui/mentions": [
-        "./packages/ui/mentions/src/public-api.ts"
-      ],
-      "@caribeng/ui/command-palette": [
-        "./packages/ui/command-palette/src/public-api.ts"
-      ],
-      "@caribeng/ui/sidebar": [
-        "./packages/ui/sidebar/src/public-api.ts"
-      ],
-      "@caribeng/ui/copy-button": [
-        "./packages/ui/copy-button/src/public-api.ts"
-      ],
-      "@caribeng/ui/comments": [
-        "./packages/ui/comments/src/public-api.ts"
-      ],
-      "@caribeng/ui/gantt": [
-        "./packages/ui/gantt/src/public-api.ts"
-      ],
-      "@caribeng/ui/flow": [
-        "./packages/ui/flow/src/public-api.ts"
-      ],
-      "@caribeng/ui/scheduler": [
-        "./packages/ui/scheduler/src/public-api.ts"
-      ],
-      "@caribeng/ui/datagrid": [
-        "./packages/ui/datagrid/src/public-api.ts"
-      ],
-      "@caribeng/ui/dynamic-form": [
-        "./packages/ui/dynamic-form/src/public-api.ts"
-      ],
-      "@caribeng/ui/account-picker": [
-        "./packages/ui/account-picker/src/public-api.ts"
-      ],
-      "@caribeng/ui/journal-entry": [
-        "./packages/ui/journal-entry/src/public-api.ts"
-      ],
-      "@caribeng/ui/xlsx": [
-        "./packages/ui/xlsx/src/public-api.ts"
-      ],
-      "@caribeng/ui/period-picker": [
-        "./packages/ui/period-picker/src/public-api.ts"
-      ],
-      "@caribeng/ui/financial-report": [
-        "./packages/ui/financial-report/src/public-api.ts"
-      ],
-      "@caribeng/ui/aging": [
-        "./packages/ui/aging/src/public-api.ts"
-      ],
-      "@caribeng/ui/import-wizard": [
-        "./packages/ui/import-wizard/src/public-api.ts"
-      ],
-      "@caribeng/ui/reconciliation": [
-        "./packages/ui/reconciliation/src/public-api.ts"
-      ],
-      "@caribeng/ui/pivot": [
-        "./packages/ui/pivot/src/public-api.ts"
-      ],
-      "@caribeng/ui/amount": [
-        "./packages/ui/amount/src/public-api.ts"
-      ],
-      "@caribeng/ui/kpi": [
-        "./packages/ui/kpi/src/public-api.ts"
-      ],
-      "@caribeng/ui/audit-log": [
-        "./packages/ui/audit-log/src/public-api.ts"
-      ],
-      "@caribeng/ui/document": [
-        "./packages/ui/document/src/public-api.ts"
-      ],
-      "@caribeng/ui/media-player": [
-        "./packages/ui/media-player/src/public-api.ts"
-      ],
-      "@caribeng/ui/masonry": [
-        "./packages/ui/masonry/src/public-api.ts"
-      ],
-      "@caribeng/ui/infinite-scroll": [
-        "./packages/ui/infinite-scroll/src/public-api.ts"
-      ],
-      "@caribeng/ui/image-cropper": [
-        "./packages/ui/image-cropper/src/public-api.ts"
-      ],
-      "@caribeng/ui/signature-pad": [
-        "./packages/ui/signature-pad/src/public-api.ts"
-      ],
-      "@caribeng/ui/notification-center": [
-        "./packages/ui/notification-center/src/public-api.ts"
-      ],
-      "@caribeng/ui/kbd": [
-        "./packages/ui/kbd/src/public-api.ts"
-      ],
-      "@caribeng/ui/qrcode": [
-        "./packages/ui/qrcode/src/public-api.ts"
-      ],
       "@caribeng/ui/descriptions": [
         "./packages/ui/descriptions/src/public-api.ts"
       ],
-      "@caribeng/ui/result": [
-        "./packages/ui/result/src/public-api.ts"
-      ],
-      "@caribeng/ui/statistic": [
-        "./packages/ui/statistic/src/public-api.ts"
-      ],
-      "@caribeng/ui/keyfilter": [
-        "./packages/ui/keyfilter/src/public-api.ts"
-      ],
-      "@caribeng/ui/anchor": [
-        "./packages/ui/anchor/src/public-api.ts"
-      ],
-      "@caribeng/ui/repeater": [
-        "./packages/ui/repeater/src/public-api.ts"
-      ],
-      "@caribeng/ui/themetoggle": [
-        "./packages/ui/themetoggle/src/public-api.ts"
-      ],
-      "@caribeng/ui/pdfviewer": [
-        "./packages/ui/pdfviewer/src/public-api.ts"
+      "@caribeng/ui/dialog": [
+        "./packages/ui/dialog/src/public-api.ts"
       ],
       "@caribeng/ui/divider": [
         "./packages/ui/divider/src/public-api.ts"
@@ -378,8 +168,17 @@
       "@caribeng/ui/dock": [
         "./packages/ui/dock/src/public-api.ts"
       ],
+      "@caribeng/ui/document": [
+        "./packages/ui/document/src/public-api.ts"
+      ],
+      "@caribeng/ui/dots-indicator": [
+        "./packages/ui/dots-indicator/src/public-api.ts"
+      ],
       "@caribeng/ui/drawer": [
         "./packages/ui/drawer/src/public-api.ts"
+      ],
+      "@caribeng/ui/dynamic-form": [
+        "./packages/ui/dynamic-form/src/public-api.ts"
       ],
       "@caribeng/ui/dynamicdialog": [
         "./packages/ui/dynamicdialog/src/public-api.ts"
@@ -387,23 +186,62 @@
       "@caribeng/ui/editor": [
         "./packages/ui/editor/src/public-api.ts"
       ],
+      "@caribeng/ui/empty": [
+        "./packages/ui/empty/src/public-api.ts"
+      ],
+      "@caribeng/ui/expansion-panel": [
+        "./packages/ui/expansion-panel/src/public-api.ts"
+      ],
+      "@caribeng/ui/fab-menu": [
+        "./packages/ui/fab-menu/src/public-api.ts"
+      ],
       "@caribeng/ui/fieldset": [
         "./packages/ui/fieldset/src/public-api.ts"
+      ],
+      "@caribeng/ui/file-card": [
+        "./packages/ui/file-card/src/public-api.ts"
+      ],
+      "@caribeng/ui/file-download": [
+        "./packages/ui/file-download/src/public-api.ts"
       ],
       "@caribeng/ui/fileupload": [
         "./packages/ui/fileupload/src/public-api.ts"
       ],
+      "@caribeng/ui/financial-report": [
+        "./packages/ui/financial-report/src/public-api.ts"
+      ],
+      "@caribeng/ui/float-menu": [
+        "./packages/ui/float-menu/src/public-api.ts"
+      ],
       "@caribeng/ui/floatlabel": [
         "./packages/ui/floatlabel/src/public-api.ts"
+      ],
+      "@caribeng/ui/flow": [
+        "./packages/ui/flow/src/public-api.ts"
       ],
       "@caribeng/ui/focustrap": [
         "./packages/ui/focustrap/src/public-api.ts"
       ],
+      "@caribeng/ui/folder-card": [
+        "./packages/ui/folder-card/src/public-api.ts"
+      ],
+      "@caribeng/ui/footer": [
+        "./packages/ui/footer/src/public-api.ts"
+      ],
       "@caribeng/ui/galleria": [
         "./packages/ui/galleria/src/public-api.ts"
       ],
+      "@caribeng/ui/gantt": [
+        "./packages/ui/gantt/src/public-api.ts"
+      ],
+      "@caribeng/ui/header": [
+        "./packages/ui/header/src/public-api.ts"
+      ],
       "@caribeng/ui/icon": [
         "./packages/ui/icon/src/public-api.ts"
+      ],
+      "@caribeng/ui/icon-button": [
+        "./packages/ui/icon-button/src/public-api.ts"
       ],
       "@caribeng/ui/iconfield": [
         "./packages/ui/iconfield/src/public-api.ts"
@@ -411,8 +249,20 @@
       "@caribeng/ui/icons": [
         "./packages/ui/icons/src/public-api.ts"
       ],
+      "@caribeng/ui/illustration": [
+        "./packages/ui/illustration/src/public-api.ts"
+      ],
       "@caribeng/ui/image": [
         "./packages/ui/image/src/public-api.ts"
+      ],
+      "@caribeng/ui/image-cropper": [
+        "./packages/ui/image-cropper/src/public-api.ts"
+      ],
+      "@caribeng/ui/import-wizard": [
+        "./packages/ui/import-wizard/src/public-api.ts"
+      ],
+      "@caribeng/ui/infinite-scroll": [
+        "./packages/ui/infinite-scroll/src/public-api.ts"
       ],
       "@caribeng/ui/inlinemessage": [
         "./packages/ui/inlinemessage/src/public-api.ts"
@@ -426,6 +276,12 @@
       "@caribeng/ui/input-number": [
         "./packages/ui/input-number/src/public-api.ts"
       ],
+      "@caribeng/ui/input-search": [
+        "./packages/ui/input-search/src/public-api.ts"
+      ],
+      "@caribeng/ui/input-token": [
+        "./packages/ui/input-token/src/public-api.ts"
+      ],
       "@caribeng/ui/inputgroup": [
         "./packages/ui/inputgroup/src/public-api.ts"
       ],
@@ -435,14 +291,44 @@
       "@caribeng/ui/inputotp": [
         "./packages/ui/inputotp/src/public-api.ts"
       ],
+      "@caribeng/ui/journal-entry": [
+        "./packages/ui/journal-entry/src/public-api.ts"
+      ],
+      "@caribeng/ui/kanban": [
+        "./packages/ui/kanban/src/public-api.ts"
+      ],
+      "@caribeng/ui/kbd": [
+        "./packages/ui/kbd/src/public-api.ts"
+      ],
+      "@caribeng/ui/keyfilter": [
+        "./packages/ui/keyfilter/src/public-api.ts"
+      ],
       "@caribeng/ui/knob": [
         "./packages/ui/knob/src/public-api.ts"
+      ],
+      "@caribeng/ui/kpi": [
+        "./packages/ui/kpi/src/public-api.ts"
+      ],
+      "@caribeng/ui/link": [
+        "./packages/ui/link/src/public-api.ts"
       ],
       "@caribeng/ui/listbox": [
         "./packages/ui/listbox/src/public-api.ts"
       ],
+      "@caribeng/ui/logo": [
+        "./packages/ui/logo/src/public-api.ts"
+      ],
+      "@caribeng/ui/masonry": [
+        "./packages/ui/masonry/src/public-api.ts"
+      ],
+      "@caribeng/ui/media-player": [
+        "./packages/ui/media-player/src/public-api.ts"
+      ],
       "@caribeng/ui/megamenu": [
         "./packages/ui/megamenu/src/public-api.ts"
+      ],
+      "@caribeng/ui/mentions": [
+        "./packages/ui/mentions/src/public-api.ts"
       ],
       "@caribeng/ui/menu": [
         "./packages/ui/menu/src/public-api.ts"
@@ -458,6 +344,15 @@
       ],
       "@caribeng/ui/multiselect": [
         "./packages/ui/multiselect/src/public-api.ts"
+      ],
+      "@caribeng/ui/notification-center": [
+        "./packages/ui/notification-center/src/public-api.ts"
+      ],
+      "@caribeng/ui/off-canvas": [
+        "./packages/ui/off-canvas/src/public-api.ts"
+      ],
+      "@caribeng/ui/onboarding": [
+        "./packages/ui/onboarding/src/public-api.ts"
       ],
       "@caribeng/ui/orderlist": [
         "./packages/ui/orderlist/src/public-api.ts"
@@ -477,8 +372,20 @@
       "@caribeng/ui/password": [
         "./packages/ui/password/src/public-api.ts"
       ],
+      "@caribeng/ui/pdfviewer": [
+        "./packages/ui/pdfviewer/src/public-api.ts"
+      ],
+      "@caribeng/ui/period-picker": [
+        "./packages/ui/period-picker/src/public-api.ts"
+      ],
+      "@caribeng/ui/phone-input": [
+        "./packages/ui/phone-input/src/public-api.ts"
+      ],
       "@caribeng/ui/picklist": [
         "./packages/ui/picklist/src/public-api.ts"
+      ],
+      "@caribeng/ui/pivot": [
+        "./packages/ui/pivot/src/public-api.ts"
       ],
       "@caribeng/ui/popover": [
         "./packages/ui/popover/src/public-api.ts"
@@ -486,14 +393,11 @@
       "@caribeng/ui/pricing": [
         "./packages/ui/pricing/src/public-api.ts"
       ],
-      "@caribeng/ui/file-card": [
-        "./packages/ui/file-card/src/public-api.ts"
-      ],
-      "@caribeng/ui/folder-card": [
-        "./packages/ui/folder-card/src/public-api.ts"
-      ],
       "@caribeng/ui/progressbar": [
         "./packages/ui/progressbar/src/public-api.ts"
+      ],
+      "@caribeng/ui/qrcode": [
+        "./packages/ui/qrcode/src/public-api.ts"
       ],
       "@caribeng/ui/radio": [
         "./packages/ui/radio/src/public-api.ts"
@@ -501,8 +405,20 @@
       "@caribeng/ui/rating": [
         "./packages/ui/rating/src/public-api.ts"
       ],
+      "@caribeng/ui/reconciliation": [
+        "./packages/ui/reconciliation/src/public-api.ts"
+      ],
+      "@caribeng/ui/repeater": [
+        "./packages/ui/repeater/src/public-api.ts"
+      ],
+      "@caribeng/ui/result": [
+        "./packages/ui/result/src/public-api.ts"
+      ],
       "@caribeng/ui/ripple": [
         "./packages/ui/ripple/src/public-api.ts"
+      ],
+      "@caribeng/ui/scheduler": [
+        "./packages/ui/scheduler/src/public-api.ts"
       ],
       "@caribeng/ui/scrollpanel": [
         "./packages/ui/scrollpanel/src/public-api.ts"
@@ -516,6 +432,15 @@
       "@caribeng/ui/selectbutton": [
         "./packages/ui/selectbutton/src/public-api.ts"
       ],
+      "@caribeng/ui/shortcut": [
+        "./packages/ui/shortcut/src/public-api.ts"
+      ],
+      "@caribeng/ui/sidebar": [
+        "./packages/ui/sidebar/src/public-api.ts"
+      ],
+      "@caribeng/ui/signature-pad": [
+        "./packages/ui/signature-pad/src/public-api.ts"
+      ],
       "@caribeng/ui/skeleton": [
         "./packages/ui/skeleton/src/public-api.ts"
       ],
@@ -528,8 +453,20 @@
       "@caribeng/ui/spinner": [
         "./packages/ui/spinner/src/public-api.ts"
       ],
+      "@caribeng/ui/splitbutton": [
+        "./packages/ui/splitbutton/src/public-api.ts"
+      ],
       "@caribeng/ui/splitter": [
         "./packages/ui/splitter/src/public-api.ts"
+      ],
+      "@caribeng/ui/statistic": [
+        "./packages/ui/statistic/src/public-api.ts"
+      ],
+      "@caribeng/ui/status": [
+        "./packages/ui/status/src/public-api.ts"
+      ],
+      "@caribeng/ui/step-indicator": [
+        "./packages/ui/step-indicator/src/public-api.ts"
       ],
       "@caribeng/ui/stepper": [
         "./packages/ui/stepper/src/public-api.ts"
@@ -552,11 +489,17 @@
       "@caribeng/ui/tag": [
         "./packages/ui/tag/src/public-api.ts"
       ],
+      "@caribeng/ui/tag-button": [
+        "./packages/ui/tag-button/src/public-api.ts"
+      ],
       "@caribeng/ui/terminal": [
         "./packages/ui/terminal/src/public-api.ts"
       ],
       "@caribeng/ui/textarea": [
         "./packages/ui/textarea/src/public-api.ts"
+      ],
+      "@caribeng/ui/themetoggle": [
+        "./packages/ui/themetoggle/src/public-api.ts"
       ],
       "@caribeng/ui/tieredmenu": [
         "./packages/ui/tieredmenu/src/public-api.ts"
@@ -579,6 +522,12 @@
       "@caribeng/ui/tooltip": [
         "./packages/ui/tooltip/src/public-api.ts"
       ],
+      "@caribeng/ui/tracker": [
+        "./packages/ui/tracker/src/public-api.ts"
+      ],
+      "@caribeng/ui/transaction-status": [
+        "./packages/ui/transaction-status/src/public-api.ts"
+      ],
       "@caribeng/ui/tree": [
         "./packages/ui/tree/src/public-api.ts"
       ],
@@ -590,6 +539,12 @@
       ],
       "@caribeng/ui/virtualscroller": [
         "./packages/ui/virtualscroller/src/public-api.ts"
+      ],
+      "@caribeng/ui/voucher": [
+        "./packages/ui/voucher/src/public-api.ts"
+      ],
+      "@caribeng/ui/xlsx": [
+        "./packages/ui/xlsx/src/public-api.ts"
       ]
     }
   },

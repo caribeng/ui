@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { DocPlaygroundComponent } from '../components/doc-playground.component';
 import { DOC_API } from '../components/doc-api-registry';
-import { CbIconButton } from '@caribeng/ui/caribe/icon-button';
+import { CbIconButton } from '@caribeng/ui/icon-button';
 import { CbDocPageComponent } from '../components/doc-page.component';
 import { CbDocExampleComponent } from '../components/doc-example.component';
 
@@ -11,10 +11,10 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
   imports: [DocPlaygroundComponent, CbDocPageComponent, CbDocExampleComponent, CbIconButton],
   template: `
     <cb-doc-page
-      category="Caribe Design · Acciones"
+      category="Button"
       title="IconButton"
       subtitle="Botón compacto circular de icono con etiqueta accesible obligatoria."
-      importCode="import { CbIconButton } from '@caribeng/ui/caribe/icon-button';"
+      importCode="import { CbIconButton } from '@caribeng/ui/icon-button';"
     >
       <cb-doc-example title="Botones de acción rápida" description="Botón circular solo con icono; ariaLabel es obligatorio para la accesibilidad." code='<cb-icon-button icon="plus" ariaLabel="Nuevo" />'>
         <div style="display: flex; gap: 0.75rem">

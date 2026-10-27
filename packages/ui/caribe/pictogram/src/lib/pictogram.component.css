@@ -1,7 +1,0 @@
-:host {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  line-height: 0;
-  font-family: var(--cb-font-sans, inherit);
-}

@@ -30,6 +30,8 @@
 
 ## 2. Fase Actual — Migración de Componentes de Caribe Design (`C:\DEVELOPER\DATA_COPY`)
 
+> ✅ **COMPLETADA y fusionada (2026-10-27):** el namespace `@caribeng/ui/caribe/*` se disolvió; los 30 componentes de Caribe Design viven ahora en `packages/ui/<name>/` y se importan como `@caribeng/ui/<name>` (mismo nivel que el resto del catálogo). Se eliminaron 15 duplicados de la base (ver `PROGRESO.md` §4).
+
 En `C:\DEVELOPER\DATA_COPY\NU0065001_WebComponents_Lib\packages\caribe-design-system` y `C:\DEVELOPER\DATA_COPY\DOCUMENTACION CARIBE\COMPONENTS` se encuentra la librería de referencia **Caribe Design** (60 paquetes). Ya existen 15 nombres en `packages/ui/`; los **45 paquetes restantes** se dividen en 3 lotes exactos de **15 componentes por agente**:
 
 | Agente | Workspace / Carpeta | Rama Asignada | Lote de 15 Componentes de Caribe Design (`@caribeng/ui/caribe/<name>`) |

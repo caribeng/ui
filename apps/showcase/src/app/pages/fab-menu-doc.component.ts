@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { DocPlaygroundComponent } from '../components/doc-playground.component';
 import { DOC_API } from '../components/doc-api-registry';
-import { CbFabMenu } from '@caribeng/ui/caribe/fab-menu';
-import { CbCardPrimary } from '@caribeng/ui/caribe/card-primary';
+import { CbFabMenu } from '@caribeng/ui/fab-menu';
+import { CbCardPrimary } from '@caribeng/ui/card-primary';
 import { CbDocPageComponent } from '../components/doc-page.component';
 import { CbDocExampleComponent } from '../components/doc-example.component';
 
@@ -12,10 +12,10 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
   imports: [DocPlaygroundComponent, CbDocPageComponent, CbDocExampleComponent, CbFabMenu, CbCardPrimary],
   template: `
     <cb-doc-page
-      category="Caribe Design · Navegación"
+      category="Button"
       title="FabMenu"
       subtitle="Botón de acción flotante (FAB) con menú desplegable de atajos."
-      importCode="import { CbFabMenu } from '@caribeng/ui/caribe/fab-menu';"
+      importCode="import { CbFabMenu } from '@caribeng/ui/fab-menu';"
     >
       <cb-doc-example title="FAB interactivo" description="Botón flotante que despliega las acciones definidas en items." code='<cb-fab-menu [items]="items" />'>
         <cb-fab-menu [items]="items" />

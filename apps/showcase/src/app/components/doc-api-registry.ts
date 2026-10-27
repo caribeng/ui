@@ -15,8 +15,8 @@ import {
   DocPgToast,
 } from './playground-demos';
 import { CbAccordion } from '@caribeng/ui/accordion';
-import { CbAlert } from '@caribeng/ui/caribe/alert';
-import { CbAnimationLottie } from '@caribeng/ui/caribe/animation-lottie';
+import { CbAlert } from '@caribeng/ui/alert';
+import { CbAnimationLottie } from '@caribeng/ui/animation-lottie';
 import { CbAutocomplete } from '@caribeng/ui/autocomplete';
 import { CbAvatar } from '@caribeng/ui/avatar';
 import { CbAvatarGroup } from '@caribeng/ui/avatargroup';
@@ -24,78 +24,69 @@ import { CbBadge } from '@caribeng/ui/badge';
 import { CbBlockUi } from '@caribeng/ui/blockui';
 import { CbBreadcrumb } from '@caribeng/ui/breadcrumb';
 import { CbButton } from '@caribeng/ui/button';
-import { CbButtonGroup } from '@caribeng/ui/caribe/button-group';
-import { CbCalendar } from '@caribeng/ui/caribe/calendar';
+import { CbButtonGroup } from '@caribeng/ui/button-group';
 import { CbCard } from '@caribeng/ui/card';
-import { CbCardContent } from '@caribeng/ui/caribe/card-content';
-import { CbCardMove } from '@caribeng/ui/caribe/card-move';
-import { CbCardPrimary } from '@caribeng/ui/caribe/card-primary';
-import { CbCardSelect } from '@caribeng/ui/caribe/card-select';
+import { CbCardContent } from '@caribeng/ui/card-content';
+import { CbCardMove } from '@caribeng/ui/card-move';
+import { CbCardPrimary } from '@caribeng/ui/card-primary';
+import { CbCardSelect } from '@caribeng/ui/card-select';
 import { CbCarousel } from '@caribeng/ui/carousel';
 import { CbCascadeSelect } from '@caribeng/ui/cascadeselect';
 import { CbChart } from '@caribeng/ui/chart';
 import { CbCheckbox } from '@caribeng/ui/checkbox';
 import { CbChip } from '@caribeng/ui/chip';
 import { CbChips } from '@caribeng/ui/chips';
-import { CbCircleLoading } from '@caribeng/ui/caribe/circle-loading';
-import { CbCoachmark } from '@caribeng/ui/caribe/coachmark';
+import { CbCoachmark } from '@caribeng/ui/coachmark';
 import { CbColorPicker } from '@caribeng/ui/colorpicker';
 import { CbConfirmDialog } from '@caribeng/ui/confirmdialog';
 import { CbConfirmPopup } from '@caribeng/ui/confirmpopup';
 import { CbContextMenu } from '@caribeng/ui/contextmenu';
-import { CbDataTable } from '@caribeng/ui/caribe/data-table';
 import { CbDataView } from '@caribeng/ui/dataview';
 import { CbDatepicker } from '@caribeng/ui/datepicker';
 import { CbDialog } from '@caribeng/ui/dialog';
 import { CbDivider } from '@caribeng/ui/divider';
 import { CbDock } from '@caribeng/ui/dock';
-import { CbDotsIndicator } from '@caribeng/ui/caribe/dots-indicator';
+import { CbDotsIndicator } from '@caribeng/ui/dots-indicator';
 import { CbDrawer } from '@caribeng/ui/drawer';
 import { CbDynamicDialog } from '@caribeng/ui/dynamicdialog';
 import { CbEditor } from '@caribeng/ui/editor';
-import { CbExpansionPanel } from '@caribeng/ui/caribe/expansion-panel';
-import { CbFabMenu } from '@caribeng/ui/caribe/fab-menu';
+import { CbExpansionPanel } from '@caribeng/ui/expansion-panel';
+import { CbFabMenu } from '@caribeng/ui/fab-menu';
 import { CbFieldset } from '@caribeng/ui/fieldset';
-import { CbFileDownload } from '@caribeng/ui/caribe/file-download';
-import { CbFileSelect } from '@caribeng/ui/caribe/file-select';
+import { CbFileDownload } from '@caribeng/ui/file-download';
 import { CbFileUpload } from '@caribeng/ui/fileupload';
 import { CbFloatLabel } from '@caribeng/ui/floatlabel';
-import { CbFloatMenu } from '@caribeng/ui/caribe/float-menu';
-import { CbFooter } from '@caribeng/ui/caribe/footer';
+import { CbFloatMenu } from '@caribeng/ui/float-menu';
+import { CbFooter } from '@caribeng/ui/footer';
 import { CbGalleria } from '@caribeng/ui/galleria';
-import { CbHeader } from '@caribeng/ui/caribe/header';
+import { CbHeader } from '@caribeng/ui/header';
 import { CbIcon } from '@caribeng/ui/icon';
-import { CbIconButton } from '@caribeng/ui/caribe/icon-button';
+import { CbIconButton } from '@caribeng/ui/icon-button';
 import { CbIconField } from '@caribeng/ui/iconfield';
-import { CbIllustration } from '@caribeng/ui/caribe/illustration';
+import { CbIllustration } from '@caribeng/ui/illustration';
 import { CbImage } from '@caribeng/ui/image';
 import { CbPdfViewer } from '@caribeng/ui/pdfviewer';
-import { CbInlineAlert } from '@caribeng/ui/caribe/inline-alert';
 import { CbInlineMessage } from '@caribeng/ui/inlinemessage';
 import { CbInplace } from '@caribeng/ui/inplace';
 import { CbInput } from '@caribeng/ui/input';
-import { CbInputDate } from '@caribeng/ui/caribe/input-date';
 import { CbInputGroup, CbInputGroupAddon } from '@caribeng/ui/inputgroup';
 import { CbInputMask } from '@caribeng/ui/inputmask';
 import { CbInputNumber } from '@caribeng/ui/input-number';
 import { CbInputOtp } from '@caribeng/ui/inputotp';
-import { CbInputSearch } from '@caribeng/ui/caribe/input-search';
-import { CbInputSelect } from '@caribeng/ui/caribe/input-select';
-import { CbInputToken } from '@caribeng/ui/caribe/input-token';
+import { CbInputSearch } from '@caribeng/ui/input-search';
+import { CbInputToken } from '@caribeng/ui/input-token';
 import { CbKnob } from '@caribeng/ui/knob';
-import { CbLink } from '@caribeng/ui/caribe/link';
+import { CbLink } from '@caribeng/ui/link';
 import { CbListBox } from '@caribeng/ui/listbox';
-import { CbLoader } from '@caribeng/ui/caribe/loader';
-import { CbLogo } from '@caribeng/ui/caribe/logo';
+import { CbLogo } from '@caribeng/ui/logo';
 import { CbMegaMenu } from '@caribeng/ui/megamenu';
 import { CbMenu } from '@caribeng/ui/menu';
 import { CbMenubar } from '@caribeng/ui/menubar';
 import { CbMessage } from '@caribeng/ui/message';
 import { CbMeterGroup } from '@caribeng/ui/metergroup';
-import { CbModal } from '@caribeng/ui/caribe/modal';
 import { CbMultiSelect } from '@caribeng/ui/multiselect';
-import { CbOffCanvas } from '@caribeng/ui/caribe/off-canvas';
-import { CbOnboarding } from '@caribeng/ui/caribe/onboarding';
+import { CbOffCanvas } from '@caribeng/ui/off-canvas';
+import { CbOnboarding } from '@caribeng/ui/onboarding';
 import { CbOrderList } from '@caribeng/ui/orderlist';
 import { CbOrganizationChart } from '@caribeng/ui/organizationchart';
 import { CbPaginator } from '@caribeng/ui/paginator';
@@ -103,12 +94,8 @@ import { CbPanel } from '@caribeng/ui/panel';
 import { CbPanelMenu } from '@caribeng/ui/panelmenu';
 import { CbPassword } from '@caribeng/ui/password';
 import { CbPickList } from '@caribeng/ui/picklist';
-import { CbPictogram } from '@caribeng/ui/caribe/pictogram';
-import { CbPopOver } from '@caribeng/ui/caribe/pop-over';
 import { CbPopover } from '@caribeng/ui/popover';
-import { CbPreloader } from '@caribeng/ui/caribe/preloader';
 import { CbProgressBar as CbProgressBar___caribeng_ui_progressbar } from '@caribeng/ui/progressbar';
-import { CbProgressBar } from '@caribeng/ui/caribe/progress-bar';
 import { CbRadio } from '@caribeng/ui/radio';
 import { CbRadioGroup } from '@caribeng/ui/radio';
 import { CbRating } from '@caribeng/ui/rating';
@@ -116,7 +103,7 @@ import { CbScrollPanel } from '@caribeng/ui/scrollpanel';
 import { CbScrollTop } from '@caribeng/ui/scrolltop';
 import { CbSelect } from '@caribeng/ui/select';
 import { CbSelectButton } from '@caribeng/ui/selectbutton';
-import { CbShortcut } from '@caribeng/ui/caribe/shortcut';
+import { CbShortcut } from '@caribeng/ui/shortcut';
 import { CbSkeleton } from '@caribeng/ui/skeleton';
 import { CbSlider } from '@caribeng/ui/slider';
 import { CbSpeedDial } from '@caribeng/ui/speeddial';
@@ -163,17 +150,15 @@ import { CbResult } from '@caribeng/ui/result';
 import { CbAnchor } from '@caribeng/ui/anchor';
 import { CbSpinner } from '@caribeng/ui/spinner';
 import { CbSplitter } from '@caribeng/ui/splitter';
-import { CbStatus } from '@caribeng/ui/caribe/status';
-import { CbStepIndicator } from '@caribeng/ui/caribe/step-indicator';
+import { CbStatus } from '@caribeng/ui/status';
+import { CbStepIndicator } from '@caribeng/ui/step-indicator';
 import { CbStepper } from '@caribeng/ui/stepper';
 import { CbSteps } from '@caribeng/ui/steps';
-import { CbStroke } from '@caribeng/ui/caribe/stroke';
-import { CbSwitch } from '@caribeng/ui/caribe/switch';
 import { CbTable } from '@caribeng/ui/table';
 import { CbTabMenu } from '@caribeng/ui/tabmenu';
 import { CbTabs } from '@caribeng/ui/tabs';
 import { CbTag } from '@caribeng/ui/tag';
-import { CbTagButton } from '@caribeng/ui/caribe/tag-button';
+import { CbTagButton } from '@caribeng/ui/tag-button';
 import { CbTerminal } from '@caribeng/ui/terminal';
 import { CbTextarea } from '@caribeng/ui/textarea';
 import { CbTieredMenu } from '@caribeng/ui/tieredmenu';
@@ -183,13 +168,13 @@ import { CbToggle } from '@caribeng/ui/toggle';
 import { CbToggleButton } from '@caribeng/ui/togglebutton';
 import { CbToolbar } from '@caribeng/ui/toolbar';
 import { CbTooltipContent } from '@caribeng/ui/tooltip';
-import { CbTracker } from '@caribeng/ui/caribe/tracker';
-import { CbTransactionStatus } from '@caribeng/ui/caribe/transaction-status';
+import { CbTracker } from '@caribeng/ui/tracker';
+import { CbTransactionStatus } from '@caribeng/ui/transaction-status';
 import { CbTree } from '@caribeng/ui/tree';
 import { CbTreeSelect } from '@caribeng/ui/treeselect';
 import { CbTreeTable } from '@caribeng/ui/treetable';
 import { CbVirtualScroller } from '@caribeng/ui/virtualscroller';
-import { CbVoucher } from '@caribeng/ui/caribe/voucher';
+import { CbVoucher } from '@caribeng/ui/voucher';
 
 export const DOC_API: Record<string, DocApi> = {
   "cb-accordion": {
@@ -345,15 +330,6 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "ariaLabel", kind: "string", type: "string", default: undefined, localeKey: "actionGroup", description: "Etiqueta accesible del grupo." }
     ]
   },
-  "cb-calendar": {
-    component: CbCalendar,
-    selector: "cb-calendar",
-    props: [
-      { name: "monthLabel", kind: "string", type: "string", default: "", example: "Octubre 2026", description: "" },
-      { name: "totalDays", kind: "number", type: "number", default: 31, description: "" },
-      { name: "selectedDay", kind: "number", type: "number (model)", default: 17, description: "" }
-    ]
-  },
   "cb-card": {
     component: CbCard,
     selector: "cb-card",
@@ -506,16 +482,6 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "removed", type: "string", description: "" }
     ]
   },
-  "cb-circle-loading": {
-    component: CbCircleLoading,
-    selector: "cb-circle-loading",
-    props: [
-      { name: "progress", kind: "number", type: "number", default: 65, description: "" },
-      { name: "size", kind: "number", type: "number", default: 48, description: "" },
-      { name: "indeterminate", kind: "boolean", type: "boolean", default: false, description: "" },
-      { name: "label", kind: "string", type: "string", default: undefined, localeKey: "loading", description: "" }
-    ]
-  },
   "cb-coachmark": {
     component: CbCoachmark,
     selector: "cb-coachmark",
@@ -587,16 +553,6 @@ export const DOC_API: Record<string, DocApi> = {
     ],
     events: [
       { name: "itemSelect", type: "CbContextMenuItem", description: "" }
-    ]
-  },
-  "cb-data-table": {
-    component: CbDataTable,
-    selector: "cb-data-table",
-    props: [
-      { name: "columns", kind: "string", type: "readonly string[]", default: [], example: ['name', 'email', 'role'], description: "", control: false },
-      { name: "rows", kind: "string", type: "readonly Record<string, unknown>[]", default: [], example: [{ name: 'Laura Gómez', email: 'laura@caribe.dev', role: 'Admin' }, { name: 'Andrés Ruiz', email: 'andres@caribe.dev', role: 'Editor' }, { name: 'Sofía Mena', email: 'sofia@caribe.dev', role: 'Viewer' }], description: "Filas: objetos con una propiedad por columna.", control: false },
-      { name: "emptyMessage", kind: "string", type: "string", default: undefined, localeKey: "noData", description: "" },
-      { name: "ariaLabel", kind: "string", type: "string", default: undefined, description: "Nombre accesible de la tabla.", control: false }
     ]
   },
   "cb-dataview": {
@@ -802,20 +758,6 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "download", type: "string", description: "" }
     ]
   },
-  "cb-file-select": {
-    component: CbFileSelect,
-    selector: "cb-file-select",
-    props: [
-      { name: "label", kind: "string", type: "string", default: undefined, localeKey: "selectDocument", description: "" },
-      { name: "accept", kind: "string", type: "string", default: ".pdf,.png,.jpg", description: "" },
-      { name: "multiple", kind: "boolean", type: "boolean", default: false, description: "" },
-      { name: "disabled", kind: "boolean", type: "boolean", default: false, description: "" },
-      { name: "files", kind: "string", type: "File[] (model)", default: [], description: "", control: false }
-    ],
-    events: [
-      { name: "filesSelected", type: "File[]", description: "" }
-    ]
-  },
   "cb-file-upload": {
     component: CbFileUpload,
     selector: "cb-file-upload",
@@ -980,20 +922,6 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "preview", kind: "boolean", type: "boolean", default: false, description: "" }
     ]
   },
-  "cb-inline-alert": {
-    component: CbInlineAlert,
-    selector: "cb-inline-alert",
-    content: { default: "Content" },
-    props: [
-      { name: "title", kind: "string", type: "string", default: "", example: "Heads up", description: "" },
-      { name: "status", kind: "enum", type: "'success' | 'warning' | 'error' | 'info'", options: ["success", "warning", "error", "info"], default: "info", description: "" },
-      { name: "closable", kind: "boolean", type: "boolean", default: true, description: "" },
-      { name: "visible", kind: "boolean", type: "boolean (model)", default: true, description: "" }
-    ],
-    events: [
-      { name: "closed", type: "void", description: "" }
-    ]
-  },
   "cb-inline-message": {
     component: CbInlineMessage,
     selector: "cb-inline-message",
@@ -1037,19 +965,6 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "inputmode", kind: "string", type: "string | null", default: null, description: "`inputmode` para teclados móviles." },
       { name: "disabled", kind: "boolean", type: "boolean", default: false, description: "Deshabilitado de forma declarativa (se combina con Angular Forms)." },
       { name: "inputId", kind: "string", type: "string", default: undefined, description: "Id del input; se genera uno estable si no se provee.", control: false }
-    ]
-  },
-  "cb-input-date": {
-    component: CbInputDate,
-    selector: "cb-input-date",
-    props: [
-      { name: "label", kind: "string", type: "string", default: "", example: "Birth date", description: "" },
-      { name: "min", kind: "string", type: "string", default: "", description: "" },
-      { name: "max", kind: "string", type: "string", default: "", description: "" },
-      { name: "disabled", kind: "boolean", type: "boolean", default: false, description: "" },
-      { name: "invalid", kind: "boolean", type: "boolean", default: false, description: "Marca visual y ARIA de estado inválido (también se activa con Angular Forms)." },
-      { name: "requiredIndicator", kind: "enum", type: "'asterisk' | 'text' | 'optional' | 'none'", options: ["none", "asterisk", "text", "optional"], default: undefined, description: "Indicador de obligatoriedad en la etiqueta; si se omite usa el global de provideCaribeNG()." },
-      { name: "value", kind: "string", type: "string (model)", default: "", description: "" }
     ]
   },
   "cb-input-group": {
@@ -1135,19 +1050,6 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "search", type: "string", description: "" }
     ]
   },
-  "cb-input-select": {
-    component: CbInputSelect,
-    selector: "cb-input-select",
-    props: [
-      { name: "label", kind: "string", type: "string", default: "", example: "Color", description: "" },
-      { name: "placeholder", kind: "string", type: "string", default: undefined, localeKey: "select", description: "" },
-      { name: "options", kind: "string", type: "readonly CbInputSelectOption[]", default: [], example: [{ label: 'Red', value: 'red' }, { label: 'Green', value: 'green' }, { label: 'Blue', value: 'blue' }, { label: 'Amber', value: 'amber' }], description: "", control: false },
-      { name: "disabled", kind: "boolean", type: "boolean", default: false, description: "" },
-      { name: "invalid", kind: "boolean", type: "boolean", default: false, description: "Marca visual y ARIA de estado inválido (también se activa con Angular Forms)." },
-      { name: "requiredIndicator", kind: "enum", type: "'asterisk' | 'text' | 'optional' | 'none'", options: ["none", "asterisk", "text", "optional"], default: undefined, description: "Indicador de obligatoriedad en la etiqueta; si se omite usa el global de provideCaribeNG()." },
-      { name: "value", kind: "string", type: "string (model)", default: "", description: "" }
-    ]
-  },
   "cb-input-token": {
     component: CbInputToken,
     selector: "cb-input-token",
@@ -1210,14 +1112,6 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "ariaLabel", kind: "string", type: "string", default: "", description: "" },
       { name: "inputId", kind: "string", type: "string", default: undefined, description: "", control: false },
       { name: "value", kind: "string", type: "unknown (model)", default: null, example: "green", description: "", control: false }
-    ]
-  },
-  "cb-loader": {
-    component: CbLoader,
-    selector: "cb-loader",
-    props: [
-      { name: "text", kind: "string", type: "string", default: undefined, localeKey: "loadingMessage", description: "" },
-      { name: "size", kind: "enum", type: "'sm' | 'md' | 'lg'", options: ["sm", "md", "lg"], default: "md", description: "" }
     ]
   },
   "cb-logo": {
@@ -1286,20 +1180,6 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "values", kind: "string", type: "CbMeterItem[]", default: [], example: [{ label: 'Used', value: 60 }, { label: 'Reserved', value: 25 }, { label: 'Free', value: 15 }], description: "", control: false },
       { name: "max", kind: "number", type: "number", default: 100, description: "" },
       { name: "ariaLabel", kind: "string", type: "string", default: undefined, description: "Nombre accesible del medidor (p. ej. \"Almacenamiento\")." }
-    ]
-  },
-  "cb-modal": {
-    component: CbModal,
-    selector: "cb-modal",
-    content: { default: "Content" },
-    props: [
-      { name: "title", kind: "string", type: "string", default: "", example: "Session expiring", description: "" },
-      { name: "confirmLabel", kind: "string", type: "string", default: undefined, localeKey: "accept", description: "" },
-      { name: "visible", kind: "boolean", type: "boolean (model)", default: false, description: "" }
-    ],
-    events: [
-      { name: "confirm", type: "void", description: "" },
-      { name: "closed", type: "void", description: "" }
     ]
   },
   "cb-multiselect": {
@@ -1437,24 +1317,6 @@ export const DOC_API: Record<string, DocApi> = {
       { name: "targetHeader", kind: "string", type: "string", default: undefined, example: "Selected", description: "Título de la lista de destino." }
     ]
   },
-  "cb-pictogram": {
-    component: CbPictogram,
-    selector: "cb-pictogram",
-    props: [
-      { name: "name", kind: "string", type: "string", default: "security-shield", description: "" },
-      { name: "size", kind: "string", type: "string", default: "56px", description: "" },
-      { name: "alt", kind: "string", type: "string", default: undefined, localeKey: "pictogram", description: "" }
-    ]
-  },
-  "cb-pop-over": {
-    component: CbPopOver,
-    selector: "cb-pop-over",
-    content: { default: "Content" },
-    props: [
-      { name: "triggerLabel", kind: "string", type: "string", default: undefined, localeKey: "showInfo", description: "" },
-      { name: "visible", kind: "boolean", type: "boolean (model)", default: false, description: "" }
-    ]
-  },
   "cb-popover": {
     component: CbPopover,
     demo: DocPgPopover,
@@ -1467,24 +1329,6 @@ export const DOC_API: Record<string, DocApi> = {
     events: [
       { name: "onShow", type: "void", description: "" },
       { name: "onHide", type: "void", description: "" }
-    ]
-  },
-  "cb-preloader": {
-    component: CbPreloader,
-    selector: "cb-preloader",
-    props: [
-      { name: "active", kind: "boolean", type: "boolean", default: true, description: "" },
-      { name: "title", kind: "string", type: "string", default: "", example: "CaribeNG", description: "" },
-      { name: "label", kind: "string", type: "string", default: undefined, localeKey: "preparingSession", description: "" }
-    ]
-  },
-  "cb-progress-bar": {
-    component: CbProgressBar,
-    selector: "cb-progress-bar",
-    props: [
-      { name: "value", kind: "number", type: "number", default: 60, description: "Valor actual (0–100)." },
-      { name: "label", kind: "string", type: "string", default: "", example: "Uploading documents", description: "Etiqueta mostrada sobre la barra." },
-      { name: "showValue", kind: "boolean", type: "boolean", default: true, description: "Muestra el porcentaje numérico." }
     ]
   },
   "cb-progressbar": {
@@ -2514,34 +2358,6 @@ export const DOC_API: Record<string, DocApi> = {
     ],
     events: [
       { name: "activeChange", type: "number", description: "" }
-    ]
-  },
-  "cb-stroke": {
-    component: CbStroke,
-    selector: "cb-stroke",
-    props: [
-      { name: "name", kind: "string", type: "string", default: "01", description: "" },
-      { name: "size", kind: "string", type: "string", default: "220px", description: "" },
-      { name: "color", kind: "string", type: "string", default: "var(--cb-color-primary-500, #10b981)", description: "" },
-      { name: "ariaHidden", kind: "boolean", type: "boolean", default: true, description: "" },
-      { name: "alt", kind: "string", type: "string", default: undefined, localeKey: "decorativeStroke", description: "" }
-    ]
-  },
-  "cb-switch": {
-    component: CbSwitch,
-    selector: "cb-switch",
-    props: [
-      { name: "label", kind: "string", type: "string", default: "", example: "Notifications", description: "Etiqueta visible junto al control." },
-      { name: "leftLabel", kind: "boolean", type: "boolean", default: false, description: "Coloca la etiqueta a la izquierda del control." },
-      { name: "required", kind: "boolean", type: "boolean", default: false, description: "Marca el control como requerido (`aria-required`)." },
-      { name: "requiredIndicator", kind: "enum", type: "'asterisk' | 'text' | 'optional' | 'none'", options: ["none", "asterisk", "text", "optional"], default: undefined, description: "Indicador de obligatoriedad en la etiqueta; si se omite usa el global de provideCaribeNG()." },
-      { name: "disabled", kind: "boolean", type: "boolean", default: false, description: "Deshabilitado declarativo (se combina con Angular Forms)." },
-      { name: "invalid", kind: "boolean", type: "boolean", default: false, description: "Marca visual y ARIA de estado inválido (también se activa con Angular Forms)." },
-      { name: "inputId", kind: "string", type: "string", default: undefined, description: "Id del input; se genera uno estable si no se provee.", control: false },
-      { name: "checked", kind: "boolean", type: "boolean (model)", default: false, description: "Estado del switch (two-way: `[(checked)]`)." }
-    ],
-    events: [
-      { name: "changed", type: "boolean", description: "Emite el nuevo estado al cambiar." }
     ]
   },
   "cb-table": {

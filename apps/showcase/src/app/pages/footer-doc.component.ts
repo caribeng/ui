@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { DocPlaygroundComponent } from '../components/doc-playground.component';
 import { DOC_API } from '../components/doc-api-registry';
-import { CbFooter } from '@caribeng/ui/caribe/footer';
+import { CbFooter } from '@caribeng/ui/footer';
 import { CbDocPageComponent } from '../components/doc-page.component';
 import { CbDocExampleComponent } from '../components/doc-example.component';
 
@@ -11,10 +11,10 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
   imports: [DocPlaygroundComponent, CbDocPageComponent, CbDocExampleComponent, CbFooter],
   template: `
     <cb-doc-page
-      category="Caribe Design · Navegación"
+      category="Paneles"
       title="Footer"
       subtitle="Pie de página institucional con texto legal y ranura para enlaces."
-      importCode="import { CbFooter } from '@caribeng/ui/caribe/footer';"
+      importCode="import { CbFooter } from '@caribeng/ui/footer';"
     >
       <cb-doc-example title="Pie institucional" description="copyright define el texto legal; los enlaces se proyectan como contenido." code='<cb-footer copyright="© 2026 CaribeNG. Todos los derechos reservados." />'>
         <cb-footer copyright="© 2026 CaribeNG. Todos los derechos reservados." />

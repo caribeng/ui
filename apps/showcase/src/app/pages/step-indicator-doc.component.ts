@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
 import { DocPlaygroundComponent } from '../components/doc-playground.component';
 import { DOC_API } from '../components/doc-api-registry';
-import { CbStepIndicator } from '@caribeng/ui/caribe/step-indicator';
-import { CbCardContent } from '@caribeng/ui/caribe/card-content';
+import { CbStepIndicator } from '@caribeng/ui/step-indicator';
+import { CbCardContent } from '@caribeng/ui/card-content';
 import { CbButton } from '@caribeng/ui/button';
 import { CbDocPageComponent } from '../components/doc-page.component';
 import { CbDocExampleComponent } from '../components/doc-example.component';
@@ -13,10 +13,10 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
   imports: [DocPlaygroundComponent, CbDocPageComponent, CbDocExampleComponent, CbStepIndicator, CbCardContent, CbButton],
   template: `
     <cb-doc-page
-      category="Caribe Design · Indicadores"
+      category="Varios"
       title="StepIndicator"
       subtitle="Indicador compacto del progreso por pasos en flujos asistidos."
-      importCode="import { CbStepIndicator } from '@caribeng/ui/caribe/step-indicator';"
+      importCode="import { CbStepIndicator } from '@caribeng/ui/step-indicator';"
     >
       <cb-doc-example title="Paso actual" description="currentStep y totalSteps indican el progreso; label describe el paso actual." code='<cb-step-indicator [currentStep]="2" [totalSteps]="4" label="Confirmación" />'>
         <cb-step-indicator [currentStep]="2" [totalSteps]="4" label="Confirmación" />

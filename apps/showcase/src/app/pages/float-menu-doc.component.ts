@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { DocPlaygroundComponent } from '../components/doc-playground.component';
 import { DOC_API } from '../components/doc-api-registry';
-import { CbFloatMenu } from '@caribeng/ui/caribe/float-menu';
-import { CbCardContent } from '@caribeng/ui/caribe/card-content';
+import { CbFloatMenu } from '@caribeng/ui/float-menu';
+import { CbCardContent } from '@caribeng/ui/card-content';
 import { CbDocPageComponent } from '../components/doc-page.component';
 import { CbDocExampleComponent } from '../components/doc-example.component';
 
@@ -12,10 +12,10 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
   imports: [DocPlaygroundComponent, CbDocPageComponent, CbDocExampleComponent, CbFloatMenu, CbCardContent],
   template: `
     <cb-doc-page
-      category="Caribe Design · Navegación"
+      category="Menús"
       title="FloatMenu"
       subtitle="Barra de navegación flotante tipo píldora para vistas móviles y web."
-      importCode="import { CbFloatMenu } from '@caribeng/ui/caribe/float-menu';"
+      importCode="import { CbFloatMenu } from '@caribeng/ui/float-menu';"
     >
       <cb-doc-example title="Barra flotante" description="items define las opciones y activeId la opción resaltada." code='<cb-float-menu [items]="items" [activeId]="active()" />'>
         <cb-float-menu [items]="items" [activeId]="active()" (select)="active.set($event.id)" />

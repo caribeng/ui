@@ -11,7 +11,7 @@ import { CbAvatar } from '@caribeng/ui/avatar';
 import { CbTag } from '@caribeng/ui/tag';
 import { CbButton } from '@caribeng/ui/button';
 import { CbIcon } from '@caribeng/ui/icon';
-import { CbIconButton } from '@caribeng/ui/caribe/icon-button';
+import { CbIconButton } from '@caribeng/ui/icon-button';
 import type { CbSeverity } from '@caribeng/ui';
 import { DocPlaygroundComponent } from '../components/doc-playground.component';
 import { DOC_API } from '../components/doc-api-registry';
@@ -597,7 +597,7 @@ export class TableDocComponent {
   protected readonly importCode = `import { CbTable, CbTableColumn, CbTableCellDirective, CbTableRowExpansion } from '@caribeng/ui/table';
 import { CbAvatar } from '@caribeng/ui/avatar';
 import { CbTag } from '@caribeng/ui/tag';
-import { CbIconButton } from '@caribeng/ui/caribe/icon-button';`;
+import { CbIconButton } from '@caribeng/ui/icon-button';`;
   protected readonly dataTs = `columns: CbTableColumn[] = [
   { field: 'nombre', header: 'Producto', sortable: true },
   { field: 'precio', header: 'Precio', sortable: true, align: 'right' },

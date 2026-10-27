@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { DocPlaygroundComponent } from '../components/doc-playground.component';
 import { DOC_API } from '../components/doc-api-registry';
-import { CbCardPrimary } from '@caribeng/ui/caribe/card-primary';
-import { CbShortcut } from '@caribeng/ui/caribe/shortcut';
-import { CbProgressBar } from '@caribeng/ui/caribe/progress-bar';
+import { CbCardPrimary } from '@caribeng/ui/card-primary';
+import { CbShortcut } from '@caribeng/ui/shortcut';
+import { CbProgressBar } from '@caribeng/ui/progressbar';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
@@ -14,7 +14,7 @@ import { I18nService } from '../services/i18n.service';
   selector: 'doc-card-primary-page', changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [DocPlaygroundComponent, CbCardPrimary, CbShortcut, CbProgressBar, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
-    <doc-page-header eyebrow="Caribe Design" title="Card Primary" lead="Card Primary para interfaces accesibles, con estilos basados en tokens CaribeNG." />
+    <doc-page-header eyebrow="Paneles" title="Card Primary" lead="Card Primary para interfaces accesibles, con estilos basados en tokens CaribeNG." />
 
     <doc-section id="import" title="Importación"><doc-code-block [code]="importCode" lang="typescript" /></doc-section>
     <doc-section id="basic" title="Básico" description="Tarjeta principal de producto: title, subtitle y el valor destacado en value." [code]="exampleCode"><cb-card-primary title="Cuenta de ahorros" subtitle="**** 2048" value="$ 2.450.000" /></doc-section>
@@ -37,7 +37,7 @@ import { I18nService } from '../services/i18n.service';
           <cb-shortcut icon="plus" label="Top up" />
           <cb-shortcut icon="settings" label="Manage" />
         </div>
-        <cb-progress-bar [value]="68" label="Savings goal" />
+        <cb-progressbar [value]="68" />
       </div>
     </doc-section>
 
@@ -67,7 +67,7 @@ export class CardPrimaryDocComponent {
   protected readonly docApi = DOC_API['cb-card-primary'];
 
   constructor() { inject(TocService).reset(); }
-  protected readonly importCode = `import { CbCardPrimary } from '@caribeng/ui/caribe/card-primary';`;
+  protected readonly importCode = `import { CbCardPrimary } from '@caribeng/ui/card-primary';`;
   protected readonly exampleCode = `<cb-card-primary title="Cuenta de ahorros" subtitle="**** 2048" value="$ 2.450.000" />`;
   protected readonly composedCode = `<cb-card-primary title="Savings account" subtitle="**** 4829" value="$ 4,250,000" />
 
@@ -77,5 +77,5 @@ export class CardPrimaryDocComponent {
   <cb-shortcut icon="settings" label="Manage" />
 </div>
 
-<cb-progress-bar [value]="68" label="Savings goal" />`;
+<cb-progressbar [value]="68" />`;
 }

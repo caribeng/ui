@@ -10,6 +10,12 @@ Desde la 22.0.0 el major de la librería coincide con el de Angular (22.x = Angu
 
 ## [Unreleased]
 
+### Breaking
+- **Namespace Caribe Design disuelto:** los 30 componentes de Caribe Design pasan de `@caribeng/ui/caribe/<name>` a `@caribeng/ui/<name>` (catálogo unificado). Actualiza los imports y las entradas del showcase.
+
+### Removed
+- **15 componentes duplicados de la base:** `switch` (→ `toggle`), `progress-bar` (→ `progressbar`), `modal` (→ `dialog`), `pop-over` (→ `popover`), `data-table` (→ `table`), `calendar` e `input-date` (→ `datepicker`), `input-select` (→ `select`), `file-select` (→ `fileupload`), `inline-alert` (→ `inlinemessage`), `loader`, `circle-loading` y `preloader` (→ `spinner`/`skeleton`), y los decorativos `stroke` y `pictogram`.
+
 ### Added
 - **`DynamicForm`, más parametrización:**
   - **Etiquetas:** `labelPosition` (`top`, `left`, `right`, `floating`, `hidden`) en el formulario, en cada sección o en cada campo, `labelAlign` y `labelWidth`. Los textos aceptan un objeto por idioma (`{ es, en }`) o pasan por la función `translate`.

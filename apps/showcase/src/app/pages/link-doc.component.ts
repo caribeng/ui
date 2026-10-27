@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { DocPlaygroundComponent } from '../components/doc-playground.component';
 import { DOC_API } from '../components/doc-api-registry';
-import { CbLink } from '@caribeng/ui/caribe/link';
+import { CbLink } from '@caribeng/ui/link';
 import { CbDocPageComponent } from '../components/doc-page.component';
 import { CbDocExampleComponent } from '../components/doc-example.component';
 
@@ -11,10 +11,10 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
   imports: [DocPlaygroundComponent, CbDocPageComponent, CbDocExampleComponent, CbLink],
   template: `
     <cb-doc-page
-      category="Caribe Design · Navegación"
+      category="Varios"
       title="Link"
       subtitle="Hipervínculo accesible con soporte para enlaces externos seguros."
-      importCode="import { CbLink } from '@caribeng/ui/caribe/link';"
+      importCode="import { CbLink } from '@caribeng/ui/link';"
     >
       <cb-doc-example title="Enlace estándar" description="Enlace con estilo de la marca; href define el destino." code='<cb-link label="Conoce nuestras tarifas" href="#tarifas" />'>
         <cb-link label="Conoce nuestras tarifas" href="#tarifas" />

@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { DocPlaygroundComponent } from '../components/doc-playground.component';
 import { DOC_API } from '../components/doc-api-registry';
-import { CbCardContent } from '@caribeng/ui/caribe/card-content';
-import { CbStatus } from '@caribeng/ui/caribe/status';
-import { CbLink } from '@caribeng/ui/caribe/link';
+import { CbCardContent } from '@caribeng/ui/card-content';
+import { CbStatus } from '@caribeng/ui/status';
+import { CbLink } from '@caribeng/ui/link';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
@@ -14,7 +14,7 @@ import { I18nService } from '../services/i18n.service';
   selector: 'doc-card-content-page', changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [DocPlaygroundComponent, CbCardContent, CbStatus, CbLink, DocSectionComponent, CodeBlockComponent, DocPageHeaderComponent],
   template: `
-    <doc-page-header eyebrow="Caribe Design" title="Card Content" lead="Card Content para interfaces accesibles, con estilos basados en tokens CaribeNG." />
+    <doc-page-header eyebrow="Paneles" title="Card Content" lead="Card Content para interfaces accesibles, con estilos basados en tokens CaribeNG." />
 
     <doc-section id="import" title="Importación"><doc-code-block [code]="importCode" lang="typescript" /></doc-section>
     <doc-section id="basic" title="Básico" description="Tarjeta de producto con title, subtitle y contenido proyectado." [code]="exampleCode"><cb-card-content title="Producto" subtitle="Cuenta de ahorros">Consulta el detalle de tu producto.</cb-card-content></doc-section>
@@ -60,7 +60,7 @@ export class CardContentDocComponent {
   protected readonly docApi = DOC_API['cb-card-content'];
 
   constructor() { inject(TocService).reset(); }
-  protected readonly importCode = `import { CbCardContent } from '@caribeng/ui/caribe/card-content';`;
+  protected readonly importCode = `import { CbCardContent } from '@caribeng/ui/card-content';`;
   protected readonly exampleCode = `<cb-card-content title="Producto" subtitle="Cuenta de ahorros">Consulta el detalle de tu producto.</cb-card-content>`;
   protected readonly composedCode = `<cb-card-content title="Premium card" subtitle="Visa · **** 4829" actionLabel="View details">
   <cb-status status="success" text="Active" />

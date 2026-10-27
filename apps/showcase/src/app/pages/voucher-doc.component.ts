@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { DocPlaygroundComponent } from '../components/doc-playground.component';
 import { DOC_API } from '../components/doc-api-registry';
-import { CbVoucher } from '@caribeng/ui/caribe/voucher';
-import { CbTransactionStatus } from '@caribeng/ui/caribe/transaction-status';
-import { CbExpansionPanel } from '@caribeng/ui/caribe/expansion-panel';
-import { CbStatus } from '@caribeng/ui/caribe/status';
+import { CbVoucher } from '@caribeng/ui/voucher';
+import { CbTransactionStatus } from '@caribeng/ui/transaction-status';
+import { CbExpansionPanel } from '@caribeng/ui/expansion-panel';
+import { CbStatus } from '@caribeng/ui/status';
 import { DocSectionComponent } from '../shared/doc-section.component';
 import { CodeBlockComponent } from '../shared/code-block.component';
 import { DocPageHeaderComponent } from '../shared/page-header.component';
@@ -24,7 +24,7 @@ import { I18nService } from '../services/i18n.service';
     DocPageHeaderComponent,
   ],
   template: `
-    <doc-page-header eyebrow="Caribe Design" title="Voucher" lead="Voucher para interfaces accesibles, con estilos basados en tokens CaribeNG." />
+    <doc-page-header eyebrow="Contabilidad" title="Voucher" lead="Voucher para interfaces accesibles, con estilos basados en tokens CaribeNG." />
 
     <doc-section id="import" title="Importación"><doc-code-block [code]="importCode" lang="typescript" /></doc-section>
 
@@ -110,7 +110,7 @@ export class VoucherDocComponent {
     { label: 'Date', value: 'Oct 18, 2026' },
     { label: 'Amount', value: '$ 85,000' },
   ];
-  protected readonly importCode = `import { CbVoucher } from '@caribeng/ui/caribe/voucher';`;
+  protected readonly importCode = `import { CbVoucher } from '@caribeng/ui/voucher';`;
   protected readonly exampleCode = `<cb-voucher title="Comprobante de pago" [rows]="details" />`;
   protected readonly composedCode = `<cb-transaction-status status="success" label="Transfer completed" />
 

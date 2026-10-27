@@ -1,21 +1,21 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { DocPlaygroundComponent } from '../components/doc-playground.component';
 import { DOC_API } from '../components/doc-api-registry';
-import { CbExpansionPanel } from '@caribeng/ui/caribe/expansion-panel';
-import { CbInlineAlert } from '@caribeng/ui/caribe/inline-alert';
+import { CbExpansionPanel } from '@caribeng/ui/expansion-panel';
+import { CbInlineMessage } from '@caribeng/ui/inlinemessage';
 import { CbDocPageComponent } from '../components/doc-page.component';
 import { CbDocExampleComponent } from '../components/doc-example.component';
 
 @Component({
   selector: 'cb-expansion-panel-doc',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [DocPlaygroundComponent, CbDocPageComponent, CbDocExampleComponent, CbExpansionPanel, CbInlineAlert],
+  imports: [DocPlaygroundComponent, CbDocPageComponent, CbDocExampleComponent, CbExpansionPanel, CbInlineMessage],
   template: `
     <cb-doc-page
-      category="Caribe Design · Paneles"
+      category="Paneles"
       title="ExpansionPanel"
       subtitle="Panel desplegable para mostrar u ocultar detalles adicionales."
-      importCode="import { CbExpansionPanel } from '@caribeng/ui/caribe/expansion-panel';"
+      importCode="import { CbExpansionPanel } from '@caribeng/ui/expansion-panel';"
     >
       <cb-doc-example title="Panel desplegable" description="title define la cabecera y expanded el estado inicial abierto." code='<cb-expansion-panel title="Condiciones del producto" [expanded]="true">Sin cuota de manejo.</cb-expansion-panel>'>
         <cb-expansion-panel title="Condiciones del producto" [expanded]="true">
@@ -25,9 +25,7 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
 
       <cb-doc-example title="Preguntas frecuentes" description="Varios paneles apilados forman una sección de preguntas frecuentes." [code]="composedCode">
         <div style="width: 100%; max-width: 30rem; display: flex; flex-direction: column; gap: 0.5rem">
-          <cb-inline-alert status="info" [closable]="false" title="Frequently asked questions">
-            Tap a question to expand its answer.
-          </cb-inline-alert>
+          <cb-inline-message severity="info" text="Frequently asked questions — tap a question to expand its answer." />
           <cb-expansion-panel title="What is the management fee?">
             No management fee for the first 12 months.
           </cb-expansion-panel>
@@ -47,9 +45,7 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
 export class ExpansionPanelDocComponent {
   protected readonly docApi = DOC_API['cb-expansion-panel'];
 
-  protected readonly composedCode = `<cb-inline-alert status="info" [closable]="false" title="Frequently asked questions">
-  Tap a question to expand its answer.
-</cb-inline-alert>
+  protected readonly composedCode = `<cb-inline-message severity="info" text="Frequently asked questions — tap a question to expand its answer." />
 <cb-expansion-panel title="What is the management fee?">…</cb-expansion-panel>
 <cb-expansion-panel title="How do I activate my card?">…</cb-expansion-panel>
 <cb-expansion-panel title="Can I set spending limits?">…</cb-expansion-panel>`;

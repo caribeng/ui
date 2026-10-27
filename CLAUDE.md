@@ -4,7 +4,7 @@ Lee obligatoriamente [`AGENTS.md`](./AGENTS.md) y [`PROGRESO.md`](./PROGRESO.md)
 
 ## Estado
 
-No hay ninguna asignación por lotes abierta. El lote de 15 componentes de Caribe Design (button-group, icon-button, tag-button, fab-menu, float-menu, header, footer, link, shortcut, expansion-panel, off-canvas, dots-indicator, step-indicator, switch, progress-bar) **está terminado**, junto con los otros 30 de Caribe: viven en `packages/ui/caribe/<name>/` y se importan como `@caribeng/ui/caribe/<name>` (no en la raíz de `packages/ui/`). El estado, los pendientes y el proceso de publicación están en [`PROGRESO.md`](./PROGRESO.md).
+No hay ninguna asignación por lotes abierta. El lote de 15 componentes de Caribe Design (button-group, icon-button, tag-button, fab-menu, float-menu, header, footer, link, shortcut, expansion-panel, off-canvas, dots-indicator, step-indicator, switch, progress-bar) **está terminado**, junto con los otros 30 de Caribe: viven en `packages/ui/<name>/` y se importan como `@caribeng/ui/<name>` (mismo nivel que el resto del catálogo). El estado, los pendientes y el proceso de publicación están en [`PROGRESO.md`](./PROGRESO.md).
 
 ## Reglas clave
 

@@ -7,7 +7,7 @@
 
 <p align="center">
   <img alt="Angular 22" src="https://img.shields.io/badge/Angular-22-dd0031.svg?style=flat-square" />
-  <img alt="Entry points" src="https://img.shields.io/badge/entry%20points-162-10b981.svg?style=flat-square" />
+  <img alt="Entry points" src="https://img.shields.io/badge/entry%20points-173-10b981.svg?style=flat-square" />
   <img alt="Licencia MIT" src="https://img.shields.io/badge/licencia-MIT-blue.svg?style=flat-square" />
 </p>
 
@@ -15,12 +15,11 @@
 
 ## ✨ Características
 
-- **162 componentes y directivas** standalone, cada uno en su propio entry point (`@caribeng/ui/button`, `@caribeng/ui/table`…): solo empaquetas lo que importas.
+- **225 componentes y directivas** standalone (186 componentes + 39 directivas), empaquetados en **173 entry points** (`@caribeng/ui/button`, `@caribeng/ui/table`…): solo empaquetas lo que importas.
 - **Angular moderno:** `input()` / `model()` / `output()` con Signals, `ChangeDetectionStrategy.OnPush` y compatible con apps zoneless.
 - **Formularios sin fricción:** `ControlValueAccessor` en todos los controles; el error y el indicador de obligatorio se sincronizan solos con Angular Forms.
 - **Accesibles:** roles y atributos ARIA, soporte de teclado y gestión de foco (WCAG 2.2 AA).
 - **Tematizables:** tokens CSS `--cb-*`, modo claro/oscuro y presets de color que se cambian en caliente.
-- **Caribe Design:** 45 componentes adicionales del sistema Caribe (`@caribeng/ui/caribe/*`).
 - **Iconos incluidos:** 363 iconos núcleo listos para usar y un catálogo opcional de 1891 iconos.
 - **Migración desde PrimeNG:** un schematic traduce imports, plantillas e iconos y deja un informe con lo pendiente ([ver más](#migrar-desde-primeng)).
 
@@ -291,16 +290,15 @@ providers: [provideCbIcons({ 'heart-pulse': heartPulse, rocket })];
 
 ## 📚 Catálogo
 
-- **Form:** `autocomplete`, `button`, `cascadeselect`, `checkbox`, `chips`, `colorpicker`, `datepicker`, `editor`, `fileupload`, `floatlabel`, `iconfield`, `input`, `input-number`, `inputgroup`, `inputmask`, `inputotp`, `keyfilter`, `knob`, `listbox`, `mentions`, `multiselect`, `password`, `phone-input`, `radio`, `rating`, `repeater`, `select`, `selectbutton`, `slider`, `textarea`, `toggle`, `togglebutton`, `treeselect`.
-- **Data:** `dataview`, `descriptions`, `kanban`, `orderlist`, `organizationchart`, `paginator`, `picklist`, `statistic`, `table`, `timeline`, `tree`, `treetable`, `virtualscroller`.
-- **Overlay:** `command-palette`, `confirmdialog`, `confirmpopup`, `dialog`, `drawer`, `dynamicdialog`, `popover`, `tooltip`.
-- **Messages:** `badge`, `chat`, `chip`, `empty`, `inlinemessage`, `message`, `result`, `tag`, `toast`.
-- **Menu:** `anchor`, `breadcrumb`, `contextmenu`, `dock`, `megamenu`, `menu`, `menubar`, `panelmenu`, `sidebar`, `speeddial`, `splitbutton`, `steps`, `tabmenu`, `tieredmenu`.
-- **Panel:** `accordion`, `card`, `divider`, `fieldset`, `panel`, `scrollpanel`, `scrolltop`, `splitter`, `stepper`, `tabs`, `toolbar`.
-- **Media:** `avatar`, `avatargroup`, `carousel`, `galleria`, `image`, `pdfviewer`, `qrcode`.
-- **Archivos y precios:** `file-card`, `folder-card`, `pricing`.
-- **Misc y directivas:** `animateonscroll`, `autofocus`, `blockui`, `chart`, `code-block`, `copy-button`, `focustrap`, `icon`, `icons`, `inplace`, `kbd`, `metergroup`, `progressbar`, `ripple`, `skeleton`, `spinner`, `styleclass`, `terminal`, `themetoggle`.
-- **Caribe Design (`@caribeng/ui/caribe/*`):** `alert`, `animation-lottie`, `button-group`, `calendar`, `card-content`, `card-move`, `card-primary`, `card-select`, `circle-loading`, `coachmark`, `data-table`, `dots-indicator`, `expansion-panel`, `fab-menu`, `file-download`, `file-select`, `float-menu`, `footer`, `header`, `icon-button`, `illustration`, `inline-alert`, `input-date`, `input-search`, `input-select`, `input-token`, `link`, `loader`, `logo`, `modal`, `off-canvas`, `onboarding`, `pictogram`, `pop-over`, `preloader`, `progress-bar`, `shortcut`, `status`, `step-indicator`, `stroke`, `switch`, `tag-button`, `tracker`, `transaction-status`, `voucher`.
+- **Form:** `autocomplete`, `button`, `button-group`, `cascadeselect`, `checkbox`, `chips`, `colorpicker`, `datepicker`, `editor`, `fab-menu`, `fileupload`, `floatlabel`, `icon-button`, `iconfield`, `input`, `input-number`, `input-search`, `input-token`, `inputgroup`, `inputmask`, `inputotp`, `keyfilter`, `knob`, `listbox`, `mentions`, `multiselect`, `password`, `phone-input`, `radio`, `rating`, `repeater`, `select`, `selectbutton`, `slider`, `tag-button`, `textarea`, `toggle`, `togglebutton`, `treeselect`.
+- **Data:** `dataview`, `descriptions`, `kanban`, `orderlist`, `organizationchart`, `paginator`, `picklist`, `statistic`, `table`, `timeline`, `tracker`, `tree`, `treetable`, `virtualscroller`.
+- **Overlay:** `coachmark`, `command-palette`, `confirmdialog`, `confirmpopup`, `dialog`, `drawer`, `dynamicdialog`, `off-canvas`, `onboarding`, `popover`, `tooltip`.
+- **Messages:** `alert`, `badge`, `chat`, `chip`, `empty`, `inlinemessage`, `message`, `result`, `tag`, `toast`.
+- **Menu:** `anchor`, `breadcrumb`, `contextmenu`, `dock`, `float-menu`, `megamenu`, `menu`, `menubar`, `panelmenu`, `sidebar`, `speeddial`, `splitbutton`, `steps`, `tabmenu`, `tieredmenu`.
+- **Panel:** `accordion`, `card`, `card-content`, `card-move`, `card-primary`, `card-select`, `divider`, `expansion-panel`, `fieldset`, `footer`, `header`, `panel`, `scrollpanel`, `scrolltop`, `splitter`, `stepper`, `tabs`, `toolbar`.
+- **Media:** `animation-lottie`, `avatar`, `avatargroup`, `carousel`, `galleria`, `illustration`, `image`, `logo`, `pdfviewer`, `qrcode`.
+- **Archivos y precios:** `file-card`, `file-download`, `folder-card`, `pricing`.
+- **Misc y directivas:** `animateonscroll`, `autofocus`, `blockui`, `chart`, `code-block`, `copy-button`, `dots-indicator`, `focustrap`, `icon`, `icons`, `inplace`, `kbd`, `link`, `metergroup`, `progressbar`, `ripple`, `shortcut`, `skeleton`, `spinner`, `status`, `step-indicator`, `styleclass`, `terminal`, `themetoggle`.
 
 ## 🧭 Próximos pasos
 

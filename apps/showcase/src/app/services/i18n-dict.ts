@@ -9,14 +9,6 @@
  */
 export const ES_EN: Record<string, string> = {
   // --- Categorías (eyebrow) ---
-  'Caribe Design · Acciones': 'Caribe Design · Actions',
-  'Caribe Design · Archivos': 'Caribe Design · Files',
-  'Caribe Design · Formularios': 'Caribe Design · Forms',
-  'Caribe Design · Identidad': 'Caribe Design · Identity',
-  'Caribe Design · Indicadores': 'Caribe Design · Indicators',
-  'Caribe Design · Loaders': 'Caribe Design · Loaders',
-  'Caribe Design · Navegación': 'Caribe Design · Navigation',
-  'Caribe Design · Paneles': 'Caribe Design · Panels',
 
   // --- Subtítulos de página ---
   'Agrupador accesible de botones con orientación horizontal o vertical.':

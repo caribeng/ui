@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { DocPlaygroundComponent } from '../components/doc-playground.component';
 import { DOC_API } from '../components/doc-api-registry';
-import { CbHeader } from '@caribeng/ui/caribe/header';
-import { CbIconButton } from '@caribeng/ui/caribe/icon-button';
+import { CbHeader } from '@caribeng/ui/header';
+import { CbIconButton } from '@caribeng/ui/icon-button';
 import { CbDocPageComponent } from '../components/doc-page.component';
 import { CbDocExampleComponent } from '../components/doc-example.component';
 
@@ -12,10 +12,10 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
   imports: [DocPlaygroundComponent, CbDocPageComponent, CbDocExampleComponent, CbHeader, CbIconButton],
   template: `
     <cb-doc-page
-      category="Caribe Design · Navegación"
+      category="Paneles"
       title="Header"
       subtitle="Encabezado de aplicación o flujo con botón de retorno y proyección de acciones."
-      importCode="import { CbHeader } from '@caribeng/ui/caribe/header';"
+      importCode="import { CbHeader } from '@caribeng/ui/header';"
     >
       <cb-doc-example title="Encabezado de flujo" description="title y subtitle describen el paso; showBack muestra el botón de retroceso." code='<cb-header title="Transferencias" subtitle="Paso 1 de 3" [showBack]="true" />'>
         <cb-header title="Transferencias" subtitle="Paso 1 de 3" [showBack]="true" />

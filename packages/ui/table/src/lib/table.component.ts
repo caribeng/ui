@@ -242,6 +242,7 @@ const MIN_COLUMN_WIDTH = 48;
             }
             @for (col of displayColumns(); track col.field) {
               <th
+                #th
                 class="cb-table__th"
                 scope="col"
                 [attr.data-key]="col.field"
@@ -273,7 +274,7 @@ const MIN_COLUMN_WIDTH = 48;
                     aria-orientation="vertical"
                     tabindex="0"
                     [attr.aria-label]="fmt(t().resizeColumn, col.header)"
-                    [attr.aria-valuenow]="widths()[col.field] ?? null"
+                    [attr.aria-valuenow]="widths()[col.field] ?? (th.offsetWidth || minColumnWidth)"
                     [attr.aria-valuemin]="minColumnWidth"
                     (pointerdown)="startResize($event, col)"
                     (keydown)="onResizerKeydown($event, col)"

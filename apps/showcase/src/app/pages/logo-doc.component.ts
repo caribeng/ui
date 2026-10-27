@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { DocPlaygroundComponent } from '../components/doc-playground.component';
 import { DOC_API } from '../components/doc-api-registry';
-import { CbLogo } from '@caribeng/ui/caribe/logo';
+import { CbLogo } from '@caribeng/ui/logo';
 import { CbDocPageComponent } from '../components/doc-page.component';
 import { CbDocExampleComponent } from '../components/doc-example.component';
 
@@ -11,10 +11,10 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
   imports: [DocPlaygroundComponent, CbDocPageComponent, CbDocExampleComponent, CbLogo],
   template: `
     <cb-doc-page
-      category="Caribe Design · Identidad"
+      category="Multimedia"
       title="Logo"
       subtitle="Identidad corporativa vectorial de CaribeNG en múltiples formatos (Horizontal, Isotipo/Escudo, Vertical, Monocromático y Negativo), inspirada en PrimeNG y NG-ZORRO."
-      importCode="import { CbLogo } from '@caribeng/ui/caribe/logo';"
+      importCode="import { CbLogo } from '@caribeng/ui/logo';"
     >
       <cb-doc-example
         title="Formatos del Logo Corporativo"

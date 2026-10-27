@@ -37,6 +37,7 @@ let nextUid = 0;
     'aria-valuemin': '0',
     '[attr.aria-valuemax]': 'stars()',
     '[attr.aria-valuenow]': 'value()',
+    '[attr.aria-valuetext]': 'fmt(t().ratingOf, value(), stars())',
     '[attr.aria-label]': 'ariaLabel() || null',
     '[attr.aria-disabled]': 'isDisabled() ? "true" : null',
     '[attr.tabindex]': 'isDisabled() || readonly() ? null : 0',
@@ -48,19 +49,17 @@ let nextUid = 0;
   },
   template: `
     @for (i of starList(); track i) {
-      <button
-        type="button"
+      <!-- Las estrellas son decorativas: el control accesible es el propio slider (sin controles anidados). -->
+      <span
         class="cb-rating__star"
         [class]="'cb-rating__star--' + size()"
         [class.cb-rating__star--on]="i <= display()"
-        [attr.aria-label]="fmt(t().ratingOf, i, stars())"
-        tabindex="-1"
-        [disabled]="isDisabled() || readonly()"
-        (click)="pick(i)"
+        aria-hidden="true"
+        (click)="isDisabled() || readonly() || pick(i)"
         (mouseenter)="hover.set(i)"
       >
-        <cb-icon name="star" [size]="iconPx()" aria-hidden="true" />
-      </button>
+        <cb-icon name="star" [size]="iconPx()" />
+      </span>
     }
   `,
   styleUrl: './rating.component.css',

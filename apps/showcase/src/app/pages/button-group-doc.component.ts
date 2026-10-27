@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { DocPlaygroundComponent } from '../components/doc-playground.component';
 import { DOC_API } from '../components/doc-api-registry';
-import { CbButtonGroup } from '@caribeng/ui/caribe/button-group';
+import { CbButtonGroup } from '@caribeng/ui/button-group';
 import { CbButton } from '@caribeng/ui/button';
-import { CbIconButton } from '@caribeng/ui/caribe/icon-button';
+import { CbIconButton } from '@caribeng/ui/icon-button';
 import { CbDocPageComponent } from '../components/doc-page.component';
 import { CbDocExampleComponent } from '../components/doc-example.component';
 
@@ -13,10 +13,10 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
   imports: [DocPlaygroundComponent, CbDocPageComponent, CbDocExampleComponent, CbButtonGroup, CbButton, CbIconButton],
   template: `
     <cb-doc-page
-      category="Caribe Design · Acciones"
+      category="Button"
       title="ButtonGroup"
       subtitle="Agrupador accesible de botones con orientación horizontal o vertical."
-      importCode="import { CbButtonGroup } from '@caribeng/ui/caribe/button-group';"
+      importCode="import { CbButtonGroup } from '@caribeng/ui/button-group';"
     >
       <cb-doc-example title="Grupo horizontal" description="Agrupa botones relacionados en una sola fila con bordes unidos." code='<cb-button-group><cb-button size="sm">Día</cb-button><cb-button size="sm" variant="outlined">Mes</cb-button></cb-button-group>'>
         <cb-button-group>

@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { DocPlaygroundComponent } from '../components/doc-playground.component';
 import { DOC_API } from '../components/doc-api-registry';
-import { CbInputSearch } from '@caribeng/ui/caribe/input-search';
+import { CbInputSearch } from '@caribeng/ui/input-search';
 import { CbDocPageComponent } from '../components/doc-page.component';
 import { CbDocExampleComponent } from '../components/doc-example.component';
 
@@ -11,10 +11,10 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
   imports: [DocPlaygroundComponent, CbDocPageComponent, CbDocExampleComponent, CbInputSearch],
   template: `
     <cb-doc-page
-      category="Caribe Design · Formularios"
+      category="Formulario"
       title="InputSearch"
       subtitle="Campo de búsqueda con botón de limpieza rápida e integración CVA."
-      importCode="import { CbInputSearch } from '@caribeng/ui/caribe/input-search';"
+      importCode="import { CbInputSearch } from '@caribeng/ui/input-search';"
     >
       <cb-doc-example title="Búsqueda reactiva" description="El texto de búsqueda se enlaza con [(value)] para filtrar en tiempo real." code='<cb-input-search [(value)]="query" placeholder="Buscar transacción…" />'>
         <cb-input-search [(value)]="query" placeholder="Buscar transacción…" />

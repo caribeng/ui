@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { DocPlaygroundComponent } from '../components/doc-playground.component';
 import { DOC_API } from '../components/doc-api-registry';
-import { CbInputToken } from '@caribeng/ui/caribe/input-token';
+import { CbInputToken } from '@caribeng/ui/input-token';
 import { CbDocPageComponent } from '../components/doc-page.component';
 import { CbDocExampleComponent } from '../components/doc-example.component';
 
@@ -11,10 +11,10 @@ import { CbDocExampleComponent } from '../components/doc-example.component';
   imports: [DocPlaygroundComponent, CbDocPageComponent, CbDocExampleComponent, CbInputToken],
   template: `
     <cb-doc-page
-      category="Caribe Design · Formularios"
+      category="Formulario"
       title="InputToken"
       subtitle="Captura segura de clave dinámica / OTP tokenizado con enmascaramiento opcional."
-      importCode="import { CbInputToken } from '@caribeng/ui/caribe/input-token';"
+      importCode="import { CbInputToken } from '@caribeng/ui/input-token';"
     >
       <cb-doc-example title="Clave dinámica de 6 dígitos" description="numInputs define el número de dígitos; unmasked muestra el valor en lugar de ocultarlo." code='<cb-input-token [(value)]="token" [numInputs]="6" [unmasked]="true" />'>
         <cb-input-token [(value)]="token" [numInputs]="6" [unmasked]="true" helpText="Ingresa la clave dinámica de tu App" />

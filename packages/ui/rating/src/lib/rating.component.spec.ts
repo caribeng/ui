@@ -21,8 +21,8 @@ describe('CbRating', () => {
     const fixture = TestBed.createComponent(HostComponent);
     fixture.detectChanges();
     const el = fixture.nativeElement as HTMLElement;
-    const stars = (): HTMLButtonElement[] =>
-      Array.from(el.querySelectorAll('button.cb-rating__star'));
+    const stars = (): HTMLElement[] =>
+      Array.from(el.querySelectorAll<HTMLElement>('.cb-rating__star'));
     const host = (): HTMLElement => el.querySelector('cb-rating')!;
     return { fixture, el, stars, host };
   }

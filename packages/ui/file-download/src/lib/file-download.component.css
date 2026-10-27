@@ -1,0 +1,83 @@
+:host {
+  display: block;
+  width: 100%;
+  max-width: 24rem;
+}
+
+.cb-file-download {
+  display: flex;
+  align-items: center;
+  gap: var(--cb-space-3, 0.75rem);
+  box-sizing: border-box;
+  padding: var(--cb-space-3, 0.75rem);
+  font-family: var(--cb-font-sans, inherit);
+  background-color: var(--cb-color-surface-0, #ffffff);
+  border: 1px solid var(--cb-color-border, #e2e8f0);
+  border-radius: var(--cb-radius-md, 0.5rem);
+}
+
+.cb-file-download__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 2.5rem;
+  height: 2.5rem;
+  font-size: 0.6rem;
+  font-weight: var(--cb-font-weight-bold, 700);
+  letter-spacing: 0.04em;
+  color: var(--cb-color-danger-600, #dc2626);
+  background-color: var(--cb-color-danger-50, #fef2f2);
+  border-radius: var(--cb-radius-sm, 0.375rem);
+}
+
+.cb-file-download__meta {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.cb-file-download__name {
+  font-size: var(--cb-text-sm, 0.875rem);
+  font-weight: var(--cb-font-weight-semibold, 600);
+  color: var(--cb-color-text-strong, #0f172a);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cb-file-download__size {
+  font-size: var(--cb-text-xs, 0.75rem);
+  color: var(--cb-color-text-muted, #64748b);
+}
+
+.cb-file-download__btn {
+  flex: none;
+  padding: var(--cb-space-2, 0.45rem) var(--cb-space-3, 0.85rem);
+  font: inherit;
+  font-size: var(--cb-text-sm, 0.8125rem);
+  font-weight: var(--cb-font-weight-semibold, 600);
+  color: #ffffff;
+  background-color: var(--cb-color-primary-700, #047857);
+  border: none;
+  border-radius: var(--cb-radius-md, 0.5rem);
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color var(--cb-duration-fast, 0.12s) var(--cb-ease, ease);
+}
+.cb-file-download__btn:hover:not(:disabled) {
+  background-color: var(--cb-color-primary-700, #065f46);
+}
+.cb-file-download__btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+:host-context([data-theme='dark']) .cb-file-download {
+  background-color: var(--cb-color-surface-800, #1e293b);
+  border-color: var(--cb-color-surface-600, #475569);
+}
+:host-context([data-theme='dark']) .cb-file-download__name {
+  color: var(--cb-color-surface-0, #f8fafc);
+}
