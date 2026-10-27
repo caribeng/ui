@@ -1,6 +1,6 @@
 # CaribeNG — Estado del proyecto
 
-> Última actualización: 2026-10-23 (versión 22.4.0)
+> Última actualización: 2026-10-27 (versión 22.5.0)
 > Librería de componentes Angular (greenfield), independiente de PrimeNG y de
 > terceros (solo `@angular/cdk` y `@angular/platform-browser`).
 
@@ -10,7 +10,7 @@
 
 | Métrica | Valor |
 |---|---|
-| Versión | **22.4.0** (major alineado con Angular; línea v21 en `release/21.x`, solo correcciones) |
+| Versión | **22.5.0** (major alineado con Angular; línea v21 en `release/21.x`, solo correcciones) |
 | Entry points publicables | **173** — `@caribeng/ui` (núcleo) + **172** secondary entry points, incluidos los **30** de Caribe Design ya integrados en `@caribeng/ui/<name>` |
 | Tests unitarios | **1231** en verde (**228** archivos de spec, 0 warnings en stderr) |
 | Build | Limpio (ng-packagr / APF, sin source maps al publicar) |
@@ -497,4 +497,4 @@ Todos los lotes planificados en `SPEC.md` (75 componentes/directivas), los +18 a
 - **v22.2.0** — plan de mejora 22.x completo (i18n ES/EN, 11 componentes reescritos, base de tests, paridad con PrimeNG en Table, Select y DatePicker), `ng add`, Chart ampliado, PDF Viewer y componentes nuevos (SplitButton, Empty, Descriptions, Result, Statistic, ThemeToggle…).
 - **v22.3.0** — Kanban con cinco vistas y espacio de trabajo, Chat (IA), PhoneInput, CommandPalette, Kbd, CopyButton, Pricing horizontal/list, utilidades CSS (277 clases) y migrador `migrate-from-primeng`. No llegó a npm (lockfile desactualizado); se publica dentro de la 22.4.0.
 - **v22.4.0** — accesibilidad: sección Accesibilidad en todas las páginas de la librería; teclado en ColorPicker, TieredMenu y Dock; nombres y roles corregidos en Stepper, OrganizationChart, Message, Pricing y otros; plantilla de tarjeta en el espacio de trabajo Kanban; publicación automática en npm (`release.yml`).
-- **Fusión Caribe Design (sin versionar)** — los 30 componentes de Caribe Design pasan de `@caribeng/ui/caribe/<name>` a `@caribeng/ui/<name>` (catálogo unificado); se eliminan 15 duplicados de la base (`stroke`, `pictogram`, `switch`, `progress-bar`, `modal`, `pop-over`, `data-table`, `calendar`, `input-date`, `input-select`, `file-select`, `inline-alert`, `loader`, `circle-loading`, `preloader`).
+- **v22.5.0 (Fusión Caribe Design)** — los 30 componentes de Caribe Design pasan de `@caribeng/ui/caribe/<name>` a `@caribeng/ui/<name>` (catálogo unificado); se eliminan 15 duplicados de la base (`stroke`, `pictogram`, `switch`, `progress-bar`, `modal`, `pop-over`, `data-table`, `calendar`, `input-date`, `input-select`, `file-select`, `inline-alert`, `loader`, `circle-loading`, `preloader`).

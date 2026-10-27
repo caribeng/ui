@@ -8,7 +8,7 @@ Desde la 22.0.0 el major de la librería coincide con el de Angular (22.x = Angu
 
 ---
 
-## [Unreleased]
+## [22.5.0] - 2026-10-27
 
 ### Breaking
 - **Namespace Caribe Design disuelto:** los 30 componentes de Caribe Design pasan de `@caribeng/ui/caribe/<name>` a `@caribeng/ui/<name>` (catálogo unificado). Actualiza los imports y las entradas del showcase.

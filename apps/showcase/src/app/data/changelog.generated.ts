@@ -4,9 +4,27 @@ import type { CbChangelogRelease } from './changelog.model';
 
 export const CHANGELOG: readonly CbChangelogRelease[] = [
   {
-    "version": null,
-    "date": null,
+    "version": "22.5.0",
+    "date": "2026-10-27",
     "sections": [
+      {
+        "type": "breaking",
+        "items": [
+          {
+            "component": "Namespace Caribe Design disuelto",
+            "text": "los 30 componentes de Caribe Design pasan de `@caribeng/ui/caribe/<name>` a `@caribeng/ui/<name>` (catálogo unificado). Actualiza los imports y las entradas del showcase."
+          }
+        ]
+      },
+      {
+        "type": "removed",
+        "items": [
+          {
+            "component": "15 componentes duplicados de la base",
+            "text": "`switch` (→ `toggle`), `progress-bar` (→ `progressbar`), `modal` (→ `dialog`), `pop-over` (→ `popover`), `data-table` (→ `table`), `calendar` e `input-date` (→ `datepicker`), `input-select` (→ `select`), `file-select` (→ `fileupload`), `inline-alert` (→ `inlinemessage`), `loader`, `circle-loading` y `preloader` (→ `spinner`/`skeleton`), y los decorativos `stroke` y `pictogram`."
+          }
+        ]
+      },
       {
         "type": "added",
         "items": [
