@@ -325,6 +325,6 @@ tfoot .cb-is-frozen,
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--cb-color-primary-500);
+  color: var(--cb-color-primary-text);
   background-color: color-mix(in srgb, var(--cb-color-surface-raised) 65%, transparent);
 }

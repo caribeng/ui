@@ -38,7 +38,7 @@
   color: var(--cb-color-text);
 }
 .cb-tabs__tab.cb-is-active {
-  color: var(--cb-color-primary-500);
+  color: var(--cb-color-primary-text);
 }
 .cb-tabs__tab.cb-is-active::after {
   background-color: var(--cb-color-primary-500);

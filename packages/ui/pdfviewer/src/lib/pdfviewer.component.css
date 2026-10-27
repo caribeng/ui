@@ -60,7 +60,7 @@
 
 .cb-pdf__tool[aria-expanded='true'] {
   background: var(--cb-color-surface-hover);
-  color: var(--cb-color-primary-600);
+  color: var(--cb-color-primary-text);
 }
 
 .cb-pdf__tool:disabled {

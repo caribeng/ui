@@ -171,8 +171,8 @@
   outline-offset: 1px;
 }
 .cb-editor__btn--primary {
-  color: var(--cb-color-primary-contrast);
-  background: var(--cb-color-primary-600);
+  color: #ffffff;
+  background: var(--cb-color-primary-700, #047857);
   border-color: var(--cb-color-primary-600);
 }
 .cb-editor__btn--primary:hover {
@@ -285,7 +285,7 @@
   color: var(--cb-color-text-muted);
 }
 :host ::ng-deep .cb-editor__surface a {
-  color: var(--cb-color-primary-600, #059669);
+  color: var(--cb-color-primary-text);
   text-decoration: underline;
 }
 :host ::ng-deep .cb-editor__surface code {
@@ -703,8 +703,8 @@
   display: grid;
   place-items: center;
   border-color: var(--cb-color-primary-600);
-  background: var(--cb-color-primary-600);
-  color: var(--cb-color-primary-contrast, #fff);
+  background: var(--cb-color-primary-700, #047857);
+  color: #ffffff;
   font-size: 0.75rem;
   font-weight: 700;
   line-height: 1;

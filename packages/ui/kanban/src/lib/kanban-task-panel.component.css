@@ -190,7 +190,7 @@
 }
 
 a.cb-ktp__file-name:hover {
-  color: var(--cb-color-primary);
+  color: var(--cb-color-primary-text);
   text-decoration: underline;
 }
 

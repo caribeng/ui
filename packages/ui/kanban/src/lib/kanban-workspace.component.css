@@ -45,7 +45,7 @@
 }
 
 .cb-kanban-workspace__tab--on {
-  color: var(--cb-color-primary);
+  color: var(--cb-color-primary-text);
 }
 
 /* Subrayado de las vistas encendidas: varias pueden estarlo a la vez. */

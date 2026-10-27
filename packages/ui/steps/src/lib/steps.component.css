@@ -7,7 +7,7 @@
 .cb-steps__button:focus-visible { outline: 2px solid var(--cb-color-focus-ring); outline-offset: 3px; border-radius: var(--cb-radius-sm); }
 .cb-steps__marker { display: grid; place-items: center; width: 2rem; height: 2rem; border: 1px solid var(--cb-color-border-strong); border-radius: 50%; background: var(--cb-color-surface-raised); color: inherit; font-size: var(--cb-text-sm); }
 .cb-steps__entry--current .cb-steps__marker { border-color: var(--cb-color-primary); background: var(--cb-color-primary); color: var(--cb-color-primary-contrast); }
-.cb-steps__entry--complete .cb-steps__marker { border-color: var(--cb-color-primary); color: var(--cb-color-primary); }
+.cb-steps__entry--complete .cb-steps__marker { border-color: var(--cb-color-primary); color: var(--cb-color-primary-text); }
 .cb-steps__entry--current .cb-steps__label { color: var(--cb-color-text-strong); font-weight: 600; }
 .cb-steps__label { max-width: 9rem; text-align: center; font-size: var(--cb-text-sm); }
 .cb-steps__connector { position: absolute; top: 1rem; left: calc(50% + 1.25rem); right: calc(-50% + 1.25rem); height: 1px; background: var(--cb-color-border); }

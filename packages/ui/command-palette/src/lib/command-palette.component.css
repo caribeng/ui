@@ -110,7 +110,7 @@
 
 .cb-command__match {
   background: transparent;
-  color: var(--cb-color-primary);
+  color: var(--cb-color-primary-text);
   font-weight: var(--cb-font-weight-semibold, 600);
 }
 

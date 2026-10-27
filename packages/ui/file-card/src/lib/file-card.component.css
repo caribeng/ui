@@ -41,7 +41,7 @@
   height: 46px;
   border-radius: var(--cb-radius-md, 10px);
   flex: none;
-  color: var(--cb-color-primary-600, #059669);
+  color: var(--cb-color-primary-text);
 }
 
 .cb-file-card__text {

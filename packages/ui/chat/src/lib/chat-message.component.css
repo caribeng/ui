@@ -32,7 +32,7 @@
 
 :host(.cb-chat-message--assistant) .cb-chat-message__avatar {
   background: color-mix(in srgb, var(--cb-color-primary) 14%, transparent);
-  color: var(--cb-color-primary);
+  color: var(--cb-color-primary-text);
 }
 
 .cb-chat-message__avatar img {
@@ -199,7 +199,7 @@ a.cb-chat-message__file[href]:hover {
 }
 
 .cb-chat-message__icon-btn[aria-pressed='true'] {
-  color: var(--cb-color-primary);
+  color: var(--cb-color-primary-text);
 }
 
 .cb-chat-message__icon-btn[aria-pressed='true'] svg {

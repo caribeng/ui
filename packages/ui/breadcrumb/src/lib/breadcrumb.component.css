@@ -37,7 +37,7 @@
   cursor: pointer;
 }
 .cb-breadcrumb__link:hover {
-  color: var(--cb-color-primary-500);
+  color: var(--cb-color-primary-text);
 }
 .cb-breadcrumb__link:focus-visible {
   outline: 2px solid var(--cb-color-focus-ring);

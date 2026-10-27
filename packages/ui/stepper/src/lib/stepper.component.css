@@ -47,7 +47,7 @@
 
 .cb-is-active .cb-stepper__indicator {
   border-color: var(--cb-color-primary-500);
-  color: var(--cb-color-primary-500);
+  color: var(--cb-color-primary-text);
 }
 .cb-is-complete .cb-stepper__indicator {
   border-color: var(--cb-color-primary-500);

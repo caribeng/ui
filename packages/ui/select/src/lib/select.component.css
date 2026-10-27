@@ -139,7 +139,7 @@
 }
 
 .cb-select__option.cb-is-selected {
-  color: var(--cb-color-primary-600);
+  color: var(--cb-color-primary-text);
   background-color: color-mix(in srgb, var(--cb-color-primary-500) 12%, transparent);
   font-weight: var(--cb-font-weight-semibold);
 }

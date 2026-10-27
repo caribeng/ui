@@ -107,7 +107,13 @@
   --_500: var(--cb-color-danger-500);
   --_600: var(--cb-color-danger-600);
   --_700: var(--cb-color-danger-700);
+  --_800: var(--cb-color-danger-800);
   --_950: var(--cb-color-danger-950);
+  /* El texto oscuro no llega a AA sobre este tono: fondo 600 con texto blanco. */
+  --_solid: var(--_600);
+  --_solid-fg: #ffffff;
+  --_solid-hover: var(--_700);
+  --_solid-active: var(--_800);
 }
 .cb-button--help {
   --_50: var(--cb-color-help-50);
@@ -118,27 +124,35 @@
   --_500: var(--cb-color-help-500);
   --_600: var(--cb-color-help-600);
   --_700: var(--cb-color-help-700);
+  --_800: var(--cb-color-help-800);
   --_950: var(--cb-color-help-950);
+  /* El texto oscuro no llega a AA sobre este tono: fondo 600 con texto blanco. */
+  --_solid: var(--_600);
+  --_solid-fg: #ffffff;
+  --_solid-hover: var(--_700);
+  --_solid-active: var(--_800);
 }
 
-/* --- Chromatic · solid (light) --- */
+/* --- Chromatic · solid (light) ---
+   Contraste AA: texto 950 sobre el 500 (el hover aclara para no perderlo); danger y help usan
+   fondo 600 con texto blanco (ver sus alias). */
 .cb-button--chromatic.cb-button--solid {
-  background-color: var(--_500);
-  color: #ffffff;
-  border-color: var(--_500);
+  background-color: var(--_solid, var(--_500));
+  color: var(--_solid-fg, var(--_950));
+  border-color: var(--_solid, var(--_500));
 }
 .cb-button--chromatic.cb-button--solid:hover:not(:disabled):not(.cb-is-loading) {
-  background-color: var(--_600);
-  border-color: var(--_600);
+  background-color: var(--_solid-hover, var(--_400));
+  border-color: var(--_solid-hover, var(--_400));
 }
 .cb-button--chromatic.cb-button--solid:active:not(:disabled):not(.cb-is-loading) {
-  background-color: var(--_700);
-  border-color: var(--_700);
+  background-color: var(--_solid-active, var(--_300));
+  border-color: var(--_solid-active, var(--_300));
 }
 
-/* --- Chromatic · outlined (light) --- */
+/* --- Chromatic · outlined (light) --- (texto 700: AA sobre blanco) */
 .cb-button--chromatic.cb-button--outlined {
-  color: var(--_500);
+  color: var(--_700);
   border-color: var(--_200);
 }
 .cb-button--chromatic.cb-button--outlined:hover:not(:disabled):not(.cb-is-loading) {
@@ -150,7 +164,7 @@
 
 /* --- Chromatic · text (light) --- */
 .cb-button--chromatic.cb-button--text {
-  color: var(--_500);
+  color: var(--_700);
 }
 .cb-button--chromatic.cb-button--text:hover:not(:disabled):not(.cb-is-loading) {
   background-color: var(--_50);

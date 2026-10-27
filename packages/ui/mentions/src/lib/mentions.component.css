@@ -124,7 +124,7 @@
   overflow: hidden;
   border-radius: 50%;
   background: color-mix(in srgb, var(--cb-color-primary) 14%, transparent);
-  color: var(--cb-color-primary);
+  color: var(--cb-color-primary-text);
   font-size: 0.6875rem;
   font-weight: var(--cb-font-weight-semibold, 600);
 }

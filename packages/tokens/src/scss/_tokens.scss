@@ -113,7 +113,8 @@
   // ---------------------------------------------------------------------------
   // Severidades — atajo al tono base + contraste de texto.
   --cb-color-primary: var(--cb-color-primary-500);
-  --cb-color-primary-contrast: #ffffff;
+  // Texto sobre el primario sólido: el blanco sobre emerald-500 no llega a AA (2,5:1); el 950 da 6:1.
+  --cb-color-primary-contrast: var(--cb-color-primary-950);
   --cb-color-success: var(--cb-color-success-500);
   --cb-color-success-contrast: #ffffff;
   --cb-color-info: var(--cb-color-info-500);
@@ -130,6 +131,8 @@
   --cb-color-success-text: var(--cb-color-success-800);
   --cb-color-warning-text: var(--cb-color-warning-700);
   --cb-color-danger-text: var(--cb-color-danger-700);
+  --cb-color-info-text: var(--cb-color-info-700);
+  --cb-color-help-text: var(--cb-color-help-700);
 
   // Superficie y texto
   --cb-color-bg: var(--cb-color-surface-0);
@@ -260,6 +263,8 @@
   --cb-color-success-text: var(--cb-color-success-400);
   --cb-color-warning-text: var(--cb-color-warning-400);
   --cb-color-danger-text: var(--cb-color-danger-400);
+  --cb-color-info-text: var(--cb-color-info-400);
+  --cb-color-help-text: var(--cb-color-help-400);
 
   --cb-shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.4);
   --cb-shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.5), 0 2px 4px -2px rgb(0 0 0 / 0.5);

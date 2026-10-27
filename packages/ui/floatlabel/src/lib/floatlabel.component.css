@@ -22,7 +22,7 @@
   top: 0;
   transform: translateY(-50%);
   font-size: 0.75rem;
-  color: var(--cb-color-primary-500);
+  color: var(--cb-color-primary-text);
 }
 
 .cb-float-label--over.cb-is-active > label {

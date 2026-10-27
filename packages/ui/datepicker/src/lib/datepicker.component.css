@@ -373,7 +373,7 @@
 }
 .cb-datepicker__day.cb-is-today:not(.cb-is-selected) {
   font-weight: var(--cb-font-weight-bold);
-  color: var(--cb-color-primary-600);
+  color: var(--cb-color-primary-text);
 }
 .cb-datepicker__day.cb-is-selected {
   color: var(--cb-color-primary-contrast);
@@ -474,7 +474,7 @@
   font-family: inherit;
   font-size: var(--cb-text-sm);
   font-weight: var(--cb-font-weight-medium);
-  color: var(--cb-color-primary-600);
+  color: var(--cb-color-primary-text);
   background: transparent;
   border: none;
   border-radius: var(--cb-radius-sm);

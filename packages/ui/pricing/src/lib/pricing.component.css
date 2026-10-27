@@ -77,8 +77,8 @@
 }
 
 .cb-pricing__plan--featured {
-  background: var(--cb-color-primary-600, #059669);
-  border-color: var(--cb-color-primary-600, #059669);
+  background: var(--cb-color-primary-700, #047857);
+  border-color: var(--cb-color-primary-700, #047857);
   color: #fff;
 }
 
@@ -421,7 +421,7 @@
 
 :host(.cb-pricing--horizontal) .cb-pricing__check {
   margin-top: 0.125rem;
-  color: var(--cb-color-primary);
+  color: var(--cb-color-primary-text);
 }
 
 :host(.cb-pricing--horizontal) .cb-pricing__feature--off .cb-pricing__check {

@@ -108,12 +108,12 @@
 
 .cb-sidebar__item--active {
   background: color-mix(in srgb, var(--cb-color-primary) 12%, transparent);
-  color: var(--cb-color-primary);
+  color: var(--cb-color-primary-text);
   font-weight: var(--cb-font-weight-semibold, 600);
 }
 
 .cb-sidebar__item--has-active {
-  color: var(--cb-color-primary);
+  color: var(--cb-color-primary-text);
 }
 
 .cb-sidebar__icon {

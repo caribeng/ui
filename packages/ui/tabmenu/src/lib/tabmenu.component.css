@@ -4,5 +4,5 @@
 .cb-tabmenu__entry { flex: none; }
 .cb-tabmenu__link { display: flex; align-items: center; gap: 0.5rem; min-height: 2.75rem; white-space: nowrap; padding: 0.625rem 0.875rem; border: 0; border-bottom: 2px solid transparent; background: transparent; color: inherit; font: inherit; text-decoration: none; cursor: pointer; }
 .cb-tabmenu__link:hover:not(:disabled), .cb-tabmenu__link:focus-visible { background: var(--cb-color-surface); outline: none; }
-.cb-tabmenu__link[aria-current='page'] { border-bottom-color: var(--cb-color-primary); color: var(--cb-color-primary); font-weight: 600; }
+.cb-tabmenu__link[aria-current='page'] { border-bottom-color: var(--cb-color-primary); color: var(--cb-color-primary-text); font-weight: 600; }
 .cb-tabmenu__link:disabled { opacity: 0.5; cursor: default; }

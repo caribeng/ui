@@ -33,7 +33,7 @@
 
 .cb-picklist__btn:hover:not(:disabled) {
   border-color: var(--cb-color-primary-500);
-  color: var(--cb-color-primary-600);
+  color: var(--cb-color-primary-text);
 }
 
 .cb-picklist__btn:disabled {
