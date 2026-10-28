@@ -1,64 +1,66 @@
 <h1 align="center">CaribeNG</h1>
 
 <p align="center">
-  <strong>Sistema de diseño y librería de componentes para Angular.</strong><br />
-  Standalone, Signals, OnPush, tokens CSS y accesibilidad WCAG 2.2 AA.
+  <strong>Design system and component library for Angular.</strong><br />
+  Standalone, Signals, OnPush, CSS tokens and WCAG 2.2 AA accessibility.
 </p>
 
 <p align="center">
   <img alt="Angular 22" src="https://img.shields.io/badge/Angular-22-dd0031.svg?style=flat-square" />
   <img alt="Entry points" src="https://img.shields.io/badge/entry%20points-173-10b981.svg?style=flat-square" />
-  <img alt="Licencia MIT" src="https://img.shields.io/badge/licencia-MIT-blue.svg?style=flat-square" />
+  <img alt="MIT license" src="https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square" />
 </p>
+
+<p align="center">📖 Documentation: <a href="https://caribeng.devmike.site">caribeng.devmike.site</a></p>
 
 ---
 
-## ✨ Características
+## ✨ Features
 
-- **225 componentes y directivas** standalone (186 componentes + 39 directivas), empaquetados en **173 entry points** (`@caribeng/ui/button`, `@caribeng/ui/table`…): solo empaquetas lo que importas.
-- **Angular moderno:** `input()` / `model()` / `output()` con Signals, `ChangeDetectionStrategy.OnPush` y compatible con apps zoneless.
-- **Formularios sin fricción:** `ControlValueAccessor` en todos los controles; el error y el indicador de obligatorio se sincronizan solos con Angular Forms.
-- **Accesibles:** roles y atributos ARIA, soporte de teclado y gestión de foco (WCAG 2.2 AA).
-- **Tematizables:** tokens CSS `--cb-*`, modo claro/oscuro y presets de color que se cambian en caliente.
-- **Iconos incluidos:** 363 iconos núcleo listos para usar y un catálogo opcional de 1891 iconos.
-- **Migración desde PrimeNG:** un schematic traduce imports, plantillas e iconos y deja un informe con lo pendiente ([ver más](#migrar-desde-primeng)).
+- **225 standalone components and directives** (186 components + 39 directives), packaged in **173 entry points** (`@caribeng/ui/button`, `@caribeng/ui/table`…): ship only what you import.
+- **Modern Angular:** `input()` / `model()` / `output()` with Signals, `ChangeDetectionStrategy.OnPush` and zoneless-ready.
+- **Frictionless forms:** `ControlValueAccessor` on every control; the error and required indicator sync automatically with Angular Forms.
+- **Accessible:** ARIA roles and attributes, keyboard support and focus management (WCAG 2.2 AA).
+- **Themable:** `--cb-*` CSS tokens, light/dark mode and color presets that switch live.
+- **Icons included:** 363 core icons ready to use and an optional catalog of 1891 icons.
+- **PrimeNG migration:** a schematic translates imports, templates and icons and leaves a report of what remains ([see more](#migrating-from-primeng)).
 
-## 🖥 Compatibilidad
+## 🖥 Compatibility
 
-El major de CaribeNG coincide con el de Angular, igual que Angular Material, PrimeNG y NG-ZORRO. Instala la versión que corresponde a tu proyecto:
+CaribeNG's major version matches Angular's, just like Angular Material, PrimeNG and NG-ZORRO. Install the version that corresponds to your project:
 
-| CaribeNG | Angular | Estado |
+| CaribeNG | Angular | Status |
 | --- | --- | --- |
-| `22.x` | `^22.0.0` | Activa: nuevas funciones y correcciones |
-| `21.x` | `^21.0.0` | Mantenimiento: solo correcciones |
+| `22.x` | `^22.0.0` | Active: new features and fixes |
+| `21.x` | `^21.0.0` | Maintenance: fixes only |
 
-Navegadores: los mismos que [soporta Angular](https://angular.dev/reference/versions#browser-support).
+Browsers: the same ones [Angular supports](https://angular.dev/reference/versions#browser-support).
 
-## 📦 Instalación
+## 📦 Installation
 
-### Requisitos
+### Requirements
 
-- Un proyecto **Angular 22** con `@angular/forms` (lo incluye cualquier proyecto creado con `ng new`).
-- `@angular/cdk` se instala automáticamente como dependencia (overlays y accesibilidad).
-- npm, yarn o pnpm.
+- An **Angular 22** project with `@angular/forms` (any project created with `ng new` includes it).
+- `@angular/cdk` is installed automatically as a dependency (overlays and accessibility).
+- npm, yarn or pnpm.
 
-### Instalación rápida (recomendada)
+### Quick install (recommended)
 
 ```bash
 ng add @caribeng/ui
 ```
 
-Pregunta el idioma, el tema y el color primario, y deja el proyecto listo:
+It asks for the language, theme and primary color, and leaves the project ready:
 
-- instala `@caribeng/ui` (y `@angular/cdk`),
-- registra `provideCaribeNG({ locale, theme, preset })` en `app.config.ts` (o en `AppModule`),
-- añade `@caribeng/ui/styles.css` a los estilos de `angular.json`.
+- installs `@caribeng/ui` (and `@angular/cdk`),
+- registers `provideCaribeNG({ locale, theme, preset })` in `app.config.ts` (or in `AppModule`),
+- adds `@caribeng/ui/styles.css` to the `angular.json` styles.
 
-Se puede ejecutar sin preguntas: `ng add @caribeng/ui --locale=en --theme=system --preset=ocean --skip-confirmation`. Volver a ejecutarlo no duplica nada.
+You can run it without prompts: `ng add @caribeng/ui --locale=en --theme=system --preset=ocean --skip-confirmation`. Re-running it duplicates nothing.
 
-Después, salta al paso [3. Verifica la instalación](#3-verifica-la-instalación).
+Then jump to [3. Verify the installation](#3-verify-the-installation).
 
-### Instalación manual
+### Manual installation
 
 ```bash
 # npm
@@ -71,48 +73,48 @@ yarn add @caribeng/ui
 pnpm add @caribeng/ui
 ```
 
-### Migrar desde PrimeNG
+### Migrating from PrimeNG
 
-En un proyecto con PrimeNG 18 o superior, instala CaribeNG y ejecuta el migrador:
+In a project with PrimeNG 18 or higher, install CaribeNG and run the migrator:
 
 ```bash
 npm install @caribeng/ui@22
 ng generate @caribeng/ui:migrate-from-primeng
 ```
 
-> Haz commit (o una copia) antes de ejecutarlo para poder revisar los cambios con `git diff`. Con `--dry-run` ves qué archivos cambiaría sin escribir nada. Si ejecutas `ng add @caribeng/ui` en un proyecto con PrimeNG, te recordará este comando.
+> Commit (or copy) before running it so you can review the changes with `git diff`. With `--dry-run` you can see which files it would change without writing anything. Running `ng add @caribeng/ui` in a project that has PrimeNG reminds you of this command.
 
 ```html
-<!-- Antes -->
-<p-button label="Guardar" icon="pi pi-check" [outlined]="true" (onClick)="guardar()" />
+<!-- Before -->
+<p-button label="Save" icon="pi pi-check" [outlined]="true" (onClick)="save()" />
 <input pInputText id="email" [(ngModel)]="email" />
-<p-dialog header="Editar" [(visible)]="abierto" [modal]="true" [style]="{ width: '25rem' }">…</p-dialog>
+<p-dialog header="Edit" [(visible)]="open" [modal]="true" [style]="{ width: '25rem' }">…</p-dialog>
 
-<!-- Después -->
-<cb-button variant="outlined" (click)="guardar()"><cb-icon name="check" />Guardar</cb-button>
+<!-- After -->
+<cb-button variant="outlined" (click)="save()"><cb-icon name="check" />Save</cb-button>
 <cb-input inputId="email" [(ngModel)]="email" />
-<cb-dialog header="Editar" [(visible)]="abierto" width="25rem">…</cb-dialog>
+<cb-dialog header="Edit" [(visible)]="open" width="25rem">…</cb-dialog>
 ```
 
-Qué hace:
+What it does:
 
-- cambia los imports de PrimeNG por los de CaribeNG (`ButtonModule` → `CbButton`, `providePrimeNG()` → `provideCaribeNG()`) y añade a cada componente los que usa su plantilla,
-- traduce las plantillas con sus inputs y eventos (`[outlined]` → `variant`, `size="small"` → `size="sm"`, `(onClick)` → `(click)`, `subheader` → `subtitle`…), incluido el pie de Dialog y Card (`#footer` → `<div cb-dialog-footer>` / `<div cb-card-footer>`),
-- cambia `MessageService` por `CbToastService`: traduce los mensajes (`severity: 'error'` → `'danger'`, `'warn'` → `'warning'`, `sticky: true` → `life: 0`) y lo quita de los `providers`, porque `CbToastService` es único para toda la app,
-- convierte los iconos `pi pi-*` en `<cb-icon>` y registra con `provideCbIcons` los que no están en el set núcleo,
-- quita PrimeIcons de `angular.json` y de las hojas de estilo, y añade `@caribeng/ui/styles.css`,
-- quita `primeng`, `primeicons` y `@primeuix/*` de `package.json` **solo cuando ya no queda ninguna referencia**; mientras tanto las dos librerías conviven.
+- swaps PrimeNG imports for CaribeNG ones (`ButtonModule` → `CbButton`, `providePrimeNG()` → `provideCaribeNG()`) and adds to each component the ones its template uses,
+- translates templates with their inputs and events (`[outlined]` → `variant`, `size="small"` → `size="sm"`, `(onClick)` → `(click)`, `subheader` → `subtitle`…), including the Dialog and Card footer (`#footer` → `<div cb-dialog-footer>` / `<div cb-card-footer>`),
+- replaces `MessageService` with `CbToastService`: translates messages (`severity: 'error'` → `'danger'`, `'warn'` → `'warning'`, `sticky: true` → `life: 0`) and removes it from `providers`, because `CbToastService` is a singleton for the whole app,
+- converts `pi pi-*` icons into `<cb-icon>` and registers with `provideCbIcons` the ones that are not in the core set,
+- removes PrimeIcons from `angular.json` and stylesheets, and adds `@caribeng/ui/styles.css`,
+- removes `primeng`, `primeicons` and `@primeuix/*` from `package.json` **only when no reference remains**; until then both libraries coexist.
 
-Lo que no puede traducir con seguridad (un input sin equivalente, una plantilla `#header` personalizada, un `pButton` sobre un enlace…) lo marca con un comentario junto al código, conservando el atributo original:
+What it cannot translate safely (an input without an equivalent, a custom `#header` template, a `pButton` on a link…) is marked with a comment next to the code, keeping the original attribute:
 
 ```html
-<!-- TODO(caribeng): [rounded]="true" — cb-button no tiene variante redondeada; usa una clase propia o <cb-icon-button>. -->
-<cb-button severity="danger">Borrar</cb-button>
+<!-- TODO(caribeng): [rounded]="true" — cb-button has no rounded variant; use your own class or <cb-icon-button>. -->
+<cb-button severity="danger">Delete</cb-button>
 ```
 
-Todos los avisos, las referencias a PrimeNG que aún quedan (por ejemplo componentes que el migrador no traduce todavía) y los imports que haya que añadir a mano se resumen en `caribeng-migration-report.md`, con archivo y línea.
+All warnings, remaining PrimeNG references (for example components the migrator does not translate yet) and imports that must be added by hand are summarized in `caribeng-migration-report.md`, with file and line.
 
-**Componentes que traduce hoy:**
+**Components it translates today:**
 
 | PrimeNG | CaribeNG |
 |---|---|
@@ -128,37 +130,37 @@ Todos los avisos, las referencias a PrimeNG que aún quedan (por ejemplo compone
 | `<p-confirmdialog>` + `ConfirmationService` | `<cb-confirm-dialog service>` + `CbConfirmationService` |
 | `<p-confirmpopup>` | `<cb-confirm-popup service>` |
 | `<p-menu>`, `<p-menubar>`, `<p-tieredmenu>`, `<p-panelmenu>`, `<p-breadcrumb>`, `<p-tabmenu>` | `<cb-menu>`, `<cb-menubar>`, `<cb-tieredmenu>`, `<cb-panelmenu>`, `<cb-breadcrumb>`, `<cb-tabmenu>` |
-| `MenuItem[]` (`icon`, `command`, `routerLink`…) | el tipo de item del menú que lo recibe (`CbMenubarItem[]`…) |
+| `MenuItem[]` (`icon`, `command`, `routerLink`…) | the item type of the menu that receives it (`CbMenubarItem[]`…) |
 | `<p-splitbutton>` | `<cb-split-button>` |
-| `<p-table>` (columnas escritas en `#header`/`#body` o dinámicas con `@for`) | `<cb-table [columns]>` + un `cbTableCell` por celda personalizada |
-| `<p-tabs>` (y `<p-tabView>`) | `<cb-tabs>` + `<cb-tab label="…">` |
-| `<p-accordion>` (y `<p-accordionTab>`) | `<cb-accordion>` + `<cb-accordion-panel header="…">` |
+| `<p-table>` (columns written in `#header`/`#body` or dynamic with `@for`) | `<cb-table [columns]>` + a `cbTableCell` per custom cell |
+| `<p-tabs>` (and `<p-tabView>`) | `<cb-tabs>` + `<cb-tab label="…">` |
+| `<p-accordion>` (and `<p-accordionTab>`) | `<cb-accordion>` + `<cb-accordion-panel header="…">` |
 | `<p-tag>` | `<cb-tag>` |
 | `<p-toast>` + `MessageService` | `<cb-toast>` + `CbToastService` |
 | `<p-card>` | `<cb-card>` |
-| `pTooltip` (en cualquier elemento) | `cbTooltip` |
+| `pTooltip` (on any element) | `cbTooltip` |
 | `<p-checkbox>` | `<cb-checkbox>` |
 | `<i class="pi pi-*">` | `<cb-icon>` |
 
-En los menús, los arrays de `MenuItem` cambian de tipo según el menú que los recibe en la plantilla; `icon: 'pi pi-plus'` pasa a `'plus'`, `command` y `visible` se conservan, y `routerLink: '/x'` pasa a `url` (los `routerLink` con parámetros quedan con aviso). En las tablas, cada `<th>`/`<td>` pasa a una columna de `[columns]` (`pSortableColumn` → `sortable`, `<p-columnFilter>` → `filter`, `pFrozenColumn` → `frozen`); las celdas que no son solo `{{ fila.campo }}` pasan a un `<ng-template cbTableCell>` con su contenido migrado, y las columnas de checkbox y de expandir desaparecen porque `cb-table` las pone sola. Con columnas dinámicas (`[columns]="cols"` + `@for`), `cols` pasa directamente a `[columns]`: el migrador le añade `sortable: true` / `filter: true` si la cabecera los aplicaba a todas, y las ramas `@if (col.field === '…')` o `@switch (col.field)` del cuerpo pasan a un `cbTableCell` por campo. Las tablas con celdas de lógica genérica, varias filas por registro o plantillas sin equivalente se dejan con aviso y conservan `TableModule`, para que sigan compilando. Las pestañas y los acordeones de PrimeNG 18+ se reestructuran (la cabecera pasa a `label`/`header`); si se generan con `@for` o la cabecera lleva iconos, quedan con aviso.
+In menus, `MenuItem` arrays change type according to the menu that receives them in the template; `icon: 'pi pi-plus'` becomes `'plus'`, `command` and `visible` are kept, and `routerLink: '/x'` becomes `url` (`routerLink` with parameters is flagged). In tables, each `<th>`/`<td>` becomes a column of `[columns]` (`pSortableColumn` → `sortable`, `<p-columnFilter>` → `filter`, `pFrozenColumn` → `frozen`); cells that are not just `{{ row.field }}` become a `<ng-template cbTableCell>` with their migrated content, and checkbox and expand columns disappear because `cb-table` adds them itself. With dynamic columns (`[columns]="cols"` + `@for`), `cols` is passed directly to `[columns]`: the migrator adds `sortable: true` / `filter: true` if the header applied them to all, and the `@if (col.field === '…')` or `@switch (col.field)` branches of the body become a `cbTableCell` per field. Tables with generic-logic cells, several rows per record or templates without an equivalent are flagged and keep `TableModule`, so they keep compiling. PrimeNG 18+ tabs and accordions are restructured (the header becomes `label`/`header`); if they are generated with `@for` or the header has icons, they are flagged.
 
-Los radios (`<p-radiobutton>`) y los menús contextuales (`<p-contextmenu>`) se marcan con un aviso pero no se convierten, porque cambia la estructura de la página: en CaribeNG el modelo de los radios va en un `<cb-radio-group>` que envuelve las opciones, y `<cb-contextmenu>` envuelve el área sobre la que se abre en vez de apuntar a ella con `[target]`. El resto de componentes aparece en el informe para migrarlo a mano; se irán añadiendo en próximas versiones.
+Radios (`<p-radiobutton>`) and context menus (`<p-contextmenu>`) are flagged but not converted, because the page structure changes: in CaribeNG the radio model lives in a `<cb-radio-group>` that wraps the options, and `<cb-contextmenu>` wraps the area it opens on instead of pointing to it with `[target]`. The remaining components appear in the report to migrate by hand; they will be added in future versions.
 
-| Opción | Uso |
+| Option | Use |
 |---|---|
-| `--path=src/app/ventas` | Migrar solo una carpeta (migración por partes). |
-| `--remove-primeng=false` | No tocar las dependencias de `package.json`. |
-| `--report=false` | No escribir el informe. |
-| `--skip-install` | No instalar dependencias al terminar. |
-| `--force` | Migrar aunque falte `@caribeng/ui` o la versión de PrimeNG sea anterior a la 18. |
+| `--path=src/app/sales` | Migrate only one folder (partial migration). |
+| `--remove-primeng=false` | Do not touch `package.json` dependencies. |
+| `--report=false` | Do not write the report. |
+| `--skip-install` | Do not install dependencies when finished. |
+| `--force` | Migrate even if `@caribeng/ui` is missing or the PrimeNG version is older than 18. |
 
-## 🔨 Uso
+## 🔨 Usage
 
-> Con `ng add @caribeng/ui` los pasos 1 y 2 ya están hechos.
+> With `ng add @caribeng/ui`, steps 1 and 2 are already done.
 
-### 1. Proveedor
+### 1. Provider
 
-Añade `provideCaribeNG()` a los providers de tu `app.config.ts`. Todas las opciones son opcionales:
+Add `provideCaribeNG()` to your `app.config.ts` providers. All options are optional:
 
 ```ts
 import { ApplicationConfig } from '@angular/core';
@@ -167,18 +169,18 @@ import { provideCaribeNG } from '@caribeng/ui';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideCaribeNG({
-      theme: 'system',            // 'light' (por defecto) | 'dark' | 'system'
+      theme: 'system',            // 'light' (default) | 'dark' | 'system'
       preset: 'emerald',          // 'emerald' | 'ocean' | 'coral' | 'amber' | 'violet' | 'rose'
-      persistTheme: true,         // recuerda la elección del usuario
+      persistTheme: true,         // remembers the user's choice
       requiredIndicator: 'none',  // 'asterisk' | 'text' | 'optional' | 'none'
     }),
   ],
 };
 ```
 
-### 2. Estilos
+### 2. Styles
 
-Agrega la hoja de estilos (tokens `--cb-*`, tema y utilidades) en `angular.json`:
+Add the stylesheet (`--cb-*` tokens, theme and utilities) in `angular.json`:
 
 ```diff
   "styles": [
@@ -187,16 +189,16 @@ Agrega la hoja de estilos (tokens `--cb-*`, tema y utilidades) en `angular.json`
   ]
 ```
 
-o impórtala desde tu hoja global:
+or import it from your global stylesheet:
 
 ```css
 /* src/styles.css */
 @import '@caribeng/ui/styles.css';
 ```
 
-### 3. Verifica la instalación
+### 3. Verify the installation
 
-Importa los componentes que vayas a usar desde su entry point. La ruta de importación de cada uno aparece en su página de documentación.
+Import the components you use from their entry point. Each component's import path appears on its documentation page.
 
 ```ts
 import { Component, signal } from '@angular/core';
@@ -207,41 +209,41 @@ import { CbInput } from '@caribeng/ui/input';
   selector: 'app-root',
   imports: [CbButton, CbInput],
   template: `
-    <cb-input label="Correo" type="email" [(value)]="email" />
-    <cb-button (click)="enviar()">Continuar</cb-button>
+    <cb-input label="Email" type="email" [(value)]="email" />
+    <cb-button (click)="send()">Continue</cb-button>
   `,
 })
 export class App {
   readonly email = signal('');
 
-  enviar(): void {
+  send(): void {
     console.log(this.email());
   }
 }
 ```
 
-Si ves el campo y el botón con estilo, CaribeNG está listo.
+If you see the field and the button styled, CaribeNG is ready.
 
-### Formularios
+### Forms
 
-Todos los controles funcionan con Reactive Forms y con formularios por plantilla. El error se muestra solo cuando el control es inválido y el usuario lo tocó; el mensaje es opcional:
+Every control works with Reactive Forms and template-driven forms. The error shows only when the control is invalid and the user touched it; the message is optional:
 
 ```html
-<cb-input label="Correo" formControlName="email" error="Ingresa un correo válido" />
+<cb-input label="Email" formControlName="email" error="Enter a valid email" />
 ```
 
-## 🌐 Idioma (i18n)
+## 🌐 Language (i18n)
 
-Los textos de interfaz de los componentes (etiquetas accesibles, botones, placeholders y mensajes) vienen en **inglés** (por defecto) y **español**:
+The components' UI texts (accessible labels, buttons, placeholders and messages) come in **English** (default) and **Spanish**:
 
 ```ts
 provideCaribeNG({
-  locale: 'en',                                   // 'es' | 'en' | objeto CbTranslation propio
-  translation: { noResults: 'Nothing here yet' }, // sobrescribe textos sueltos
+  locale: 'en',                                   // 'es' | 'en' | your own CbTranslation object
+  translation: { noResults: 'Nothing here yet' }, // overrides individual texts
 });
 ```
 
-Cambio en caliente, sin recargar:
+Switch at runtime, without reloading:
 
 ```ts
 import { inject } from '@angular/core';
@@ -250,9 +252,9 @@ import { CbLocaleService } from '@caribeng/ui';
 inject(CbLocaleService).use('en');
 ```
 
-Un texto pasado por input (por ejemplo `placeholder` o `emptyMessage`) siempre tiene prioridad sobre el idioma.
+A text passed as an input (for example `placeholder` or `emptyMessage`) always takes priority over the language.
 
-## 🎨 Tema claro/oscuro y presets
+## 🎨 Light/dark theme and presets
 
 ```ts
 import { inject } from '@angular/core';
@@ -261,25 +263,25 @@ import { CbThemeService } from '@caribeng/ui';
 export class Header {
   private readonly theme = inject(CbThemeService);
 
-  alternarTema(): void {
+  toggleTheme(): void {
     this.theme.toggle(); // 'light' <-> 'dark'
   }
 
-  usarOceano(): void {
+  useOcean(): void {
     this.theme.setPreset('ocean');
   }
 }
 ```
 
-## 🔣 Iconos
+## 🔣 Icons
 
-Los 363 iconos núcleo se registran solos:
+The 363 core icons register themselves:
 
 ```html
 <cb-icon name="house" [size]="20" />
 ```
 
-Para usar otros del catálogo completo (1891 iconos derivados de Lucide), regístralos en los providers; solo se empaquetan los que importas:
+To use others from the full catalog (1891 icons derived from Lucide), register them in the providers; only the ones you import are bundled:
 
 ```ts
 import { provideCbIcons } from '@caribeng/ui/icon';
@@ -288,7 +290,7 @@ import { heartPulse, rocket } from '@caribeng/ui/icons';
 providers: [provideCbIcons({ 'heart-pulse': heartPulse, rocket })];
 ```
 
-## 📚 Catálogo
+## 📚 Catalog
 
 - **Form:** `autocomplete`, `button`, `button-group`, `cascadeselect`, `checkbox`, `chips`, `colorpicker`, `datepicker`, `editor`, `fab-menu`, `fileupload`, `floatlabel`, `icon-button`, `iconfield`, `input`, `input-number`, `input-search`, `input-token`, `inputgroup`, `inputmask`, `inputotp`, `keyfilter`, `knob`, `listbox`, `mentions`, `multiselect`, `password`, `phone-input`, `radio`, `rating`, `repeater`, `select`, `selectbutton`, `slider`, `tag-button`, `textarea`, `toggle`, `togglebutton`, `treeselect`.
 - **Data:** `dataview`, `descriptions`, `kanban`, `orderlist`, `organizationchart`, `paginator`, `picklist`, `statistic`, `table`, `timeline`, `tracker`, `tree`, `treetable`, `virtualscroller`.
@@ -297,15 +299,15 @@ providers: [provideCbIcons({ 'heart-pulse': heartPulse, rocket })];
 - **Menu:** `anchor`, `breadcrumb`, `contextmenu`, `dock`, `float-menu`, `megamenu`, `menu`, `menubar`, `panelmenu`, `sidebar`, `speeddial`, `splitbutton`, `steps`, `tabmenu`, `tieredmenu`.
 - **Panel:** `accordion`, `card`, `card-content`, `card-move`, `card-primary`, `card-select`, `divider`, `expansion-panel`, `fieldset`, `footer`, `header`, `panel`, `scrollpanel`, `scrolltop`, `splitter`, `stepper`, `tabs`, `toolbar`.
 - **Media:** `animation-lottie`, `avatar`, `avatargroup`, `carousel`, `galleria`, `illustration`, `image`, `logo`, `pdfviewer`, `qrcode`.
-- **Archivos y precios:** `file-card`, `file-download`, `folder-card`, `pricing`.
-- **Misc y directivas:** `animateonscroll`, `autofocus`, `blockui`, `chart`, `code-block`, `copy-button`, `dots-indicator`, `focustrap`, `icon`, `icons`, `inplace`, `kbd`, `link`, `metergroup`, `progressbar`, `ripple`, `shortcut`, `skeleton`, `spinner`, `status`, `step-indicator`, `styleclass`, `terminal`, `themetoggle`.
+- **Files and pricing:** `file-card`, `file-download`, `folder-card`, `pricing`.
+- **Misc and directives:** `animateonscroll`, `autofocus`, `blockui`, `chart`, `code-block`, `copy-button`, `dots-indicator`, `focustrap`, `icon`, `icons`, `inplace`, `kbd`, `link`, `metergroup`, `progressbar`, `ripple`, `shortcut`, `skeleton`, `spinner`, `status`, `step-indicator`, `styleclass`, `terminal`, `themetoggle`.
 
-## 🧭 Próximos pasos
+## 🧭 Next steps
 
-- Explora cada componente, con ejemplos en HTML y TypeScript, en el sitio de documentación (showcase).
-- Personaliza colores y tokens en la guía de Theming.
-- Consulta las novedades de cada versión en la página Changelog del sitio de documentación.
+- Explore every component, with HTML and TypeScript examples, on the documentation site (showcase).
+- Customize colors and tokens in the Theming guide.
+- Check each version's news on the Changelog page of the documentation site.
 
-## ☀️ Licencia
+## ☀️ License
 
-MIT © CaribeNG Contributors. Iconos derivados de Lucide (ISC); ver `THIRD-PARTY-NOTICES.md`.
+MIT © CaribeNG Contributors. Icons derived from Lucide (ISC); see `THIRD-PARTY-NOTICES.md`.

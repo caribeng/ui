@@ -4,6 +4,21 @@ import type { CbChangelogRelease } from './changelog.model';
 
 export const CHANGELOG: readonly CbChangelogRelease[] = [
   {
+    "version": null,
+    "date": null,
+    "sections": [
+      {
+        "type": "changed",
+        "items": [
+          {
+            "component": "Idioma por defecto",
+            "text": "los textos de interfaz de los componentes vienen en **inglés** por defecto (antes español). Para español: `provideCaribeNG({ locale: 'es' })`."
+          }
+        ]
+      }
+    ]
+  },
+  {
     "version": "22.5.0",
     "date": "2026-10-27",
     "sections": [

@@ -153,9 +153,15 @@ import { FocustrapDocComponent } from './pages/focustrap-doc.component';
 import { AnimateonscrollDocComponent } from './pages/animateonscroll-doc.component';
 import { StyleclassDocComponent } from './pages/styleclass-doc.component';
 import { AutofocusDocComponent } from './pages/autofocus-doc.component';
+import { LandingComponent } from './pages/landing.component';
+import { DocLayoutComponent } from './layout/doc-layout.component';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'introduction', pathMatch: 'full' },
+  { path: '', pathMatch: 'full', component: LandingComponent, title: 'CaribeNG · Angular Design System' },
+  {
+    path: '',
+    component: DocLayoutComponent,
+    children: [
   { path: 'introduction', component: IntroductionComponent, title: 'CaribeNG' },
   { path: 'changelog', component: ChangelogComponent, title: 'Changelog · CaribeNG' },
   { path: 'i18n', component: I18nComponent, title: 'Localization · CaribeNG' },
@@ -347,4 +353,6 @@ export const routes: Routes = [
   { path: 'components/file-card', loadComponent: () => import('./pages/file-card-doc.component').then((m) => m.FileCardDocComponent), title: 'FileCard · CaribeNG' },
   { path: 'components/folder-card', loadComponent: () => import('./pages/folder-card-doc.component').then((m) => m.FolderCardDocComponent), title: 'FolderCard · CaribeNG' },
   { path: '**', redirectTo: 'introduction' },
+    ],
+  },
 ];
