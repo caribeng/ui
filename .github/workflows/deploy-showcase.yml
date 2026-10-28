@@ -46,19 +46,15 @@ jobs:
       # Producción: push a main (o disparo manual).
       - name: Deploy (production)
         if: github.ref == 'refs/heads/main'
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          packageManager: npm
-          command: pages deploy dist/apps/showcase/browser --project-name=caribeng-showcase
+        run: npx --yes wrangler@4 pages deploy dist/apps/showcase/browser --project-name=caribeng-showcase
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
 
       # Preview por PR (URL efímera por rama).
       - name: Deploy (preview)
         if: github.event_name == 'pull_request'
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          packageManager: npm
-          command: pages deploy dist/apps/showcase/browser --project-name=caribeng-showcase --branch="${{ github.head_ref }}"
+        run: npx --yes wrangler@4 pages deploy dist/apps/showcase/browser --project-name=caribeng-showcase --branch="${{ github.head_ref }}"
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
