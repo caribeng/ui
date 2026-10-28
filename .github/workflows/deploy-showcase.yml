@@ -43,6 +43,13 @@ jobs:
       - name: Build showcase
         run: pnpm nx build showcase
 
+      # Crea el proyecto Pages si aún no existe (idempotente: || true ignora "ya existe").
+      - name: Create Pages project (si no existe)
+        run: npx --yes wrangler@4 pages project create caribeng-showcase --production-branch=main || true
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
       # Producción: push a main (o disparo manual).
       - name: Deploy (production)
         if: github.ref == 'refs/heads/main'
