@@ -453,18 +453,18 @@ describe('ng generate @caribeng/ui:migrate-from-primeng', () => {
     delete pkg.dependencies['@caribeng/ui'];
     app.overwrite('/package.json', JSON.stringify(pkg));
     await assert.rejects(migrate(app), /npm install @caribeng\/ui@22/);
-    await assert.doesNotReject(migrate(app, { force: true }));
+    await assert.doesNotReject(migrate(app, { skipChecks: true }));
   });
 
-  it('rechaza PrimeNG anterior a la 18 salvo con --force', async () => {
+  it('rechaza PrimeNG anterior a la 18 salvo con --skip-checks', async () => {
     await assert.rejects(migrate(await createPrimengApp({ primeng: '^17.18.0' })), /PrimeNG \^17\.18\.0/);
-    await assert.doesNotReject(migrate(await createPrimengApp({ primeng: '^17.18.0' }), { force: true }));
+    await assert.doesNotReject(migrate(await createPrimengApp({ primeng: '^17.18.0' }), { skipChecks: true }));
   });
 
   it('es idempotente: una segunda ejecución no cambia nada', async () => {
     const first = await migrate(await createPrimengApp());
     const snapshot = new Map(first.files.map((path) => [path, first.read(path)!.toString('base64')]));
-    const second = await migrate(first, { force: true });
+    const second = await migrate(first, { skipChecks: true });
     for (const path of second.files) {
       if (path === '/caribeng-migration-report.md') continue;
       assert.equal(second.read(path)!.toString('base64'), snapshot.get(path), `cambió ${path}`);

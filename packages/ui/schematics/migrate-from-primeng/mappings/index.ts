@@ -141,7 +141,7 @@ export const ATTR_SYMBOLS: ReadonlyMap<string, CaribeSymbol> = new Map([
 
 /** Selectores por tag (`p-button`) y por directiva de atributo (`pButton`). */
 export const ELEMENTS_BY_TAG: ReadonlyMap<string, ElementMapping> = new Map(
-  MAPPINGS.flatMap((mapping) => mapping.elements.filter((element) => element.tag).map((element) => [element.tag!, element] as const)),
+  MAPPINGS.flatMap((mapping) => mapping.elements.filter((element) => element.tag).map((element) => [element.tag!.toLowerCase(), element] as const)),
 );
 export const ELEMENTS_BY_ATTR: ReadonlyMap<string, ElementMapping> = new Map(
   MAPPINGS.flatMap((mapping) => mapping.elements.filter((element) => element.attr).map((element) => [element.attr!, element] as const)),
