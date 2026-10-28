@@ -1,4 +1,4 @@
-import { parsePrimeIcon } from './icons';
+import { PRIME_ICONS, parsePrimeIcon } from './icons';
 import { TODO_MARK } from './todo';
 import { DIRECTIVES_BY_ATTR, ELEMENTS_BY_ATTR, ELEMENTS_BY_TAG } from './mappings';
 import { renderAttr } from './mappings/rules';
@@ -66,7 +66,7 @@ export function rewriteTemplate(compiler: Compiler, text: string, url: string): 
 
   const visitElement = (element: HtmlElement): void => {
     const directives = directivesOf(element);
-    const mapping = ELEMENTS_BY_TAG.get(element.name) ?? element.attrs.map((attr) => ELEMENTS_BY_ATTR.get(attr.name)).find(Boolean);
+    const mapping = ELEMENTS_BY_TAG.get(element.name.toLowerCase()) ?? element.attrs.map((attr) => ELEMENTS_BY_ATTR.get(attr.name)).find(Boolean);
     if (mapping?.manual) {
       edits.push(todoEdit(text, element.sourceSpan.start.offset, mapping.manual));
       return;
@@ -125,16 +125,28 @@ export function rewriteTemplate(compiler: Compiler, text: string, url: string): 
       edits.push(todoEdit(text, element.sourceSpan.start.offset, `${mapping.attr} en <${element.name}> no se migra automáticamente: ${hint}`));
       return;
     }
-    if (mapping || directives.length) {
-      rewriteElement(text, element, mapping ?? null, directives, edits, icons);
-      if (mapping) rewriteChildren(compiler, text, element, mapping, edits);
+    if (mapping) {
+      rewriteElement(text, element, mapping, directives, edits, icons);
+      rewriteChildren(compiler, text, element, mapping, edits);
       return;
     }
-    rewriteIcon(compiler, text, element, edits, icons);
+    if (directives.length) {
+      // Directiva (pTooltip…) sobre un icono de PrimeIcons: se convierten ambos.
+      if (isPrimeIconElement(element)) rewriteIcon(compiler, text, element, directives, edits, icons);
+      else rewriteElement(text, element, null, directives, edits, icons);
+      return;
+    }
+    rewriteIcon(compiler, text, element, [], edits, icons);
   };
 
   visit(parsed.rootNodes);
-  const result = edits.length ? applyEdits(text, edits) : text;
+  let result = edits.length ? applyEdits(text, edits) : text;
+  // Valores de severidad sueltos en expresiones (p. ej. `showToast('warn')`).
+  result = result.replace(/'warn'/g, "'warning'").replace(/'error'/g, "'danger'");
+  // Iconos PrimeIcons en expresiones: `'pi pi-home'` → `'house'`.
+  result = result.replace(/'pi pi-([a-z0-9-]+)'/g, (m, name) => `'${PRIME_ICONS[name] ?? name}'`);
+  // Items de breadcrumb solo con icono: `{ icon: 'house' }` → `{ label: '', icon: 'house' }`.
+  result = result.replace(/\{\s*icon:\s*'([a-z0-9-]+)'\s*\}/g, "{ label: '', icon: '$1' }");
   return { text: result, changed: result !== text, icons };
 }
 
@@ -344,8 +356,13 @@ function rewriteChildren(compiler: Compiler, text: string, element: HtmlElement,
   }
 }
 
+/** Elemento que lleva un icono de PrimeIcons en `class` (`<i class="pi pi-check">`). */
+function isPrimeIconElement(element: HtmlElement): boolean {
+  return ['i', 'span', 'em'].includes(element.name) && element.attrs.some((attr) => attr.name === 'class' && parsePrimeIcon(attr.value));
+}
+
 /** `<i class="pi pi-check"></i>` → `<cb-icon name="check" />`. */
-function rewriteIcon(compiler: Compiler, text: string, element: HtmlElement, edits: Edit[], icons: Set<string>): void {
+function rewriteIcon(compiler: Compiler, text: string, element: HtmlElement, directives: readonly DirectiveMapping[], edits: Edit[], icons: Set<string>): void {
   if (!['i', 'span', 'em'].includes(element.name)) return;
   const classAttr = element.attrs.find((attr) => attr.name === 'class');
   const parsed = classAttr && parsePrimeIcon(classAttr.value);
@@ -361,9 +378,10 @@ function rewriteIcon(compiler: Compiler, text: string, element: HtmlElement, edi
   const attrs = [`name="${parsed.name}"`];
   if (parsed.spin) attrs.push('spin');
   if (parsed.rest.length) attrs.push(`class="${parsed.rest.join(' ')}"`);
-  for (const attr of element.attrs) {
-    if (attr !== classAttr) attrs.push(text.slice(attr.sourceSpan.start.offset, attr.sourceSpan.end.offset));
-  }
+  // Atributos restantes, aplicando directivas (pTooltip → cbTooltip y sus inputs).
+  const rest = applyRules(text, { name: element.name, attrs: element.attrs.filter((attr) => attr !== classAttr) } as unknown as HtmlElement, null, directives);
+  rest.icons.forEach((icon) => icons.add(icon));
+  attrs.push(...rest.attrs);
   edits.push({ start, end: element.sourceSpan.end.offset, text: `<cb-icon ${attrs.join(' ')} />` });
 }
 

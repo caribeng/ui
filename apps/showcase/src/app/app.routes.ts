@@ -13,6 +13,7 @@ import { VoucherDocComponent } from './pages/voucher-doc.component';
 import { IntroductionComponent } from './pages/introduction.component';
 import { ChangelogComponent } from './pages/changelog.component';
 import { I18nComponent } from './pages/i18n.component';
+import { MigrationComponent } from './pages/migration.component';
 import { ColorsComponent } from './pages/colors.component';
 import { ThemingComponent } from './pages/theming.component';
 import { UtilitiesComponent } from './pages/utilities.component';
@@ -165,6 +166,7 @@ export const routes: Routes = [
   { path: 'introduction', component: IntroductionComponent, title: 'CaribeNG' },
   { path: 'changelog', component: ChangelogComponent, title: 'Changelog · CaribeNG' },
   { path: 'i18n', component: I18nComponent, title: 'Localization · CaribeNG' },
+  { path: 'migration', component: MigrationComponent, title: 'Migrate from PrimeNG · CaribeNG' },
   { path: 'foundations/colors', component: ColorsComponent, title: 'Colors · CaribeNG' },
   { path: 'foundations/theming', component: ThemingComponent, title: 'Theming · CaribeNG' },
   { path: 'foundations/utilities', component: UtilitiesComponent, title: 'Utilities · CaribeNG' },

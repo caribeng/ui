@@ -99,6 +99,8 @@ export interface ElementMapping {
   readonly restructure?: (node: TemplateNode, r: Restructure) => string | null;
   /** Símbolo a importar para `to`, si no es el del componente (`cb-accordion-panel` → `CbAccordionPanel`). */
   readonly symbol?: string;
+  /** Entry point del símbolo, si no es el del mapeo (`cb-avatar-group` → `@caribeng/ui/avatargroup`). */
+  readonly entry?: string;
 }
 
 /** Nodo de una plantilla, para `restructure`. */

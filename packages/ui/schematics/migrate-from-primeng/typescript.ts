@@ -1,5 +1,6 @@
 import * as ts from 'typescript';
 import { type CaribeSymbol, ROOT_SERVICES, SOURCE_REWRITERS, SYMBOLS } from './mappings';
+import { PRIME_ICONS } from './icons';
 import { TODO_MARK, applyEdits } from './template';
 
 interface Edit {
@@ -28,6 +29,99 @@ function parse(fileName: string, text: string): ts.SourceFile {
 
 function newline(text: string): string {
   return text.includes('\r\n') ? '\r\n' : '\n';
+}
+
+/** Rango de una propiedad de objeto incluyendo la coma que la separa de la siguiente. */
+function propertyWithComma(sf: ts.SourceFile, prop: ts.ObjectLiteralElement): Edit {
+  const text = sf.text;
+  let end = prop.getEnd();
+  while (end < text.length && /[ \t\r\n]/.test(text[end])) end += 1;
+  if (text[end] === ',') end += 1;
+  return { start: prop.getStart(sf), end, text: '' };
+}
+
+/**
+ * Patrones de datos frecuentes que el migrador normaliza en el .ts:
+ * - valores de severidad `'warn'`/`'error'` → `'warning'`/`'danger'` (tipo de `showToast`, etc.)
+ * - propiedad `status:` → `title:` (eventos de timeline)
+ * - nodos de árbol `{ label, expanded?, children? }` → añade `key` (a partir de `label`) y quita `expanded`
+ */
+function rewriteDataPatterns(fileName: string, text: string, icons: Set<string>): string {
+  const sf = parse(fileName, text);
+  const edits: Edit[] = [];
+  // Handlers de `(completeMethod)` de PrimeNG: `(event: { query: string }) => event.query`
+  // pasan a recibir la query directamente: `(query: string) => query`.
+  const visitHandler = (node: ts.Node): void => {
+    if (ts.isMethodDeclaration(node) || ts.isFunctionDeclaration(node) || ts.isArrowFunction(node) || ts.isFunctionExpression(node)) {
+      for (const param of node.parameters) {
+        const type = param.type;
+        if (!type || !ts.isTypeLiteralNode(type) || !ts.isIdentifier(param.name)) continue;
+        const hasQuery = type.members.some((m) => ts.isPropertySignature(m) && ts.isIdentifier(m.name) && m.name.text === 'query');
+        if (!hasQuery) continue;
+        const oldName = param.name.text;
+        const body = node.body;
+        if (body) {
+          const walk = (n: ts.Node): void => {
+            if (ts.isPropertyAccessExpression(n) && ts.isIdentifier(n.expression) && n.expression.text === oldName && n.name.text === 'query') {
+              edits.push({ start: n.getStart(sf), end: n.getEnd(), text: 'query' });
+            }
+            ts.forEachChild(n, walk);
+          };
+          walk(body);
+        }
+        edits.push({ start: param.getStart(sf), end: param.getEnd(), text: 'query: string' });
+      }
+    }
+    ts.forEachChild(node, visitHandler);
+  };
+  visitHandler(sf);
+
+  // Arrays de nodos de árbol: variables tipadas `CbTreeNode[]` / `TreeNode[]`.
+  const treeObjectLiterals = new Set<ts.ObjectLiteralExpression>();
+  const collectTreeArrays = (node: ts.Node): void => {
+    if ((ts.isPropertyDeclaration(node) || ts.isVariableDeclaration(node)) && node.type && /(CbTreeNode|TreeNode)/.test(node.type.getText(sf)) && node.initializer) {
+      const walk = (n: ts.Node): void => {
+        if (ts.isObjectLiteralExpression(n)) treeObjectLiterals.add(n);
+        ts.forEachChild(n, walk);
+      };
+      walk(node.initializer);
+    }
+    ts.forEachChild(node, collectTreeArrays);
+  };
+  collectTreeArrays(sf);
+
+  for (const obj of treeObjectLiterals) {
+    const props = obj.properties;
+    const label = props.find((pr): pr is ts.PropertyAssignment => ts.isPropertyAssignment(pr) && ts.isIdentifier(pr.name) && pr.name.text === 'label');
+    const hasKey = props.some((pr) => ts.isPropertyAssignment(pr) && ts.isIdentifier(pr.name) && pr.name.text === 'key');
+    const expanded = props.find((pr) => ts.isPropertyAssignment(pr) && ts.isIdentifier(pr.name) && pr.name.text === 'expanded');
+    if (label && label.initializer && !hasKey) {
+      edits.push({ start: label.getStart(sf), end: label.getStart(sf), text: `key: ${label.initializer.getText(sf)}, ` });
+    }
+    if (expanded) {
+      edits.push(propertyWithComma(sf, expanded));
+    }
+  }
+
+  const visit = (node: ts.Node): void => {
+    if (ts.isStringLiteral(node) && (node.text === 'warn' || node.text === 'error')) {
+      edits.push({ start: node.getStart(sf), end: node.getEnd(), text: node.text === 'warn' ? "\'warning\'" : "\'danger\'" });
+    }
+    if (ts.isStringLiteral(node)) {
+      const icon = /^pi pi-([a-z0-9-]+)$/.exec(node.text);
+      if (icon) {
+        const name = PRIME_ICONS[icon[1]] ?? icon[1];
+        icons.add(name);
+        edits.push({ start: node.getStart(sf), end: node.getEnd(), text: `'${name}'` });
+      }
+    }
+    if (ts.isPropertyAssignment(node) && ts.isIdentifier(node.name) && node.name.text === 'status') {
+      edits.push({ start: node.name.getStart(sf), end: node.name.getEnd(), text: 'title' });
+    }
+    ts.forEachChild(node, visit);
+  };
+  visit(sf);
+  return edits.length ? applyEdits(text, edits) : text;
 }
 
 /** Rango de una sentencia incluyendo su salto de línea final (para borrarla sin dejar una línea vacía). */
@@ -204,8 +298,12 @@ export function rewriteImports(fileName: string, text: string, templates: readon
     edits.push({ start: position, end: position, text: imports.length ? eol + lines.join(eol) : lines.join(eol) + eol });
   }
 
-  if (!edits.length) return { text, changed: false, icons };
-  const rewritten = mergeCaribeImports(fileName, cleanDecoratorArrays(fileName, applyEdits(text, edits)));
+  if (!edits.length) {
+    const data = rewriteDataPatterns(fileName, text, icons);
+    return { text: data, changed: data !== text, icons };
+  }
+  const withData = rewriteDataPatterns(fileName, applyEdits(text, edits), icons);
+  const rewritten = mergeCaribeImports(fileName, cleanDecoratorArrays(fileName, withData));
   return { text: pruneUnusedImports(fileName, rewritten), changed: true, icons };
 }
 

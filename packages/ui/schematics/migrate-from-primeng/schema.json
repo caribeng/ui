@@ -24,7 +24,7 @@
       "description": "No ejecutar la instalación de dependencias al terminar.",
       "default": false
     },
-    "force": {
+    "skipChecks": {
       "type": "boolean",
       "description": "Migrar aunque falte @caribeng/ui o la versión de PrimeNG no esté soportada.",
       "default": false

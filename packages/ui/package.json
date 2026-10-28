@@ -1,7 +1,7 @@
 {
   "name": "@caribeng/ui",
-  "version": "22.6.0",
-  "description": "CaribeNG — sistema de diseño y librería de componentes para Angular 22+ (standalone, signals, OnPush, zoneless). 162 entry points tree-shakeables, accesibles (WCAG 2.2 AA) y tematizables.",
+  "version": "22.7.0",
+  "description": "CaribeNG — design system and component library for Angular 22+ (standalone, signals, OnPush, zoneless). 162 tree-shakeable entry points, accessible (WCAG 2.2 AA) and themeable.",
   "keywords": [
     "angular",
     "ui library",
@@ -13,7 +13,7 @@
   ],
   "author": "CaribeNG",
   "license": "MIT",
-  "homepage": "https://github.com/caribeng/ui#readme",
+  "homepage": "https://caribeng.devmike.site/",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/caribeng/ui.git",

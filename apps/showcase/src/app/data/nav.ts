@@ -26,6 +26,7 @@ export const NAV_MENU: NavItem[] = [
     children: [
       { label: 'Introduction', route: '/introduction' },
       { label: 'Localization', route: '/i18n' },
+      { label: 'Migrate from PrimeNG', route: '/migration' },
       { label: 'Changelog', route: '/changelog' },
     ],
   },

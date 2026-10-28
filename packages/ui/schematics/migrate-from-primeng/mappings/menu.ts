@@ -16,12 +16,14 @@ itemType(['p-tieredmenu', 'p-tieredMenu', 'p-tiered-menu'], 'CbTieredMenuItem', 
 itemType(['p-panelmenu', 'p-panelMenu', 'p-panel-menu'], 'CbPanelMenuItem', '@caribeng/ui/panelmenu');
 itemType(['p-breadcrumb'], 'CbBreadcrumbItem', '@caribeng/ui/breadcrumb');
 itemType(['p-tabmenu', 'p-tabMenu'], 'CbTabMenuItem', '@caribeng/ui/tabmenu');
+itemType(['p-steps'], 'CbStepItem', '@caribeng/ui/steps');
 
 /** Tipos de item que admiten `separator` (y en los que `label` es obligatorio también en los separadores). */
 const WITH_SEPARATORS = new Set(['CbMenuItem', 'CbTieredMenuItem', 'CbContextMenuItem']);
 
 /** Para un `MenuItem` cuyo menú no se conoce (p. ej. lo devuelve un servicio): el tipo más completo. */
 const FALLBACK: ItemType = { name: 'CbMenubarItem', entry: '@caribeng/ui/menubar' };
+
 
 /** Campos de `MenuItem` sin equivalente en los items de CaribeNG. */
 const DROPPED_FIELDS = new Set([

@@ -8,10 +8,18 @@ export const REPORT_PATH = '/caribeng-migration-report.md';
 const SCANNED = /\.(ts|mts|js|mjs|html|css|scss|sass|less|json)$/;
 const SKIPPED = new Set(['package.json', 'package-lock.json', 'npm-shrinkwrap.json', 'yarn.lock', 'pnpm-lock.yaml', 'bun.lock']);
 
-/** Referencias a paquetes del ecosistema PrimeNG. */
-const PRIME_PACKAGE = /primeng|primeicons|@primeuix|tailwindcss-primeui|primelocale/;
-/** Selectores PrimeNG en plantillas: `<p-table`, `pTooltip`, `pi pi-…`. */
-const PRIME_TEMPLATE = /<p-[a-z]|\sp[A-Z][A-Za-z]+(?=[\s=>/])|\bpi pi-/;
+/**
+ * Referencias a paquetes del ecosistema PrimeNG.
+ * - `primeng` solo cuenta si está precedido de `'` o `"` (imports, package.json), no en URLs (`/primeng/`).
+ * - Excluye nombres de proyecto como `primeng-zone` (seguido de `-`).
+ */
+const PRIME_PACKAGE = /(?<=['"])primeng(?![- ])|primeicons|@primeuix|tailwindcss-primeui|primelocale/;
+/** Selectores PrimeNG en plantillas HTML: `<p-table`, `pTooltip`, `pi pi-…`. */
+const PRIME_TEMPLATE = /<p-[a-zA-Z]|\sp[A-Z][A-Za-z]+(?=[\s=>/])|\bpi pi-/;
+/** Línea de import en TypeScript: la única referencia válida en .ts (no datos de string). */
+const TS_IMPORT_LINE = /^\s*import\b/;
+/** URL de CDN con `/primeng/` en el path: no es una dependencia real en el código. */
+const PRIMENG_URL = /https?:\/\/[^\s"']*\/primeng\//;
 
 export interface Finding {
   readonly path: string;
@@ -45,7 +53,16 @@ export function scanWorkspace(tree: Tree): Scan {
           todos.push({ path, line: i + 1, text: message });
           return;
         }
-        if (PRIME_PACKAGE.test(line) || (template && PRIME_TEMPLATE.test(line))) leftovers.push({ path, line: i + 1, text: line.trim() });
+        const isHtml = path.endsWith('.html');
+        const isTs = template && !isHtml;
+        const pkgMatch = PRIME_PACKAGE.test(line);
+        const tplMatch = isHtml && PRIME_TEMPLATE.test(line);
+        if (!pkgMatch && !tplMatch) return;
+        // En TypeScript solo cuentan las líneas de import; las cadenas de datos no son dependencias PrimeNG.
+        if (pkgMatch && isTs && !TS_IMPORT_LINE.test(line)) return;
+        // En HTML, excluir líneas cuya única coincidencia es una URL de CDN (ej. image="https://.../primeng/...").
+        if (pkgMatch && isHtml && PRIMENG_URL.test(line) && !PRIME_PACKAGE.test(line.replace(PRIMENG_URL, ''))) return;
+        leftovers.push({ path, line: i + 1, text: line.trim() });
       });
   }
   return { todos, leftovers };
