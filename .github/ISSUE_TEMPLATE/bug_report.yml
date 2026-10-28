@@ -1,0 +1,37 @@
+name: Bug report
+description: Report a bug or unexpected behavior
+labels: [bug, triage]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug! The more detail you provide, the faster we can help.
+  - type: input
+    id: version
+    attributes:
+      label: "@caribeng/ui version"
+      placeholder: e.g. 22.5.0
+    validations:
+      required: true
+  - type: input
+    id: angular
+    attributes:
+      label: Angular version
+      placeholder: e.g. 22.0.5
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: What happened and what did you expect?
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Reproduction
+      description: Steps to reproduce, a code snippet, or a link to a StackBlitz/repo.
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Browser, OS, Node version, etc.
