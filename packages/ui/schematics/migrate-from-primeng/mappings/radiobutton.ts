@@ -11,9 +11,10 @@ export const radiobutton: ComponentMapping = {
   name: 'radiobutton',
   entry: '@caribeng/ui/radio',
   symbol: 'CbRadioGroup',
-  modules: {
-    'primeng/radiobutton': { RadioButton: 'CbRadioGroup', RadioButtonModule: 'CbRadioGroup' },
-  },
+  // RadioButton se conserva (no se convierte): la plantilla no se migra en automático
+  // porque agrupar los radios en <cb-radio-group> cambia el layout. El aviso manual
+  // indica importar CbRadioGroup y CbRadio cuando se agrupen a mano.
+  modules: {},
   elements: ['p-radiobutton', 'p-radioButton', 'p-radio-button'].map((tag) => ({
     tag,
     to: 'cb-radio-group',
