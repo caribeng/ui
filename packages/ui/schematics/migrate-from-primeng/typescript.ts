@@ -46,7 +46,7 @@ function propertyWithComma(sf: ts.SourceFile, prop: ts.ObjectLiteralElement): Ed
  * - propiedad `status:` → `title:` (eventos de timeline)
  * - nodos de árbol `{ label, expanded?, children? }` → añade `key` (a partir de `label`) y quita `expanded`
  */
-function rewriteDataPatterns(fileName: string, text: string): string {
+function rewriteDataPatterns(fileName: string, text: string, icons: Set<string>): string {
   const sf = parse(fileName, text);
   const edits: Edit[] = [];
   // Handlers de `(completeMethod)` de PrimeNG: `(event: { query: string }) => event.query`
@@ -110,7 +110,9 @@ function rewriteDataPatterns(fileName: string, text: string): string {
     if (ts.isStringLiteral(node)) {
       const icon = /^pi pi-([a-z0-9-]+)$/.exec(node.text);
       if (icon) {
-        edits.push({ start: node.getStart(sf), end: node.getEnd(), text: `'${PRIME_ICONS[icon[1]] ?? icon[1]}'` });
+        const name = PRIME_ICONS[icon[1]] ?? icon[1];
+        icons.add(name);
+        edits.push({ start: node.getStart(sf), end: node.getEnd(), text: `'${name}'` });
       }
     }
     if (ts.isPropertyAssignment(node) && ts.isIdentifier(node.name) && node.name.text === 'status') {
@@ -297,10 +299,10 @@ export function rewriteImports(fileName: string, text: string, templates: readon
   }
 
   if (!edits.length) {
-    const data = rewriteDataPatterns(fileName, text);
+    const data = rewriteDataPatterns(fileName, text, icons);
     return { text: data, changed: data !== text, icons };
   }
-  const withData = rewriteDataPatterns(fileName, applyEdits(text, edits));
+  const withData = rewriteDataPatterns(fileName, applyEdits(text, edits), icons);
   const rewritten = mergeCaribeImports(fileName, cleanDecoratorArrays(fileName, withData));
   return { text: pruneUnusedImports(fileName, rewritten), changed: true, icons };
 }
