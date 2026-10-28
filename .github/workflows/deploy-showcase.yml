@@ -15,6 +15,9 @@ on:
 jobs:
   deploy:
     name: Build & deploy to Cloudflare Pages
+    # Los PRs de dependabot y de forks no tienen acceso a los secretos de
+    # Cloudflare, así que se omiten (la preview no puede desplegarse sin token).
+    if: ${{ github.event_name != 'pull_request' || (github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]') }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
