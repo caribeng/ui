@@ -1,0 +1,62 @@
+name: Deploy Showcase
+
+# Compila el showcase (sitio de documentación) y lo publica en Cloudflare Pages.
+# Requiere dos secretos en el repo (Settings → Secrets → Actions):
+#   CLOUDFLARE_API_TOKEN   — token API con permiso "Cloudflare Pages: Edit"
+#   CLOUDFLARE_ACCOUNT_ID  — ID de cuenta de Cloudflare
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Build & deploy to Cloudflare Pages
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      deployments: write
+    env:
+      NODE_OPTIONS: --dns-result-order=ipv4first
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 11.17.0
+
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build showcase
+        run: pnpm nx build showcase
+
+      # Producción: push a main (o disparo manual).
+      - name: Deploy (production)
+        if: github.ref == 'refs/heads/main'
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy dist/apps/showcase/browser --project-name=caribeng-showcase
+
+      # Preview por PR (URL efímera por rama).
+      - name: Deploy (preview)
+        if: github.event_name == 'pull_request'
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy dist/apps/showcase/browser --project-name=caribeng-showcase --branch="${{ github.head_ref }}"
