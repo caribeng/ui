@@ -55,8 +55,8 @@ importers:
         specifier: 22.0.5
         version: 22.0.5(@angular/compiler@22.0.5)(supports-color@7.2.0)(typescript@6.0.3)
       '@angular/language-service':
-        specifier: 22.0.5
-        version: 22.0.5
+        specifier: 22.2.3
+        version: 22.2.3
       '@nx/angular':
         specifier: 23.1.0
         version: 23.1.0(9b208943b3516aa824a1270407ad001f)
@@ -336,8 +336,8 @@ packages:
       '@angular/platform-browser': 22.0.5
       rxjs: ^6.5.3 || ^7.4.0
 
-  '@angular/language-service@22.0.5':
-    resolution: {integrity: sha512-j7rJ6++wA3ABe6e2C8QlLoOMIDJ02aTyjlbM2oBixvHs2gLJ5V6Z58PbKrcconkffrRM36W6SNBbnlUvfbW/Tg==}
+  '@angular/language-service@22.2.3':
+    resolution: {integrity: sha512-n7LJ7NaHiC+NMHscCInhHTAvCsBLi8WfF47KuVv1eGj6rgFn1ZMpE81OBIWdJbSdytarwSU3KInaYESjao0ItA==}
     engines: {node: ^22.22.3 || ^24.15.0 || >=26.0.0}
 
   '@angular/platform-browser@22.0.5':
@@ -6860,7 +6860,7 @@ snapshots:
       tslib: 2.8.1
       zod: 4.6.7
 
-  '@angular/language-service@22.0.5': {}
+  '@angular/language-service@22.2.3': {}
 
   '@angular/platform-browser@22.0.5(@angular/animations@22.0.5(@angular/core@22.0.5(@angular/compiler@22.0.5)(rxjs@7.8.2)(zone.js@0.16.2)))(@angular/common@22.0.5(@angular/core@22.0.5(@angular/compiler@22.0.5)(rxjs@7.8.2)(zone.js@0.16.2))(rxjs@7.8.2))(@angular/core@22.0.5(@angular/compiler@22.0.5)(rxjs@7.8.2)(zone.js@0.16.2))':
     dependencies:
