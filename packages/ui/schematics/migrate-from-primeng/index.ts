@@ -230,9 +230,66 @@ function migrateHtml(tree: Tree, path: string, migration: Migration): void {
   }
 }
 
+/** Variables CSS del tema Aura de PrimeNG → token equivalente de CaribeNG. */
+const PRIME_CSS_VARS: Readonly<Record<string, string>> = {
+  '--p-primary-color': '--cb-color-primary',
+  '--p-primary-contrast-color': '--cb-color-primary-contrast',
+  '--p-text-color': '--cb-color-text',
+  '--p-text-muted-color': '--cb-color-text-muted',
+  '--p-text-secondary-color': '--cb-color-text-muted',
+  '--p-content-color': '--cb-color-text',
+  '--p-content-background': '--cb-color-surface',
+  '--p-content-hover-background': '--cb-color-surface-hover',
+  '--p-content-border-color': '--cb-color-border',
+  '--p-focus-ring-color': '--cb-color-focus-ring',
+  '--p-overlay-background': '--cb-color-surface',
+  '--p-overlay-border-color': '--cb-color-border',
+  '--p-overlay-color': '--cb-color-text',
+  '--p-highlight-background': '--cb-color-primary-50',
+  '--p-highlight-focus-background': '--cb-color-primary-100',
+  '--p-highlight-color': '--cb-color-primary',
+  '--p-success-color': '--cb-color-success',
+  '--p-info-color': '--cb-color-info',
+  '--p-warn-color': '--cb-color-warning',
+  '--p-danger-color': '--cb-color-danger',
+  '--p-surface-ground': '--cb-color-bg',
+  '--p-surface-section': '--cb-color-surface',
+  '--p-surface-card': '--cb-color-surface-raised',
+  '--p-surface-overlay': '--cb-color-surface',
+  '--p-surface-border': '--cb-color-border',
+  '--p-surface-hover': '--cb-color-surface-hover',
+  '--p-border-radius-none': '0',
+  '--p-content-border-radius': '--cb-radius-md',
+  '--p-font-family': '--cb-font-sans',
+  '--p-focus-ring-width': '--cb-border-width',
+};
+
+/** `--p-surface-50` → `--cb-color-surface-50`. */
+const PRIME_SURFACE = /^--p-surface-(\d+)$/;
+
+const PRIME_CSS_VAR = /--p-[a-z0-9-]+/g;
+
+/** Reescribe las variables CSS de PrimeNG por tokens de CaribeNG; devuelve las que no tienen equivalente. */
+function rewritePrimeCssVars(text: string): { readonly text: string; readonly unknown: ReadonlySet<string> } {
+  const unknown = new Set<string>();
+  const result = text.replace(PRIME_CSS_VAR, (name) => {
+    if (PRIME_CSS_VARS[name]) return PRIME_CSS_VARS[name];
+    const surface = PRIME_SURFACE.exec(name);
+    if (surface) return `--cb-color-surface-${surface[1]}`;
+    unknown.add(name);
+    return name;
+  });
+  return { text: result, unknown };
+}
+
 function migrateStylesheet(tree: Tree, path: string, migration: Migration): void {
   const original = tree.readText(path);
-  const text = removePrimeStyleImports(original);
+  let text = removePrimeStyleImports(original);
+  const { text: rewritten, unknown } = rewritePrimeCssVars(text);
+  text = rewritten;
+  for (const name of unknown) {
+    migration.manual.push(`\`${path.slice(1)}\`: la variable CSS \`${name}\` no tiene token equivalente en CaribeNG; sustitúyela por \`--cb-*\` a mano.`);
+  }
   if (text === original) return;
   tree.overwrite(path, text);
   migration.changed.add(path);

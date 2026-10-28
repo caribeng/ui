@@ -1,5 +1,6 @@
 import * as ts from 'typescript';
 import { type CaribeSymbol, ROOT_SERVICES, SOURCE_REWRITERS, SYMBOLS } from './mappings';
+import { PRIME_ICONS } from './icons';
 import { TODO_MARK, applyEdits } from './template';
 
 interface Edit {
@@ -105,6 +106,12 @@ function rewriteDataPatterns(fileName: string, text: string): string {
   const visit = (node: ts.Node): void => {
     if (ts.isStringLiteral(node) && (node.text === 'warn' || node.text === 'error')) {
       edits.push({ start: node.getStart(sf), end: node.getEnd(), text: node.text === 'warn' ? "\'warning\'" : "\'danger\'" });
+    }
+    if (ts.isStringLiteral(node)) {
+      const icon = /^pi pi-([a-z0-9-]+)$/.exec(node.text);
+      if (icon) {
+        edits.push({ start: node.getStart(sf), end: node.getEnd(), text: `'${PRIME_ICONS[icon[1]] ?? icon[1]}'` });
+      }
     }
     if (ts.isPropertyAssignment(node) && ts.isIdentifier(node.name) && node.name.text === 'status') {
       edits.push({ start: node.name.getStart(sf), end: node.name.getEnd(), text: 'title' });
