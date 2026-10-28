@@ -1,1 +1,1 @@
-export * from './lib/password.component';
+export { CbPassword } from './lib/password.component';

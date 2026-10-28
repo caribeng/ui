@@ -9,5 +9,5 @@ export interface Schema {
   /** No instalar dependencias al terminar. */
   skipInstall?: boolean;
   /** Saltar las comprobaciones previas. */
-  force?: boolean;
+  skipChecks?: boolean;
 }

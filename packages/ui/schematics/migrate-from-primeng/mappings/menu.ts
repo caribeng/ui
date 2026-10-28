@@ -23,6 +23,9 @@ const WITH_SEPARATORS = new Set(['CbMenuItem', 'CbTieredMenuItem', 'CbContextMen
 /** Para un `MenuItem` cuyo menú no se conoce (p. ej. lo devuelve un servicio): el tipo más completo. */
 const FALLBACK: ItemType = { name: 'CbMenubarItem', entry: '@caribeng/ui/menubar' };
 
+/** Componentes PrimeNG que reciben `[model]` con `MenuItem[]` pero no tienen equivalente en CaribeNG: su tipo se conserva. */
+const KEEP_MODEL_TAGS = new Set(['p-steps']);
+
 /** Campos de `MenuItem` sin equivalente en los items de CaribeNG. */
 const DROPPED_FIELDS = new Set([
   'expanded',
@@ -168,15 +171,27 @@ function rewriteItems(sf: ts.SourceFile, node: ts.Node, type: ItemType, icons: S
 const rewriteMenuItems: SourceRewriter = (sf, context, edits) => {
   const local = context.locals.get('MenuItem');
   if (!local) return;
-  context.consume('MenuItem');
   const types = propertyTypes(context.templates);
+  // Propiedades cuyo `[model]` lo recibe un componente PrimeNG sin equivalente (p-steps): conservan MenuItem[].
+  const keepForPrimeNG = new Set<string>();
+  for (const template of context.templates) {
+    for (const [, tag, attrs] of template.matchAll(/<(p-[A-Za-z-]+)\b([^>]*)>/g)) {
+      if (!KEEP_MODEL_TAGS.has(tag)) continue;
+      for (const [, , name] of attrs.matchAll(/\[(model|home)\]\s*=\s*"\s*(?:this\.)?([A-Za-z_$][\w$]*)(?:\(\))?\s*"/g)) keepForPrimeNG.add(name);
+    }
+  }
   // Propiedad con MenuItem → tipo de item que se le asignó.
   const menuProperties = new Map<string, ItemType>();
   let fallbackNoted = false;
+  let kept = false;
 
   const visitTypes = (node: ts.Node): void => {
     if (ts.isTypeReferenceNode(node) && ts.isIdentifier(node.typeName) && node.typeName.text === local) {
       const owner = declarationName(node);
+      if (owner && keepForPrimeNG.has(owner)) {
+        kept = true;
+        return;
+      }
       const type = (owner && types.get(owner)) || FALLBACK;
       if (owner) menuProperties.set(owner, type);
       context.addImport(type.name, type.entry);
@@ -190,6 +205,7 @@ const rewriteMenuItems: SourceRewriter = (sf, context, edits) => {
     ts.forEachChild(node, visitTypes);
   };
   visitTypes(sf);
+  if (!kept) context.consume('MenuItem');
 
   // Arrays de items: el inicializador de las propiedades tipadas con MenuItem y las asignaciones `this.items = [...]`.
   const visitValues = (node: ts.Node): void => {

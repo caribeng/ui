@@ -1,4 +1,4 @@
-import { parsePrimeIcon } from './icons';
+import { PRIME_ICONS, parsePrimeIcon } from './icons';
 import { TODO_MARK } from './todo';
 import { DIRECTIVES_BY_ATTR, ELEMENTS_BY_ATTR, ELEMENTS_BY_TAG } from './mappings';
 import { renderAttr } from './mappings/rules';
@@ -66,7 +66,7 @@ export function rewriteTemplate(compiler: Compiler, text: string, url: string): 
 
   const visitElement = (element: HtmlElement): void => {
     const directives = directivesOf(element);
-    const mapping = ELEMENTS_BY_TAG.get(element.name) ?? element.attrs.map((attr) => ELEMENTS_BY_ATTR.get(attr.name)).find(Boolean);
+    const mapping = ELEMENTS_BY_TAG.get(element.name.toLowerCase()) ?? element.attrs.map((attr) => ELEMENTS_BY_ATTR.get(attr.name)).find(Boolean);
     if (mapping?.manual) {
       edits.push(todoEdit(text, element.sourceSpan.start.offset, mapping.manual));
       return;
@@ -134,7 +134,13 @@ export function rewriteTemplate(compiler: Compiler, text: string, url: string): 
   };
 
   visit(parsed.rootNodes);
-  const result = edits.length ? applyEdits(text, edits) : text;
+  let result = edits.length ? applyEdits(text, edits) : text;
+  // Valores de severidad sueltos en expresiones (p. ej. `showToast('warn')`).
+  result = result.replace(/'warn'/g, "'warning'").replace(/'error'/g, "'danger'");
+  // Iconos PrimeIcons en expresiones: `'pi pi-home'` → `'house'`.
+  result = result.replace(/'pi pi-([a-z0-9-]+)'/g, (m, name) => `'${PRIME_ICONS[name] ?? name}'`);
+  // Items de breadcrumb solo con icono: `{ icon: 'house' }` → `{ label: '', icon: 'house' }`.
+  result = result.replace(/\{\s*icon:\s*'([a-z0-9-]+)'\s*\}/g, "{ label: '', icon: '$1' }");
   return { text: result, changed: result !== text, icons };
 }
 

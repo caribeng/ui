@@ -148,17 +148,29 @@ const NO_OPEN = 'cb-accordion empieza con los paneles cerrados y no expone cuál
  * → `<cb-accordion-panel header="Envío">…</cb-accordion-panel>`
  */
 function restructurePanel(node: TemplateNode, r: Restructure): string | null {
-  const header = childNamed(node, ['p-accordion-header', 'p-accordionheader']);
+  const headerChild = childNamed(node, ['p-accordion-header', 'p-accordionheader']);
   const content = childNamed(node, ['p-accordion-content', 'p-accordioncontent']);
-  if (!header || !content) return 'panel sin p-accordion-header y p-accordion-content; migra a <cb-accordion-panel header="…"> a mano.';
-  const text = headerText(header);
+
+  if (!headerChild) {
+    // PrimeNG 19+ shorthand: header as attribute, content is direct children (no sub-elements)
+    const hasHeaderAttr = node.bindings.some((b) => b.name === 'header' && b.kind === 'static');
+    if (hasHeaderAttr) {
+      r.convert(node, { to: 'cb-accordion-panel', rules: { value: drop() } });
+      if (content) r.unwrap(content);
+      return null;
+    }
+    return 'panel sin p-accordion-header y p-accordion-content; migra a <cb-accordion-panel header="…"> a mano.';
+  }
+
+  if (!content) return 'panel sin p-accordion-content; migra a <cb-accordion-panel header="…"> a mano.';
+  const text = headerText(headerChild);
   if (text === null) return 'la cabecera tiene marcado (icono, badge…) y cb-accordion-panel solo admite texto en header; migra a mano.';
   r.convert(node, {
     to: 'cb-accordion-panel',
     rules: { value: drop() },
     finalize: (el) => el.attrs.unshift(renderAttr('static', 'header', text)),
   });
-  r.remove(header);
+  r.remove(headerChild);
   r.unwrap(content);
   return null;
 }

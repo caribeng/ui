@@ -61,12 +61,18 @@ export const values =
       }
       return;
     }
-    el.attrs.push(renderAttr(binding.kind, to, binding.value));
-    const table = Object.entries(map)
-      .filter(([from, mapped]) => from !== mapped)
-      .map(([from, mapped]) => `'${from}' → '${mapped}'`)
-      .join(', ');
-    if (table) el.todos.push(`${binding.source} — revisa los valores de la expresión: ${table}.`);
+    let value = binding.value;
+    for (const [from, mapped] of Object.entries(map)) {
+      if (from !== mapped) value = value.replace(new RegExp(`'${from}'`, 'g'), `'${mapped}'`);
+    }
+    el.attrs.push(renderAttr(binding.kind, to, value));
+    if (value !== binding.value) {
+      const table = Object.entries(map)
+        .filter(([from, mapped]) => from !== mapped)
+        .map(([from, mapped]) => `'${from}' → '${mapped}'`)
+        .join(', ');
+      el.todos.push(`${binding.source} — revisa que los valores reescritos de la expresión sean correctos (${table}).`);
+    }
   };
 
 /**
@@ -153,6 +159,7 @@ export const SEVERITY_VALUES: Readonly<Record<string, string>> = {
   info: 'info',
   warn: 'warning',
   danger: 'danger',
+  error: 'danger',
   help: 'help',
   contrast: 'contrast',
 };

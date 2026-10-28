@@ -11,7 +11,9 @@ export const radiobutton: ComponentMapping = {
   name: 'radiobutton',
   entry: '@caribeng/ui/radio',
   symbol: 'CbRadioGroup',
-  modules: {},
+  modules: {
+    'primeng/radiobutton': { RadioButton: 'CbRadioGroup', RadioButtonModule: 'CbRadioGroup' },
+  },
   elements: ['p-radiobutton', 'p-radioButton', 'p-radio-button'].map((tag) => ({
     tag,
     to: 'cb-radio-group',

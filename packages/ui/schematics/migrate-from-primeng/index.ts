@@ -82,16 +82,16 @@ export function migrateFromPrimeng(options: Schema): Rule {
 function checkPreconditions(tree: Tree, options: Schema): void {
   const pkg = readPackageJson(tree);
   if (!pkg) throw new SchematicsException('No se encontró package.json en la raíz del workspace.');
-  if (options.force) return;
+  if (options.skipChecks) return;
   if (!dependencyVersion(pkg, '@caribeng/ui')) {
-    throw new SchematicsException('Instala CaribeNG antes de migrar:\n  npm install @caribeng/ui@22\nUsa --force para migrar igualmente.');
+    throw new SchematicsException('Instala CaribeNG antes de migrar:\n  npm install @caribeng/ui@22\nUsa --skip-checks para migrar igualmente.');
   }
   const primeng = dependencyVersion(pkg, 'primeng');
-  if (!primeng) throw new SchematicsException('primeng no está en package.json. Usa --force para migrar igualmente.');
+  if (!primeng) throw new SchematicsException('primeng no está en package.json. Usa --skip-checks para migrar igualmente.');
   const major = majorOf(primeng);
   if (major !== null && major < MIN_PRIMENG_MAJOR) {
     throw new SchematicsException(
-      `Se encontró PrimeNG ${primeng}. El migrador admite PrimeNG ${MIN_PRIMENG_MAJOR} o superior: actualiza primero (ng update primeng@${MIN_PRIMENG_MAJOR}) o usa --force.`,
+      `Se encontró PrimeNG ${primeng}. El migrador admite PrimeNG ${MIN_PRIMENG_MAJOR} o superior: actualiza primero (ng update primeng@${MIN_PRIMENG_MAJOR}) o usa --skip-checks.`,
     );
   }
 }
