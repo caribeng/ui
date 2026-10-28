@@ -31,7 +31,7 @@ class HostComponent {
 
 describe('CbDocument', () => {
   it('pinta cabecera, líneas, totales y el total en letras', async () => {
-    TestBed.configureTestingModule({ providers: [provideCaribeNG({ numberLocale: 'es-CO', currency: 'COP' })] });
+    TestBed.configureTestingModule({ providers: [provideCaribeNG({ locale: 'es', numberLocale: 'es-CO', currency: 'COP' })] });
     const fixture = TestBed.createComponent(HostComponent);
     fixture.detectChanges();
     const el = fixture.nativeElement as HTMLElement;

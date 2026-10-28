@@ -44,7 +44,7 @@ class HostComponent {
 
 describe('CbReconciliation', () => {
   it('concilia solo, empareja uno con varios cuando las sumas coinciden y deshace', async () => {
-    TestBed.configureTestingModule({ providers: [provideCaribeNG({ numberLocale: 'es-CO', currency: 'COP' })] });
+    TestBed.configureTestingModule({ providers: [provideCaribeNG({ locale: 'es', numberLocale: 'es-CO', currency: 'COP' })] });
     const fixture = TestBed.createComponent(HostComponent);
     document.body.appendChild(fixture.nativeElement);
     const settle = async () => {

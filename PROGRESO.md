@@ -15,7 +15,7 @@
 | Tests unitarios | **1231** en verde (**228** archivos de spec, 0 warnings en stderr) |
 | Build | Limpio (ng-packagr / APF, sin source maps al publicar) |
 | Iconos | **361** núcleo + **1891** catálogo (Lucide, ISC) |
-| Idiomas | Español (por defecto) e inglés (`provideCaribeNG({ locale: 'en' })`) |
+| Idiomas | Inglés (por defecto) y español (`provideCaribeNG({ locale: 'es' })`) |
 | App de docs | `showcase` (sitio enrutado estilo PrimeNG, ES/EN, con páginas por componente, plantillas y changelog) |
 | Schematics | `ng add @caribeng/ui` y `ng generate @caribeng/ui:migrate-from-primeng` |
 

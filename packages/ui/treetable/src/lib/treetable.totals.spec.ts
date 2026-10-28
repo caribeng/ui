@@ -41,7 +41,7 @@ afterEach(() => document.body.replaceChildren());
 
 describe('CbTreeTable: totales jerárquicos', () => {
   it('las cuentas padre suman a sus auxiliares y el pie suma todas las hojas', async () => {
-    TestBed.configureTestingModule({ providers: [provideCaribeNG({ numberLocale: 'es-CO' })] });
+    TestBed.configureTestingModule({ providers: [provideCaribeNG({ locale: 'es', numberLocale: 'es-CO' })] });
     const fixture = TestBed.createComponent(HostComponent);
     fixture.detectChanges();
     await fixture.whenStable();
@@ -66,7 +66,7 @@ describe('CbTreeTable: totales jerárquicos', () => {
   });
 
   it('toExcelSheet exporta todo el árbol con niveles, sangría y totales', async () => {
-    TestBed.configureTestingModule({ providers: [provideCaribeNG({ numberLocale: 'es-CO' })] });
+    TestBed.configureTestingModule({ providers: [provideCaribeNG({ locale: 'es', numberLocale: 'es-CO' })] });
     const fixture = TestBed.createComponent(HostComponent);
     fixture.detectChanges();
     const tree = fixture.debugElement.children[0].componentInstance as CbTreeTable;

@@ -20,7 +20,7 @@ class HostComponent {
 
 function setup(config: Partial<CaribeNgConfig> = {}) {
   TestBed.configureTestingModule({
-    providers: [{ provide: CB_CONFIG, useValue: { ...CB_DEFAULT_CONFIG, ...config } }],
+    providers: [{ provide: CB_CONFIG, useValue: { ...CB_DEFAULT_CONFIG, locale: 'es', ...config } }],
   });
   const fixture = TestBed.createComponent(HostComponent);
   fixture.detectChanges();

@@ -42,7 +42,7 @@ class HostComponent {
 
 describe('CbAmount', () => {
   it('muestra el importe, su equivalente y las letras; los negativos en rojo y entre paréntesis', async () => {
-    TestBed.configureTestingModule({ providers: [provideCaribeNG({ numberLocale: 'es-CO', currency: 'COP' })] });
+    TestBed.configureTestingModule({ providers: [provideCaribeNG({ locale: 'es', numberLocale: 'es-CO', currency: 'COP' })] });
     const fixture = TestBed.createComponent(HostComponent);
     fixture.detectChanges();
     const el = fixture.nativeElement as HTMLElement;

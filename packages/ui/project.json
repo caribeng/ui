@@ -46,6 +46,7 @@
       "options": {
         "buildTarget": "ui:build-test",
         "tsConfig": "packages/ui/tsconfig.spec.json",
+        "providersFile": "packages/ui/src/test-providers.ts",
         "runner": "vitest",
         "watch": false,
         "exclude": ["schematics/**"]

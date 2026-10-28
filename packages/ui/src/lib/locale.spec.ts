@@ -28,8 +28,8 @@ describe('Locale de CaribeNG', () => {
     expect(cbFormat('{0} y {1}', 'a')).toBe('a y {1}');
   });
 
-  it('usa español por defecto', () => {
-    expect(service().translation().close).toBe('Cerrar');
+  it('usa inglés por defecto', () => {
+    expect(service().translation().close).toBe('Close');
   });
 
   it('respeta el idioma configurado y los textos sobrescritos', () => {
@@ -40,9 +40,9 @@ describe('Locale de CaribeNG', () => {
 
   it('cambia de idioma en caliente y mantiene los textos sobrescritos', () => {
     const s = service({ translation: { close: 'Salir' } });
-    expect(s.translation().today).toBe('Hoy');
-    s.use('en');
     expect(s.translation().today).toBe('Today');
+    s.use('es');
+    expect(s.translation().today).toBe('Hoy');
     expect(s.translation().close).toBe('Salir');
     s.setTranslation({ today: 'Now' });
     expect(s.translation().today).toBe('Now');

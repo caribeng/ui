@@ -46,7 +46,7 @@ class HostComponent {
 afterEach(() => document.body.replaceChildren());
 
 async function setup() {
-  TestBed.configureTestingModule({ providers: [provideCaribeNG({ numberLocale: 'es-CO' })] });
+  TestBed.configureTestingModule({ providers: [provideCaribeNG({ locale: 'es', numberLocale: 'es-CO' })] });
   const fixture = TestBed.createComponent(HostComponent);
   document.body.appendChild(fixture.nativeElement);
   const settle = async () => {

@@ -51,9 +51,9 @@ export class I18nService {
 
   private read(): CbLang {
     try {
-      return localStorage.getItem(STORAGE_KEY) === 'en' ? 'en' : 'es';
+      return localStorage.getItem(STORAGE_KEY) === 'es' ? 'es' : 'en';
     } catch {
-      return 'es';
+      return 'en';
     }
   }
 

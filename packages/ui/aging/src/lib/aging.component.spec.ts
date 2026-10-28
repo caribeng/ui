@@ -39,7 +39,7 @@ class HostComponent {
 
 describe('CbAging', () => {
   it('muestra los tramos, ordena por total, abre los documentos y suma en el pie', async () => {
-    TestBed.configureTestingModule({ providers: [provideCaribeNG({ numberLocale: 'es-CO', currency: 'COP' })] });
+    TestBed.configureTestingModule({ providers: [provideCaribeNG({ locale: 'es', numberLocale: 'es-CO', currency: 'COP' })] });
     const fixture = TestBed.createComponent(HostComponent);
     document.body.appendChild(fixture.nativeElement);
     fixture.detectChanges();

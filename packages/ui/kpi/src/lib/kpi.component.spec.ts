@@ -19,7 +19,7 @@ afterEach(() => document.body.replaceChildren());
 
 describe('CbKpi', () => {
   it('calcula la variación, la colorea según si subir es bueno o malo y la dice con texto', async () => {
-    TestBed.configureTestingModule({ providers: [provideCaribeNG({ numberLocale: 'es-CO', currency: 'COP' })] });
+    TestBed.configureTestingModule({ providers: [provideCaribeNG({ locale: 'es', numberLocale: 'es-CO', currency: 'COP' })] });
     const fixture = TestBed.createComponent(HostComponent);
     fixture.detectChanges();
     const el = fixture.nativeElement as HTMLElement;

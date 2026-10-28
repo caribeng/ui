@@ -1248,7 +1248,7 @@ export interface CbTranslation {
   flowEdgeHint: string;
 }
 
-/** Español (idioma por defecto). */
+/** Español. */
 export const CB_LOCALE_ES: CbTranslation = {
   intlLocale: 'es',
   close: 'Cerrar',

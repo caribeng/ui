@@ -40,6 +40,6 @@ export function injectCbTranslation(): Signal<CbTranslation> {
 }
 
 function resolve(locale: CbLocaleCode | CbTranslation | undefined): CbTranslation {
-  if (!locale) return CB_LOCALES.es;
-  return typeof locale === 'string' ? (CB_LOCALES[locale] ?? CB_LOCALES.es) : locale;
+  if (!locale) return CB_LOCALES.en;
+  return typeof locale === 'string' ? (CB_LOCALES[locale] ?? CB_LOCALES.en) : locale;
 }

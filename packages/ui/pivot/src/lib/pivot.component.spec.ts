@@ -44,7 +44,7 @@ class HostComponent {
 
 describe('CbPivot', () => {
   it('cruza filas y columnas con subtotales, totales y filas que se contraen', async () => {
-    TestBed.configureTestingModule({ providers: [provideCaribeNG({ numberLocale: 'es-CO', currency: 'COP' })] });
+    TestBed.configureTestingModule({ providers: [provideCaribeNG({ locale: 'es', numberLocale: 'es-CO', currency: 'COP' })] });
     const fixture = TestBed.createComponent(HostComponent);
     document.body.appendChild(fixture.nativeElement);
     fixture.detectChanges();

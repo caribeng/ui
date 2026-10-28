@@ -125,7 +125,7 @@ export interface CaribeNgConfig {
   optionalText?: string;
   /**
    * Idioma de los textos de interfaz (etiquetas accesibles, botones, mensajes
-   * por defecto): `'es'` (por defecto), `'en'` o un objeto `CbTranslation` propio.
+   * por defecto): `'en'` (por defecto), `'es'` o un objeto `CbTranslation` propio.
    */
   locale?: CbLocaleCode | CbTranslation;
   /** Textos sueltos que sobrescriben los del idioma, p. ej. `{ close: 'Salir' }`. */
@@ -161,7 +161,7 @@ export const CB_DEFAULT_CONFIG: CaribeNgConfig = {
   persistTheme: false,
   storageKey: 'caribeng-theme',
   requiredIndicator: 'none',
-  locale: 'es',
+  locale: 'en',
 };
 
 /** Token de inyección con la configuración resuelta de CaribeNG. */

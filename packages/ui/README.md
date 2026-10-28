@@ -232,7 +232,7 @@ Todos los controles funcionan con Reactive Forms y con formularios por plantilla
 
 ## 🌐 Idioma (i18n)
 
-Los textos de interfaz de los componentes (etiquetas accesibles, botones, placeholders y mensajes) vienen en **español** (por defecto) e **inglés**:
+Los textos de interfaz de los componentes (etiquetas accesibles, botones, placeholders y mensajes) vienen en **inglés** (por defecto) y **español**:
 
 ```ts
 provideCaribeNG({

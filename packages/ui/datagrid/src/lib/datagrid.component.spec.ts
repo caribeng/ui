@@ -274,7 +274,7 @@ class TotalsHostComponent {
 
 describe('CbDataGrid: importes y totales', () => {
   it('formatea la moneda, marca negativos y suma en el pie (y recalcula al editar)', async () => {
-    TestBed.configureTestingModule({ providers: [provideCaribeNG({ numberLocale: 'es-CO' })] });
+    TestBed.configureTestingModule({ providers: [provideCaribeNG({ locale: 'es', numberLocale: 'es-CO' })] });
     const fixture = TestBed.createComponent(TotalsHostComponent);
     fixture.detectChanges();
     await fixture.whenStable();
