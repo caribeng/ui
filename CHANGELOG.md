@@ -10,6 +10,8 @@ Desde la 22.0.0 el major de la librería coincide con el de Angular (22.x = Angu
 
 ## [Unreleased]
 
+## [22.6.0] - 2026-10-28
+
 ### Changed
 - **Idioma por defecto:** los textos de interfaz de los componentes vienen en **inglés** por defecto (antes español). Para español: `provideCaribeNG({ locale: 'es' })`.
 

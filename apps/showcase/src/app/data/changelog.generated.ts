@@ -6,6 +6,11 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
   {
     "version": null,
     "date": null,
+    "sections": []
+  },
+  {
+    "version": "22.6.0",
+    "date": "2026-10-28",
     "sections": [
       {
         "type": "changed",
