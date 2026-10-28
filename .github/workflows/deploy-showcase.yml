@@ -50,6 +50,7 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          packageManager: npm
           command: pages deploy dist/apps/showcase/browser --project-name=caribeng-showcase
 
       # Preview por PR (URL efímera por rama).
@@ -59,4 +60,5 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          packageManager: npm
           command: pages deploy dist/apps/showcase/browser --project-name=caribeng-showcase --branch="${{ github.head_ref }}"
