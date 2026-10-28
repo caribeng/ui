@@ -34,7 +34,7 @@
     "@nx/vite": "23.3.1",
     "@nx/web": "23.3.1",
     "@nx/workspace": "23.3.1",
-    "@schematics/angular": "22.0.5",
+    "@schematics/angular": "22.2.4",
     "@types/node": "20.19.0",
     "@types/prismjs": "1.26.5",
     "jsdom": "^27.1.0",
