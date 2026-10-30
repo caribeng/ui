@@ -3,9 +3,10 @@
 This package includes third-party material. The licenses below are reproduced
 to satisfy their attribution requirements.
 
-## Icons (`@caribeng/ui/icon`)
+## Icons (`@caribeng/ui/icon` and `@caribeng/ui/icons`)
 
-The CaribeNG core icon set (`cbCoreIcons`) is **derived from Lucide**
+The CaribeNG icons — both the core set (`cbCoreIcons` in `@caribeng/ui/icon`)
+and the full catalog (`@caribeng/ui/icons`) — are **derived from Lucide**
 (https://lucide.dev) and redistributed as inline SVG path data. Lucide is
 licensed under the **ISC License**. Some Lucide icons are in turn derived from
 the Feather project, licensed under the **MIT License**. Both notices follow.

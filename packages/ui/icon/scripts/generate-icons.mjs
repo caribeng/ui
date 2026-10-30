@@ -133,13 +133,13 @@ const coreBody = coreEntries
 
 writeFileSync(
   coreOut,
-  `/*
+  `/*!
  * Set NÚCLEO de iconos de CaribeNG (auto-registrado).
  *
  * ⚠️ ARCHIVO GENERADO — no editar a mano.
  * Regenerar: node packages/ui/icon/scripts/generate-icons.mjs [ruta-clon-lucide]
  *
- * Iconos DERIVADOS de Lucide (https://lucide.dev), licencia ISC.
+ * @license ISC — Iconos DERIVADOS de Lucide (https://lucide.dev).
  * Copyright (c) Lucide Icons and Contributors. Ver packages/ui/THIRD-PARTY-NOTICES.md.
  *
  * ¿Necesitas más? Usa el catálogo completo (1891) opt-in: @caribeng/ui/icons.
@@ -165,13 +165,13 @@ const catBody = files
 
 writeFileSync(
   catalogOut,
-  `/*
+  `/*!
  * Catálogo COMPLETO de iconos de CaribeNG (${files.length}), opt-in y tree-shakeable.
  *
  * ⚠️ ARCHIVO GENERADO — no editar a mano.
  * Regenerar: node packages/ui/icon/scripts/generate-icons.mjs [ruta-clon-lucide]
  *
- * Iconos DERIVADOS de Lucide (https://lucide.dev), licencia ISC.
+ * @license ISC — Iconos DERIVADOS de Lucide (https://lucide.dev).
  * Copyright (c) Lucide Icons and Contributors. Ver packages/ui/THIRD-PARTY-NOTICES.md.
  *
  * Cada export es el contenido interno de un SVG 24×24 (stroke). Importa solo los
