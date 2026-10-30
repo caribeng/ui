@@ -1,6 +1,6 @@
 {
   "name": "@caribeng/ui",
-  "version": "22.7.0",
+  "version": "22.7.1",
   "description": "CaribeNG — design system and component library for Angular 22+ (standalone, signals, OnPush, zoneless). 162 tree-shakeable entry points, accessible (WCAG 2.2 AA) and themeable.",
   "keywords": [
     "angular",

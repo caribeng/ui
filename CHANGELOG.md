@@ -10,6 +10,30 @@ Desde la 22.0.0 el major de la librería coincide con el de Angular (22.x = Angu
 
 ## [Unreleased]
 
+## [22.7.1] - 2026-10-30
+
+### Fixed
+- **Iconos (licencia):** el paquete npm ahora incluye `THIRD-PARTY-NOTICES.md` con las licencias de Lucide (ISC) y Feather (MIT), como exige la ISC; antes no se publicaba. El aviso cubre también el catálogo completo (`@caribeng/ui/icons`) y los bundles de `icon` e `icons` conservan el comentario `@license`.
+
+### Security
+- **Dependencias de desarrollo:** Angular 22.2.3, NX 23.3.1, prismjs 1.30.0 y `overrides` en el tooling de build. Corrige las alertas de `pnpm audit` (0 vulnerabilidades); no cambia las dependencias del paquete publicado.
+
+### Changed
+- **Showcase:** sección «Créditos y licencia» en la página de iconos, con enlace a lucide.dev.
+
+## [22.7.0] - 2026-10-28
+
+### Added
+- **Migración PrimeNG → CaribeNG:** el schematic `migrate-from-primeng` migra sin pasos manuales los casos comunes: avatar, badge, chip, dataview, divider, inputgroup, message, overlays, panel, `p-stepper` → `cb-stepper` y `p-steps` → `cb-steps`. Convierte las variables del tema Aura (`--p-*`) en tokens `--cb-*` y los iconos `pi pi-*` (también en literales `.ts`), registrándolos en `provideCbIcons`.
+- **Showcase:** submenú de migración PrimeNG → CaribeNG en Getting Started.
+
+### Changed
+- **Migración PrimeNG → CaribeNG:** la opción `--force` pasa a llamarse `--skip-checks`.
+- **Paquete:** descripción en inglés y `homepage` → https://caribeng.devmike.site/.
+
+### Fixed
+- **Migración PrimeNG → CaribeNG:** 18 errores de reglas (enlaces con corchetes, `focus`/`blur`, `ariaLabel`, `export *`…), nombres de clase (`CbColorPicker`, `CbDataView`, `CbProgressBar`, `CbAvatarGroup`), tags de PrimeNG 17 con mayúsculas (`p-tabPanel`, `p-accordionTab`) y `RadioButton` ya no se cambia por `CbRadioGroup` sin uso (NG8113).
+
 ## [22.6.0] - 2026-10-28
 
 ### Changed
