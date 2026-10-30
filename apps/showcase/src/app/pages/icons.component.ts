@@ -124,6 +124,16 @@ import { TocService } from '../services/toc.service';
         }
       </div>
     </doc-section>
+
+    <doc-section id="credits" title="Créditos y licencia">
+      <p>
+        Los iconos de CaribeNG son derivados de
+        <a href="https://lucide.dev" target="_blank" rel="noopener noreferrer">Lucide</a>
+        (licencia ISC; parte de ellos vienen de Feather, MIT). Se distribuyen como SVG inline,
+        sin dependencia de Lucide en runtime. Los avisos de licencia completos van en
+        <code>THIRD-PARTY-NOTICES.md</code> dentro del paquete <code>@caribeng/ui</code>.
+      </p>
+    </doc-section>
   `,
   styles: [
     `

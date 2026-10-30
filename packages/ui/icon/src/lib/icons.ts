@@ -1,10 +1,10 @@
-/*
+/*!
  * Set NÚCLEO de iconos de CaribeNG (auto-registrado).
  *
  * ⚠️ ARCHIVO GENERADO — no editar a mano.
  * Regenerar: node packages/ui/icon/scripts/generate-icons.mjs [ruta-clon-lucide]
  *
- * Iconos DERIVADOS de Lucide (https://lucide.dev), licencia ISC.
+ * @license ISC — Iconos DERIVADOS de Lucide (https://lucide.dev).
  * Copyright (c) Lucide Icons and Contributors. Ver packages/ui/THIRD-PARTY-NOTICES.md.
  *
  * ¿Necesitas más? Usa el catálogo completo (1891) opt-in: @caribeng/ui/icons.

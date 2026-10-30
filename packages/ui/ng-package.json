@@ -4,6 +4,7 @@
   "lib": {
     "entryFile": "src/public-api.ts"
   },
+  "assets": ["THIRD-PARTY-NOTICES.md"],
   "allowedNonPeerDependencies": [
     "@angular/cdk"
   ]

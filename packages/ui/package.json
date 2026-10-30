@@ -9,7 +9,9 @@
     "design",
     "framework",
     "frontend",
-    "caribeng"
+    "caribeng",
+    "icons",
+    "lucide"
   ],
   "author": "CaribeNG",
   "license": "MIT",
