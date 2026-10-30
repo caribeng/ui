@@ -9,6 +9,80 @@ export const CHANGELOG: readonly CbChangelogRelease[] = [
     "sections": []
   },
   {
+    "version": "22.7.1",
+    "date": "2026-10-30",
+    "sections": [
+      {
+        "type": "fixed",
+        "items": [
+          {
+            "component": "Iconos (licencia)",
+            "text": "el paquete npm ahora incluye `THIRD-PARTY-NOTICES.md` con las licencias de Lucide (ISC) y Feather (MIT), como exige la ISC; antes no se publicaba. El aviso cubre también el catálogo completo (`@caribeng/ui/icons`) y los bundles de `icon` e `icons` conservan el comentario `@license`."
+          }
+        ]
+      },
+      {
+        "type": "security",
+        "items": [
+          {
+            "component": "Dependencias de desarrollo",
+            "text": "Angular 22.2.3, NX 23.3.1, prismjs 1.30.0 y `overrides` en el tooling de build. Corrige las alertas de `pnpm audit` (0 vulnerabilidades); no cambia las dependencias del paquete publicado."
+          }
+        ]
+      },
+      {
+        "type": "changed",
+        "items": [
+          {
+            "component": "Showcase",
+            "text": "sección «Créditos y licencia» en la página de iconos, con enlace a lucide.dev."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "version": "22.7.0",
+    "date": "2026-10-28",
+    "sections": [
+      {
+        "type": "added",
+        "items": [
+          {
+            "component": "Migración PrimeNG → CaribeNG",
+            "text": "el schematic `migrate-from-primeng` migra sin pasos manuales los casos comunes: avatar, badge, chip, dataview, divider, inputgroup, message, overlays, panel, `p-stepper` → `cb-stepper` y `p-steps` → `cb-steps`. Convierte las variables del tema Aura (`--p-*`) en tokens `--cb-*` y los iconos `pi pi-*` (también en literales `.ts`), registrándolos en `provideCbIcons`."
+          },
+          {
+            "component": "Showcase",
+            "text": "submenú de migración PrimeNG → CaribeNG en Getting Started."
+          }
+        ]
+      },
+      {
+        "type": "changed",
+        "items": [
+          {
+            "component": "Migración PrimeNG → CaribeNG",
+            "text": "la opción `--force` pasa a llamarse `--skip-checks`."
+          },
+          {
+            "component": "Paquete",
+            "text": "descripción en inglés y `homepage` → https://caribeng.devmike.site/."
+          }
+        ]
+      },
+      {
+        "type": "fixed",
+        "items": [
+          {
+            "component": "Migración PrimeNG → CaribeNG",
+            "text": "18 errores de reglas (enlaces con corchetes, `focus`/`blur`, `ariaLabel`, `export *`…), nombres de clase (`CbColorPicker`, `CbDataView`, `CbProgressBar`, `CbAvatarGroup`), tags de PrimeNG 17 con mayúsculas (`p-tabPanel`, `p-accordionTab`) y `RadioButton` ya no se cambia por `CbRadioGroup` sin uso (NG8113)."
+          }
+        ]
+      }
+    ]
+  },
+  {
     "version": "22.6.0",
     "date": "2026-10-28",
     "sections": [
