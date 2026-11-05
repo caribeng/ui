@@ -10,6 +10,16 @@ Desde la 22.0.0 el major de la librería coincide con el de Angular (22.x = Angu
 
 ## [Unreleased]
 
+## [22.7.2] - 2026-11-05
+
+### Added
+- **Showcase:** botón Ko-fi en la barra superior para apoyar el proyecto.
+
+### Security
+- **Showcase:** cabeceras HTTP de seguridad (`Content-Security-Policy`, `X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff`, `Referrer-Policy`, `Permissions-Policy`) mediante `_headers` de Cloudflare Pages.
+- **Showcase:** corregido `rel="noopener"` → `rel="noopener noreferrer"` en el enlace de GitHub de la barra superior.
+- **CI:** versión de Wrangler fijada a `4.21.0` (antes `wrangler@4` sin versión exacta).
+
 ## [22.7.1] - 2026-10-30
 
 ### Fixed

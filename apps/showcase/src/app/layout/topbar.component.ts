@@ -140,10 +140,20 @@ import { CURRENT_DOC_VERSION, DOC_VERSIONS } from '../data/versions';
           class="topbar__icon-btn"
           href="https://github.com"
           target="_blank"
-          rel="noopener"
+          rel="noopener noreferrer"
           aria-label="GitHub"
         >
           <cb-icon name="external-link" [size]="18" aria-hidden="true" />
+        </a>
+        <a
+          class="topbar__icon-btn topbar__kofi-btn"
+          href="https://ko-fi.com/devmike"
+          target="_blank"
+          rel="noopener noreferrer"
+          [attr.aria-label]="i18n.t('Apoyar en Ko-fi', 'Support on Ko-fi')"
+          [attr.title]="i18n.t('Apoyar en Ko-fi', 'Support on Ko-fi')"
+        >
+          <cb-icon name="heart" [size]="18" aria-hidden="true" />
         </a>
       </div>
     </div>
