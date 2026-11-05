@@ -48,7 +48,7 @@ jobs:
 
       # Crea el proyecto Pages si aún no existe (idempotente: || true ignora "ya existe").
       - name: Create Pages project (si no existe)
-        run: npx --yes wrangler@4 pages project create caribeng-showcase --production-branch=main || true
+        run: npx --yes wrangler@4.21.0 pages project create caribeng-showcase --production-branch=main || true
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
@@ -56,7 +56,7 @@ jobs:
       # Producción: push a main (o disparo manual).
       - name: Deploy (production)
         if: github.ref == 'refs/heads/main'
-        run: npx --yes wrangler@4 pages deploy dist/apps/showcase/browser --project-name=caribeng-showcase
+        run: npx --yes wrangler@4.21.0 pages deploy dist/apps/showcase/browser --project-name=caribeng-showcase
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
@@ -64,7 +64,7 @@ jobs:
       # Preview por PR (URL efímera por rama).
       - name: Deploy (preview)
         if: github.event_name == 'pull_request'
-        run: npx --yes wrangler@4 pages deploy dist/apps/showcase/browser --project-name=caribeng-showcase --branch="${{ github.head_ref }}"
+        run: npx --yes wrangler@4.21.0 pages deploy dist/apps/showcase/browser --project-name=caribeng-showcase --branch="${{ github.head_ref }}"
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
